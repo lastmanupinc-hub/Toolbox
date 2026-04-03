@@ -7,6 +7,8 @@ import {
   handleGetGeneratedFile,
   handleSearchExport,
   handleSkillsGenerate,
+  handleDebugAnalyze,
+  handleFrontendAudit,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -27,6 +29,8 @@ router.get("/v1/projects/:project_id/generated-files/:file_path", handleGetGener
 // Program endpoints (per axis_master_blueprint.yaml api_architecture)
 router.post("/v1/search/export", handleSearchExport);
 router.post("/v1/skills/generate", handleSkillsGenerate);
+router.post("/v1/debug/analyze", handleDebugAnalyze);
+router.post("/v1/frontend/audit", handleFrontendAudit);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
 createApp(router, port);

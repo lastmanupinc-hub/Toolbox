@@ -300,3 +300,83 @@ export async function handleSkillsGenerate(
     skipped: result.skipped,
   });
 }
+
+export async function handleDebugAnalyze(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid JSON body" });
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId) {
+    sendJSON(res, 400, { error: "snapshot_id is required" });
+    return;
+  }
+
+  const contextMap = contextMaps.get(snapshotId);
+  const repoProfile = repoProfiles.get(snapshotId);
+  if (!contextMap || !repoProfile) {
+    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+    return;
+  }
+
+  const result = generateFiles({
+    context_map: contextMap,
+    repo_profile: repoProfile,
+    requested_outputs: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md"],
+  });
+
+  const debugFiles = result.files.filter(f => f.program === "debug");
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    program: "debug",
+    files: debugFiles,
+  });
+}
+
+export async function handleFrontendAudit(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid JSON body" });
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId) {
+    sendJSON(res, 400, { error: "snapshot_id is required" });
+    return;
+  }
+
+  const contextMap = contextMaps.get(snapshotId);
+  const repoProfile = repoProfiles.get(snapshotId);
+  if (!contextMap || !repoProfile) {
+    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+    return;
+  }
+
+  const result = generateFiles({
+    context_map: contextMap,
+    repo_profile: repoProfile,
+    requested_outputs: [".ai/frontend-rules.md", "component-guidelines.md"],
+  });
+
+  const frontendFiles = result.files.filter(f => f.program === "frontend");
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    program: "frontend",
+    files: frontendFiles,
+  });
+}

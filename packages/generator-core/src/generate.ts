@@ -2,6 +2,8 @@ import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import type { GeneratedFile, GeneratorInput, GeneratorResult } from "./types.js";
 import { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary } from "./generators-search.js";
 import { generateAgentsMD, generateClaudeMD, generateCursorRules } from "./generators-skills.js";
+import { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules } from "./generators-debug.js";
+import { generateFrontendRules, generateComponentGuidelines } from "./generators-frontend.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -12,6 +14,11 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "AGENTS.md": (ctx) => generateAgentsMD(ctx),
   "CLAUDE.md": (ctx) => generateClaudeMD(ctx),
   ".cursorrules": (ctx) => generateCursorRules(ctx),
+  ".ai/debug-playbook.md": (ctx) => generateDebugPlaybook(ctx),
+  "incident-template.md": (ctx) => generateIncidentTemplate(ctx),
+  "tracing-rules.md": (ctx) => generateTracingRules(ctx),
+  ".ai/frontend-rules.md": (ctx) => generateFrontendRules(ctx),
+  "component-guidelines.md": (ctx) => generateComponentGuidelines(ctx),
 };
 
 // Aliases (user may request with different naming)
@@ -20,6 +27,8 @@ const ALIASES: Record<string, string> = {
   "context-map.json": ".ai/context-map.json",
   "repo-profile.yaml": ".ai/repo-profile.yaml",
   ".ai/project-profile.yaml": ".ai/repo-profile.yaml",
+  "debug-playbook.md": ".ai/debug-playbook.md",
+  "frontend-rules.md": ".ai/frontend-rules.md",
 };
 
 export function generateFiles(input: GeneratorInput): GeneratorResult {
