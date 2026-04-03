@@ -1,0 +1,44 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+  reference_policy:
+    before_session: {read: [begin.yaml, continuation.yaml, MEMORY.yaml]}
+    after_session: {update_this_file: true, update_memory_yaml: true}
+  current_identity:
+    project_name: "Axis Optimization"
+    date: "2026-04-03"
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "optimization_rules_schema"
+  executive_truth:
+    maturity_estimate: {functional_percent: 0, hardened_percent: 0, integrated_percent: 0, production_percent: 0}
+    confidence: {architecture_confidence: 0, runtime_confidence: 0, pipeline_confidence: 0, integration_confidence: 0}
+  boundary_truth:
+    target_outputs_truth: {optimization_rules_md: not_started, prompt_diff_report_md: not_started, cost_estimate_json: not_started}
+  active_verticals:
+    - id: v1_optimization_rules
+      name: Optimization Rules Schema
+      status: planning
+      priority: P0
+      saturation: {foundation: 0, runtime: 0, editor: 0, export: 0, polish: 0}
+      blockers: [search/ context map not yet available]
+      next_required_move: "Define optimization-rules.md output schema"
+  blocker_register:
+    critical_blockers:
+      - blocker_id: blk_opt_001
+        description: "Search context map not yet available"
+        impact: "Cannot analyze prompts without project context"
+        owner: search
+        status: open
+  execution_queue:
+    qualifying_candidates:
+      - id: eq_opt_001
+        description: "Define optimization-rules.md output schema"
+        active_vertical: v1_optimization_rules
+        qualifies: true
+        blocked: true
+        execution_rank: 1
+        completion_status: {value: pending}
+  source_control_policy:
+    commit_message_policy: {format: "[axis-optimization] <vertical> - <summary>"}

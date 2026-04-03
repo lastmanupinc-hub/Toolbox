@@ -1,0 +1,116 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+
+  reference_policy:
+    before_session:
+      read:
+        - begin.yaml
+        - continuation.yaml
+        - MEMORY.yaml
+    after_session:
+      update_this_file: true
+      update_memory_yaml: true
+
+  current_identity:
+    project_name: "Axis Frontend"
+    date: "2026-04-03"
+    commit_or_tag: ""
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "frontend_rules_schema"
+
+  executive_truth:
+    maturity_estimate:
+      functional_percent: 0
+      hardened_percent: 0
+      integrated_percent: 0
+      production_percent: 0
+    confidence:
+      architecture_confidence: 0
+      runtime_confidence: 0
+      pipeline_confidence: 0
+      integration_confidence: 0
+      notes: "No implementation yet. Planning phase."
+
+  boundary_truth:
+    accepted_input_modes:
+      - repo_structure_from_search
+      - snapshot_data
+      - api_submission
+    canonical_dependency_truth:
+      search_context_map: required
+      search_repo_profile: required
+      framework_detection: required
+    target_outputs_truth:
+      frontend_rules_md: not_started
+      component_guidelines_md: not_started
+      layout_patterns_md: not_started
+      ui_audit_md: not_started
+
+  active_verticals:
+    - id: v1_frontend_rules
+      name: Frontend Rules Schema
+      status: planning
+      priority: P0
+      user_story: >
+        As a developer, I need frontend rules generated from my project so
+        my UI code matches established standards.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - search/ repo structure not yet available
+      next_required_move: "Define frontend-rules.md output schema"
+
+    - id: v2_audit_engine
+      name: UI Audit Engine
+      status: planning
+      priority: P1
+      user_story: >
+        As a developer, I need automated auditing of my frontend code against
+        project standards.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - frontend rules schema must be defined first
+      next_required_move: "Design audit pipeline architecture"
+
+  subsystem_scorecards: []
+
+  blocker_register:
+    critical_blockers:
+      - blocker_id: blk_frontend_001
+        description: "Search repo structure not yet available"
+        impact: "Cannot audit frontend code without repo context"
+        owner: search
+        unblock_strategy: "Wait for search/ context map and repo profile"
+        status: open
+
+  execution_queue:
+    qualifying_candidates:
+      - id: eq_frontend_001
+        description: "Define frontend-rules.md output schema"
+        active_vertical: v1_frontend_rules
+        total_roi_score: 0
+        qualifies: true
+        blocked: true
+        execution_rank: 1
+        completion_status:
+          value: pending
+
+  source_control_policy:
+    commit_after_each_completed_candidate: true
+    push_after_each_successful_commit: true
+    commit_message_policy:
+      format: "[axis-frontend] <vertical> - <summary>"

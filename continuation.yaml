@@ -1,0 +1,409 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+
+  reference_policy:
+    before_session:
+      read:
+        - begin_yaml
+        - continuation_yaml
+    after_session:
+      update_this_file: true
+    recursive_self_triggering_forbidden: true
+    max_reference_depth: 1
+
+  current_identity:
+    project_name: "Axis Toolbox"
+    date: "2025-07-16"
+    commit_or_tag: "pre-initial-commit"
+    current_session_id: "session_001"
+    one_sentence_summary: "Scaffolded all 17 program subfolders with MEMORY, begin, and continuation YAMLs aligned to axis_all_tools.yaml."
+    current_status: "planning"
+    current_focus_vertical: "platform_scaffolding"
+
+  executive_truth:
+    maturity_estimate:
+      functional_percent: 0
+      hardened_percent: 0
+      integrated_percent: 0
+      production_percent: 0
+    confidence:
+      architecture_confidence: 10
+      runtime_confidence: 0
+      pipeline_confidence: 0
+      product_surface_confidence: 0
+      integration_confidence: 0
+      notes: "All 17 programs scaffolded. No implementation code yet. Architecture defined in axis_all_tools.yaml."
+
+  boundary_truth:
+    accepted_input_modes:
+      - repo_snapshot_upload
+      - github_repo_url
+      - api_submission
+    canonical_dependency_truth:
+      axis_all_tools_yaml: canonical_spec
+      axis_master_blueprint_yaml: original_spec_superseded
+      begin_yaml: session_gate
+      continuation_yaml: state_ledger
+      memory_generator_yaml: memory_standard
+      automated_remedial_action_yaml: self_audit
+      human_user_audit_yaml: qa_protocol
+      hygiene_and_memory_yaml: behavior_routing
+      rules_to_compile_snapshot_yaml: forensic_snapshot
+    target_outputs_truth:
+      search_context_graph: not_started
+      debug_playbooks: not_started
+      skills_governance_files: not_started
+      frontend_ui_rules: not_started
+      seo_analysis: not_started
+      optimization_reports: not_started
+      artifacts_components: not_started
+      theme_design_tokens: not_started
+      brand_guidelines: not_started
+      notebook_research: not_started
+      marketing_campaigns: not_started
+      mcp_connectors: not_started
+      obsidian_skill_packs: not_started
+      superpowers_workflows: not_started
+      remotion_video_scripts: not_started
+      canvas_design_assets: not_started
+      algorithmic_generative_art: not_started
+
+  canonical_contracts:
+    - name: ""
+      exists: false
+      canonical_path: ""
+      stability_status: ""
+      current_fields: {}
+      blockers: []
+      next_promotion_step: ""
+
+  active_verticals:
+    - id: v0_platform_scaffolding
+      name: Platform Scaffolding
+      status: complete
+      priority: P0
+      user_story: >
+        As a platform operator, I need all 17 program subfolders scaffolded with
+        MEMORY.yaml, begin.yaml, and continuation.yaml so work can begin on each.
+      saturation:
+        foundation: 100
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence:
+        - 17 subfolders created with 3 YAMLs each
+        - axis_all_tools.yaml ingested at root
+        - wave-1 tools aligned to expanded spec
+      blockers: []
+      next_required_move: "Begin wave-1 implementation starting with search/"
+
+    - id: v1_search_context_graph
+      name: Search Context Graph
+      status: planning
+      priority: P0
+      user_story: >
+        As a developer, I need the search program to produce a context graph
+        so all other programs have foundational repo understanding.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - platform snapshot_protocol not yet implemented
+      next_required_move: "Define context-map.json and repo-profile.yaml output schemas"
+
+  subsystem_scorecards:
+    - name: "search"
+      canonical_path: "search/"
+      maturity:
+        code_exists: false
+        functionally_exercised: false
+        hardened: false
+        integrated: false
+        production_validated: false
+      parity_view:
+        functional_percent: 0
+        hardened_percent: 0
+        integrated_percent: 0
+      known_truth:
+        works:
+          - MEMORY.yaml initialized
+          - begin.yaml initialized
+          - continuation.yaml initialized
+        missing:
+          - indexing engine
+          - search API
+          - context graph schema
+        stubs_or_fakes: []
+      next_promotion_step: "Define output schemas"
+    - name: "debug"
+      canonical_path: "debug/"
+      maturity:
+        code_exists: false
+        functionally_exercised: false
+        hardened: false
+        integrated: false
+        production_validated: false
+      parity_view:
+        functional_percent: 0
+        hardened_percent: 0
+        integrated_percent: 0
+      known_truth:
+        works:
+          - YAMLs initialized
+        missing:
+          - analysis engine
+          - debug API
+        stubs_or_fakes: []
+      next_promotion_step: "Define playbook schema"
+    - name: "skills"
+      canonical_path: "skills/"
+      maturity:
+        code_exists: false
+        functionally_exercised: false
+        hardened: false
+        integrated: false
+        production_validated: false
+      parity_view:
+        functional_percent: 0
+        hardened_percent: 0
+        integrated_percent: 0
+      known_truth:
+        works:
+          - YAMLs initialized
+        missing:
+          - generation engine
+          - governance templates
+        stubs_or_fakes: []
+      next_promotion_step: "Define governance file templates"
+    - name: "frontend"
+      canonical_path: "frontend/"
+      maturity:
+        code_exists: false
+        functionally_exercised: false
+        hardened: false
+        integrated: false
+        production_validated: false
+      parity_view:
+        functional_percent: 0
+        hardened_percent: 0
+        integrated_percent: 0
+      known_truth:
+        works:
+          - YAMLs initialized
+        missing:
+          - audit engine
+          - frontend API
+        stubs_or_fakes: []
+      next_promotion_step: "Define frontend rules schema"
+    - name: "seo"
+      canonical_path: "seo/"
+      maturity:
+        code_exists: false
+        functionally_exercised: false
+        hardened: false
+        integrated: false
+        production_validated: false
+      parity_view:
+        functional_percent: 0
+        hardened_percent: 0
+        integrated_percent: 0
+      known_truth:
+        works:
+          - YAMLs initialized
+        missing:
+          - analysis engine
+          - SEO API
+        stubs_or_fakes: []
+      next_promotion_step: "Define SEO rules schema"
+
+  integration_flows:
+    - flow_name: ""
+      status: broken
+      working_steps: []
+      broken_steps: []
+
+  quality_targets:
+    target_signals: []
+
+  evidence_ledger:
+    required_for_promotion:
+      - canonical_path
+      - code_reference
+      - one_demo_or_proof
+      - one_validation_result
+      - one_export_or_preview_artifact_when_relevant
+    latest_evidence:
+      screenshots: []
+      demos: []
+      reports: []
+      exported_packages: []
+      validation_outputs: []
+
+  blocker_register:
+    critical_blockers:
+      - blocker_id: "blk_platform_001"
+        description: "Platform snapshot_protocol not yet implemented"
+        impact: "No program can ingest repos without snapshot intake"
+        owner: "platform"
+        unblock_strategy: "Build minimal snapshot ingestion in platform layer"
+        status: "open"
+
+    architectural_risks:
+      - risk_id: "risk_001"
+        description: "17 programs all depend on search context graph — if schema is wrong, cascading rework"
+        probable_cost: "high"
+        mitigation: "Define context-map.json schema first, validate with 2+ downstream consumers before committing"
+
+    integration_gaps:
+      - gap_id: "gap_001"
+        description: "No shared API layer or event bus between programs"
+        affected_verticals:
+          - all_programs
+        fix_path: "Define shared API architecture per axis_all_tools.yaml api_architecture section"
+
+  decisions:
+    recent_decisions:
+      - date: "2025-07-16"
+        decision: "axis_all_tools.yaml is the canonical program spec, superseding axis_master_blueprint.yaml"
+        rationale: "Expanded from 5 to 17 programs with richer fields (acquisition_role, description, additional outputs)"
+        alternatives_rejected:
+          - "Keep axis_master_blueprint.yaml as canonical"
+        impact: "All program subfolders reference axis_all_tools.yaml as primary governing spec"
+
+    open_decisions:
+      - question: "What is the shared API framework/technology?"
+        options:
+          - "Node.js + Express"
+          - "Go + Chi"
+          - "Rust + Axum"
+          - "Python + FastAPI"
+        required_by: "Before any API endpoint implementation"
+        recommended_next_step: "Review axis_all_tools.yaml api_architecture section and decide"
+
+  current_session_result:
+    session_goal: "Scaffold all 17 Axis programs with YAML governance files"
+    selected_move: "Full platform scaffolding"
+    selected_move_roi_reason: "Highest foundational ROI — enables all future work across all programs"
+    completed_candidates:
+      - "Created 17 program subfolders with MEMORY.yaml, begin.yaml, continuation.yaml"
+      - "Ingested axis_all_tools.yaml as canonical spec"
+      - "Aligned wave-1 tools to expanded spec (acquisition_role, description, new outputs)"
+      - "Populated root continuation.yaml with platform state"
+    refused_candidates: []
+    blocked_candidates: []
+    queue_before_execution:
+      - "Scaffold all program subfolders"
+    queue_after_execution:
+      - "Begin search/ context graph schema"
+      - "Define shared snapshot_protocol"
+    evidence_added:
+      - "17 subfolders × 3 YAMLs = 51 governance files"
+    verticals_advanced:
+      - "v0_platform_scaffolding → complete"
+    blockers_removed: []
+    blockers_added:
+      - "blk_platform_001: snapshot_protocol needed"
+    canonical_paths_clarified:
+      - "axis_all_tools.yaml is the canonical program catalog"
+    quality_risks_introduced: []
+    follow_up_required:
+      - "Initial git commit and push"
+      - "Define search/ output schemas"
+    commit_results: []
+    push_results: []
+
+  execution_queue:
+    qualifying_candidates:
+      - id: "eq_001"
+        description: "Define context-map.json schema for search/"
+        active_vertical: "v1_search_context_graph"
+        total_roi_score: 95
+        potential_ceiling_score: 100
+        qualifies: true
+        blocked: true
+        refusal_surface_hit: false
+        execution_rank: 1
+        completion_status:
+          value: pending
+          allowed:
+            - pending
+            - in_progress
+            - complete
+            - refused
+            - blocked
+        post_completion_commit: pending
+        post_completion_push: pending
+      - id: "eq_002"
+        description: "Build minimal snapshot_protocol at platform layer"
+        active_vertical: "v1_search_context_graph"
+        total_roi_score: 90
+        potential_ceiling_score: 100
+        qualifies: true
+        blocked: false
+        refusal_surface_hit: false
+        execution_rank: 2
+        completion_status:
+          value: pending
+          allowed:
+            - pending
+            - in_progress
+            - complete
+            - refused
+            - blocked
+        post_completion_commit: pending
+        post_completion_push: pending
+
+  source_control_policy:
+    commit_after_each_completed_candidate: true
+    push_after_each_successful_commit: true
+    push_allowed_only_if:
+      - remote_is_configured
+      - branch_policy_allows
+      - validation_passed
+      - no_commit_guard_triggered
+
+    commit_message_policy:
+      format: >
+        [project] <active_vertical> - <completed_candidate_summary>
+
+    push_failure_policy:
+      rule: >
+        If push fails, record the failure in this ledger and continue only if
+        local progress remains valid and no remote-sync policy forbids continued work.
+
+    commit_failure_policy:
+      rule: >
+        If commit fails, stop and surface the failure as a hard blocker.
+
+  execution_progression_policy:
+    after_each_completed_candidate:
+      - update_touched_scorecards
+      - update_active_vertical_saturation
+      - update_blockers_removed_or_introduced
+      - append_evidence
+      - write_commit_and_push_result
+      - regenerate_qualifying_candidate_queue
+      - continue_automatically_unless_stop_condition_hit
+
+  post_session_update_rules:
+    always_do:
+      - update_commit_or_tag
+      - update_one_sentence_summary
+      - update_current_focus_vertical
+      - update_subsystem_scorecards_touched_by_session
+      - update_integration_flows_if_any_path_changed
+      - record_new_evidence
+      - record_new_blockers_or_removed_blockers
+      - record_decisions_made
+      - regenerate_execution_queue
+    do_not_do:
+      - do_not_mark_production_validated_without_real_end_to_end_proof
+      - do_not_claim_external_dependency_false_if_still_required_in_practice
+      - do_not_claim_target_output_trusted_without_clean_target_import_or_use
+      - do_not_claim_usability_without_obvious_path_proof

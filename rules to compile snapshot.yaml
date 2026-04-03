@@ -1,0 +1,525 @@
+snapshot_compilation_prompt:
+  prompt_name: forensic_repo_snapshot_compiler
+  purpose: >
+    Compile a forensic-grade, product-truth repository snapshot for later external grading.
+    This is not a narrative task, not a status summary, and not a grading task.
+    The goal is to produce a complete machine-readable snapshot of the repository as it
+    actually exists on disk so that no critical file, path, subsystem, build boundary,
+    runtime boundary, frontend surface, backend surface, shadow path, or conflicting
+    structure is omitted.
+
+  primary_instruction: >
+    You are not being asked for a repo narrative, a status summary, or a speculative
+    assessment. You are being asked to compile a forensic-grade repository snapshot that
+    can later be graded without loopholes.
+
+  governing_rules:
+    - do_not_optimize_for_brevity
+    - do_not_optimize_for_style
+    - do_not_optimize_for_executive_summary
+    - optimize_for_complete_product_truth
+    - if_any_major_file_path_subsystem_build_boundary_runtime_boundary_or_conflicting_structure_is_omitted_the_snapshot_is_invalid
+    - grade_nothing
+    - narrate_nothing_before_the_snapshot_dataset
+    - do_not_hide_contradictions
+    - do_not_infer_completion_from_documentation_language
+    - inspect_repo_truth_not_aspiration
+
+  anti_false_completion_rules:
+    - existence_is_not_integration
+    - integration_is_not_production
+    - docs_are_not_runtime_truth
+    - screenshots_are_not_runtime_truth
+    - provider_adapters_are_not_active_provider_execution
+    - tests_are_not_end_to_end_proof
+    - ui_surface_is_not_backend_capability
+    - architecture_ambition_is_not_product_completion
+    - generated_code_mass_is_not_system_completion
+    - claimed_maturity_is_not_evidence
+
+  task_definition:
+    objective: >
+      Compile a repository snapshot exhaustive enough that an external grader can later
+      determine what the product actually is, what company/category it resembles, whether
+      it is useful, what is canonical, what is shadow/noncanonical, what is real vs partial
+      vs missing, what the human-facing product actually does, and what the highest-ROI
+      next moves are.
+    explicit_non_goals:
+      - do_not_give_a_grade
+      - do_not_give_a_narrative_first
+      - do_not_provide_a_short_status_summary_in_place_of_a_snapshot
+      - do_not_hide_missing_or_conflicting_structures
+
+  repository_inspection_contract:
+    recursively_inspect:
+      - frontend_source
+      - backend_source
+      - shared_domain_types_spec_layers
+      - configs
+      - env_examples
+      - package_manifests
+      - build_files
+      - docker_files
+      - compose_files
+      - scripts
+      - migrations
+      - tests
+      - fixtures
+      - docs
+      - readmes
+      - runbooks
+      - checklists
+      - control_yamls
+      - parity_checklists
+      - archives
+      - experimental_directories
+      - compiled_artifacts
+      - binaries
+      - dist_build_folders
+      - vendor_like_or_generated_areas_if_they_affect_interpretation
+    mandatory_behavior:
+      - do_not_skip_a_path_because_it_looks_unimportant
+      - explicitly_account_for_all_major_top_level_directories
+      - explicitly_account_for_any_top_level_file_that_affects_repo_truth
+      - inspect_disk_truth_not_only_docs
+      - report_conflicting_evidence
+
+  canonical_path_determination:
+    must_determine:
+      - canonical_runtime_backend_path
+      - canonical_frontend_or_human_facing_path
+      - design_time_only_paths
+      - duplicate_shadow_implementations
+      - archived_paths
+      - experimental_paths
+      - generated_build_only_paths
+      - files_or_directories_that_refuse_to_belong_to_the_active_product_boundary
+    for_each_classification_require:
+      - classification
+      - why_it_is_classified_that_way
+      - evidence_supporting_the_classification
+
+  refuses_to_belong_rule:
+    principle: >
+      You are not arbitrarily refusing files. You are identifying files or directories
+      that refuse to belong to the active canonical product because repository truth shows
+      they are outside the real product boundary, obsolete, archived, generated without
+      source-of-truth role, duplicate noncanonical implementations, experiments not adopted
+      into the canonical path, unrelated scratch material, dead code, misleading demo-only
+      surfaces, or binaries/zips/backups that confuse runtime truth.
+    mandatory_behavior:
+      - identify_them_explicitly
+      - do_not_silently_ignore_them
+
+  output_contract:
+    format: yaml
+    top_level_key_required: repo_snapshot
+    no_markdown_explanations_outside_yaml: true
+    no_narrative_before_yaml: true
+
+  required_output_sections:
+    - section_1_top_level_inventory
+    - section_2_canonical_product_map
+    - section_3_full_subsystem_inventory
+    - section_4_human_facing_product_surface
+    - section_5_end_to_end_core_flows
+    - section_6_provider_rail_asset_coverage
+    - section_7_control_files_internal_truth_system
+    - section_8_build_test_deploy_truth
+    - section_9_runtime_truth_and_stub_boundaries
+    - section_10_frontend_backend_alignment
+    - section_11_shadow_paths_archives_and_non_belonging_material
+    - section_12_blockers_and_integrity_risks
+    - section_13_snapshot_sufficiency_check
+
+  required_yaml_schema:
+    repo_snapshot:
+      section_1_top_level_inventory:
+        description: >
+          List every top-level file and directory in the repository.
+        item_schema:
+          path: string
+          item_type: file_or_directory
+          classification:
+            enum:
+              - canonical_runtime
+              - canonical_frontend
+              - shared_design_time
+              - control_system
+              - config_deploy
+              - test_validation
+              - docs_ops
+              - archive_backup
+              - build_artifact
+              - experimental
+              - refuses_to_belong
+              - unknown
+          role_one_sentence: string
+          materially_affects_product_assessment: boolean
+
+      section_2_canonical_product_map:
+        required_fields:
+          product_identity_as_evidenced_by_repo_truth: string
+          canonical_runtime_backend_path: string_or_null
+          canonical_frontend_path: string_or_null
+          canonical_control_files: list_of_paths
+          canonical_deploy_path: list_of_paths
+          canonical_integration_path: list_of_paths
+          canonical_human_facing_entry_path: string_or_null
+          canonical_operator_admin_path: string_or_null
+          unresolved_ambiguities: list_of_strings
+
+      section_3_full_subsystem_inventory:
+        description: >
+          Derive the real subsystem map from repo truth, not folder names alone.
+        item_schema:
+          subsystem_name: string
+          purpose: string
+          canonical_paths: list_of_paths
+          primary_entrypoints: list_of_paths
+          key_files: list_of_paths
+          maturity:
+            enum:
+              - real_and_active
+              - partial
+              - stubbed
+              - planned_only
+              - shadow
+              - archived
+          integration_status:
+            enum:
+              - wired_to_runtime
+              - present_but_not_wired
+              - ui_only
+              - backend_only
+              - unclear
+          human_facing_relevance:
+            enum_values:
+              - buyer
+              - seller
+              - merchant
+              - operator
+              - developer
+              - internal_only
+            allow_multiple: true
+          blocker_summary: list_of_strings
+          evidence_summary: list_of_strings
+        mandatory_subsystem_detection_targets:
+          - buyer_facing_payment_checkout_surfaces
+          - seller_settlement_or_payout_surfaces
+          - merchant_admin_surfaces
+          - operator_reconciliation_surfaces
+          - developer_surfaces
+          - provider_adapters
+          - quoting_pathfinding
+          - orchestration_state_machine
+          - intake_authorization
+          - conversion
+          - ledger
+          - reconciliation
+          - treasury_liquidity
+          - wallets_custody
+          - risk_compliance
+          - secrets_config
+          - observability
+          - deploy_runtime
+          - test_harness
+
+      section_4_human_facing_product_surface:
+        description: >
+          Inventory actual human-facing routes, pages, apps, screens, and surfaces.
+        item_schema:
+          path: string
+          user_type:
+            enum:
+              - buyer
+              - seller
+              - merchant
+              - operator
+              - developer
+              - admin
+          purpose: string
+          surface_state:
+            enum:
+              - real_and_wired
+              - present_but_partially_wired
+              - present_but_mock_like
+              - purely_structural
+          primary_action: string_or_null
+          backend_dependency: list_of_strings
+          backend_capability_state:
+            enum:
+              - appears_real
+              - appears_partial
+              - appears_stubbed
+              - appears_missing
+              - unclear
+          trust_truth_issues: list_of_strings
+        summary_fields:
+          actual_front_door: string_or_null
+          product_orientation:
+            enum:
+              - operator_first
+              - merchant_first
+              - buyer_first
+              - seller_first
+              - developer_first
+              - mixed
+              - unclear
+          bounded_flagship_journey_exists: boolean
+          flagship_journey_description: string_or_null
+
+      section_5_end_to_end_core_flows:
+        description: >
+          Identify all real or attempted end-to-end flows supported by repo truth.
+        item_schema:
+          flow_name: string
+          start_surface_or_path: string
+          end_state: string
+          participating_subsystems: list_of_strings
+          flow_reality:
+            enum:
+              - real
+              - stubbed
+              - manual
+              - mixed
+              - unclear
+          key_blockers: list_of_strings
+          operator_can_observe_flow: boolean
+          flow_is_reconciliable: boolean
+          evidence_files: list_of_paths
+        mandatory_flow_search_targets:
+          - create_payment
+          - quote_payment
+          - authorize_capture_refund
+          - bank_connect
+          - provider_session_redirect_link_flow
+          - crypto_pay_flow
+          - seller_settlement_payout
+          - reconciliation_workflow
+          - provider_connection_flow
+          - revenue_pilot_account_workflows
+
+      section_6_provider_rail_asset_coverage:
+        description: >
+          Enumerate every provider, rail, payment type, asset type, or network referenced
+          anywhere in the repo.
+        item_schema:
+          name: string
+          role:
+            enum:
+              - direct_runtime_adapter
+              - referenced_only
+              - planned
+              - partial
+              - test_only
+          direction:
+            enum:
+              - inbound
+              - outbound
+              - both
+              - not_applicable
+          evidence_files: list_of_paths
+          runtime_integration_state:
+            enum:
+              - active_in_runtime
+              - present_but_not_invoked
+              - docs_only
+              - ui_only
+              - unclear
+          frontend_exposure_state:
+            enum:
+              - exposed
+              - partially_exposed
+              - not_exposed
+              - unclear
+          affects_actual_product_category: boolean
+        explicit_gap_detection_requirements:
+          - adapter_exists_but_runtime_does_not_invoke_it
+          - frontend_mentions_provider_but_no_backend_support
+          - provider_exists_in_docs_only
+          - provider_exists_in_checklist_but_not_code
+
+      section_7_control_files_internal_truth_system:
+        description: >
+          Inventory control YAMLs, parity checklists, runbooks, and internal truth-bearing
+          files that affect repo interpretation.
+        item_schema:
+          path: string
+          role: string
+          appears_authoritative: boolean
+          matches_repo_truth:
+            enum:
+              - yes
+              - partially
+              - no
+              - unclear
+          overstates_reality: list_of_strings
+          understates_reality: list_of_strings
+          affects_later_grading: boolean
+        must_include_when_present:
+          - begin_yaml
+          - continuation_yaml
+          - system_contract_yaml
+          - minimum_new_project_input_yaml
+          - parity_checklists
+          - internal_audit_docs
+          - runbooks_that_encode_truth_claims
+
+      section_8_build_test_deploy_truth:
+        description: >
+          Inspect and report build systems, test systems, and deploy/runtime truth.
+        required_subsections:
+          build_systems:
+            required_fields:
+              package_managers_manifests: list_of_strings
+              frontend_build_commands: list_of_strings
+              backend_build_commands: list_of_strings
+              monorepo_or_multi_project_boundaries: list_of_strings
+              build_outputs_detected: list_of_strings
+              build_contract_drift: list_of_strings
+          test_systems:
+            required_fields:
+              test_frameworks_detected: list_of_strings
+              critical_paths_with_tests: list_of_strings
+              critical_paths_without_tests: list_of_strings
+              e2e_test_presence: boolean
+              adapter_test_presence: boolean
+              checkout_or_buyer_flow_test_presence: boolean
+              reconciliation_test_presence: boolean
+              notable_validation_gaps: list_of_strings
+          deploy_runtime_systems:
+            required_fields:
+              dockerfiles: list_of_paths
+              compose_files: list_of_paths
+              migration_entrypoints: list_of_paths
+              env_contracts: list_of_paths
+              secrets_contracts: list_of_paths
+              deploy_contract_drift: list_of_strings
+              runtime_ambiguities: list_of_strings
+
+      section_9_runtime_truth_and_stub_boundaries:
+        description: >
+          Capture where the repo appears real, where it is partial, and where core paths
+          hit stubs, mocks, placeholders, or manual boundaries.
+        item_schema:
+          path_or_subsystem: string
+          boundary_type:
+            enum:
+              - stub
+              - mock
+              - placeholder
+              - manual_ops_dependency
+              - ui_only
+              - backend_only
+              - docs_only
+              - runtime_drift
+          why_it_matters: string
+          evidence_files: list_of_paths
+          severity:
+            enum:
+              - low
+              - medium
+              - high
+              - critical
+
+      section_10_frontend_backend_alignment:
+        description: >
+          Report whether frontend surfaces are aligned with actual backend capability.
+        item_schema:
+          frontend_surface: string
+          claimed_capability: string
+          backend_support_state:
+            enum:
+              - fully_supported
+              - partially_supported
+              - stubbed
+              - missing
+              - unclear
+          evidence_files: list_of_paths
+          mismatch_summary: string_or_null
+
+      section_11_shadow_paths_archives_and_non_belonging_material:
+        description: >
+          Surface archives, zips, binaries, dist folders, parallel implementations,
+          experiments, and anything else that muddies canonical repo truth.
+        item_schema:
+          path: string
+          classification:
+            enum:
+              - shadow_path
+              - archive
+              - backup
+              - experimental
+              - generated_artifact
+              - binary
+              - refuses_to_belong
+          why: string
+          risks_if_misread: list_of_strings
+          evidence_files: list_of_paths
+
+      section_12_blockers_and_integrity_risks:
+        description: >
+          Capture the blockers and integrity risks that would materially affect later
+          grading or assessment.
+        required_fields:
+          hard_limiters: list_of_strings
+          canonical_path_risks: list_of_strings
+          production_truth_risks: list_of_strings
+          human_facing_truth_risks: list_of_strings
+          deploy_runtime_risks: list_of_strings
+          provider_coverage_risks: list_of_strings
+          narrative_vs_product_risks: list_of_strings
+
+      section_13_snapshot_sufficiency_check:
+        description: >
+          Self-check whether the snapshot is complete enough for later assessment.
+        required_fields:
+          all_top_level_items_accounted_for: boolean
+          canonical_paths_explicitly_identified: boolean
+          frontend_backend_deploy_test_truth_captured: boolean
+          provider_coverage_captured: boolean
+          control_files_captured: boolean
+          shadow_and_non_belonging_material_captured: boolean
+          human_facing_surface_captured: boolean
+          core_flows_captured: boolean
+          contradictory_evidence_reported: boolean
+          known_gaps_in_snapshot: list_of_strings
+          snapshot_valid_for_external_grading: boolean
+
+  execution_steps:
+    - recursively_scan_the_repository
+    - enumerate_all_top_level_items
+    - classify_top_level_items
+    - determine_canonical_paths_and_shadow_paths
+    - derive_full_subsystem_inventory_from_repo_truth
+    - inventory_actual_human_facing_surfaces
+    - identify_real_or_attempted_end_to_end_flows
+    - enumerate_all_provider_rail_asset_references
+    - inventory_control_files_and_internal_truth_documents
+    - inspect_build_test_and_deploy_contracts
+    - identify_stub_boundaries_and_runtime_drift
+    - compare_frontend_claims_to_backend_reality
+    - list_archives_binaries_and_non_belonging_material
+    - capture_blockers_and_integrity_risks
+    - run_snapshot_sufficiency_self_check
+    - output_only_yaml
+
+  loophole_closers:
+    - do_not_summarize_without_first_listing_the_underlying_paths_and_evidence
+    - do_not_treat_docs_as_equal_to_runtime_without_explicitly_saying_so
+    - do_not_ignore_dist_build_binaries_or_archives
+    - do_not_ignore_control_files_or_checklists
+    - do_not_assume_a_provider_is_real_because_an_adapter_exists
+    - do_not_assume_a_ui_is_real_because_a_route_exists
+    - do_not_assume_a_flow_is_real_because_a_readme_describes_it
+    - do_not_silently_drop_unknown_items_mark_them_unknown_and_report_them
+    - do_not_merge_shadow_paths_into_canonical_paths_without_explicit_justification
+    - do_not_skip_top_level_items_even_if_they_look_generated_or_old
+    - do_not_emit_a_grade_or_opinionated_verdict_in_place_of_the_snapshot
+
+  final_instruction_to_opus: >
+    Inspect the repository on disk and output a complete machine-readable YAML snapshot
+    conforming to this schema. Do not grade. Do not narrate first. Do not compress.
+    If you are uncertain about classification, report the uncertainty explicitly in the
+    relevant field rather than omitting the item.

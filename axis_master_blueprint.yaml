@@ -1,0 +1,414 @@
+spec_version: 1.0.0
+
+axis:
+  name: Axis
+  role: umbrella_platform
+  definition: >
+    Axis is the umbrella platform for everything we build: a multi-program,
+    AI-native development system that turns project snapshots into diagnostics,
+    governed outputs, and build-integrated tooling.
+  positioning:
+    short: The operating system for AI-native development
+    extended: >
+      Axis provides shared identity, snapshot intake, project context,
+      command-query-event APIs, and a unified design system across many
+      separately billable programs.
+  commercial_model:
+    shared_platform: true
+    separate_program_billing: true
+    suite_access_available: true
+    continuity_across_programs: true
+
+brand_system:
+  naming:
+    umbrella: Axis
+    convention: "Axis <Program>"
+    principles:
+      - short
+      - technical
+      - consistent
+      - operator_first
+  visual_direction:
+    basis_file: averionics_theme_bridge.yaml
+    themes:
+      - midnight_command
+      - precision_white
+    characteristics:
+      - control_room_clarity
+      - premium_restraint
+      - modular_surfaces
+      - disciplined_cyan_orange_signaling
+      - magnetic_docking
+      - motion_guided_onboarding
+
+program_catalog:
+  first_wave:
+    - slug: search
+      name: Axis Search
+      category: repo_intelligence
+      promise: Understand the repo faster
+      free:
+        - limited_snapshot_runs
+        - basic_repo_map
+        - preview_results
+      paid:
+        - full_repo_index
+        - saved_indexes
+        - export_context_map
+        - api_access
+      meters:
+        - indexed_files
+        - search_queries
+        - active_projects
+      outputs:
+        - .ai/context-map.json
+        - .ai/repo-profile.yaml
+        - architecture-summary.md
+
+    - slug: debug
+      name: Axis Debug
+      category: repo_intelligence
+      promise: Find root cause faster
+      free:
+        - limited_debug_runs
+        - issue_preview
+        - basic_playbook_preview
+      paid:
+        - full_debug_reports
+        - saved_incidents
+        - root_cause_playbooks
+        - api_access
+      meters:
+        - debug_runs
+        - incident_analyses
+      outputs:
+        - .ai/debug-playbook.md
+        - incident-template.md
+        - tracing-rules.md
+
+    - slug: skills
+      name: Axis Skills
+      category: governance
+      promise: Generate project-specific AI governance files
+      free:
+        - limited_file_previews
+        - basic_skill_generation
+      paid:
+        - full_file_exports
+        - versioned_governance
+        - workflow_library
+        - api_access
+      meters:
+        - generated_files
+        - governance_runs
+      outputs:
+        - AGENTS.md
+        - CLAUDE.md
+        - CURSOR.md
+        - .cursorrules
+        - .ai/workflows/
+        - .ai/policies/
+
+    - slug: frontend
+      name: Axis Frontend
+      category: engineering_delivery
+      promise: Make UI work match the project’s actual standards
+      free:
+        - limited_ui_audits
+        - preview_guidelines
+      paid:
+        - full_ui_audits
+        - component_guidelines
+        - screen_generation
+        - api_access
+      meters:
+        - ui_audits
+        - component_reviews
+        - generated_specs
+      outputs:
+        - .ai/frontend-rules.md
+        - component-guidelines.md
+        - layout-patterns.md
+
+    - slug: seo
+      name: Axis SEO
+      category: growth_and_content
+      promise: Improve discoverability from inside the codebase
+      free:
+        - single_route_audit
+        - preview_recommendations
+      paid:
+        - full_site_analysis
+        - route_priority_maps
+        - schema_recommendations
+        - api_access
+      meters:
+        - route_analyses
+        - page_audits
+        - crawl_runs
+      outputs:
+        - .ai/seo-rules.md
+        - schema-recommendations.json
+        - route-priority-map.md
+
+  second_wave:
+    - Axis Optimization
+    - Axis Artifacts
+    - Axis Theme
+    - Axis Brand
+    - Axis Notebook
+
+  later_wave:
+    - Axis Marketing
+    - Axis MCP
+    - Axis Obsidian
+    - Axis Superpowers
+    - Axis Remotion
+    - Axis Canvas
+    - Axis Algorithmic
+
+platform_capabilities:
+  shared_across_all_programs:
+    - auth
+    - organizations
+    - workspaces
+    - projects
+    - snapshot_ingestion
+    - framework_detection
+    - repo_parser
+    - context_graph
+    - feature_registry
+    - command_query_event_bridge
+    - usage_tracking
+    - billing
+    - export_engine
+    - audit_history
+    - api_keys
+    - notifications
+
+snapshot_protocol:
+  name: axis_snapshot_protocol
+  purpose: >
+    Convert arbitrary repositories into structured, queryable, AI-usable
+    project context that every Axis program can consume.
+  accepted_inputs:
+    - repo_snapshot_upload
+    - github_repo_url
+    - manual_file_upload
+    - api_submission
+    - cli_submission
+  recommended_v1:
+    - repo_snapshot_upload
+    - github_repo_url
+    - api_submission
+  captures:
+    - repo_tree
+    - package_manifests
+    - lockfiles
+    - config_files
+    - selected_source_files
+    - readme
+    - architecture_docs
+    - test_samples
+    - routes_map
+    - dependency_map
+    - framework_detection
+    - user_objectives
+    - preferred_ai_tools
+    - requested_outputs
+  manifest_schema:
+    required:
+      - project_name
+      - project_type
+      - frameworks
+      - goals
+      - requested_outputs
+    example:
+      project_name: acme-dashboard
+      project_type: saas_web_app
+      frameworks:
+        - nextjs
+        - typescript
+        - tailwind
+      goals:
+        - improve_ai_coding_accuracy
+        - standardize_debugging
+      requested_outputs:
+        - AGENTS.md
+        - CLAUDE.md
+        - .cursorrules
+        - .ai/frontend-rules.md
+
+root_output_contract:
+  root_files:
+    - AGENTS.md
+    - CLAUDE.md
+    - CURSOR.md
+    - .cursorrules
+  ai_directory:
+    - .ai/project-profile.yaml
+    - .ai/context-map.json
+    - .ai/debug-playbook.md
+    - .ai/frontend-rules.md
+    - .ai/seo-rules.md
+    - .ai/design-tokens.json
+    - .ai/workflows/
+    - .ai/policies/
+  ownership:
+    search:
+      - .ai/context-map.json
+      - .ai/repo-profile.yaml
+    debug:
+      - .ai/debug-playbook.md
+      - tracing-rules.md
+    skills:
+      - AGENTS.md
+      - CLAUDE.md
+      - CURSOR.md
+      - .cursorrules
+      - .ai/workflows/
+      - .ai/policies/
+    frontend:
+      - .ai/frontend-rules.md
+      - component-guidelines.md
+    seo:
+      - .ai/seo-rules.md
+      - schema-recommendations.json
+
+api_architecture:
+  pattern: command_query_event
+  gateway: unified
+  auth: shared_api_keys
+  metering: per_program
+  endpoints:
+    common:
+      - method: POST
+        path: /v1/snapshots
+        purpose: Create snapshot
+      - method: GET
+        path: /v1/projects/:project_id/context
+        purpose: Retrieve shared project context
+      - method: GET
+        path: /v1/projects/:project_id/generated-files
+        purpose: List outputs
+    programs:
+      search:
+        - POST /v1/search/analyze
+        - POST /v1/search/export
+      debug:
+        - POST /v1/debug/analyze
+        - POST /v1/debug/generate
+      skills:
+        - POST /v1/skills/generate
+        - POST /v1/skills/export
+      frontend:
+        - POST /v1/frontend/audit
+        - POST /v1/frontend/generate
+      seo:
+        - POST /v1/seo/analyze
+        - POST /v1/seo/generate
+  bridge_contract:
+    commands:
+      path: /v1/bridge/commands
+    queries:
+      path: /v1/bridge/queries
+    events:
+      path: /v1/bridge/events
+  request_shape:
+    required:
+      - project_id
+      - snapshot_id
+      - program
+      - objective
+      - output_format
+  response_shape:
+    returns:
+      - analysis_summary
+      - detected_context
+      - recommendations
+      - generated_files
+      - warnings
+      - confidence_score
+
+billing_model:
+  default:
+    free:
+      - limited_runs
+      - preview_outputs
+      - 1_active_project
+    paid_program:
+      type: monthly_subscription
+      includes:
+        - full_exports
+        - api_access
+        - saved_history
+        - automation
+        - larger_projects
+    suite_bundle:
+      available: true
+      includes:
+        - all_core_programs
+        - cross_program_workflows
+        - consolidated_usage
+  rules:
+    - each_program_has_its_own_sku
+    - programs_bill_separately
+    - bundle_access_does_not_remove_individual_program_skus
+    - usage_is_metered_per_program
+
+monorepo:
+  apps:
+    - web
+    - api
+    - worker
+    - docs
+    - cli
+  packages:
+    - design-system
+    - auth
+    - billing
+    - snapshots
+    - repo-parser
+    - context-engine
+    - feature-registry
+    - bridge-client
+    - generator-core
+    - export-engine
+    - telemetry
+    - program-search
+    - program-debug
+    - program-skills
+    - program-frontend
+    - program-seo
+
+build_order:
+  phase_1:
+    - shared_design_system
+    - feature_registry
+    - bridge_contract
+    - snapshot_ingestion
+    - search_vertical_slice
+  phase_2:
+    - debug
+    - skills
+    - frontend
+    - seo
+  phase_3:
+    - billing_per_program
+    - api_keys
+    - suite_bundle
+    - cli_submission
+
+v1_vertical_slice:
+  goal: Prove the Axis loop end to end
+  flow:
+    - upload_repo_snapshot
+    - run_axis_search
+    - generate_repo_map
+    - export_.ai/context-map.json
+    - upsell_into_axis_skills
+
+source_note:
+  theme_basis: >
+    The visual and bridge architecture should align with the uploaded
+    averionics_theme_bridge.yaml spec.

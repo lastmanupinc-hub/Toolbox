@@ -1,0 +1,211 @@
+Use the existing YAML system in this repository and implement the required changes needed to support the new memory and behavior-routing model.
+
+Do not redesign the system.
+Do not add unnecessary control structures.
+Do not introduce extra governance beyond what is required.
+Do not create a parallel system.
+Do not replace the existing prompt/control architecture.
+Extend the existing YAML system only where necessary and in the files where the logic properly belongs.
+
+MANDATORY ORDER OF OPERATIONS
+
+You must begin with hygiene and canonical cleanup before adding new memory structures.
+
+The implementation order is:
+
+1. identify and remove or downgrade outdated, unnecessary, duplicate, narrative, temporary, and noncanonical file information that should not persist into the upgraded system
+2. reassert canonical truth after cleanup
+3. then implement the YAML changes needed for the deeper memory and behavior-routing model
+4. then update affected state/control files to reflect the cleaned and upgraded system
+
+Do not build the new memory layer on top of stale repo cognition.
+
+PRIMARY OBJECTIVE
+
+Implement the minimum required YAML changes so the system can support:
+
+1. hygiene-first canonical cleanup
+2. per-folder MEMORY.yaml usage as a constitutional local memory layer
+3. typed memory behavior sufficient for continuation, truth retention, hygiene, and disciplined development
+4. cognitive mode control so different parts of the system can allow or forbid different classes of agent behavior
+5. passenger assignment / behavior routing so native AI tendencies are used in the right contexts instead of being globally suppressed
+6. truth-preserving cleanup and retention after each completed local development cycle
+7. cross-folder coherence where local changes require neighboring memory or contract updates
+
+FOUNDATIONAL RULE
+
+The system upgrade must start by reducing entropy, not preserving it.
+
+Before expanding memory capability, you must identify:
+- outdated files
+- obsolete file information
+- duplicate artifacts
+- narrative-only notes
+- stale evidence
+- noncanonical summaries
+- recreatable working files
+- debris from earlier development that should not be inherited as long-term system truth
+
+Then determine which of these:
+- must be deleted
+- must be downgraded from long-term truth
+- must be preserved only as canonical golden-path/build/runtime artifacts
+- must be marked as refusing to belong to the active system
+
+Do not silently preserve clutter.
+
+HYGIENE-FIRST IMPLEMENTATION REQUIREMENT
+
+Your first implementation phase must determine where hygiene policy belongs in the existing YAML system and make it explicit there.
+
+At minimum, after implementation the system must support:
+- entry audit against live truth
+- local cleanup before memory promotion
+- short-term artifact grading after completed work
+- retention only of runtime/build/deploy/contract/golden-path memory
+- removal of narrative, temporary, duplicate, and marketing/storytelling artifacts from development memory unless required for system operation
+
+IMPORTANT IMPLEMENTATION RULE
+
+You must decide:
+- which YAML files need to be updated
+- what each file should say verbatim
+- what belongs in global constitution vs session logic vs continuation state vs per-folder memory
+- where hygiene-first logic belongs
+- where retention/grading logic belongs
+- what should be schema, policy, or live-state content
+
+Do this based on the actual existing system you are implementing into.
+
+Do not ask for a new architecture if the current architecture can absorb this cleanly.
+Do not create new files unless the current system truly requires them.
+If a new file is required, create only the minimum necessary one.
+
+REQUIRED SYSTEM EFFECTS
+
+A. HYGIENE-FIRST SYSTEM ENTRY
+The resulting system must begin local work by:
+- reading current memory/control truth
+- auditing live folder truth
+- identifying stale or noncanonical residue
+- cleaning or downgrading that residue before new memory promotion
+
+B. MEMORY LAYER
+- support a canonical MEMORY.yaml standard for subfolders
+- require MEMORY.yaml to be read on folder entry
+- require local audit against live folder truth on entry
+- require MEMORY.yaml update when local truth changes
+- require hygiene and retention review on exit
+
+C. MEMORY CONTENT
+The resulting system must support local folder memory that can preserve:
+- folder identity
+- local contract
+- canonical truth
+- active state
+- cross-folder sync obligations
+- hygiene and short-term file grading
+- minimal creative development fields
+- behavior-routing / cognitive-mode constraints
+
+D. COGNITIVE MODE CONTROL
+The system must support the idea that different folders or subsystems may allow different safe behavior modes, such as:
+- discovery
+- truth
+- execution
+- translation
+
+You do not need to use those exact words if the existing system implies better wording.
+But the implemented system must make it possible to control what kinds of agent behavior are safe in a given local area.
+
+E. PASSENGER ROUTING
+The system must support the idea that native AI tendencies are not only mitigated, but assigned to useful bounded roles.
+
+At minimum, the implementation must make room for:
+- exploratory behavior being useful in constrained discovery contexts
+- divergence being useful in bounded option generation contexts
+- narrative behavior being confined to translation/documentation contexts
+- momentum being useful in validated execution contexts
+- truth/inventory behavior being distinct from execution behavior
+
+Do not overcomplicate this.
+Just make sure the system can express and enforce it.
+
+F. HYGIENE AND RETENTION
+The system must require:
+- deletion of temporary, narrative, duplicate, recreatable, and non-runtime debris after local work
+- grading of short-term files after completed work
+- retention only of long-term memory that is required for runtime, build, deploy, contracts, golden paths, or truly recurring maintenance/debug needs
+- removal of marketing/storytelling artifacts from development memory unless required for system operation
+
+G. CREATIVE DEVELOPMENT
+The system must support small, disciplined creative fields that help the agent generate useful subsystem-specific advancement without broadening scope irresponsibly.
+
+These should support:
+- underused leverage already present in the subsystem
+- adjacent possible moves enabled by current truth
+- productive subsystem-specific tensions that can guide invention
+
+Do not inflate these into a brainstorming framework.
+Keep them minimal and operational.
+
+H. GLOBAL / LOCAL COHERENCE
+The final YAML implementation must make it possible for:
+- global constitutional files to govern allowed behavior
+- local folder memory to govern safe local work
+- continuation/state files to track evolving truth
+- cross-folder updates to be required when local changes affect neighboring contracts or boundaries
+
+MANDATORY PHASES
+
+PHASE 1 — HYGIENE ARBITRATION
+You must first inspect the existing system and determine:
+- what file information is outdated
+- what memory/state content is bloated
+- what artifacts are duplicate or narrative-only
+- what should no longer be treated as long-term truth
+- what should be deleted vs downgraded vs preserved
+
+Then implement the YAML changes needed so this hygiene-first behavior becomes part of the system.
+
+PHASE 2 — CANONICAL REASSERTION
+After hygiene arbitration, reassert:
+- canonical paths
+- canonical control truth
+- canonical long-term memory criteria
+- what survives as valid retained memory
+
+PHASE 3 — MEMORY / BEHAVIOR-ROUTING IMPLEMENTATION
+Only after the above, implement the YAML additions needed for:
+- local MEMORY.yaml
+- typed memory support
+- cognitive mode control
+- passenger routing
+- cross-folder sync
+- exit retention review
+
+PHASE 4 — STATE UPDATE
+Update the affected YAML state/control files so the upgraded system reflects:
+- the cleaned substrate
+- the new memory requirements
+- the new hygiene law
+- the new behavior-routing capability
+
+OUTPUT REQUIREMENTS
+
+Produce the actual YAML file updates and any required new YAML file(s).
+Do not give a high-level recommendation instead of implementation.
+Do not return only commentary.
+Implement the changes directly in the appropriate files.
+
+QUALITY BAR
+
+The result should feel like a natural extension of the existing system.
+It should first reduce stale information and bloat, then increase coherence, continuation quality, and disciplined creative development without making the system bloated or abstract.
+
+FINAL RULE
+
+Do not preserve historical clutter just because it already exists.
+Do not build deeper memory on top of unfiltered residue.
+First clean the system’s cognitive surface.
+Then extend it.

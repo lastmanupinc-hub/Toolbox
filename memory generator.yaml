@@ -1,0 +1,251 @@
+memory_yaml_standard:
+  version: "2.0"
+  file_name: "MEMORY.yaml"
+  purpose: >
+    Minimal but high-fidelity constitutional memory for a folder or subsystem.
+    This file must support fast reorientation, safe continuation, disciplined creativity,
+    cross-folder coherence, and aggressive hygiene. It is not a progress diary.
+
+  use_contract:
+    read_on_every_access: true
+    audit_against_live_folder_on_every_access: true
+    update_if_truth_changed: true
+    run_exit_hygiene_after_each_completed_change: true
+    forbid_skipping: true
+
+  memory_model:
+    always_visible_core:
+      purpose: >
+        Tiny constitutional memory that should remain immediately interpretable on every access.
+      fields:
+        - identity
+        - local_contract
+        - connections
+        - canonical_truth
+        - active_state
+        - hygiene
+        - exit_check
+
+    typed_memory_layers:
+      semantic_memory:
+        purpose: >
+          Stable facts, contracts, names, boundaries, schemas, and subsystem truths.
+      episodic_memory:
+        purpose: >
+          High-value experiences, golden-path incidents, recurrent failures, and decisive changes.
+      procedural_memory:
+        purpose: >
+          How work should be done here: invariants, safe sequences, anti-patterns, validation order.
+      prospective_memory:
+        purpose: >
+          Future-triggered obligations: follow-ups, pending syncs, deferred required moves, expiry conditions.
+      creative_memory:
+        purpose: >
+          Boundaried creative leverage specific to this subsystem: latent leverage, adjacent possible moves,
+          and productive tensions.
+      provenance_memory:
+        purpose: >
+          Source traceability, confidence, and contradiction tracking for anything important enough to retain.
+
+  identity:
+    folder_name: ""
+    canonical_path: ""
+    system_role: ""
+    global_dependency_reason: ""
+    in_scope: []
+    out_of_scope: []
+
+  local_contract:
+    must_preserve: []
+    may_change: []
+    must_not_change_without_cross_folder_update: []
+    forbidden_local_patterns: []
+
+  connections:
+    upstream_inputs_from: []
+    downstream_outputs_to: []
+    directly_connected_subfolders: []
+    external_interfaces: []
+
+  human_surface:
+    touches_user_experience: false
+    primary_user_types: []
+    user_visible_effects: []
+    trust_sensitive: false
+
+  canonical_truth:
+    canonical_entrypoints: []
+    critical_files: []
+    golden_paths: []
+    build_required_artifacts: []
+    deploy_required_artifacts: []
+    contract_artifacts: []
+
+  active_state:
+    status: active
+    currently_true: []
+    known_gaps: []
+    active_blockers: []
+    next_canonical_move: ""
+
+  semantic_memory:
+    stable_facts: []
+    boundary_facts: []
+    contract_facts: []
+    naming_truth: []
+    schema_truth: []
+
+  episodic_memory:
+    keep_only_high_value_episodes: true
+    episodes:
+      - event: ""
+        why_it_matters: ""
+        reusable_lesson: ""
+        evidence_anchor: ""
+        keep_reason: ""
+
+  procedural_memory:
+    required_sequences:
+      - sequence_name: ""
+        steps: []
+        why_order_matters: ""
+    validation_order: []
+    recurrent_failure_patterns: []
+    safe_edit_patterns: []
+    unsafe_edit_patterns: []
+
+  prospective_memory:
+    pending_obligations:
+      - obligation: ""
+        trigger_condition: ""
+        due_when: ""
+        owner_scope: ""
+        must_block_exit_if_unresolved: false
+    expiry_checks:
+      - item: ""
+        stale_if: ""
+        required_action_if_stale: ""
+
+  creative_memory:
+    latent_leverage_points:
+      - leverage_point: ""
+        why_it_exists_here: ""
+        what_it_could_unlock: ""
+        smallest_boundary_safe_probe: ""
+    adjacent_possible_moves:
+      - move: ""
+        enabled_by_current_truth: ""
+        why_not_yet_canonical: ""
+        trigger_condition_to_attempt: ""
+    semantic_tension_map:
+      - tension: ""
+        side_a: ""
+        side_b: ""
+        current_balance: ""
+        creative_opportunity_if_rebalanced: ""
+
+  provenance_memory:
+    critical_claims:
+      - claim: ""
+        source_type: file_or_runtime_or_contract_or_test
+        source_anchor: ""
+        confidence: high
+        last_verified: ""
+        conflict_with: []
+        escalation_path_if_uncertain: ""
+    contradiction_register:
+      - conflict: ""
+        conflicting_sources: []
+        current_resolution: unresolved
+
+  cross_folder_sync:
+    if_changed_update: []
+    notify_contracts: []
+    drift_risk_if_unsynced: []
+
+  hygiene:
+    delete_on_exit:
+      - temp
+      - scratch
+      - narrative
+      - duplicate
+      - recreatable
+      - obsolete_evidence
+      - ad_hoc_debug_output
+      - one_off_working_files
+      - marketing_material_not_required_for_runtime
+      - screenshots_not_required_for_build
+      - dead_test_outputs
+    keep_on_exit:
+      - runtime_required
+      - build_required
+      - deploy_required
+      - canonical_contract
+      - golden_path_required
+      - recurrent_failure_reference_if_nonduplicative
+
+  retention_review:
+    required_after_each_completed_change: true
+    review_model:
+      semantic_keep: >
+        Keep only stable truths that reduce future rediscovery.
+      episodic_keep: >
+        Keep only high-value episodes that improve future judgment or preserve golden paths.
+      procedural_keep: >
+        Keep only reusable operating rules and failure-prevention knowledge.
+      prospective_keep: >
+        Keep only active obligations or trigger-based future actions.
+      provenance_keep: >
+        Keep only source traceability for critical claims or unresolved contradictions.
+
+  short_term_file_rubric:
+    3_keep:
+      meaning: >
+        Required for runtime, build, deploy, canonical contract truth, golden-path preservation,
+        or recurrent high-cost failure prevention.
+    2_conditional_keep:
+      meaning: >
+        Retain only if nonduplicative and needed for recurring validation, diagnosis, or safe continuation.
+    1_remove:
+      meaning: >
+        Temporary, narrative, duplicate, recreatable, speculative, or not required for system operation.
+    required_action:
+      - grade_all_short_term_files_after_each_completed_change
+      - tag_3_keep_items_for_long_term_memory
+      - review_2_conditional_keep_items_against_existing_canonical_memory
+      - delete_1_remove_items
+
+  consolidation_policy:
+    purpose: >
+      Prevent memory bloat and interference by periodically compressing local truth without losing
+      essential evidence.
+    triggers:
+      - after_each_completed_change
+      - when_memory_becomes_redundant
+      - when_contradictions_accumulate
+      - when_folder_role_changes
+    actions:
+      - deduplicate_semantic_items
+      - compress_repetitive_episodes_into_one_reusable_lesson
+      - prune_resolved_prospective_items
+      - remove_low_confidence_claims_without_sources
+      - escalate unresolved contradictions
+
+  access_check:
+    on_entry:
+      - read_memory_first
+      - compare_live_folder_to_memory
+      - mark_drift_if_found
+      - identify_required_syncs
+      - identify_open_prospective_triggers
+      - inspect_creative_memory_for_boundary_safe_opportunity
+    on_exit:
+      - memory_matches_live_folder_truth
+      - cross_folder_sync_completed_if_needed
+      - temp_removed
+      - narrative_removed
+      - short_term_files_graded
+      - only_required_long_term_memory_kept
+      - contradictions_updated
+      - prospective_items_updated
+      - creative_items_updated_only_if_new_real_leverage_was_found

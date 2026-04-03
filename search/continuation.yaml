@@ -1,0 +1,135 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+
+  reference_policy:
+    before_session:
+      read:
+        - begin.yaml
+        - continuation.yaml
+        - MEMORY.yaml
+    after_session:
+      update_this_file: true
+      update_memory_yaml: true
+
+  current_identity:
+    project_name: "Axis Search"
+    date: "2026-04-03"
+    commit_or_tag: ""
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "context_graph_schema"
+
+  executive_truth:
+    maturity_estimate:
+      functional_percent: 0
+      hardened_percent: 0
+      integrated_percent: 0
+      production_percent: 0
+    confidence:
+      architecture_confidence: 0
+      runtime_confidence: 0
+      pipeline_confidence: 0
+      integration_confidence: 0
+      notes: "No implementation yet. Planning phase."
+
+  boundary_truth:
+    accepted_input_modes:
+      - repo_snapshot_upload
+      - github_repo_url
+      - api_submission
+    canonical_dependency_truth:
+      platform_snapshot_protocol: required
+      framework_detection: required
+      repo_parser: required
+      context_graph: owns
+    target_outputs_truth:
+      context_map_json: not_started
+      repo_profile_yaml: not_started
+      architecture_summary_md: not_started
+      dependency_hotspots_md: not_started
+
+  active_verticals:
+    - id: v1_context_graph
+      name: Context Graph Schema
+      status: planning
+      priority: P0
+      user_story: >
+        As a developer, I need a structured context map of my repo so that
+        all Axis programs can consume accurate project understanding.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - platform snapshot_protocol not yet implemented
+      next_required_move: "Define context-map.json schema"
+
+    - id: v2_indexing_engine
+      name: Repo Indexing Engine
+      status: planning
+      priority: P1
+      user_story: >
+        As a developer, I need my repo indexed so I can search and understand
+        its structure quickly.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - context graph schema must be defined first
+      next_required_move: "Design indexing pipeline architecture"
+
+    - id: v3_search_api
+      name: Search API
+      status: planning
+      priority: P2
+      user_story: >
+        As a developer, I need API endpoints to analyze and export search results
+        programmatically.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - indexing engine must exist first
+      next_required_move: "Define API contract for /v1/search/analyze"
+
+  subsystem_scorecards: []
+
+  blocker_register:
+    critical_blockers:
+      - blocker_id: blk_search_001
+        description: "Platform snapshot_protocol not yet implemented"
+        impact: "Cannot ingest repos without snapshot protocol"
+        owner: platform
+        unblock_strategy: "Build minimal snapshot ingestion in platform layer"
+        status: open
+
+  execution_queue:
+    qualifying_candidates:
+      - id: eq_search_001
+        description: "Define context-map.json output schema"
+        active_vertical: v1_context_graph
+        total_roi_score: 0
+        qualifies: true
+        blocked: true
+        execution_rank: 1
+        completion_status:
+          value: pending
+
+  source_control_policy:
+    commit_after_each_completed_candidate: true
+    push_after_each_successful_commit: true
+    commit_message_policy:
+      format: "[axis-search] <vertical> - <summary>"

@@ -1,0 +1,26 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+  reference_policy: {before_session: {read: [begin.yaml, continuation.yaml, MEMORY.yaml]}, after_session: {update_this_file: true, update_memory_yaml: true}}
+  current_identity:
+    project_name: "Axis Theme"
+    date: "2026-04-03"
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "design_token_schema"
+  executive_truth:
+    maturity_estimate: {functional_percent: 0, hardened_percent: 0, integrated_percent: 0, production_percent: 0}
+  boundary_truth:
+    target_outputs_truth: {design_tokens_json: not_started, theme_css: not_started, theme_guidelines_md: not_started, component_theme_map_json: not_started}
+  active_verticals:
+    - id: v1_design_tokens
+      name: Design Token Schema
+      status: planning
+      priority: P0
+      blockers: [search/ context and brand/ signals not yet available]
+      next_required_move: "Define design-tokens.json schema"
+  blocker_register:
+    critical_blockers:
+      - {blocker_id: blk_theme_001, description: "Search context and brand signals not yet available", owner: search/brand, status: open}
+  source_control_policy: {commit_message_policy: {format: "[axis-theme] <vertical> - <summary>"}}

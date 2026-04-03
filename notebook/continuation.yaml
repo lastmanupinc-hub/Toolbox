@@ -1,0 +1,26 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+  reference_policy: {before_session: {read: [begin.yaml, continuation.yaml, MEMORY.yaml]}, after_session: {update_this_file: true, update_memory_yaml: true}}
+  current_identity:
+    project_name: "Axis Notebook"
+    date: "2026-04-03"
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "notebook_schema"
+  executive_truth:
+    maturity_estimate: {functional_percent: 0, hardened_percent: 0, integrated_percent: 0, production_percent: 0}
+  boundary_truth:
+    target_outputs_truth: {notebook_summary_md: not_started, source_map_json: not_started, study_brief_md: not_started, research_threads: not_started}
+  active_verticals:
+    - id: v1_notebook_schema
+      name: Notebook Output Schema
+      status: planning
+      priority: P0
+      blockers: [search/ context not yet available]
+      next_required_move: "Define notebook-summary.md and source-map.json schemas"
+  blocker_register:
+    critical_blockers:
+      - {blocker_id: blk_notebook_001, description: "Search context not yet available", owner: search, status: open}
+  source_control_policy: {commit_message_policy: {format: "[axis-notebook] <vertical> - <summary>"}}

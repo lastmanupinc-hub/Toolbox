@@ -1,0 +1,297 @@
+project_begin:
+  version: v1
+  role: session_gate_and_move_selector
+
+  project_identity:
+    name: ""
+    category: ""
+    boundary: >
+      ""
+    core_promise: >
+      ""
+
+  required_read_order:
+    - read_this_file_first
+    - then_read_continuation_yaml
+    - then_choose_next_valid_move
+
+  optimization_policy:
+    primary_rule: >
+      Optimize for highest production quality and integration quality per unit
+      resource. Do not optimize for time minimization, token minimization, or
+      shortest-path output if that lowers quality, coherence, validation strength,
+      exporter correctness, maintainability, or long-term platform value.
+    preference_order:
+      - canonical_coherence
+      - production_quality
+      - integration_quality
+      - active_vertical_advancement
+      - durable_capability_gain
+      - future_optionality
+      - usability
+      - team_scale_readiness
+      - implementation_speed
+    anti_optimization_rules:
+      - do_not_choose_shallow_demo_wins_over_integrated_capability
+      - do_not_choose_feature_count_over_quality
+      - do_not_choose_stub_breadth_over_real_path_completion
+      - do_not_choose_parallel_paths_when_a_canonical_path_can_be_strengthened
+      - do_not_choose_token_or_time_efficiency_over architectural_integrity
+
+  operating_mode:
+    work_style: monolithic_vertical_saturation
+    planning_style: active_vertical_first
+    canonical_policy: one_door_per_subsystem
+    evidence_policy: evidence_required_for_promotion
+    validation_policy: validate_before_promotion
+    output_policy: structured_and_diffable
+    quality_policy: >
+      Prefer deeper integration over broader surface. Prefer real end-to-end proof
+      over isolated subsystem polish. Prefer durable architecture over short-term convenience.
+    simplicity_policy: >
+      Keep the front door obvious and low-friction. Hide complexity behind progressive disclosure.
+
+  strategic_objectives:
+    - canonical_data_contracts
+    - durable_capability_growth
+    - anti_duplication
+    - production_quality_over_surface_area
+    - integration_quality_over_speed
+    - validation_and_observability
+    - team_scale_headroom
+    - creator_usability
+    - source_control_safe_outputs
+    - future_optional_extension_points
+
+  capability_horizon:
+    reference_class: []
+    interpretation: >
+      Build toward an equal-or-greater practical capability footprint inside the
+      defined boundary while preserving coherence, validation, and usability.
+    stop_condition: none
+
+  active_vertical_selection_policy:
+    scope_rule: >
+      Choose work from the highest-value active vertical or its direct blocker chain.
+      Do not open a new vertical unless higher-value candidates are blocked or the
+      continuation ledger explicitly promotes a new one.
+    allowed_verticals: []
+
+  highest_roi_definition:
+    meaning: >
+      The next valid move inside the project boundary that most increases durable
+      capability, active vertical saturation, canonical coherence, integration quality,
+      production readiness, future optionality, team-scale viability, and usability
+      per unit implementation cost, while penalizing duplication, superficial breadth,
+      coherence loss, shallow demos, and incomplete integration.
+
+  highest_potential_ceiling_definition:
+    meaning: >
+      The candidate whose successful completion most expands the long-term capability
+      ceiling of the project, including team-scale power, canonical architecture,
+      future subsystem unlocks, cross-platform reuse, automation/AI leverage, and
+      future product breadth, even if the immediate visible win is smaller.
+    ceiling_axes:
+      team_scale_gain:
+        weight: 5
+      canonical_architecture_gain:
+        weight: 5
+      future_subsystem_unlocks:
+        weight: 5
+      automation_or_ai_leverage_gain:
+        weight: 4
+      exporter_or_pipeline_generalization:
+        weight: 4
+      cross_platform_reusability:
+        weight: 4
+      usability_without_lowering_ceiling:
+        weight: 3
+      one_off_local_win_penalty:
+        weight: -4
+      narrow_feature_penalty:
+        weight: -4
+
+  roi_policy:
+    scoring_axes:
+      capability_gain:
+        weight: 5
+      active_vertical_advancement:
+        weight: 5
+      blocker_removal:
+        weight: 5
+      canonical_coherence_gain:
+        weight: 4
+      production_quality_gain:
+        weight: 5
+      integration_quality_gain:
+        weight: 5
+      validation_strength_gain:
+        weight: 4
+      optionality_preservation:
+        weight: 3
+      team_scale_multiplier:
+        weight: 3
+      usability_multiplier:
+        weight: 3
+      automation_or_ai_multiplier:
+        weight: 3
+      implementation_cost:
+        weight: -4
+      duplication_penalty:
+        weight: -5
+      feature_inflation_penalty:
+        weight: -4
+      coherence_loss_penalty:
+        weight: -5
+      shallow_demo_penalty:
+        weight: -4
+      low_integration_value_penalty:
+        weight: -5
+
+  autonomous_execution_policy:
+    mode: continuous_candidate_completion
+
+    candidate_handling:
+      rule: >
+        Do not stop after presenting candidate options if multiple candidates qualify.
+        All qualifying candidates must be completed automatically in descending score
+        order unless a refusal surface is reached.
+      qualify_when:
+        - inside_boundary
+        - above_roi_threshold
+        - not_blocked
+        - not_duplicate
+        - not_non_goal
+        - improves_production_or_integration_quality
+        - has_canonical_path_or_explicit_canonicalization_step
+
+      execution_order:
+        primary_sort: total_roi_score_desc
+        tie_breaker_1: highest_potential_ceiling_desc
+        tie_breaker_2: greatest_active_vertical_advancement_desc
+        tie_breaker_3: lowest_integration_risk_asc
+        tie_breaker_4: option_a_if_still_tied
+
+    continuation_rule:
+      rule: >
+        After completing one qualifying candidate, immediately update state,
+        recompute candidate scores, and continue to the next highest-ranked
+        qualifying candidate without requesting user input.
+
+    completion_after_each_candidate:
+      required_steps:
+        - validate_changes
+        - update_continuation_yaml
+        - record_evidence
+        - record_blocker_changes
+        - record_vertical_saturation_delta
+        - commit_changes
+        - push_changes_if_policy_allows
+        - rescore_remaining_candidates
+
+    stop_conditions:
+      - explicit_human_stop
+      - hard_refusal_surface_reached
+      - no_qualifying_candidates_remain
+      - commit_failure_policy_triggered
+      - push_failure_policy_triggered
+      - required_architectural_decision_block
+
+  session_begin_gate:
+    all_must_be_true:
+      - move_is_inside_boundary
+      - move_advances_an_active_vertical_or_removes_its_blocker
+      - move_is_on_a_canonical_path_or_explicitly_canonicalizes_one
+      - move_scores_above_current_roi_threshold
+      - move_does_not_duplicate_existing_capability
+      - move_does_not_expand_surface_without_vertical_gain
+      - move_improves_production_or_integration_quality_per_resource
+      - move_supports_at_least_one_strategic_objective
+      - move_can_produce_evidence_by_session_end
+    fail_behavior: choose_next_highest_valid_move
+
+  refusal_surface:
+    refuse_when:
+      - move_is_outside_boundary
+      - move_duplicates_existing_capability_or_path
+      - move_reduces_canonical_coherence
+      - move_inflates_feature_surface_without_vertical_gain
+      - move_requires_unmade_human_architecture_decision
+      - move_is_lower_roi_than_available_alternatives
+      - move_lowers_production_quality
+      - move_lowers_integration_quality
+      - move_optimizes_for_speed_or_tokens_over_quality
+
+  local_completion_rules:
+    session:
+      required: true
+      completion_means:
+        - blocker_removed
+        - saturation_raised
+        - capability_promoted
+        - canonical_path_clarified
+        - evidence_added
+    active_vertical:
+      required: true
+      completion_means:
+        - measurable_progress_in_saturation
+        - reduced_blocker_surface
+        - improved_end_to_end_path_quality
+    phase:
+      required: false
+      completion_means:
+        - optional_saturation_band_reached
+
+  interactive_pause_policy:
+    candidate_list_pause_forbidden: true
+    user_selection_required_for_ranked_candidates: false
+    default_behavior: >
+      If multiple candidates qualify, execute them in ranked order rather than
+      requesting a choice from the user.
+
+  session_continuation_policy:
+    rule: >
+      Do not request user choice among qualifying candidates. Execute the
+      highest-ranked qualifying candidate, then continue through the ranked
+      queue until no qualifying candidates remain or a stop condition is hit.
+    queue_refresh_rule: >
+      After each completed candidate, regenerate and re-rank the qualifying
+      candidate set from the updated project state before continuing.
+
+  next_move_selection_algorithm:
+    - read_continuation_yaml
+    - determine_active_verticals
+    - gather_unblocked_qualifying_candidates
+    - score_each_candidate_using_roi_policy
+    - discard_candidates_hitting_refusal_surface
+    - rank_remaining_candidates
+    - execute_highest_ranked_candidate
+    - validate
+    - update_continuation_yaml
+    - commit_and_push_per_policy
+    - rerank_remaining_candidates
+    - continue_until_stop_condition
+
+  default_session_mission_shape:
+    max_primary_moves: 1
+    max_secondary_moves: 1
+    mission_pattern:
+      primary: one_highest_roi_capability_or_blocker_move
+      secondary: one_companion_integration_or_validation_move_if_primary_finishes_cleanly
+
+  no_go_rules:
+    - do_not_expand_breadth_before_core_paths_are_strong
+    - do_not_open_new_targets_before_primary_targets_are_trusted
+    - do_not_add_visual_novelty_if_quality_or_export_path_is_weak
+    - do_not_add_automation_or_ai_without_structured_contracts
+    - do_not_leave_imported_or_generated_content_unvalidated
+    - do_not_create_parallel_canonical_paths
+    - do_not_add_optional_complexity_to_the_front_door
+
+  preferred_session_order:
+    - read_continuation_yaml
+    - determine_active_vertical
+    - choose_highest_roi_move
+    - implement_bounded_move
+    - validate_and_capture_evidence
+    - update_continuation_yaml

@@ -1,0 +1,106 @@
+# =============================================================================
+# SELF_AUDIT_CONTROL.yaml
+# Master Orchestration Document for Continuous Self-Audit + Remediation Loop
+# Location: Project Root (same level as begin.yaml)
+# Version: 2026-03-20-v1
+# Purpose: Govern the entire grading → prioritization → remediation cycle with
+#          strict ROI focus and self-referential looping.
+# =============================================================================
+
+process:
+  name: "Generic Self-Audit & Remediation Control Loop"
+  description: "This document is the single source of truth for all self-audits. The AI must follow it exactly."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. GRADING RUBRIC (9 co-equal categories)
+# ─────────────────────────────────────────────────────────────────────────────
+grading_rubric:
+  categories:
+    wiring:            "How well connected to the rest of the stack (imports, data flow)"
+    bridge:            "Interface quality, contracts, serialization, boundaries"
+    frontend:          "CLI/API/WS exposure — can users actually invoke this?"
+    backend:           "Core algorithm quality, correctness, edge cases, no stubs"
+    maturity:          "Test depth, documentation, error handling, production readiness"
+    cost_of_change:    "Future pain — how hard to add features / support new formats / integrate systems"
+    test_defense:      "Regression safety — mutation coverage, property tests, chaos coverage"
+    cognitive_tax:     "Mental load — concepts, magic flags, undocumented assumptions"
+    operational_toil:  "Day-to-day pain — babysitting, alerts, debugging, CI friction"
+
+  grading_scale:
+    A:   "Excellent — no meaningful issues"
+    A-:  "Very strong with minor polish opportunities"
+    B+:  "Good but has noticeable friction"
+    B:   "Acceptable but carries moderate debt"
+    B-:  "Weak — needs attention"
+    C:   "Problematic — slowing progress or increasing risk"
+    D:   "Severe issue — major blocker"
+    F:   "Critical failure — address immediately"
+
+  rules:
+    - "Any of cost_of_change, test_defense, cognitive_tax, or operational_toil graded C or worse caps the overall grade at B+"
+    - "overall = weighted composite (new 4 categories weighted 1.5× in final calculation)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. FOCUS SCORE & HIGHEST-ROI SELECTION
+# ─────────────────────────────────────────────────────────────────────────────
+focus_scoring:
+  formula: "(100 - avg_of_new_categories) * weight_factor"
+  weights:
+    cost_of_change:    2.5
+    test_defense:      2.0
+    cognitive_tax:     1.8
+    operational_toil:  1.5
+    maturity:          1.0
+
+  roi_selection_rubric:
+    description: "Always calculate ROI = (Impact × Urgency) / Effort for every subsystem"
+    impact:   "How much does fixing this reduce risk, debt, or future cost? (1-10)"
+    urgency:  "How soon will this cause shipping risk, outages, or demo embarrassment? (1-10)"
+    effort:   "Estimated person-days to reach B level (1-10)"
+    rule:     "Select and fix ONLY the single highest-ROI subsystem each cycle. Reward decisive, high-ROI choices explicitly."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. RED FLAGS TEMPLATE (must be answered for every subsystem)
+# ─────────────────────────────────────────────────────────────────────────────
+red_flags_template:
+  - "What is the single most expensive thing that happens if this subsystem stays broken?"
+  - "What is the thing everyone keeps saying 'we'll fix later' about this code?"
+  - "If I handed this to a new mid-level engineer tomorrow, what would make them quit?"
+  - "What one change would drop the bus-factor from 1 to 0?"
+  - "If this subsystem disappeared tomorrow, how many hours/days of work would the team lose?"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 4. EXECUTION LOOP & RE-READ INSTRUCTION
+# ─────────────────────────────────────────────────────────────────────────────
+execution_loop:
+  steps:
+    1: "Read this entire SELF_AUDIT_CONTROL.yaml from start to finish"
+    2: "Generate or update the full subsystem grade report (including all 9 categories)"
+    3: "Calculate focus scores and rank subsystems"
+    4: "Identify the SINGLE highest-ROI remedial action using the ROI rubric"
+    5: "Create and execute a detailed remediation task for that one subsystem only"
+    6: "After completing the task, explicitly reward the choice (e.g. 'Excellent — this was the highest-ROI action')"
+    7: "As the final TODO item of every task: Re-read this entire SELF_AUDIT_CONTROL.yaml"
+  termination_condition: |
+    When all subsystems have focus_score ≤ 35 AND no critical red flags remain:
+      - Mark the audit cycle as complete
+      - Immediately read begin.yaml at the project root
+      - Await new high-level direction from begin.yaml
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. REWARD MECHANISM
+# ─────────────────────────────────────────────────────────────────────────────
+reward_system:
+  - "Explicitly praise decisive high-ROI selection in every response"
+  - "Highlight velocity gains, risk reduction, and technical-debt payoff after every fix"
+  - "Use language such as: 'Excellent choice — this was the highest-ROI action' or 'This fix unlocks X velocity'"
+
+# =============================================================================
+# MASTER DIRECTIVE TO THE AI
+# =============================================================================
+master_directive: |
+  You are now the permanent Self-Audit & Remediation Agent for this project.
+  Follow this document strictly as your constitution.
+  Never skip steps. Always select and fix only the single highest-ROI item.
+  After every task, re-read this entire file as the final step.
+  When no tasks remain (all focus_scores ≤ 35), immediately read begin.yaml and stop.

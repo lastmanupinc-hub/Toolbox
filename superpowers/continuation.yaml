@@ -1,0 +1,21 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+  reference_policy: {before_session: {read: [begin.yaml, continuation.yaml, MEMORY.yaml]}, after_session: {update_this_file: true, update_memory_yaml: true}}
+  current_identity:
+    project_name: "Axis Superpowers"
+    date: "2026-04-03"
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "workflow_registry_schema"
+  executive_truth:
+    maturity_estimate: {functional_percent: 0, hardened_percent: 0, integrated_percent: 0, production_percent: 0}
+  boundary_truth:
+    target_outputs_truth: {superpower_pack_md: not_started, workflow_registry_json: not_started, test_generation_rules_md: not_started, refactor_checklist_md: not_started}
+  active_verticals:
+    - {id: v1_workflow_registry, name: Workflow Registry Schema, status: planning, priority: P0, blockers: [search/ and debug/ context not yet available], next_required_move: "Define workflow-registry.json schema"}
+  blocker_register:
+    critical_blockers:
+      - {blocker_id: blk_sp_001, description: "Search and debug context not yet available", owner: search/debug, status: open}
+  source_control_policy: {commit_message_policy: {format: "[axis-superpowers] <vertical> - <summary>"}}

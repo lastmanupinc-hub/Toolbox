@@ -1,0 +1,26 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+  reference_policy: {before_session: {read: [begin.yaml, continuation.yaml, MEMORY.yaml]}, after_session: {update_this_file: true, update_memory_yaml: true}}
+  current_identity:
+    project_name: "Axis Artifacts"
+    date: "2026-04-03"
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "artifact_spec_schema"
+  executive_truth:
+    maturity_estimate: {functional_percent: 0, hardened_percent: 0, integrated_percent: 0, production_percent: 0}
+  boundary_truth:
+    target_outputs_truth: {generated_component_tsx: not_started, dashboard_widget_tsx: not_started, embed_snippet_ts: not_started, artifact_spec_md: not_started}
+  active_verticals:
+    - id: v1_artifact_spec
+      name: Artifact Spec Schema
+      status: planning
+      priority: P0
+      blockers: [search/ context map and theme/ design tokens not yet available]
+      next_required_move: "Define artifact-spec.md output schema"
+  blocker_register:
+    critical_blockers:
+      - {blocker_id: blk_art_001, description: "Search context and theme tokens not yet available", owner: search/theme, status: open}
+  source_control_policy: {commit_message_policy: {format: "[axis-artifacts] <vertical> - <summary>"}}

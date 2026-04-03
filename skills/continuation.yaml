@@ -1,0 +1,118 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+
+  reference_policy:
+    before_session:
+      read:
+        - begin.yaml
+        - continuation.yaml
+        - MEMORY.yaml
+    after_session:
+      update_this_file: true
+      update_memory_yaml: true
+
+  current_identity:
+    project_name: "Axis Skills"
+    date: "2026-04-03"
+    commit_or_tag: ""
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "governance_templates"
+
+  executive_truth:
+    maturity_estimate:
+      functional_percent: 0
+      hardened_percent: 0
+      integrated_percent: 0
+      production_percent: 0
+    confidence:
+      architecture_confidence: 0
+      runtime_confidence: 0
+      pipeline_confidence: 0
+      integration_confidence: 0
+      notes: "No implementation yet. Planning phase."
+
+  boundary_truth:
+    accepted_input_modes:
+      - repo_profile_from_search
+      - snapshot_data
+      - api_submission
+    canonical_dependency_truth:
+      search_repo_profile: required
+      search_context_map: required
+      framework_detection: required
+    target_outputs_truth:
+      agents_md: not_started
+      claude_md: not_started
+      cursor_md: not_started
+      cursorrules: not_started
+      ai_workflows: not_started
+      ai_policies: not_started
+
+  active_verticals:
+    - id: v1_governance_templates
+      name: Governance File Templates
+      status: planning
+      priority: P0
+      user_story: >
+        As a developer, I need AI governance files (AGENTS.md, CLAUDE.md, etc.)
+        generated from my project context so my AI tools work correctly.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - search/ repo profile not yet available
+      next_required_move: "Define AGENTS.md and CLAUDE.md output templates"
+
+    - id: v2_generation_engine
+      name: Governance Generation Engine
+      status: planning
+      priority: P1
+      user_story: >
+        As a developer, I need automated generation of governance files from
+        my repo snapshot.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - governance templates must be defined first
+      next_required_move: "Design generation pipeline"
+
+  subsystem_scorecards: []
+
+  blocker_register:
+    critical_blockers:
+      - blocker_id: blk_skills_001
+        description: "Search repo profile not yet available"
+        impact: "Cannot generate governance files without project context"
+        owner: search
+        unblock_strategy: "Wait for search/ repo profile schema"
+        status: open
+
+  execution_queue:
+    qualifying_candidates:
+      - id: eq_skills_001
+        description: "Define AGENTS.md and CLAUDE.md output templates"
+        active_vertical: v1_governance_templates
+        total_roi_score: 0
+        qualifies: true
+        blocked: true
+        execution_rank: 1
+        completion_status:
+          value: pending
+
+  source_control_policy:
+    commit_after_each_completed_candidate: true
+    push_after_each_successful_commit: true
+    commit_message_policy:
+      format: "[axis-skills] <vertical> - <summary>"

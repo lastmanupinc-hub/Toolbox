@@ -1,0 +1,695 @@
+qa_execution_protocol:
+  name: opus_manual_workflow_test_protocol
+  version: "1.0"
+  intent: >
+    Root-level execution and recording protocol for Claude Opus or similar agents
+    to run repeatable non-technical workflow tests against the product as it evolves.
+    This protocol is designed to validate usability, operational integrity, remediation
+    needs, strategic product gaps, and future opportunities to solve industry pain points
+    seen in leading platforms such as Adyen or Stripe.
+
+  operating_principles:
+    - Test like a careful non-technical operator, not like a developer.
+    - Prefer observable behavior over assumptions.
+    - Record what was actually seen, not what should have happened.
+    - Treat a partially working workflow as partial, not pass.
+    - Distinguish UI failure, backend failure, data inconsistency, and missing product behavior.
+    - Always capture evidence before proposing remediation.
+    - When a failure is found, propose both immediate remedial action and deeper product improvement.
+    - Map important failures to broader industry pain points where relevant.
+    - Do not mark a workflow complete if there is an obvious manual dependency, state loss risk, or broken continuity.
+    - Preserve a truthful history of test runs so trendlines can be seen over time.
+
+  execution_model:
+    agent_role: >
+      Claude Opus acts as a structured QA operator, exploratory tester, workflow auditor,
+      and product strategist.
+    default_mode: guided_manual_ui_validation
+    supported_modes:
+      - guided_manual_ui_validation
+      - exploratory_regression
+      - release_candidate_validation
+      - workflow_continuity_audit
+      - operator_experience_review
+      - no_manual_workflow_readiness_assessment
+
+  run_requirements:
+    required_inputs:
+      - app_base_url
+      - environment_name
+      - build_identifier
+      - tester_identity
+      - test_date
+    optional_inputs:
+      - buyer_checkout_url
+      - merchant_login
+      - operator_login
+      - mfa_test_code
+      - seed_data_reference
+      - known_payment_id
+      - known_account_id
+      - known_reconciliation_batch
+      - known_revenue_pilot_id
+    prerequisites:
+      - Application is reachable in browser.
+      - Test credentials are available if login is required.
+      - Environment state is known or explicitly noted as unknown.
+      - If a workflow depends on seeded records, those records must be provided or the workflow must be marked blocked.
+      - Screenshots can be captured.
+      - Browser console or visible error output can be inspected when necessary.
+
+  severity_model:
+    levels:
+      blocker:
+        description: >
+          Workflow cannot be completed, app is unusable, or core trust is broken.
+      critical:
+        description: >
+          Workflow completes incorrectly, creates inconsistent state, or misleads the user.
+      major:
+        description: >
+          Core workflow is possible but degraded enough to block confidence or repeat use.
+      moderate:
+        description: >
+          Non-core behavior is broken or confusing, but the workflow still mostly functions.
+      minor:
+        description: >
+          Cosmetic, wording, layout, or low-risk friction issue.
+      strategic_gap:
+        description: >
+          Workflow may pass technically, but the product is missing capability expected
+          for real market competitiveness or enterprise trust.
+
+  status_model:
+    allowed:
+      - pass
+      - partial
+      - fail
+      - blocked
+      - not_tested
+      - regression
+      - strategic_gap_only
+
+  scoring:
+    workflow_score:
+      min: 0
+      max: 10
+      guidance:
+        9_10: "Strong, trustworthy, and easy for a non-technical user to complete."
+        7_8: "Usable, but with friction or non-fatal weaknesses."
+        5_6: "Works inconsistently or requires confidence/guessing."
+        3_4: "Major problems or continuity gaps."
+        0_2: "Broken, unsafe, or not meaningfully usable."
+    trust_score:
+      min: 0
+      max: 10
+      guidance:
+        9_10: "Behavior is consistent, state is preserved, and outputs are believable."
+        7_8: "Mostly trustworthy with some caveats."
+        5_6: "Visible state inconsistencies or unclear truth."
+        0_4: "Trust is low due to broken continuity or confusing outcomes."
+    no_manual_workflow_readiness:
+      min: 0
+      max: 10
+      guidance:
+        9_10: "Workflow can plausibly run without human intervention."
+        7_8: "Mostly autonomous with limited exceptions."
+        5_6: "Strong control plane but still meaningful human touchpoints."
+        0_4: "Still depends materially on manual intervention."
+
+  required_evidence_per_workflow:
+    - starting_page_screenshot
+    - key_action_screenshot
+    - final_state_screenshot
+    - written_observation
+    - result_status
+    - if_failed_then_failure_evidence
+    - if_partial_then_gap_description
+    - if_success_then_confidence_notes
+
+  output_requirements:
+    run_summary:
+      required_fields:
+        - run_id
+        - test_date
+        - app_base_url
+        - environment_name
+        - build_identifier
+        - tester_identity
+        - overall_status
+        - overall_summary
+        - total_workflows
+        - passed
+        - partial
+        - failed
+        - blocked
+        - regressions_found
+        - top_remedial_actions
+        - top_strategic_recommendations
+        - top_industry_painpoint_opportunities
+    workflow_record:
+      required_fields:
+        - workflow_id
+        - workflow_name
+        - category
+        - starting_state
+        - exact_steps_taken
+        - test_inputs
+        - expected_result
+        - actual_result
+        - failure_signs_observed
+        - result_status
+        - severity
+        - workflow_score
+        - trust_score
+        - no_manual_workflow_readiness
+        - screenshots
+        - logs_or_visible_errors
+        - likely_root_cause
+        - remedial_action
+        - advanced_development_recommendation
+        - industry_painpoint_opportunity
+        - competitor_relevance
+        - retest_required
+        - owner_suggestion
+        - notes
+
+  competitor_relevance_model:
+    purpose: >
+      Force every important issue or opportunity to be considered not only as a bug,
+      but also as a market wedge against incumbent software.
+    allowed_values:
+      - none
+      - adyen_like_gap
+      - stripe_like_gap
+      - common_marketplace_gap
+      - common_vertical_saas_gap
+      - embedded_finance_gap
+      - platform_ops_gap
+    guidance:
+      adyen_like_gap: >
+        Use when the issue or opportunity relates to platform controls, payout operations,
+        onboarding, reconciliation, compliance surfaces, transfer instruments, reporting,
+        or operator workflow depth.
+      stripe_like_gap: >
+        Use when the issue or opportunity relates to developer ergonomics, account onboarding,
+        payment method vaulting, future-use flows, account sessions, embedded management,
+        or self-serve integrator experience.
+      platform_ops_gap: >
+        Use when the issue or opportunity reduces manual operational workflow across
+        payment intake, exception handling, settlement visibility, reconciliation, or audit.
+      embedded_finance_gap: >
+        Use when the issue or opportunity strengthens the software layer around payments,
+        payouts, accounts, or operator experiences used by platforms or vertical SaaS companies.
+
+  remedial_action_framework:
+    immediate_fix:
+      description: >
+        Smallest practical change to resolve the observed issue or make the workflow testable.
+      examples:
+        - fix broken route
+        - persist state currently lost on refresh
+        - add visible success/error feedback
+        - correct field validation
+        - repair redirect flow
+        - enable missing backend call
+    medium_term_fix:
+      description: >
+        Structural improvement to prevent recurrence or improve operator confidence.
+      examples:
+        - add database persistence
+        - add audit visibility
+        - improve retry behavior
+        - introduce deterministic state transitions
+        - add reconciliation visibility
+    long_term_product_improvement:
+      description: >
+        Strategic improvement that increases product value, trust, or differentiation.
+      examples:
+        - self-serve operator tools
+        - reports-as-product
+        - workflow automation
+        - exception management workbench
+        - onboarding remediation flow
+
+  advanced_development_recommendation_framework:
+    intent: >
+      Go beyond bug fixing and identify what should be built next if the observed issue
+      reveals a product or trust gap.
+    categories:
+      - persistence_hardening
+      - deployment_realism
+      - trust_surface_improvement
+      - operator_experience
+      - workflow_automation
+      - reporting_and_audit
+      - payouts_and_settlement
+      - compliance_and_screening
+      - tokenization_and_acceptance
+      - self_serve_platform_management
+      - platform_monetization
+    recommendation_format:
+      required_fields:
+        - category
+        - recommendation
+        - expected_impact
+        - estimated_effort
+        - roi_signal
+        - dependency_notes
+
+  industry_painpoint_opportunity_framework:
+    intent: >
+      Identify where a bug, missing feature, or observed friction could be turned into
+      a commercially valuable capability that leading software often underserves.
+    required_fields:
+      - painpoint_statement
+      - buyer_type
+      - current_manual_workaround
+      - proposed_product_capability
+      - why_incumbents_underserve_it
+      - potential_revenue_model
+      - strategic_fit
+    examples:
+      - painpoint_statement: >
+          Operators must manually reconcile payment, settlement, and audit state across multiple tools.
+        buyer_type: marketplace_or_vertical_saas_ops_team
+        current_manual_workaround: spreadsheets_plus_processor_dashboard_plus_internal_admin
+        proposed_product_capability: end_to_end_reconciliation_workbench
+        why_incumbents_underserve_it: >
+          Leading platforms often provide primitives and reports but not a unified operator control plane.
+        potential_revenue_model: platform_fee_or_enterprise_license
+        strategic_fit: high
+      - painpoint_statement: >
+          Platform teams lack a clean no-manual-workflow view of payout readiness and exception states.
+        buyer_type: payout_heavy_platform
+        current_manual_workaround: manual_review_queues_and_support_escalations
+        proposed_product_capability: payout_readiness_and_exception_orchestration_center
+        why_incumbents_underserve_it: >
+          Incumbents optimize for broad infrastructure, not workflow elimination in niche operating contexts.
+        potential_revenue_model: premium_ops_module
+        strategic_fit: high
+
+  execution_instructions_for_opus:
+    pre_run:
+      - Read this YAML fully before interacting with the app.
+      - Confirm available credentials and URLs.
+      - Record any missing prerequisites before starting.
+      - Do not assume hidden backend behavior; test only what can be observed.
+      - If a workflow cannot start because data is missing, mark it blocked rather than failed.
+    during_run:
+      - Move slowly and record each meaningful click and input.
+      - Take screenshots at start, key action, and final state.
+      - Refresh pages once after major state-changing actions where appropriate.
+      - If the same workflow fails twice in the same way, stop repeating and record the pattern.
+      - If the result differs from expected but still appears usable, mark partial rather than pass.
+      - Note whether the workflow appears to require manual intervention outside the app.
+      - Distinguish between broken workflow and missing market-competitive capability.
+    after_each_workflow:
+      - Assign a status.
+      - Assign severity if not pass.
+      - Write likely root cause as a hypothesis, not certainty.
+      - Add one immediate remedial action.
+      - Add one advanced development recommendation.
+      - Add one industry painpoint opportunity if the issue reveals a broader market gap.
+      - Identify whether the issue strengthens a wedge against Adyen-like or Stripe-like weaknesses.
+    end_of_run:
+      - Produce a summary table of all workflows.
+      - Identify top 3 blockers.
+      - Identify top 5 remedial actions.
+      - Identify top 5 advanced development recommendations.
+      - Identify top 5 industry painpoint opportunities.
+      - State whether the system is closer to:
+          - prototype
+          - pilot_ready
+          - managed_revenue_ready
+          - self_serve_ready
+          - enterprise_ready
+      - State whether the current product can honestly claim:
+          - reduced_manual_workflow
+          - near_no_manual_workflow
+          - no_manual_workflow
+      - Be strict and truthful.
+
+  core_workflows:
+    - workflow_id: WF-01
+      workflow_name: buyer_checkout
+      category: buyer_flow
+      starting_state: >
+        Tester has a valid checkout URL and is logged out of the system.
+      exact_steps:
+        - Open the checkout URL.
+        - Confirm amount, fees, and payment methods are visible.
+        - Select a payment method.
+        - Click confirm payment.
+        - Wait for final state.
+        - Refresh once.
+      test_inputs:
+        - payment_method
+        - if_available_use_card_and_one_alt_method
+      expected_result: >
+        Checkout loads, payment method can be selected, confirmation succeeds,
+        and final state persists after refresh.
+      failure_signs:
+        - blank_page
+        - endless_loading
+        - confirm_button_no_effect
+        - inconsistent_final_state
+        - payment_reverts_after_refresh
+
+    - workflow_id: WF-02
+      workflow_name: login_and_session_continuity
+      category: auth
+      starting_state: >
+        Tester has valid login credentials and is logged out.
+      exact_steps:
+        - Open login page.
+        - Enter credentials.
+        - Submit login.
+        - Navigate to dashboard.
+        - Refresh once.
+        - Navigate to another protected page.
+      test_inputs:
+        - username_or_api_key
+        - mfa_code_if_prompted
+      expected_result: >
+        Login succeeds, session remains active, protected pages load.
+      failure_signs:
+        - login_rejected_for_known_good_credentials
+        - redirect_loop
+        - protected_page_errors
+        - session_lost_on_refresh
+
+    - workflow_id: WF-03
+      workflow_name: dashboard_overview
+      category: operator_surface
+      starting_state: >
+        Tester is logged in as merchant or operator.
+      exact_steps:
+        - Open dashboard.
+        - Wait for cards and summaries to load.
+        - Refresh once.
+      test_inputs: []
+      expected_result: >
+        Core overview surfaces load and remain stable.
+      failure_signs:
+        - empty_cards
+        - broken_layout
+        - repeated_error_messages
+        - unstable_refresh_behavior
+
+    - workflow_id: WF-04
+      workflow_name: payment_history_and_detail_view
+      category: payment_ops
+      starting_state: >
+        At least one payment is expected to exist.
+      exact_steps:
+        - Open payment history.
+        - Use a search or filter if available.
+        - Open one payment detail view.
+      test_inputs:
+        - known_payment_reference_if_available
+      expected_result: >
+        Payments list appears, filter/search works, detail view opens with coherent data.
+      failure_signs:
+        - empty_list_when_records_should_exist
+        - filter_breaks_page
+        - detail_view_missing_or_blank
+        - data_inconsistency
+
+    - workflow_id: WF-05
+      workflow_name: create_payment_intent
+      category: payment_ops
+      starting_state: >
+        Tester is logged in and allowed to create a payment.
+      exact_steps:
+        - Open create payment page.
+        - Enter amount and currency.
+        - Enter idempotency key.
+        - Submit.
+        - Repeat once with same idempotency key.
+      test_inputs:
+        - amount
+        - currency
+        - idempotency_key
+      expected_result: >
+        First creation succeeds and duplicate creation is prevented or clearly handled.
+      failure_signs:
+        - create_action_no_effect
+        - duplicate_creation_without_warning
+        - record_not_visible_after_creation
+
+    - workflow_id: WF-06
+      workflow_name: accounts_management
+      category: platform_management
+      starting_state: >
+        Tester is logged in as operator or admin.
+      exact_steps:
+        - Open accounts page.
+        - Review list.
+        - Create an account if allowed.
+        - Open account detail.
+        - Change one safe setting if available.
+      test_inputs:
+        - test_account_name
+      expected_result: >
+        Accounts list loads, new account can be created, and settings save visibly.
+      failure_signs:
+        - account_list_missing
+        - save_without_effect
+        - detail_page_breakage
+        - unsafe_or_unclear_feedback
+
+    - workflow_id: WF-07
+      workflow_name: ledger_or_financial_events_trace
+      category: trust_and_audit
+      starting_state: >
+        A recent payment or action exists that should generate financial events.
+      exact_steps:
+        - Open events or ledger page.
+        - Search for recent reference.
+        - Open an event detail.
+      test_inputs:
+        - recent_reference
+      expected_result: >
+        Financial events can be found and traced with coherent metadata.
+      failure_signs:
+        - no_related_events
+        - broken_search
+        - integrity_warning_without_reason
+        - blank_detail_view
+
+    - workflow_id: WF-08
+      workflow_name: provider_health_review
+      category: operations
+      starting_state: >
+        Tester is logged in as operator.
+      exact_steps:
+        - Open provider health page.
+        - Inspect statuses.
+        - Refresh after a short wait.
+      test_inputs: []
+      expected_result: >
+        Provider health appears as a coherent status surface.
+      failure_signs:
+        - provider_cards_missing
+        - impossible_status_values
+        - refresh_instability
+
+    - workflow_id: WF-09
+      workflow_name: reconciliation_run
+      category: reconciliation
+      starting_state: >
+        Tester is logged in as operator and reconciliation UI is reachable.
+      exact_steps:
+        - Open reconciliation page.
+        - View summary.
+        - Trigger reconciliation run if available.
+        - Inspect mismatches or reports.
+      test_inputs: []
+      expected_result: >
+        Reconciliation action completes or returns a clear result state.
+      failure_signs:
+        - run_action_no_effect
+        - endless_loading
+        - summary_never_updates
+        - mismatch_handling_missing
+
+    - workflow_id: WF-10
+      workflow_name: revenue_or_pilot_management
+      category: monetization
+      starting_state: >
+        Tester is logged in and revenue surfaces are enabled.
+      exact_steps:
+        - Open revenue page.
+        - Inspect tabs or stages.
+        - Create a simple quote if possible.
+        - Progress to next stage if allowed.
+      test_inputs:
+        - sample_quote_inputs
+      expected_result: >
+        Revenue workflow surfaces are navigable and actions return visible outcomes.
+      failure_signs:
+        - page_unavailable
+        - tab_breakage
+        - silent_failures
+        - inconsistent_stage_progression
+
+    - workflow_id: WF-11
+      workflow_name: metrics_and_system_observability
+      category: observability
+      starting_state: >
+        Tester is logged in as operator or admin.
+      exact_steps:
+        - Open metrics page.
+        - Wait for auto-refresh if present.
+      test_inputs: []
+      expected_result: >
+        Metrics are visible and refresh cleanly.
+      failure_signs:
+        - blank_metrics
+        - repeated_polling_errors
+        - raw_unusable_output
+
+    - workflow_id: WF-12
+      workflow_name: audit_trail_verification
+      category: trust_and_audit
+      starting_state: >
+        Recent actions have been taken during the test run.
+      exact_steps:
+        - Open audit page.
+        - Search for recent actions.
+        - Trigger verify action if available.
+      test_inputs:
+        - recent_action_reference
+      expected_result: >
+        Audit records are visible, searchable, and coherent.
+      failure_signs:
+        - missing_recent_actions
+        - broken_verify_flow
+        - inconsistent_action_recording
+
+    - workflow_id: WF-13
+      workflow_name: end_to_end_continuity
+      category: flagship_journey
+      starting_state: >
+        Buyer checkout URL and operator access are both available.
+      exact_steps:
+        - Complete buyer checkout.
+        - Find payment in history.
+        - Trace related ledger or event records.
+        - Review reconciliation.
+        - Review audit trail.
+      test_inputs:
+        - checkout_session
+        - recent_payment_reference
+      expected_result: >
+        One coherent end-to-end story exists across all relevant surfaces.
+      failure_signs:
+        - successful_checkout_missing_from_history
+        - history_without_ledger_trace
+        - reconciliation_cannot_find_payment
+        - audit_gap
+        - cross_surface_data_conflict
+
+  report_templates:
+    run_summary_template:
+      run_id: ""
+      test_date: ""
+      app_base_url: ""
+      environment_name: ""
+      build_identifier: ""
+      tester_identity: ""
+      overall_status: ""
+      overall_summary: ""
+      total_workflows: 0
+      passed: 0
+      partial: 0
+      failed: 0
+      blocked: 0
+      regressions_found: 0
+      system_maturity_assessment:
+        current_stage: ""
+        reduced_manual_workflow_claim: false
+        near_no_manual_workflow_claim: false
+        no_manual_workflow_claim: false
+      top_remedial_actions: []
+      top_advanced_development_recommendations: []
+      top_industry_painpoint_opportunities: []
+      notes: ""
+
+    workflow_result_template:
+      workflow_id: ""
+      workflow_name: ""
+      category: ""
+      starting_state: ""
+      exact_steps_taken: []
+      test_inputs: {}
+      expected_result: ""
+      actual_result: ""
+      failure_signs_observed: []
+      result_status: ""
+      severity: ""
+      workflow_score: 0
+      trust_score: 0
+      no_manual_workflow_readiness: 0
+      screenshots: []
+      logs_or_visible_errors: []
+      likely_root_cause: ""
+      remedial_action:
+        immediate_fix: ""
+        medium_term_fix: ""
+        long_term_product_improvement: ""
+      advanced_development_recommendation:
+        category: ""
+        recommendation: ""
+        expected_impact: ""
+        estimated_effort: ""
+        roi_signal: ""
+        dependency_notes: ""
+      industry_painpoint_opportunity:
+        painpoint_statement: ""
+        buyer_type: ""
+        current_manual_workaround: ""
+        proposed_product_capability: ""
+        why_incumbents_underserve_it: ""
+        potential_revenue_model: ""
+        strategic_fit: ""
+      competitor_relevance: ""
+      retest_required: false
+      owner_suggestion: ""
+      notes: ""
+
+  decision_rules:
+    mark_pass_only_if:
+      - core_action_completes
+      - result_is_visible
+      - state_is_consistent_after_navigation_or_refresh
+      - no_major_confusion_for_nontechnical_user
+    mark_partial_if:
+      - workflow_can_finish_but_with_significant_confusion
+      - workflow_depends_on_unclear_behavior
+      - data_appears_but_is_incomplete_or_inconsistent
+      - visible_manual_dependency_exists
+    mark_fail_if:
+      - core_action_cannot_complete
+      - page_crashes_or_stalls
+      - cross_surface_truth_is_broken
+      - success_message_appears_without_real_outcome
+    mark_strategic_gap_only_if:
+      - workflow_basically_works
+      - but_missing_capability_blocks_market_competitiveness
+      - or_incumbent_gap_opportunity_is_obvious
+
+  maintenance_rules:
+    - Update this file when new core workflows are introduced.
+    - Add new workflow IDs instead of renumbering old ones.
+    - Preserve historical output shape so old runs remain comparable.
+    - Do not remove fields just because they are temporarily unused.
+    - If a workflow becomes fully obsolete, mark deprecated instead of deleting immediately.
+
+  recommended_filename: OPUS_QA_PROTOCOL.yaml
+  recommended_root_usage:
+    - Keep this file at the repository root.
+    - Invoke it before major UI or backend milestone reviews.
+    - Re-run after major auth, payment, settlement, reconciliation, reporting, or platform-management changes.
+    - Use the same workflow IDs across releases to compare maturity over time.

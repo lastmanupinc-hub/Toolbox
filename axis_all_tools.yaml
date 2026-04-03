@@ -1,0 +1,839 @@
+spec_version: 1.0.0
+
+axis:
+  name: Axis
+  role: umbrella_platform
+  definition: >
+    Axis is the umbrella platform for everything we build: a multi-program,
+    AI-native development system that turns project snapshots into diagnostics,
+    governed outputs, and build-integrated tooling.
+  positioning:
+    short: The operating system for AI-native development
+    extended: >
+      Axis provides shared identity, snapshot intake, project context,
+      command-query-event APIs, and a unified design system across many
+      separately billable programs.
+  commercial_model:
+    shared_platform: true
+    separate_program_billing: true
+    suite_access_available: true
+    continuity_across_programs: true
+
+brand_system:
+  naming:
+    umbrella: Axis
+    convention: "Axis <Program>"
+    principles:
+      - short
+      - technical
+      - consistent
+      - operator_first
+  visual_direction:
+    basis_file: averionics_theme_bridge.yaml
+    themes:
+      - midnight_command
+      - precision_white
+    characteristics:
+      - control_room_clarity
+      - premium_restraint
+      - modular_surfaces
+      - disciplined_cyan_orange_signaling
+      - magnetic_docking
+      - motion_guided_onboarding
+
+freemium_policy:
+  free:
+    - limited_snapshot_runs
+    - limited_project_size
+    - preview_outputs
+    - partial_exports
+    - 1_active_project
+  paid:
+    - full_exports
+    - api_access
+    - ci_integration
+    - saved_history
+    - automation
+    - larger_projects
+    - team_features_optional
+  doctrine:
+    - free_gives_diagnosis
+    - paid_gives_execution
+    - every_program_is_purchasable_individually
+    - suite_bundle_is_optional_not_required
+
+program_catalog:
+  programs:
+    - slug: search
+      name: Axis Search
+      category: repo_intelligence
+      promise: Understand the repo faster
+      description: Search and map codebases, docs, prompts, and architecture context from a project snapshot.
+      acquisition_role: broad_repo_surface_area
+      free:
+        - limited_snapshot_runs
+        - basic_repo_map
+        - preview_results
+      paid:
+        - full_repo_index
+        - saved_indexes
+        - cross_project_search
+        - export_context_map
+        - api_access
+      meters:
+        - indexed_files
+        - search_queries
+        - active_projects
+      outputs:
+        - .ai/context-map.json
+        - .ai/repo-profile.yaml
+        - architecture-summary.md
+        - dependency-hotspots.md
+      endpoints:
+        - POST /v1/search/analyze
+        - POST /v1/search/export
+
+    - slug: debug
+      name: Axis Debug
+      category: repo_intelligence
+      promise: Find root cause faster
+      description: Turn code, logs, traces, and project context into repeatable debugging reports and playbooks.
+      acquisition_role: high_value_engineering_outcome
+      free:
+        - limited_debug_runs
+        - issue_preview
+        - basic_playbook_preview
+      paid:
+        - full_debug_reports
+        - saved_incidents
+        - root_cause_playbooks
+        - trace_evaluations
+        - api_access
+      meters:
+        - debug_runs
+        - incident_analyses
+        - trace_evaluations
+      outputs:
+        - .ai/debug-playbook.md
+        - incident-template.md
+        - tracing-rules.md
+        - root-cause-checklist.md
+      endpoints:
+        - POST /v1/debug/analyze
+        - POST /v1/debug/generate
+
+    - slug: skills
+      name: Axis Skills
+      category: governance
+      promise: Generate project-specific AI governance files
+      description: Generate root-level guidance, workflows, and AI control files tailored to the project.
+      acquisition_role: governance_anchor
+      free:
+        - limited_file_previews
+        - basic_skill_generation
+      paid:
+        - full_file_exports
+        - versioned_governance
+        - workflow_library
+        - reusable_templates
+        - api_access
+      meters:
+        - generated_files
+        - governance_runs
+        - workflow_generations
+      outputs:
+        - AGENTS.md
+        - CLAUDE.md
+        - CURSOR.md
+        - .cursorrules
+        - .ai/workflows/
+        - .ai/policies/
+      endpoints:
+        - POST /v1/skills/generate
+        - POST /v1/skills/export
+
+    - slug: frontend
+      name: Axis Frontend
+      category: engineering_delivery
+      promise: Make UI work match the project's actual standards
+      description: Audit frontend structure and produce component, layout, and interface rules aligned to the repo.
+      acquisition_role: design_dev_alignment
+      free:
+        - limited_ui_audits
+        - preview_guidelines
+      paid:
+        - full_ui_audits
+        - component_guidelines
+        - screen_generation
+        - design_specs
+        - api_access
+      meters:
+        - ui_audits
+        - component_reviews
+        - generated_specs
+      outputs:
+        - .ai/frontend-rules.md
+        - component-guidelines.md
+        - layout-patterns.md
+        - ui-audit.md
+      endpoints:
+        - POST /v1/frontend/audit
+        - POST /v1/frontend/generate
+
+    - slug: seo
+      name: Axis SEO
+      category: growth_and_content
+      promise: Improve discoverability from inside the codebase
+      description: Analyze routes, content structure, schema, and technical SEO directly from the project.
+      acquisition_role: growth_entry_point
+      free:
+        - single_route_audit
+        - preview_recommendations
+      paid:
+        - full_site_analysis
+        - route_priority_maps
+        - schema_recommendations
+        - competitor_exports_optional
+        - api_access
+      meters:
+        - route_analyses
+        - page_audits
+        - crawl_runs
+      outputs:
+        - .ai/seo-rules.md
+        - schema-recommendations.json
+        - route-priority-map.md
+        - content-audit.md
+      endpoints:
+        - POST /v1/seo/analyze
+        - POST /v1/seo/generate
+
+    - slug: optimization
+      name: Axis Optimization
+      category: repo_intelligence
+      promise: Reduce waste and improve prompt and context efficiency
+      description: Analyze prompts, context packing, and model workflows for cost, clarity, and output quality.
+      acquisition_role: efficiency_entry_point
+      free:
+        - single_analysis
+        - optimization_score_preview
+      paid:
+        - batch_optimization
+        - before_after_comparisons
+        - cost_reports
+        - organization_rules
+        - api_access
+      meters:
+        - optimization_runs
+        - compared_prompts
+        - batch_jobs
+      outputs:
+        - .ai/optimization-rules.md
+        - prompt-diff-report.md
+        - cost-estimate.json
+      endpoints:
+        - POST /v1/optimization/analyze
+        - POST /v1/optimization/generate
+
+    - slug: artifacts
+      name: Axis Artifacts
+      category: engineering_delivery
+      promise: Generate drop-in web artifacts for the active project
+      description: Create dashboards, widgets, calculators, and mini-apps that match the project stack and style.
+      acquisition_role: fast_output_generator
+      free:
+        - preview_artifacts
+        - limited_generations
+      paid:
+        - export_code
+        - save_templates
+        - deploy_support
+        - embed_outputs
+        - api_access
+      meters:
+        - generated_artifacts
+        - exports
+        - template_runs
+      outputs:
+        - generated-component.tsx
+        - dashboard-widget.tsx
+        - embed-snippet.ts
+        - artifact-spec.md
+      endpoints:
+        - POST /v1/artifacts/generate
+        - POST /v1/artifacts/export
+
+    - slug: theme
+      name: Axis Theme
+      category: design_system
+      promise: Generate project-consistent themes and token systems
+      description: Produce design tokens, theme packs, and implementation rules from existing brand and UI signals.
+      acquisition_role: visual_consistency
+      free:
+        - basic_palette_generation
+        - preview_tokens
+      paid:
+        - full_token_systems
+        - export_theme_files
+        - multiple_theme_variants
+        - brand_sync
+        - api_access
+      meters:
+        - theme_generations
+        - token_exports
+        - variant_runs
+      outputs:
+        - .ai/design-tokens.json
+        - theme.css
+        - theme-guidelines.md
+        - component-theme-map.json
+      endpoints:
+        - POST /v1/theme/generate
+        - POST /v1/theme/export
+
+    - slug: brand
+      name: Axis Brand
+      category: growth_and_content
+      promise: Turn brand intent into enforceable AI content rules
+      description: Structure tone, voice, and content constraints into reusable system files and prompt-ready guidance.
+      acquisition_role: content_consistency
+      free:
+        - one_brand_profile
+        - tone_preview
+      paid:
+        - multiple_brand_kits
+        - channel_specific_rules
+        - team_sharing
+        - export_packs
+        - api_access
+      meters:
+        - brand_profiles
+        - generated_guidelines
+        - channel_rulesets
+      outputs:
+        - brand-guidelines.md
+        - voice-and-tone.md
+        - content-constraints.md
+        - messaging-system.yaml
+      endpoints:
+        - POST /v1/brand/generate
+        - POST /v1/brand/export
+
+    - slug: marketing
+      name: Axis Marketing
+      category: growth_and_content
+      promise: Build reusable growth systems from one project context
+      description: Generate campaigns, copy systems, funnel logic, and growth playbooks tied to the product.
+      acquisition_role: growth_expansion
+      free:
+        - limited_templates
+        - one_campaign_preview
+      paid:
+        - campaign_workspaces
+        - sequence_exports
+        - funnel_maps
+        - team_templates
+        - api_access
+      meters:
+        - campaign_generations
+        - export_sequences
+        - playbook_runs
+      outputs:
+        - campaign-brief.md
+        - funnel-map.md
+        - sequence-pack/
+        - cro-playbook.md
+      endpoints:
+        - POST /v1/marketing/generate
+        - POST /v1/marketing/export
+
+    - slug: mcp
+      name: Axis MCP
+      category: engineering_delivery
+      promise: Connect tools and services through a hosted protocol layer
+      description: Provide private, hosted MCP endpoints and capability orchestration for build workflows.
+      acquisition_role: integration_moat
+      free:
+        - sandbox_server
+        - limited_connections
+      paid:
+        - hosted_private_endpoints
+        - persistent_configs
+        - auth_management
+        - usage_logs
+        - webhooks
+      meters:
+        - active_connectors
+        - endpoint_calls
+        - hosted_servers
+      outputs:
+        - mcp-config.json
+        - connector-map.yaml
+        - capability-registry.json
+      endpoints:
+        - POST /v1/mcp/provision
+        - POST /v1/mcp/configure
+        - GET /v1/mcp/registry
+
+    - slug: notebook
+      name: Axis Notebook
+      category: knowledge_and_context
+      promise: Turn source materials into structured research artifacts
+      description: Build project-specific notebooks, summaries, and source-linked outputs from uploaded materials.
+      acquisition_role: research_and_context
+      free:
+        - limited_uploads
+        - summary_preview
+      paid:
+        - larger_collections
+        - saved_notebooks
+        - export_artifacts
+        - workflow_generation
+        - api_access
+      meters:
+        - uploaded_sources
+        - notebook_generations
+        - exports
+      outputs:
+        - notebook-summary.md
+        - source-map.json
+        - study-brief.md
+        - research-threads/
+      endpoints:
+        - POST /v1/notebook/generate
+        - POST /v1/notebook/export
+
+    - slug: obsidian
+      name: Axis Obsidian
+      category: knowledge_and_context
+      promise: Bring structured AI workflows into vault-based knowledge systems
+      description: Generate vault-aware workflows, linking rules, and knowledge graph helpers for Obsidian users.
+      acquisition_role: pkm_specialization
+      free:
+        - basic_vault_helpers
+        - limited_skill_packs
+      paid:
+        - advanced_vault_analysis
+        - graph_workflows
+        - premium_skill_packs
+        - export_import_tools
+        - api_access
+      meters:
+        - vault_analyses
+        - graph_runs
+        - pack_exports
+      outputs:
+        - obsidian-skill-pack/
+        - vault-rules.md
+        - graph-prompt-map.json
+        - linking-policy.md
+      endpoints:
+        - POST /v1/obsidian/analyze
+        - POST /v1/obsidian/generate
+
+    - slug: superpowers
+      name: Axis Superpowers
+      category: engineering_delivery
+      promise: Give builders reusable high-leverage development workflows
+      description: Package debugging, planning, testing, and refactoring actions into repeatable, project-aware tools.
+      acquisition_role: sticky_daily_utility
+      free:
+        - utility_level_functions
+        - limited_runs
+      paid:
+        - project_workflows
+        - pipeline_automation
+        - team_playbooks
+        - reusable_actions
+        - api_access
+      meters:
+        - workflow_runs
+        - generated_playbooks
+        - pipeline_jobs
+      outputs:
+        - superpower-pack.md
+        - workflow-registry.json
+        - test-generation-rules.md
+        - refactor-checklist.md
+      endpoints:
+        - POST /v1/superpowers/generate
+        - POST /v1/superpowers/export
+
+    - slug: remotion
+      name: Axis Remotion
+      category: creative_generation
+      promise: Turn structured inputs into automated video workflows
+      description: Generate scripts, scenes, and render-ready plans for video output tied to product or brand context.
+      acquisition_role: media_expansion
+      free:
+        - short_script_generation
+        - scene_preview
+      paid:
+        - rendering_workflows
+        - reusable_templates
+        - batch_generation
+        - branded_exports
+        - api_access
+      meters:
+        - script_generations
+        - render_jobs
+        - template_runs
+      outputs:
+        - remotion-script.ts
+        - scene-plan.md
+        - render-config.json
+        - asset-checklist.md
+      endpoints:
+        - POST /v1/remotion/generate
+        - POST /v1/remotion/export
+
+    - slug: canvas
+      name: Axis Canvas
+      category: creative_generation
+      promise: Generate structured design assets in the Axis visual language
+      description: Create posters, social assets, panels, and visual surfaces aligned to the system theme.
+      acquisition_role: creative_surface_area
+      free:
+        - watermarked_exports
+        - limited_templates
+      paid:
+        - clean_exports
+        - brand_kits
+        - batch_generation
+        - reusable_templates
+        - api_access
+      meters:
+        - canvas_generations
+        - asset_exports
+        - batch_jobs
+      outputs:
+        - canvas-spec.json
+        - social-pack/
+        - poster-layouts/
+        - asset-guidelines.md
+      endpoints:
+        - POST /v1/canvas/generate
+        - POST /v1/canvas/export
+
+    - slug: algorithmic
+      name: Axis Algorithmic
+      category: creative_generation
+      promise: Create generative visual systems and exportable art logic
+      description: Produce algorithmic visuals, parameter systems, and code artifacts for creative technical output.
+      acquisition_role: experimental_surface_area
+      free:
+        - preview_generations
+        - limited_parameter_runs
+      paid:
+        - hd_exports
+        - downloadable_code
+        - collections
+        - reusable_parameter_sets
+        - api_access
+      meters:
+        - generation_runs
+        - hd_exports
+        - code_downloads
+      outputs:
+        - generative-sketch.ts
+        - parameter-pack.json
+        - collection-map.md
+        - export-manifest.yaml
+      endpoints:
+        - POST /v1/algorithmic/generate
+        - POST /v1/algorithmic/export
+
+shared_platform:
+  shared_across_all_programs:
+    - auth
+    - organizations
+    - workspaces
+    - projects
+    - snapshot_ingestion
+    - framework_detection
+    - repo_parser
+    - context_graph
+    - feature_registry
+    - command_query_event_bridge
+    - usage_tracking
+    - billing
+    - export_engine
+    - audit_history
+    - api_keys
+    - notifications
+    - design_system
+    - layout_docking
+    - telemetry
+
+snapshot_protocol:
+  name: axis_snapshot_protocol
+  purpose: >
+    Convert arbitrary repositories into structured, queryable, AI-usable
+    project context that every Axis program can consume.
+  accepted_inputs:
+    - repo_snapshot_upload
+    - github_repo_url
+    - manual_file_upload
+    - api_submission
+    - cli_submission
+  recommended_v1:
+    - repo_snapshot_upload
+    - github_repo_url
+    - api_submission
+  captures:
+    - repo_tree
+    - package_manifests
+    - lockfiles
+    - config_files
+    - selected_source_files
+    - readme
+    - architecture_docs
+    - test_samples
+    - routes_map
+    - dependency_map
+    - framework_detection
+    - user_objectives
+    - preferred_ai_tools
+    - requested_outputs
+  manifest_schema:
+    required:
+      - project_name
+      - project_type
+      - frameworks
+      - goals
+      - requested_outputs
+    example:
+      project_name: acme-dashboard
+      project_type: saas_web_app
+      frameworks:
+        - nextjs
+        - typescript
+        - tailwind
+      goals:
+        - improve_ai_coding_accuracy
+        - standardize_debugging
+      requested_outputs:
+        - AGENTS.md
+        - CLAUDE.md
+        - .cursorrules
+        - .ai/frontend-rules.md
+
+root_output_contract:
+  root_files:
+    - AGENTS.md
+    - CLAUDE.md
+    - CURSOR.md
+    - .cursorrules
+  ai_directory:
+    - .ai/project-profile.yaml
+    - .ai/context-map.json
+    - .ai/debug-playbook.md
+    - .ai/frontend-rules.md
+    - .ai/seo-rules.md
+    - .ai/design-tokens.json
+    - .ai/workflows/
+    - .ai/policies/
+  ownership:
+    search:
+      - .ai/context-map.json
+      - .ai/repo-profile.yaml
+      - architecture-summary.md
+    debug:
+      - .ai/debug-playbook.md
+      - tracing-rules.md
+      - incident-template.md
+    skills:
+      - AGENTS.md
+      - CLAUDE.md
+      - CURSOR.md
+      - .cursorrules
+      - .ai/workflows/
+      - .ai/policies/
+    frontend:
+      - .ai/frontend-rules.md
+      - component-guidelines.md
+      - layout-patterns.md
+    seo:
+      - .ai/seo-rules.md
+      - schema-recommendations.json
+      - route-priority-map.md
+    optimization:
+      - .ai/optimization-rules.md
+      - prompt-diff-report.md
+    artifacts:
+      - generated-component.tsx
+      - dashboard-widget.tsx
+    theme:
+      - .ai/design-tokens.json
+      - theme.css
+    brand:
+      - brand-guidelines.md
+      - voice-and-tone.md
+    marketing:
+      - campaign-brief.md
+      - funnel-map.md
+    mcp:
+      - mcp-config.json
+      - connector-map.yaml
+    notebook:
+      - notebook-summary.md
+      - source-map.json
+    obsidian:
+      - obsidian-skill-pack/
+      - vault-rules.md
+    superpowers:
+      - superpower-pack.md
+      - workflow-registry.json
+    remotion:
+      - remotion-script.ts
+      - render-config.json
+    canvas:
+      - canvas-spec.json
+      - social-pack/
+    algorithmic:
+      - generative-sketch.ts
+      - parameter-pack.json
+
+api_architecture:
+  pattern: command_query_event
+  gateway: unified
+  auth: shared_api_keys
+  metering: per_program
+  endpoints:
+    common:
+      - method: POST
+        path: /v1/snapshots
+        purpose: Create snapshot
+      - method: GET
+        path: /v1/projects/:project_id/context
+        purpose: Retrieve shared project context
+      - method: GET
+        path: /v1/projects/:project_id/generated-files
+        purpose: List outputs
+    bridge:
+      - method: POST
+        path: /v1/bridge/commands
+        purpose: Submit commands
+      - method: POST
+        path: /v1/bridge/queries
+        purpose: Run queries
+      - method: GET
+        path: /v1/bridge/registry
+        purpose: Sync feature registry
+      - method: WS
+        path: /v1/bridge/events
+        purpose: Subscribe to events
+  request_shape:
+    required:
+      - project_id
+      - snapshot_id
+      - program
+      - objective
+      - output_format
+  response_shape:
+    returns:
+      - analysis_summary
+      - detected_context
+      - recommendations
+      - generated_files
+      - warnings
+      - confidence_score
+
+billing_model:
+  default:
+    free:
+      - limited_runs
+      - preview_outputs
+      - 1_active_project
+    paid_program:
+      type: monthly_subscription
+      includes:
+        - full_exports
+        - api_access
+        - saved_history
+        - automation
+        - larger_projects
+    suite_bundle:
+      available: true
+      includes:
+        - all_core_programs
+        - cross_program_workflows
+        - consolidated_usage
+  rules:
+    - each_program_has_its_own_sku
+    - programs_bill_separately
+    - bundle_access_does_not_remove_individual_program_skus
+    - usage_is_metered_per_program
+
+monorepo:
+  apps:
+    - web
+    - api
+    - worker
+    - docs
+    - cli
+  packages:
+    - design-system
+    - auth
+    - billing
+    - snapshots
+    - repo-parser
+    - context-engine
+    - feature-registry
+    - bridge-client
+    - generator-core
+    - export-engine
+    - telemetry
+    - program-search
+    - program-debug
+    - program-skills
+    - program-frontend
+    - program-seo
+    - program-optimization
+    - program-artifacts
+    - program-theme
+    - program-brand
+    - program-marketing
+    - program-mcp
+    - program-notebook
+    - program-obsidian
+    - program-superpowers
+    - program-remotion
+    - program-canvas
+    - program-algorithmic
+
+recommended_launch_order:
+  wave_1:
+    - Axis Search
+    - Axis Debug
+    - Axis Skills
+    - Axis Frontend
+    - Axis SEO
+  wave_2:
+    - Axis Optimization
+    - Axis Artifacts
+    - Axis Theme
+    - Axis Brand
+    - Axis Notebook
+  wave_3:
+    - Axis Marketing
+    - Axis MCP
+    - Axis Obsidian
+    - Axis Superpowers
+    - Axis Remotion
+    - Axis Canvas
+    - Axis Algorithmic
+
+v1_vertical_slice:
+  goal: Prove the Axis loop end to end
+  flow:
+    - upload_repo_snapshot
+    - run_axis_search
+    - generate_repo_map
+    - export_.ai/context-map.json
+    - upsell_into_axis_skills
+
+source_note:
+  theme_basis: >
+    The visual and bridge architecture should align with the uploaded
+    averionics_theme_bridge.yaml spec.

@@ -1,0 +1,116 @@
+project_continuation:
+  version: v1
+  role: live_state_ledger_and_post_session_truth
+
+  reference_policy:
+    before_session:
+      read:
+        - begin.yaml
+        - continuation.yaml
+        - MEMORY.yaml
+    after_session:
+      update_this_file: true
+      update_memory_yaml: true
+
+  current_identity:
+    project_name: "Axis Debug"
+    date: "2026-04-03"
+    commit_or_tag: ""
+    current_session_id: "init"
+    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
+    current_status: "planning"
+    current_focus_vertical: "debug_playbook_schema"
+
+  executive_truth:
+    maturity_estimate:
+      functional_percent: 0
+      hardened_percent: 0
+      integrated_percent: 0
+      production_percent: 0
+    confidence:
+      architecture_confidence: 0
+      runtime_confidence: 0
+      pipeline_confidence: 0
+      integration_confidence: 0
+      notes: "No implementation yet. Planning phase."
+
+  boundary_truth:
+    accepted_input_modes:
+      - project_context_from_search
+      - snapshot_data
+      - api_submission
+    canonical_dependency_truth:
+      search_context_graph: required
+      framework_detection: required
+      repo_parser: required
+    target_outputs_truth:
+      debug_playbook_md: not_started
+      incident_template_md: not_started
+      tracing_rules_md: not_started
+      root_cause_checklist_md: not_started
+
+  active_verticals:
+    - id: v1_playbook_schema
+      name: Debug Playbook Schema
+      status: planning
+      priority: P0
+      user_story: >
+        As a developer, I need structured debug playbooks so I can
+        systematically approach root cause analysis.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - search/ context graph not yet available
+      next_required_move: "Define debug-playbook.md output schema"
+
+    - id: v2_analysis_engine
+      name: Analysis Engine
+      status: planning
+      priority: P1
+      user_story: >
+        As a developer, I need automated analysis of my codebase issues
+        to identify root causes faster.
+      saturation:
+        foundation: 0
+        runtime: 0
+        editor: 0
+        export: 0
+        polish: 0
+      evidence: []
+      blockers:
+        - playbook schema must be defined first
+      next_required_move: "Design analysis pipeline architecture"
+
+  subsystem_scorecards: []
+
+  blocker_register:
+    critical_blockers:
+      - blocker_id: blk_debug_001
+        description: "Search context graph not yet available"
+        impact: "Cannot perform meaningful debug analysis without repo context"
+        owner: search
+        unblock_strategy: "Wait for search/ context graph schema definition"
+        status: open
+
+  execution_queue:
+    qualifying_candidates:
+      - id: eq_debug_001
+        description: "Define debug-playbook.md output schema"
+        active_vertical: v1_playbook_schema
+        total_roi_score: 0
+        qualifies: true
+        blocked: true
+        execution_rank: 1
+        completion_status:
+          value: pending
+
+  source_control_policy:
+    commit_after_each_completed_candidate: true
+    push_after_each_successful_commit: true
+    commit_message_policy:
+      format: "[axis-debug] <vertical> - <summary>"
