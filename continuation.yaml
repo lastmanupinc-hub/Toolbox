@@ -14,26 +14,26 @@ project_continuation:
 
   current_identity:
     project_name: "Axis Toolbox"
-    date: "2025-07-16"
-    commit_or_tag: "df830fb"
-    current_session_id: "session_001"
-    one_sentence_summary: "Snapshot protocol defined, context-map.json and repo-profile.yaml schemas created in search/schemas/."
-    current_status: "planning"
+    date: "2025-07-17"
+    commit_or_tag: "291cba2"
+    current_session_id: "session_002"
+    one_sentence_summary: "v1 vertical slice running — production API on port 4000 with snapshot intake, repo parser, context engine; E2E tested with 23-file Next.js project."
+    current_status: "building"
     current_focus_vertical: "v1_search_context_graph"
 
   executive_truth:
     maturity_estimate:
-      functional_percent: 0
-      hardened_percent: 0
-      integrated_percent: 0
+      functional_percent: 35
+      hardened_percent: 5
+      integrated_percent: 20
       production_percent: 0
     confidence:
-      architecture_confidence: 25
-      runtime_confidence: 0
-      pipeline_confidence: 10
-      product_surface_confidence: 0
-      integration_confidence: 5
-      notes: "Snapshot protocol contract defined. Context-map and repo-profile schemas created. No runtime code yet."
+      architecture_confidence: 70
+      runtime_confidence: 60
+      pipeline_confidence: 15
+      product_surface_confidence: 10
+      integration_confidence: 40
+      notes: "v1 vertical slice proven E2E. 4 packages compile clean. API accepts snapshots, parses repos (60+ languages, 10 frameworks), builds context maps with route detection, architecture analysis, AI summaries. In-memory store — no persistence yet. No auth, no tests, no CI."
 
   boundary_truth:
     accepted_input_modes:
@@ -101,46 +101,59 @@ project_continuation:
 
     - id: v1_search_context_graph
       name: Search Context Graph
-      status: planning
+      status: building
       priority: P0
       user_story: >
         As a developer, I need the search program to produce a context graph
         so all other programs have foundational repo understanding.
       saturation:
-        foundation: 0
-        runtime: 0
+        foundation: 80
+        runtime: 60
         editor: 0
-        export: 0
+        export: 40
         polish: 0
-      evidence: []
+      evidence:
+        - "packages/snapshots — intake, storage, lifecycle (commit 291cba2)"
+        - "packages/repo-parser — 60+ lang detection, 10 framework detection, import graph (commit 291cba2)"
+        - "packages/context-engine — context-map + repo-profile generation (commit 291cba2)"
+        - "apps/api — HTTP endpoints for snapshot CRUD, context retrieval (commit 291cba2)"
+        - "E2E test: 23-file Next.js project → correct framework/route/arch detection"
       blockers:
-        - platform snapshot_protocol not yet implemented
-      next_required_move: "Define context-map.json and repo-profile.yaml output schemas"
+        - No persistent storage (in-memory only)
+        - No authentication
+        - No automated test suite
+      next_required_move: "Add generated file export (.ai/context-map.json, .ai/repo-profile.yaml) and wire to search/ output templates"
 
   subsystem_scorecards:
     - name: "search"
-      canonical_path: "search/"
+      canonical_path: "packages/repo-parser/ + packages/context-engine/"
       maturity:
-        code_exists: false
-        functionally_exercised: false
+        code_exists: true
+        functionally_exercised: true
         hardened: false
-        integrated: false
+        integrated: true
         production_validated: false
       parity_view:
-        functional_percent: 0
-        hardened_percent: 0
-        integrated_percent: 0
+        functional_percent: 60
+        hardened_percent: 5
+        integrated_percent: 40
       known_truth:
         works:
-          - MEMORY.yaml initialized
-          - begin.yaml initialized
-          - continuation.yaml initialized
+          - Language detection (60+ extensions with LOC counting)
+          - Framework detection (Next.js, React, Vue, Svelte, Express, Fastify, Tailwind, Prisma, Django, FastAPI)
+          - Import graph resolution and dependency analysis
+          - Route detection (Next.js app router + API routes, Express routes)
+          - Architecture signal analysis (patterns, layers, separation score)
+          - AI context generation (summary, conventions, warnings)
+          - Context-map and repo-profile output generation
+          - E2E proven with 23-file Next.js project
         missing:
-          - indexing engine
-          - search API
-          - context graph schema
+          - Full-text search indexing
+          - Semantic code search
+          - File content search API
+          - Generated file templates (.ai/context-map.json export)
         stubs_or_fakes: []
-      next_promotion_step: "Define output schemas"
+      next_promotion_step: "Add search indexing and query API"
     - name: "debug"
       canonical_path: "debug/"
       maturity:
@@ -251,8 +264,13 @@ project_continuation:
         description: "Platform snapshot_protocol not yet implemented"
         impact: "No program can ingest repos without snapshot intake"
         owner: "platform"
-        unblock_strategy: "Build minimal snapshot ingestion in platform layer"
-        status: "resolved — snapshot_protocol.yaml contract defined"
+        status: "RESOLVED — full implementation in packages/snapshots + apps/api (commit 291cba2)"
+      - blocker_id: "blk_platform_002"
+        description: "No persistent storage — snapshots lost on server restart"
+        impact: "Cannot run multi-session workflows"
+        owner: "platform"
+        unblock_strategy: "Add SQLite or Postgres persistence layer"
+        status: "open"
 
     architectural_risks:
       - risk_id: "risk_001"
@@ -277,87 +295,115 @@ project_continuation:
         impact: "All program subfolders reference axis_all_tools.yaml as primary governing spec"
 
     open_decisions:
-      - question: "What is the shared API framework/technology?"
+      - question: "Should we add persistent storage (SQLite/Postgres) or continue with in-memory for MVP?"
         options:
-          - "Node.js + Express"
-          - "Go + Chi"
-          - "Rust + Axum"
-          - "Python + FastAPI"
-        required_by: "Before any API endpoint implementation"
-        recommended_next_step: "Review axis_all_tools.yaml api_architecture section and decide"
+          - "SQLite via better-sqlite3 for zero-config local persistence"
+          - "Postgres via Prisma for production-grade persistence"
+          - "Continue in-memory for now, add persistence when needed"
+        required_by: "Before multi-session usage"
+        recommended_next_step: "Evaluate based on deployment target"
 
-  current_session_result:
+    resolved_decisions:
+      - date: "2025-07-16"
+        decision: "axis_all_tools.yaml is the canonical program spec, superseding axis_master_blueprint.yaml"
+        rationale: "Expanded from 5 to 17 programs with richer fields (acquisition_role, description, additional outputs)"
+      - date: "2025-07-17"
+        decision: "Node.js + TypeScript with zero-dependency custom HTTP router"
+        rationale: "Chose zero-dep custom router over Express/Fastify for minimal footprint and full control. TypeScript strict mode for type safety. pnpm workspace monorepo for package isolation."
+        alternatives_rejected:
+          - "Go + Chi"
+          - "Python + FastAPI"
+          - "Node.js + Express"
+
+  current_session_result_001:
     session_goal: "Scaffold all 17 Axis programs with YAML governance files"
     selected_move: "Full platform scaffolding"
-    selected_move_roi_reason: "Highest foundational ROI — enables all future work across all programs"
     completed_candidates:
       - "Created 17 program subfolders with MEMORY.yaml, begin.yaml, continuation.yaml"
       - "Ingested axis_all_tools.yaml as canonical spec"
-      - "Aligned wave-1 tools to expanded spec (acquisition_role, description, new outputs)"
-      - "Populated root continuation.yaml with platform state"
+    commit_results: ["4a95e9c", "df830fb"]
+
+  current_session_result_002:
+    session_goal: "Build v1 vertical slice — production API proving the Axis loop end-to-end"
+    selected_move: "Build production TypeScript monorepo with working API"
+    selected_move_roi_reason: "User identified too many .md files and no production code — highest ROI is proving the core loop runs"
+    completed_candidates:
+      - "pnpm monorepo with apps/* and packages/* workspaces"
+      - "packages/snapshots — intake, storage, lifecycle (types, store, barrel export)"
+      - "packages/repo-parser — language detection (60+), framework detection (10), import graph, health analysis"
+      - "packages/context-engine — context-map builder, repo-profile builder, route detection, architecture analysis, AI context"
+      - "apps/api — zero-dep HTTP router, CORS, 5 REST endpoints on port 4000"
+      - "E2E test: simulated 23-file Next.js project → all frameworks detected, routes extracted, architecture analyzed"
+      - "Fixed root route detection bug (app/page.tsx → / instead of /page.tsx)"
     refused_candidates: []
     blocked_candidates: []
-    queue_before_execution:
-      - "Scaffold all program subfolders"
-    queue_after_execution:
-      - "Begin search/ context graph schema"
-      - "Define shared snapshot_protocol"
     evidence_added:
-      - "17 subfolders × 3 YAMLs = 51 governance files"
+      - "29 files, 1706 lines of production TypeScript (commit 291cba2)"
+      - "4 packages compile clean with tsc"
+      - "API health check returns 200"
+      - "Full context-map generated for simulated project with correct detection"
     verticals_advanced:
-      - "v0_platform_scaffolding → complete"
-    blockers_removed: []
+      - "v1_search_context_graph → building (foundation 80%, runtime 60%)"
+    blockers_removed:
+      - "blk_platform_001: snapshot_protocol → fully implemented in packages/snapshots + apps/api"
     blockers_added:
-      - "blk_platform_001: snapshot_protocol needed"
-    canonical_paths_clarified:
-      - "axis_all_tools.yaml is the canonical program catalog"
-    quality_risks_introduced: []
-    follow_up_required:
-      - "Initial git commit and push"
-      - "Define search/ output schemas"
-    commit_results: []
-    push_results: []
+      - "No persistent storage (in-memory only)"
+      - "No auth, no automated tests, no CI pipeline"
+    commit_results: ["291cba2"]
+    push_results: ["df830fb..291cba2 main → main"]
 
   execution_queue:
-    qualifying_candidates:
+    completed:
       - id: "eq_001"
         description: "Define context-map.json schema for search/"
-        active_vertical: "v1_search_context_graph"
-        total_roi_score: 95
-        potential_ceiling_score: 100
-        qualifies: true
-        blocked: false
-        refusal_surface_hit: false
-        execution_rank: 1
-        completion_status:
-          value: complete
-          allowed:
-            - pending
-            - in_progress
-            - complete
-            - refused
-            - blocked
-        post_completion_commit: pending
-        post_completion_push: pending
+        completion_status: complete
+        commit: "df830fb"
       - id: "eq_002"
         description: "Build minimal snapshot_protocol at platform layer"
+        completion_status: complete
+        commit: "291cba2"
+      - id: "eq_003"
+        description: "Build v1 vertical slice — production API with snapshot intake, repo parser, context engine"
+        completion_status: complete
+        commit: "291cba2"
+
+    qualifying_candidates:
+      - id: "eq_004"
+        description: "Add generated file export — .ai/context-map.json and .ai/repo-profile.yaml templates"
         active_vertical: "v1_search_context_graph"
         total_roi_score: 90
-        potential_ceiling_score: 100
-        qualifies: true
+        execution_rank: 1
         blocked: false
-        refusal_surface_hit: false
+      - id: "eq_005"
+        description: "Wire debug/ playbook generator to consume context-map output"
+        active_vertical: "v2_debug_playbooks"
+        total_roi_score: 85
         execution_rank: 2
-        completion_status:
-          value: complete
-          allowed:
-            - pending
-            - in_progress
-            - complete
-            - refused
-            - blocked
-        post_completion_commit: pending
-        post_completion_push: pending
+        blocked: false
+      - id: "eq_006"
+        description: "Wire skills/ governance file generator (AGENTS.md, CLAUDE.md, .cursorrules)"
+        active_vertical: "v3_skills_governance"
+        total_roi_score: 85
+        execution_rank: 3
+        blocked: false
+      - id: "eq_007"
+        description: "Build apps/web — frontend UI for snapshot upload and context visualization"
+        active_vertical: "v1_search_context_graph"
+        total_roi_score: 80
+        execution_rank: 4
+        blocked: false
+      - id: "eq_008"
+        description: "Add automated test suite (vitest) for all packages"
+        active_vertical: "platform"
+        total_roi_score: 75
+        execution_rank: 5
+        blocked: false
+      - id: "eq_009"
+        description: "Add persistent storage (SQLite) for snapshots"
+        active_vertical: "platform"
+        total_roi_score: 70
+        execution_rank: 6
+        blocked: false
 
   source_control_policy:
     commit_after_each_completed_candidate: true
