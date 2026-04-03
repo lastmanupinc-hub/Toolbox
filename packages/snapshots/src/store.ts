@@ -7,13 +7,11 @@ import type {
 
 const store = new Map<string, SnapshotRecord>();
 const projectIndex = new Map<string, string[]>(); // project_id -> snapshot_ids
+const nameToProjectId = new Map<string, string>(); // project_name -> project_id
 
 export function createSnapshot(input: SnapshotInput): SnapshotRecord {
   const snapshot_id = randomUUID();
-  const project_id =
-    projectIndex.has(input.manifest.project_name)
-      ? findProjectId(input.manifest.project_name)
-      : randomUUID();
+  const project_id = nameToProjectId.get(input.manifest.project_name) ?? randomUUID();
 
   const record: SnapshotRecord = {
     snapshot_id,
@@ -32,6 +30,7 @@ export function createSnapshot(input: SnapshotInput): SnapshotRecord {
   const existing = projectIndex.get(project_id) ?? [];
   existing.push(snapshot_id);
   projectIndex.set(project_id, existing);
+  nameToProjectId.set(input.manifest.project_name, project_id);
 
   return record;
 }
@@ -55,14 +54,4 @@ export function getProjectSnapshots(project_id: string): SnapshotRecord[] {
   return ids
     .map((id) => store.get(id))
     .filter((r): r is SnapshotRecord => r !== undefined);
-}
-
-function findProjectId(project_name: string): string {
-  for (const [pid, sids] of projectIndex) {
-    for (const sid of sids) {
-      const snap = store.get(sid);
-      if (snap?.manifest.project_name === project_name) return pid;
-    }
-  }
-  return randomUUID();
 }
