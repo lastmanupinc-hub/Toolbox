@@ -1,0 +1,15 @@
+{
+  "name": "axis-toolbox",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Axis — The operating system for AI-native development",
+  "scripts": {
+    "dev": "pnpm --filter @axis/api dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

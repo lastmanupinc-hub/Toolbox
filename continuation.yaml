@@ -15,7 +15,7 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2025-07-16"
-    commit_or_tag: "4a95e9c"
+    commit_or_tag: "df830fb"
     current_session_id: "session_001"
     one_sentence_summary: "Snapshot protocol defined, context-map.json and repo-profile.yaml schemas created in search/schemas/."
     current_status: "planning"
