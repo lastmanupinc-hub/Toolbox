@@ -17,8 +17,8 @@ project_continuation:
     date: "2026-04-03"
     commit_or_tag: ""
     current_session_id: "init"
-    one_sentence_summary: "Subfolder initialized with MEMORY, begin, and continuation YAMLs."
-    current_status: "planning"
+    one_sentence_summary: "Context-map.json and repo-profile.yaml schemas defined in search/schemas/."
+    current_status: "schema_defined"
     current_focus_vertical: "context_graph_schema"
 
   executive_truth:
@@ -45,8 +45,8 @@ project_continuation:
       repo_parser: required
       context_graph: owns
     target_outputs_truth:
-      context_map_json: not_started
-      repo_profile_yaml: not_started
+      context_map_json: schema_defined
+      repo_profile_yaml: schema_defined
       architecture_summary_md: not_started
       dependency_hotspots_md: not_started
 

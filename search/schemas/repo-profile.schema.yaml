@@ -1,0 +1,275 @@
+# Axis Repo Profile Schema
+# Produced by Axis Search from a snapshot. Human-readable companion to context-map.json.
+# Consumed by all Axis programs as project metadata.
+
+repo_profile_schema:
+  version: "1.0.0"
+  description: >
+    Structured project metadata and detection summary produced by Axis Search.
+    YAML format for human readability. Machine-readable counterpart is context-map.json.
+
+  required_fields:
+    - version
+    - snapshot_id
+    - project_id
+    - generated_at
+    - project
+    - detection
+    - structure_summary
+    - health
+
+  field_definitions:
+    version:
+      type: string
+      description: Schema version
+      example: "1.0.0"
+
+    snapshot_id:
+      type: string
+      format: uuid
+
+    project_id:
+      type: string
+      format: uuid
+
+    generated_at:
+      type: string
+      format: iso8601
+
+    project:
+      type: object
+      required:
+        - name
+        - type
+        - primary_language
+      fields:
+        name:
+          type: string
+          description: Project name
+        type:
+          type: string
+          enum:
+            - saas_web_app
+            - api_service
+            - cli_tool
+            - library
+            - monorepo
+            - mobile_app
+            - static_site
+            - desktop_app
+            - data_pipeline
+            - ml_project
+            - unknown
+        primary_language:
+          type: string
+        description:
+          type: string
+          source: readme_or_manifest
+        repo_url:
+          type: string
+          format: uri
+        visibility:
+          type: string
+          enum: [public, private, internal]
+
+    detection:
+      type: object
+      fields:
+        languages:
+          type: array
+          items:
+            name: string
+            file_count: integer
+            loc: integer
+            loc_percent: number
+        frameworks:
+          type: array
+          items:
+            name: string
+            version: string
+            confidence: number
+        build_tools:
+          type: array
+          items: string
+        test_frameworks:
+          type: array
+          items: string
+        package_managers:
+          type: array
+          items: string
+        ci_platform:
+          type: string
+          nullable: true
+        deployment_target:
+          type: string
+          nullable: true
+        runtime:
+          type: string
+          description: "e.g., node 20, python 3.12, go 1.22"
+          nullable: true
+
+    structure_summary:
+      type: object
+      fields:
+        total_files:
+          type: integer
+        total_directories:
+          type: integer
+        total_loc:
+          type: integer
+        top_level_dirs:
+          type: array
+          items:
+            name: string
+            purpose: string
+            file_count: integer
+        monorepo_packages:
+          type: array
+          nullable: true
+          items:
+            name: string
+            path: string
+            type: string
+
+    health:
+      type: object
+      description: Quick-glance project health indicators
+      fields:
+        has_readme:
+          type: boolean
+        has_tests:
+          type: boolean
+        test_file_count:
+          type: integer
+        has_ci:
+          type: boolean
+        has_lockfile:
+          type: boolean
+        has_typescript:
+          type: boolean
+        has_linter:
+          type: boolean
+        has_formatter:
+          type: boolean
+        dependency_count:
+          type: integer
+        dev_dependency_count:
+          type: integer
+        architecture_patterns:
+          type: array
+          items: string
+          description: "Detected patterns: MVC, CQRS, serverless, monolith, etc."
+        separation_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Architectural layer separation quality
+
+    goals:
+      type: object
+      nullable: true
+      description: User-declared objectives from manifest
+      fields:
+        objectives:
+          type: array
+          items: string
+        requested_outputs:
+          type: array
+          items: string
+        preferred_ai_tools:
+          type: array
+          items: string
+
+  example:
+    version: "1.0.0"
+    snapshot_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    project_id: "f0e1d2c3-b4a5-6789-0abc-def123456789"
+    generated_at: "2026-04-03T12:00:00Z"
+    project:
+      name: acme-dashboard
+      type: saas_web_app
+      primary_language: TypeScript
+      description: Internal analytics dashboard for Acme Corp
+      repo_url: https://github.com/acme/dashboard
+      visibility: private
+    detection:
+      languages:
+        - name: TypeScript
+          file_count: 142
+          loc: 18500
+          loc_percent: 78.2
+        - name: CSS
+          file_count: 23
+          loc: 3100
+          loc_percent: 13.1
+        - name: JSON
+          file_count: 15
+          loc: 2050
+          loc_percent: 8.7
+      frameworks:
+        - name: Next.js
+          version: "14.2.1"
+          confidence: 0.98
+        - name: Tailwind CSS
+          version: "3.4.0"
+          confidence: 0.95
+        - name: Prisma
+          version: "5.10.0"
+          confidence: 0.92
+      build_tools:
+        - turbo
+        - webpack
+      test_frameworks:
+        - vitest
+        - playwright
+      package_managers:
+        - pnpm
+      ci_platform: github_actions
+      deployment_target: vercel
+      runtime: "node 20"
+    structure_summary:
+      total_files: 180
+      total_directories: 42
+      total_loc: 23650
+      top_level_dirs:
+        - name: src
+          purpose: application_source
+          file_count: 120
+        - name: tests
+          purpose: test_suites
+          file_count: 28
+        - name: prisma
+          purpose: database_schema
+          file_count: 3
+        - name: public
+          purpose: static_assets
+          file_count: 12
+      monorepo_packages: null
+    health:
+      has_readme: true
+      has_tests: true
+      test_file_count: 28
+      has_ci: true
+      has_lockfile: true
+      has_typescript: true
+      has_linter: true
+      has_formatter: true
+      dependency_count: 45
+      dev_dependency_count: 22
+      architecture_patterns:
+        - app_router
+        - server_components
+        - prisma_orm
+      separation_score: 0.82
+    goals:
+      objectives:
+        - improve_ai_coding_accuracy
+        - standardize_debugging
+      requested_outputs:
+        - AGENTS.md
+        - CLAUDE.md
+        - .cursorrules
+        - .ai/frontend-rules.md
+      preferred_ai_tools:
+        - claude
+        - cursor

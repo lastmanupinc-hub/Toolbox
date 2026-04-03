@@ -1,0 +1,312 @@
+snapshot_protocol:
+  version: "1.0.0"
+  name: axis_snapshot_protocol
+  purpose: >
+    Convert arbitrary repositories into structured, queryable, AI-usable
+    project context that every Axis program can consume. This is the shared
+    intake layer — every program reads from snapshot output, no program
+    owns the raw ingestion.
+
+  accepted_inputs:
+    - id: repo_snapshot_upload
+      description: ZIP or tarball of repo contents uploaded via web or API
+      content_type: application/zip
+      max_size_mb: 500
+      required_contents:
+        - file_tree
+        - package_manifests
+
+    - id: github_repo_url
+      description: Public or authenticated GitHub repository URL
+      format: "https://github.com/{owner}/{repo}"
+      auth: optional_github_token
+      fetches:
+        - full_clone_or_shallow
+        - default_branch_only
+
+    - id: manual_file_upload
+      description: Individual file uploads for partial analysis
+      max_files: 50
+      max_file_size_mb: 10
+      use_case: quick_analysis_without_full_repo
+
+    - id: api_submission
+      description: Structured JSON payload via POST /v1/snapshots
+      content_type: application/json
+      schema_ref: "#/api_contract/create_snapshot"
+
+    - id: cli_submission
+      description: Axis CLI push from local machine
+      command: "axis snapshot push"
+      transport: multipart_upload
+
+  recommended_v1:
+    - repo_snapshot_upload
+    - github_repo_url
+    - api_submission
+
+  captures:
+    structural:
+      - repo_tree
+      - package_manifests
+      - lockfiles
+      - config_files
+      - selected_source_files
+
+    documentation:
+      - readme
+      - architecture_docs
+
+    quality:
+      - test_samples
+
+    navigation:
+      - routes_map
+      - dependency_map
+
+    detection:
+      - framework_detection
+      - language_detection
+      - build_tool_detection
+      - test_framework_detection
+
+    user_context:
+      - user_objectives
+      - preferred_ai_tools
+      - requested_outputs
+
+  manifest_schema:
+    required:
+      - project_name
+      - project_type
+      - frameworks
+      - goals
+      - requested_outputs
+    optional:
+      - team_size
+      - repo_visibility
+      - primary_language
+      - deployment_target
+      - ci_platform
+    example:
+      project_name: acme-dashboard
+      project_type: saas_web_app
+      frameworks:
+        - nextjs
+        - typescript
+        - tailwind
+      goals:
+        - improve_ai_coding_accuracy
+        - standardize_debugging
+      requested_outputs:
+        - AGENTS.md
+        - CLAUDE.md
+        - .cursorrules
+        - .ai/frontend-rules.md
+
+  processing_pipeline:
+    steps:
+      - name: ingest
+        description: Accept input, validate format, extract contents
+        produces: raw_file_tree
+
+      - name: parse
+        description: Run repo-parser to identify structure, languages, frameworks
+        produces: parsed_repo_profile
+        depends_on: raw_file_tree
+
+      - name: detect
+        description: Run framework_detection, language identification, build tool detection
+        produces: detection_results
+        depends_on: raw_file_tree
+
+      - name: map
+        description: Build dependency graph, route map, import graph
+        produces: dependency_map
+        depends_on:
+          - parsed_repo_profile
+          - detection_results
+
+      - name: contextualize
+        description: Build the context graph that programs consume
+        produces: context_graph
+        depends_on:
+          - dependency_map
+          - parsed_repo_profile
+          - detection_results
+
+      - name: store
+        description: Persist snapshot + context for program consumption
+        produces: snapshot_record
+        depends_on: context_graph
+
+  output_contract:
+    snapshot_record:
+      fields:
+        - name: snapshot_id
+          type: string
+          format: uuid
+          description: Unique identifier for this snapshot
+
+        - name: project_id
+          type: string
+          format: uuid
+          description: Parent project this snapshot belongs to
+
+        - name: created_at
+          type: string
+          format: iso8601
+          description: Timestamp of snapshot creation
+
+        - name: input_method
+          type: string
+          enum:
+            - repo_snapshot_upload
+            - github_repo_url
+            - manual_file_upload
+            - api_submission
+            - cli_submission
+          description: How the snapshot was submitted
+
+        - name: manifest
+          type: object
+          schema_ref: "#/manifest_schema"
+          description: User-provided project metadata
+
+        - name: file_count
+          type: integer
+          description: Total files captured
+
+        - name: total_size_bytes
+          type: integer
+          description: Total size of captured content
+
+        - name: detection
+          type: object
+          description: Framework, language, and tooling detection results
+          fields:
+            - name: primary_language
+              type: string
+            - name: languages
+              type: array
+              items: string
+            - name: frameworks
+              type: array
+              items: string
+            - name: build_tools
+              type: array
+              items: string
+            - name: test_frameworks
+              type: array
+              items: string
+            - name: ci_platform
+              type: string
+              nullable: true
+
+        - name: repo_tree
+          type: array
+          items: string
+          description: Flat list of all file paths in the repo
+
+        - name: dependency_map
+          type: object
+          description: Package dependencies and internal import graph
+
+        - name: routes_map
+          type: array
+          items: object
+          description: Detected routes/pages with paths and source files
+          nullable: true
+
+        - name: context_graph_ref
+          type: string
+          description: Reference to the generated context-map.json
+
+        - name: repo_profile_ref
+          type: string
+          description: Reference to the generated repo-profile.yaml
+
+        - name: status
+          type: string
+          enum:
+            - processing
+            - ready
+            - failed
+          description: Current state of the snapshot
+
+  api_contract:
+    create_snapshot:
+      method: POST
+      path: /v1/snapshots
+      auth: api_key
+      request:
+        content_type: application/json
+        body:
+          required:
+            - project_name
+            - input_method
+          optional:
+            - github_url
+            - manifest
+            - objectives
+            - requested_outputs
+        multipart_alternative:
+          content_type: multipart/form-data
+          fields:
+            - name: manifest
+              type: application/json
+            - name: repo_archive
+              type: application/zip
+      response:
+        status: 201
+        body:
+          snapshot_id: string
+          project_id: string
+          status: processing
+          estimated_completion_seconds: integer
+
+    get_snapshot:
+      method: GET
+      path: /v1/snapshots/:snapshot_id
+      auth: api_key
+      response:
+        status: 200
+        body:
+          schema_ref: "#/output_contract/snapshot_record"
+
+    get_context:
+      method: GET
+      path: /v1/projects/:project_id/context
+      auth: api_key
+      response:
+        status: 200
+        body:
+          context_map: object
+          repo_profile: object
+          detection: object
+          snapshot_id: string
+
+  consumption_contract:
+    rule: >
+      Every Axis program receives project context through the snapshot output.
+      No program should re-parse the repo or duplicate ingestion logic.
+      Programs consume context_graph, repo_profile, and detection results
+      as read-only inputs.
+    consumer_programs:
+      - search
+      - debug
+      - skills
+      - frontend
+      - seo
+      - optimization
+      - artifacts
+      - theme
+      - brand
+      - marketing
+      - mcp
+      - notebook
+      - obsidian
+      - superpowers
+      - remotion
+      - canvas
+      - algorithmic
