@@ -4,6 +4,9 @@ import {
   handleGetSnapshot,
   handleGetContext,
   handleGetGeneratedFiles,
+  handleGetGeneratedFile,
+  handleSearchExport,
+  handleSkillsGenerate,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -19,6 +22,11 @@ router.get("/v1/snapshots/:snapshot_id", handleGetSnapshot);
 // Project context endpoints
 router.get("/v1/projects/:project_id/context", handleGetContext);
 router.get("/v1/projects/:project_id/generated-files", handleGetGeneratedFiles);
+router.get("/v1/projects/:project_id/generated-files/:file_path", handleGetGeneratedFile);
+
+// Program endpoints (per axis_master_blueprint.yaml api_architecture)
+router.post("/v1/search/export", handleSearchExport);
+router.post("/v1/skills/generate", handleSkillsGenerate);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
 createApp(router, port);

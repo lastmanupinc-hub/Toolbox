@@ -12,7 +12,8 @@
   "dependencies": {
     "@axis/snapshots": "workspace:*",
     "@axis/repo-parser": "workspace:*",
-    "@axis/context-engine": "workspace:*"
+    "@axis/context-engine": "workspace:*",
+    "@axis/generator-core": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.7.0",

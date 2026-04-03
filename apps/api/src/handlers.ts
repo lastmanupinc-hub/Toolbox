@@ -8,11 +8,14 @@ import {
 import type { SnapshotInput, SnapshotManifest, FileEntry } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
+import { generateFiles } from "@axis/generator-core";
+import type { GeneratorResult } from "@axis/generator-core";
 import { sendJSON, readBody } from "./router.js";
 
 // In-memory result store (production: use DB)
 const contextMaps = new Map<string, ContextMap>();
 const repoProfiles = new Map<string, RepoProfile>();
+const generatorResults = new Map<string, GeneratorResult>();
 
 export async function handleCreateSnapshot(
   req: IncomingMessage,
@@ -66,6 +69,14 @@ export async function handleCreateSnapshot(
 
     contextMaps.set(snapshot.snapshot_id, contextMap);
     repoProfiles.set(snapshot.snapshot_id, repoProfile);
+
+    // Generate output files
+    const generated = generateFiles({
+      context_map: contextMap,
+      repo_profile: repoProfile,
+      requested_outputs: snapshot.manifest.requested_outputs,
+    });
+    generatorResults.set(snapshot.snapshot_id, generated);
     updateSnapshotStatus(snapshot.snapshot_id, "ready");
 
     sendJSON(res, 201, {
@@ -74,6 +85,7 @@ export async function handleCreateSnapshot(
       status: "ready",
       context_map: contextMap,
       repo_profile: repoProfile,
+      generated_files: generated.files.map(f => ({ path: f.path, program: f.program, description: f.description })),
     });
   } catch (err) {
     updateSnapshotStatus(snapshot.snapshot_id, "failed");
@@ -154,25 +166,18 @@ export async function handleGetGeneratedFiles(
   const contextMap = contextMaps.get(latest.snapshot_id);
   const repoProfile = repoProfiles.get(latest.snapshot_id);
 
-  if (!contextMap || !repoProfile) {
+  const generated = generatorResults.get(latest.snapshot_id);
+  if (!generated) {
     sendJSON(res, 404, { error: "No generated files available yet" });
     return;
   }
 
   sendJSON(res, 200, {
     snapshot_id: latest.snapshot_id,
-    files: [
-      {
-        path: ".ai/context-map.json",
-        content_type: "application/json",
-        content: contextMap,
-      },
-      {
-        path: ".ai/repo-profile.yaml",
-        content_type: "application/yaml",
-        content: repoProfile,
-      },
-    ],
+    project_id: latest.project_id,
+    generated_at: generated.generated_at,
+    files: generated.files,
+    skipped: generated.skipped,
   });
 }
 
@@ -183,7 +188,115 @@ export async function handleHealthCheck(
   sendJSON(res, 200, {
     status: "ok",
     service: "axis-api",
-    version: "0.1.0",
+    version: "0.2.0",
     timestamp: new Date().toISOString(),
+  });
+}
+
+export async function handleGetGeneratedFile(
+  _req: IncomingMessage,
+  res: ServerResponse,
+  params: Record<string, string>,
+): Promise<void> {
+  const { project_id, file_path } = params;
+  const snapshots = getProjectSnapshots(project_id);
+  if (snapshots.length === 0) {
+    sendJSON(res, 404, { error: "No snapshots found for project" });
+    return;
+  }
+
+  const latest = snapshots[snapshots.length - 1];
+  const generated = generatorResults.get(latest.snapshot_id);
+  if (!generated) {
+    sendJSON(res, 404, { error: "No generated files available yet" });
+    return;
+  }
+
+  // Match by path — handle both "AGENTS.md" and ".ai/context-map.json" style
+  const decoded = decodeURIComponent(file_path);
+  const file = generated.files.find(f => f.path === decoded || f.path === `.ai/${decoded}`);
+  if (!file) {
+    sendJSON(res, 404, { error: `File not found: ${decoded}`, available: generated.files.map(f => f.path) });
+    return;
+  }
+
+  // Return raw content with appropriate content-type
+  res.writeHead(200, { "Content-Type": file.content_type, "Access-Control-Allow-Origin": "*" });
+  res.end(file.content);
+}
+
+export async function handleSearchExport(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid JSON body" });
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId) {
+    sendJSON(res, 400, { error: "snapshot_id is required" });
+    return;
+  }
+
+  const generated = generatorResults.get(snapshotId);
+  if (!generated) {
+    sendJSON(res, 404, { error: "No results for this snapshot — run POST /v1/snapshots first" });
+    return;
+  }
+
+  const searchFiles = generated.files.filter(f => f.program === "search");
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    program: "search",
+    files: searchFiles,
+  });
+}
+
+export async function handleSkillsGenerate(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid JSON body" });
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId) {
+    sendJSON(res, 400, { error: "snapshot_id is required" });
+    return;
+  }
+
+  const contextMap = contextMaps.get(snapshotId);
+  const repoProfile = repoProfiles.get(snapshotId);
+  if (!contextMap || !repoProfile) {
+    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+    return;
+  }
+
+  // Regenerate skills files with optional custom outputs
+  const requestedOutputs = (body.outputs as string[]) ?? ["AGENTS.md", "CLAUDE.md", ".cursorrules"];
+  const result = generateFiles({
+    context_map: contextMap,
+    repo_profile: repoProfile,
+    requested_outputs: requestedOutputs,
+  });
+
+  const skillsFiles = result.files.filter(f => f.program === "skills");
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    program: "skills",
+    files: skillsFiles,
+    skipped: result.skipped,
   });
 }

@@ -1,0 +1,216 @@
+import type { ContextMap, RepoProfile } from "@axis/context-engine";
+import type { GeneratedFile } from "./types.js";
+
+export function generateContextMapJSON(ctx: ContextMap): GeneratedFile {
+  return {
+    path: ".ai/context-map.json",
+    content: JSON.stringify(ctx, null, 2),
+    content_type: "application/json",
+    program: "search",
+    description: "Full project context map — framework detection, routes, architecture, dependency graph",
+  };
+}
+
+export function generateRepoProfileYAML(profile: RepoProfile): GeneratedFile {
+  return {
+    path: ".ai/repo-profile.yaml",
+    content: toYAML(profile),
+    content_type: "application/yaml",
+    program: "search",
+    description: "Compact project profile — identity, detection, structure, health summary",
+  };
+}
+
+export function generateArchitectureSummary(ctx: ContextMap): GeneratedFile {
+  const lines: string[] = [];
+  const id = ctx.project_identity;
+
+  lines.push(`# Architecture Summary: ${id.name}`);
+  lines.push("");
+  lines.push(`> ${id.description ?? id.type.replace(/_/g, " ")}`);
+  lines.push("");
+
+  // Overview
+  lines.push("## Overview");
+  lines.push("");
+  lines.push(`- **Primary Language:** ${id.primary_language}`);
+  lines.push(`- **Project Type:** ${id.type.replace(/_/g, " ")}`);
+  lines.push(`- **Files:** ${ctx.structure.total_files} (${ctx.structure.total_loc} LOC)`);
+  lines.push(`- **Directories:** ${ctx.structure.total_directories}`);
+  lines.push("");
+
+  // Frameworks
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Frameworks & Libraries");
+    lines.push("");
+    for (const fw of ctx.detection.frameworks) {
+      const pct = Math.round(fw.confidence * 100);
+      lines.push(`- **${fw.name}** ${fw.version ?? ""} (${pct}% confidence)`);
+    }
+    lines.push("");
+  }
+
+  // Architecture Signals
+  const arch = ctx.architecture_signals;
+  if (arch.patterns_detected.length > 0) {
+    lines.push("## Architecture Patterns");
+    lines.push("");
+    for (const p of arch.patterns_detected) {
+      lines.push(`- \`${p}\``);
+    }
+    lines.push(`- **Separation Score:** ${arch.separation_score}`);
+    lines.push("");
+  }
+
+  // Layer Boundaries
+  if (arch.layer_boundaries.length > 0) {
+    lines.push("## Layer Boundaries");
+    lines.push("");
+    lines.push("| Layer | Directories |");
+    lines.push("|-------|------------|");
+    for (const l of arch.layer_boundaries) {
+      lines.push(`| ${l.layer} | ${l.directories.join(", ")} |`);
+    }
+    lines.push("");
+  }
+
+  // Routes
+  if (ctx.routes.length > 0) {
+    lines.push("## Routes");
+    lines.push("");
+    lines.push("| Method | Path | Source |");
+    lines.push("|--------|------|--------|");
+    for (const r of ctx.routes) {
+      lines.push(`| ${r.method} | \`${r.path}\` | ${r.source_file} |`);
+    }
+    lines.push("");
+  }
+
+  // Entry Points
+  if (ctx.entry_points.length > 0) {
+    lines.push("## Entry Points");
+    lines.push("");
+    for (const ep of ctx.entry_points) {
+      lines.push(`- **${ep.type}:** \`${ep.path}\` — ${ep.description}`);
+    }
+    lines.push("");
+  }
+
+  // Top-Level Layout
+  lines.push("## Directory Layout");
+  lines.push("");
+  for (const dir of ctx.structure.top_level_layout) {
+    lines.push(`- \`${dir.name}/\` — ${dir.purpose} (${dir.file_count} files)`);
+  }
+  lines.push("");
+
+  // Dependency Hotspots
+  const hotspots = ctx.dependency_graph.hotspots;
+  if (hotspots.length > 0) {
+    lines.push("## Dependency Hotspots");
+    lines.push("");
+    lines.push("| File | Inbound | Outbound | Risk |");
+    lines.push("|------|---------|----------|------|");
+    for (const h of hotspots) {
+      lines.push(`| ${h.path} | ${h.inbound_count} | ${h.outbound_count} | ${(h.risk_score * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
+  // Tooling
+  lines.push("## Tooling");
+  lines.push("");
+  if (ctx.detection.build_tools.length > 0)
+    lines.push(`- **Build:** ${ctx.detection.build_tools.join(", ")}`);
+  if (ctx.detection.test_frameworks.length > 0)
+    lines.push(`- **Test:** ${ctx.detection.test_frameworks.join(", ")}`);
+  if (ctx.detection.package_managers.length > 0)
+    lines.push(`- **Package Manager:** ${ctx.detection.package_managers.join(", ")}`);
+  if (ctx.detection.ci_platform)
+    lines.push(`- **CI:** ${ctx.detection.ci_platform}`);
+  if (ctx.detection.deployment_target)
+    lines.push(`- **Deploy:** ${ctx.detection.deployment_target}`);
+  lines.push("");
+
+  // AI Context
+  const ai = ctx.ai_context;
+  if (ai.conventions.length > 0) {
+    lines.push("## Conventions");
+    lines.push("");
+    for (const c of ai.conventions) {
+      lines.push(`- ${c}`);
+    }
+    lines.push("");
+  }
+
+  if (ai.warnings.length > 0) {
+    lines.push("## Warnings");
+    lines.push("");
+    for (const w of ai.warnings) {
+      lines.push(`- ⚠️ ${w}`);
+    }
+    lines.push("");
+  }
+
+  lines.push("---");
+  lines.push(`*Generated by Axis Search — ${new Date().toISOString().split("T")[0]}*`);
+  lines.push("");
+
+  return {
+    path: "architecture-summary.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "search",
+    description: "Human-readable architecture summary derived from the context map",
+  };
+}
+
+// Minimal YAML serializer (no external deps) — handles the flat/nested structures in RepoProfile
+function toYAML(obj: unknown, indent: number = 0): string {
+  const prefix = "  ".repeat(indent);
+  if (obj === null || obj === undefined) return `${prefix}null\n`;
+  if (typeof obj === "string") {
+    if (obj.includes("\n") || obj.includes(": ") || obj.startsWith("#")) {
+      return `${prefix}|\n${obj.split("\n").map(l => `${prefix}  ${l}`).join("\n")}\n`;
+    }
+    return /^[\w./-]+$/.test(obj) ? `${prefix}${obj}\n` : `${prefix}"${obj.replace(/"/g, '\\"')}"\n`;
+  }
+  if (typeof obj === "number" || typeof obj === "boolean") return `${prefix}${obj}\n`;
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return `${prefix}[]\n`;
+    return obj.map(item => {
+      if (typeof item === "object" && item !== null && !Array.isArray(item)) {
+        const entries = Object.entries(item);
+        const firstLine = `${prefix}- ${entries[0][0]}: ${serializeValue(entries[0][1])}`;
+        const rest = entries.slice(1).map(([k, v]) => {
+          if (typeof v === "object" && v !== null) {
+            return `${prefix}  ${k}:\n${toYAML(v, indent + 2)}`;
+          }
+          return `${prefix}  ${k}: ${serializeValue(v)}`;
+        });
+        return [firstLine, ...rest].join("\n");
+      }
+      return `${prefix}- ${serializeValue(item)}`;
+    }).join("\n") + "\n";
+  }
+  if (typeof obj === "object") {
+    const entries = Object.entries(obj as Record<string, unknown>);
+    if (entries.length === 0) return `${prefix}{}\n`;
+    return entries.map(([k, v]) => {
+      if (typeof v === "object" && v !== null) {
+        return `${prefix}${k}:\n${toYAML(v, indent + 1)}`;
+      }
+      return `${prefix}${k}: ${serializeValue(v)}`;
+    }).join("\n") + "\n";
+  }
+  return `${prefix}${String(obj)}\n`;
+}
+
+function serializeValue(v: unknown): string {
+  if (v === null || v === undefined) return "null";
+  if (typeof v === "string") {
+    if (/^[\w./-]+$/.test(v)) return v;
+    return `"${v.replace(/"/g, '\\"')}"`;
+  }
+  return String(v);
+}
