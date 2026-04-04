@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-03"
-    commit_or_tag: "6af1f22"
+    commit_or_tag: "0760d83"
     current_session_id: "session_004"
-    one_sentence_summary: "Full-stack Axis Toolbox with SQLite persistence, 8 programs (26 generators), 16 API endpoints, 103 tests, CI pipeline."
+    one_sentence_summary: "Full-stack Axis Toolbox with SQLite persistence, 11 programs (38 generators), 20 API endpoints, 121 tests, CI pipeline."
     current_status: "building"
     current_focus_vertical: "v1_search_context_graph"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 70
       product_surface_confidence: 50
       integration_confidence: 80
-      notes: "Full-stack application with SQLite persistence and CI: Vite+React frontend, 16 API endpoints, 26 generators across 8 programs (search, debug, skills, frontend, seo, optimization, theme, brand), 103 tests. GitHub Actions CI on Node 20/22. No auth."
+      notes: "Full-stack application with SQLite persistence and CI: Vite+React frontend, 20 API endpoints, 38 generators across 11 programs (search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook), 121 tests. GitHub Actions CI on Node 20/22. No auth."
 
   boundary_truth:
     accepted_input_modes:
@@ -60,11 +60,11 @@ project_continuation:
       artifacts_components: not_started
       theme_design_tokens: generating
       brand_guidelines: generating
-      notebook_research: not_started
-      marketing_campaigns: not_started
+      notebook_research: generating
+      marketing_campaigns: generating
       mcp_connectors: not_started
       obsidian_skill_packs: not_started
-      superpowers_workflows: not_started
+      superpowers_workflows: generating
       remotion_video_scripts: not_started
       canvas_design_assets: not_started
       algorithmic_generative_art: not_started
@@ -506,7 +506,46 @@ project_continuation:
         completion_status: complete
         commit: "6af1f22"
 
+      - id: "eq_015"
+        description: "Add Superpowers program generators — 4 generators (superpower-pack.md, workflow-registry.json, test-generation-rules.md, refactor-checklist.md), POST /v1/superpowers/generate, 6 new tests"
+        completion_status: complete
+        commit: "fe24331"
+
+      - id: "eq_016"
+        description: "Add Marketing program generators — 4 generators (campaign-brief.md, funnel-map.md, sequence-pack.md, cro-playbook.md), POST /v1/marketing/generate, 6 new tests"
+        completion_status: complete
+        commit: "51a045a"
+
+      - id: "eq_017"
+        description: "Add Notebook program generators — 4 generators (notebook-summary.md, source-map.json, study-brief.md, research-threads.md), POST /v1/notebook/generate, 6 new tests"
+        completion_status: complete
+        commit: "0760d83"
+
     qualifying_candidates: []
+
+  current_session_result_005:
+    session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
+    selected_move: "Implement 3 new programs with generators, handlers, routes, and tests"
+    selected_move_roi_reason: "Wave-3 programs follow established generator pattern — low cost, high integration, 3 new generating programs"
+    completed_candidates:
+      - "eq_015: Superpowers program — 4 generators (superpower-pack.md, workflow-registry.json, test-generation-rules.md, refactor-checklist.md), POST /v1/superpowers/generate, 6 new tests (commit fe24331)"
+      - "eq_016: Marketing program — 4 generators (campaign-brief.md, funnel-map.md, sequence-pack.md, cro-playbook.md), POST /v1/marketing/generate, 6 new tests (commit 51a045a)"
+      - "eq_017: Notebook program — 4 generators (notebook-summary.md, source-map.json, study-brief.md, research-threads.md), POST /v1/notebook/generate, 6 new tests (commit 0760d83)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "packages/generator-core — 38 generators, 11 generator modules"
+      - "20 API endpoints live on port 4000"
+      - "121 vitest tests passing across 5 test files"
+      - "11 programs generating: search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook"
+    verticals_advanced:
+      - "v9_superpowers → generating (functional 70%)"
+      - "v10_marketing → generating (functional 70%)"
+      - "v11_notebook → generating (functional 70%)"
+    blockers_removed: []
+    blockers_added: []
+    commit_results: ["fe24331", "51a045a", "0760d83"]
+    push_results: []
 
   source_control_policy:
     commit_after_each_completed_candidate: true
