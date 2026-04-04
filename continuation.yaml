@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-03"
-    commit_or_tag: "4b5313a"
+    commit_or_tag: "24b797d"
     current_session_id: "session_004"
-    one_sentence_summary: "Full-stack Axis Toolbox with SQLite persistence, 14 programs (49 generators), 24 API endpoints, 138 tests, CI pipeline."
+    one_sentence_summary: "Full-stack Axis Toolbox with SQLite persistence, 17/17 programs (61 generators), 28 API endpoints, 156 tests, CI pipeline — all programs complete."
     current_status: "building"
     current_focus_vertical: "v1_search_context_graph"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 70
       product_surface_confidence: 50
       integration_confidence: 80
-      notes: "Full-stack application with SQLite persistence and CI: Vite+React frontend, 24 API endpoints, 49 generators across 14 programs (search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts), 138 tests. GitHub Actions CI on Node 20/22. No auth."
+      notes: "Full-stack application with SQLite persistence and CI: Vite+React frontend, 28 API endpoints, 61 generators across 17 programs (search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic), 156 tests. GitHub Actions CI on Node 20/22. All programs complete. No auth."
 
   boundary_truth:
     accepted_input_modes:
@@ -65,9 +65,9 @@ project_continuation:
       mcp_connectors: generating
       obsidian_skill_packs: generating
       superpowers_workflows: generating
-      remotion_video_scripts: not_started
-      canvas_design_assets: not_started
-      algorithmic_generative_art: not_started
+      remotion_video_scripts: generating
+      canvas_design_assets: generating
+      algorithmic_generative_art: generating
 
   canonical_contracts:
     - name: ""
@@ -536,6 +536,21 @@ project_continuation:
         completion_status: complete
         commit: "4b5313a"
 
+      - id: "eq_021"
+        description: "Add Remotion program generators — 4 generators (remotion-script.ts, scene-plan.md, render-config.json, asset-checklist.md), POST /v1/remotion/generate, 6 new tests"
+        completion_status: complete
+        commit: "36d7973"
+
+      - id: "eq_022"
+        description: "Add Canvas program generators — 4 generators (canvas-spec.json, social-pack.md, poster-layouts.md, asset-guidelines.md), POST /v1/canvas/generate, 6 new tests"
+        completion_status: complete
+        commit: "6cb55f4"
+
+      - id: "eq_023"
+        description: "Add Algorithmic program generators — 4 generators (generative-sketch.ts, parameter-pack.json, collection-map.md, export-manifest.yaml), POST /v1/algorithmic/generate, 6 new tests"
+        completion_status: complete
+        commit: "24b797d"
+
     qualifying_candidates: []
 
   current_session_result_005:
@@ -584,6 +599,30 @@ project_continuation:
     blockers_removed: []
     blockers_added: []
     commit_results: ["974ee8a", "429d71e", "4b5313a"]
+    push_results: []
+
+  current_session_result_007:
+    session_goal: "Complete wave-5 program generators (remotion, canvas, algorithmic) — FINAL WAVE"
+    selected_move: "Implement 3 new programs with generators, handlers, routes, and tests — completes all 17 programs"
+    selected_move_roi_reason: "Wave-5 programs are the last 3 remaining — completing them achieves 100% program coverage"
+    completed_candidates:
+      - "eq_021: Remotion program — 4 generators (remotion-script.ts, scene-plan.md, render-config.json, asset-checklist.md), POST /v1/remotion/generate, 6 new tests (commit 36d7973)"
+      - "eq_022: Canvas program — 4 generators (canvas-spec.json, social-pack.md, poster-layouts.md, asset-guidelines.md), POST /v1/canvas/generate, 6 new tests (commit 6cb55f4)"
+      - "eq_023: Algorithmic program — 4 generators (generative-sketch.ts, parameter-pack.json, collection-map.md, export-manifest.yaml), POST /v1/algorithmic/generate, 6 new tests (commit 24b797d)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "packages/generator-core — 61 generators, 19 generator modules"
+      - "28 API endpoints live on port 4000"
+      - "156 vitest tests passing across 5 test files"
+      - "17/17 programs generating: ALL PROGRAMS COMPLETE"
+    verticals_advanced:
+      - "v15_remotion → generating (functional 70%)"
+      - "v16_canvas → generating (functional 70%)"
+      - "v17_algorithmic → generating (functional 70%)"
+    blockers_removed: []
+    blockers_added: []
+    commit_results: ["36d7973", "6cb55f4", "24b797d"]
     push_results: []
 
   source_control_policy:
