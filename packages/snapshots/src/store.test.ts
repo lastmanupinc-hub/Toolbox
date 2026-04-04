@@ -1,5 +1,17 @@
-import { describe, it, expect } from "vitest";
-import { createSnapshot, getSnapshot, getProjectSnapshots, updateSnapshotStatus } from "./store.js";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import {
+  createSnapshot,
+  getSnapshot,
+  getProjectSnapshots,
+  updateSnapshotStatus,
+  saveContextMap,
+  getContextMap,
+  saveRepoProfile,
+  getRepoProfile,
+  saveGeneratorResult,
+  getGeneratorResult,
+} from "./store.js";
+import { openMemoryDb, closeDb } from "./db.js";
 import type { SnapshotInput } from "./types.js";
 
 function makeInput(overrides?: Partial<SnapshotInput>): SnapshotInput {
@@ -18,6 +30,10 @@ function makeInput(overrides?: Partial<SnapshotInput>): SnapshotInput {
     ...overrides,
   };
 }
+
+// Each test gets a fresh in-memory database
+beforeEach(() => { openMemoryDb(); });
+afterEach(() => { closeDb(); });
 
 describe("SnapshotStore", () => {
   it("creates a snapshot with correct fields", () => {
@@ -51,7 +67,7 @@ describe("SnapshotStore", () => {
     const snap1 = createSnapshot(makeInput());
     const snap2 = createSnapshot(makeInput());
     const all = getProjectSnapshots(snap1.project_id);
-    expect(all.length).toBeGreaterThanOrEqual(2);
+    expect(all.length).toBe(2);
     expect(all.some(s => s.snapshot_id === snap1.snapshot_id)).toBe(true);
     expect(all.some(s => s.snapshot_id === snap2.snapshot_id)).toBe(true);
   });
@@ -65,5 +81,67 @@ describe("SnapshotStore", () => {
     }));
     expect(snap.total_size_bytes).toBe(300);
     expect(snap.file_count).toBe(2);
+  });
+
+  it("persists data round-trip (manifest, files)", () => {
+    const snap = createSnapshot(makeInput());
+    const found = getSnapshot(snap.snapshot_id)!;
+    expect(found.manifest.frameworks).toEqual(["react"]);
+    expect(found.files[0].path).toBe("index.ts");
+    expect(found.files[0].content).toBe("console.log('hello')");
+  });
+});
+
+describe("ContextMap persistence", () => {
+  it("saves and retrieves context map", () => {
+    const snap = createSnapshot(makeInput());
+    const ctx = { project_identity: { name: "test" }, structure: { total_files: 1 } };
+    saveContextMap(snap.snapshot_id, ctx);
+    const found = getContextMap(snap.snapshot_id);
+    expect(found).toEqual(ctx);
+  });
+
+  it("returns undefined for missing context map", () => {
+    expect(getContextMap("nonexistent")).toBeUndefined();
+  });
+});
+
+describe("RepoProfile persistence", () => {
+  it("saves and retrieves repo profile", () => {
+    const snap = createSnapshot(makeInput());
+    const profile = { identity: { name: "test" }, health: { has_tests: true } };
+    saveRepoProfile(snap.snapshot_id, profile);
+    const found = getRepoProfile(snap.snapshot_id);
+    expect(found).toEqual(profile);
+  });
+
+  it("returns undefined for missing repo profile", () => {
+    expect(getRepoProfile("nonexistent")).toBeUndefined();
+  });
+});
+
+describe("GeneratorResult persistence", () => {
+  it("saves and retrieves generator result", () => {
+    const snap = createSnapshot(makeInput());
+    const result = {
+      generated_at: "2025-01-01T00:00:00Z",
+      files: [{ path: "AGENTS.md", content: "# Agents", program: "skills" }],
+      skipped: [],
+    };
+    saveGeneratorResult(snap.snapshot_id, result);
+    const found = getGeneratorResult(snap.snapshot_id);
+    expect(found).toEqual(result);
+  });
+
+  it("returns undefined for missing generator result", () => {
+    expect(getGeneratorResult("nonexistent")).toBeUndefined();
+  });
+
+  it("overwrites on re-save", () => {
+    const snap = createSnapshot(makeInput());
+    saveGeneratorResult(snap.snapshot_id, { v: 1 });
+    saveGeneratorResult(snap.snapshot_id, { v: 2 });
+    const found = getGeneratorResult(snap.snapshot_id) as Record<string, unknown>;
+    expect(found.v).toBe(2);
   });
 });

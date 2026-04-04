@@ -4,6 +4,12 @@ import {
   getSnapshot,
   updateSnapshotStatus,
   getProjectSnapshots,
+  saveContextMap,
+  getContextMap,
+  saveRepoProfile,
+  getRepoProfile,
+  saveGeneratorResult,
+  getGeneratorResult,
 } from "@axis/snapshots";
 import type { SnapshotInput, SnapshotManifest, FileEntry } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
@@ -11,11 +17,6 @@ import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import { generateFiles } from "@axis/generator-core";
 import type { GeneratorResult } from "@axis/generator-core";
 import { sendJSON, readBody } from "./router.js";
-
-// In-memory result store (production: use DB)
-const contextMaps = new Map<string, ContextMap>();
-const repoProfiles = new Map<string, RepoProfile>();
-const generatorResults = new Map<string, GeneratorResult>();
 
 export async function handleCreateSnapshot(
   req: IncomingMessage,
@@ -67,8 +68,8 @@ export async function handleCreateSnapshot(
     const contextMap = buildContextMap(snapshot);
     const repoProfile = buildRepoProfile(snapshot);
 
-    contextMaps.set(snapshot.snapshot_id, contextMap);
-    repoProfiles.set(snapshot.snapshot_id, repoProfile);
+    saveContextMap(snapshot.snapshot_id, contextMap);
+    saveRepoProfile(snapshot.snapshot_id, repoProfile);
 
     // Generate output files
     const generated = generateFiles({
@@ -76,7 +77,7 @@ export async function handleCreateSnapshot(
       repo_profile: repoProfile,
       requested_outputs: snapshot.manifest.requested_outputs,
     });
-    generatorResults.set(snapshot.snapshot_id, generated);
+    saveGeneratorResult(snapshot.snapshot_id, generated);
     updateSnapshotStatus(snapshot.snapshot_id, "ready");
 
     sendJSON(res, 201, {
@@ -135,8 +136,8 @@ export async function handleGetContext(
   }
 
   const latest = snapshots[snapshots.length - 1];
-  const contextMap = contextMaps.get(latest.snapshot_id);
-  const repoProfile = repoProfiles.get(latest.snapshot_id);
+  const contextMap = getContextMap(latest.snapshot_id);
+  const repoProfile = getRepoProfile(latest.snapshot_id);
 
   if (!contextMap || !repoProfile) {
     sendJSON(res, 404, { error: "Context not yet available — snapshot may still be processing" });
@@ -163,10 +164,10 @@ export async function handleGetGeneratedFiles(
   }
 
   const latest = snapshots[snapshots.length - 1];
-  const contextMap = contextMaps.get(latest.snapshot_id);
-  const repoProfile = repoProfiles.get(latest.snapshot_id);
+  const contextMap = getContextMap(latest.snapshot_id);
+  const repoProfile = getRepoProfile(latest.snapshot_id);
 
-  const generated = generatorResults.get(latest.snapshot_id);
+  const generated = getGeneratorResult(latest.snapshot_id) as GeneratorResult | undefined;
   if (!generated) {
     sendJSON(res, 404, { error: "No generated files available yet" });
     return;
@@ -206,7 +207,7 @@ export async function handleGetGeneratedFile(
   }
 
   const latest = snapshots[snapshots.length - 1];
-  const generated = generatorResults.get(latest.snapshot_id);
+  const generated = getGeneratorResult(latest.snapshot_id) as GeneratorResult | undefined;
   if (!generated) {
     sendJSON(res, 404, { error: "No generated files available yet" });
     return;
@@ -244,7 +245,7 @@ export async function handleSearchExport(
     return;
   }
 
-  const generated = generatorResults.get(snapshotId);
+  const generated = getGeneratorResult(snapshotId) as GeneratorResult | undefined;
   if (!generated) {
     sendJSON(res, 404, { error: "No results for this snapshot — run POST /v1/snapshots first" });
     return;
@@ -277,8 +278,8 @@ export async function handleSkillsGenerate(
     return;
   }
 
-  const contextMap = contextMaps.get(snapshotId);
-  const repoProfile = repoProfiles.get(snapshotId);
+  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
+  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
   if (!contextMap || !repoProfile) {
     sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
     return;
@@ -320,8 +321,8 @@ export async function handleDebugAnalyze(
     return;
   }
 
-  const contextMap = contextMaps.get(snapshotId);
-  const repoProfile = repoProfiles.get(snapshotId);
+  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
+  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
   if (!contextMap || !repoProfile) {
     sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
     return;
@@ -360,8 +361,8 @@ export async function handleFrontendAudit(
     return;
   }
 
-  const contextMap = contextMaps.get(snapshotId);
-  const repoProfile = repoProfiles.get(snapshotId);
+  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
+  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
   if (!contextMap || !repoProfile) {
     sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
     return;

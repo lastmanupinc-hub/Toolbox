@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
+import { openMemoryDb, closeDb } from "@axis/snapshots";
 import { Router, createApp, sendJSON } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -69,6 +70,8 @@ const testPayload = {
 };
 
 beforeAll(async () => {
+  openMemoryDb();
+
   const router = new Router();
   router.get("/health", handleHealthCheck);
   router.post("/v1/snapshots", handleCreateSnapshot);
@@ -94,6 +97,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await new Promise<void>((resolve, reject) => server.close((err) => err ? reject(err) : resolve()));
+  closeDb();
 });
 
 describe("API integration", () => {
