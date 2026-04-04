@@ -548,10 +548,48 @@ describe("obsidian generators content", () => {
   });
 });
 
+describe("mcp generators content", () => {
+  const result = generateFiles(makeInput(["mcp-config.json", "connector-map.yaml", "capability-registry.json"]));
+
+  it("generates all 3 mcp files", () => {
+    const mcpFiles = result.files.filter(f => f.program === "mcp");
+    expect(mcpFiles.length).toBe(3);
+  });
+
+  it("mcp-config.json has server, tools, and security", () => {
+    const file = result.files.find(f => f.path === "mcp-config.json")!;
+    const data = JSON.parse(file.content);
+    expect(data.mcpVersion).toBe("1.0");
+    expect(data.server.name).toContain("test-app");
+    expect(data.tools.length).toBeGreaterThanOrEqual(6);
+    expect(data.security.denied_patterns).toContain("node_modules/**");
+    expect(file.content_type).toBe("application/json");
+  });
+
+  it("connector-map.yaml has connectors and flows", () => {
+    const file = result.files.find(f => f.path === "connector-map.yaml")!;
+    expect(file.content).toContain("connectors:");
+    expect(file.content).toContain("vscode");
+    expect(file.content).toContain("integration_flows:");
+    expect(file.content).toContain("development_loop");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("capability-registry.json has capabilities and categories", () => {
+    const file = result.files.find(f => f.path === "capability-registry.json")!;
+    const data = JSON.parse(file.content);
+    expect(data.project).toBe("test-app");
+    expect(data.total_capabilities).toBeGreaterThanOrEqual(4);
+    expect(data.categories.length).toBeGreaterThanOrEqual(2);
+    expect(data.capabilities.some((c: { id: string }) => c.id === "build")).toBe(true);
+    expect(file.content_type).toBe("application/json");
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(42);
+    expect(generators.length).toBe(45);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
@@ -562,5 +600,8 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("vault-rules.md");
     expect(paths).toContain("graph-prompt-map.json");
     expect(paths).toContain("linking-policy.md");
+    expect(paths).toContain("mcp-config.json");
+    expect(paths).toContain("connector-map.yaml");
+    expect(paths).toContain("capability-registry.json");
   });
 });

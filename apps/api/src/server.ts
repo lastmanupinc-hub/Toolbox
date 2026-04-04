@@ -17,6 +17,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
+  handleMcpProvision,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -47,6 +48,7 @@ router.post("/v1/superpowers/generate", handleSuperpowersGenerate);
 router.post("/v1/marketing/generate", handleMarketingGenerate);
 router.post("/v1/notebook/generate", handleNotebookGenerate);
 router.post("/v1/obsidian/analyze", handleObsidianAnalyze);
+router.post("/v1/mcp/provision", handleMcpProvision);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
 createApp(router, port);

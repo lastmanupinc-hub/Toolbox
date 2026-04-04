@@ -12,6 +12,7 @@ import { generateSuperpowerPack, generateWorkflowRegistry, generateTestGeneratio
 import { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook } from "./generators-marketing.js";
 import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads } from "./generators-notebook.js";
 import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
+import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -58,6 +59,9 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "vault-rules.md": (ctx) => generateVaultRules(ctx),
   "graph-prompt-map.json": (ctx) => generateGraphPromptMap(ctx),
   "linking-policy.md": (ctx) => generateLinkingPolicy(ctx),
+  "mcp-config.json": (ctx, profile) => generateMcpConfig(ctx, profile),
+  "connector-map.yaml": (ctx) => generateConnectorMap(ctx),
+  "capability-registry.json": (ctx) => generateCapabilityRegistry(ctx),
 };
 
 // Aliases (user may request with different naming)

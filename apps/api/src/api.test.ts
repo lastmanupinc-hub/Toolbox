@@ -20,6 +20,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
+  handleMcpProvision,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -99,6 +100,7 @@ beforeAll(async () => {
   router.post("/v1/marketing/generate", handleMarketingGenerate);
   router.post("/v1/notebook/generate", handleNotebookGenerate);
   router.post("/v1/obsidian/analyze", handleObsidianAnalyze);
+  router.post("/v1/mcp/provision", handleMcpProvision);
 
   server = createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -311,6 +313,16 @@ describe("API integration", () => {
     expect(files.length).toBe(4);
   });
 
+  it("POST /v1/mcp/provision returns mcp files", async () => {
+    const r = await request(TEST_PORT, "POST", "/v1/mcp/provision", { snapshot_id: snapshotId });
+    expect(r.status).toBe(200);
+    const data = r.data as Record<string, unknown>;
+    expect(data.program).toBe("mcp");
+    const files = data.files as Array<{ path: string; program: string }>;
+    expect(files.every(f => f.program === "mcp")).toBe(true);
+    expect(files.length).toBe(3);
+  });
+
   it("returns 404 for unknown route", async () => {
     const r = await request(TEST_PORT, "GET", "/v1/nonexistent");
     expect(r.status).toBe(404);
@@ -341,5 +353,7 @@ describe("API integration", () => {
     expect(r11.status).toBe(400);
     const r12 = await request(TEST_PORT, "POST", "/v1/obsidian/analyze", {});
     expect(r12.status).toBe(400);
+    const r13 = await request(TEST_PORT, "POST", "/v1/mcp/provision", {});
+    expect(r13.status).toBe(400);
   });
 });

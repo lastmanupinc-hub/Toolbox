@@ -12,3 +12,4 @@ export { generateSuperpowerPack, generateWorkflowRegistry, generateTestGeneratio
 export { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook } from "./generators-marketing.js";
 export { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads } from "./generators-notebook.js";
 export { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
+export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
