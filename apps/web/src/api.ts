@@ -185,15 +185,34 @@ function authHeaders(): Record<string, string> {
 }
 
 async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${url}`, {
-    ...init,
-    headers: { ...authHeaders(), ...init?.headers },
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`${res.status}: ${body}`);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30_000);
+  try {
+    const res = await fetch(`${API_BASE}${url}`, {
+      ...init,
+      headers: { ...authHeaders(), ...init?.headers },
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      let msg = `${res.status}`;
+      try {
+        const json = await res.json();
+        msg = json.error || msg;
+      } catch {
+        const text = await res.text();
+        if (text) msg = text.slice(0, 200);
+      }
+      throw new Error(msg);
+    }
+    return res.json() as Promise<T>;
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new Error("Request timed out");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeout);
   }
-  return res.json() as Promise<T>;
 }
 
 // ─── Snapshot API ───────────────────────────────────────────────

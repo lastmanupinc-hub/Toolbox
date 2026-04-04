@@ -1,9 +1,31 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, Component, type ReactNode } from "react";
 import { UploadPage } from "./pages/UploadPage.tsx";
 import { DashboardPage } from "./pages/DashboardPage.tsx";
 import { PlansPage } from "./pages/PlansPage.tsx";
 import { AccountPage } from "./pages/AccountPage.tsx";
 import type { SnapshotResponse } from "./api.ts";
+
+// ─── Error Boundary ─────────────────────────────────────────────
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  state = { error: null as Error | null };
+  static getDerivedStateFromError(error: Error) { return { error }; }
+  componentDidCatch(error: Error) { console.error("UI crash:", error); }
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="card" style={{ margin: 40, textAlign: "center", padding: 32 }}>
+          <h2>Something went wrong</h2>
+          <p style={{ color: "var(--text-muted)", marginBottom: 16 }}>{this.state.error.message}</p>
+          <button className="btn btn-primary" onClick={() => { this.setState({ error: null }); location.hash = ""; }}>
+            Reload
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 type Page = "upload" | "dashboard" | "plans" | "account";
 
@@ -92,10 +114,12 @@ export function App() {
         </nav>
       </header>
 
-      {page === "upload" && <UploadPage onComplete={handleUploadComplete} />}
-      {page === "dashboard" && result && <DashboardPage result={result} />}
-      {page === "plans" && <PlansPage onSelectPlan={() => nav("account")} />}
-      {page === "account" && <AccountPage onAuthChange={handleAuthChange} />}
+      <ErrorBoundary>
+        {page === "upload" && <UploadPage onComplete={handleUploadComplete} />}
+        {page === "dashboard" && result && <DashboardPage result={result} />}
+        {page === "plans" && <PlansPage onSelectPlan={() => nav("account")} />}
+        {page === "account" && <AccountPage onAuthChange={handleAuthChange} />}
+      </ErrorBoundary>
     </>
   );
 }

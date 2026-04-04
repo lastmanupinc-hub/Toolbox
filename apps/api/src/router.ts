@@ -52,7 +52,9 @@ export class Router {
         await route.handler(req, res, params);
       } catch (err) {
         console.error("Route handler error:", err);
-        sendJSON(res, 500, { error: "Internal server error" });
+        if (!res.writableEnded) {
+          sendJSON(res, 500, { error: "Internal server error" });
+        }
       }
       return;
     }
@@ -70,19 +72,21 @@ export async function readBody(req: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     let totalSize = 0;
+    let settled = false;
     const maxSize = 50 * 1024 * 1024; // 50MB limit
 
     req.on("data", (chunk: Buffer) => {
       totalSize += chunk.length;
       if (totalSize > maxSize) {
         req.destroy();
-        reject(new Error("Request body too large"));
+        if (!settled) { settled = true; reject(new Error("Request body too large")); }
         return;
       }
       chunks.push(chunk);
     });
-    req.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8")));
-    req.on("error", reject);
+    req.on("end", () => { if (!settled) { settled = true; resolve(Buffer.concat(chunks).toString("utf-8")); } });
+    req.on("error", (err) => { if (!settled) { settled = true; reject(err); } });
+    req.on("close", () => { if (!settled) { settled = true; reject(new Error("Request closed prematurely")); } });
   });
 }
 

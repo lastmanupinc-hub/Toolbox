@@ -42,23 +42,28 @@ export function generateDesignTokens(ctx: ContextMap): GeneratedFile {
     "0": "0px", "1": "0.25rem", "2": "0.5rem", "3": "0.75rem",
     "4": "1rem", "5": "1.25rem", "6": "1.5rem", "8": "2rem",
     "10": "2.5rem", "12": "3rem", "16": "4rem", "20": "5rem",
-    "24": "6rem",
+    "24": "6rem", "32": "8rem", "40": "10rem", "48": "12rem",
   };
 
   const typography = {
     font_families: {
       sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      serif: "Georgia, Cambria, 'Times New Roman', Times, serif",
       mono: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
     },
     font_sizes: {
       xs: "0.75rem", sm: "0.875rem", base: "1rem", lg: "1.125rem",
       xl: "1.25rem", "2xl": "1.5rem", "3xl": "1.875rem", "4xl": "2.25rem",
+      "5xl": "3rem", "6xl": "3.75rem",
     },
     line_heights: {
-      tight: "1.25", snug: "1.375", normal: "1.5", relaxed: "1.625",
+      none: "1", tight: "1.25", snug: "1.375", normal: "1.5", relaxed: "1.625", loose: "2",
     },
     font_weights: {
-      normal: "400", medium: "500", semibold: "600", bold: "700",
+      light: "300", normal: "400", medium: "500", semibold: "600", bold: "700", extrabold: "800",
+    },
+    letter_spacing: {
+      tighter: "-0.05em", tight: "-0.025em", normal: "0em", wide: "0.025em", wider: "0.05em",
     },
   };
 
@@ -97,6 +102,30 @@ export function generateDesignTokens(ctx: ContextMap): GeneratedFile {
     z_index: {
       dropdown: 1000, sticky: 1020, fixed: 1030, modal_backdrop: 1040,
       modal: 1050, popover: 1060, tooltip: 1070,
+    },
+    motion: {
+      duration: {
+        instant: "50ms", fast: "100ms", normal: "200ms", slow: "300ms", slower: "500ms",
+      },
+      easing: {
+        default: "cubic-bezier(0.4, 0, 0.2, 1)",
+        in: "cubic-bezier(0.4, 0, 1, 1)",
+        out: "cubic-bezier(0, 0, 0.2, 1)",
+        in_out: "cubic-bezier(0.4, 0, 0.2, 1)",
+        bounce: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      },
+      reduce_motion: "@media (prefers-reduced-motion: reduce)",
+    },
+    opacity: {
+      "0": "0", "5": "0.05", "10": "0.1", "25": "0.25",
+      "50": "0.5", "75": "0.75", "90": "0.9", "100": "1",
+    },
+    surfaces: {
+      page: { bg: "neutral.50", text: "neutral.900", border: "neutral.200" },
+      card: { bg: "white", text: "neutral.800", border: "neutral.200", shadow: "shadows.base" },
+      elevated: { bg: "white", text: "neutral.800", border: "neutral.100", shadow: "shadows.lg" },
+      inset: { bg: "neutral.100", text: "neutral.700", border: "neutral.200" },
+      overlay: { bg: "white", text: "neutral.900", shadow: "shadows.lg", backdrop: "rgba(0,0,0,0.4)" },
     },
   };
 
@@ -199,6 +228,24 @@ export function generateThemeCss(ctx: ContextMap): GeneratedFile {
   lines.push("  --transition-fast: 150ms ease;");
   lines.push("  --transition-base: 200ms ease;");
   lines.push("  --transition-slow: 300ms ease;");
+  lines.push("");
+  lines.push("  /* Motion */");
+  lines.push("  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);");
+  lines.push("  --ease-in: cubic-bezier(0.4, 0, 1, 1);");
+  lines.push("  --ease-out: cubic-bezier(0, 0, 0.2, 1);");
+  lines.push("  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);");
+  lines.push("");
+  lines.push("  /* Surfaces */");
+  lines.push("  --surface-page: var(--color-neutral-50);");
+  lines.push("  --surface-card: #ffffff;");
+  lines.push("  --surface-elevated: #ffffff;");
+  lines.push("  --surface-inset: var(--color-neutral-100);");
+  lines.push("  --surface-overlay-backdrop: rgba(0, 0, 0, 0.4);");
+  lines.push("");
+  lines.push("  /* Focus Ring */");
+  lines.push("  --ring-color: var(--color-primary-500);");
+  lines.push("  --ring-offset: 2px;");
+  lines.push("  --ring-width: 2px;");
   lines.push("}");
   lines.push("");
 
@@ -214,7 +261,126 @@ export function generateThemeCss(ctx: ContextMap): GeneratedFile {
   lines.push("    --color-neutral-200: #262626;");
   lines.push("    --color-neutral-800: #f5f5f5;");
   lines.push("    --color-neutral-900: #fafafa;");
+  lines.push("    --surface-page: #0a0a0a;");
+  lines.push("    --surface-card: #171717;");
+  lines.push("    --surface-elevated: #262626;");
+  lines.push("    --surface-inset: #0f0f0f;");
+  lines.push("    --surface-overlay-backdrop: rgba(0, 0, 0, 0.7);");
   lines.push("  }");
+  lines.push("}");
+  lines.push("");
+
+  // Reduced motion
+  lines.push("@media (prefers-reduced-motion: reduce) {");
+  lines.push("  *, *::before, *::after {");
+  lines.push("    animation-duration: 0.01ms !important;");
+  lines.push("    animation-iteration-count: 1 !important;");
+  lines.push("    transition-duration: 0.01ms !important;");
+  lines.push("    scroll-behavior: auto !important;");
+  lines.push("  }");
+  lines.push("}");
+  lines.push("");
+
+  // Focus utility
+  lines.push("/* ─── Focus Ring ──────────────────────────────────────────── */");
+  lines.push("");
+  lines.push(":focus-visible {");
+  lines.push("  outline: var(--ring-width) solid var(--ring-color);");
+  lines.push("  outline-offset: var(--ring-offset);");
+  lines.push("}");
+  lines.push("");
+
+  // Keyframe animations
+  lines.push("/* ─── Animations ─────────────────────────────────────────── */");
+  lines.push("");
+  lines.push("@keyframes fade-in {");
+  lines.push("  from { opacity: 0; }");
+  lines.push("  to { opacity: 1; }");
+  lines.push("}");
+  lines.push("");
+  lines.push("@keyframes slide-up {");
+  lines.push("  from { opacity: 0; transform: translateY(8px); }");
+  lines.push("  to { opacity: 1; transform: translateY(0); }");
+  lines.push("}");
+  lines.push("");
+  lines.push("@keyframes slide-down {");
+  lines.push("  from { opacity: 0; transform: translateY(-8px); }");
+  lines.push("  to { opacity: 1; transform: translateY(0); }");
+  lines.push("}");
+  lines.push("");
+  lines.push("@keyframes scale-in {");
+  lines.push("  from { opacity: 0; transform: scale(0.95); }");
+  lines.push("  to { opacity: 1; transform: scale(1); }");
+  lines.push("}");
+  lines.push("");
+  lines.push("@keyframes spin {");
+  lines.push("  to { transform: rotate(360deg); }");
+  lines.push("}");
+  lines.push("");
+  lines.push("@keyframes pulse {");
+  lines.push("  50% { opacity: 0.5; }");
+  lines.push("}");
+  lines.push("");
+  lines.push("@keyframes shimmer {");
+  lines.push("  0% { background-position: -200% 0; }");
+  lines.push("  100% { background-position: 200% 0; }");
+  lines.push("}");
+  lines.push("");
+
+  // Utility classes
+  lines.push("/* ─── Utilities ──────────────────────────────────────────── */");
+  lines.push("");
+  lines.push(".animate-fade-in { animation: fade-in var(--transition-base) var(--ease-out); }");
+  lines.push(".animate-slide-up { animation: slide-up var(--transition-base) var(--ease-out); }");
+  lines.push(".animate-slide-down { animation: slide-down var(--transition-base) var(--ease-out); }");
+  lines.push(".animate-scale-in { animation: scale-in var(--transition-fast) var(--ease-bounce); }");
+  lines.push(".animate-spin { animation: spin 1s linear infinite; }");
+  lines.push(".animate-pulse { animation: pulse 2s var(--ease-default) infinite; }");
+  lines.push(".animate-shimmer {");
+  lines.push("  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);");
+  lines.push("  background-size: 200% 100%;");
+  lines.push("  animation: shimmer 1.5s infinite;");
+  lines.push("}");
+  lines.push("");
+
+  // Component reset classes
+  lines.push("/* ─── Component Primitives ───────────────────────────────── */");
+  lines.push("");
+  lines.push(".surface-card {");
+  lines.push("  background: var(--surface-card);");
+  lines.push("  border: 1px solid var(--color-neutral-200);");
+  lines.push("  border-radius: var(--radius-lg);");
+  lines.push("  box-shadow: var(--shadow-base);");
+  lines.push("}");
+  lines.push("");
+  lines.push(".surface-elevated {");
+  lines.push("  background: var(--surface-elevated);");
+  lines.push("  border-radius: var(--radius-xl);");
+  lines.push("  box-shadow: var(--shadow-lg);");
+  lines.push("}");
+  lines.push("");
+  lines.push(".surface-inset {");
+  lines.push("  background: var(--surface-inset);");
+  lines.push("  border-radius: var(--radius-md);");
+  lines.push("}");
+  lines.push("");
+  lines.push(".interactive {");
+  lines.push("  cursor: pointer;");
+  lines.push("  transition: all var(--transition-fast);");
+  lines.push("}");
+  lines.push(".interactive:hover { opacity: 0.85; }");
+  lines.push(".interactive:active { transform: scale(0.98); }");
+  lines.push("");
+  lines.push(".truncate {");
+  lines.push("  overflow: hidden;");
+  lines.push("  text-overflow: ellipsis;");
+  lines.push("  white-space: nowrap;");
+  lines.push("}");
+  lines.push("");
+  lines.push(".sr-only {");
+  lines.push("  position: absolute; width: 1px; height: 1px;");
+  lines.push("  padding: 0; margin: -1px; overflow: hidden;");
+  lines.push("  clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;");
   lines.push("}");
   lines.push("");
 
@@ -357,14 +523,96 @@ export function generateThemeGuidelines(ctx: ContextMap): GeneratedFile {
     lines.push("");
   }
 
+  // Animation & Motion
+  lines.push("## Animation & Motion");
+  lines.push("");
+  lines.push("### Available Animations");
+  lines.push("");
+  lines.push("| Class | Effect | Duration | Use For |");
+  lines.push("|-------|--------|----------|---------|");
+  lines.push("| `.animate-fade-in` | Opacity 0→1 | 200ms | Page sections, lazy content |");
+  lines.push("| `.animate-slide-up` | Translate Y + fade | 200ms | Cards, list items, toasts |");
+  lines.push("| `.animate-slide-down` | Translate Y + fade | 200ms | Dropdowns, menus |");
+  lines.push("| `.animate-scale-in` | Scale 0.95→1 + fade | 150ms | Modals, popovers |");
+  lines.push("| `.animate-spin` | 360° rotate | 1s loop | Loading spinners |");
+  lines.push("| `.animate-pulse` | Opacity pulse | 2s loop | Skeleton loaders |");
+  lines.push("| `.animate-shimmer` | Gradient sweep | 1.5s loop | Loading placeholders |");
+  lines.push("");
+  lines.push("### Motion Rules");
+  lines.push("");
+  lines.push("- **Entrances**: Use `fade-in` or `slide-up`. Keep under 300ms.");
+  lines.push("- **Exits**: Reverse the entrance or use `fade-out` (opacity 1→0).");
+  lines.push("- **Hover/focus**: Use `transition: all var(--transition-fast)` — never animate on hover with keyframes.");
+  lines.push("- **Loading states**: Prefer `pulse` or `shimmer` over spinner when layout is known.");
+  lines.push("- **Reduced motion**: All animations are automatically disabled via `prefers-reduced-motion: reduce`.");
+  lines.push("- **Easing**: Default to `--ease-out` for entrances, `--ease-in` for exits, `--ease-bounce` for playful micro-interactions.");
+  lines.push("");
+
+  // Responsive Strategy
+  lines.push("## Responsive Strategy");
+  lines.push("");
+  lines.push("### Breakpoints");
+  lines.push("");
+  lines.push("| Token | Width | Target |");
+  lines.push("|-------|-------|--------|");
+  lines.push("| `sm` | 640px | Large phones (landscape) |");
+  lines.push("| `md` | 768px | Tablets |");
+  lines.push("| `lg` | 1024px | Small laptops |");
+  lines.push("| `xl` | 1280px | Desktops |");
+  lines.push("| `2xl` | 1536px | Large screens |");
+  lines.push("");
+  lines.push("### Rules");
+  lines.push("");
+  lines.push("- **Mobile-first**: Write base styles for the smallest screen, then layer up with `min-width` queries.");
+  lines.push("- **Container widths**: Cap content at `max-width: 1280px` with auto margins.");
+  lines.push("- **Touch targets**: Minimum 44×44px for all interactive elements on mobile.");
+  lines.push("- **Spacing**: Use `--space-4` page margins on mobile, `--space-8` on `md+`.");
+  lines.push("- **Typography**: Body stays at `base` (1rem). Headings can scale down 1 step on mobile (e.g., `h1` from `4xl` to `3xl`).");
+  lines.push("- **Grid**: Prefer CSS Grid with `auto-fit` / `minmax()` for naturally responsive layouts.");
+  lines.push("");
+
+  // Surface Semantics
+  lines.push("## Surface Hierarchy");
+  lines.push("");
+  lines.push("| Surface | CSS Class | Use For |");
+  lines.push("|---------|-----------|---------|");
+  lines.push("| Page | `--surface-page` | Root background |");
+  lines.push("| Card | `.surface-card` | Primary content containers |");
+  lines.push("| Elevated | `.surface-elevated` | Floating panels, popovers |");
+  lines.push("| Inset | `.surface-inset` | Code blocks, secondary areas |");
+  lines.push("| Overlay | `--surface-overlay-backdrop` | Modal/dialog backdrops |");
+  lines.push("");
+  lines.push("Surfaces automatically adapt in dark mode via CSS custom properties.");
+  lines.push("");
+
   // Accessibility
   lines.push("## Accessibility");
   lines.push("");
-  lines.push("- All color combinations must meet WCAG 2.1 AA contrast (4.5:1 for text, 3:1 for large text)");
-  lines.push("- Interactive elements must have visible focus indicators (outline or ring)");
-  lines.push("- Do not rely on color alone to convey information");
-  lines.push("- Use `prefers-reduced-motion` to disable animations for users who request it");
-  lines.push("- Test with high contrast mode enabled");
+  lines.push("### Contrast Requirements (WCAG 2.1)");
+  lines.push("");
+  lines.push("| Level | Ratio | Applies To |");
+  lines.push("|-------|-------|------------|");
+  lines.push("| AA | 4.5:1 | Normal text (< 18px) |");
+  lines.push("| AA | 3:1 | Large text (≥ 18px bold / 24px), UI components, icons |");
+  lines.push("| AAA | 7:1 | Enhanced — target for body text on critical pages |");
+  lines.push("");
+  lines.push("### Token Contrast Reference");
+  lines.push("");
+  lines.push("| Combination | Approximate Ratio | Grade |");
+  lines.push("|-------------|-------------------|-------|");
+  lines.push("| neutral-900 on neutral-50 | 18.1:1 | AAA |");
+  lines.push("| neutral-900 on neutral-100 | 16.0:1 | AAA |");
+  lines.push("| primary-600 on neutral-50 | 5.2:1 | AA |");
+  lines.push("| neutral-500 on neutral-50 | 4.6:1 | AA (text) |");
+  lines.push("| neutral-400 on neutral-50 | 3.2:1 | AA (large only) |");
+  lines.push("| error-500 on white | 4.0:1 | AA (large only) |");
+  lines.push("");
+  lines.push("### Focus & Interaction");
+  lines.push("");
+  lines.push("- All interactive elements use `:focus-visible` with a `2px` ring in `--ring-color`.");
+  lines.push("- Do not rely on color alone to convey state — pair with icons, text, or shape changes.");
+  lines.push("- Use `prefers-reduced-motion` to disable animations (already wired in theme.css).");
+  lines.push("- Test with screen readers, keyboard-only navigation, and Windows High Contrast Mode.");
   lines.push("");
 
   return {
@@ -507,11 +755,25 @@ export function generateDarkModeTokens(ctx: ContextMap): GeneratedFile {
         subtle: "#1e293b",
       },
     },
+    surfaces: {
+      page: { bg: "#0a0a0a", text: "#fafafa", border: "#262626" },
+      card: { bg: "#171717", text: "#f5f5f5", border: "#262626", shadow: "0 1px 3px rgba(0,0,0,0.4)" },
+      elevated: { bg: "#262626", text: "#f5f5f5", border: "#404040", shadow: "0 10px 15px rgba(0,0,0,0.5)" },
+      inset: { bg: "#0f0f0f", text: "#d4d4d4", border: "#262626" },
+      overlay: { bg: "#171717", text: "#fafafa", shadow: "0 10px 15px rgba(0,0,0,0.6)", backdrop: "rgba(0,0,0,0.7)" },
+    },
     shadows: {
       sm: "0 1px 2px rgba(0, 0, 0, 0.3)",
       md: "0 4px 6px rgba(0, 0, 0, 0.4)",
       lg: "0 10px 15px rgba(0, 0, 0, 0.5)",
       glow: "0 0 20px rgba(56, 189, 248, 0.15)",
+    },
+    motion: {
+      note: "Dark mode may warrant subtler motion. Reduce glow/shadow transitions in dark contexts.",
+      transition_overrides: {
+        shadow_transition: "box-shadow 200ms ease",
+        glow_on_focus: "0 0 0 3px rgba(56, 189, 248, 0.25)",
+      },
     },
     implementation: {
       css_strategy: hasTailwind ? "tailwind-dark-class" : "css-custom-properties",

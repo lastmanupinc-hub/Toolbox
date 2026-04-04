@@ -98,7 +98,7 @@ function httpGetBuffer(url: string, token?: string): Promise<Buffer> {
         return;
       }
 
-      httpsGet(requestUrl, { headers }, (res) => {
+      httpsGet(requestUrl, { headers, timeout: 30_000 }, (res) => {
         // Follow redirects (GitHub API returns 302 for tarball)
         if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           doRequest(res.headers.location, redirectCount + 1);
@@ -130,7 +130,7 @@ function httpGetBuffer(url: string, token?: string): Promise<Buffer> {
         });
         res.on("end", () => resolve(Buffer.concat(chunks)));
         res.on("error", reject);
-      }).on("error", reject);
+      }).on("error", reject).on("timeout", function (this: import("http").ClientRequest) { this.destroy(); reject(new Error("GitHub API request timed out (30s)")); });
     };
 
     doRequest(url, 0);

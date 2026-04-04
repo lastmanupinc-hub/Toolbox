@@ -139,6 +139,12 @@ export async function handleCreateSnapshot(
       sendJSON(res, 400, { error: "Each file must have path (string) and content (string)" });
       return;
     }
+    // Normalize path separators and reject traversal
+    file.path = file.path.replace(/\\/g, "/").replace(/\/+/g, "/").replace(/^\/+/, "");
+    if (file.path.includes("..")) {
+      sendJSON(res, 400, { error: `Invalid file path: ${file.path}` });
+      return;
+    }
     file.size = file.size ?? Buffer.byteLength(file.content, "utf-8");
   }
 
@@ -345,6 +351,10 @@ export async function handleGetGeneratedFile(
 
   // Match by path — handle both "AGENTS.md" and ".ai/context-map.json" style
   const decoded = decodeURIComponent(file_path);
+  if (decoded.includes("..") || decoded.startsWith("/")) {
+    sendJSON(res, 400, { error: "Invalid file path" });
+    return;
+  }
   const file = generated.files.find(f => f.path === decoded || f.path === `.ai/${decoded}`);
   if (!file) {
     sendJSON(res, 404, { error: `File not found: ${decoded}`, available: generated.files.map(f => f.path) });

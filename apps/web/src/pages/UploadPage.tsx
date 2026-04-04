@@ -61,20 +61,24 @@ export function UploadPage({ onComplete }: Props) {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [skippedCount, setSkippedCount] = useState(0);
+
   async function readFiles(fileList: FileList) {
     const results: Array<{ path: string; content: string; size: number }> = [];
+    let skipped = 0;
     for (const file of Array.from(fileList)) {
       const relativePath =
         (file as File & { webkitRelativePath?: string }).webkitRelativePath || file.name;
       if (shouldIgnore(relativePath)) continue;
-      if (file.size > 1024 * 1024) continue; // skip files > 1MB
+      if (file.size > 1024 * 1024) { skipped++; continue; } // skip files > 1MB
       try {
         const content = await file.text();
         results.push({ path: relativePath, content, size: file.size });
       } catch {
-        // skip binary files
+        skipped++; // binary files
       }
     }
+    setSkippedCount(skipped);
     return results;
   }
 
@@ -323,6 +327,11 @@ export function UploadPage({ onComplete }: Props) {
               <div className="flex-between" style={{ marginBottom: 8 }}>
                 <span className="badge badge-green">{files.length} files</span>
                 <span className="badge">{(totalSize / 1024).toFixed(1)} KB</span>
+                {skippedCount > 0 && (
+                  <span className="badge" style={{ background: "var(--warning-bg)", color: "var(--warning)" }}>
+                    {skippedCount} skipped (&gt;1 MB / binary)
+                  </span>
+                )}
               </div>
               <div
                 style={{

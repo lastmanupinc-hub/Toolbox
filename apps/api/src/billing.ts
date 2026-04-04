@@ -104,6 +104,19 @@ export async function handleCreateAccount(
     return;
   }
 
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email) || email.length > 254) {
+    sendJSON(res, 400, { error: "Invalid email address" });
+    return;
+  }
+
+  // Validate name length
+  if (name.length > 200) {
+    sendJSON(res, 400, { error: "Name must be 200 characters or fewer" });
+    return;
+  }
+
   if (!["free", "paid", "suite"].includes(tier)) {
     sendJSON(res, 400, { error: "tier must be free, paid, or suite" });
     return;

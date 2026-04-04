@@ -34,9 +34,15 @@ function writeU32(buf: Buffer, offset: number, val: number) {
 
 function buildZip(files: Array<{ path: string; content: string }>): Buffer {
   const entries: ZipEntry[] = files.map(f => {
+    // Sanitize path: no traversal, no absolute, normalize separators
+    const safePath = f.path
+      .replace(/\\/g, "/")
+      .split("/")
+      .filter(p => p && p !== "." && p !== "..")
+      .join("/");
     const raw = Buffer.from(f.content, "utf-8");
     const compressed = deflateRawSync(raw, { level: 6 });
-    return { path: f.path, content: raw, compressed, crc32: crc32(raw) };
+    return { path: safePath, content: raw, compressed, crc32: crc32(raw) };
   });
 
   const chunks: Buffer[] = [];
