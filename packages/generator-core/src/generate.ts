@@ -7,6 +7,7 @@ import { generateFrontendRules, generateComponentGuidelines } from "./generators
 import { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityMap, generateContentAudit } from "./generators-seo.js";
 import { generateOptimizationRules, generatePromptDiffReport, generateCostEstimate } from "./generators-optimization.js";
 import { generateDesignTokens, generateThemeCss, generateThemeGuidelines, generateComponentThemeMap } from "./generators-theme.js";
+import { generateBrandGuidelines, generateVoiceAndTone, generateContentConstraints, generateMessagingSystem } from "./generators-brand.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -33,6 +34,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "theme.css": (ctx) => generateThemeCss(ctx),
   "theme-guidelines.md": (ctx) => generateThemeGuidelines(ctx),
   "component-theme-map.json": (ctx) => generateComponentThemeMap(ctx),
+  "brand-guidelines.md": (ctx) => generateBrandGuidelines(ctx),
+  "voice-and-tone.md": (ctx) => generateVoiceAndTone(ctx),
+  "content-constraints.md": (ctx) => generateContentConstraints(ctx),
+  "messaging-system.yaml": (ctx) => generateMessagingSystem(ctx),
 };
 
 // Aliases (user may request with different naming)

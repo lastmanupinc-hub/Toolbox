@@ -15,6 +15,7 @@ import {
   handleSeoAnalyze,
   handleOptimizationAnalyze,
   handleThemeGenerate,
+  handleBrandGenerate,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -89,6 +90,7 @@ beforeAll(async () => {
   router.post("/v1/seo/analyze", handleSeoAnalyze);
   router.post("/v1/optimization/analyze", handleOptimizationAnalyze);
   router.post("/v1/theme/generate", handleThemeGenerate);
+  router.post("/v1/brand/generate", handleBrandGenerate);
 
   server = createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -251,6 +253,16 @@ describe("API integration", () => {
     expect(files.length).toBe(4);
   });
 
+  it("POST /v1/brand/generate returns brand files", async () => {
+    const r = await request(TEST_PORT, "POST", "/v1/brand/generate", { snapshot_id: snapshotId });
+    expect(r.status).toBe(200);
+    const data = r.data as Record<string, unknown>;
+    expect(data.program).toBe("brand");
+    const files = data.files as Array<{ path: string; program: string }>;
+    expect(files.every(f => f.program === "brand")).toBe(true);
+    expect(files.length).toBe(4);
+  });
+
   it("returns 404 for unknown route", async () => {
     const r = await request(TEST_PORT, "GET", "/v1/nonexistent");
     expect(r.status).toBe(404);
@@ -271,5 +283,7 @@ describe("API integration", () => {
     expect(r6.status).toBe(400);
     const r7 = await request(TEST_PORT, "POST", "/v1/theme/generate", {});
     expect(r7.status).toBe(400);
+    const r8 = await request(TEST_PORT, "POST", "/v1/brand/generate", {});
+    expect(r8.status).toBe(400);
   });
 });

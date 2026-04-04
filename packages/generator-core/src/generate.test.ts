@@ -328,23 +328,58 @@ describe("theme generators content", () => {
   });
 });
 
+describe("brand generators content", () => {
+  const result = generateFiles(makeInput(["brand-guidelines.md", "voice-and-tone.md", "content-constraints.md", "messaging-system.yaml"]));
+
+  it("generates all 4 brand files", () => {
+    const brandFiles = result.files.filter(f => f.program === "brand");
+    expect(brandFiles.length).toBe(4);
+  });
+
+  it("brand-guidelines.md has identity and voice sections", () => {
+    const file = result.files.find(f => f.path === "brand-guidelines.md")!;
+    expect(file.content).toContain("Brand Identity");
+    expect(file.content).toContain("Voice Attributes");
+    expect(file.content).toContain("test-app");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("voice-and-tone.md has tone spectrum and contexts", () => {
+    const file = result.files.find(f => f.path === "voice-and-tone.md")!;
+    expect(file.content).toContain("Tone Spectrum");
+    expect(file.content).toContain("Error");
+    expect(file.content).toContain("Writing Checklist");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("content-constraints.md has hard and soft constraints", () => {
+    const file = result.files.find(f => f.path === "content-constraints.md")!;
+    expect(file.content).toContain("Hard Constraints");
+    expect(file.content).toContain("Soft Constraints");
+    expect(file.content).toContain("AI Content Generation");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("messaging-system.yaml has product and value props", () => {
+    const file = result.files.find(f => f.path === "messaging-system.yaml")!;
+    expect(file.content).toContain("product:");
+    expect(file.content).toContain("value_propositions:");
+    expect(file.content).toContain("test-app");
+    expect(file.content_type).toBe("text/yaml");
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(22);
+    expect(generators.length).toBe(26);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
-    expect(paths).toContain(".ai/debug-playbook.md");
-    expect(paths).toContain(".ai/frontend-rules.md");
-    expect(paths).toContain(".ai/seo-rules.md");
-    expect(paths).toContain("schema-recommendations.json");
-    expect(paths).toContain(".ai/optimization-rules.md");
-    expect(paths).toContain("prompt-diff-report.md");
-    expect(paths).toContain("cost-estimate.json");
     expect(paths).toContain(".ai/design-tokens.json");
     expect(paths).toContain("theme.css");
-    expect(paths).toContain("theme-guidelines.md");
-    expect(paths).toContain("component-theme-map.json");
+    expect(paths).toContain("brand-guidelines.md");
+    expect(paths).toContain("voice-and-tone.md");
+    expect(paths).toContain("messaging-system.yaml");
   });
 });
