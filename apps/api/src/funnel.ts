@@ -59,15 +59,15 @@ export async function handleInviteSeat(
     return;
   }
 
-  const email = body.email as string | undefined;
-  const role = (body.role as SeatRole) ?? "member";
+  const email = body.email;
+  const role = body.role ?? "member";
 
-  if (!email) {
+  if (!email || typeof email !== "string") {
     sendError(res, 400, ErrorCode.MISSING_FIELD, "email is required");
     return;
   }
 
-  if (!["owner", "admin", "member", "viewer"].includes(role)) {
+  if (typeof role !== "string" || !["owner", "admin", "member", "viewer"].includes(role)) {
     sendError(res, 400, ErrorCode.INVALID_FORMAT, "role must be owner, admin, member, or viewer");
     return;
   }
@@ -79,7 +79,7 @@ export async function handleInviteSeat(
   }
 
   try {
-    const seat = inviteSeat(ctx.account!.account_id, email, role, ctx.account!.account_id);
+    const seat = inviteSeat(ctx.account!.account_id, email, role as SeatRole, ctx.account!.account_id);
     sendJSON(res, 201, { seat });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

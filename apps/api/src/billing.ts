@@ -100,8 +100,13 @@ export async function handleCreateAccount(
   const email = body.email as string | undefined;
   const tier = (body.tier as BillingTier) ?? "free";
 
-  if (!name || !email) {
-    sendError(res, 400, ErrorCode.MISSING_FIELD, "name and email are required");
+  if (!name || typeof name !== "string" || !email || typeof email !== "string") {
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "name and email are required (both must be strings)");
+    return;
+  }
+
+  if (typeof tier !== "string" || !["free", "paid", "suite"].includes(tier)) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "tier must be free, paid, or suite");
     return;
   }
 
@@ -115,11 +120,6 @@ export async function handleCreateAccount(
   // Validate name length
   if (name.length > 200) {
     sendError(res, 400, ErrorCode.INVALID_FORMAT, "Name must be 200 characters or fewer");
-    return;
-  }
-
-  if (!["free", "paid", "suite"].includes(tier)) {
-    sendError(res, 400, ErrorCode.INVALID_FORMAT, "tier must be free, paid, or suite");
     return;
   }
 
@@ -191,7 +191,7 @@ export async function handleCreateApiKey(
     // empty body is fine — label is optional
   }
 
-  const label = (body.label as string) ?? "";
+  const label = typeof body.label === "string" ? body.label : "";
   const { apiKey, rawKey } = createApiKey(ctx.account!.account_id, label);
 
   sendJSON(res, 201, {
@@ -294,13 +294,13 @@ export async function handleUpdateTier(
     return;
   }
 
-  const tier = body.tier as BillingTier | undefined;
-  if (!tier || !["free", "paid", "suite"].includes(tier)) {
+  const tier = body.tier;
+  if (!tier || typeof tier !== "string" || !["free", "paid", "suite"].includes(tier)) {
     sendError(res, 400, ErrorCode.INVALID_FORMAT, "tier must be free, paid, or suite");
     return;
   }
 
-  updateAccountTier(ctx.account!.account_id, tier);
+  updateAccountTier(ctx.account!.account_id, tier as BillingTier);
   const updated = getAccount(ctx.account!.account_id);
 
   // Track tier change funnel event
@@ -335,11 +335,20 @@ export async function handleUpdatePrograms(
     return;
   }
 
-  const enable = body.enable as string[] | undefined;
-  const disable = body.disable as string[] | undefined;
+  const enable = body.enable;
+  const disable = body.disable;
 
-  const allValid = [...(enable ?? []), ...(disable ?? [])];
-  const invalid = allValid.filter(p => !(ALL_PROGRAMS as readonly string[]).includes(p));
+  if (enable !== undefined && !Array.isArray(enable)) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "enable must be an array of program names");
+    return;
+  }
+  if (disable !== undefined && !Array.isArray(disable)) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "disable must be an array of program names");
+    return;
+  }
+
+  const allValid = [...(enable ?? []), ...(disable ?? [])] as string[];
+  const invalid = allValid.filter(p => typeof p !== "string" || !(ALL_PROGRAMS as readonly string[]).includes(p));
   if (invalid.length > 0) {
     sendError(res, 400, ErrorCode.INVALID_PROGRAM, `Invalid program names: ${invalid.join(", ")}`);
     return;

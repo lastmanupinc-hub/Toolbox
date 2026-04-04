@@ -59,19 +59,25 @@ export function makeProgramHandler(program: string, defaultOutputs: string[]) {
     }
 
     const snapshotId = body.snapshot_id as string;
-    if (!snapshotId) {
+    if (!snapshotId || typeof snapshotId !== "string") {
       sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
+      return;
+    }
+
+    const rawOutputs = body.outputs;
+    if (rawOutputs !== undefined && !Array.isArray(rawOutputs)) {
+      sendError(res, 400, ErrorCode.INVALID_FORMAT, "outputs must be an array of strings");
       return;
     }
 
     const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
     const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
     if (!contextMap || !repoProfile) {
-      sendError(res, 404, ErrorCode.CONTEXT_PENDING, "No context for this snapshot — run POST /v1/snapshots first");
+      sendError(res, 404, ErrorCode.CONTEXT_PENDING, "No context for this snapshot \u2014 run POST /v1/snapshots first");
       return;
     }
 
-    const requestedOutputs = (body.outputs as string[]) ?? defaultOutputs;
+    const requestedOutputs = (rawOutputs as string[] | undefined) ?? defaultOutputs;
     const result = generateFiles({
       context_map: contextMap,
       repo_profile: repoProfile,
@@ -123,6 +129,16 @@ export async function handleCreateSnapshot(
   const manifest = body.manifest as SnapshotManifest | undefined;
   if (!manifest?.project_name || !manifest?.project_type || !manifest?.frameworks || !manifest?.goals || !manifest?.requested_outputs) {
     sendError(res, 400, ErrorCode.MISSING_FIELD, "Missing required manifest fields: project_name, project_type, frameworks, goals, requested_outputs");
+    return;
+  }
+
+  // Validate manifest field types
+  if (typeof manifest.project_name !== "string" || typeof manifest.project_type !== "string") {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "manifest.project_name and manifest.project_type must be strings");
+    return;
+  }
+  if (!Array.isArray(manifest.frameworks) || !Array.isArray(manifest.goals) || !Array.isArray(manifest.requested_outputs)) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "manifest.frameworks, manifest.goals, and manifest.requested_outputs must be arrays");
     return;
   }
 
@@ -382,7 +398,7 @@ export async function handleSearchExport(
   }
 
   const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
+  if (!snapshotId || typeof snapshotId !== "string") {
     sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
     return;
   }
@@ -415,20 +431,26 @@ export async function handleSkillsGenerate(
   }
 
   const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
+  if (!snapshotId || typeof snapshotId !== "string") {
     sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
+    return;
+  }
+
+  // Regenerate skills files with optional custom outputs
+  const rawOutputs = body.outputs;
+  if (rawOutputs !== undefined && !Array.isArray(rawOutputs)) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "outputs must be an array of strings");
     return;
   }
 
   const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
   const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
   if (!contextMap || !repoProfile) {
-    sendError(res, 404, ErrorCode.CONTEXT_PENDING, "No context for this snapshot — run POST /v1/snapshots first");
+    sendError(res, 404, ErrorCode.CONTEXT_PENDING, "No context for this snapshot \u2014 run POST /v1/snapshots first");
     return;
   }
 
-  // Regenerate skills files with optional custom outputs
-  const requestedOutputs = (body.outputs as string[]) ?? ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"];
+  const requestedOutputs = (rawOutputs as string[] | undefined) ?? ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"];
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
@@ -478,7 +500,8 @@ export async function handleGitHubAnalyze(
 
   let fetchResult;
   try {
-    const token = (body.token as string) ?? process.env.GITHUB_TOKEN;
+    const rawToken = body.token;
+    const token = (typeof rawToken === "string" ? rawToken : undefined) ?? process.env.GITHUB_TOKEN;
     fetchResult = await fetchGitHubRepo(githubUrl, token || undefined);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
