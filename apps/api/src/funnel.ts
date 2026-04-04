@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { sendJSON, readBody } from "./router.js";
+import { sendJSON, readBody, sendError } from "./router.js";
 import { requireAuth } from "./billing.js";
+import { ErrorCode } from "./logger.js";
 import {
   inviteSeat,
   acceptSeat,
@@ -45,7 +46,7 @@ export async function handleInviteSeat(
   if (!ctx) return;
 
   if (ctx.account!.tier === "free") {
-    sendJSON(res, 403, { error: "Team seats require Pro or Enterprise tier" });
+    sendError(res, 403, ErrorCode.TIER_REQUIRED, "Team seats require Pro or Enterprise tier");
     return;
   }
 
@@ -54,7 +55,7 @@ export async function handleInviteSeat(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
@@ -62,18 +63,18 @@ export async function handleInviteSeat(
   const role = (body.role as SeatRole) ?? "member";
 
   if (!email) {
-    sendJSON(res, 400, { error: "email is required" });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "email is required");
     return;
   }
 
   if (!["owner", "admin", "member", "viewer"].includes(role)) {
-    sendJSON(res, 400, { error: "role must be owner, admin, member, or viewer" });
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "role must be owner, admin, member, or viewer");
     return;
   }
 
   const existing = getSeatByEmail(ctx.account!.account_id, email);
   if (existing) {
-    sendJSON(res, 409, { error: "This email already has an active seat" });
+    sendError(res, 409, ErrorCode.CONFLICT, "This email already has an active seat");
     return;
   }
 
@@ -84,15 +85,14 @@ export async function handleInviteSeat(
     const message = err instanceof Error ? err.message : "Unknown error";
     if (message.includes("Seat limit")) {
       const limit = SEAT_LIMITS[ctx.account!.tier];
-      sendJSON(res, 429, {
-        error: message,
+      sendError(res, 429, ErrorCode.SEAT_LIMIT, message, {
         limit,
         upgrade_hint: ctx.account!.tier === "paid"
           ? "Upgrade to Enterprise Suite for unlimited seats"
           : undefined,
       });
     } else {
-      sendJSON(res, 400, { error: message });
+      sendError(res, 400, ErrorCode.INVALID_FORMAT, message);
     }
   }
 }
@@ -143,16 +143,16 @@ export async function handleAcceptSeat(
   const { seat_id } = params;
   const seat = getSeat(seat_id);
   if (!seat) {
-    sendJSON(res, 404, { error: "Seat invitation not found" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "Seat invitation not found");
     return;
   }
   if (seat.email !== ctx.account!.email) {
-    sendJSON(res, 403, { error: "This invitation is for a different email address" });
+    sendError(res, 403, ErrorCode.FORBIDDEN, "This invitation is for a different email address");
     return;
   }
   const ok = acceptSeat(seat_id);
   if (!ok) {
-    sendJSON(res, 404, { error: "Seat invitation not found or already accepted/revoked" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "Seat invitation not found or already accepted/revoked");
     return;
   }
   sendJSON(res, 200, { seat_id, accepted: true });
@@ -170,12 +170,12 @@ export async function handleRevokeSeat(
   const { seat_id } = params;
   const seat = getSeat(seat_id);
   if (!seat || seat.account_id !== ctx.account!.account_id) {
-    sendJSON(res, 404, { error: "Seat not found or already revoked" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "Seat not found or already revoked");
     return;
   }
   const ok = revokeSeat(seat_id);
   if (!ok) {
-    sendJSON(res, 404, { error: "Seat not found or already revoked" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "Seat not found or already revoked");
     return;
   }
   sendJSON(res, 200, { seat_id, revoked: true });

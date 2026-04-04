@@ -21,8 +21,9 @@ import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import { generateFiles } from "@axis/generator-core";
 import type { GeneratorResult } from "@axis/generator-core";
-import { sendJSON, readBody } from "./router.js";
+import { sendJSON, readBody, sendError } from "./router.js";
 import { resolveAuth } from "./billing.js";
+import { ErrorCode, log, getRequestId } from "./logger.js";
 
 // ─── Per-program default outputs ────────────────────────────────
 
@@ -53,20 +54,20 @@ export function makeProgramHandler(program: string, defaultOutputs: string[]) {
     try {
       body = JSON.parse(raw);
     } catch {
-      sendJSON(res, 400, { error: "Invalid JSON body" });
+      sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
       return;
     }
 
     const snapshotId = body.snapshot_id as string;
     if (!snapshotId) {
-      sendJSON(res, 400, { error: "snapshot_id is required" });
+      sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
       return;
     }
 
     const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
     const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
     if (!contextMap || !repoProfile) {
-      sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+      sendError(res, 404, ErrorCode.CONTEXT_PENDING, "No context for this snapshot — run POST /v1/snapshots first");
       return;
     }
 
@@ -114,35 +115,33 @@ export async function handleCreateSnapshot(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
   // Validate required fields
   const manifest = body.manifest as SnapshotManifest | undefined;
   if (!manifest?.project_name || !manifest?.project_type || !manifest?.frameworks || !manifest?.goals || !manifest?.requested_outputs) {
-    sendJSON(res, 400, {
-      error: "Missing required manifest fields: project_name, project_type, frameworks, goals, requested_outputs",
-    });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "Missing required manifest fields: project_name, project_type, frameworks, goals, requested_outputs");
     return;
   }
 
   const files = body.files as FileEntry[] | undefined;
   if (!files || !Array.isArray(files) || files.length === 0) {
-    sendJSON(res, 400, { error: "files array is required and must not be empty" });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "files array is required and must not be empty");
     return;
   }
 
   // Validate file entries
   for (const file of files) {
     if (!file.path || typeof file.content !== "string") {
-      sendJSON(res, 400, { error: "Each file must have path (string) and content (string)" });
+      sendError(res, 400, ErrorCode.FILE_INVALID, "Each file must have path (string) and content (string)");
       return;
     }
     // Normalize path separators and reject traversal
     file.path = file.path.replace(/\\/g, "/").replace(/\/+/g, "/").replace(/^\/+/, "");
     if (file.path.includes("..")) {
-      sendJSON(res, 400, { error: `Invalid file path: ${file.path}` });
+      sendError(res, 400, ErrorCode.PATH_TRAVERSAL, `Invalid file path: ${file.path}`);
       return;
     }
     file.size = file.size ?? Buffer.byteLength(file.content, "utf-8");
@@ -157,7 +156,7 @@ export async function handleCreateSnapshot(
   // Reject invalid/revoked keys (key provided but not valid)
   const auth = resolveAuth(req);
   if (!auth.anonymous && !auth.account) {
-    sendJSON(res, 401, { error: "Invalid or revoked API key" });
+    sendError(res, 401, ErrorCode.INVALID_KEY, "Invalid or revoked API key");
     return;
   }
   // Check quota if authenticated
@@ -165,19 +164,19 @@ export async function handleCreateSnapshot(
     const quota = checkQuota(auth.account.account_id);
     if (!quota.allowed) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason });
-      sendJSON(res, 429, { error: quota.reason, tier: quota.tier, usage: quota.usage });
+      sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", { tier: quota.tier, usage: quota.usage });
       return;
     }
 
     // Enforce per-snapshot file count and size limits
     const limits = TIER_LIMITS[auth.account.tier];
     if (files.length > limits.max_files_per_snapshot) {
-      sendJSON(res, 413, { error: `File limit exceeded: ${files.length} files (max ${limits.max_files_per_snapshot} for ${auth.account.tier} tier)` });
+      sendError(res, 413, ErrorCode.FILE_COUNT_EXCEEDED, `File limit exceeded: ${files.length} files (max ${limits.max_files_per_snapshot} for ${auth.account.tier} tier)`);
       return;
     }
     for (const file of files) {
       if (file.size > limits.max_file_size_bytes) {
-        sendJSON(res, 413, { error: `File too large: ${file.path} is ${file.size} bytes (max ${limits.max_file_size_bytes} for ${auth.account.tier} tier)` });
+        sendError(res, 413, ErrorCode.FILE_TOO_LARGE, `File too large: ${file.path} is ${file.size} bytes (max ${limits.max_file_size_bytes} for ${auth.account.tier} tier)`);
         return;
       }
     }
@@ -226,11 +225,14 @@ export async function handleCreateSnapshot(
     });
   } catch (err) {
     updateSnapshotStatus(snapshot.snapshot_id, "failed");
-    console.error("Snapshot processing failed:", err);
-    sendJSON(res, 500, {
+    log("error", "snapshot_processing_failed", {
+      request_id: getRequestId(res),
+      snapshot_id: snapshot.snapshot_id,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    sendError(res, 500, ErrorCode.PROCESS_FAILED, "Processing failed", {
       snapshot_id: snapshot.snapshot_id,
       status: "failed",
-      error: "Processing failed",
     });
   }
 }
@@ -243,7 +245,7 @@ export async function handleGetSnapshot(
   const { snapshot_id } = params;
   const snapshot = getSnapshot(snapshot_id);
   if (!snapshot) {
-    sendJSON(res, 404, { error: "Snapshot not found" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "Snapshot not found");
     return;
   }
 
@@ -267,7 +269,7 @@ export async function handleGetContext(
   const { project_id } = params;
   const snapshots = getProjectSnapshots(project_id);
   if (snapshots.length === 0) {
-    sendJSON(res, 404, { error: "No snapshots found for project" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No snapshots found for project");
     return;
   }
 
@@ -276,7 +278,7 @@ export async function handleGetContext(
   const repoProfile = getRepoProfile(latest.snapshot_id);
 
   if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "Context not yet available — snapshot may still be processing" });
+    sendError(res, 404, ErrorCode.CONTEXT_PENDING, "Context not yet available — snapshot may still be processing");
     return;
   }
 
@@ -295,7 +297,7 @@ export async function handleGetGeneratedFiles(
   const { project_id } = params;
   const snapshots = getProjectSnapshots(project_id);
   if (snapshots.length === 0) {
-    sendJSON(res, 404, { error: "No snapshots found for project" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No snapshots found for project");
     return;
   }
 
@@ -305,7 +307,7 @@ export async function handleGetGeneratedFiles(
 
   const generated = getGeneratorResult(latest.snapshot_id) as GeneratorResult | undefined;
   if (!generated) {
-    sendJSON(res, 404, { error: "No generated files available yet" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No generated files available yet");
     return;
   }
 
@@ -338,26 +340,26 @@ export async function handleGetGeneratedFile(
   const { project_id, file_path } = params;
   const snapshots = getProjectSnapshots(project_id);
   if (snapshots.length === 0) {
-    sendJSON(res, 404, { error: "No snapshots found for project" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No snapshots found for project");
     return;
   }
 
   const latest = snapshots[snapshots.length - 1];
   const generated = getGeneratorResult(latest.snapshot_id) as GeneratorResult | undefined;
   if (!generated) {
-    sendJSON(res, 404, { error: "No generated files available yet" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No generated files available yet");
     return;
   }
 
   // Match by path — handle both "AGENTS.md" and ".ai/context-map.json" style
   const decoded = decodeURIComponent(file_path);
   if (decoded.includes("..") || decoded.startsWith("/")) {
-    sendJSON(res, 400, { error: "Invalid file path" });
+    sendError(res, 400, ErrorCode.PATH_TRAVERSAL, "Invalid file path");
     return;
   }
   const file = generated.files.find(f => f.path === decoded || f.path === `.ai/${decoded}`);
   if (!file) {
-    sendJSON(res, 404, { error: `File not found: ${decoded}`, available: generated.files.map(f => f.path) });
+    sendError(res, 404, ErrorCode.NOT_FOUND, `File not found: ${decoded}`, { available: generated.files.map(f => f.path) });
     return;
   }
 
@@ -375,19 +377,19 @@ export async function handleSearchExport(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
   const snapshotId = body.snapshot_id as string;
   if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
     return;
   }
 
   const generated = getGeneratorResult(snapshotId) as GeneratorResult | undefined;
   if (!generated) {
-    sendJSON(res, 404, { error: "No results for this snapshot — run POST /v1/snapshots first" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No results for this snapshot — run POST /v1/snapshots first");
     return;
   }
 
@@ -408,20 +410,20 @@ export async function handleSkillsGenerate(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
   const snapshotId = body.snapshot_id as string;
   if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
     return;
   }
 
   const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
   const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
   if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+    sendError(res, 404, ErrorCode.CONTEXT_PENDING, "No context for this snapshot — run POST /v1/snapshots first");
     return;
   }
 
@@ -453,13 +455,13 @@ export async function handleGitHubAnalyze(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
   const githubUrl = body.github_url as string | undefined;
   if (!githubUrl || typeof githubUrl !== "string") {
-    sendJSON(res, 400, { error: "github_url is required" });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "github_url is required");
     return;
   }
 
@@ -470,7 +472,7 @@ export async function handleGitHubAnalyze(
   try {
     parsed = parseGitHubUrl(githubUrl);
   } catch {
-    sendJSON(res, 400, { error: "Invalid GitHub URL. Expected: https://github.com/owner/repo" });
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "Invalid GitHub URL. Expected: https://github.com/owner/repo");
     return;
   }
 
@@ -483,31 +485,31 @@ export async function handleGitHubAnalyze(
     const statusMatch = message.match(/returned (\d{3})/);
     const upstreamStatus = statusMatch ? parseInt(statusMatch[1], 10) : 0;
     if (upstreamStatus === 429 || upstreamStatus === 403) {
-      sendJSON(res, 429, { error: "GitHub API rate limit reached. Try again later or provide a token.", retry_after: 60 });
+      sendError(res, 429, ErrorCode.RATE_LIMITED, "GitHub API rate limit reached. Try again later or provide a token.", { retry_after: 60 });
     } else if (upstreamStatus === 404) {
-      sendJSON(res, 404, { error: "GitHub repository not found" });
+      sendError(res, 404, ErrorCode.NOT_FOUND, "GitHub repository not found");
     } else {
-      sendJSON(res, 502, { error: `Failed to fetch GitHub repo: ${message}` });
+      sendError(res, 502, ErrorCode.UPSTREAM_ERROR, `Failed to fetch GitHub repo: ${message}`);
     }
     return;
   }
 
   if (fetchResult.files.length === 0) {
-    sendJSON(res, 422, { error: "No source files found in repository" });
+    sendError(res, 422, ErrorCode.UNPROCESSABLE, "No source files found in repository");
     return;
   }
 
   // Check quota if authenticated
   const auth = resolveAuth(req);
   if (!auth.anonymous && !auth.account) {
-    sendJSON(res, 401, { error: "Invalid or revoked API key" });
+    sendError(res, 401, ErrorCode.INVALID_KEY, "Invalid or revoked API key");
     return;
   }
   if (auth.account) {
     const quota = checkQuota(auth.account.account_id);
     if (!quota.allowed) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason, source: "github" });
-      sendJSON(res, 429, { error: quota.reason, tier: quota.tier, usage: quota.usage });
+      sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", { tier: quota.tier, usage: quota.usage });
       return;
     }
   }
@@ -578,11 +580,15 @@ export async function handleGitHubAnalyze(
     });
   } catch (err) {
     updateSnapshotStatus(snapshot.snapshot_id, "failed");
-    console.error("GitHub snapshot processing failed:", err);
-    sendJSON(res, 500, {
+    log("error", "github_snapshot_processing_failed", {
+      request_id: getRequestId(res),
+      snapshot_id: snapshot.snapshot_id,
+      github_url: githubUrl,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    sendError(res, 500, ErrorCode.PROCESS_FAILED, "Processing failed", {
       snapshot_id: snapshot.snapshot_id,
       status: "failed",
-      error: "Processing failed",
     });
   }
 }

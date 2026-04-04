@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
 import { openMemoryDb, closeDb } from "@axis/snapshots";
-import { Router, createApp, sendJSON } from "./router.js";
+import { Router, createApp, sendJSON, sendError } from "./router.js";
 import {
   handleCreateSnapshot,
   handleGetSnapshot,

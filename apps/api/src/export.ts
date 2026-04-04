@@ -1,7 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { deflateRawSync } from "node:zlib";
 import { getProjectSnapshots, getGeneratorResult } from "@axis/snapshots";
-import { sendJSON } from "./router.js";
+import { sendJSON, sendError } from "./router.js";
+import { ErrorCode } from "./logger.js";
 
 // ─── Minimal ZIP builder (zero dependencies) ────────────────────
 
@@ -124,7 +125,7 @@ export async function handleExportZip(
   const { project_id } = params;
   const snapshots = getProjectSnapshots(project_id);
   if (snapshots.length === 0) {
-    sendJSON(res, 404, { error: "No snapshots found for project" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No snapshots found for project");
     return;
   }
 
@@ -134,7 +135,7 @@ export async function handleExportZip(
     | undefined;
 
   if (!generated || generated.files.length === 0) {
-    sendJSON(res, 404, { error: "No generated files available yet" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "No generated files available yet");
     return;
   }
 
@@ -147,7 +148,7 @@ export async function handleExportZip(
     : generated.files;
 
   if (files.length === 0) {
-    sendJSON(res, 404, { error: `No files for program: ${programFilter}` });
+    sendError(res, 404, ErrorCode.NOT_FOUND, `No files for program: ${programFilter}`);
     return;
   }
 

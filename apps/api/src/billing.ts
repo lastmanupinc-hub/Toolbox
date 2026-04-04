@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { sendJSON, readBody } from "./router.js";
+import { sendJSON, readBody, sendError } from "./router.js";
+import { ErrorCode } from "./logger.js";
 import {
   resolveApiKey,
   createAccount,
@@ -73,7 +74,7 @@ export function resolveAuth(req: IncomingMessage): AuthContext {
 export function requireAuth(req: IncomingMessage, res: ServerResponse): AuthContext | null {
   const ctx = resolveAuth(req);
   if (ctx.anonymous || !ctx.account) {
-    sendJSON(res, 401, { error: "Authentication required. Include Authorization: Bearer <api_key>" });
+    sendError(res, 401, ErrorCode.AUTH_REQUIRED, "Authentication required. Include Authorization: Bearer <api_key>");
     return null;
   }
   return ctx;
@@ -91,7 +92,7 @@ export async function handleCreateAccount(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
@@ -100,32 +101,32 @@ export async function handleCreateAccount(
   const tier = (body.tier as BillingTier) ?? "free";
 
   if (!name || !email) {
-    sendJSON(res, 400, { error: "name and email are required" });
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "name and email are required");
     return;
   }
 
   // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email) || email.length > 254) {
-    sendJSON(res, 400, { error: "Invalid email address" });
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "Invalid email address");
     return;
   }
 
   // Validate name length
   if (name.length > 200) {
-    sendJSON(res, 400, { error: "Name must be 200 characters or fewer" });
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "Name must be 200 characters or fewer");
     return;
   }
 
   if (!["free", "paid", "suite"].includes(tier)) {
-    sendJSON(res, 400, { error: "tier must be free, paid, or suite" });
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "tier must be free, paid, or suite");
     return;
   }
 
   // Check for duplicate email
   const existing = getAccountByEmail(email);
   if (existing) {
-    sendJSON(res, 409, { error: "An account with this email already exists" });
+    sendError(res, 409, ErrorCode.CONFLICT, "An account with this email already exists");
     return;
   }
 
@@ -237,12 +238,12 @@ export async function handleRevokeApiKey(
   const target = keys.find((k) => k.key_id === key_id);
 
   if (!target) {
-    sendJSON(res, 404, { error: "API key not found" });
+    sendError(res, 404, ErrorCode.NOT_FOUND, "API key not found");
     return;
   }
 
   if (target.revoked_at) {
-    sendJSON(res, 409, { error: "Key already revoked" });
+    sendError(res, 409, ErrorCode.CONFLICT, "Key already revoked");
     return;
   }
 
@@ -289,13 +290,13 @@ export async function handleUpdateTier(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
   const tier = body.tier as BillingTier | undefined;
   if (!tier || !["free", "paid", "suite"].includes(tier)) {
-    sendJSON(res, 400, { error: "tier must be free, paid, or suite" });
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "tier must be free, paid, or suite");
     return;
   }
 
@@ -321,7 +322,7 @@ export async function handleUpdatePrograms(
   if (!ctx) return;
 
   if (ctx.account!.tier === "free") {
-    sendJSON(res, 403, { error: "Program management requires paid or suite tier" });
+    sendError(res, 403, ErrorCode.TIER_REQUIRED, "Program management requires paid or suite tier");
     return;
   }
 
@@ -330,7 +331,7 @@ export async function handleUpdatePrograms(
   try {
     body = JSON.parse(raw);
   } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
     return;
   }
 
@@ -340,7 +341,7 @@ export async function handleUpdatePrograms(
   const allValid = [...(enable ?? []), ...(disable ?? [])];
   const invalid = allValid.filter(p => !(ALL_PROGRAMS as readonly string[]).includes(p));
   if (invalid.length > 0) {
-    sendJSON(res, 400, { error: `Invalid program names: ${invalid.join(", ")}` });
+    sendError(res, 400, ErrorCode.INVALID_PROGRAM, `Invalid program names: ${invalid.join(", ")}`);
     return;
   }
 

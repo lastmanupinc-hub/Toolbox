@@ -1,4 +1,5 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import { initRequest, getRequestId, getRequestStart, log, type ErrorCodeValue } from "./logger.js";
 
 type RouteHandler = (req: IncomingMessage, res: ServerResponse, params: Record<string, string>) => Promise<void>;
 
@@ -51,21 +52,43 @@ export class Router {
       try {
         await route.handler(req, res, params);
       } catch (err) {
-        console.error("Route handler error:", err);
+        log("error", "route_handler_error", {
+          request_id: getRequestId(res),
+          path: req.url,
+          error: err instanceof Error ? err.message : String(err),
+        });
         if (!res.writableEnded) {
-          sendJSON(res, 500, { error: "Internal server error" });
+          sendError(res, 500, "INTERNAL_ERROR", "Internal server error");
         }
       }
       return;
     }
 
-    sendJSON(res, 404, { error: "Not found" });
+    sendError(res, 404, "NOT_FOUND", "Not found");
   }
 }
 
 export function sendJSON(res: ServerResponse, status: number, data: unknown) {
+  const requestId = getRequestId(res);
+  // Auto-inject request_id into error responses
+  const payload = status >= 400 && requestId && typeof data === "object" && data !== null
+    ? { ...(data as Record<string, unknown>), request_id: requestId }
+    : data;
+  if (requestId && !res.headersSent) {
+    res.setHeader("X-Request-Id", requestId);
+  }
   res.writeHead(status, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(data));
+  res.end(JSON.stringify(payload));
+}
+
+export function sendError(
+  res: ServerResponse,
+  status: number,
+  errorCode: ErrorCodeValue | string,
+  message: string,
+  extra?: Record<string, unknown>,
+) {
+  sendJSON(res, status, { error: message, error_code: errorCode, ...extra });
 }
 
 export async function readBody(req: IncomingMessage): Promise<string> {
@@ -92,6 +115,10 @@ export async function readBody(req: IncomingMessage): Promise<string> {
 
 export function createApp(router: Router, port: number) {
   const server = createServer((req, res) => {
+    // Request ID + timing
+    const requestId = initRequest(res);
+    res.setHeader("X-Request-Id", requestId);
+
     // CORS
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -103,11 +130,27 @@ export function createApp(router: Router, port: number) {
       return;
     }
 
+    // Log after response completes
+    res.on("finish", () => {
+      const start = getRequestStart(res);
+      const duration = start ? Date.now() - start : undefined;
+      const level = (res.statusCode ?? 200) >= 500 ? "error" as const
+        : (res.statusCode ?? 200) >= 400 ? "warn" as const
+        : "info" as const;
+      log(level, "request", {
+        request_id: requestId,
+        method: req.method,
+        path: req.url,
+        status: res.statusCode,
+        duration_ms: duration,
+      });
+    });
+
     router.handle(req, res);
   });
 
   server.listen(port, () => {
-    console.log(`Axis API running on http://localhost:${port}`);
+    log("info", "server_start", { port, service: "axis-api" });
   });
 
   return server;
