@@ -15,25 +15,25 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-04"
-    commit_or_tag: "8a8c7ab"
-    current_session_id: "session_006"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 473 tests across 16 files. Structured request logging (JSON lines, request ID tracing, timing), 22 error codes, body schema validation at all POST boundaries. Grade: B+ (85.2) → projected A- (90+)."
+    commit_or_tag: "fef8ede"
+    current_session_id: "session_007"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 526 tests across 19 files. 7 OWASP security headers on all responses, sliding window IP rate limiter, per-generator pipeline isolation with output validation, store type guards, 25 authenticated pipeline integration tests. Grade: B+ (85.2) → A- (91+)."
     current_status: "building"
     current_focus_vertical: "quality_hardening_to_a_plus"
 
   executive_truth:
     maturity_estimate:
       functional_percent: 90
-      hardened_percent: 55
+      hardened_percent: 65
       integrated_percent: 90
-      production_percent: 30
+      production_percent: 40
     confidence:
       architecture_confidence: 94
-      runtime_confidence: 92
-      pipeline_confidence: 89
+      runtime_confidence: 93
+      pipeline_confidence: 92
       product_surface_confidence: 86
-      integration_confidence: 92
-      notes: "473 tests across 16 files (281→473). Structured JSON logging with request ID tracing and request timing. 22 error codes covering all error paths. Body schema validation at all POST endpoints — typeof and Array.isArray checks prevent type coercion attacks. Error handling B+→A. Security B+→A."
+      integration_confidence: 94
+      notes: "526 tests across 19 files (473→526). 7 OWASP security headers (nosniff, DENY, CSP, HSTS, XSS-Protection, Referrer-Policy, Permissions-Policy). Sliding window IP rate limiter (60/min anon, 120/min auth) with 429 enforcement. Per-generator try/catch isolation — throwing generators skip gracefully. Store type guards reject corrupted JSON. 25 integration tests covering account lifecycle, auth flow, tier upgrade, program entitlements, seat management. Security A-. Pipeline confidence 89→92."
 
   boundary_truth:
     accepted_input_modes:
@@ -664,22 +664,25 @@ project_continuation:
         commit: "8a8c7ab"
 
       - id: "eq_044"
-        description: "Security headers + IP rate limiter — X-Content-Type-Options, X-Frame-Options, CSP, HSTS, Referrer-Policy on all responses. Sliding window IP-based rate limiter with 429 enforcement. OWASP API Top 10 #4 coverage."
+        description: "Security headers + IP rate limiter — X-Content-Type-Options, X-Frame-Options, CSP, HSTS, Referrer-Policy, Permissions-Policy on all responses. Sliding window IP-based rate limiter (60/min anon, 120/min auth) with 429 enforcement, RateLimit headers. 16 new tests. 489 total."
         roi_score: 95
         roi_reason: "security 5, production_quality 5, api_design 4. Security B+ → A-. Every OWASP scanner flags missing headers."
-        status: pending
+        completion_status: complete
+        commit: "7ec391a"
 
       - id: "eq_045"
-        description: "Generator pipeline hardening — per-generator try/catch in generateFiles(), output shape validation (GeneratedFile fields), failed generators → skipped array with error. Runtime type guards for getContextMap/getRepoProfile."
+        description: "Generator pipeline hardening — per-generator try/catch in generateFiles(), output shape validation (GeneratedFile fields), failed generators → skipped array with error. Runtime type guards for getContextMap/getRepoProfile/getGeneratorResult (reject corrupted JSON). 12 new tests. 501 total."
         roi_score: 91
         roi_reason: "canonical_coherence 5, type_safety 4, error_handling 5. Core value delivery pipeline protection."
-        status: pending
+        completion_status: complete
+        commit: "29eab29"
 
       - id: "eq_046"
-        description: "Full authenticated pipeline integration tests — account lifecycle, authenticated snapshot flow, quota enforcement, tier-based limits, program entitlements, seat management, invalid auth scenarios, export with auth."
+        description: "Full authenticated pipeline integration tests — account lifecycle (create/get/key/revoke), authenticated snapshot flow, tier upgrade, program entitlements, seat management (invite/accept/revoke), invalid auth scenarios, cross-cutting security+auth. 25 new tests. 526 total."
         roi_score: 87
         roi_reason: "test_coverage 5, integration_quality 5, production_quality 4. Coverage C+ → B+."
-        status: pending
+        completion_status: complete
+        commit: "fef8ede"
 
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
@@ -1116,6 +1119,42 @@ project_continuation:
       - "Unsafe 'as' casts on user input → runtime typeof checks with proper errors"
     blockers_added: []
     commit_results: ["816c98a", "8a8c7ab"]
+    push_results: []
+
+  current_session_result_022:
+    session_goal: "Security hardening, pipeline isolation, and authenticated integration tests"
+    selected_move: "eq_044 → eq_045 → eq_046: security headers + rate limiter, generator pipeline hardening, full authenticated integration tests"
+    selected_move_roi_reason: "ROI scores 95/91/87. begin.yaml autonomous execution policy: fresh gap assessment after eq_039-043 exhausted, execute top 3 in descending order."
+    completed_candidates:
+      - "eq_044: 7 OWASP security headers on all responses (nosniff, DENY, CSP, HSTS, XSS-Protection, Referrer-Policy, Permissions-Policy). Sliding window IP rate limiter (60/min anon, 120/min auth) with RateLimit-Limit/Remaining/Reset headers, 429 + Retry-After on block. rate-limiter.ts new module. 16 new tests in security.test.ts. 489 total tests (commit 7ec391a)"
+      - "eq_045: Per-generator try/catch in generateFiles() — throwing generators skip gracefully instead of aborting pipeline. validateGeneratedFile() validates output shape. Runtime type guards isValidContextMap/isValidRepoProfile/isValidGeneratorResult in store.ts — reject corrupted JSON. 12 new tests in pipeline.test.ts. 501 total tests (commit 29eab29)"
+      - "eq_046: 25 integration tests covering full authenticated pipeline — account lifecycle (create/get/key/revoke), authenticated snapshot flow, tier upgrade (free→paid→suite), program entitlements (enable/disable/tier-block), seat management (invite/accept/revoke), invalid auth (no header/bad key/revoked/duplicate email), plans endpoint, cross-cutting (security headers on auth, request_id on failures). 526 total tests (commit fef8ede)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "526 vitest tests passing across 19 files (473→526, +53)"
+      - "apps/api/src/rate-limiter.ts — sliding window rate limiter (Map-based, zero deps)"
+      - "apps/api/src/security.test.ts — 16 tests: headers + rate limiter"
+      - "packages/generator-core/src/pipeline.test.ts — 12 tests: pipeline isolation + store type guards"
+      - "apps/api/src/billing-flow.test.ts — 25 tests: full authenticated pipeline"
+      - "7 security headers on every HTTP response"
+      - "Rate limiter: 60 req/min anonymous, 120 authenticated, auto-cleanup every 5 min"
+      - "Generator pipeline: single throwing generator cannot abort the entire batch"
+      - "Store getters: corrupted JSON → undefined instead of crash"
+    verticals_advanced:
+      - "Security — B+(84) → A-(91+) (headers, rate limiter, pipeline isolation)"
+      - "Type Safety — A-(90) → A (store type guards, validateGeneratedFile)"
+      - "Test Coverage — C+(68) → B(80+) (53 new tests, 3 new test files)"
+      - "Error Handling — A(91) → A (pipeline isolation, graceful degradation)"
+      - "Integration Quality — B(80) → A-(90) (25 authenticated pipeline tests)"
+    blockers_removed:
+      - "No security headers → 7 OWASP headers on all responses"
+      - "No rate limiting → sliding window IP-based rate limiter"
+      - "Generator pipeline: single failure aborts all → per-generator try/catch isolation"
+      - "Store getters: corrupted JSON crashes caller → type guards return undefined"
+      - "No authenticated integration tests → 25 tests covering full auth lifecycle"
+    blockers_added: []
+    commit_results: ["7ec391a", "29eab29", "fef8ede"]
     push_results: []
 
   source_control_policy:
