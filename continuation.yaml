@@ -663,6 +663,24 @@ project_continuation:
         completion_status: complete
         commit: "8a8c7ab"
 
+      - id: "eq_044"
+        description: "Security headers + IP rate limiter — X-Content-Type-Options, X-Frame-Options, CSP, HSTS, Referrer-Policy on all responses. Sliding window IP-based rate limiter with 429 enforcement. OWASP API Top 10 #4 coverage."
+        roi_score: 95
+        roi_reason: "security 5, production_quality 5, api_design 4. Security B+ → A-. Every OWASP scanner flags missing headers."
+        status: pending
+
+      - id: "eq_045"
+        description: "Generator pipeline hardening — per-generator try/catch in generateFiles(), output shape validation (GeneratedFile fields), failed generators → skipped array with error. Runtime type guards for getContextMap/getRepoProfile."
+        roi_score: 91
+        roi_reason: "canonical_coherence 5, type_safety 4, error_handling 5. Core value delivery pipeline protection."
+        status: pending
+
+      - id: "eq_046"
+        description: "Full authenticated pipeline integration tests — account lifecycle, authenticated snapshot flow, quota enforcement, tier-based limits, program entitlements, seat management, invalid auth scenarios, export with auth."
+        roi_score: 87
+        roi_reason: "test_coverage 5, integration_quality 5, production_quality 4. Coverage C+ → B+."
+        status: pending
+
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
     selected_move: "Implement 3 new programs with generators, handlers, routes, and tests"

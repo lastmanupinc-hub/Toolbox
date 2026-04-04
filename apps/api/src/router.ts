@@ -1,5 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { initRequest, getRequestId, getRequestStart, log, type ErrorCodeValue } from "./logger.js";
+import { checkRateLimit } from "./rate-limiter.js";
 
 type RouteHandler = (req: IncomingMessage, res: ServerResponse, params: Record<string, string>) => Promise<void>;
 
@@ -119,10 +120,28 @@ export function createApp(router: Router, port: number) {
     const requestId = initRequest(res);
     res.setHeader("X-Request-Id", requestId);
 
+    // Security headers (OWASP)
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Frame-Options", "DENY");
+    res.setHeader("Content-Security-Policy", "default-src 'self'");
+    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    res.setHeader("X-XSS-Protection", "0");
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+
     // CORS
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+    if (req.method === "OPTIONS") {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    // Rate limiting (before route handling)
+    if (!checkRateLimit(req, res)) return;
 
     if (req.method === "OPTIONS") {
       res.writeHead(204);
