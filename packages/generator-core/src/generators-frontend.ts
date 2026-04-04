@@ -213,3 +213,242 @@ export function generateComponentGuidelines(ctx: ContextMap): GeneratedFile {
     description: "Component architecture guidelines based on detected framework patterns",
   };
 }
+
+// ─── layout-patterns.md ─────────────────────────────────────────
+
+export function generateLayoutPatterns(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const routes = ctx.routes;
+  const layers = ctx.architecture_signals.layer_boundaries;
+
+  const lines: string[] = [];
+  lines.push(`# Layout Patterns — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  const hasNext = frameworks.some(f => f.name === "next");
+  const hasReact = frameworks.some(f => f.name === "react");
+  const hasTailwind = frameworks.some(f => f.name === "tailwind");
+
+  lines.push("## Page Layout Architecture");
+  lines.push("");
+  if (hasNext) {
+    lines.push("### Next.js App Router Layout Hierarchy");
+    lines.push("");
+    lines.push("```");
+    lines.push("app/");
+    lines.push("├── layout.tsx          ← Root layout (nav, theme provider, fonts)");
+    lines.push("├── page.tsx            ← Home page");
+    lines.push("├── (marketing)/");
+    lines.push("│   ├── layout.tsx      ← Marketing layout (landing nav, footer)");
+    lines.push("│   └── page.tsx");
+    lines.push("├── (dashboard)/");
+    lines.push("│   ├── layout.tsx      ← Dashboard layout (sidebar, breadcrumbs)");
+    lines.push("│   └── page.tsx");
+    lines.push("└── (auth)/");
+    lines.push("    ├── layout.tsx      ← Auth layout (centered card)");
+    lines.push("    └── login/page.tsx");
+    lines.push("```");
+  } else if (hasReact) {
+    lines.push("### React SPA Layout Pattern");
+    lines.push("");
+    lines.push("```");
+    lines.push("src/");
+    lines.push("├── layouts/");
+    lines.push("│   ├── RootLayout.tsx      ← App shell (nav, sidebar, footer)");
+    lines.push("│   ├── DashboardLayout.tsx ← Authed layout with sidebar");
+    lines.push("│   └── AuthLayout.tsx      ← Centered card layout");
+    lines.push("├── pages/");
+    lines.push("│   └── ...                 ← Page components rendered in layout");
+    lines.push("└── components/");
+    lines.push("    └── ...                 ← Shared UI primitives");
+    lines.push("```");
+  } else {
+    lines.push(`Standard layout structure for ${id.primary_language} projects:`);
+    lines.push("");
+    lines.push("- **Shell Layout**: Navigation + main content area + footer");
+    lines.push("- **Split Layout**: Sidebar + content pane");
+    lines.push("- **Centered Layout**: Single-column centered content (forms, auth)");
+  }
+  lines.push("");
+
+  lines.push("## Layout Components");
+  lines.push("");
+  lines.push("| Layout | Use Case | Contains |");
+  lines.push("|--------|----------|----------|");
+  lines.push("| RootLayout | All pages | Theme provider, global nav, font loading |");
+  lines.push("| DashboardLayout | Authenticated views | Sidebar, breadcrumbs, user menu |");
+  lines.push("| AuthLayout | Login/signup | Centered card, minimal chrome |");
+  lines.push("| MarketingLayout | Public pages | Hero nav, CTA footer, social proof |");
+  lines.push("| SettingsLayout | User settings | Tab nav, form sections |");
+  lines.push("");
+
+  lines.push("## Responsive Breakpoints");
+  lines.push("");
+  if (hasTailwind) {
+    lines.push("Using Tailwind defaults:");
+    lines.push("");
+    lines.push("| Breakpoint | Width | Layout Behavior |");
+    lines.push("|------------|-------|-----------------|");
+    lines.push("| `sm` | 640px | Stack sidebar below content |");
+    lines.push("| `md` | 768px | Show collapsible sidebar |");
+    lines.push("| `lg` | 1024px | Full sidebar + content |");
+    lines.push("| `xl` | 1280px | Max-width container centered |");
+    lines.push("| `2xl` | 1536px | Wide layout with margins |");
+  } else {
+    lines.push("| Breakpoint | Width | Layout Behavior |");
+    lines.push("|------------|-------|-----------------|");
+    lines.push("| Mobile | < 640px | Single column, stacked |");
+    lines.push("| Tablet | 640–1024px | Collapsible sidebar |");
+    lines.push("| Desktop | > 1024px | Full multi-column |");
+  }
+  lines.push("");
+
+  lines.push("## Route-to-Layout Mapping");
+  lines.push("");
+  if (routes.length > 0) {
+    lines.push("| Route | Suggested Layout |");
+    lines.push("|-------|-----------------|");
+    for (const r of routes.slice(0, 12)) {
+      const layout = r.path.startsWith("/api") ? "N/A (API)" :
+        r.path.includes("login") || r.path.includes("auth") || r.path.includes("signup") ? "AuthLayout" :
+        r.path.includes("dashboard") || r.path.includes("settings") ? "DashboardLayout" :
+        r.path === "/" ? "MarketingLayout" : "DashboardLayout";
+      lines.push(`| ${r.method} ${r.path} | ${layout} |`);
+    }
+  } else {
+    lines.push("No routes detected — define layout mapping as routes are added.");
+  }
+  lines.push("");
+
+  lines.push("## Grid System");
+  lines.push("");
+  lines.push("```css");
+  lines.push("/* Standard 12-column grid */");
+  lines.push(".grid-layout {");
+  lines.push("  display: grid;");
+  lines.push("  grid-template-columns: repeat(12, 1fr);");
+  lines.push("  gap: var(--space-4, 16px);");
+  lines.push("  max-width: 1280px;");
+  lines.push("  margin: 0 auto;");
+  lines.push("  padding: 0 var(--space-4, 16px);");
+  lines.push("}");
+  lines.push("```");
+  lines.push("");
+
+  return {
+    path: "layout-patterns.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "frontend",
+    description: "Page layout patterns, responsive breakpoints, and route-to-layout mapping",
+  };
+}
+
+// ─── ui-audit.md ────────────────────────────────────────────────
+
+export function generateUiAudit(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const languages = ctx.detection.languages;
+  const routes = ctx.routes;
+  const entryPoints = ctx.entry_points;
+  const deps = ctx.dependency_graph.external_dependencies;
+
+  const lines: string[] = [];
+  lines.push(`# UI Audit — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  // Detect UI-related frameworks
+  const uiFrameworks = frameworks.filter(f =>
+    ["react", "next", "vue", "svelte", "tailwind"].includes(f.name));
+  const hasCSS = languages.some(l => l.name === "CSS" || l.name === "SCSS");
+  const hasTSX = languages.some(l => l.name === "TypeScript" || l.name === "TSX");
+  const uiDeps = deps.filter(d =>
+    d.name.includes("ui") || d.name.includes("radix") || d.name.includes("headless") ||
+    d.name.includes("chakra") || d.name.includes("material") || d.name.includes("ant"));
+
+  lines.push("## UI Stack Summary");
+  lines.push("");
+  lines.push("| Aspect | Detected |");
+  lines.push("|--------|----------|");
+  lines.push(`| UI Frameworks | ${uiFrameworks.map(f => f.name).join(", ") || "None detected"} |`);
+  lines.push(`| Styling | ${frameworks.some(f => f.name === "tailwind") ? "Tailwind CSS" : hasCSS ? "CSS/SCSS" : "Unknown"} |`);
+  lines.push(`| TypeScript | ${hasTSX ? "Yes" : "No"} |`);
+  lines.push(`| UI Libraries | ${uiDeps.map(d => d.name).join(", ") || "None detected"} |`);
+  lines.push(`| Total Routes | ${routes.length} |`);
+  lines.push(`| Entry Points | ${entryPoints.length} |`);
+  lines.push("");
+
+  lines.push("## Accessibility Checklist");
+  lines.push("");
+  lines.push("| Requirement | Status | Notes |");
+  lines.push("|-------------|--------|-------|");
+  lines.push("| Semantic HTML | ⚠️ Verify | Check for div-soup vs proper heading hierarchy |");
+  lines.push("| ARIA labels | ⚠️ Verify | Interactive elements need aria-label/aria-describedby |");
+  lines.push("| Keyboard navigation | ⚠️ Verify | Tab order, focus management, skip links |");
+  lines.push("| Color contrast | ⚠️ Verify | 4.5:1 ratio for text, 3:1 for large text |");
+  lines.push("| Screen reader | ⚠️ Verify | Test with VoiceOver/NVDA |");
+  lines.push("| Focus indicators | ⚠️ Verify | Visible focus rings on all interactive elements |");
+  lines.push("| Alt text | ⚠️ Verify | All images need descriptive alt attributes |");
+  lines.push("");
+
+  lines.push("## Performance Audit");
+  lines.push("");
+  lines.push("| Metric | Target | How to Measure |");
+  lines.push("|--------|--------|----------------|");
+  lines.push("| LCP (Largest Contentful Paint) | < 2.5s | Lighthouse, Web Vitals |");
+  lines.push("| FID (First Input Delay) | < 100ms | Lighthouse, Web Vitals |");
+  lines.push("| CLS (Cumulative Layout Shift) | < 0.1 | Lighthouse, Web Vitals |");
+  lines.push("| Bundle size | < 250KB gzip | Build output |");
+  lines.push("| Image optimization | WebP/AVIF | Check image formats |");
+  lines.push("| Font loading | font-display: swap | Verify CSS |");
+  lines.push("");
+
+  lines.push("## Component Coverage");
+  lines.push("");
+  const pageRoutes = routes.filter(r => !r.path.startsWith("/api"));
+  if (pageRoutes.length > 0) {
+    lines.push("| Route | Has Component | Interactive | Needs Testing |");
+    lines.push("|-------|--------------|-------------|---------------|");
+    for (const r of pageRoutes.slice(0, 10)) {
+      lines.push(`| ${r.path} | ⚠️ Verify | ⚠️ Verify | Yes |`);
+    }
+  } else {
+    lines.push("No page routes detected — add routes to populate component coverage.");
+  }
+  lines.push("");
+
+  // Score
+  let score = 50; // base
+  if (uiFrameworks.length > 0) score += 15;
+  if (frameworks.some(f => f.name === "tailwind")) score += 10;
+  if (hasTSX) score += 10;
+  if (uiDeps.length > 0) score += 5;
+  if (routes.length > 5) score += 10;
+
+  lines.push("## Audit Score");
+  lines.push("");
+  lines.push(`**Overall UI Readiness: ${Math.min(100, score)}/100**`);
+  lines.push("");
+  lines.push("| Factor | Score |");
+  lines.push("|--------|-------|");
+  lines.push(`| Framework detection | ${uiFrameworks.length > 0 ? "+15" : "0"} |`);
+  lines.push(`| Styling system | ${frameworks.some(f => f.name === "tailwind") ? "+10" : "0"} |`);
+  lines.push(`| TypeScript | ${hasTSX ? "+10" : "0"} |`);
+  lines.push(`| UI component library | ${uiDeps.length > 0 ? "+5" : "0"} |`);
+  lines.push(`| Route coverage | ${routes.length > 5 ? "+10" : "0"} |`);
+  lines.push("");
+
+  return {
+    path: "ui-audit.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "frontend",
+    description: "UI stack audit with accessibility, performance, and component coverage analysis",
+  };
+}

@@ -1,22 +1,22 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import type { GeneratedFile, GeneratorInput, GeneratorResult } from "./types.js";
-import { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary } from "./generators-search.js";
-import { generateAgentsMD, generateClaudeMD, generateCursorRules } from "./generators-skills.js";
-import { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules } from "./generators-debug.js";
-import { generateFrontendRules, generateComponentGuidelines } from "./generators-frontend.js";
-import { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityMap, generateContentAudit } from "./generators-seo.js";
-import { generateOptimizationRules, generatePromptDiffReport, generateCostEstimate } from "./generators-optimization.js";
-import { generateDesignTokens, generateThemeCss, generateThemeGuidelines, generateComponentThemeMap } from "./generators-theme.js";
-import { generateBrandGuidelines, generateVoiceAndTone, generateContentConstraints, generateMessagingSystem } from "./generators-brand.js";
-import { generateSuperpowerPack, generateWorkflowRegistry, generateTestGenerationRules, generateRefactorChecklist } from "./generators-superpowers.js";
-import { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook } from "./generators-marketing.js";
-import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads } from "./generators-notebook.js";
-import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
-import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
-import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
-import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";
-import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines } from "./generators-canvas.js";
-import { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest } from "./generators-algorithmic.js";
+import { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots } from "./generators-search.js";
+import { generateAgentsMD, generateClaudeMD, generateCursorRules, generateWorkflowPack, generatePolicyPack } from "./generators-skills.js";
+import { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules, generateRootCauseChecklist } from "./generators-debug.js";
+import { generateFrontendRules, generateComponentGuidelines, generateLayoutPatterns, generateUiAudit } from "./generators-frontend.js";
+import { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityMap, generateContentAudit, generateMetaTagAudit } from "./generators-seo.js";
+import { generateOptimizationRules, generatePromptDiffReport, generateCostEstimate, generateTokenBudgetPlan } from "./generators-optimization.js";
+import { generateDesignTokens, generateThemeCss, generateThemeGuidelines, generateComponentThemeMap, generateDarkModeTokens } from "./generators-theme.js";
+import { generateBrandGuidelines, generateVoiceAndTone, generateContentConstraints, generateMessagingSystem, generateChannelRulebook } from "./generators-brand.js";
+import { generateSuperpowerPack, generateWorkflowRegistry, generateTestGenerationRules, generateRefactorChecklist, generateAutomationPipeline } from "./generators-superpowers.js";
+import { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook, generateAbTestPlan } from "./generators-marketing.js";
+import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads, generateCitationIndex } from "./generators-notebook.js";
+import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy, generateTemplatePack } from "./generators-obsidian.js";
+import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry, generateServerManifest } from "./generators-mcp.js";
+import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec, generateComponentLibrary } from "./generators-artifacts.js";
+import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
+import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
+import { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest, generateVariationMatrix } from "./generators-algorithmic.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -82,6 +82,26 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "parameter-pack.json": (ctx) => generateParameterPack(ctx),
   "collection-map.md": (ctx) => generateCollectionMap(ctx),
   "export-manifest.yaml": (ctx, profile) => generateExportManifest(ctx, profile),
+  // ─── depth generators ───────────────────────────────────────
+  "dependency-hotspots.md": (ctx) => generateDependencyHotspots(ctx),
+  "root-cause-checklist.md": (ctx) => generateRootCauseChecklist(ctx),
+  "workflow-pack.md": (ctx) => generateWorkflowPack(ctx),
+  "policy-pack.md": (ctx) => generatePolicyPack(ctx),
+  "layout-patterns.md": (ctx) => generateLayoutPatterns(ctx),
+  "ui-audit.md": (ctx) => generateUiAudit(ctx),
+  "meta-tag-audit.json": (ctx) => generateMetaTagAudit(ctx),
+  "token-budget-plan.md": (ctx, profile) => generateTokenBudgetPlan(ctx, profile),
+  "dark-mode-tokens.json": (ctx) => generateDarkModeTokens(ctx),
+  "channel-rulebook.md": (ctx) => generateChannelRulebook(ctx),
+  "ab-test-plan.md": (ctx) => generateAbTestPlan(ctx),
+  "citation-index.json": (ctx) => generateCitationIndex(ctx),
+  "server-manifest.yaml": (ctx, profile) => generateServerManifest(ctx, profile),
+  "template-pack.md": (ctx) => generateTemplatePack(ctx),
+  "automation-pipeline.yaml": (ctx, profile) => generateAutomationPipeline(ctx, profile),
+  "component-library.json": (ctx) => generateComponentLibrary(ctx),
+  "storyboard.md": (ctx) => generateStoryboard(ctx),
+  "brand-board.md": (ctx) => generateBrandBoard(ctx),
+  "variation-matrix.json": (ctx) => generateVariationMatrix(ctx),
 };
 
 // Aliases (user may request with different naming)

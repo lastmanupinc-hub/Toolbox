@@ -348,3 +348,148 @@ export function generateAssetChecklist(ctx: ContextMap): GeneratedFile {
     description: "Checklist of required assets, dependencies, and output formats for video rendering",
   };
 }
+
+// ─── storyboard.md ──────────────────────────────────────────────
+
+export function generateStoryboard(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const languages = ctx.detection.languages;
+  const abstractions = ctx.ai_context.key_abstractions;
+  const hotspots = ctx.dependency_graph.hotspots;
+
+  const lines: string[] = [];
+  lines.push(`# Storyboard — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("Frame-by-frame storyboard for a 60-second project showcase video.");
+  lines.push("");
+
+  // Scene 1: Title Card
+  lines.push("## Scene 1: Title Card (0:00–0:05)");
+  lines.push("");
+  lines.push("```");
+  lines.push("┌────────────────────────────────────┐");
+  lines.push("│                                    │");
+  lines.push(`│          ${id.name.toUpperCase().padStart(Math.floor((20 + id.name.length) / 2)).padEnd(20)}              │`);
+  lines.push(`│     ${(id.description ?? id.type.replace(/_/g, " ")).slice(0, 30).padStart(Math.floor((30 + (id.description ?? id.type).length) / 2)).padEnd(30)}     │`);
+  lines.push("│                                    │");
+  lines.push("└────────────────────────────────────┘");
+  lines.push("```");
+  lines.push("");
+  lines.push("- **Animation**: Fade in from black, text scales up 95%→100%");
+  lines.push("- **Audio**: Subtle synth pad, 4-beat intro");
+  lines.push("- **Typography**: Bold heading, light subtitle");
+  lines.push("");
+
+  // Scene 2: Tech Stack
+  lines.push("## Scene 2: Tech Stack Overview (0:05–0:15)");
+  lines.push("");
+  lines.push("```");
+  lines.push("┌────────────────────────────────────┐");
+  lines.push("│  ┌──────┐ ┌──────┐ ┌──────┐       │");
+  for (const fw of frameworks.slice(0, 3)) {
+    lines.push(`│  │ ${fw.name.padEnd(4).slice(0, 4)} │                          │`);
+  }
+  lines.push("│  └──────┘ └──────┘ └──────┘       │");
+  lines.push("│                                    │");
+  lines.push("│  Languages:                        │");
+  for (const l of languages.slice(0, 3)) {
+    lines.push(`│    ${l.name.padEnd(12)} ${"█".repeat(Math.round(l.loc_percent / 5))} ${l.loc_percent.toFixed(0)}%     │`);
+  }
+  lines.push("└────────────────────────────────────┘");
+  lines.push("```");
+  lines.push("");
+  lines.push("- **Animation**: Framework badges fly in from left, language bars grow");
+  lines.push("- **Narration**: \"Built with [frameworks], [X]% [primary language]\"");
+  lines.push("");
+
+  // Scene 3: Architecture
+  lines.push("## Scene 3: Architecture Diagram (0:15–0:30)");
+  lines.push("");
+  lines.push("```");
+  lines.push("┌────────────────────────────────────┐");
+  lines.push("│     ┌───────────┐                  │");
+  lines.push("│     │  Frontend  │                  │");
+  lines.push("│     └─────┬─────┘                  │");
+  lines.push("│           │                        │");
+  lines.push("│     ┌─────▼─────┐                  │");
+  lines.push("│     │    API     │                  │");
+  lines.push("│     └─────┬─────┘                  │");
+  lines.push("│           │                        │");
+  lines.push("│     ┌─────▼─────┐                  │");
+  lines.push("│     │  Database  │                  │");
+  lines.push("│     └───────────┘                  │");
+  lines.push("└────────────────────────────────────┘");
+  lines.push("```");
+  lines.push("");
+  lines.push("- **Animation**: Layers build from bottom up, connections animate between them");
+  lines.push("- **Narration**: \"A clean [separation_score]-point architecture with clear boundaries\"");
+  if (abstractions.length > 0) {
+    lines.push(`- **Labels**: ${abstractions.slice(0, 4).join(", ")}`);
+  }
+  lines.push("");
+
+  // Scene 4: Hotspot Visualization
+  lines.push("## Scene 4: Code Health (0:30–0:45)");
+  lines.push("");
+  lines.push("```");
+  lines.push("┌────────────────────────────────────┐");
+  lines.push("│  Code Health Score                  │");
+  lines.push("│  ━━━━━━━━━━━━━━━━━━━ 85/100       │");
+  lines.push("│                                    │");
+  if (hotspots.length > 0) {
+    lines.push("│  Hotspots:                         │");
+    for (const h of hotspots.slice(0, 3)) {
+      const bar = h.risk_score > 7 ? "🔴" : h.risk_score > 4 ? "🟡" : "🟢";
+      lines.push(`│  ${bar} ${h.path.slice(-25).padEnd(25)} ${h.risk_score.toFixed(0)}/10  │`);
+    }
+  }
+  lines.push("└────────────────────────────────────┘");
+  lines.push("```");
+  lines.push("");
+  lines.push("- **Animation**: Score bar fills up, hotspot bubbles pulse by risk");
+  lines.push("- **Narration**: \"[X] hotspot files identified with actionable refactor paths\"");
+  lines.push("");
+
+  // Scene 5: Outro
+  lines.push("## Scene 5: Closing Card (0:45–0:60)");
+  lines.push("");
+  lines.push("```");
+  lines.push("┌────────────────────────────────────┐");
+  lines.push("│                                    │");
+  lines.push(`│          ${id.name.toUpperCase().padStart(Math.floor((20 + id.name.length) / 2)).padEnd(20)}              │`);
+  lines.push("│                                    │");
+  lines.push("│     Analyzed by Axis Toolbox       │");
+  lines.push("│                                    │");
+  lines.push("│     [ Get Started ]                │");
+  lines.push("│                                    │");
+  lines.push("└────────────────────────────────────┘");
+  lines.push("```");
+  lines.push("");
+  lines.push("- **Animation**: Fade to branded closing card, CTA button pulses");
+  lines.push("- **Audio**: Resolved chord, fade out");
+  lines.push("");
+
+  lines.push("## Production Notes");
+  lines.push("");
+  lines.push("| Parameter | Value |");
+  lines.push("|-----------|-------|");
+  lines.push("| Duration | 60 seconds |");
+  lines.push("| Resolution | 1920×1080 |");
+  lines.push("| Frame Rate | 60fps |");
+  lines.push("| Scenes | 5 |");
+  lines.push("| Transitions | Fade + slide |");
+  lines.push("| Music | Ambient electronic, licensed |");
+  lines.push("| Voiceover | Optional, see narration notes |");
+  lines.push("");
+
+  return {
+    path: "storyboard.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "remotion",
+    description: "Frame-by-frame storyboard for 60-second project showcase video",
+  };
+}

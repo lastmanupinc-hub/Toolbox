@@ -774,10 +774,165 @@ describe("algorithmic generators content", () => {
   });
 });
 
+describe("depth generators content", () => {
+  const result = generateFiles(makeInput([
+    "dependency-hotspots.md", "root-cause-checklist.md",
+    "workflow-pack.md", "policy-pack.md",
+    "layout-patterns.md", "ui-audit.md",
+    "meta-tag-audit.json", "token-budget-plan.md",
+    "dark-mode-tokens.json", "channel-rulebook.md",
+    "ab-test-plan.md", "citation-index.json",
+    "server-manifest.yaml", "template-pack.md",
+    "automation-pipeline.yaml", "component-library.json",
+    "storyboard.md", "brand-board.md",
+    "variation-matrix.json",
+  ]));
+
+  it("dependency-hotspots.md has risk analysis", () => {
+    const file = result.files.find(f => f.path === "dependency-hotspots.md")!;
+    expect(file.program).toBe("search");
+    expect(file.content).toContain("Dependency Hotspots");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("root-cause-checklist.md has triage workflow", () => {
+    const file = result.files.find(f => f.path === "root-cause-checklist.md")!;
+    expect(file.program).toBe("debug");
+    expect(file.content.toLowerCase()).toContain("root cause");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("workflow-pack.md has workflow definitions", () => {
+    const file = result.files.find(f => f.path === "workflow-pack.md")!;
+    expect(file.program).toBe("skills");
+    expect(file.content).toContain("Workflow");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("policy-pack.md has policy definitions", () => {
+    const file = result.files.find(f => f.path === "policy-pack.md")!;
+    expect(file.program).toBe("skills");
+    expect(file.content).toContain("Policy");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("layout-patterns.md has layout architecture", () => {
+    const file = result.files.find(f => f.path === "layout-patterns.md")!;
+    expect(file.program).toBe("frontend");
+    expect(file.content).toContain("Layout");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("ui-audit.md has accessibility checklist", () => {
+    const file = result.files.find(f => f.path === "ui-audit.md")!;
+    expect(file.program).toBe("frontend");
+    expect(file.content).toContain("Audit");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("meta-tag-audit.json is valid JSON with routes", () => {
+    const file = result.files.find(f => f.path === "meta-tag-audit.json")!;
+    expect(file.program).toBe("seo");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.project).toBeTruthy();
+    expect(Array.isArray(parsed.per_route_audit)).toBe(true);
+  });
+
+  it("token-budget-plan.md has budget allocation", () => {
+    const file = result.files.find(f => f.path === "token-budget-plan.md")!;
+    expect(file.program).toBe("optimization");
+    expect(file.content).toContain("Token");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("dark-mode-tokens.json is valid JSON with tokens", () => {
+    const file = result.files.find(f => f.path === "dark-mode-tokens.json")!;
+    expect(file.program).toBe("theme");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.project).toBeTruthy();
+    expect(parsed.colors).toBeTruthy();
+  });
+
+  it("channel-rulebook.md has channel rules", () => {
+    const file = result.files.find(f => f.path === "channel-rulebook.md")!;
+    expect(file.program).toBe("brand");
+    expect(file.content).toContain("Channel");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("ab-test-plan.md has test hypotheses", () => {
+    const file = result.files.find(f => f.path === "ab-test-plan.md")!;
+    expect(file.program).toBe("marketing");
+    expect(file.content).toContain("Test");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("citation-index.json is valid JSON with entries", () => {
+    const file = result.files.find(f => f.path === "citation-index.json")!;
+    expect(file.program).toBe("notebook");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.project).toBeTruthy();
+    expect(Array.isArray(parsed.citations)).toBe(true);
+  });
+
+  it("server-manifest.yaml has MCP server config", () => {
+    const file = result.files.find(f => f.path === "server-manifest.yaml")!;
+    expect(file.program).toBe("mcp");
+    expect(file.content).toContain("server");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("template-pack.md has note templates", () => {
+    const file = result.files.find(f => f.path === "template-pack.md")!;
+    expect(file.program).toBe("obsidian");
+    expect(file.content).toContain("Template");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("automation-pipeline.yaml has CI/CD stages", () => {
+    const file = result.files.find(f => f.path === "automation-pipeline.yaml")!;
+    expect(file.program).toBe("superpowers");
+    expect(file.content).toContain("pipeline");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("component-library.json is valid JSON with components", () => {
+    const file = result.files.find(f => f.path === "component-library.json")!;
+    expect(file.program).toBe("artifacts");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.project).toBeTruthy();
+    expect(Array.isArray(parsed.components)).toBe(true);
+  });
+
+  it("storyboard.md has scene descriptions", () => {
+    const file = result.files.find(f => f.path === "storyboard.md")!;
+    expect(file.program).toBe("remotion");
+    expect(file.content).toContain("Scene");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("brand-board.md has color palette and typography", () => {
+    const file = result.files.find(f => f.path === "brand-board.md")!;
+    expect(file.program).toBe("canvas");
+    expect(file.content).toContain("Color Palette");
+    expect(file.content).toContain("Typography");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("variation-matrix.json is valid JSON with variations", () => {
+    const file = result.files.find(f => f.path === "variation-matrix.json")!;
+    expect(file.program).toBe("algorithmic");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.project).toBeTruthy();
+    expect(Array.isArray(parsed.variations)).toBe(true);
+    expect(parsed.variations.length).toBeGreaterThan(0);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(61);
+    expect(generators.length).toBe(80);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
@@ -791,5 +946,25 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("parameter-pack.json");
     expect(paths).toContain("collection-map.md");
     expect(paths).toContain("export-manifest.yaml");
+    // depth generators
+    expect(paths).toContain("dependency-hotspots.md");
+    expect(paths).toContain("root-cause-checklist.md");
+    expect(paths).toContain("workflow-pack.md");
+    expect(paths).toContain("policy-pack.md");
+    expect(paths).toContain("layout-patterns.md");
+    expect(paths).toContain("ui-audit.md");
+    expect(paths).toContain("meta-tag-audit.json");
+    expect(paths).toContain("token-budget-plan.md");
+    expect(paths).toContain("dark-mode-tokens.json");
+    expect(paths).toContain("channel-rulebook.md");
+    expect(paths).toContain("ab-test-plan.md");
+    expect(paths).toContain("citation-index.json");
+    expect(paths).toContain("server-manifest.yaml");
+    expect(paths).toContain("template-pack.md");
+    expect(paths).toContain("automation-pipeline.yaml");
+    expect(paths).toContain("component-library.json");
+    expect(paths).toContain("storyboard.md");
+    expect(paths).toContain("brand-board.md");
+    expect(paths).toContain("variation-matrix.json");
   });
 });

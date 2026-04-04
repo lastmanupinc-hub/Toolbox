@@ -402,3 +402,107 @@ export function generateMessagingSystem(ctx: ContextMap): GeneratedFile {
     description: "Structured messaging system with taglines, value props, and CTAs",
   };
 }
+
+// ─── channel-rulebook.md ────────────────────────────────────────
+
+export function generateChannelRulebook(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const abstractions = ctx.ai_context.key_abstractions;
+
+  const lines: string[] = [];
+  lines.push(`# Channel Rulebook — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("Channel-specific brand and content rules for consistent communication.");
+  lines.push("");
+
+  lines.push("## Channel: Documentation");
+  lines.push("");
+  lines.push("| Rule | Value |");
+  lines.push("|------|-------|");
+  lines.push("| Tone | Technical, precise, helpful |");
+  lines.push("| Person | Second person (\"you\") |");
+  lines.push("| Code examples | Required for every concept |");
+  lines.push("| Max paragraph length | 3 sentences |");
+  lines.push(`| Key terms | ${abstractions.slice(0, 5).join(", ") || id.name} |`);
+  lines.push("| Emoji | None |");
+  lines.push("| CTA style | Inline links, \"Learn more\" |");
+  lines.push("");
+
+  lines.push("## Channel: GitHub (README, Issues, PRs)");
+  lines.push("");
+  lines.push("| Rule | Value |");
+  lines.push("|------|-------|");
+  lines.push("| Tone | Professional, direct, action-oriented |");
+  lines.push("| Format | Markdown with headers and code blocks |");
+  lines.push("| Issue templates | Use structured templates with sections |");
+  lines.push("| PR descriptions | What, Why, How, Testing |");
+  lines.push("| Labels | Use consistent label taxonomy |");
+  lines.push("| Response time target | < 24 hours |");
+  lines.push("");
+
+  lines.push("## Channel: Social Media (Twitter/X)");
+  lines.push("");
+  lines.push("| Rule | Value |");
+  lines.push("|------|-------|");
+  lines.push("| Tone | Confident, concise, technical-but-approachable |");
+  lines.push("| Max length | 280 chars (aim for < 200) |");
+  lines.push("| Hashtags | Max 2 per post |");
+  lines.push(`| Branded hashtags | #${id.name.replace(/[^a-zA-Z]/g, "")}, #BuiltWith${id.name.replace(/[^a-zA-Z]/g, "")} |`);
+  lines.push("| Thread style | Numbered, each tweet self-contained |");
+  lines.push("| Media | Screenshot or GIF with every thread |");
+  lines.push("");
+
+  lines.push("## Channel: LinkedIn");
+  lines.push("");
+  lines.push("| Rule | Value |");
+  lines.push("|------|-------|");
+  lines.push("| Tone | Professional, thought-leadership, use cases |");
+  lines.push("| Format | Hook → Context → Insight → CTA |");
+  lines.push("| Max length | 1300 chars (pre-fold: 140 chars) |");
+  lines.push("| Media | Carousel or single image |");
+  lines.push("| Frequency | 2–3 posts per week |");
+  lines.push("");
+
+  lines.push("## Channel: Email (Product Updates)");
+  lines.push("");
+  lines.push("| Rule | Value |");
+  lines.push("|------|-------|");
+  lines.push("| Tone | Friendly, informative, value-first |");
+  lines.push("| Subject line | < 50 chars, benefit-driven |");
+  lines.push("| Preview text | < 90 chars, complements subject |");
+  lines.push("| CTA | Single primary CTA per email |");
+  lines.push("| Unsubscribe | Always visible, one-click |");
+  lines.push("");
+
+  lines.push("## Channel: In-App (UI Copy)");
+  lines.push("");
+  lines.push("| Rule | Value |");
+  lines.push("|------|-------|");
+  lines.push("| Tone | Clear, scannable, action-oriented |");
+  lines.push("| Buttons | Verb + Object (\"Create Snapshot\", \"Export Files\") |");
+  lines.push("| Errors | What happened + What to do (never blame user) |");
+  lines.push("| Empty states | Explain value + CTA to get started |");
+  lines.push("| Loading | Skeleton screens over spinners |");
+  lines.push("| Confirmation | Always confirm destructive actions |");
+  lines.push("");
+
+  lines.push("## Forbidden Patterns (All Channels)");
+  lines.push("");
+  lines.push("- Never use \"simple\" or \"easy\" (dismisses complexity)");
+  lines.push("- Never use \"just\" before instructions (implies triviality)");
+  lines.push("- Never promise specific timelines for features");
+  lines.push("- Never use jargon without explanation on public channels");
+  lines.push("- Never use competitor names negatively");
+  lines.push("");
+
+  return {
+    path: "channel-rulebook.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "brand",
+    description: "Channel-specific brand rules for docs, GitHub, social, email, and in-app copy",
+  };
+}

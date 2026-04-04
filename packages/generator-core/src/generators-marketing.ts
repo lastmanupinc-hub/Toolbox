@@ -451,3 +451,117 @@ export function generateCroPlaybook(ctx: ContextMap): GeneratedFile {
     description: "Conversion Rate Optimization playbook with experiments and metrics",
   };
 }
+
+// ─── ab-test-plan.md ────────────────────────────────────────────
+
+export function generateAbTestPlan(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const routes = ctx.routes;
+  const frameworks = ctx.detection.frameworks;
+
+  const pageRoutes = routes.filter(r => !r.path.startsWith("/api") && r.method === "GET");
+
+  const lines: string[] = [];
+  lines.push(`# A/B Test Plan — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  lines.push("## Test Framework Setup");
+  lines.push("");
+  const hasNext = frameworks.some(f => f.name === "next");
+  if (hasNext) {
+    lines.push("**Recommended**: Next.js Edge Middleware + feature flags");
+    lines.push("- Use `NextResponse.rewrite()` for server-side variant routing");
+    lines.push("- Cookie-based sticky sessions for consistent user experience");
+  } else {
+    lines.push("**Recommended**: Client-side feature flag with cookie persistence");
+    lines.push("- Set variant on first visit, persist in cookie");
+    lines.push("- Read variant cookie before rendering");
+  }
+  lines.push("");
+
+  lines.push("## Priority Tests");
+  lines.push("");
+
+  // Test 1: Landing page
+  lines.push("### Test 1: Landing Page Hero");
+  lines.push("");
+  lines.push("| Parameter | Value |");
+  lines.push("|-----------|-------|");
+  lines.push(`| Target page | ${pageRoutes.find(r => r.path === "/")?.path ?? "/"} |`);
+  lines.push("| Hypothesis | A benefit-driven headline increases signup rate |");
+  lines.push("| Primary metric | Signup conversion rate |");
+  lines.push("| Secondary metric | Time on page, scroll depth |");
+  lines.push("| Sample size | Min. 1,000 visitors per variant |");
+  lines.push("| Duration | 14 days minimum |");
+  lines.push("| Confidence | 95% statistical significance |");
+  lines.push("");
+  lines.push("| Variant | Description |");
+  lines.push("|---------|-------------|");
+  lines.push(`| Control | Current hero copy |`);
+  lines.push(`| A | Feature-focused: \"${id.name} analyzes your codebase in seconds\" |`);
+  lines.push(`| B | Outcome-focused: \"Ship faster with AI that understands your code\" |`);
+  lines.push("");
+
+  // Test 2: CTA
+  lines.push("### Test 2: Primary CTA");
+  lines.push("");
+  lines.push("| Parameter | Value |");
+  lines.push("|-----------|-------|");
+  lines.push("| Target | All pages with CTA |");
+  lines.push("| Hypothesis | Action-specific CTA text outperforms generic |");
+  lines.push("| Primary metric | Click-through rate |");
+  lines.push("| Sample size | Min. 500 exposures per variant |");
+  lines.push("| Duration | 7 days |");
+  lines.push("");
+  lines.push("| Variant | CTA Text | Color |");
+  lines.push("|---------|----------|-------|");
+  lines.push("| Control | \"Get Started\" | Primary |");
+  lines.push(`| A | \"Analyze My Repo\" | Primary |`);
+  lines.push(`| B | \"Try ${id.name} Free\" | Accent |`);
+  lines.push("");
+
+  // Test 3: Pricing
+  lines.push("### Test 3: Pricing Page Layout");
+  lines.push("");
+  lines.push("| Parameter | Value |");
+  lines.push("|-----------|-------|");
+  lines.push(`| Target page | /pricing |`);
+  lines.push("| Hypothesis | Highlighting popular plan increases conversions |");
+  lines.push("| Primary metric | Plan selection rate |");
+  lines.push("| Secondary metric | Revenue per visitor |");
+  lines.push("");
+  lines.push("| Variant | Description |");
+  lines.push("|---------|-------------|");
+  lines.push("| Control | Equal-weight plan cards |");
+  lines.push("| A | \"Most Popular\" badge on mid-tier plan |");
+  lines.push("| B | Feature comparison table below cards |");
+  lines.push("");
+
+  lines.push("## Experiment Guardrails");
+  lines.push("");
+  lines.push("- **Never test on authenticated flows** without rollback plan");
+  lines.push("- **Minimum sample size**: 500 per variant before reading results");
+  lines.push("- **Kill criteria**: If error rate increases >1% in any variant, stop test");
+  lines.push("- **One test per page**: Never run overlapping experiments on same surface");
+  lines.push("- **Document everything**: Record hypothesis, variants, results, and learnings");
+  lines.push("");
+
+  lines.push("## Metrics Collection");
+  lines.push("");
+  lines.push("| Event | Trigger | Properties |");
+  lines.push("|-------|---------|------------|");
+  lines.push("| `experiment_viewed` | Page load with active test | variant_id, test_id |");
+  lines.push("| `experiment_converted` | Primary action completed | variant_id, test_id, value |");
+  lines.push("| `experiment_bounced` | Left without action | variant_id, test_id, time_on_page |");
+  lines.push("");
+
+  return {
+    path: "ab-test-plan.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "marketing",
+    description: "A/B test plans with hypotheses, variants, metrics, and guardrails",
+  };
+}

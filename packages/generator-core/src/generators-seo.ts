@@ -477,3 +477,84 @@ export function generateContentAudit(ctx: ContextMap): GeneratedFile {
     description: "Content structure and SEO readiness audit",
   };
 }
+
+// ─── meta-tag-audit.json ────────────────────────────────────────
+
+export function generateMetaTagAudit(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const routes = ctx.routes;
+  const frameworks = ctx.detection.frameworks;
+
+  const hasNext = frameworks.some(f => f.name === "next");
+  const pageRoutes = routes.filter(r => !r.path.startsWith("/api") && r.method === "GET");
+
+  const audit = {
+    project: id.name,
+    generated_at: new Date().toISOString(),
+    framework: hasNext ? "next" : frameworks[0]?.name ?? "unknown",
+    global_meta: {
+      charset: { required: true, value: "utf-8", status: "verify" },
+      viewport: { required: true, value: "width=device-width, initial-scale=1", status: "verify" },
+      robots: { required: true, value: "index, follow", status: "verify" },
+      "theme-color": { required: false, recommended: true, value: "#0f172a" },
+      "format-detection": { required: false, recommended: true, value: "telephone=no" },
+    },
+    per_route_audit: pageRoutes.slice(0, 15).map(r => ({
+      route: r.path,
+      source_file: r.source_file,
+      required_tags: {
+        title: {
+          template: `${r.path === "/" ? id.name : r.path.split("/").pop()?.replace(/[-_]/g, " ") ?? "Page"} | ${id.name}`,
+          max_length: 60,
+          status: "verify",
+        },
+        description: {
+          template: `${(id.description ?? id.name).slice(0, 140)}`,
+          max_length: 160,
+          status: "verify",
+        },
+        canonical: {
+          value: `https://example.com${r.path}`,
+          status: "verify",
+        },
+      },
+      open_graph: {
+        "og:title": { inherits: "title" },
+        "og:description": { inherits: "description" },
+        "og:type": { value: r.path === "/" ? "website" : "article" },
+        "og:url": { inherits: "canonical" },
+        "og:image": { value: "/og-image.png", dimensions: "1200x630", status: "verify" },
+        "og:site_name": { value: id.name },
+      },
+      twitter: {
+        "twitter:card": { value: "summary_large_image" },
+        "twitter:title": { inherits: "title" },
+        "twitter:description": { inherits: "description" },
+        "twitter:image": { inherits: "og:image" },
+      },
+    })),
+    structured_data_recommendations: pageRoutes.slice(0, 8).map(r => ({
+      route: r.path,
+      schema_type: r.path === "/" ? "WebSite" :
+        r.path.includes("blog") ? "Article" :
+        r.path.includes("pricing") ? "Product" :
+        r.path.includes("faq") ? "FAQPage" : "WebPage",
+      priority: r.path === "/" ? "high" : "medium",
+    })),
+    issues: [
+      { severity: "error", check: "Missing title tags", description: "Every page must have a unique <title>" },
+      { severity: "error", check: "Missing meta description", description: "Every page must have a meta description under 160 chars" },
+      { severity: "warning", check: "Missing OG image", description: "Pages without og:image get poor social sharing" },
+      { severity: "warning", check: "Duplicate titles", description: "Each page should have a unique title" },
+      { severity: "info", check: "Missing structured data", description: "Add JSON-LD for rich search results" },
+    ],
+  };
+
+  return {
+    path: "meta-tag-audit.json",
+    content: JSON.stringify(audit, null, 2),
+    content_type: "application/json",
+    program: "seo",
+    description: "Per-route meta tag audit with OG, Twitter card, and structured data recommendations",
+  };
+}

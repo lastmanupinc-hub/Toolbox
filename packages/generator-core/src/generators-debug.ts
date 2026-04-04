@@ -339,3 +339,116 @@ export function generateTracingRules(ctx: ContextMap): GeneratedFile {
     description: "Tracing and logging rules derived from project architecture and routes",
   };
 }
+
+// ─── root-cause-checklist.md ────────────────────────────────────
+
+export function generateRootCauseChecklist(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const hotspots = ctx.dependency_graph.hotspots;
+  const frameworks = ctx.detection.frameworks;
+  const patterns = ctx.architecture_signals.patterns_detected;
+
+  const lines: string[] = [];
+  lines.push(`# Root Cause Checklist — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  lines.push("## Triage Workflow");
+  lines.push("");
+  lines.push("```");
+  lines.push("1. Reproduce → 2. Isolate → 3. Trace → 4. Root Cause → 5. Fix → 6. Verify → 7. Prevent");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Step 1: Reproduction");
+  lines.push("");
+  lines.push("- [ ] Can you reproduce the issue consistently?");
+  lines.push("- [ ] What is the minimum input/state to trigger it?");
+  lines.push("- [ ] Does it reproduce in all environments (dev, staging, prod)?");
+  lines.push("- [ ] Is it timing-dependent (race condition, timeout)?");
+  lines.push("");
+
+  lines.push("## Step 2: Isolation");
+  lines.push("");
+  lines.push("- [ ] Which layer does the error surface in? (UI / API / DB / External)");
+  if (patterns.length > 0) {
+    lines.push(`- [ ] Which architectural pattern is involved? (Detected: ${patterns.join(", ")})`);
+  }
+  lines.push("- [ ] Can you remove middleware/plugins to narrow the source?");
+  lines.push("- [ ] Does the issue persist with mocked dependencies?");
+  lines.push("");
+
+  lines.push("## Step 3: Trace");
+  lines.push("");
+  for (const fw of frameworks) {
+    if (fw.name === "next" || fw.name === "react") {
+      lines.push(`- [ ] Check React DevTools for component re-render loops (${fw.name} detected)`);
+      lines.push("- [ ] Check Network tab for failed API calls");
+      lines.push("- [ ] Check for hydration mismatches (SSR vs client)");
+    }
+    if (fw.name === "express" || fw.name === "fastify") {
+      lines.push(`- [ ] Add request-level logging to ${fw.name} middleware`);
+      lines.push("- [ ] Check error-handling middleware order");
+    }
+    if (fw.name === "prisma") {
+      lines.push("- [ ] Enable Prisma query logging (`log: ['query', 'error']`)");
+      lines.push("- [ ] Check for N+1 queries in related models");
+    }
+  }
+  lines.push("- [ ] Add breakpoints in suspected code paths");
+  lines.push("- [ ] Check for unhandled promise rejections");
+  lines.push("- [ ] Review recent git changes (`git log --oneline -20`)");
+  lines.push("");
+
+  lines.push("## Step 4: Root Cause Categories");
+  lines.push("");
+  lines.push("| Category | Check | Typical Fix |");
+  lines.push("|----------|-------|-------------|");
+  lines.push("| State mutation | Shared mutable state modified concurrently | Immutable updates, copy-on-write |");
+  lines.push("| Race condition | Async operations with unguarded order | Mutex, semaphore, serial queue |");
+  lines.push("| Type mismatch | Runtime type differs from expected | Input validation, zod/yup schema |");
+  lines.push("| Null reference | Accessing property of undefined | Optional chaining, null guards |");
+  lines.push("| Resource leak | Connections/handles not released | try/finally, disposal pattern |");
+  lines.push("| Configuration | Wrong env var, missing secret | Environment diff, config validation |");
+  lines.push("| Dependency | Breaking change in library update | Lock versions, review changelogs |");
+  lines.push("| Data integrity | Corrupt/stale data in store | Migration, cache invalidation |");
+  lines.push("");
+
+  lines.push("## Step 5: Suspect Files (by coupling)");
+  lines.push("");
+  if (hotspots.length > 0) {
+    lines.push("High-coupling files are more likely to be involved in cross-cutting bugs:");
+    lines.push("");
+    for (const h of hotspots.slice(0, 8)) {
+      lines.push(`- [ ] \`${h.path}\` — risk ${h.risk_score.toFixed(1)}, ${h.inbound_count} inbound, ${h.outbound_count} outbound`);
+    }
+  } else {
+    lines.push("No high-coupling files detected.");
+  }
+  lines.push("");
+
+  lines.push("## Step 6: Verification");
+  lines.push("");
+  lines.push("- [ ] Does the fix resolve the original reproduction case?");
+  lines.push("- [ ] Do all existing tests still pass?");
+  lines.push("- [ ] Is a new test added for this specific failure mode?");
+  lines.push("- [ ] Has the fix been reviewed for side effects on coupled files?");
+  lines.push("");
+
+  lines.push("## Step 7: Prevention");
+  lines.push("");
+  lines.push("- [ ] Add regression test");
+  lines.push("- [ ] Add monitoring/alerting for this failure class");
+  lines.push("- [ ] Update incident template if this is a new category");
+  lines.push("- [ ] Document root cause in team knowledge base");
+  lines.push("");
+
+  return {
+    path: "root-cause-checklist.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "debug",
+    description: "Systematic root cause analysis checklist with framework-specific trace steps",
+  };
+}

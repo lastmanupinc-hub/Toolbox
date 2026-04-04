@@ -322,3 +322,232 @@ export function generateCursorRules(ctx: ContextMap): GeneratedFile {
     description: "Cursor IDE rules derived from project detection and conventions",
   };
 }
+
+// ─── workflow-pack.md ───────────────────────────────────────────
+
+export function generateWorkflowPack(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const testFrameworks = ctx.detection.test_frameworks;
+  const buildTools = ctx.detection.build_tools;
+  const ci = ctx.detection.ci_platform;
+
+  const lines: string[] = [];
+  lines.push(`# Workflow Pack — ${id.name}`);
+  lines.push("");
+  lines.push("Reusable AI-assisted workflows for common development tasks.");
+  lines.push("");
+
+  lines.push("## Workflow: Feature Development");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("name: feature-development");
+  lines.push("trigger: \"New feature request\"");
+  lines.push("steps:");
+  lines.push("  - name: analyze_scope");
+  lines.push("    action: Review architecture-summary.md for affected layers");
+  lines.push("  - name: plan_implementation");
+  lines.push("    action: Identify files to modify using dependency-hotspots.md");
+  lines.push("  - name: write_code");
+  lines.push(`    action: Follow conventions from ${frameworks.length > 0 ? frameworks.map(f => f.name).join(", ") : id.primary_language}`);
+  lines.push("  - name: write_tests");
+  lines.push(`    action: Add tests using ${testFrameworks.length > 0 ? testFrameworks.join(", ") : "project test framework"}`);
+  lines.push("  - name: validate");
+  lines.push(`    action: ${buildTools.length > 0 ? `Run ${buildTools.join(" && ")}` : "Run build and test"}`);
+  lines.push("  - name: review");
+  lines.push("    action: Check against component-guidelines.md and frontend-rules.md");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Workflow: Bug Fix");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("name: bug-fix");
+  lines.push("trigger: \"Bug report or failing test\"");
+  lines.push("steps:");
+  lines.push("  - name: reproduce");
+  lines.push("    action: Follow root-cause-checklist.md Step 1");
+  lines.push("  - name: isolate");
+  lines.push("    action: Use debug-playbook.md triage section");
+  lines.push("  - name: trace");
+  lines.push("    action: Check tracing-rules.md for log points");
+  lines.push("  - name: fix");
+  lines.push("    action: Apply minimal change in isolated scope");
+  lines.push("  - name: regression_test");
+  lines.push("    action: Add test covering the exact failure case");
+  lines.push("  - name: verify");
+  lines.push("    action: Run full test suite");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Workflow: Code Review");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("name: code-review");
+  lines.push("trigger: \"Pull request opened\"");
+  lines.push("steps:");
+  lines.push("  - name: architecture_check");
+  lines.push("    action: Verify changes respect layer boundaries from architecture-summary.md");
+  lines.push("  - name: convention_check");
+  lines.push(`    action: Validate against ${id.primary_language} conventions`);
+  lines.push("  - name: test_coverage");
+  lines.push("    action: Ensure new code has tests");
+  lines.push("  - name: dependency_check");
+  lines.push("    action: Check dependency-hotspots.md for coupling increase");
+  if (ci) {
+    lines.push("  - name: ci_check");
+    lines.push(`    action: Verify ${ci} pipeline passes`);
+  }
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Workflow: Refactor");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("name: refactor");
+  lines.push("trigger: \"Scheduled improvement or tech debt review\"");
+  lines.push("steps:");
+  lines.push("  - name: identify_targets");
+  lines.push("    action: Use refactor-checklist.md and dependency-hotspots.md");
+  lines.push("  - name: plan_scope");
+  lines.push("    action: Define clear boundaries — one concern per refactor");
+  lines.push("  - name: baseline_tests");
+  lines.push("    action: Ensure existing tests pass before any changes");
+  lines.push("  - name: execute");
+  lines.push("    action: Apply changes incrementally with working tests at each step");
+  lines.push("  - name: validate");
+  lines.push("    action: Run full suite, check for regressions");
+  lines.push("```");
+  lines.push("");
+
+  return {
+    path: "workflow-pack.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "skills",
+    description: "Reusable AI-assisted development workflows for feature, bugfix, review, and refactor tasks",
+  };
+}
+
+// ─── policy-pack.md ─────────────────────────────────────────────
+
+export function generatePolicyPack(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const conventions = ctx.ai_context.conventions;
+  const warnings = ctx.ai_context.warnings;
+  const layers = ctx.architecture_signals.layer_boundaries;
+
+  const lines: string[] = [];
+  lines.push(`# Policy Pack — ${id.name}`);
+  lines.push("");
+  lines.push("AI governance policies for code generation, review, and compliance.");
+  lines.push("");
+
+  lines.push("## Policy: Code Generation Rules");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("id: code-generation");
+  lines.push("scope: all-ai-generated-code");
+  lines.push("rules:");
+  lines.push(`  - language: ${id.primary_language}`);
+  lines.push("  - strict_types: true");
+  lines.push("  - no_any_types: true");
+  lines.push("  - no_stub_implementations: true");
+  lines.push("  - no_placeholder_data: true");
+  for (const c of conventions.slice(0, 5)) {
+    lines.push(`  - convention: ${JSON.stringify(c)}`);
+  }
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Policy: Boundary Enforcement");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("id: boundary-enforcement");
+  lines.push("scope: architecture-layers");
+  lines.push("rules:");
+  if (layers.length > 0) {
+    for (const l of layers) {
+      lines.push(`  - layer: ${l.layer}`);
+      lines.push(`    directories: [${l.directories.join(", ")}]`);
+      lines.push("    allowed_imports: same-layer-or-below");
+    }
+  } else {
+    lines.push("  - no-layers-detected: true");
+    lines.push("  - fallback: enforce-module-boundaries-by-directory");
+  }
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Policy: Security Baseline");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("id: security-baseline");
+  lines.push("scope: all-code");
+  lines.push("rules:");
+  lines.push("  - no_hardcoded_secrets: true");
+  lines.push("  - no_eval: true");
+  lines.push("  - no_innerHTML: true");
+  lines.push("  - validate_all_inputs: true");
+  lines.push("  - parameterize_queries: true");
+  lines.push("  - use_env_vars_for_config: true");
+  lines.push("  - no_debug_logging_in_production: true");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Policy: Testing Requirements");
+  lines.push("");
+  lines.push("```yaml");
+  lines.push("id: testing-requirements");
+  lines.push("scope: all-changes");
+  lines.push("rules:");
+  lines.push("  - new_code_requires_tests: true");
+  lines.push("  - bug_fixes_require_regression_tests: true");
+  lines.push("  - minimum_test_coverage: 80%");
+  lines.push("  - no_skipped_tests_in_ci: true");
+  lines.push(`  - test_frameworks: [${ctx.detection.test_frameworks.join(", ")}]`);
+  lines.push("```");
+  lines.push("");
+
+  if (warnings.length > 0) {
+    lines.push("## Policy: Known Warnings");
+    lines.push("");
+    lines.push("These project-specific warnings must be addressed in all AI-generated code:");
+    lines.push("");
+    for (const w of warnings) {
+      lines.push(`- ⚠️ ${w}`);
+    }
+    lines.push("");
+  }
+
+  lines.push("## Policy: Framework-Specific Rules");
+  lines.push("");
+  for (const fw of frameworks) {
+    lines.push(`### ${fw.name}`);
+    lines.push("");
+    if (fw.name === "next" || fw.name === "react") {
+      lines.push("- Use functional components only");
+      lines.push("- Prefer server components where possible (Next.js App Router)");
+      lines.push("- No inline styles — use design tokens or Tailwind");
+    } else if (fw.name === "express" || fw.name === "fastify") {
+      lines.push("- All routes must have error handling middleware");
+      lines.push("- Validate request bodies before processing");
+      lines.push("- Use async handlers with proper error propagation");
+    } else if (fw.name === "tailwind") {
+      lines.push("- Use utility classes from the design system");
+      lines.push("- No arbitrary values unless design tokens don't cover the case");
+    } else {
+      lines.push(`- Follow ${fw.name} community best practices`);
+    }
+    lines.push("");
+  }
+
+  return {
+    path: "policy-pack.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "skills",
+    description: "AI governance policies for code generation, boundaries, security, and testing",
+  };
+}

@@ -379,3 +379,163 @@ export function generateCanvasAssetGuidelines(ctx: ContextMap): GeneratedFile {
     description: "Design asset guidelines with colors, typography, spacing, and export specifications",
   };
 }
+
+// ─── brand-board.md ─────────────────────────────────────────────
+
+export function generateBrandBoard(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const languages = ctx.detection.languages;
+  const deps = ctx.dependency_graph.external_dependencies;
+  const abstractions = ctx.ai_context.key_abstractions;
+
+  const lines: string[] = [];
+  lines.push(`# Brand Board — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("Comprehensive visual identity reference for all project-branded outputs.");
+  lines.push("");
+
+  // Color Palette
+  lines.push("## Color Palette");
+  lines.push("");
+  lines.push("### Primary Colors");
+  lines.push("");
+  lines.push("| Role | Hex | HSL | Usage |");
+  lines.push("|------|-----|-----|-------|");
+  lines.push("| Brand Primary | `#2563EB` | 217° 91% 53% | Headers, CTAs, primary actions |");
+  lines.push("| Brand Secondary | `#7C3AED` | 263° 83% 58% | Accents, secondary labels |");
+  lines.push("| Brand Accent | `#06B6D4` | 188° 95% 43% | Links, highlights, interactive |");
+  lines.push("");
+  lines.push("### Semantic Colors");
+  lines.push("");
+  lines.push("| Role | Light | Dark | Usage |");
+  lines.push("|------|-------|------|-------|");
+  lines.push("| Success | `#16A34A` | `#22C55E` | Passing tests, healthy metrics |");
+  lines.push("| Warning | `#D97706` | `#FBBF24` | Risk indicators, cautions |");
+  lines.push("| Error | `#DC2626` | `#EF4444` | Failures, critical hotspots |");
+  lines.push("| Info | `#2563EB` | `#60A5FA` | Neutral information |");
+  lines.push("");
+  lines.push("### Neutrals");
+  lines.push("");
+  lines.push("| Weight | Hex | Usage |");
+  lines.push("|--------|-----|-------|");
+  lines.push("| 50 | `#F8FAFC` | Page background |");
+  lines.push("| 100 | `#F1F5F9` | Card background |");
+  lines.push("| 300 | `#CBD5E1` | Borders |");
+  lines.push("| 500 | `#64748B` | Body text (secondary) |");
+  lines.push("| 700 | `#334155` | Body text (primary) |");
+  lines.push("| 900 | `#0F172A` | Headings |");
+  lines.push("| 950 | `#020617` | Dark mode background |");
+  lines.push("");
+
+  // Typography
+  lines.push("## Typography");
+  lines.push("");
+  lines.push("| Role | Family | Weight | Size | Line Height |");
+  lines.push("|------|--------|--------|------|-------------|");
+  lines.push("| Display | Inter | 800 | 48px / 3rem | 1.1 |");
+  lines.push("| Heading 1 | Inter | 700 | 36px / 2.25rem | 1.2 |");
+  lines.push("| Heading 2 | Inter | 600 | 24px / 1.5rem | 1.3 |");
+  lines.push("| Heading 3 | Inter | 600 | 20px / 1.25rem | 1.4 |");
+  lines.push("| Body | Inter | 400 | 16px / 1rem | 1.6 |");
+  lines.push("| Small | Inter | 400 | 14px / 0.875rem | 1.5 |");
+  lines.push("| Code | JetBrains Mono | 400 | 14px / 0.875rem | 1.7 |");
+  lines.push("| Caption | Inter | 500 | 12px / 0.75rem | 1.5 |");
+  lines.push("");
+
+  // Logo Usage
+  lines.push("## Logo & Mark");
+  lines.push("");
+  lines.push(`### Project: ${id.name}`);
+  lines.push("");
+  lines.push("| Variant | Usage | Min Size | Clear Space |");
+  lines.push("|---------|-------|----------|-------------|");
+  lines.push("| Full Logo | Hero, splash, docs header | 120px wide | 1× mark height |");
+  lines.push("| Mark Only | Favicon, avatar, small UI | 24px | 0.5× mark width |");
+  lines.push("| Wordmark | Inline references, footer | 80px wide | 0.5× cap height |");
+  lines.push("");
+  lines.push("**Forbidden**: Don't stretch, rotate, recolor, add effects, or place on busy backgrounds.");
+  lines.push("");
+
+  // Imagery Direction
+  lines.push("## Imagery & Illustration");
+  lines.push("");
+  lines.push("### Style Keywords");
+  lines.push("");
+  const styleKeywords = [
+    "Clean", "Technical", "Precise", "Structured",
+    id.primary_language, ...frameworks.slice(0, 2).map(f => f.name),
+  ];
+  lines.push(styleKeywords.map(k => `\`${k}\``).join(" · "));
+  lines.push("");
+  lines.push("### Visual Language");
+  lines.push("");
+  lines.push("| Element | Guideline |");
+  lines.push("|---------|-----------|");
+  lines.push("| Diagrams | Use brand colors, 2px strokes, rounded corners (8px) |");
+  lines.push("| Screenshots | Full-bleed or device-framed, light + dark variants |");
+  lines.push("| Icons | Outline style, 24px base grid, 1.5px stroke |");
+  lines.push("| Charts | Brand-primary for primary series, secondary for comparisons |");
+  lines.push("| Code blocks | Dark theme (slate-950 bg), syntax highlighting with brand accent |");
+  lines.push("");
+
+  // Tech Identity
+  lines.push("## Tech Identity Elements");
+  lines.push("");
+  lines.push("### Stack Badge Bar");
+  lines.push("");
+  for (const fw of frameworks.slice(0, 6)) {
+    lines.push(`- \`${fw.name}\``);
+  }
+  for (const l of languages.slice(0, 3)) {
+    lines.push(`- \`${l.name}\` — ${l.loc_percent.toFixed(0)}% of codebase`);
+  }
+  lines.push("");
+
+  if (abstractions.length > 0) {
+    lines.push("### Key Abstractions for Branding");
+    lines.push("");
+    for (const a of abstractions.slice(0, 5)) {
+      lines.push(`- **${a}** — candidate for conceptual branding element`);
+    }
+    lines.push("");
+  }
+
+  // Spacing & Layout Tokens
+  lines.push("## Spacing & Layout Tokens");
+  lines.push("");
+  lines.push("| Token | Value | Usage |");
+  lines.push("|-------|-------|-------|");
+  lines.push("| `space-xs` | 4px | Tight gaps, icon padding |");
+  lines.push("| `space-sm` | 8px | Inline spacing |");
+  lines.push("| `space-md` | 16px | Component padding |");
+  lines.push("| `space-lg` | 24px | Section gaps |");
+  lines.push("| `space-xl` | 32px | Layout margins |");
+  lines.push("| `space-2xl` | 48px | Page sections |");
+  lines.push("| `radius-sm` | 4px | Buttons, inputs |");
+  lines.push("| `radius-md` | 8px | Cards |");
+  lines.push("| `radius-lg` | 16px | Modals, panels |");
+  lines.push("| `radius-full` | 9999px | Avatars, badges |");
+  lines.push("");
+
+  // Social / OG Templates
+  lines.push("## Social & OG Image Templates");
+  lines.push("");
+  lines.push("| Template | Size | Elements |");
+  lines.push("|----------|------|----------|");
+  lines.push(`| OG Image | 1200×630 | Brand bg, "${id.name}" heading, description, stack badges |`);
+  lines.push(`| Twitter Card | 1200×600 | Brand gradient, project mark, tagline |`);
+  lines.push("| GitHub Social | 1280×640 | Minimal, mark + wordmark centered |");
+  lines.push("| LinkedIn Banner | 1584×396 | Brand gradient, wordmark left-aligned |");
+  lines.push("");
+
+  return {
+    path: "brand-board.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "canvas",
+    description: "Comprehensive visual identity board with colors, typography, logos, and imagery direction",
+  };
+}

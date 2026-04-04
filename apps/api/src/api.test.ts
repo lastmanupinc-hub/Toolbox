@@ -218,7 +218,7 @@ describe("API integration", () => {
     expect(data.program).toBe("skills");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "skills")).toBe(true);
-    expect(files.length).toBe(3);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/debug/analyze returns debug files", async () => {
@@ -228,7 +228,7 @@ describe("API integration", () => {
     expect(data.program).toBe("debug");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "debug")).toBe(true);
-    expect(files.length).toBe(3);
+    expect(files.length).toBe(4);
   });
 
   it("POST /v1/frontend/audit returns frontend files", async () => {
@@ -238,7 +238,7 @@ describe("API integration", () => {
     expect(data.program).toBe("frontend");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "frontend")).toBe(true);
-    expect(files.length).toBe(2);
+    expect(files.length).toBe(4);
   });
 
   it("POST /v1/seo/analyze returns seo files", async () => {
@@ -248,7 +248,7 @@ describe("API integration", () => {
     expect(data.program).toBe("seo");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "seo")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/optimization/analyze returns optimization files", async () => {
@@ -258,7 +258,7 @@ describe("API integration", () => {
     expect(data.program).toBe("optimization");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "optimization")).toBe(true);
-    expect(files.length).toBe(3);
+    expect(files.length).toBe(4);
   });
 
   it("POST /v1/theme/generate returns theme files", async () => {
@@ -268,7 +268,7 @@ describe("API integration", () => {
     expect(data.program).toBe("theme");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "theme")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/brand/generate returns brand files", async () => {
@@ -278,7 +278,7 @@ describe("API integration", () => {
     expect(data.program).toBe("brand");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "brand")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/superpowers/generate returns superpowers files", async () => {
@@ -288,7 +288,7 @@ describe("API integration", () => {
     expect(data.program).toBe("superpowers");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "superpowers")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/marketing/generate returns marketing files", async () => {
@@ -298,7 +298,7 @@ describe("API integration", () => {
     expect(data.program).toBe("marketing");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "marketing")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/notebook/generate returns notebook files", async () => {
@@ -308,7 +308,7 @@ describe("API integration", () => {
     expect(data.program).toBe("notebook");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "notebook")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/obsidian/analyze returns obsidian files", async () => {
@@ -318,7 +318,7 @@ describe("API integration", () => {
     expect(data.program).toBe("obsidian");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "obsidian")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/mcp/provision returns mcp files", async () => {
@@ -328,7 +328,7 @@ describe("API integration", () => {
     expect(data.program).toBe("mcp");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "mcp")).toBe(true);
-    expect(files.length).toBe(3);
+    expect(files.length).toBe(4);
   });
 
   it("POST /v1/artifacts/generate returns artifacts files", async () => {
@@ -338,7 +338,7 @@ describe("API integration", () => {
     expect(data.program).toBe("artifacts");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "artifacts")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/remotion/generate returns remotion files", async () => {
@@ -348,7 +348,7 @@ describe("API integration", () => {
     expect(data.program).toBe("remotion");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "remotion")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/canvas/generate returns canvas files", async () => {
@@ -358,7 +358,7 @@ describe("API integration", () => {
     expect(data.program).toBe("canvas");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "canvas")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("POST /v1/algorithmic/generate returns algorithmic files", async () => {
@@ -368,7 +368,7 @@ describe("API integration", () => {
     expect(data.program).toBe("algorithmic");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "algorithmic")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(5);
   });
 
   it("returns 404 for unknown route", async () => {

@@ -418,3 +418,114 @@ export function generateResearchThreads(ctx: ContextMap): GeneratedFile {
     description: "Open research questions and investigation threads for continuous improvement",
   };
 }
+
+// ─── citation-index.json ────────────────────────────────────────
+
+export function generateCitationIndex(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const deps = ctx.dependency_graph.external_dependencies;
+  const frameworks = ctx.detection.frameworks;
+  const languages = ctx.detection.languages;
+  const entryPoints = ctx.entry_points;
+  const patterns = ctx.architecture_signals.patterns_detected;
+
+  const citations: Array<{
+    id: string;
+    type: string;
+    title: string;
+    source: string;
+    relevance: string;
+    tags: string[];
+  }> = [];
+
+  // Framework documentation citations
+  for (const fw of frameworks) {
+    citations.push({
+      id: `fw-${fw.name}`,
+      type: "documentation",
+      title: `${fw.name} Official Documentation`,
+      source: fw.name === "next" ? "https://nextjs.org/docs" :
+        fw.name === "react" ? "https://react.dev" :
+        fw.name === "vue" ? "https://vuejs.org/guide" :
+        fw.name === "express" ? "https://expressjs.com/en/guide" :
+        fw.name === "tailwind" ? "https://tailwindcss.com/docs" :
+        fw.name === "prisma" ? "https://www.prisma.io/docs" :
+        `https://www.google.com/search?q=${fw.name}+documentation`,
+      relevance: "primary",
+      tags: ["framework", fw.name, "documentation"],
+    });
+  }
+
+  // Language reference citations
+  for (const lang of languages.slice(0, 3)) {
+    citations.push({
+      id: `lang-${lang.name.toLowerCase()}`,
+      type: "reference",
+      title: `${lang.name} Language Reference`,
+      source: lang.name === "TypeScript" ? "https://www.typescriptlang.org/docs" :
+        lang.name === "JavaScript" ? "https://developer.mozilla.org/en-US/docs/Web/JavaScript" :
+        lang.name === "Python" ? "https://docs.python.org/3/" :
+        `https://www.google.com/search?q=${lang.name}+reference`,
+      relevance: lang.loc_percent > 30 ? "primary" : "secondary",
+      tags: ["language", lang.name.toLowerCase()],
+    });
+  }
+
+  // Pattern-related citations
+  for (const p of patterns) {
+    citations.push({
+      id: `pattern-${p.toLowerCase().replace(/\s+/g, "-")}`,
+      type: "pattern",
+      title: `${p} Pattern Reference`,
+      source: `Architecture pattern detected in project`,
+      relevance: "contextual",
+      tags: ["architecture", "pattern", p.toLowerCase()],
+    });
+  }
+
+  // Key dependency citations
+  for (const d of deps.slice(0, 10)) {
+    citations.push({
+      id: `dep-${d.name}`,
+      type: "library",
+      title: `${d.name} @ ${d.version}`,
+      source: `https://www.npmjs.com/package/${d.name}`,
+      relevance: "reference",
+      tags: ["dependency", d.name],
+    });
+  }
+
+  // Entry point citations
+  for (const ep of entryPoints.slice(0, 5)) {
+    citations.push({
+      id: `entry-${ep.path.replace(/[^a-zA-Z0-9]/g, "-")}`,
+      type: "source",
+      title: `Entry point: ${ep.path}`,
+      source: ep.path,
+      relevance: "primary",
+      tags: ["source", ep.type, "entry-point"],
+    });
+  }
+
+  const index = {
+    project: id.name,
+    generated_at: new Date().toISOString(),
+    total_citations: citations.length,
+    by_type: {
+      documentation: citations.filter(c => c.type === "documentation").length,
+      reference: citations.filter(c => c.type === "reference").length,
+      pattern: citations.filter(c => c.type === "pattern").length,
+      library: citations.filter(c => c.type === "library").length,
+      source: citations.filter(c => c.type === "source").length,
+    },
+    citations,
+  };
+
+  return {
+    path: "citation-index.json",
+    content: JSON.stringify(index, null, 2),
+    content_type: "application/json",
+    program: "notebook",
+    description: "Structured citation index linking project dependencies, frameworks, and sources",
+  };
+}

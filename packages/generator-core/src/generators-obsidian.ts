@@ -416,3 +416,166 @@ export function generateLinkingPolicy(ctx: ContextMap): GeneratedFile {
     description: "Linking rules, hub notes, code-to-vault mapping, and graph health metrics",
   };
 }
+
+// ─── template-pack.md ───────────────────────────────────────────
+
+export function generateTemplatePack(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const abstractions = ctx.ai_context.key_abstractions;
+  const conventions = ctx.ai_context.conventions;
+
+  const lines: string[] = [];
+  lines.push(`# Template Pack — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("Obsidian note templates for consistent knowledge capture.");
+  lines.push("");
+
+  lines.push("## Template: Decision Record");
+  lines.push("");
+  lines.push("```markdown");
+  lines.push("---");
+  lines.push("type: decision");
+  lines.push(`project: ${id.name}`);
+  lines.push("date: {{date}}");
+  lines.push("status: proposed | accepted | deprecated");
+  lines.push("---");
+  lines.push("# Decision: {{title}}");
+  lines.push("");
+  lines.push("## Context");
+  lines.push("What is the issue we're deciding on?");
+  lines.push("");
+  lines.push("## Options Considered");
+  lines.push("1. Option A — description, pros, cons");
+  lines.push("2. Option B — description, pros, cons");
+  lines.push("");
+  lines.push("## Decision");
+  lines.push("What we decided and why.");
+  lines.push("");
+  lines.push("## Consequences");
+  lines.push("What changes as a result of this decision.");
+  lines.push("");
+  lines.push("## Related");
+  lines.push("- [[architecture-summary]]");
+  lines.push("- [[]]");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Template: Meeting Notes");
+  lines.push("");
+  lines.push("```markdown");
+  lines.push("---");
+  lines.push("type: meeting");
+  lines.push(`project: ${id.name}`);
+  lines.push("date: {{date}}");
+  lines.push("attendees: ");
+  lines.push("---");
+  lines.push("# Meeting: {{title}}");
+  lines.push("");
+  lines.push("## Agenda");
+  lines.push("- ");
+  lines.push("");
+  lines.push("## Notes");
+  lines.push("- ");
+  lines.push("");
+  lines.push("## Action Items");
+  lines.push("- [ ] Item — @owner — due: ");
+  lines.push("");
+  lines.push("## Decisions Made");
+  lines.push("- See [[decision-record-{{date}}]]");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Template: Bug Investigation");
+  lines.push("");
+  lines.push("```markdown");
+  lines.push("---");
+  lines.push("type: investigation");
+  lines.push(`project: ${id.name}`);
+  lines.push("date: {{date}}");
+  lines.push("severity: low | medium | high | critical");
+  lines.push("status: investigating | root-caused | resolved");
+  lines.push("---");
+  lines.push("# Bug: {{title}}");
+  lines.push("");
+  lines.push("## Symptoms");
+  lines.push("What was observed?");
+  lines.push("");
+  lines.push("## Reproduction Steps");
+  lines.push("1. ");
+  lines.push("");
+  lines.push("## Root Cause");
+  lines.push("See [[root-cause-checklist]] for systematic analysis.");
+  lines.push("");
+  lines.push("## Fix");
+  lines.push("What was changed and why.");
+  lines.push("");
+  lines.push("## Prevention");
+  lines.push("- [ ] Regression test added");
+  lines.push("- [ ] Monitoring updated");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Template: Technical Concept");
+  lines.push("");
+  lines.push("```markdown");
+  lines.push("---");
+  lines.push("type: concept");
+  lines.push(`project: ${id.name}`);
+  lines.push(`tags: [${abstractions.slice(0, 3).map(a => JSON.stringify(a.toLowerCase())).join(", ")}]`);
+  lines.push("---");
+  lines.push("# {{title}}");
+  lines.push("");
+  lines.push("## Definition");
+  lines.push("One-paragraph explanation of this concept.");
+  lines.push("");
+  lines.push("## In This Project");
+  lines.push("How this concept applies specifically to " + id.name + ".");
+  lines.push("");
+  lines.push("## Related Concepts");
+  lines.push("- [[]]");
+  lines.push("");
+  lines.push("## Code References");
+  lines.push("- `path/to/file.ts` — description");
+  lines.push("```");
+  lines.push("");
+
+  lines.push("## Template: Sprint Retrospective");
+  lines.push("");
+  lines.push("```markdown");
+  lines.push("---");
+  lines.push("type: retrospective");
+  lines.push(`project: ${id.name}`);
+  lines.push("date: {{date}}");
+  lines.push("sprint: ");
+  lines.push("---");
+  lines.push("# Retro: Sprint {{sprint}}");
+  lines.push("");
+  lines.push("## What Went Well");
+  lines.push("- ");
+  lines.push("");
+  lines.push("## What Could Improve");
+  lines.push("- ");
+  lines.push("");
+  lines.push("## Action Items");
+  lines.push("- [ ] ");
+  lines.push("");
+  lines.push("## Metrics");
+  lines.push("| Metric | Target | Actual |");
+  lines.push("|--------|--------|--------|");
+  lines.push("| Velocity | | |");
+  lines.push("| Bugs Fixed | | |");
+  lines.push("| Tests Added | | |");
+  lines.push("```");
+  lines.push("");
+
+  return {
+    path: "template-pack.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "obsidian",
+    description: "Obsidian note templates for decisions, meetings, bugs, concepts, and retrospectives",
+  };
+}

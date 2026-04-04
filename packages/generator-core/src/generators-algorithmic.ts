@@ -463,3 +463,144 @@ export function generateExportManifest(ctx: ContextMap, profile: RepoProfile): G
     description: "Export manifest with artifacts, render pipeline, and dependency requirements",
   };
 }
+
+// ─── variation-matrix.json ──────────────────────────────────────
+
+export function generateVariationMatrix(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const languages = ctx.detection.languages;
+  const hotspots = ctx.dependency_graph.hotspots;
+  const abstractions = ctx.ai_context.key_abstractions;
+  const deps = ctx.dependency_graph.external_dependencies;
+
+  // Build parameter definitions based on project characteristics
+  const parameters: Record<string, unknown>[] = [];
+
+  // Color parameter from project language palette
+  const langColors: Record<string, string> = {
+    TypeScript: "#3178C6", JavaScript: "#F7DF1E", Python: "#3776AB",
+    Rust: "#DEA584", Go: "#00ADD8", Java: "#ED8B00", Ruby: "#CC342D",
+    "C#": "#239120", Swift: "#FA7343", Kotlin: "#7F52FF",
+  };
+  const projectColors = languages.map(l => langColors[l.name] ?? "#64748B").slice(0, 4);
+  parameters.push({
+    name: "primary_hue",
+    type: "color",
+    values: projectColors.length > 0 ? projectColors : ["#2563EB", "#7C3AED", "#06B6D4", "#16A34A"],
+    description: "Base color derived from project language palette",
+  });
+
+  // Complexity parameter from architecture signals
+  parameters.push({
+    name: "complexity",
+    type: "float",
+    range: [0.1, 1.0],
+    steps: 5,
+    values: [0.1, 0.3, 0.5, 0.7, 1.0],
+    description: "Visual complexity scaling factor",
+  });
+
+  // Density parameter from file count
+  const totalFiles = languages.reduce((t, l) => t + l.file_count, 0);
+  const densityRange = totalFiles > 200 ? [50, 100, 200, 400] : [10, 25, 50, 100];
+  parameters.push({
+    name: "element_count",
+    type: "integer",
+    values: densityRange,
+    description: `Element density based on project scale (${totalFiles} files)`,
+  });
+
+  // Layout parameter from framework detection
+  const layoutVariants = ["grid", "radial", "force-directed", "treemap"];
+  if (frameworks.some(f => f.name.toLowerCase().includes("react") || f.name.toLowerCase().includes("vue"))) {
+    layoutVariants.push("component-tree");
+  }
+  parameters.push({
+    name: "layout",
+    type: "enum",
+    values: layoutVariants,
+    description: "Spatial arrangement algorithm",
+  });
+
+  // Seed values for reproducibility
+  const seedBase = id.name.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const seeds = Array.from({ length: 6 }, (_, i) => seedBase * (i + 1) + 42);
+  parameters.push({
+    name: "seed",
+    type: "integer",
+    values: seeds,
+    description: `Deterministic seeds derived from project name "${id.name}"`,
+  });
+
+  // Generate variation grid (top 24 combinations)
+  const variations: Record<string, unknown>[] = [];
+  let variationId = 0;
+  for (const color of (parameters[0].values as string[]).slice(0, 2)) {
+    for (const complexity of [0.3, 0.7]) {
+      for (const layout of layoutVariants.slice(0, 3)) {
+        variationId++;
+        variations.push({
+          id: `var_${String(variationId).padStart(3, "0")}`,
+          params: {
+            primary_hue: color,
+            complexity,
+            element_count: densityRange[Math.floor(densityRange.length / 2)],
+            layout,
+            seed: seeds[variationId % seeds.length],
+          },
+          thumbnail: `thumbnails/var_${String(variationId).padStart(3, "0")}.png`,
+          tags: [
+            complexity > 0.5 ? "complex" : "minimal",
+            layout,
+          ],
+        });
+      }
+    }
+  }
+
+  // Hotspot-derived feature highlights
+  const featureHighlights = hotspots.slice(0, 5).map(h => ({
+    source_file: h.path,
+    risk_score: h.risk_score,
+    visual_weight: Math.min(h.risk_score / 10, 1.0),
+    suggested_emphasis: h.risk_score > 7 ? "glow" : h.risk_score > 4 ? "border" : "subtle",
+  }));
+
+  // Abstraction-derived labels
+  const labelOverlays = abstractions.slice(0, 6).map((a, i) => ({
+    text: a,
+    position: i < 3 ? "top" : "bottom",
+    style: i === 0 ? "hero" : "caption",
+  }));
+
+  const matrix = {
+    project: id.name,
+    generated: new Date().toISOString(),
+    parameters,
+    variation_count: variations.length,
+    variations,
+    feature_highlights: featureHighlights,
+    label_overlays: labelOverlays,
+    render_config: {
+      output_format: "png",
+      resolution: { width: 1920, height: 1080 },
+      thumbnail_size: { width: 320, height: 180 },
+      anti_aliasing: true,
+      background: "transparent",
+    },
+    batch_export: {
+      parallel: 4,
+      naming: "var_{id}_{layout}_{complexity}",
+      formats: ["png", "svg", "webp"],
+    },
+  };
+
+  return {
+    path: "variation-matrix.json",
+    content: JSON.stringify(matrix, null, 2),
+    content_type: "application/json",
+    program: "algorithmic",
+    description: "Parameter variation matrix with seeds, render configs, and thumbnail grid",
+  };
+}

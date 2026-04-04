@@ -214,3 +214,92 @@ function serializeValue(v: unknown): string {
   }
   return String(v);
 }
+
+// ─── dependency-hotspots.md ─────────────────────────────────────
+
+export function generateDependencyHotspots(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const hotspots = ctx.dependency_graph.hotspots;
+  const deps = ctx.dependency_graph.external_dependencies;
+
+  const lines: string[] = [];
+  lines.push(`# Dependency Hotspots — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  lines.push("## Risk Summary");
+  lines.push("");
+  const highRisk = hotspots.filter(h => h.risk_score > 7);
+  const medRisk = hotspots.filter(h => h.risk_score > 4 && h.risk_score <= 7);
+  const lowRisk = hotspots.filter(h => h.risk_score <= 4);
+  lines.push(`| Severity | Count |`);
+  lines.push(`|----------|-------|`);
+  lines.push(`| High (>7) | ${highRisk.length} |`);
+  lines.push(`| Medium (4–7) | ${medRisk.length} |`);
+  lines.push(`| Low (≤4) | ${lowRisk.length} |`);
+  lines.push(`| **Total** | **${hotspots.length}** |`);
+  lines.push("");
+
+  lines.push("## Hotspot Files");
+  lines.push("");
+  if (hotspots.length > 0) {
+    lines.push("| File | Risk | Inbound | Outbound | Total Connections |");
+    lines.push("|------|------|---------|----------|-------------------|");
+    const sorted = [...hotspots].sort((a, b) => b.risk_score - a.risk_score);
+    for (const h of sorted) {
+      const severity = h.risk_score > 7 ? "🔴" : h.risk_score > 4 ? "🟡" : "🟢";
+      lines.push(`| \`${h.path}\` | ${severity} ${h.risk_score.toFixed(1)} | ${h.inbound_count} | ${h.outbound_count} | ${h.inbound_count + h.outbound_count} |`);
+    }
+  } else {
+    lines.push("No hotspots detected — dependency graph has no high-coupling files.");
+  }
+  lines.push("");
+
+  lines.push("## Coupling Analysis");
+  lines.push("");
+  for (const h of hotspots.slice(0, 5)) {
+    lines.push(`### \`${h.path}\``);
+    lines.push("");
+    lines.push(`- **Risk Score**: ${h.risk_score.toFixed(1)}/10`);
+    lines.push(`- **Inbound**: ${h.inbound_count} files depend on this`);
+    lines.push(`- **Outbound**: ${h.outbound_count} dependencies`);
+    lines.push(`- **Refactor Priority**: ${h.risk_score > 7 ? "HIGH — extract interface or split module" : h.risk_score > 4 ? "MEDIUM — monitor for growth" : "LOW — acceptable coupling"}`);
+    lines.push("");
+  }
+
+  lines.push("## External Dependency Risk");
+  lines.push("");
+  if (deps.length > 0) {
+    lines.push("| Package | Version | Risk Factor |");
+    lines.push("|---------|---------|-------------|");
+    for (const d of deps.slice(0, 15)) {
+      const majorVersion = parseInt(d.version.replace(/[^0-9]/, ""), 10);
+      const risk = majorVersion < 1 ? "Pre-1.0 — unstable API" : "Stable";
+      lines.push(`| ${d.name} | ${d.version} | ${risk} |`);
+    }
+  } else {
+    lines.push("No external dependencies detected.");
+  }
+  lines.push("");
+
+  lines.push("## Recommendations");
+  lines.push("");
+  if (highRisk.length > 0) {
+    lines.push("1. **Extract interfaces** for files with >7 risk score to reduce direct coupling");
+    lines.push("2. **Introduce facade pattern** where inbound count exceeds 5");
+  }
+  if (medRisk.length > 0) {
+    lines.push(`${highRisk.length > 0 ? "3" : "1"}. **Monitor medium-risk files** — add import lint rules to prevent further coupling`);
+  }
+  lines.push(`${highRisk.length + medRisk.length > 0 ? highRisk.length + medRisk.length + 1 : 1}. **Review circular dependencies** in the import graph`);
+  lines.push("");
+
+  return {
+    path: "dependency-hotspots.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "search",
+    description: "Dependency coupling analysis with risk scoring and refactor recommendations",
+  };
+}

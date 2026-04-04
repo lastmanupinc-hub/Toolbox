@@ -334,3 +334,139 @@ export function generateArtifactSpec(ctx: ContextMap, profile: RepoProfile): Gen
     description: `Full artifact specification for ${id.name} with architecture, metrics, and generation rules`,
   };
 }
+
+// ─── component-library.json ─────────────────────────────────────
+
+export function generateComponentLibrary(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const languages = ctx.detection.languages;
+  const deps = ctx.dependency_graph.external_dependencies;
+  const routes = ctx.routes;
+
+  const hasTailwind = frameworks.some(f => f.name === "tailwind");
+  const hasReact = frameworks.some(f => f.name === "react" || f.name === "next");
+
+  // Build a component library spec from project context
+  const components: Array<{
+    name: string;
+    category: string;
+    props: Array<{ name: string; type: string; required: boolean }>;
+    variants: string[];
+    usage: string;
+  }> = [];
+
+  // Core primitives
+  components.push({
+    name: "Button",
+    category: "primitives",
+    props: [
+      { name: "variant", type: "'primary' | 'secondary' | 'ghost' | 'danger'", required: false },
+      { name: "size", type: "'sm' | 'md' | 'lg'", required: false },
+      { name: "loading", type: "boolean", required: false },
+      { name: "disabled", type: "boolean", required: false },
+      { name: "children", type: "ReactNode", required: true },
+    ],
+    variants: ["primary", "secondary", "ghost", "danger"],
+    usage: "Primary actions, form submissions, navigation triggers",
+  });
+
+  components.push({
+    name: "Input",
+    category: "primitives",
+    props: [
+      { name: "type", type: "'text' | 'email' | 'password' | 'number'", required: false },
+      { name: "label", type: "string", required: true },
+      { name: "error", type: "string", required: false },
+      { name: "placeholder", type: "string", required: false },
+    ],
+    variants: ["default", "error", "disabled"],
+    usage: "Form fields, search inputs, data entry",
+  });
+
+  components.push({
+    name: "Card",
+    category: "layout",
+    props: [
+      { name: "title", type: "string", required: false },
+      { name: "padding", type: "'sm' | 'md' | 'lg'", required: false },
+      { name: "hoverable", type: "boolean", required: false },
+      { name: "children", type: "ReactNode", required: true },
+    ],
+    variants: ["default", "elevated", "bordered", "interactive"],
+    usage: "Content containers, list items, dashboard widgets",
+  });
+
+  components.push({
+    name: "Badge",
+    category: "primitives",
+    props: [
+      { name: "variant", type: "'info' | 'success' | 'warning' | 'error' | 'neutral'", required: false },
+      { name: "children", type: "ReactNode", required: true },
+    ],
+    variants: ["info", "success", "warning", "error", "neutral"],
+    usage: "Status indicators, labels, counts",
+  });
+
+  components.push({
+    name: "Modal",
+    category: "overlay",
+    props: [
+      { name: "open", type: "boolean", required: true },
+      { name: "onClose", type: "() => void", required: true },
+      { name: "title", type: "string", required: true },
+      { name: "children", type: "ReactNode", required: true },
+    ],
+    variants: ["default", "danger", "fullscreen"],
+    usage: "Confirmations, forms, detail views",
+  });
+
+  components.push({
+    name: "Table",
+    category: "data-display",
+    props: [
+      { name: "columns", type: "Column[]", required: true },
+      { name: "data", type: "Row[]", required: true },
+      { name: "sortable", type: "boolean", required: false },
+      { name: "loading", type: "boolean", required: false },
+    ],
+    variants: ["default", "compact", "striped"],
+    usage: "Data listings, reports, admin views",
+  });
+
+  // Add route-derived page components
+  const pageRoutes = routes.filter(r => !r.path.startsWith("/api") && r.method === "GET");
+  for (const r of pageRoutes.slice(0, 4)) {
+    const name = r.path === "/" ? "HomePage" :
+      r.path.split("/").filter(Boolean).map(s =>
+        s.charAt(0).toUpperCase() + s.slice(1).replace(/[-_]/g, "")
+      ).join("") + "Page";
+    components.push({
+      name,
+      category: "pages",
+      props: [
+        { name: "params", type: "Record<string, string>", required: false },
+      ],
+      variants: ["default", "loading", "error"],
+      usage: `Page component for route ${r.path}`,
+    });
+  }
+
+  const library = {
+    project: id.name,
+    generated_at: new Date().toISOString(),
+    framework: hasReact ? "react" : frameworks[0]?.name ?? id.primary_language,
+    styling: hasTailwind ? "tailwind" : "css-modules",
+    total_components: components.length,
+    categories: [...new Set(components.map(c => c.category))],
+    components,
+  };
+
+  return {
+    path: "component-library.json",
+    content: JSON.stringify(library, null, 2),
+    content_type: "application/json",
+    program: "artifacts",
+    description: "Component library specification with props, variants, and usage guidance",
+  };
+}

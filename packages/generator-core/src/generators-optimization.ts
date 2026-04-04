@@ -427,3 +427,104 @@ export function generateCostEstimate(ctx: ContextMap, profile: RepoProfile): Gen
     description: "Token cost estimates per model and operation type",
   };
 }
+
+// ─── token-budget-plan.md ───────────────────────────────────────
+
+export function generateTokenBudgetPlan(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+  const id = ctx.project_identity;
+  const languages = ctx.detection.languages;
+  const totalLoc = languages.reduce((sum, l) => sum + l.loc, 0);
+  const totalFiles = languages.reduce((sum, l) => sum + l.file_count, 0);
+  const tokensPerLine = 4.5;
+  const totalTokens = Math.round(totalLoc * tokensPerLine);
+
+  const lines: string[] = [];
+  lines.push(`# Token Budget Plan — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  lines.push("## Project Token Profile");
+  lines.push("");
+  lines.push("| Metric | Value |");
+  lines.push("|--------|-------|");
+  lines.push(`| Total LOC | ${totalLoc.toLocaleString()} |`);
+  lines.push(`| Total Files | ${totalFiles} |`);
+  lines.push(`| Est. Total Tokens | ${totalTokens.toLocaleString()} |`);
+  lines.push(`| Avg Tokens/File | ${totalFiles > 0 ? Math.round(totalTokens / totalFiles).toLocaleString() : "N/A"} |`);
+  lines.push("");
+
+  lines.push("## Token Budget by Language");
+  lines.push("");
+  lines.push("| Language | LOC | Tokens | % of Budget |");
+  lines.push("|----------|-----|--------|-------------|");
+  for (const l of languages) {
+    const tokens = Math.round(l.loc * tokensPerLine);
+    lines.push(`| ${l.name} | ${l.loc.toLocaleString()} | ${tokens.toLocaleString()} | ${l.loc_percent.toFixed(1)}% |`);
+  }
+  lines.push("");
+
+  lines.push("## Context Window Allocation");
+  lines.push("");
+  const models = [
+    { name: "GPT-4o", window: 128000 },
+    { name: "Claude 3.5 Sonnet", window: 200000 },
+    { name: "Claude Opus 4", window: 200000 },
+    { name: "Gemini 1.5 Pro", window: 1000000 },
+  ];
+  lines.push("| Model | Context Window | Repo Fits | Recommended Strategy |");
+  lines.push("|-------|---------------|-----------|----------------------|");
+  for (const m of models) {
+    const fits = totalTokens <= m.window;
+    const strategy = fits ? "Full repo context" :
+      totalTokens <= m.window * 3 ? "Selective file context" : "Chunked / RAG approach";
+    lines.push(`| ${m.name} | ${(m.window / 1000).toFixed(0)}K | ${fits ? "✅ Yes" : "❌ No"} | ${strategy} |`);
+  }
+  lines.push("");
+
+  lines.push("## Budget Allocation Strategy");
+  lines.push("");
+  lines.push("### Recommended Context Packing Order");
+  lines.push("");
+  lines.push("1. **System prompt + instructions** (~500 tokens)");
+  lines.push("2. **Architecture summary** (~800 tokens)");
+  lines.push("3. **Relevant file contents** (variable)");
+  lines.push("4. **Type definitions** (~200 tokens per interface)");
+  lines.push("5. **Test context** (~300 tokens per test file)");
+  lines.push("6. **User query** (~100 tokens)");
+  lines.push("");
+
+  lines.push("### Cost Optimization Rules");
+  lines.push("");
+  lines.push("1. **Never send the entire repo** when a subset suffices");
+  lines.push("2. **Prioritize type definitions** over implementation details");
+  lines.push("3. **Include test files** only when debugging test failures");
+  lines.push("4. **Trim comments and blank lines** from context (saves ~15% tokens)");
+  lines.push("5. **Cache repeated context** across multi-turn conversations");
+  lines.push("");
+
+  lines.push("## Daily Budget Estimates");
+  lines.push("");
+  const operations = [
+    { op: "Code review (1 file)", inputTokens: 2000, outputTokens: 500, daily: 10 },
+    { op: "Feature implementation", inputTokens: 5000, outputTokens: 2000, daily: 5 },
+    { op: "Bug investigation", inputTokens: 8000, outputTokens: 1000, daily: 3 },
+    { op: "Refactoring", inputTokens: 4000, outputTokens: 3000, daily: 2 },
+    { op: "Documentation", inputTokens: 3000, outputTokens: 1500, daily: 2 },
+  ];
+  lines.push("| Operation | Input | Output | Daily | Monthly Cost (GPT-4o) |");
+  lines.push("|-----------|-------|--------|-------|----------------------|");
+  for (const op of operations) {
+    const monthlyCost = (op.inputTokens * 2.50 / 1_000_000 + op.outputTokens * 10.00 / 1_000_000) * op.daily * 22;
+    lines.push(`| ${op.op} | ${op.inputTokens.toLocaleString()} | ${op.outputTokens.toLocaleString()} | ${op.daily} | $${monthlyCost.toFixed(2)} |`);
+  }
+  lines.push("");
+
+  return {
+    path: "token-budget-plan.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "optimization",
+    description: "Token budget allocation, model context window analysis, and cost optimization strategy",
+  };
+}

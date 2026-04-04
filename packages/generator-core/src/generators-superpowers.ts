@@ -550,3 +550,140 @@ export function generateRefactorChecklist(ctx: ContextMap): GeneratedFile {
     description: "Systematic refactoring guide based on dependency analysis and architecture signals",
   };
 }
+
+// ─── automation-pipeline.yaml ───────────────────────────────────
+
+export function generateAutomationPipeline(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+  const id = ctx.project_identity;
+  const ci = ctx.detection.ci_platform;
+  const buildTools = ctx.detection.build_tools;
+  const testFrameworks = ctx.detection.test_frameworks;
+  const pkgManagers = ctx.detection.package_managers;
+
+  const lines: string[] = [];
+  lines.push("# Automation Pipeline");
+  lines.push(`# Project: ${id.name}`);
+  lines.push(`# Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  lines.push("pipeline:");
+  lines.push(`  name: ${JSON.stringify(id.name + "-automation")}`);
+  lines.push(`  ci_platform: ${ci || "github-actions"}`);
+  lines.push(`  package_manager: ${pkgManagers[0] ?? "npm"}`);
+  lines.push("");
+
+  lines.push("  stages:");
+  lines.push("");
+
+  // Stage 1: Install
+  lines.push("    - name: install");
+  lines.push("      description: Install dependencies");
+  lines.push("      commands:");
+  const pm = pkgManagers[0] ?? "npm";
+  lines.push(`        - ${pm} install`);
+  lines.push("      cache:");
+  lines.push("        key: dependencies");
+  lines.push(`        paths: [${pm === "pnpm" ? "~/.pnpm-store" : "node_modules"}]`);
+  lines.push("");
+
+  // Stage 2: Lint
+  lines.push("    - name: lint");
+  lines.push("      description: Static analysis and linting");
+  lines.push("      depends_on: [install]");
+  lines.push("      commands:");
+  if (buildTools.includes("eslint")) {
+    lines.push(`        - ${pm === "pnpm" ? "pnpm" : "npx"} eslint .`);
+  }
+  lines.push(`        - ${pm === "pnpm" ? "pnpm" : "npx"} tsc --noEmit`);
+  lines.push("      fail_fast: true");
+  lines.push("");
+
+  // Stage 3: Test
+  lines.push("    - name: test");
+  lines.push("      description: Run test suite");
+  lines.push("      depends_on: [install]");
+  lines.push("      parallel_with: [lint]");
+  lines.push("      commands:");
+  if (testFrameworks.length > 0) {
+    lines.push(`        - ${pm === "pnpm" ? "pnpm" : "npx"} ${testFrameworks[0]} run`);
+  } else {
+    lines.push(`        - ${pm} test`);
+  }
+  lines.push("      coverage:");
+  lines.push("        minimum: 80");
+  lines.push("        report_format: lcov");
+  lines.push("");
+
+  // Stage 4: Build
+  lines.push("    - name: build");
+  lines.push("      description: Build production artifacts");
+  lines.push("      depends_on: [lint, test]");
+  lines.push("      commands:");
+  lines.push(`        - ${pm === "pnpm" ? "pnpm -r" : pm} build`);
+  lines.push("      artifacts:");
+  lines.push("        paths: [dist/, build/]");
+  lines.push("        retention: 30d");
+  lines.push("");
+
+  // Stage 5: Security
+  lines.push("    - name: security_scan");
+  lines.push("      description: Dependency vulnerability audit");
+  lines.push("      depends_on: [install]");
+  lines.push("      parallel_with: [lint, test]");
+  lines.push("      commands:");
+  lines.push(`        - ${pm} audit --audit-level=high`);
+  lines.push("      allow_failure: true");
+  lines.push("");
+
+  // Stage 6: Deploy
+  lines.push("    - name: deploy_staging");
+  lines.push("      description: Deploy to staging environment");
+  lines.push("      depends_on: [build]");
+  lines.push("      trigger: branch:main");
+  lines.push("      environment: staging");
+  lines.push("      commands:");
+  lines.push("        - echo \"Deploy to staging\"");
+  lines.push("      rollback:");
+  lines.push("        automatic: true");
+  lines.push("        on_failure: revert_to_previous");
+  lines.push("");
+
+  lines.push("    - name: deploy_production");
+  lines.push("      description: Deploy to production");
+  lines.push("      depends_on: [deploy_staging]");
+  lines.push("      trigger: manual");
+  lines.push("      environment: production");
+  lines.push("      approval_required: true");
+  lines.push("      commands:");
+  lines.push("        - echo \"Deploy to production\"");
+  lines.push("      rollback:");
+  lines.push("        automatic: false");
+  lines.push("        runbook: \"See incident-template.md\"");
+  lines.push("");
+
+  lines.push("  notifications:");
+  lines.push("    on_failure:");
+  lines.push("      - channel: slack");
+  lines.push("        message: \"Pipeline failed on {{branch}} — {{stage}}\"");
+  lines.push("    on_success:");
+  lines.push("      - channel: slack");
+  lines.push("        message: \"{{branch}} deployed to {{environment}}\"");
+  lines.push("");
+
+  lines.push("  schedules:");
+  lines.push("    - name: nightly_security");
+  lines.push("      cron: \"0 2 * * *\"");
+  lines.push("      stages: [install, security_scan]");
+  lines.push("    - name: weekly_full");
+  lines.push("      cron: \"0 4 * * 1\"");
+  lines.push("      stages: [install, lint, test, build]");
+  lines.push("");
+
+  return {
+    path: "automation-pipeline.yaml",
+    content: lines.join("\n"),
+    content_type: "text/yaml",
+    program: "superpowers",
+    description: "Full CI/CD automation pipeline with stages, caching, security scanning, and deployment",
+  };
+}

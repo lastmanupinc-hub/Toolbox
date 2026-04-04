@@ -286,7 +286,7 @@ export async function handleSkillsGenerate(
   }
 
   // Regenerate skills files with optional custom outputs
-  const requestedOutputs = (body.outputs as string[]) ?? ["AGENTS.md", "CLAUDE.md", ".cursorrules"];
+  const requestedOutputs = (body.outputs as string[]) ?? ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"];
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
@@ -331,7 +331,7 @@ export async function handleDebugAnalyze(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md"],
+    requested_outputs: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md", "root-cause-checklist.md"],
   });
 
   const debugFiles = result.files.filter(f => f.program === "debug");
@@ -371,7 +371,7 @@ export async function handleFrontendAudit(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: [".ai/frontend-rules.md", "component-guidelines.md"],
+    requested_outputs: [".ai/frontend-rules.md", "component-guidelines.md", "layout-patterns.md", "ui-audit.md"],
   });
 
   const frontendFiles = result.files.filter(f => f.program === "frontend");
@@ -411,7 +411,7 @@ export async function handleSeoAnalyze(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: [".ai/seo-rules.md", "schema-recommendations.json", "route-priority-map.md", "content-audit.md"],
+    requested_outputs: [".ai/seo-rules.md", "schema-recommendations.json", "route-priority-map.md", "content-audit.md", "meta-tag-audit.json"],
   });
 
   const seoFiles = result.files.filter(f => f.program === "seo");
@@ -451,7 +451,7 @@ export async function handleOptimizationAnalyze(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: [".ai/optimization-rules.md", "prompt-diff-report.md", "cost-estimate.json"],
+    requested_outputs: [".ai/optimization-rules.md", "prompt-diff-report.md", "cost-estimate.json", "token-budget-plan.md"],
   });
 
   const optimizationFiles = result.files.filter(f => f.program === "optimization");
@@ -491,7 +491,7 @@ export async function handleThemeGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: [".ai/design-tokens.json", "theme.css", "theme-guidelines.md", "component-theme-map.json"],
+    requested_outputs: [".ai/design-tokens.json", "theme.css", "theme-guidelines.md", "component-theme-map.json", "dark-mode-tokens.json"],
   });
 
   const themeFiles = result.files.filter(f => f.program === "theme");
@@ -531,7 +531,7 @@ export async function handleBrandGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["brand-guidelines.md", "voice-and-tone.md", "content-constraints.md", "messaging-system.yaml"],
+    requested_outputs: ["brand-guidelines.md", "voice-and-tone.md", "content-constraints.md", "messaging-system.yaml", "channel-rulebook.md"],
   });
 
   const brandFiles = result.files.filter(f => f.program === "brand");
@@ -571,7 +571,7 @@ export async function handleSuperpowersGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md"],
+    requested_outputs: ["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md", "automation-pipeline.yaml"],
   });
 
   const superpowersFiles = result.files.filter(f => f.program === "superpowers");
@@ -611,7 +611,7 @@ export async function handleMarketingGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["campaign-brief.md", "funnel-map.md", "sequence-pack.md", "cro-playbook.md"],
+    requested_outputs: ["campaign-brief.md", "funnel-map.md", "sequence-pack.md", "cro-playbook.md", "ab-test-plan.md"],
   });
 
   const marketingFiles = result.files.filter(f => f.program === "marketing");
@@ -651,7 +651,7 @@ export async function handleNotebookGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["notebook-summary.md", "source-map.json", "study-brief.md", "research-threads.md"],
+    requested_outputs: ["notebook-summary.md", "source-map.json", "study-brief.md", "research-threads.md", "citation-index.json"],
   });
 
   const notebookFiles = result.files.filter(f => f.program === "notebook");
@@ -691,7 +691,7 @@ export async function handleObsidianAnalyze(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["obsidian-skill-pack.md", "vault-rules.md", "graph-prompt-map.json", "linking-policy.md"],
+    requested_outputs: ["obsidian-skill-pack.md", "vault-rules.md", "graph-prompt-map.json", "linking-policy.md", "template-pack.md"],
   });
 
   const obsidianFiles = result.files.filter(f => f.program === "obsidian");
@@ -731,7 +731,7 @@ export async function handleMcpProvision(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["mcp-config.json", "connector-map.yaml", "capability-registry.json"],
+    requested_outputs: ["mcp-config.json", "connector-map.yaml", "capability-registry.json", "server-manifest.yaml"],
   });
 
   const mcpFiles = result.files.filter(f => f.program === "mcp");
@@ -771,7 +771,7 @@ export async function handleArtifactsGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md"],
+    requested_outputs: ["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md", "component-library.json"],
   });
 
   const artifactFiles = result.files.filter(f => f.program === "artifacts");
@@ -811,7 +811,7 @@ export async function handleRemotionGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md"],
+    requested_outputs: ["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md", "storyboard.md"],
   });
 
   const remotionFiles = result.files.filter(f => f.program === "remotion");
@@ -851,7 +851,7 @@ export async function handleCanvasGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md"],
+    requested_outputs: ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md", "brand-board.md"],
   });
 
   const canvasFiles = result.files.filter(f => f.program === "canvas");
@@ -891,7 +891,7 @@ export async function handleAlgorithmicGenerate(
   const result = generateFiles({
     context_map: contextMap,
     repo_profile: repoProfile,
-    requested_outputs: ["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml"],
+    requested_outputs: ["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml", "variation-matrix.json"],
   });
 
   const algorithmicFiles = result.files.filter(f => f.program === "algorithmic");

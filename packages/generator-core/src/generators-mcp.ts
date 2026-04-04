@@ -405,3 +405,144 @@ export function generateCapabilityRegistry(ctx: ContextMap): GeneratedFile {
     description: "Registry of available project capabilities with commands and providers",
   };
 }
+
+// ─── server-manifest.yaml ───────────────────────────────────────
+
+export function generateServerManifest(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks;
+  const routes = ctx.routes;
+  const deps = ctx.dependency_graph.external_dependencies;
+
+  const lines: string[] = [];
+  lines.push("# MCP Server Manifest");
+  lines.push(`# Project: ${id.name}`);
+  lines.push(`# Generated: ${new Date().toISOString()}`);
+  lines.push("");
+
+  lines.push("server:");
+  lines.push(`  name: ${JSON.stringify(id.name + "-mcp-server")}`);
+  lines.push("  version: \"1.0.0\"");
+  lines.push(`  description: ${JSON.stringify("MCP server for " + id.name + " project integration")}`);
+  lines.push("  protocol: \"mcp\"");
+  lines.push("  transport: \"stdio\"");
+  lines.push("");
+
+  lines.push("  capabilities:");
+  lines.push("    tools: true");
+  lines.push("    resources: true");
+  lines.push("    prompts: true");
+  lines.push("");
+
+  // Tools from project context
+  lines.push("  tools:");
+
+  lines.push("    - name: analyze_project");
+  lines.push("      description: Run full project analysis and return context map");
+  lines.push("      input_schema:");
+  lines.push("        type: object");
+  lines.push("        properties:");
+  lines.push("          depth:");
+  lines.push("            type: string");
+  lines.push("            enum: [quick, standard, deep]");
+  lines.push("            default: standard");
+  lines.push("");
+
+  lines.push("    - name: search_code");
+  lines.push("      description: Search project codebase by pattern or semantic query");
+  lines.push("      input_schema:");
+  lines.push("        type: object");
+  lines.push("        required: [query]");
+  lines.push("        properties:");
+  lines.push("          query:");
+  lines.push("            type: string");
+  lines.push("          file_pattern:");
+  lines.push("            type: string");
+  lines.push("");
+
+  lines.push("    - name: generate_files");
+  lines.push("      description: Generate output files for a specific program");
+  lines.push("      input_schema:");
+  lines.push("        type: object");
+  lines.push("        required: [program]");
+  lines.push("        properties:");
+  lines.push("          program:");
+  lines.push("            type: string");
+  lines.push("            enum: [search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic]");
+  lines.push("");
+
+  if (routes.length > 0) {
+    lines.push("    - name: list_routes");
+    lines.push(`      description: List all ${routes.length} detected routes`);
+    lines.push("      input_schema:");
+    lines.push("        type: object");
+    lines.push("        properties:");
+    lines.push("          method:");
+    lines.push("            type: string");
+    lines.push("            enum: [GET, POST, PUT, DELETE, PATCH]");
+    lines.push("");
+  }
+
+  // Resources
+  lines.push("  resources:");
+  lines.push("    - uri: project://context-map");
+  lines.push("      name: Project Context Map");
+  lines.push("      mime_type: application/json");
+  lines.push("      description: Full project context including structure, detection, and architecture signals");
+  lines.push("");
+  lines.push("    - uri: project://repo-profile");
+  lines.push("      name: Repository Profile");
+  lines.push("      mime_type: application/yaml");
+  lines.push("      description: Repository health, structure summary, and detection results");
+  lines.push("");
+  lines.push("    - uri: project://architecture-summary");
+  lines.push("      name: Architecture Summary");
+  lines.push("      mime_type: text/markdown");
+  lines.push("      description: Human-readable architecture overview");
+  lines.push("");
+
+  // Prompts
+  lines.push("  prompts:");
+  lines.push("    - name: review_code");
+  lines.push(`      description: Review code following ${id.name} conventions`);
+  lines.push("      arguments:");
+  lines.push("        - name: file_path");
+  lines.push("          type: string");
+  lines.push("          required: true");
+  lines.push("");
+  lines.push("    - name: debug_issue");
+  lines.push("      description: Debug an issue using project-specific playbooks");
+  lines.push("      arguments:");
+  lines.push("        - name: error_message");
+  lines.push("          type: string");
+  lines.push("          required: true");
+  lines.push("        - name: stack_trace");
+  lines.push("          type: string");
+  lines.push("");
+
+  // Runtime config
+  lines.push("  runtime:");
+  lines.push(`    language: ${id.primary_language}`);
+  lines.push(`    entry: ${JSON.stringify(ctx.entry_points[0]?.path ?? "src/index.ts")}`);
+  lines.push("    env:");
+  lines.push("      - name: AXIS_PROJECT_ID");
+  lines.push("        required: true");
+  lines.push("      - name: AXIS_API_URL");
+  lines.push("        default: \"http://localhost:4000\"");
+  lines.push("");
+
+  lines.push("  dependencies:");
+  for (const d of deps.slice(0, 8)) {
+    lines.push(`    - name: ${d.name}`);
+    lines.push(`      version: ${JSON.stringify(d.version)}`);
+  }
+  lines.push("");
+
+  return {
+    path: "server-manifest.yaml",
+    content: lines.join("\n"),
+    content_type: "text/yaml",
+    program: "mcp",
+    description: "MCP server manifest with tools, resources, prompts, and runtime configuration",
+  };
+}
