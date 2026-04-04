@@ -14,12 +14,12 @@ project_continuation:
 
   current_identity:
     project_name: "Axis Toolbox"
-    date: "2026-04-03"
-    commit_or_tag: "5b1acaa"
-    current_session_id: "session_004"
-    one_sentence_summary: "Full-stack Axis Toolbox with handler factory (15→1), zero-dep ZIP export engine, full web UI (plans, account, program launcher, download), CLI auth, 80 generators across 17 programs, 49 API endpoints, 281 tests."
+    date: "2026-04-04"
+    commit_or_tag: "b0c2f82"
+    current_session_id: "session_005"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 281 tests, visual interface layer (toast, command palette, status bar, animations), 3 rounds of bug-fixing (22 bugs), server hardening, theme pack, zero-dep ZIP export, billing+funnel, CLI auth. Grade: B+ (85.2). Gap analysis complete — executing A+ roadmap."
     current_status: "building"
-    current_focus_vertical: "v1_search_context_graph"
+    current_focus_vertical: "quality_hardening_to_a_plus"
 
   executive_truth:
     maturity_estimate:
@@ -28,12 +28,12 @@ project_continuation:
       integrated_percent: 80
       production_percent: 15
     confidence:
-      architecture_confidence: 92
-      runtime_confidence: 88
-      pipeline_confidence: 85
-      product_surface_confidence: 80
-      integration_confidence: 90
-      notes: "Full-stack with all 4 input methods exercised. 49 API endpoints (29 core + 8 billing + 9 funnel + 2 export/programs + 1 health), 80 generators across 17 programs, 281 tests across 9 files. Handler factory replaced 15 copy-paste handlers with 1-line factory calls (~600 LOC removed). Zero-dep ZIP export engine. Full web UI: hash routing, plans pricing page, account dashboard, program launcher, per-program download. CLI: auth login/status/logout, programs list."
+      architecture_confidence: 93
+      runtime_confidence: 90
+      pipeline_confidence: 87
+      product_surface_confidence: 85
+      integration_confidence: 91
+      notes: "Full-stack with all 4 input methods exercised. 52+ API endpoints, 80 generators across 17 programs, 281 tests across 9 files. Handler factory, zero-dep ZIP export. Full web UI with toast system, command palette (Ctrl+K), status bar, page animations. 3 rounds of bug-fixing (22 bugs). Server hardening (path traversal, abort guard, email validation, ZIP sanitization, GitHub timeout). Theme pack: design tokens, dark-mode, motion, responsive. CLI auth. Grade: 85.2 (B+). Gap analysis produced 15-move A+ roadmap."
 
   boundary_truth:
     accepted_input_modes:
@@ -607,7 +607,56 @@ project_continuation:
         completion_status: complete
         commit: "5b1acaa"
 
-    qualifying_candidates: []
+      - id: "eq_035"
+        description: "Bug-fix round 1 — 11 bugs fixed, E2E audit 77 elements, snapshot-level regressions resolved"
+        completion_status: complete
+        commit: "19dca02"
+
+      - id: "eq_036"
+        description: "Bug-fix round 2 — 10 more bugs fixed (013-022), E2E round 2 — 54/55 pass"
+        completion_status: complete
+        commit: "79522d9"
+
+      - id: "eq_037"
+        description: "Server hardening (path traversal, abort guard, email validation, ZIP sanitization, GitHub timeout, file path normalization), client polish (ErrorBoundary, AbortController, error messages), theme pack level-up (design tokens, dark-mode-tokens, animations, WCAG contrast, responsive strategy)"
+        completion_status: complete
+        commit: "590c176"
+
+      - id: "eq_038"
+        description: "Visual interface layer — Toast notification system, Command Palette (Ctrl+K), StatusBar with API health polling, page animations, keyboard shortcuts (Ctrl+1-4 pages, Alt+1-5 tabs), stagger animations, prefers-reduced-motion kill-switch"
+        completion_status: complete
+        commit: "b0c2f82"
+
+    qualifying_candidates:
+      - id: "eq_039"
+        description: "Package unit tests — context-engine (~15 tests for buildContextMap), repo-parser (~15 tests for language/framework/import detection), generator-core (~20 tests for program output verification). Target: 50+ new tests."
+        roi_score: 96
+        roi_reason: "validation_strength 5, production_quality 5, blocker_removal 4 (test coverage C+ → A). Highest ROI under begin.yaml policy."
+        status: pending
+
+      - id: "eq_040"
+        description: "REGISTRY metadata — replace Record<string, GeneratorFn> with Record<string, { fn: GeneratorFn; program: string }>, fix listAvailableGenerators() to read real metadata, update ProgramLauncher to fetch from /v1/programs instead of hardcoded array."
+        roi_score: 88
+        roi_reason: "canonical_coherence 5, integration_quality 5, blocker_removal 5 (listAvailableGenerators misclassifies 15/17 programs). Fixes broken data flow."
+        status: pending
+
+      - id: "eq_041"
+        description: "README.md (project description, quickstart, architecture, endpoint listing, program catalog) + CONTRIBUTING.md (dev setup, coding standards, PR process, test conventions)."
+        roi_score: 82
+        roi_reason: "team_scale 5, usability 5, production_quality 4. Documentation D → A. Required for open-source readiness."
+        status: pending
+
+      - id: "eq_042"
+        description: "Request logging middleware + structured error codes. Replace console.error with structured logger, add request_id tracing, standardize error response format with error codes."
+        roi_score: 76
+        roi_reason: "production_quality 5, integration_quality 4, observability 5. Error handling B+ → A."
+        status: pending
+
+      - id: "eq_043"
+        description: "Body schema validation — validate POST body fields at system boundary using lightweight runtime checks. Add input contracts for all 17 program handlers + billing + funnel endpoints."
+        roi_score: 72
+        roi_reason: "security 5, production_quality 5, canonical_coherence 4. Security B+ → A."
+        status: pending
 
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
@@ -882,6 +931,105 @@ project_continuation:
       - "CLI has no auth → login/status/logout + persistent config"
     blockers_added: []
     commit_results: ["5b1acaa"]
+    push_results: []
+
+  current_session_result_016:
+    session_goal: "Bug-fix round 1 — E2E audit and regression repair"
+    selected_move: "eq_035: Fix 11 bugs found in E2E audit across 77 elements"
+    selected_move_roi_reason: "production_quality 5, blocker_removal 5, integration_quality 5. Bugs in shipped code are the highest-priority deficits."
+    completed_candidates:
+      - "eq_035: 11 bugs fixed across API, web, and CLI. E2E audit covered 77 elements."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "281 vitest tests passing across 9 files"
+      - "11 bugs resolved (bugs 001-011)"
+    verticals_advanced:
+      - "All — production quality raised across stack"
+    blockers_removed:
+      - "11 runtime bugs in shipped code"
+    blockers_added: []
+    commit_results: ["19dca02"]
+    push_results: []
+
+  current_session_result_017:
+    session_goal: "Bug-fix round 2 — second E2E pass"
+    selected_move: "eq_036: Fix 10 more bugs (013-022), E2E round 2"
+    selected_move_roi_reason: "production_quality 5, blocker_removal 5. 54/55 E2E elements now pass."
+    completed_candidates:
+      - "eq_036: 10 bugs fixed (013-022). E2E round 2 — 54/55 pass."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "281 vitest tests passing across 9 files"
+      - "54/55 E2E audit elements passing"
+      - "10 additional bugs resolved"
+    verticals_advanced:
+      - "All — E2E quality raised to 98%"
+    blockers_removed:
+      - "10 runtime bugs (013-022)"
+    blockers_added: []
+    commit_results: ["79522d9"]
+    push_results: []
+
+  current_session_result_018:
+    session_goal: "Server hardening + client polish + theme pack level-up"
+    selected_move: "eq_037: Security hardening, error boundaries, expanded design system"
+    selected_move_roi_reason: "security 5, production_quality 5, usability 4, canonical_coherence 4. Path traversal + abort guard + email validation are production blockers."
+    completed_candidates:
+      - "eq_037: Server hardening — path traversal guard, readBody abort handler, writableEnded guard, email validation, ZIP entry sanitization, GitHub timeout (10s), file path normalization"
+      - "eq_037: Client polish — ErrorBoundary component, AbortController fetch timeout, improved error messages, skipped files warning"
+      - "eq_037: Theme pack level-up — design tokens expanded (motion, opacity, surfaces), theme.css (animations, utilities, component primitives), guidelines (animation guide, responsive strategy, WCAG contrast), dark-mode-tokens (surface overrides)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "281 vitest tests passing across 9 files"
+      - "52+ API endpoints"
+      - "9 files changed, +377/-30"
+    verticals_advanced:
+      - "v7_theme_design → design system matured with motion + responsive + dark-mode"
+      - "Platform security raised (path traversal, ZIP sanitization, abort guards)"
+    blockers_removed:
+      - "Path traversal vulnerability in file serving"
+      - "No request abort handling"
+      - "No email validation"
+    blockers_added: []
+    commit_results: ["590c176"]
+    push_results: []
+
+  current_session_result_019:
+    session_goal: "Visual interface layer + comprehensive grading + gap analysis"
+    selected_move: "eq_038: Toast system, command palette, status bar, animations + full rubric grading"
+    selected_move_roi_reason: "usability 5, integration_quality 5, production_quality 4. Visual polish raises UI/UX from B to B+. Grading + gap analysis provides the canonical roadmap to A+."
+    completed_candidates:
+      - "eq_038: Toast.tsx — context-based notification system (4 levels, auto-expire, stacking, click-to-dismiss, slide-up animation)"
+      - "eq_038: CommandPalette.tsx — Ctrl+K activated, fuzzy search, section grouping, arrow-key nav, Enter to select"
+      - "eq_038: StatusBar.tsx — fixed footer, API health polling (30s), snapshot stats, generated file count, version, connection indicator"
+      - "eq_038: index.css — @keyframes fadeIn/slideUp/scaleIn, .animate-* utilities, .stagger delays, .page-enter, kbd styling, prefers-reduced-motion kill-switch"
+      - "eq_038: App.tsx — ToastProvider wraps app, CommandPalette + StatusBar global, Ctrl+1-4 page shortcuts, page transitions"
+      - "eq_038: DashboardPage.tsx — toast on run/export, Alt+1-5 tab shortcuts, animated tab content"
+      - "eq_038: UploadPage.tsx — toast on snapshot success/error"
+      - "eq_038: OverviewTab.tsx — stagger class on stat/content grids"
+      - "Grading rubric: 10 categories, weighted suite grade 85.2 (B+)"
+      - "Gap analysis: 15-move prioritized execution queue to A+ (96.1)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "281 vitest tests passing across 9 files"
+      - "3 new React components (Toast, CommandPalette, StatusBar)"
+      - "8 files changed, +605/-39"
+      - "Web build: 42 modules clean"
+      - "All 7 packages compile clean"
+      - "Grading: Architecture A(93), TypeSafety A-(90), API A-(91), Security B+(84), Tests C+(68), UI/UX B+(85), Generators B+(88), DevOps A-(92), ErrorHandling B+(86), Docs D(42)"
+    verticals_advanced:
+      - "Platform UX — visual interface layer complete"
+      - "Quality roadmap — gap analysis defines path to A+"
+    blockers_removed:
+      - "No notification system → Toast"
+      - "No command palette → Ctrl+K fuzzy search"
+      - "No system status display → StatusBar"
+    blockers_added: []
+    commit_results: ["b0c2f82"]
     push_results: []
 
   source_control_policy:
