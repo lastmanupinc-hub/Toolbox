@@ -24,6 +24,7 @@ import {
   handleArtifactsGenerate,
   handleRemotionGenerate,
   handleCanvasGenerate,
+  handleAlgorithmicGenerate,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -107,6 +108,7 @@ beforeAll(async () => {
   router.post("/v1/artifacts/generate", handleArtifactsGenerate);
   router.post("/v1/remotion/generate", handleRemotionGenerate);
   router.post("/v1/canvas/generate", handleCanvasGenerate);
+  router.post("/v1/algorithmic/generate", handleAlgorithmicGenerate);
 
   server = createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -359,6 +361,16 @@ describe("API integration", () => {
     expect(files.length).toBe(4);
   });
 
+  it("POST /v1/algorithmic/generate returns algorithmic files", async () => {
+    const r = await request(TEST_PORT, "POST", "/v1/algorithmic/generate", { snapshot_id: snapshotId });
+    expect(r.status).toBe(200);
+    const data = r.data as Record<string, unknown>;
+    expect(data.program).toBe("algorithmic");
+    const files = data.files as Array<{ path: string; program: string }>;
+    expect(files.every(f => f.program === "algorithmic")).toBe(true);
+    expect(files.length).toBe(4);
+  });
+
   it("returns 404 for unknown route", async () => {
     const r = await request(TEST_PORT, "GET", "/v1/nonexistent");
     expect(r.status).toBe(404);
@@ -397,5 +409,7 @@ describe("API integration", () => {
     expect(r15.status).toBe(400);
     const r16 = await request(TEST_PORT, "POST", "/v1/canvas/generate", {});
     expect(r16.status).toBe(400);
+    const r17 = await request(TEST_PORT, "POST", "/v1/algorithmic/generate", {});
+    expect(r17.status).toBe(400);
   });
 });

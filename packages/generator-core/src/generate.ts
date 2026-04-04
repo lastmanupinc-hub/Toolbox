@@ -16,6 +16,7 @@ import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } f
 import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
 import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";
 import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines } from "./generators-canvas.js";
+import { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest } from "./generators-algorithmic.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -77,6 +78,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "social-pack.md": (ctx) => generateSocialPack(ctx),
   "poster-layouts.md": (ctx) => generatePosterLayouts(ctx),
   "asset-guidelines.md": (ctx) => generateCanvasAssetGuidelines(ctx),
+  "generative-sketch.ts": (ctx) => generateGenerativeSketch(ctx),
+  "parameter-pack.json": (ctx) => generateParameterPack(ctx),
+  "collection-map.md": (ctx) => generateCollectionMap(ctx),
+  "export-manifest.yaml": (ctx, profile) => generateExportManifest(ctx, profile),
 };
 
 // Aliases (user may request with different naming)

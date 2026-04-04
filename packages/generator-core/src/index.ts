@@ -16,3 +16,4 @@ export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } f
 export { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
 export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";
 export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines } from "./generators-canvas.js";
+export { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest } from "./generators-algorithmic.js";

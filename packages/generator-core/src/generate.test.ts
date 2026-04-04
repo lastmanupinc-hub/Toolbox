@@ -725,10 +725,59 @@ describe("canvas generators content", () => {
   });
 });
 
+describe("algorithmic generators content", () => {
+  const result = generateFiles(makeInput(["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml"]));
+
+  it("generates all 4 algorithmic files", () => {
+    const algorithmicFiles = result.files.filter(f => f.program === "algorithmic");
+    expect(algorithmicFiles.length).toBe(4);
+  });
+
+  it("generative-sketch.ts has force simulation and rendering", () => {
+    const file = result.files.find(f => f.path === "generative-sketch.ts")!;
+    expect(file.content).toContain("CONFIG");
+    expect(file.content).toContain("createNodes");
+    expect(file.content).toContain("simulate");
+    expect(file.content).toContain("renderSketch");
+    expect(file.content_type).toBe("text/typescript");
+    expect(file.content.length).toBeGreaterThan(500);
+  });
+
+  it("parameter-pack.json has structure, color, and motion params", () => {
+    const file = result.files.find(f => f.path === "parameter-pack.json")!;
+    const data = JSON.parse(file.content);
+    expect(data.project).toBe("test-app");
+    expect(data.parameters.structure.node_count).toBeGreaterThan(0);
+    expect(data.parameters.color.palette.length).toBeGreaterThan(0);
+    expect(data.parameters.motion.dampening).toBe(0.98);
+    expect(data.presets.length).toBe(3);
+    expect(file.content_type).toBe("application/json");
+  });
+
+  it("collection-map.md has pieces and metadata", () => {
+    const file = result.files.find(f => f.path === "collection-map.md")!;
+    expect(file.content).toContain("Collection Map");
+    expect(file.content).toContain("Dependency Network");
+    expect(file.content).toContain("Language Ring");
+    expect(file.content).toContain("Architecture Terrain");
+    expect(file.content).toContain("Hotspot Constellation");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+
+  it("export-manifest.yaml has artifacts and render pipeline", () => {
+    const file = result.files.find(f => f.path === "export-manifest.yaml")!;
+    expect(file.content).toContain("manifest:");
+    expect(file.content).toContain("generative-sketch");
+    expect(file.content).toContain("render_pipeline");
+    expect(file.content).toContain("dependencies");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(57);
+    expect(generators.length).toBe(61);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
@@ -738,5 +787,9 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("social-pack.md");
     expect(paths).toContain("poster-layouts.md");
     expect(paths).toContain("asset-guidelines.md");
+    expect(paths).toContain("generative-sketch.ts");
+    expect(paths).toContain("parameter-pack.json");
+    expect(paths).toContain("collection-map.md");
+    expect(paths).toContain("export-manifest.yaml");
   });
 });
