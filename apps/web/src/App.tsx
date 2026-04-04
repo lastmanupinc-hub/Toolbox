@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { UploadPage } from "./pages/UploadPage.tsx";
 import { DashboardPage } from "./pages/DashboardPage.tsx";
 import { PlansPage } from "./pages/PlansPage.tsx";
@@ -16,18 +16,20 @@ function getInitialPage(): Page {
 export function App() {
   const [page, setPage] = useState<Page>(getInitialPage);
   const [result, setResult] = useState<SnapshotResponse | null>(null);
+  const resultRef = useRef(result);
+  resultRef.current = result;
 
   useEffect(() => {
     const onHash = () => {
       const h = location.hash.replace("#", "");
       if (h === "plans") setPage("plans");
       else if (h === "account") setPage("account");
-      else if (h === "dashboard" && result) setPage("dashboard");
+      else if (h === "dashboard" && resultRef.current) setPage("dashboard");
       else setPage("upload");
     };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
-  }, [result]);
+  }, []);
 
   const nav = useCallback((p: Page) => {
     setPage(p);
@@ -45,7 +47,11 @@ export function App() {
     nav("upload");
   }, [nav]);
 
-  const isLoggedIn = !!localStorage.getItem("axis_api_key");
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("axis_api_key"));
+
+  const handleAuthChange = useCallback(() => {
+    setLoggedIn(!!localStorage.getItem("axis_api_key"));
+  }, []);
 
   return (
     <>
@@ -81,7 +87,7 @@ export function App() {
             className={`btn ${page === "account" ? "btn-primary" : ""}`}
             onClick={() => nav("account")}
           >
-            {isLoggedIn ? "Account" : "Sign Up"}
+            {loggedIn ? "Account" : "Sign Up"}
           </button>
         </nav>
       </header>
@@ -89,7 +95,7 @@ export function App() {
       {page === "upload" && <UploadPage onComplete={handleUploadComplete} />}
       {page === "dashboard" && result && <DashboardPage result={result} />}
       {page === "plans" && <PlansPage onSelectPlan={() => nav("account")} />}
-      {page === "account" && <AccountPage />}
+      {page === "account" && <AccountPage onAuthChange={handleAuthChange} />}
     </>
   );
 }

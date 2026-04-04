@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type FormEvent } from "react";
+import { useState, useEffect, useCallback, useRef, type FormEvent } from "react";
 import {
   createAccount,
   getAccount,
@@ -6,16 +6,23 @@ import {
   listApiKeys,
   revokeApiKey,
   getUsage,
+  updateTier,
+  listSeats,
+  inviteSeat,
+  revokeSeat,
   type Account,
   type ApiKeyInfo,
   type UsageSummary,
   type BillingTier,
+  type Seat,
 } from "../api.ts";
 
-export function AccountPage() {
+export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
   const [account, setAccount] = useState<Account | null>(null);
   const [keys, setKeys] = useState<ApiKeyInfo[]>([]);
   const [usage, setUsage] = useState<{ tier: BillingTier; monthly_snapshots: number; project_count: number; by_program: UsageSummary[] } | null>(null);
+  const [seats, setSeats] = useState<{ seats: Seat[]; count: number; limit: number; remaining: number } | null>(null);
+  const [inviteEmail, setInviteEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,6 +31,7 @@ export function AccountPage() {
   const [email, setEmail] = useState("");
   const [newKeyLabel, setNewKeyLabel] = useState("");
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
+  const [pasteKey, setPasteKey] = useState("");
 
   const isLoggedIn = !!localStorage.getItem("axis_api_key");
 
@@ -33,14 +41,16 @@ export function AccountPage() {
       return;
     }
     try {
-      const [acct, keysData, usageData] = await Promise.all([
+      const [acct, keysData, usageData, seatsData] = await Promise.all([
         getAccount(),
         listApiKeys(),
         getUsage(),
+        listSeats(),
       ]);
       setAccount(acct);
       setKeys(keysData.keys);
       setUsage(usageData);
+      setSeats(seatsData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load account");
     } finally {
@@ -60,6 +70,7 @@ export function AccountPage() {
       localStorage.setItem("axis_api_key", result.api_key.raw_key);
       setRevealedKey(result.api_key.raw_key);
       setAccount(result.account);
+      onAuthChange?.();
       setLoading(true);
       await loadAccount();
     } catch (err) {
@@ -98,6 +109,17 @@ export function AccountPage() {
     setUsage(null);
     setRevealedKey(null);
     setLoading(false);
+    onAuthChange?.();
+  }
+
+  async function handleUpgrade(tier: BillingTier) {
+    setError(null);
+    try {
+      const result = await updateTier(tier);
+      setAccount(result.account);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upgrade failed");
+    }
   }
 
   if (loading) {
@@ -145,9 +167,11 @@ export function AccountPage() {
             <input
               placeholder="axis_..."
               style={{ flex: 1 }}
+              value={pasteKey}
+              onChange={(e) => setPasteKey(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  const val = (e.target as HTMLInputElement).value.trim();
+                  const val = pasteKey.trim();
                   if (val.startsWith("axis_")) {
                     localStorage.setItem("axis_api_key", val);
                     window.location.reload();
@@ -158,8 +182,7 @@ export function AccountPage() {
             <button
               className="btn"
               onClick={() => {
-                const input = document.querySelector<HTMLInputElement>("input[placeholder='axis_...']");
-                const val = input?.value.trim() ?? "";
+                const val = pasteKey.trim();
                 if (val.startsWith("axis_")) {
                   localStorage.setItem("axis_api_key", val);
                   window.location.reload();
@@ -196,6 +219,38 @@ export function AccountPage() {
           </div>
         </div>
       </div>
+
+      {/* Upgrade Banner */}
+      {account && account.tier === "free" && (
+        <div className="card" style={{ borderColor: "var(--accent)", marginTop: 0 }}>
+          <div className="flex-between">
+            <div>
+              <h3 style={{ color: "var(--accent)" }}>Unlock All 17 Programs</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem", marginTop: 4 }}>
+                Upgrade to Pro for 200 snapshots/month, 20 projects, 5 team seats, and all 14 Pro programs.
+              </p>
+            </div>
+            <button className="btn btn-primary" onClick={() => handleUpgrade("paid")}>
+              Upgrade to Pro — $29/mo
+            </button>
+          </div>
+        </div>
+      )}
+      {account && account.tier === "paid" && (
+        <div className="card" style={{ borderColor: "var(--yellow)", marginTop: 0 }}>
+          <div className="flex-between">
+            <div>
+              <h3 style={{ color: "var(--yellow)" }}>Need More?</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem", marginTop: 4 }}>
+                Enterprise Suite: unlimited snapshots, SSO, audit logs, and dedicated support.
+              </p>
+            </div>
+            <button className="btn" onClick={() => handleUpgrade("suite")}>
+              Upgrade to Enterprise
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Revealed key banner */}
       {revealedKey && (
@@ -338,6 +393,89 @@ export function AccountPage() {
           </table>
         )}
       </div>
+
+      {/* Team Seats */}
+      {account && account.tier !== "free" && (
+        <div className="card">
+          <div className="flex-between" style={{ marginBottom: 12 }}>
+            <h3>Team Seats {seats && <span style={{ color: "var(--text-muted)", fontSize: "0.8125rem" }}>({seats.count}/{seats.limit})</span>}</h3>
+            <form onSubmit={async (e: FormEvent) => {
+              e.preventDefault();
+              setError(null);
+              try {
+                await inviteSeat(inviteEmail.trim());
+                setInviteEmail("");
+                setSeats(await listSeats());
+              } catch (err) {
+                setError(err instanceof Error ? err.message : "Failed to invite");
+              }
+            }} className="flex" style={{ gap: 8 }}>
+              <input
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                placeholder="teammate@example.com"
+                type="email"
+                style={{ width: 220 }}
+                required
+              />
+              <button type="submit" className="btn btn-primary" style={{ whiteSpace: "nowrap" }}>
+                + Invite
+              </button>
+            </form>
+          </div>
+          {!seats || seats.seats.length === 0 ? (
+            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>No team members yet. Invite someone to get started.</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Invited</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {seats.seats.map((s) => (
+                  <tr key={s.seat_id}>
+                    <td>{s.email}</td>
+                    <td><span className="badge">{s.role}</span></td>
+                    <td>
+                      {s.revoked_at ? (
+                        <span className="badge badge-red">Revoked</span>
+                      ) : s.accepted ? (
+                        <span className="badge badge-green">Active</span>
+                      ) : (
+                        <span className="badge badge-yellow">Pending</span>
+                      )}
+                    </td>
+                    <td>{new Date(s.created_at).toLocaleDateString()}</td>
+                    <td>
+                      {!s.revoked_at && (
+                        <button
+                          className="btn"
+                          style={{ fontSize: "0.75rem", padding: "4px 8px" }}
+                          onClick={async () => {
+                            try {
+                              await revokeSeat(s.seat_id);
+                              setSeats(await listSeats());
+                            } catch (err) {
+                              setError(err instanceof Error ? err.message : "Failed to revoke seat");
+                            }
+                          }}
+                        >
+                          Revoke
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
 
       {error && (
         <div className="card" style={{ borderColor: "var(--red)" }}>

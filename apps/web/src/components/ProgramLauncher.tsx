@@ -1,6 +1,6 @@
-import { useState } from "react";
-import type { GeneratedFile } from "../api.ts";
-import { downloadExport } from "../api.ts";
+import { useState, useEffect } from "react";
+import type { GeneratedFile, BillingTier } from "../api.ts";
+import { downloadExport, getAccount } from "../api.ts";
 
 interface Props {
   snapshotId: string;
@@ -40,6 +40,11 @@ const PROGRAMS: ProgramDef[] = [
 export function ProgramLauncher({ snapshotId, generatedFiles, onRun }: Props) {
   const [running, setRunning] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [tier, setTier] = useState<BillingTier>("free");
+
+  useEffect(() => {
+    getAccount().then(a => setTier(a.tier)).catch(() => {});
+  }, []);
 
   const filesPerProgram = new Map<string, number>();
   for (const f of generatedFiles) {
@@ -99,6 +104,7 @@ export function ProgramLauncher({ snapshotId, generatedFiles, onRun }: Props) {
               program={p}
               fileCount={filesPerProgram.get(p.name) ?? 0}
               running={running === p.name}
+              locked={tier === "free"}
               onRun={() => handleRun(p)}
             />
           ))}
@@ -112,11 +118,13 @@ function ProgramCard({
   program,
   fileCount,
   running,
+  locked = false,
   onRun,
 }: {
   program: ProgramDef;
   fileCount: number;
   running: boolean;
+  locked?: boolean;
   onRun: () => void;
 }) {
   return (
@@ -124,20 +132,23 @@ function ProgramCard({
       className="card"
       style={{
         padding: 16,
-        cursor: running ? "wait" : "pointer",
+        cursor: locked ? "not-allowed" : running ? "wait" : "pointer",
+        opacity: locked ? 0.55 : 1,
         transition: "border-color 0.15s",
       }}
-      onClick={() => !running && onRun()}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")}
+      onClick={() => !running && !locked && onRun()}
+      onMouseEnter={(e) => !locked && (e.currentTarget.style.borderColor = "var(--accent)")}
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
     >
       <div className="flex-between" style={{ marginBottom: 8 }}>
         <span style={{ fontSize: "1.25rem" }}>{program.icon}</span>
-        {fileCount > 0 && (
+        {locked ? (
+          <span className="badge" style={{ fontSize: "0.6875rem", background: "var(--border)" }}>🔒 Pro</span>
+        ) : fileCount > 0 ? (
           <span className="badge badge-green" style={{ fontSize: "0.6875rem" }}>
             {fileCount} files
           </span>
-        )}
+        ) : null}
       </div>
       <h4 style={{ fontSize: "0.875rem", marginBottom: 4 }}>{program.label}</h4>
       <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", lineHeight: 1.4 }}>

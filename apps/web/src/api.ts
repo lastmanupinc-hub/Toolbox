@@ -256,7 +256,7 @@ export async function downloadExport(projectId: string, program?: string): Promi
   const match = disposition?.match(/filename="(.+)"/);
   a.download = match?.[1] ?? "axis-export.zip";
   a.click();
-  URL.revokeObjectURL(a.href);
+  setTimeout(() => URL.revokeObjectURL(a.href), 60_000);
 }
 
 // ─── Billing API ────────────────────────────────────────────────
@@ -269,7 +269,8 @@ export async function createAccount(name: string, email: string): Promise<{ acco
 }
 
 export async function getAccount(): Promise<Account> {
-  return fetchJSON("/v1/account");
+  const data = await fetchJSON("/v1/account") as { account?: Account };
+  return data.account ?? (data as unknown as Account);
 }
 
 export async function createApiKey(label: string): Promise<{ key_id: string; raw_key: string; label: string }> {
@@ -288,7 +289,13 @@ export async function revokeApiKey(keyId: string): Promise<void> {
 }
 
 export async function getUsage(): Promise<{ tier: BillingTier; monthly_snapshots: number; project_count: number; by_program: UsageSummary[] }> {
-  return fetchJSON("/v1/account/usage");
+  const data = await fetchJSON("/v1/account/usage") as { tier: BillingTier; totals?: { runs: number }; programs?: UsageSummary[] };
+  return {
+    tier: data.tier,
+    monthly_snapshots: data.totals?.runs ?? 0,
+    project_count: data.programs?.length ?? 0,
+    by_program: data.programs ?? [],
+  };
 }
 
 export async function updateTier(tier: BillingTier): Promise<{ account: Account }> {
@@ -306,4 +313,41 @@ export async function getPlans(): Promise<{ plans: PlanDefinition[]; features: P
 
 export async function getUpgradePrompt(): Promise<{ prompt: UpgradePrompt | null }> {
   return fetchJSON("/v1/account/upgrade-prompt");
+}
+
+export async function dismissUpgradePrompt(): Promise<void> {
+  await fetchJSON("/v1/account/upgrade-prompt/dismiss", { method: "POST" });
+}
+
+// ─── Seats API ──────────────────────────────────────────────────
+
+export interface Seat {
+  seat_id: string;
+  email: string;
+  role: string;
+  accepted: boolean;
+  accepted_at: string | null;
+  revoked_at: string | null;
+  created_at: string;
+}
+
+export async function listSeats(): Promise<{ seats: Seat[]; count: number; limit: number; remaining: number }> {
+  return fetchJSON("/v1/account/seats");
+}
+
+export async function inviteSeat(email: string, role?: string): Promise<{ seat: Seat }> {
+  return fetchJSON("/v1/account/seats", {
+    method: "POST",
+    body: JSON.stringify({ email, role: role ?? "member" }),
+  });
+}
+
+export async function revokeSeat(seatId: string): Promise<void> {
+  await fetchJSON(`/v1/account/seats/${seatId}/revoke`, { method: "POST" });
+}
+
+// ─── Funnel API ─────────────────────────────────────────────────
+
+export async function getFunnelStatus(): Promise<{ account_id: string; tier: BillingTier; stage: string; recent_events: Array<{ event_type: string; stage: string; metadata: unknown; created_at: string }> }> {
+  return fetchJSON("/v1/account/funnel");
 }

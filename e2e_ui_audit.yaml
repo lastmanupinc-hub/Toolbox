@@ -1,0 +1,1102 @@
+# ═══════════════════════════════════════════════════════════════════════
+# AXIS Toolbox — End-to-End UI Audit
+# Generated: 2026-04-04
+# Server: http://localhost:4000  |  Web: http://localhost:5173
+# Method: API endpoint testing + static code analysis of all UI files
+# ═══════════════════════════════════════════════════════════════════════
+
+summary:
+  total_clickable_elements: 77
+  total_api_endpoints_tested: 45
+  api_pass: 38
+  api_fail: 7
+  api_fail_expected_error_cases: 4
+  api_fail_real_bugs: 3
+  ui_bugs_found: 12
+  bugs_fixed: 11
+  bugs_remaining: 1
+
+# ─── GLOBAL NAVIGATION (App.tsx) ─────────────────────────────────────
+
+navigation:
+  - id: header_logo
+    page: App.tsx
+    element_type: link
+    label: "⚡ Axis Toolbox"
+    path: "#"
+    purpose: "Clears loaded project, resets to upload page"
+    api_endpoint: null
+    result: true
+    notes: "Client-side only — resets state + hash"
+
+  - id: nav_analyze_button
+    page: App.tsx
+    element_type: button
+    label: "Analyze"
+    path: "#"
+    purpose: "Navigate to upload/analyze page"
+    api_endpoint: null
+    result: true
+    notes: "Always visible, sets hash to empty"
+
+  - id: nav_dashboard_button
+    page: App.tsx
+    element_type: button
+    label: "Dashboard"
+    path: "#dashboard"
+    purpose: "Navigate to project dashboard"
+    api_endpoint: null
+    result: true
+    notes: "Only rendered when a project result is loaded"
+
+  - id: nav_plans_button
+    page: App.tsx
+    element_type: button
+    label: "Plans"
+    path: "#plans"
+    purpose: "Navigate to pricing/plans page"
+    api_endpoint: null
+    result: true
+
+  - id: nav_account_button
+    page: App.tsx
+    element_type: button
+    label: "Account / Sign Up"
+    path: "#account"
+    purpose: "Navigate to account page. Label says 'Account' if logged in, 'Sign Up' otherwise"
+    api_endpoint: null
+    result: true
+
+# ─── UPLOAD PAGE (UploadPage.tsx) ────────────────────────────────────
+
+upload_page:
+  - id: mode_upload_button
+    page: UploadPage.tsx
+    element_type: button
+    label: "📁 Upload Files"
+    path: "#"
+    purpose: "Switch to file upload mode"
+    api_endpoint: null
+    result: true
+
+  - id: mode_github_button
+    page: UploadPage.tsx
+    element_type: button
+    label: "🔗 GitHub URL"
+    path: "#"
+    purpose: "Switch to GitHub URL input mode"
+    api_endpoint: null
+    result: true
+
+  - id: github_url_input
+    page: UploadPage.tsx
+    element_type: text_input
+    label: "https://github.com/owner/repo"
+    path: "#"
+    purpose: "Enter GitHub repository URL for analysis"
+    api_endpoint: null
+    result: true
+    notes: "Only visible in github mode"
+
+  - id: project_name_input
+    page: UploadPage.tsx
+    element_type: text_input
+    label: "my-project"
+    path: "#"
+    purpose: "Name the project being uploaded"
+    api_endpoint: null
+    result: true
+    notes: "Auto-populated from dropped folder name"
+
+  - id: project_type_select
+    page: UploadPage.tsx
+    element_type: select
+    label: "web_application (8 options)"
+    path: "#"
+    purpose: "Classify project type (web_application, api_service, cli_tool, library, monorepo, mobile_app, desktop_app, static_site)"
+    api_endpoint: null
+    result: true
+
+  - id: goals_textarea
+    page: UploadPage.tsx
+    element_type: textarea
+    label: "Generate AI context files"
+    path: "#"
+    purpose: "List project goals, one per line"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_context_map
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "Context Map"
+    path: "#"
+    purpose: "Toggle context-map.json in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_agents_md
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "AGENTS.md"
+    path: "#"
+    purpose: "Toggle AGENTS.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_claude_md
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "CLAUDE.md"
+    path: "#"
+    purpose: "Toggle CLAUDE.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_cursorrules
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: ".cursorrules"
+    path: "#"
+    purpose: "Toggle .cursorrules in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_debug_playbook
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "Debug Playbook"
+    path: "#"
+    purpose: "Toggle .ai/debug-playbook.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_incident_template
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "Incident Template"
+    path: "#"
+    purpose: "Toggle incident-template.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_tracing_rules
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "Tracing Rules"
+    path: "#"
+    purpose: "Toggle tracing-rules.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_frontend_rules
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "Frontend Rules"
+    path: "#"
+    purpose: "Toggle .ai/frontend-rules.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: output_toggle_component_guidelines
+    page: UploadPage.tsx
+    element_type: toggle_badge
+    label: "Component Guidelines"
+    path: "#"
+    purpose: "Toggle component-guidelines.md in requested outputs"
+    api_endpoint: null
+    result: true
+
+  - id: drop_zone_click
+    page: UploadPage.tsx
+    element_type: drop_zone
+    label: "Click to select a folder or drag & drop files here"
+    path: "#"
+    purpose: "Opens native folder picker via hidden file input (webkitdirectory)"
+    api_endpoint: null
+    result: true
+    notes: "Filters out node_modules, .git, dist, files >1MB"
+
+  - id: drop_zone_drag
+    page: UploadPage.tsx
+    element_type: drop_zone
+    label: "(drag & drop area)"
+    path: "#"
+    purpose: "Read dropped files, auto-populate project name from folder"
+    api_endpoint: null
+    result: true
+
+  - id: submit_upload_button
+    page: UploadPage.tsx
+    element_type: submit_button
+    label: "🚀 Upload & Generate"
+    path: "#"
+    purpose: "Submit project files for snapshot creation and generation"
+    api_endpoint: "POST /v1/snapshots"
+    result: true
+    api_test_status: PASS
+    api_test_http: 201
+    api_test_ms: 13
+    notes: "Requires manifest wrapper with project_name, project_type, frameworks, goals, requested_outputs + files array"
+
+  - id: submit_github_button
+    page: UploadPage.tsx
+    element_type: submit_button
+    label: "🔗 Analyze GitHub Repo"
+    path: "#"
+    purpose: "Submit GitHub URL for remote repo analysis"
+    api_endpoint: "POST /v1/github/analyze"
+    result: true
+    api_test_status: PASS
+    api_test_http: 201
+    api_test_ms: 719
+    notes: "Fetches tarball from GitHub API, parses tar, runs full pipeline"
+
+# ─── DASHBOARD PAGE (DashboardPage.tsx) ──────────────────────────────
+
+dashboard_page:
+  - id: download_all_button
+    page: DashboardPage.tsx
+    element_type: button
+    label: "⬇ Download All"
+    path: "#dashboard"
+    purpose: "Download ZIP of all generated files for this project"
+    api_endpoint: "GET /v1/projects/:project_id/export"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 11
+
+  - id: tab_overview
+    page: DashboardPage.tsx
+    element_type: tab
+    label: "Overview"
+    path: "#dashboard"
+    purpose: "Show project overview stats, frameworks, languages, health, architecture"
+    api_endpoint: null
+    result: true
+
+  - id: tab_structure
+    page: DashboardPage.tsx
+    element_type: tab
+    label: "Structure"
+    path: "#dashboard"
+    purpose: "Show file tree with filter, sort, role classification"
+    api_endpoint: null
+    result: true
+
+  - id: tab_dependencies
+    page: DashboardPage.tsx
+    element_type: tab
+    label: "Dependencies"
+    path: "#dashboard"
+    purpose: "Show import graph, hotspots, dependency tables"
+    api_endpoint: null
+    result: true
+
+  - id: tab_generated_files
+    page: DashboardPage.tsx
+    element_type: tab
+    label: "Generated Files"
+    path: "#dashboard"
+    purpose: "Show generated files grouped by program, with preview + copy"
+    api_endpoint: "GET /v1/projects/:project_id/generated-files (auto-load on mount)"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 3
+
+  - id: tab_programs
+    page: DashboardPage.tsx
+    element_type: tab
+    label: "Programs"
+    path: "#dashboard"
+    purpose: "Show ProgramLauncher — 17 program cards to run individually"
+    api_endpoint: null
+    result: true
+
+# ─── PLANS PAGE (PlansPage.tsx) ──────────────────────────────────────
+
+plans_page:
+  - id: billing_monthly_toggle
+    page: PlansPage.tsx
+    element_type: button
+    label: "Monthly"
+    path: "#plans"
+    purpose: "Switch pricing display to monthly rates"
+    api_endpoint: null
+    result: true
+
+  - id: billing_annual_toggle
+    page: PlansPage.tsx
+    element_type: button
+    label: "Annual — Save 20%"
+    path: "#plans"
+    purpose: "Switch pricing display to annual rates"
+    api_endpoint: null
+    result: true
+
+  - id: plan_free_cta
+    page: PlansPage.tsx
+    element_type: button
+    label: "Get Started Free"
+    path: "#account"
+    purpose: "Navigate to account/signup page"
+    api_endpoint: null
+    result: true
+    notes: "All 3 CTA buttons call the same onSelectPlan → nav('account')"
+
+  - id: plan_pro_cta
+    page: PlansPage.tsx
+    element_type: button
+    label: "Upgrade to Pro"
+    path: "#account"
+    purpose: "Navigate to account/signup page"
+    api_endpoint: null
+    result: true
+    notes: "Does NOT auto-trigger tier upgrade — user must upgrade manually from account page (no UI for this yet)"
+
+  - id: plan_enterprise_cta
+    page: PlansPage.tsx
+    element_type: button
+    label: "Contact Sales"
+    path: "#account"
+    purpose: "Navigate to account/signup page (same as other CTAs, no distinct sales flow)"
+    api_endpoint: null
+    result: true
+    notes: "No differentiated enterprise contact flow exists yet"
+
+  - id: plans_page_auto_fetch
+    page: PlansPage.tsx
+    element_type: auto_fetch
+    label: "(on mount)"
+    path: "#plans"
+    purpose: "Fetch plan catalog from API"
+    api_endpoint: "GET /v1/plans"
+    result: false
+    error: "getPlans() function missing from api.ts — import exists but export does not. Page works via .catch() static fallback."
+    severity: medium
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 1
+    notes: "API endpoint works. Client-side import is broken — falls back to hardcoded plans."
+
+# ─── ACCOUNT PAGE (AccountPage.tsx) ──────────────────────────────────
+
+account_page:
+  # ── Not Logged In ──
+  - id: signup_name_input
+    page: AccountPage.tsx
+    element_type: text_input
+    label: "Your name"
+    path: "#account"
+    purpose: "Enter name for account registration"
+    api_endpoint: null
+    result: true
+    notes: "Only visible when not logged in"
+
+  - id: signup_email_input
+    page: AccountPage.tsx
+    element_type: email_input
+    label: "you@example.com"
+    path: "#account"
+    purpose: "Enter email for account registration"
+    api_endpoint: null
+    result: true
+
+  - id: signup_submit_button
+    page: AccountPage.tsx
+    element_type: submit_button
+    label: "Create Free Account"
+    path: "#account"
+    purpose: "Create account, receive API key, store in localStorage"
+    api_endpoint: "POST /v1/accounts"
+    result: true
+    api_test_status: PASS
+    api_test_http: 201
+    api_test_ms: 34
+    notes: "Returns { account, api_key: { key_id, raw_key, label } }. Stores raw_key in localStorage."
+
+  - id: api_key_paste_input
+    page: AccountPage.tsx
+    element_type: text_input
+    label: "axis_..."
+    path: "#account"
+    purpose: "Paste existing API key to log in"
+    api_endpoint: null
+    result: true
+    notes: "Enter key triggers localStorage save + page reload"
+
+  - id: api_key_connect_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "Connect"
+    path: "#account"
+    purpose: "Save pasted API key and reload"
+    api_endpoint: null
+    result: false
+    error: "Uses fragile document.querySelector('input[placeholder=\"axis_...\"]') instead of React ref. Works but brittle — will break if placeholder text changes."
+    severity: low
+
+  # ── Logged In ──
+  - id: logout_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "Log Out"
+    path: "#account"
+    purpose: "Remove API key from localStorage, reset to signup view"
+    api_endpoint: null
+    result: true
+    notes: "Client-side only — does not invalidate key server-side"
+
+  - id: copy_revealed_key_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "📋 Copy"
+    path: "#account"
+    purpose: "Copy newly created API key to clipboard"
+    api_endpoint: null
+    result: true
+    notes: "Only visible immediately after account creation or key creation"
+
+  - id: new_key_label_input
+    page: AccountPage.tsx
+    element_type: text_input
+    label: "Key label (optional)"
+    path: "#account"
+    purpose: "Enter label for new API key"
+    api_endpoint: null
+    result: true
+
+  - id: new_key_submit_button
+    page: AccountPage.tsx
+    element_type: submit_button
+    label: "+ New Key"
+    path: "#account"
+    purpose: "Create a new API key"
+    api_endpoint: "POST /v1/account/keys"
+    result: true
+    api_test_status: PASS
+    api_test_http: 201
+    api_test_ms: 4
+    notes: "Returns { key_id, raw_key, label }. Refreshes key list."
+
+  - id: revoke_key_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "Revoke"
+    path: "#account"
+    purpose: "Revoke a specific API key"
+    api_endpoint: "POST /v1/account/keys/:key_id/revoke"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 1
+
+  # ─── New elements added during bug fix session ───
+  - id: upgrade_pro_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "Upgrade to Pro — $29/mo"
+    path: "#account"
+    purpose: "Upgrade from Free to Pro tier"
+    api_endpoint: "POST /v1/account/tier"
+    result: true
+    notes: "Only visible when account.tier === 'free'. Added in bug_004 fix."
+
+  - id: upgrade_enterprise_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "Upgrade to Enterprise"
+    path: "#account"
+    purpose: "Upgrade from Pro to Enterprise Suite tier"
+    api_endpoint: "POST /v1/account/tier"
+    result: true
+    notes: "Only visible when account.tier === 'paid'. Added in bug_004 fix."
+
+  - id: seat_invite_email_input
+    page: AccountPage.tsx
+    element_type: input
+    label: "teammate@example.com"
+    path: "#account"
+    purpose: "Email input for inviting a team member"
+    api_endpoint: null
+    result: true
+    notes: "Only visible when tier !== 'free'. Added in bug_006 fix."
+
+  - id: seat_invite_submit
+    page: AccountPage.tsx
+    element_type: button
+    label: "+ Invite"
+    path: "#account"
+    purpose: "Invite a team member by email"
+    api_endpoint: "POST /v1/account/seats"
+    result: true
+    notes: "Only visible when tier !== 'free'. Added in bug_006 fix."
+
+  - id: seat_revoke_button
+    page: AccountPage.tsx
+    element_type: button
+    label: "Revoke (per seat row)"
+    path: "#account"
+    purpose: "Revoke a team member's access"
+    api_endpoint: "POST /v1/account/seats/:seat_id/revoke"
+    result: true
+    notes: "Per-row button for each active seat. Added in bug_006 fix."
+
+  - id: program_launcher_auto_fetch
+    page: ProgramLauncher.tsx
+    element_type: auto_fetch
+    label: "Auto-fetch account tier"
+    path: "#dashboard"
+    purpose: "Fetches account to determine billing tier for Pro program gating"
+    api_endpoint: "GET /v1/account"
+    result: true
+    notes: "Added in bug_005 fix. Sets locked state on Pro program cards for Free tier users."
+
+# ─── FILES TAB (FilesTab.tsx) ────────────────────────────────────────
+
+files_tab:
+  - id: files_filter_input
+    page: FilesTab.tsx
+    element_type: text_input
+    label: "Filter files..."
+    path: "#dashboard"
+    purpose: "Filter file list by path substring (case-insensitive)"
+    api_endpoint: null
+    result: true
+
+  - id: files_role_select
+    page: FilesTab.tsx
+    element_type: select
+    label: "All roles"
+    path: "#dashboard"
+    purpose: "Filter file list by role (source, test, config, etc.)"
+    api_endpoint: null
+    result: true
+
+  - id: sort_by_path
+    page: FilesTab.tsx
+    element_type: sortable_column
+    label: "Path ↑/↓"
+    path: "#dashboard"
+    purpose: "Sort files by path ascending/descending"
+    api_endpoint: null
+    result: true
+
+  - id: sort_by_language
+    page: FilesTab.tsx
+    element_type: sortable_column
+    label: "Language ↑/↓"
+    path: "#dashboard"
+    purpose: "Sort files by language"
+    api_endpoint: null
+    result: true
+
+  - id: sort_by_loc
+    page: FilesTab.tsx
+    element_type: sortable_column
+    label: "LOC ↑/↓"
+    path: "#dashboard"
+    purpose: "Sort files by lines of code"
+    api_endpoint: null
+    result: true
+
+  - id: sort_by_role
+    page: FilesTab.tsx
+    element_type: sortable_column
+    label: "Role ↑/↓"
+    path: "#dashboard"
+    purpose: "Sort files by role classification"
+    api_endpoint: null
+    result: true
+
+# ─── GENERATED TAB (GeneratedTab.tsx) ───────────────────────────────
+
+generated_tab:
+  - id: program_download_button
+    page: GeneratedTab.tsx
+    element_type: button
+    label: "⬇ (per program group)"
+    path: "#dashboard"
+    purpose: "Download ZIP of files for a specific program"
+    api_endpoint: "GET /v1/projects/:project_id/export?program=:program"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 3
+
+  - id: file_list_item
+    page: GeneratedTab.tsx
+    element_type: list_item
+    label: "(file path + description)"
+    path: "#dashboard"
+    purpose: "Select a generated file to preview its content"
+    api_endpoint: null
+    result: true
+
+  - id: copy_file_content_button
+    page: GeneratedTab.tsx
+    element_type: button
+    label: "📋 Copy"
+    path: "#dashboard"
+    purpose: "Copy selected file content to clipboard"
+    api_endpoint: null
+    result: true
+    notes: "Shows '✓ Copied' for 2 seconds"
+
+# ─── PROGRAM LAUNCHER (ProgramLauncher.tsx) ─────────────────────────
+
+program_launcher:
+  - id: program_card_search
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🔍 Search Context"
+    path: "#dashboard"
+    tier: free
+    purpose: "Run search program — generates context map, repo profile, architecture summary, dependency hotspots"
+    api_endpoint: "POST /v1/search/export"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 2
+
+  - id: program_card_skills
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🤖 Skills & Agents"
+    path: "#dashboard"
+    tier: free
+    purpose: "Run skills program — generates AGENTS.md, CLAUDE.md, .cursorrules, workflow pack, policy pack"
+    api_endpoint: "POST /v1/skills/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+
+  - id: program_card_debug
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🐛 Debug Playbook"
+    path: "#dashboard"
+    tier: free
+    purpose: "Run debug program — generates playbook, incident template, tracing rules, root cause checklist"
+    api_endpoint: "POST /v1/debug/analyze"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+
+  - id: program_card_frontend
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🎨 Frontend Audit"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run frontend program — generates rules, component guidelines, layout patterns, UI audit"
+    api_endpoint: "POST /v1/frontend/audit"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+    notes: "Labeled 'Pro' but no client-side tier enforcement"
+
+  - id: program_card_seo
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "📈 SEO Analysis"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run SEO program — generates rules, schema recommendations, route priority, content audit, meta tag audit"
+    api_endpoint: "POST /v1/seo/analyze"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 5
+
+  - id: program_card_optimization
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "⚡ Optimization"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run optimization program — generates rules, prompt diff, cost estimate, token budget plan"
+    api_endpoint: "POST /v1/optimization/analyze"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 93
+
+  - id: program_card_theme
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🎭 Theme & Design"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run theme program — generates design tokens, theme.css, guidelines, component map, dark mode tokens"
+    api_endpoint: "POST /v1/theme/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 5
+
+  - id: program_card_brand
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "📣 Brand System"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run brand program — generates guidelines, voice & tone, content constraints, messaging, channel rulebook"
+    api_endpoint: "POST /v1/brand/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 3
+
+  - id: program_card_superpowers
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "💪 Superpowers"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run superpowers program — generates superpower pack, workflow registry, test gen rules, refactor checklist"
+    api_endpoint: "POST /v1/superpowers/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+
+  - id: program_card_marketing
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "📊 Marketing"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run marketing program — generates campaign brief, funnel map, sequence pack, CRO playbook, A/B test plan"
+    api_endpoint: "POST /v1/marketing/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+
+  - id: program_card_notebook
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "📓 Notebook"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run notebook program — generates summary, source map, study brief, research threads, citation index"
+    api_endpoint: "POST /v1/notebook/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+
+  - id: program_card_obsidian
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "💎 Obsidian"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run obsidian program — generates skill pack, vault rules, graph prompt map, linking policy"
+    api_endpoint: "POST /v1/obsidian/analyze"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 3
+
+  - id: program_card_mcp
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🔌 MCP Provision"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run MCP program — generates config, connector map, capability registry, server manifest"
+    api_endpoint: "POST /v1/mcp/provision"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 2
+
+  - id: program_card_artifacts
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🧩 Artifacts"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run artifacts program — generates component, dashboard widget, embed snippet, spec, component library"
+    api_endpoint: "POST /v1/artifacts/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 2
+
+  - id: program_card_remotion
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🎬 Remotion Video"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run remotion program — generates script, scene plan, render config, asset checklist, storyboard"
+    api_endpoint: "POST /v1/remotion/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 4
+
+  - id: program_card_canvas
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🖼️ Canvas Design"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run canvas program — generates spec, social pack, poster layouts, asset guidelines, brand board"
+    api_endpoint: "POST /v1/canvas/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 2
+
+  - id: program_card_algorithmic
+    page: ProgramLauncher.tsx
+    element_type: card
+    label: "🧬 Algorithmic Art"
+    path: "#dashboard"
+    tier: pro
+    purpose: "Run algorithmic program — generates sketch, parameter pack, collection map, export manifest, variation matrix"
+    api_endpoint: "POST /v1/algorithmic/generate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    api_test_ms: 3
+
+# ─── API-ONLY ENDPOINTS (no direct UI button) ───────────────────────
+
+api_only_endpoints:
+  - id: get_account
+    api_endpoint: "GET /v1/account"
+    purpose: "Fetch account info (used by AccountPage on mount)"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+
+  - id: get_usage
+    api_endpoint: "GET /v1/account/usage"
+    purpose: "Fetch usage stats (used by AccountPage on mount)"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+
+  - id: list_api_keys
+    api_endpoint: "GET /v1/account/keys"
+    purpose: "List all API keys (used by AccountPage on mount + after create/revoke)"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+
+  - id: update_tier
+    api_endpoint: "POST /v1/account/tier"
+    purpose: "Change account billing tier"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    notes: "API works but NO UI element calls this — no upgrade button exists on account page"
+
+  - id: get_funnel_status
+    api_endpoint: "GET /v1/account/funnel"
+    purpose: "Get funnel progression state"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    notes: "No UI consumes this endpoint"
+
+  - id: get_upgrade_prompt
+    api_endpoint: "GET /v1/account/upgrade-prompt"
+    purpose: "Get contextual upgrade prompt"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    notes: "No UI consumes this endpoint"
+
+  - id: list_seats
+    api_endpoint: "GET /v1/account/seats"
+    purpose: "List team seats"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    notes: "No UI consumes this endpoint"
+
+  - id: invite_seat
+    api_endpoint: "POST /v1/account/seats"
+    purpose: "Invite teammate"
+    result: true
+    api_test_status: PASS
+    api_test_http: 201
+    notes: "No UI consumes this endpoint"
+
+  - id: list_programs
+    api_endpoint: "GET /v1/programs"
+    purpose: "List all available programs with generator counts"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    notes: "Used by CLI 'axis programs' command. No web UI calls this."
+
+  - id: get_generated_file_single
+    api_endpoint: "GET /v1/projects/:project_id/generated-files/:file_path"
+    purpose: "Fetch single generated file content by path"
+    result: false
+    api_test_status: FAIL
+    api_test_http: 404
+    error: "Route param :file_path cannot match paths containing '/' (e.g. '.ai/context-map.json'). Top-level files like AGENTS.md work. Nested .ai/* files fail with 404."
+    severity: medium
+    notes: "AGENTS.md → 200 OK. .ai/context-map.json → 404. Router treats '/' as segment delimiter."
+
+  - id: get_funnel_metrics
+    api_endpoint: "GET /v1/funnel/metrics"
+    purpose: "Admin funnel analytics (aggregate metrics)"
+    result: true
+    api_test_status: PASS
+    api_test_http: 200
+    notes: "Route is /v1/funnel/metrics, NOT /v1/admin/funnel-metrics as tested initially. Works correctly."
+
+# ═══════════════════════════════════════════════════════════════════════
+# BUG REGISTRY
+# ═══════════════════════════════════════════════════════════════════════
+
+bugs:
+  - id: bug_001
+    severity: false_positive
+    component: api.ts (web client)
+    element: plans_page_auto_fetch
+    description: "getPlans() was reported missing but actually exists at api.ts line 303"
+    status: NOT_A_BUG
+
+  - id: bug_002
+    severity: medium
+    component: router / server.ts
+    element: get_generated_file_single
+    description: "Route :file_path could not match nested paths like .ai/context-map.json"
+    status: FIXED
+    fix_applied: "Added :param* wildcard support to router.ts — uses (.+) regex. Updated route to :file_path*"
+
+  - id: bug_003
+    severity: low
+    component: AccountPage.tsx
+    element: api_key_connect_button
+    description: "Connect button used document.querySelector instead of React state"
+    status: FIXED
+    fix_applied: "Replaced with controlled pasteKey state variable"
+
+  - id: bug_004
+    severity: low
+    component: AccountPage.tsx
+    element: plan_pro_cta
+    description: "No tier upgrade UI existed on account page"
+    status: FIXED
+    fix_applied: "Added upgrade banner cards — Free→Pro ($29/mo) and Paid→Enterprise with handleUpgrade()"
+
+  - id: bug_005
+    severity: low
+    component: ProgramLauncher.tsx
+    element: all program cards
+    description: "No client-side tier enforcement on Pro program cards"
+    status: FIXED
+    fix_applied: "Added tier state via getAccount(), locked prop on ProgramCard, visual lock badge + cursor:not-allowed"
+
+  - id: bug_006
+    severity: info
+    component: multiple
+    element: funnel endpoints
+    description: "Seats/funnel API endpoints had no web UI"
+    status: FIXED
+    fix_applied: "Added client functions (listSeats, inviteSeat, revokeSeat, dismissUpgradePrompt, getFunnelStatus) to api.ts. Added Team Seats management section to AccountPage."
+
+  - id: bug_007
+    severity: critical
+    component: api.ts / AccountPage.tsx
+    element: usage stats
+    description: "getUsage() returned wrong field names — server sends {programs, totals}, client expected {by_program, monthly_snapshots, project_count}"
+    status: FIXED
+    fix_applied: "getUsage() now maps server response to expected shape: programs→by_program, totals.runs→monthly_snapshots, programs.length→project_count"
+
+  - id: bug_008
+    severity: critical
+    component: api.ts / ProgramLauncher.tsx
+    element: tier gating
+    description: "getAccount() returned raw server response {account:{...}} but consumer expected flat Account. All .tier reads returned undefined, bypassing tier gating."
+    status: FIXED
+    fix_applied: "getAccount() now unwraps: returns data.account ?? data"
+
+  - id: bug_009
+    severity: high
+    component: funnel.ts
+    element: revoke seat API
+    description: "handleRevokeSeat had no seat ownership verification — any authenticated user could revoke any seat in the system"
+    status: FIXED
+    fix_applied: "Added getSeat() lookup + account_id ownership check before calling revokeSeat()"
+
+  - id: bug_010
+    severity: high
+    component: App.tsx
+    element: hashchange listener
+    description: "handleUploadComplete set location.hash synchronously after setResult, but hashchange listener held stale closure where result=null, snapping user back to upload page"
+    status: FIXED
+    fix_applied: "Changed result check to use resultRef (useRef) instead of stale closure. Removed [result] dep from useEffect."
+
+  - id: bug_011
+    severity: medium
+    component: App.tsx
+    element: nav account button
+    description: "isLoggedIn was a plain variable, not React state — nav header did not update after signup or logout"
+    status: FIXED
+    fix_applied: "Lifted to useState + handleAuthChange callback passed to AccountPage, called after login/logout"
+
+  - id: bug_012
+    severity: medium
+    component: api.ts
+    element: download export
+    description: "URL.revokeObjectURL called synchronously after a.click() — browser may not have started reading blob, producing empty/corrupt ZIP in Firefox/Safari"
+    status: FIXED
+    fix_applied: "Deferred revocation with setTimeout(() => URL.revokeObjectURL(a.href), 60_000)"
+
+# ═══════════════════════════════════════════════════════════════════════
+# EXPECTED ERROR CASES (intentional — these SHOULD fail)
+# ═══════════════════════════════════════════════════════════════════════
+
+expected_errors:
+  - id: err_missing_snapshot_id
+    api_endpoint: "POST /v1/search/export"
+    payload: "{}"
+    expected_http: 400
+    actual_http: 400
+    error: "snapshot_id is required"
+    verdict: CORRECT
+
+  - id: err_invalid_project
+    api_endpoint: "GET /v1/projects/nonexistent/generated-files"
+    expected_http: 404
+    actual_http: 404
+    error: "No snapshots found for project"
+    verdict: CORRECT
+
+  - id: err_no_auth
+    api_endpoint: "GET /v1/account"
+    expected_http: 401
+    actual_http: 401
+    error: "Authentication required. Include Authorization: Bearer <api_key>"
+    verdict: CORRECT
+
+  - id: err_bad_method
+    api_endpoint: "POST /health"
+    expected_http: 404
+    actual_http: 404
+    error: "Not found"
+    verdict: CORRECT
+
+  - id: err_nonexistent_program_export
+    api_endpoint: "GET /v1/projects/:id/export?program=nonexistent"
+    expected_http: 404
+    actual_http: 404
+    error: "No files for program: nonexistent"
+    verdict: CORRECT

@@ -22,9 +22,9 @@ export class Router {
 
   private addRoute(method: string, path: string, handler: RouteHandler) {
     const paramNames: string[] = [];
-    const pattern = path.replace(/:(\w+)/g, (_, name) => {
+    const pattern = path.replace(/:(\w+)(\*)?/g, (_, name, wildcard) => {
       paramNames.push(name);
-      return "([^/]+)";
+      return wildcard ? "(.+)" : "([^/]+)";
     });
     this.routes.push({
       method,

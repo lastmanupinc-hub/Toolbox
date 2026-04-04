@@ -7,6 +7,7 @@ import {
   revokeSeat,
   getActiveSeats,
   getAllSeats,
+  getSeat,
   getSeatCount,
   trackEvent,
   getAccountEvents,
@@ -148,6 +149,11 @@ export async function handleRevokeSeat(
   if (!ctx) return;
 
   const { seat_id } = params;
+  const seat = getSeat(seat_id);
+  if (!seat || seat.account_id !== ctx.account!.account_id) {
+    sendJSON(res, 404, { error: "Seat not found or already revoked" });
+    return;
+  }
   const ok = revokeSeat(seat_id);
   if (!ok) {
     sendJSON(res, 404, { error: "Seat not found or already revoked" });
