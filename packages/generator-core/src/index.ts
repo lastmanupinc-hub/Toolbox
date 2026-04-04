@@ -4,3 +4,4 @@ export { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSu
 export { generateAgentsMD, generateClaudeMD, generateCursorRules } from "./generators-skills.js";
 export { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules } from "./generators-debug.js";
 export { generateFrontendRules, generateComponentGuidelines } from "./generators-frontend.js";
+export { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityMap, generateContentAudit } from "./generators-seo.js";

@@ -4,6 +4,7 @@ import { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSu
 import { generateAgentsMD, generateClaudeMD, generateCursorRules } from "./generators-skills.js";
 import { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules } from "./generators-debug.js";
 import { generateFrontendRules, generateComponentGuidelines } from "./generators-frontend.js";
+import { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityMap, generateContentAudit } from "./generators-seo.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -19,6 +20,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "tracing-rules.md": (ctx) => generateTracingRules(ctx),
   ".ai/frontend-rules.md": (ctx) => generateFrontendRules(ctx),
   "component-guidelines.md": (ctx) => generateComponentGuidelines(ctx),
+  ".ai/seo-rules.md": (ctx) => generateSeoRules(ctx),
+  "schema-recommendations.json": (ctx) => generateSchemaRecommendations(ctx),
+  "route-priority-map.md": (ctx) => generateRoutePriorityMap(ctx),
+  "content-audit.md": (ctx) => generateContentAudit(ctx),
 };
 
 // Aliases (user may request with different naming)
@@ -29,6 +34,7 @@ const ALIASES: Record<string, string> = {
   ".ai/project-profile.yaml": ".ai/repo-profile.yaml",
   "debug-playbook.md": ".ai/debug-playbook.md",
   "frontend-rules.md": ".ai/frontend-rules.md",
+  "seo-rules.md": ".ai/seo-rules.md",
 };
 
 export function generateFiles(input: GeneratorInput): GeneratorResult {

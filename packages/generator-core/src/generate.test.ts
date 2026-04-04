@@ -197,14 +197,53 @@ describe("frontend generators content", () => {
   });
 });
 
+describe("seo generators content", () => {
+  const result = generateFiles(makeInput([".ai/seo-rules.md", "schema-recommendations.json", "route-priority-map.md", "content-audit.md"]));
+
+  it("generates all 4 seo files", () => {
+    const seoFiles = result.files.filter(f => f.program === "seo");
+    expect(seoFiles.length).toBe(4);
+  });
+
+  it("seo-rules.md contains meta tag guidance", () => {
+    const file = result.files.find(f => f.path === ".ai/seo-rules.md")!;
+    expect(file.content).toContain("Meta Tags");
+    expect(file.content).toContain("Structured Data");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("schema-recommendations.json is valid JSON", () => {
+    const file = result.files.find(f => f.path === "schema-recommendations.json")!;
+    const parsed = JSON.parse(file.content);
+    expect(parsed.recommendations).toBeTruthy();
+    expect(Array.isArray(parsed.recommendations)).toBe(true);
+    expect(parsed.recommendations.length).toBeGreaterThan(0);
+  });
+
+  it("route-priority-map.md has sitemap section", () => {
+    const file = result.files.find(f => f.path === "route-priority-map.md")!;
+    expect(file.content).toContain("test-app");
+    expect(file.content.length).toBeGreaterThan(50);
+  });
+
+  it("content-audit.md has readiness score", () => {
+    const file = result.files.find(f => f.path === "content-audit.md")!;
+    expect(file.content).toContain("SEO Readiness Score");
+    expect(file.content).toContain("Core Web Vitals");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(11);
+    expect(generators.length).toBe(15);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
     expect(paths).toContain(".ai/debug-playbook.md");
     expect(paths).toContain(".ai/frontend-rules.md");
+    expect(paths).toContain(".ai/seo-rules.md");
+    expect(paths).toContain("schema-recommendations.json");
   });
 });
