@@ -11,7 +11,7 @@ import {
   saveGeneratorResult,
   getGeneratorResult,
 } from "./store.js";
-import { openMemoryDb, closeDb } from "./db.js";
+import { openMemoryDb, closeDb, getDb } from "./db.js";
 import type { SnapshotInput } from "./types.js";
 
 function makeInput(overrides?: Partial<SnapshotInput>): SnapshotInput {
@@ -144,5 +144,50 @@ describe("GeneratorResult persistence", () => {
     saveGeneratorResult(snap.snapshot_id, { snapshot_id: snap.snapshot_id, generated_at: "2025-01-02", files: [], v: 2 });
     const found = getGeneratorResult(snap.snapshot_id) as Record<string, unknown>;
     expect(found.v).toBe(2);
+  });
+});
+
+// ─── Corruption resilience ──────────────────────────────────────
+
+describe("snapshot corruption resilience", () => {
+  it("getSnapshot returns undefined for corrupted manifest JSON", () => {
+    const snap = createSnapshot(makeInput());
+    // Directly corrupt the manifest column in the database
+    getDb().prepare("UPDATE snapshots SET manifest = ? WHERE snapshot_id = ?").run("not-json{{{", snap.snapshot_id);
+    expect(getSnapshot(snap.snapshot_id)).toBeUndefined();
+  });
+
+  it("getSnapshot returns undefined for corrupted files JSON", () => {
+    const snap = createSnapshot(makeInput());
+    getDb().prepare("UPDATE snapshots SET files = ? WHERE snapshot_id = ?").run("broken", snap.snapshot_id);
+    expect(getSnapshot(snap.snapshot_id)).toBeUndefined();
+  });
+
+  it("getProjectSnapshots filters out corrupted rows", () => {
+    const snap1 = createSnapshot(makeInput());
+    const snap2 = createSnapshot(makeInput());
+    // Corrupt snap2
+    getDb().prepare("UPDATE snapshots SET manifest = ? WHERE snapshot_id = ?").run("{invalid", snap2.snapshot_id);
+    const results = getProjectSnapshots(snap1.project_id);
+    expect(results).toHaveLength(1);
+    expect(results[0].snapshot_id).toBe(snap1.snapshot_id);
+  });
+
+  it("getContextMap returns undefined for corrupted data", () => {
+    const snap = createSnapshot(makeInput());
+    getDb().prepare("INSERT OR REPLACE INTO context_maps (snapshot_id, data) VALUES (?, ?)").run(snap.snapshot_id, "not-json");
+    expect(getContextMap(snap.snapshot_id)).toBeUndefined();
+  });
+
+  it("getRepoProfile returns undefined for corrupted data", () => {
+    const snap = createSnapshot(makeInput());
+    getDb().prepare("INSERT OR REPLACE INTO repo_profiles (snapshot_id, data) VALUES (?, ?)").run(snap.snapshot_id, "{broken");
+    expect(getRepoProfile(snap.snapshot_id)).toBeUndefined();
+  });
+
+  it("getGeneratorResult returns undefined for corrupted data", () => {
+    const snap = createSnapshot(makeInput());
+    getDb().prepare("INSERT OR REPLACE INTO generator_results (snapshot_id, data) VALUES (?, ?)").run(snap.snapshot_id, "nope");
+    expect(getGeneratorResult(snap.snapshot_id)).toBeUndefined();
   });
 });

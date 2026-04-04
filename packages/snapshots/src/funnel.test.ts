@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { openMemoryDb, closeDb } from "./db.js";
+import { openMemoryDb, closeDb, getDb } from "./db.js";
 import {
   createAccount,
   getAccount,
@@ -403,5 +403,45 @@ describe("Plan Catalog", () => {
     expect(SEAT_LIMITS.free).toBe(1);
     expect(SEAT_LIMITS.paid).toBe(5);
     expect(SEAT_LIMITS.suite).toBe(-1);
+  });
+});
+
+// ─── Corruption resilience ──────────────────────────────────────
+
+describe("Funnel event corruption resilience", () => {
+  it("getAccountEvents returns fallback metadata for corrupted rows", () => {
+    const acct = createAccount("Test", "test@example.com");
+    trackEvent(acct.account_id, "account_created", "signup", { source: "web" });
+
+    // Directly corrupt the metadata column
+    getDb().prepare("UPDATE funnel_events SET metadata = ? WHERE account_id = ?").run("not-json{{{", acct.account_id);
+
+    const events = getAccountEvents(acct.account_id);
+    expect(events).toHaveLength(1);
+    // Should return {} as fallback metadata instead of throwing
+    expect(events[0].metadata).toEqual({});
+  });
+
+  it("getLatestEvent returns fallback metadata for corrupted row", () => {
+    const acct = createAccount("Test", "test@example.com");
+    trackEvent(acct.account_id, "account_created", "signup", { source: "web" });
+
+    getDb().prepare("UPDATE funnel_events SET metadata = ? WHERE account_id = ?").run("broken", acct.account_id);
+
+    const latest = getLatestEvent(acct.account_id);
+    expect(latest).toBeDefined();
+    expect(latest!.metadata).toEqual({});
+    expect(latest!.event_type).toBe("account_created");
+  });
+
+  it("getEventsByType returns fallback metadata for corrupted rows", () => {
+    const acct = createAccount("Test", "test@example.com");
+    trackEvent(acct.account_id, "snapshot_created", "activation", { count: 1 });
+
+    getDb().prepare("UPDATE funnel_events SET metadata = ? WHERE account_id = ?").run("{corrupt", acct.account_id);
+
+    const events = getEventsByType(acct.account_id, "snapshot_created");
+    expect(events).toHaveLength(1);
+    expect(events[0].metadata).toEqual({});
   });
 });

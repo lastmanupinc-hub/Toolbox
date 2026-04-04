@@ -50,18 +50,22 @@ export function createSnapshot(input: SnapshotInput): SnapshotRecord {
   return record;
 }
 
-function rowToSnapshot(row: Record<string, unknown>): SnapshotRecord {
-  return {
-    snapshot_id: row.snapshot_id as string,
-    project_id: row.project_id as string,
-    created_at: row.created_at as string,
-    input_method: row.input_method as SnapshotRecord["input_method"],
-    manifest: JSON.parse(row.manifest as string),
-    file_count: row.file_count as number,
-    total_size_bytes: row.total_size_bytes as number,
-    files: JSON.parse(row.files as string),
-    status: row.status as SnapshotStatus,
-  };
+function rowToSnapshot(row: Record<string, unknown>): SnapshotRecord | undefined {
+  try {
+    return {
+      snapshot_id: row.snapshot_id as string,
+      project_id: row.project_id as string,
+      created_at: row.created_at as string,
+      input_method: row.input_method as SnapshotRecord["input_method"],
+      manifest: JSON.parse(row.manifest as string),
+      file_count: row.file_count as number,
+      total_size_bytes: row.total_size_bytes as number,
+      files: JSON.parse(row.files as string),
+      status: row.status as SnapshotStatus,
+    };
+  } catch {
+    return undefined;
+  }
 }
 
 export function getSnapshot(snapshot_id: string): SnapshotRecord | undefined {
@@ -79,7 +83,7 @@ export function updateSnapshotStatus(
 
 export function getProjectSnapshots(project_id: string): SnapshotRecord[] {
   const rows = getDb().prepare("SELECT * FROM snapshots WHERE project_id = ? ORDER BY created_at ASC").all(project_id) as Record<string, unknown>[];
-  return rows.map(rowToSnapshot);
+  return rows.map(rowToSnapshot).filter((r): r is SnapshotRecord => r !== undefined);
 }
 
 // ─── Context Map persistence ────────────────────────────────────

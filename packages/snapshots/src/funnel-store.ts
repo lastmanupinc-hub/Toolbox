@@ -137,12 +137,20 @@ export function trackEvent(
   return event;
 }
 
+function safeParseMetadata(raw: string): Record<string, unknown> {
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return {};
+  }
+}
+
 export function getAccountEvents(account_id: string, limit = 50): FunnelEvent[] {
   const rows = getDb().prepare(
     "SELECT * FROM funnel_events WHERE account_id = ? ORDER BY created_at DESC, rowid DESC LIMIT ?",
   ).all(account_id, limit) as (Omit<FunnelEvent, "metadata"> & { metadata: string })[];
 
-  return rows.map(r => ({ ...r, metadata: JSON.parse(r.metadata) }));
+  return rows.map(r => ({ ...r, metadata: safeParseMetadata(r.metadata) }));
 }
 
 export function getLatestEvent(account_id: string): FunnelEvent | undefined {
@@ -151,7 +159,7 @@ export function getLatestEvent(account_id: string): FunnelEvent | undefined {
   ).get(account_id) as (Omit<FunnelEvent, "metadata"> & { metadata: string }) | undefined;
 
   if (!row) return undefined;
-  return { ...row, metadata: JSON.parse(row.metadata) };
+  return { ...row, metadata: safeParseMetadata(row.metadata) };
 }
 
 export function getEventsByType(account_id: string, event_type: FunnelEventType): FunnelEvent[] {
@@ -159,7 +167,7 @@ export function getEventsByType(account_id: string, event_type: FunnelEventType)
     "SELECT * FROM funnel_events WHERE account_id = ? AND event_type = ? ORDER BY created_at DESC, rowid DESC",
   ).all(account_id, event_type) as (Omit<FunnelEvent, "metadata"> & { metadata: string })[];
 
-  return rows.map(r => ({ ...r, metadata: JSON.parse(r.metadata) }));
+  return rows.map(r => ({ ...r, metadata: safeParseMetadata(r.metadata) }));
 }
 
 // ─── Stage Resolution ───────────────────────────────────────────
