@@ -94,18 +94,17 @@ router.get("/v1/programs", async (_req, res) => {
   const { sendJSON } = await import("./router.js");
   const { listAvailableGenerators } = await import("@axis/generator-core");
   const generators = listAvailableGenerators();
-  const programs = Object.keys(PROGRAM_OUTPUTS).map(name => ({
+  const programMap = new Map<string, string[]>();
+  for (const g of generators) {
+    const list = programMap.get(g.program) ?? [];
+    list.push(g.path);
+    programMap.set(g.program, list);
+  }
+  const programs = Array.from(programMap.entries()).map(([name, outputs]) => ({
     name,
-    outputs: PROGRAM_OUTPUTS[name],
-    generator_count: generators.filter(g => g.program === name).length,
+    outputs,
+    generator_count: outputs.length,
   }));
-  // Add search and skills which aren't in PROGRAM_OUTPUTS
-  const searchGens = generators.filter(g => g.program === "search");
-  const skillsGens = generators.filter(g => g.program === "skills");
-  programs.unshift(
-    { name: "search", outputs: ["context-map.json", ".ai/context-map.json"], generator_count: searchGens.length },
-    { name: "skills", outputs: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"], generator_count: skillsGens.length },
-  );
   sendJSON(res, 200, { programs, total_generators: generators.length });
 });
 

@@ -204,6 +204,38 @@ describe("listAvailableGenerators", () => {
     }
   });
 
+  it("classifies all 17 programs correctly", () => {
+    const generators = listAvailableGenerators();
+    const programs = new Set(generators.map(g => g.program));
+    expect(programs.size).toBe(17);
+    for (const expected of Object.keys(PROGRAM_OUTPUTS)) {
+      expect(programs.has(expected), `missing program: ${expected}`).toBe(true);
+    }
+  });
+
+  it("assigns correct program to each generator", () => {
+    const generators = listAvailableGenerators();
+    const byProgram = new Map<string, string[]>();
+    for (const g of generators) {
+      const list = byProgram.get(g.program) ?? [];
+      list.push(g.path);
+      byProgram.set(g.program, list);
+    }
+    // Each program should have the expected outputs
+    for (const [program, outputs] of Object.entries(PROGRAM_OUTPUTS)) {
+      const actual = byProgram.get(program) ?? [];
+      for (const output of outputs) {
+        expect(actual, `${program} should include ${output}`).toContain(output);
+      }
+    }
+  });
+
+  it("has no 'unknown' program assignments", () => {
+    const generators = listAvailableGenerators();
+    const unknown = generators.filter(g => g.program === "unknown");
+    expect(unknown, `unknown generators: ${unknown.map(g => g.path).join(", ")}`).toHaveLength(0);
+  });
+
   it("includes all known output paths", () => {
     const generators = listAvailableGenerators();
     const paths = generators.map(g => g.path);
