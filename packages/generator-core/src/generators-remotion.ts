@@ -1,0 +1,350 @@
+import type { ContextMap, RepoProfile } from "@axis/context-engine";
+import type { GeneratedFile } from "./types.js";
+
+// ─── remotion-script.ts ─────────────────────────────────────────
+
+export function generateRemotionScript(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks.map(f => f.name);
+  const languages = ctx.detection.languages;
+  const abstractions = ctx.ai_context.key_abstractions;
+  const compName = id.name.replace(/[^a-zA-Z0-9]/g, "");
+
+  const lines: string[] = [];
+
+  lines.push(`import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from "remotion";`);
+  lines.push("");
+  lines.push(`// Auto-generated Remotion composition for ${id.name}`);
+  lines.push(`// Scenes: Intro → Tech Stack → Architecture → Key Abstractions → Outro`);
+  lines.push("");
+
+  lines.push(`const THEME = {`);
+  lines.push(`  bg: "#0f0f23",`);
+  lines.push(`  fg: "#e2e8f0",`);
+  lines.push(`  accent: "#6366f1",`);
+  lines.push(`  muted: "#64748b",`);
+  lines.push(`};`);
+  lines.push("");
+
+  // Scene: Intro
+  lines.push(`function IntroScene() {`);
+  lines.push(`  const frame = useCurrentFrame();`);
+  lines.push(`  const opacity = interpolate(frame, [0, 30], [0, 1], { extrapolateRight: "clamp" });`);
+  lines.push(`  return (`);
+  lines.push(`    <AbsoluteFill style={{ backgroundColor: THEME.bg, justifyContent: "center", alignItems: "center" }}>`);
+  lines.push(`      <h1 style={{ color: THEME.fg, fontSize: 72, opacity }}>${id.name}</h1>`);
+  lines.push(`      <p style={{ color: THEME.muted, fontSize: 28, opacity }}>${id.description}</p>`);
+  lines.push(`    </AbsoluteFill>`);
+  lines.push(`  );`);
+  lines.push(`}`);
+  lines.push("");
+
+  // Scene: Tech Stack
+  lines.push(`function TechStackScene() {`);
+  lines.push(`  const frame = useCurrentFrame();`);
+  lines.push(`  const items = ${JSON.stringify(frameworks.slice(0, 6))};`);
+  lines.push(`  return (`);
+  lines.push(`    <AbsoluteFill style={{ backgroundColor: THEME.bg, padding: 60 }}>`);
+  lines.push(`      <h2 style={{ color: THEME.accent, fontSize: 48 }}>Tech Stack</h2>`);
+  lines.push(`      <div style={{ display: "flex", flexWrap: "wrap", gap: 20, marginTop: 40 }}>`);
+  lines.push(`        {items.map((item, i) => {`);
+  lines.push(`          const delay = i * 10;`);
+  lines.push(`          const opacity = interpolate(frame, [delay, delay + 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });`);
+  lines.push(`          return (`);
+  lines.push(`            <div key={item} style={{ background: THEME.accent, color: THEME.fg, padding: "12px 24px", borderRadius: 8, fontSize: 24, opacity }}>`);
+  lines.push(`              {item}`);
+  lines.push(`            </div>`);
+  lines.push(`          );`);
+  lines.push(`        })}`);
+  lines.push(`      </div>`);
+  lines.push(`    </AbsoluteFill>`);
+  lines.push(`  );`);
+  lines.push(`}`);
+  lines.push("");
+
+  // Scene: Architecture
+  lines.push(`function ArchitectureScene() {`);
+  lines.push(`  const frame = useCurrentFrame();`);
+  lines.push(`  const patterns = ${JSON.stringify(ctx.architecture_signals.patterns_detected.slice(0, 4))};`);
+  lines.push(`  const score = ${ctx.architecture_signals.separation_score};`);
+  lines.push(`  return (`);
+  lines.push(`    <AbsoluteFill style={{ backgroundColor: THEME.bg, padding: 60 }}>`);
+  lines.push(`      <h2 style={{ color: THEME.accent, fontSize: 48 }}>Architecture</h2>`);
+  lines.push(`      <p style={{ color: THEME.muted, fontSize: 24, marginTop: 20 }}>Separation Score: {score}/100</p>`);
+  lines.push(`      <ul style={{ marginTop: 30 }}>`);
+  lines.push(`        {patterns.map((p, i) => (`);
+  lines.push(`          <li key={p} style={{ color: THEME.fg, fontSize: 28, marginBottom: 12, opacity: interpolate(frame, [i * 15, i * 15 + 20], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>{p}</li>`);
+  lines.push(`        ))}`);
+  lines.push(`      </ul>`);
+  lines.push(`    </AbsoluteFill>`);
+  lines.push(`  );`);
+  lines.push(`}`);
+  lines.push("");
+
+  // Scene: Key Abstractions
+  lines.push(`function AbstractionsScene() {`);
+  lines.push(`  const frame = useCurrentFrame();`);
+  lines.push(`  const items = ${JSON.stringify(abstractions.slice(0, 6))};`);
+  lines.push(`  return (`);
+  lines.push(`    <AbsoluteFill style={{ backgroundColor: THEME.bg, padding: 60 }}>`);
+  lines.push(`      <h2 style={{ color: THEME.accent, fontSize: 48 }}>Key Abstractions</h2>`);
+  lines.push(`      <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 30 }}>`);
+  lines.push(`        {items.map((item, i) => (`);
+  lines.push(`          <div key={item} style={{ color: THEME.fg, fontSize: 24, opacity: interpolate(frame, [i * 10, i * 10 + 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>`);
+  lines.push(`            → {item}`);
+  lines.push(`          </div>`);
+  lines.push(`        ))}`);
+  lines.push(`      </div>`);
+  lines.push(`    </AbsoluteFill>`);
+  lines.push(`  );`);
+  lines.push(`}`);
+  lines.push("");
+
+  // Main Composition
+  lines.push(`export function ${compName}Video() {`);
+  lines.push(`  return (`);
+  lines.push(`    <AbsoluteFill>`);
+  lines.push(`      <Sequence from={0} durationInFrames={90}><IntroScene /></Sequence>`);
+  lines.push(`      <Sequence from={90} durationInFrames={90}><TechStackScene /></Sequence>`);
+  lines.push(`      <Sequence from={180} durationInFrames={90}><ArchitectureScene /></Sequence>`);
+  lines.push(`      <Sequence from={270} durationInFrames={90}><AbstractionsScene /></Sequence>`);
+  lines.push(`    </AbsoluteFill>`);
+  lines.push(`  );`);
+  lines.push(`}`);
+
+  return {
+    path: "remotion-script.ts",
+    content: lines.join("\n"),
+    content_type: "text/typescript",
+    program: "remotion",
+    description: `Remotion composition with 4 animated scenes for ${id.name}`,
+  };
+}
+
+// ─── scene-plan.md ──────────────────────────────────────────────
+
+export function generateScenePlan(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks.map(f => f.name);
+  const languages = ctx.detection.languages;
+  const abstractions = ctx.ai_context.key_abstractions;
+  const patterns = ctx.architecture_signals.patterns_detected;
+  const entryPoints = ctx.entry_points;
+
+  const lines: string[] = [];
+
+  lines.push(`# Scene Plan — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("## Video Overview");
+  lines.push("");
+  lines.push(`| Property | Value |`);
+  lines.push(`|----------|-------|`);
+  lines.push(`| Total Scenes | 4 |`);
+  lines.push(`| FPS | 30 |`);
+  lines.push(`| Total Frames | 360 |`);
+  lines.push(`| Duration | 12 seconds |`);
+  lines.push(`| Resolution | 1920×1080 |`);
+  lines.push("");
+
+  lines.push("## Scene Breakdown");
+  lines.push("");
+
+  // Scene 1: Intro
+  lines.push("### Scene 1: Introduction (0:00–0:03)");
+  lines.push("");
+  lines.push(`- **Content**: Project name "${id.name}" with description`);
+  lines.push("- **Animation**: Fade in over 1s");
+  lines.push(`- **Visual**: Centered title on dark background`);
+  lines.push(`- **Data**: project_identity.name, project_identity.description`);
+  lines.push("");
+
+  // Scene 2: Tech Stack
+  lines.push("### Scene 2: Tech Stack (0:03–0:06)");
+  lines.push("");
+  lines.push("- **Content**: Framework badges with staggered reveal");
+  lines.push(`- **Frameworks**: ${frameworks.join(", ") || "None detected"}`);
+  lines.push(`- **Languages**: ${languages.map(l => `${l.name} (${l.loc_percent}%)`).join(", ")}`);
+  lines.push("- **Animation**: Staggered fade-in, 0.3s delay per item");
+  lines.push("- **Visual**: Pill badges in accent color");
+  lines.push("");
+
+  // Scene 3: Architecture
+  lines.push("### Scene 3: Architecture (0:06–0:09)");
+  lines.push("");
+  lines.push("- **Content**: Architecture patterns and separation score");
+  lines.push(`- **Patterns**: ${patterns.join(", ") || "None detected"}`);
+  lines.push(`- **Separation Score**: ${ctx.architecture_signals.separation_score}/100`);
+  lines.push("- **Animation**: List items reveal sequentially");
+  lines.push("- **Visual**: Bullet list with score indicator");
+  lines.push("");
+
+  // Scene 4: Key Abstractions
+  lines.push("### Scene 4: Key Abstractions (0:09–0:12)");
+  lines.push("");
+  lines.push("- **Content**: Core abstractions and concepts");
+  lines.push(`- **Items**: ${abstractions.slice(0, 6).join(", ") || "None detected"}`);
+  lines.push("- **Animation**: Staggered reveal from top");
+  lines.push("- **Visual**: Arrow-prefixed list items");
+  lines.push("");
+
+  lines.push("## Narration Script");
+  lines.push("");
+  lines.push(`> This is ${id.name}, a ${id.type} built with ${id.primary_language}.`);
+  lines.push(`> The tech stack includes ${frameworks.slice(0, 3).join(", ") || id.primary_language}.`);
+  lines.push(`> The architecture scores ${ctx.architecture_signals.separation_score} out of 100 for separation.`);
+  lines.push(`> Key abstractions include ${abstractions.slice(0, 3).join(", ") || "the core modules"}.`);
+  lines.push("");
+
+  lines.push("## Extension Points");
+  lines.push("");
+  lines.push("- Add Scene 5: Dependency graph visualization");
+  lines.push("- Add Scene 6: Route map overlay");
+  lines.push(`- Add Scene 7: ${entryPoints.length} entry points walkthrough`);
+  lines.push("- Add audio track with project-appropriate music");
+  lines.push("- Add branded intro/outro with logo");
+  lines.push("");
+
+  return {
+    path: "scene-plan.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "remotion",
+    description: "Scene-by-scene video plan with timing, content, and narration script",
+  };
+}
+
+// ─── render-config.json ─────────────────────────────────────────
+
+export function generateRenderConfig(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+  const id = ctx.project_identity;
+  const compName = id.name.replace(/[^a-zA-Z0-9]/g, "");
+
+  const config = {
+    project: id.name,
+    generated_at: new Date().toISOString(),
+    composition: {
+      id: `${compName}Video`,
+      width: 1920,
+      height: 1080,
+      fps: 30,
+      durationInFrames: 360,
+    },
+    scenes: [
+      { id: "intro", from: 0, duration: 90, label: "Introduction" },
+      { id: "tech-stack", from: 90, duration: 90, label: "Tech Stack" },
+      { id: "architecture", from: 180, duration: 90, label: "Architecture" },
+      { id: "abstractions", from: 270, duration: 90, label: "Key Abstractions" },
+    ],
+    render: {
+      codec: "h264",
+      imageFormat: "jpeg",
+      quality: 80,
+      outputLocation: `out/${compName}.mp4`,
+      concurrency: 4,
+      overwrite: true,
+    },
+    theme: {
+      background: "#0f0f23",
+      foreground: "#e2e8f0",
+      accent: "#6366f1",
+      muted: "#64748b",
+      fontFamily: "Inter, system-ui, sans-serif",
+    },
+    data_sources: {
+      project_identity: true,
+      frameworks: true,
+      architecture_signals: true,
+      key_abstractions: true,
+      languages: true,
+    },
+  };
+
+  return {
+    path: "render-config.json",
+    content: JSON.stringify(config, null, 2),
+    content_type: "application/json",
+    program: "remotion",
+    description: "Remotion render configuration with composition settings, scenes, and output options",
+  };
+}
+
+// ─── asset-checklist.md ─────────────────────────────────────────
+
+export function generateAssetChecklist(ctx: ContextMap): GeneratedFile {
+  const id = ctx.project_identity;
+  const frameworks = ctx.detection.frameworks.map(f => f.name);
+
+  const lines: string[] = [];
+
+  lines.push(`# Asset Checklist — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("## Required Assets");
+  lines.push("");
+  lines.push("### Fonts");
+  lines.push("- [ ] Inter (primary body font)");
+  lines.push("- [ ] JetBrains Mono (code snippets)");
+  lines.push("");
+  lines.push("### Colors");
+  lines.push("- [x] Background: #0f0f23 (defined in theme)");
+  lines.push("- [x] Foreground: #e2e8f0 (defined in theme)");
+  lines.push("- [x] Accent: #6366f1 (defined in theme)");
+  lines.push("- [x] Muted: #64748b (defined in theme)");
+  lines.push("");
+
+  lines.push("### Images");
+  lines.push(`- [ ] ${id.name} logo (SVG, transparent background)`);
+  lines.push("- [ ] Social media preview thumbnail (1200×630)");
+  lines.push("- [ ] Video poster frame (1920×1080)");
+  lines.push("");
+
+  lines.push("### Framework Logos");
+  for (const fw of frameworks.slice(0, 8)) {
+    lines.push(`- [ ] ${fw} logo (SVG or PNG, transparent)`);
+  }
+  if (frameworks.length === 0) {
+    lines.push(`- [ ] ${id.primary_language} logo`);
+  }
+  lines.push("");
+
+  lines.push("### Audio");
+  lines.push("- [ ] Background music track (12s, royalty-free)");
+  lines.push("- [ ] Transition sound effect");
+  lines.push("- [ ] Optional: voiceover narration (see scene-plan.md)");
+  lines.push("");
+
+  lines.push("## Technical Requirements");
+  lines.push("");
+  lines.push("### Dependencies");
+  lines.push("- [ ] `remotion` >= 4.0");
+  lines.push("- [ ] `@remotion/cli` (for rendering)");
+  lines.push("- [ ] `@remotion/renderer` (for programmatic rendering)");
+  lines.push("");
+
+  lines.push("### Environment");
+  lines.push("- [ ] Node.js >= 18");
+  lines.push("- [ ] Chrome/Chromium (for rendering)");
+  lines.push("- [ ] FFmpeg (for H.264 encoding)");
+  lines.push("");
+
+  lines.push("## Output Formats");
+  lines.push("");
+  lines.push("| Format | Resolution | Use Case |");
+  lines.push("|--------|-----------|----------|");
+  lines.push("| MP4 (H.264) | 1920×1080 | Primary delivery |");
+  lines.push("| WebM (VP9) | 1920×1080 | Web embedding |");
+  lines.push("| GIF | 800×450 | Social preview |");
+  lines.push("| PNG Sequence | 1920×1080 | Custom compositing |");
+  lines.push("");
+
+  return {
+    path: "asset-checklist.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "remotion",
+    description: "Checklist of required assets, dependencies, and output formats for video rendering",
+  };
+}

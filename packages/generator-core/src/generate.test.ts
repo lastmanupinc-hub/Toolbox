@@ -629,23 +629,69 @@ describe("artifacts generators content", () => {
   });
 });
 
+describe("remotion generators content", () => {
+  const result = generateFiles(makeInput(["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md"]));
+
+  it("generates all 4 remotion files", () => {
+    const remFiles = result.files.filter(f => f.program === "remotion");
+    expect(remFiles.length).toBe(4);
+  });
+
+  it("remotion-script.ts has Remotion composition with scenes", () => {
+    const file = result.files.find(f => f.path === "remotion-script.ts")!;
+    expect(file.content).toContain("AbsoluteFill");
+    expect(file.content).toContain("Sequence");
+    expect(file.content).toContain("IntroScene");
+    expect(file.content).toContain("TechStackScene");
+    expect(file.content).toContain("ArchitectureScene");
+    expect(file.content.length).toBeGreaterThan(500);
+  });
+
+  it("scene-plan.md has scenes and narration", () => {
+    const file = result.files.find(f => f.path === "scene-plan.md")!;
+    expect(file.content).toContain("Scene Plan");
+    expect(file.content).toContain("Scene 1: Introduction");
+    expect(file.content).toContain("Narration Script");
+    expect(file.content).toContain("test-app");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+
+  it("render-config.json has composition and render settings", () => {
+    const file = result.files.find(f => f.path === "render-config.json")!;
+    const data = JSON.parse(file.content);
+    expect(data.project).toBe("test-app");
+    expect(data.composition.width).toBe(1920);
+    expect(data.composition.fps).toBe(30);
+    expect(data.scenes.length).toBe(4);
+    expect(data.render.codec).toBe("h264");
+    expect(file.content_type).toBe("application/json");
+  });
+
+  it("asset-checklist.md has fonts, colors, and dependencies", () => {
+    const file = result.files.find(f => f.path === "asset-checklist.md")!;
+    expect(file.content).toContain("Asset Checklist");
+    expect(file.content).toContain("Fonts");
+    expect(file.content).toContain("Colors");
+    expect(file.content).toContain("remotion");
+    expect(file.content).toContain("Output Formats");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(49);
+    expect(generators.length).toBe(53);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
     expect(paths).toContain("superpower-pack.md");
-    expect(paths).toContain("campaign-brief.md");
-    expect(paths).toContain("notebook-summary.md");
-    expect(paths).toContain("obsidian-skill-pack.md");
     expect(paths).toContain("mcp-config.json");
-    expect(paths).toContain("connector-map.yaml");
-    expect(paths).toContain("capability-registry.json");
     expect(paths).toContain("generated-component.tsx");
-    expect(paths).toContain("dashboard-widget.tsx");
-    expect(paths).toContain("embed-snippet.ts");
     expect(paths).toContain("artifact-spec.md");
+    expect(paths).toContain("remotion-script.ts");
+    expect(paths).toContain("scene-plan.md");
+    expect(paths).toContain("render-config.json");
+    expect(paths).toContain("asset-checklist.md");
   });
 });

@@ -14,3 +14,4 @@ export { generateNotebookSummary, generateSourceMap, generateStudyBrief, generat
 export { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
 export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
 export { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
+export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";

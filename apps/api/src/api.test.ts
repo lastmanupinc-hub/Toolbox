@@ -22,6 +22,7 @@ import {
   handleObsidianAnalyze,
   handleMcpProvision,
   handleArtifactsGenerate,
+  handleRemotionGenerate,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -103,6 +104,7 @@ beforeAll(async () => {
   router.post("/v1/obsidian/analyze", handleObsidianAnalyze);
   router.post("/v1/mcp/provision", handleMcpProvision);
   router.post("/v1/artifacts/generate", handleArtifactsGenerate);
+  router.post("/v1/remotion/generate", handleRemotionGenerate);
 
   server = createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -335,6 +337,16 @@ describe("API integration", () => {
     expect(files.length).toBe(4);
   });
 
+  it("POST /v1/remotion/generate returns remotion files", async () => {
+    const r = await request(TEST_PORT, "POST", "/v1/remotion/generate", { snapshot_id: snapshotId });
+    expect(r.status).toBe(200);
+    const data = r.data as Record<string, unknown>;
+    expect(data.program).toBe("remotion");
+    const files = data.files as Array<{ path: string; program: string }>;
+    expect(files.every(f => f.program === "remotion")).toBe(true);
+    expect(files.length).toBe(4);
+  });
+
   it("returns 404 for unknown route", async () => {
     const r = await request(TEST_PORT, "GET", "/v1/nonexistent");
     expect(r.status).toBe(404);
@@ -369,5 +381,7 @@ describe("API integration", () => {
     expect(r13.status).toBe(400);
     const r14 = await request(TEST_PORT, "POST", "/v1/artifacts/generate", {});
     expect(r14.status).toBe(400);
+    const r15 = await request(TEST_PORT, "POST", "/v1/remotion/generate", {});
+    expect(r15.status).toBe(400);
   });
 });

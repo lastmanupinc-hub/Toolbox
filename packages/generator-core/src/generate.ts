@@ -14,6 +14,7 @@ import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generat
 import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
 import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
 import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
+import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -67,6 +68,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "dashboard-widget.tsx": (ctx) => generateDashboardWidget(ctx),
   "embed-snippet.ts": (ctx) => generateEmbedSnippet(ctx),
   "artifact-spec.md": (ctx, profile) => generateArtifactSpec(ctx, profile),
+  "remotion-script.ts": (ctx) => generateRemotionScript(ctx),
+  "scene-plan.md": (ctx) => generateScenePlan(ctx),
+  "render-config.json": (ctx, profile) => generateRenderConfig(ctx, profile),
+  "asset-checklist.md": (ctx) => generateAssetChecklist(ctx),
 };
 
 // Aliases (user may request with different naming)
