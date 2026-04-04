@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { scanDirectory } from "./scanner.js";
 import { run } from "./runner.js";
 import { writeGeneratedFiles } from "./writer.js";
+import { fetchGitHubRepo } from "@axis/snapshots";
 
 interface CliArgs {
   command: string;
@@ -58,9 +59,11 @@ axis — AXIS Toolbox CLI
 
 Usage:
   axis analyze [path] [options]
+  axis github <url> [options]
 
 Commands:
-  analyze    Scan a repository and generate config files (default)
+  analyze    Scan a local repository and generate config files (default)
+  github     Fetch a public GitHub repo by URL and generate config files
   help       Show this help message
   version    Show version
 
@@ -89,10 +92,18 @@ export function main(): void {
     return;
   }
 
-  if (args.command !== "analyze") {
+  if (args.command !== "analyze" && args.command !== "github") {
     console.error(`Unknown command: ${args.command}`);
     console.error('Run "axis help" for usage.');
     process.exitCode = 1;
+    return;
+  }
+
+  if (args.command === "github") {
+    runGitHub(args).catch((err: Error) => {
+      console.error(`Error: ${err.message}`);
+      process.exitCode = 1;
+    });
     return;
   }
 
@@ -151,6 +162,78 @@ function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+async function runGitHub(args: CliArgs): Promise<void> {
+  const url = args.target;
+  if (!url || url === ".") {
+    console.error("Usage: axis github <url>");
+    process.exitCode = 1;
+    return;
+  }
+
+  const outputDir = resolve(args.output);
+
+  if (!args.quiet) {
+    console.log(`Fetching ${url} ...`);
+  }
+
+  let fetchResult;
+  try {
+    fetchResult = await fetchGitHubRepo(url);
+  } catch (err) {
+    console.error(`Failed to fetch repository: ${(err as Error).message}`);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (fetchResult.files.length === 0) {
+    console.error("No source files found in repository.");
+    process.exitCode = 1;
+    return;
+  }
+
+  if (!args.quiet) {
+    console.log(`Fetched ${fetchResult.owner}/${fetchResult.repo}@${fetchResult.ref}`);
+    console.log(`Found ${fetchResult.files.length} files (${formatBytes(fetchResult.total_bytes)}), ${fetchResult.skipped_count} skipped`);
+    console.log("Running analysis pipeline ...");
+  }
+
+  const scan = {
+    files: fetchResult.files,
+    skipped_count: fetchResult.skipped_count,
+    total_bytes: fetchResult.total_bytes,
+  };
+
+  const projectDir = `${fetchResult.owner}/${fetchResult.repo}`;
+  const result = run(scan, projectDir, args.programs.length > 0 ? args.programs : undefined);
+  const generated = result.generator_result.files;
+
+  if (generated.length === 0) {
+    console.error("No files were generated.");
+    process.exitCode = 1;
+    return;
+  }
+
+  const writeResult = writeGeneratedFiles(generated, outputDir);
+
+  if (!args.quiet) {
+    console.log("");
+    console.log(`Done in ${result.elapsed_ms}ms`);
+    console.log(`  Repo:      ${fetchResult.owner}/${fetchResult.repo}@${fetchResult.ref}`);
+    console.log(`  Generated: ${writeResult.files_written} files (${formatBytes(writeResult.total_bytes)})`);
+    console.log(`  Skipped:   ${result.generator_result.skipped.length} generators`);
+    console.log(`  Output:    ${outputDir}`);
+    console.log("");
+
+    const byProgram = new Map<string, number>();
+    for (const f of generated) {
+      byProgram.set(f.program, (byProgram.get(f.program) ?? 0) + 1);
+    }
+    for (const [prog, count] of [...byProgram.entries()].sort()) {
+      console.log(`  [${prog}] ${count} file${count > 1 ? "s" : ""}`);
+    }
+  }
 }
 
 main();

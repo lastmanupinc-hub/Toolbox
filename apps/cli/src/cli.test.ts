@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
 import { scanDirectory } from "./scanner.js";
 import { run } from "./runner.js";
 import { writeGeneratedFiles } from "./writer.js";
+import { parseGitHubUrl } from "@axis/snapshots";
 
 // ─── Test fixtures ──────────────────────────────────────────────
 
@@ -343,5 +344,33 @@ describe("CLI integration", () => {
     // Verify programs are represented
     const programs = new Set(result.generator_result.files.map((f) => f.program));
     expect(programs.size).toBe(17);
+  });
+});
+
+// ─── GitHub integration (shared package) ────────────────────────
+
+describe("github via shared package", () => {
+  it("parseGitHubUrl is available from @axis/snapshots", () => {
+    const result = parseGitHubUrl("https://github.com/owner/repo/tree/main");
+    expect(result.owner).toBe("owner");
+    expect(result.repo).toBe("repo");
+    expect(result.ref).toBe("main");
+  });
+
+  it("run() accepts GitHubFetchResult-shaped scan input", () => {
+    const githubScan = {
+      files: [
+        { path: "package.json", content: '{"name":"remote-test","dependencies":{"express":"^4"}}', size: 52 },
+        { path: "src/app.ts", content: "import express from 'express';\nconst app = express();", size: 53 },
+        { path: "README.md", content: "# Remote Test", size: 14 },
+      ],
+      skipped_count: 5,
+      total_bytes: 119,
+    };
+
+    const result = run(githubScan, "owner/repo");
+    expect(result.project_name).toBe("remote-test");
+    expect(result.generator_result.files.length).toBe(80);
+    expect(result.elapsed_ms).toBeGreaterThanOrEqual(0);
   });
 });
