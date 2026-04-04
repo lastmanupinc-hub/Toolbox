@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { GeneratedFile } from "../api.ts";
+import { downloadExport } from "../api.ts";
 
 interface Props {
   files: GeneratedFile[];
+  projectId?: string;
 }
 
 const PROGRAM_COLORS: Record<string, string> = {
@@ -12,9 +14,10 @@ const PROGRAM_COLORS: Record<string, string> = {
   frontend: "badge-blue",
 };
 
-export function GeneratedTab({ files }: Props) {
+export function GeneratedTab({ files, projectId }: Props) {
   const [selectedFile, setSelectedFile] = useState<GeneratedFile | null>(null);
   const [copied, setCopied] = useState(false);
+  const [downloadingProgram, setDownloadingProgram] = useState<string | null>(null);
 
   const programs = Array.from(new Set(files.map((f) => f.program)));
 
@@ -42,8 +45,23 @@ export function GeneratedTab({ files }: Props) {
         <h3 style={{ padding: "0 8px 8px" }}>Files ({files.length})</h3>
         {programs.map((program) => (
           <div key={program} style={{ marginBottom: 12 }}>
-            <div style={{ padding: "4px 8px" }}>
+            <div className="flex-between" style={{ padding: "4px 8px" }}>
               <span className={`badge ${PROGRAM_COLORS[program] ?? ""}`}>{program}</span>
+              {projectId && (
+                <button
+                  className="btn"
+                  style={{ fontSize: "0.625rem", padding: "2px 6px" }}
+                  disabled={downloadingProgram === program}
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    setDownloadingProgram(program);
+                    try { await downloadExport(projectId, program); } catch {}
+                    setDownloadingProgram(null);
+                  }}
+                >
+                  {downloadingProgram === program ? "..." : "⬇"}
+                </button>
+              )}
             </div>
             {files
               .filter((f) => f.program === program)

@@ -24,6 +24,8 @@ import {
   handleAlgorithmicGenerate,
   handleGitHubAnalyze,
   handleHealthCheck,
+  makeProgramHandler,
+  PROGRAM_OUTPUTS,
 } from "./handlers.js";
 import {
   handleCreateAccount,
@@ -46,6 +48,7 @@ import {
   handleGetFunnelStatus,
   handleGetFunnelMetrics,
 } from "./funnel.js";
+import { handleExportZip } from "./export.js";
 
 const router = new Router();
 
@@ -82,6 +85,29 @@ router.post("/v1/algorithmic/generate", handleAlgorithmicGenerate);
 
 // GitHub URL intake
 router.post("/v1/github/analyze", handleGitHubAnalyze);
+
+// Export
+router.get("/v1/projects/:project_id/export", handleExportZip);
+
+// Programs listing
+router.get("/v1/programs", async (_req, res) => {
+  const { sendJSON } = await import("./router.js");
+  const { listAvailableGenerators } = await import("@axis/generator-core");
+  const generators = listAvailableGenerators();
+  const programs = Object.keys(PROGRAM_OUTPUTS).map(name => ({
+    name,
+    outputs: PROGRAM_OUTPUTS[name],
+    generator_count: generators.filter(g => g.program === name).length,
+  }));
+  // Add search and skills which aren't in PROGRAM_OUTPUTS
+  const searchGens = generators.filter(g => g.program === "search");
+  const skillsGens = generators.filter(g => g.program === "skills");
+  programs.unshift(
+    { name: "search", outputs: ["context-map.json", ".ai/context-map.json"], generator_count: searchGens.length },
+    { name: "skills", outputs: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"], generator_count: skillsGens.length },
+  );
+  sendJSON(res, 200, { programs, total_generators: generators.length });
+});
 
 // Billing & Account management
 router.post("/v1/accounts", handleCreateAccount);

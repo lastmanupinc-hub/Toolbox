@@ -1,8 +1,12 @@
 import { resolve } from "node:path";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { scanDirectory } from "./scanner.js";
 import { run } from "./runner.js";
 import { writeGeneratedFiles } from "./writer.js";
 import { fetchGitHubRepo } from "@axis/snapshots";
+import { listAvailableGenerators } from "@axis/generator-core";
 
 interface CliArgs {
   command: string;
@@ -10,6 +14,30 @@ interface CliArgs {
   output: string;
   programs: string[];
   quiet: boolean;
+}
+
+// ─── Config storage (~/.axis/config.json) ───────────────────────
+
+const CONFIG_DIR = join(homedir(), ".axis");
+const CONFIG_FILE = join(CONFIG_DIR, "config.json");
+
+interface AxisConfig {
+  api_key?: string;
+  api_url?: string;
+}
+
+function loadConfig(): AxisConfig {
+  try {
+    if (existsSync(CONFIG_FILE)) {
+      return JSON.parse(readFileSync(CONFIG_FILE, "utf-8")) as AxisConfig;
+    }
+  } catch { /* ignore corrupt config */ }
+  return {};
+}
+
+function saveConfig(config: AxisConfig): void {
+  mkdirSync(CONFIG_DIR, { recursive: true });
+  writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2), "utf-8");
 }
 
 function parseArgs(argv: string[]): CliArgs {
@@ -60,10 +88,16 @@ axis — AXIS Toolbox CLI
 Usage:
   axis analyze [path] [options]
   axis github <url> [options]
+  axis programs                   List all available programs and generators
+  axis auth login <api_key>       Save API key to ~/.axis/config.json
+  axis auth status                Show current auth and account info
+  axis auth logout                Remove saved API key
 
 Commands:
   analyze    Scan a local repository and generate config files (default)
   github     Fetch a public GitHub repo by URL and generate config files
+  programs   List all available programs with generator counts
+  auth       Manage API key authentication
   help       Show this help message
   version    Show version
 
@@ -77,7 +111,67 @@ Options:
 }
 
 function printVersion(): void {
-  console.log("axis v0.2.0");
+  console.log("axis v0.3.0");
+}
+
+function printPrograms(): void {
+  const generators = listAvailableGenerators();
+  const byProgram = new Map<string, string[]>();
+  for (const g of generators) {
+    const list = byProgram.get(g.program) ?? [];
+    list.push(g.path);
+    byProgram.set(g.program, list);
+  }
+
+  console.log(`\nAXIS Toolbox — ${generators.length} generators across ${byProgram.size} programs\n`);
+
+  const FREE_PROGRAMS = new Set(["search", "skills", "debug"]);
+
+  for (const [program, paths] of [...byProgram.entries()].sort()) {
+    const tier = FREE_PROGRAMS.has(program) ? "FREE" : "PRO";
+    console.log(`  ${program.padEnd(14)} [${tier}]  ${paths.length} generator${paths.length > 1 ? "s" : ""}`);
+    for (const p of paths) {
+      console.log(`    └─ ${p}`);
+    }
+  }
+  console.log("");
+}
+
+function handleAuth(args: CliArgs): void {
+  const subcommand = args.target;  // "login", "status", or "logout"
+  const config = loadConfig();
+
+  if (subcommand === "login") {
+    // The API key is the next arg after "login"
+    const keyArg = process.argv.find(a => a.startsWith("axis_"));
+    if (!keyArg) {
+      console.error("Usage: axis auth login <api_key>");
+      console.error("  The API key should start with 'axis_'");
+      process.exitCode = 1;
+      return;
+    }
+    config.api_key = keyArg;
+    saveConfig(config);
+    console.log("API key saved to ~/.axis/config.json");
+    console.log(`Key prefix: ${keyArg.slice(0, 10)}...`);
+    return;
+  }
+
+  if (subcommand === "logout") {
+    delete config.api_key;
+    saveConfig(config);
+    console.log("API key removed.");
+    return;
+  }
+
+  // status (default)
+  if (config.api_key) {
+    console.log(`Authenticated: ${config.api_key.slice(0, 10)}...`);
+    console.log(`Config:        ${CONFIG_FILE}`);
+    console.log(`API URL:       ${config.api_url ?? "http://localhost:4000"}`);
+  } else {
+    console.log("Not authenticated. Run: axis auth login <api_key>");
+  }
 }
 
 export function main(): void {
@@ -89,6 +183,14 @@ export function main(): void {
   }
   if (args.command === "version") {
     printVersion();
+    return;
+  }
+  if (args.command === "programs") {
+    printPrograms();
+    return;
+  }
+  if (args.command === "auth") {
+    handleAuth(args);
     return;
   }
 

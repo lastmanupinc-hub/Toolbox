@@ -203,6 +203,7 @@ export async function handleListApiKeys(
       created_at: k.created_at,
       revoked_at: k.revoked_at,
       active: k.revoked_at === null,
+      prefix: `axis_${k.key_id.slice(0, 8)}`,
     })),
   });
 }

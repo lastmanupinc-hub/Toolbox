@@ -1,5 +1,7 @@
 const API_BASE = "";
 
+// ─── Snapshot types ─────────────────────────────────────────────
+
 export interface SnapshotPayload {
   input_method: string;
   manifest: {
@@ -115,8 +117,78 @@ export interface GeneratedFilesResponse {
   skipped: Array<{ path: string; reason: string }>;
 }
 
+// ─── Billing types ──────────────────────────────────────────────
+
+export type BillingTier = "free" | "paid" | "suite";
+
+export interface Account {
+  account_id: string;
+  name: string;
+  email: string;
+  tier: BillingTier;
+  created_at: string;
+}
+
+export interface ApiKeyInfo {
+  key_id: string;
+  label: string;
+  created_at: string;
+  revoked_at: string | null;
+  prefix: string;
+}
+
+export interface UsageSummary {
+  program: string;
+  total_runs: number;
+  total_generators: number;
+  total_input_files: number;
+  total_input_bytes: number;
+}
+
+// ─── Funnel / Plan types ────────────────────────────────────────
+
+export interface PlanDefinition {
+  id: BillingTier;
+  name: string;
+  tagline: string;
+  price_monthly_cents: number;
+  price_annual_cents: number;
+  highlights: string[];
+}
+
+export interface PlanFeature {
+  name: string;
+  free: string | boolean | number;
+  pro: string | boolean | number;
+  suite: string | boolean | number;
+}
+
+export interface UpgradePrompt {
+  trigger: string;
+  current_tier: BillingTier;
+  recommended_tier: BillingTier;
+  headline: string;
+  body: string;
+  cta_label: string;
+  cta_url: string;
+  features_unlocked: string[];
+  urgency: "low" | "medium" | "high";
+}
+
+// ─── Fetch helpers ──────────────────────────────────────────────
+
+function authHeaders(): Record<string, string> {
+  const key = localStorage.getItem("axis_api_key");
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (key) headers["Authorization"] = `Bearer ${key}`;
+  return headers;
+}
+
 async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${url}`, init);
+  const res = await fetch(`${API_BASE}${url}`, {
+    ...init,
+    headers: { ...authHeaders(), ...init?.headers },
+  });
   if (!res.ok) {
     const body = await res.text();
     throw new Error(`${res.status}: ${body}`);
@@ -124,10 +196,11 @@ async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+// ─── Snapshot API ───────────────────────────────────────────────
+
 export async function createSnapshot(payload: SnapshotPayload): Promise<SnapshotResponse> {
   return fetchJSON<SnapshotResponse>("/v1/snapshots", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 }
@@ -137,7 +210,9 @@ export async function getGeneratedFiles(projectId: string): Promise<GeneratedFil
 }
 
 export async function getGeneratedFile(projectId: string, filePath: string): Promise<string> {
-  const res = await fetch(`${API_BASE}/v1/projects/${projectId}/generated-files/${encodeURIComponent(filePath)}`);
+  const res = await fetch(`${API_BASE}/v1/projects/${projectId}/generated-files/${encodeURIComponent(filePath)}`, {
+    headers: authHeaders(),
+  });
   if (!res.ok) throw new Error(`${res.status}: ${await res.text()}`);
   return res.text();
 }
@@ -145,10 +220,9 @@ export async function getGeneratedFile(projectId: string, filePath: string): Pro
 export async function runProgram(
   endpoint: string,
   snapshotId: string,
-): Promise<{ program: string; files: GeneratedFile[] }> {
+): Promise<{ program: string; files: GeneratedFile[]; skipped?: Array<{ path: string; reason: string }> }> {
   return fetchJSON(`/v1/${endpoint}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ snapshot_id: snapshotId }),
   });
 }
@@ -156,11 +230,80 @@ export async function runProgram(
 export async function analyzeGitHubUrl(githubUrl: string): Promise<SnapshotResponse> {
   return fetchJSON<SnapshotResponse>("/v1/github/analyze", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ github_url: githubUrl }),
   });
 }
 
 export async function healthCheck(): Promise<{ status: string; version: string }> {
   return fetchJSON("/health");
+}
+
+// ─── Export API ─────────────────────────────────────────────────
+
+export function getExportUrl(projectId: string, program?: string): string {
+  const base = `${API_BASE}/v1/projects/${projectId}/export`;
+  return program ? `${base}?program=${encodeURIComponent(program)}` : base;
+}
+
+export async function downloadExport(projectId: string, program?: string): Promise<void> {
+  const url = getExportUrl(projectId, program);
+  const res = await fetch(url, { headers: authHeaders() });
+  if (!res.ok) throw new Error(`Export failed: ${res.status}`);
+  const blob = await res.blob();
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  const disposition = res.headers.get("Content-Disposition");
+  const match = disposition?.match(/filename="(.+)"/);
+  a.download = match?.[1] ?? "axis-export.zip";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ─── Billing API ────────────────────────────────────────────────
+
+export async function createAccount(name: string, email: string): Promise<{ account: Account; api_key: { key_id: string; raw_key: string; label: string } }> {
+  return fetchJSON("/v1/accounts", {
+    method: "POST",
+    body: JSON.stringify({ name, email }),
+  });
+}
+
+export async function getAccount(): Promise<Account> {
+  return fetchJSON("/v1/account");
+}
+
+export async function createApiKey(label: string): Promise<{ key_id: string; raw_key: string; label: string }> {
+  return fetchJSON("/v1/account/keys", {
+    method: "POST",
+    body: JSON.stringify({ label }),
+  });
+}
+
+export async function listApiKeys(): Promise<{ keys: ApiKeyInfo[] }> {
+  return fetchJSON("/v1/account/keys");
+}
+
+export async function revokeApiKey(keyId: string): Promise<void> {
+  await fetchJSON(`/v1/account/keys/${keyId}/revoke`, { method: "POST" });
+}
+
+export async function getUsage(): Promise<{ tier: BillingTier; monthly_snapshots: number; project_count: number; by_program: UsageSummary[] }> {
+  return fetchJSON("/v1/account/usage");
+}
+
+export async function updateTier(tier: BillingTier): Promise<{ account: Account }> {
+  return fetchJSON("/v1/account/tier", {
+    method: "POST",
+    body: JSON.stringify({ tier }),
+  });
+}
+
+// ─── Plans API ──────────────────────────────────────────────────
+
+export async function getPlans(): Promise<{ plans: PlanDefinition[]; features: PlanFeature[] }> {
+  return fetchJSON("/v1/plans");
+}
+
+export async function getUpgradePrompt(): Promise<{ prompt: UpgradePrompt | null }> {
+  return fetchJSON("/v1/account/upgrade-prompt");
 }

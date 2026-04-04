@@ -23,6 +23,87 @@ import type { GeneratorResult } from "@axis/generator-core";
 import { sendJSON, readBody } from "./router.js";
 import { resolveAuth } from "./billing.js";
 
+// ─── Per-program default outputs ────────────────────────────────
+
+export const PROGRAM_OUTPUTS: Record<string, string[]> = {
+  debug:        [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md", "root-cause-checklist.md"],
+  frontend:     [".ai/frontend-rules.md", "component-guidelines.md", "layout-patterns.md", "ui-audit.md"],
+  seo:          [".ai/seo-rules.md", "schema-recommendations.json", "route-priority-map.md", "content-audit.md", "meta-tag-audit.json"],
+  optimization: [".ai/optimization-rules.md", "prompt-diff-report.md", "cost-estimate.json", "token-budget-plan.md"],
+  theme:        [".ai/design-tokens.json", "theme.css", "theme-guidelines.md", "component-theme-map.json", "dark-mode-tokens.json"],
+  brand:        ["brand-guidelines.md", "voice-and-tone.md", "content-constraints.md", "messaging-system.yaml", "channel-rulebook.md"],
+  superpowers:  ["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md", "automation-pipeline.yaml"],
+  marketing:    ["campaign-brief.md", "funnel-map.md", "sequence-pack.md", "cro-playbook.md", "ab-test-plan.md"],
+  notebook:     ["notebook-summary.md", "source-map.json", "study-brief.md", "research-threads.md", "citation-index.json"],
+  obsidian:     ["obsidian-skill-pack.md", "vault-rules.md", "graph-prompt-map.json", "linking-policy.md", "template-pack.md"],
+  mcp:          ["mcp-config.json", "connector-map.yaml", "capability-registry.json", "server-manifest.yaml"],
+  artifacts:    ["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md", "component-library.json"],
+  remotion:     ["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md", "storyboard.md"],
+  canvas:       ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md", "brand-board.md"],
+  algorithmic:  ["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml", "variation-matrix.json"],
+};
+
+// ─── Generic program handler factory ────────────────────────────
+
+export function makeProgramHandler(program: string, defaultOutputs: string[]) {
+  return async function (req: IncomingMessage, res: ServerResponse): Promise<void> {
+    const raw = await readBody(req);
+    let body: Record<string, unknown>;
+    try {
+      body = JSON.parse(raw);
+    } catch {
+      sendJSON(res, 400, { error: "Invalid JSON body" });
+      return;
+    }
+
+    const snapshotId = body.snapshot_id as string;
+    if (!snapshotId) {
+      sendJSON(res, 400, { error: "snapshot_id is required" });
+      return;
+    }
+
+    const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
+    const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
+    if (!contextMap || !repoProfile) {
+      sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+      return;
+    }
+
+    const requestedOutputs = (body.outputs as string[]) ?? defaultOutputs;
+    const result = generateFiles({
+      context_map: contextMap,
+      repo_profile: repoProfile,
+      requested_outputs: requestedOutputs,
+    });
+
+    const programFiles = result.files.filter(f => f.program === program);
+    sendJSON(res, 200, {
+      snapshot_id: snapshotId,
+      program,
+      files: programFiles,
+      skipped: result.skipped,
+    });
+  };
+}
+
+// ─── Program handlers (generated from PROGRAM_OUTPUTS) ──────────
+
+export const handleDebugAnalyze        = makeProgramHandler("debug", PROGRAM_OUTPUTS.debug);
+export const handleFrontendAudit       = makeProgramHandler("frontend", PROGRAM_OUTPUTS.frontend);
+export const handleSeoAnalyze          = makeProgramHandler("seo", PROGRAM_OUTPUTS.seo);
+export const handleOptimizationAnalyze = makeProgramHandler("optimization", PROGRAM_OUTPUTS.optimization);
+export const handleThemeGenerate       = makeProgramHandler("theme", PROGRAM_OUTPUTS.theme);
+export const handleBrandGenerate       = makeProgramHandler("brand", PROGRAM_OUTPUTS.brand);
+export const handleSuperpowersGenerate = makeProgramHandler("superpowers", PROGRAM_OUTPUTS.superpowers);
+export const handleMarketingGenerate   = makeProgramHandler("marketing", PROGRAM_OUTPUTS.marketing);
+export const handleNotebookGenerate    = makeProgramHandler("notebook", PROGRAM_OUTPUTS.notebook);
+export const handleObsidianAnalyze     = makeProgramHandler("obsidian", PROGRAM_OUTPUTS.obsidian);
+export const handleMcpProvision        = makeProgramHandler("mcp", PROGRAM_OUTPUTS.mcp);
+export const handleArtifactsGenerate   = makeProgramHandler("artifacts", PROGRAM_OUTPUTS.artifacts);
+export const handleRemotionGenerate    = makeProgramHandler("remotion", PROGRAM_OUTPUTS.remotion);
+export const handleCanvasGenerate      = makeProgramHandler("canvas", PROGRAM_OUTPUTS.canvas);
+export const handleAlgorithmicGenerate = makeProgramHandler("algorithmic", PROGRAM_OUTPUTS.algorithmic);
+
 export async function handleCreateSnapshot(
   req: IncomingMessage,
   res: ServerResponse,
@@ -329,606 +410,6 @@ export async function handleSkillsGenerate(
     program: "skills",
     files: skillsFiles,
     skipped: result.skipped,
-  });
-}
-
-export async function handleDebugAnalyze(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md", "root-cause-checklist.md"],
-  });
-
-  const debugFiles = result.files.filter(f => f.program === "debug");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "debug",
-    files: debugFiles,
-  });
-}
-
-export async function handleFrontendAudit(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: [".ai/frontend-rules.md", "component-guidelines.md", "layout-patterns.md", "ui-audit.md"],
-  });
-
-  const frontendFiles = result.files.filter(f => f.program === "frontend");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "frontend",
-    files: frontendFiles,
-  });
-}
-
-export async function handleSeoAnalyze(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: [".ai/seo-rules.md", "schema-recommendations.json", "route-priority-map.md", "content-audit.md", "meta-tag-audit.json"],
-  });
-
-  const seoFiles = result.files.filter(f => f.program === "seo");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "seo",
-    files: seoFiles,
-  });
-}
-
-export async function handleOptimizationAnalyze(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: [".ai/optimization-rules.md", "prompt-diff-report.md", "cost-estimate.json", "token-budget-plan.md"],
-  });
-
-  const optimizationFiles = result.files.filter(f => f.program === "optimization");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "optimization",
-    files: optimizationFiles,
-  });
-}
-
-export async function handleThemeGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: [".ai/design-tokens.json", "theme.css", "theme-guidelines.md", "component-theme-map.json", "dark-mode-tokens.json"],
-  });
-
-  const themeFiles = result.files.filter(f => f.program === "theme");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "theme",
-    files: themeFiles,
-  });
-}
-
-export async function handleBrandGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["brand-guidelines.md", "voice-and-tone.md", "content-constraints.md", "messaging-system.yaml", "channel-rulebook.md"],
-  });
-
-  const brandFiles = result.files.filter(f => f.program === "brand");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "brand",
-    files: brandFiles,
-  });
-}
-
-export async function handleSuperpowersGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md", "automation-pipeline.yaml"],
-  });
-
-  const superpowersFiles = result.files.filter(f => f.program === "superpowers");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "superpowers",
-    files: superpowersFiles,
-  });
-}
-
-export async function handleMarketingGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["campaign-brief.md", "funnel-map.md", "sequence-pack.md", "cro-playbook.md", "ab-test-plan.md"],
-  });
-
-  const marketingFiles = result.files.filter(f => f.program === "marketing");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "marketing",
-    files: marketingFiles,
-  });
-}
-
-export async function handleNotebookGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["notebook-summary.md", "source-map.json", "study-brief.md", "research-threads.md", "citation-index.json"],
-  });
-
-  const notebookFiles = result.files.filter(f => f.program === "notebook");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "notebook",
-    files: notebookFiles,
-  });
-}
-
-export async function handleObsidianAnalyze(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["obsidian-skill-pack.md", "vault-rules.md", "graph-prompt-map.json", "linking-policy.md", "template-pack.md"],
-  });
-
-  const obsidianFiles = result.files.filter(f => f.program === "obsidian");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "obsidian",
-    files: obsidianFiles,
-  });
-}
-
-export async function handleMcpProvision(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["mcp-config.json", "connector-map.yaml", "capability-registry.json", "server-manifest.yaml"],
-  });
-
-  const mcpFiles = result.files.filter(f => f.program === "mcp");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "mcp",
-    files: mcpFiles,
-  });
-}
-
-export async function handleArtifactsGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md", "component-library.json"],
-  });
-
-  const artifactFiles = result.files.filter(f => f.program === "artifacts");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "artifacts",
-    files: artifactFiles,
-  });
-}
-
-export async function handleRemotionGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md", "storyboard.md"],
-  });
-
-  const remotionFiles = result.files.filter(f => f.program === "remotion");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "remotion",
-    files: remotionFiles,
-  });
-}
-
-export async function handleCanvasGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md", "brand-board.md"],
-  });
-
-  const canvasFiles = result.files.filter(f => f.program === "canvas");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "canvas",
-    files: canvasFiles,
-  });
-}
-
-export async function handleAlgorithmicGenerate(
-  req: IncomingMessage,
-  res: ServerResponse,
-): Promise<void> {
-  const raw = await readBody(req);
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    sendJSON(res, 400, { error: "Invalid JSON body" });
-    return;
-  }
-
-  const snapshotId = body.snapshot_id as string;
-  if (!snapshotId) {
-    sendJSON(res, 400, { error: "snapshot_id is required" });
-    return;
-  }
-
-  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
-  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
-  if (!contextMap || !repoProfile) {
-    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
-    return;
-  }
-
-  const result = generateFiles({
-    context_map: contextMap,
-    repo_profile: repoProfile,
-    requested_outputs: ["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml", "variation-matrix.json"],
-  });
-
-  const algorithmicFiles = result.files.filter(f => f.program === "algorithmic");
-  sendJSON(res, 200, {
-    snapshot_id: snapshotId,
-    program: "algorithmic",
-    files: algorithmicFiles,
   });
 }
 

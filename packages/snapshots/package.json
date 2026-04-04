@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "better-sqlite3": "^12.8.0",
