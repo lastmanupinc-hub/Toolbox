@@ -25,6 +25,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
+  handleGitHubAnalyze,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -109,6 +110,7 @@ beforeAll(async () => {
   router.post("/v1/remotion/generate", handleRemotionGenerate);
   router.post("/v1/canvas/generate", handleCanvasGenerate);
   router.post("/v1/algorithmic/generate", handleAlgorithmicGenerate);
+  router.post("/v1/github/analyze", handleGitHubAnalyze);
 
   server = createServer((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -411,5 +413,19 @@ describe("API integration", () => {
     expect(r16.status).toBe(400);
     const r17 = await request(TEST_PORT, "POST", "/v1/algorithmic/generate", {});
     expect(r17.status).toBe(400);
+  });
+
+  it("POST /v1/github/analyze rejects missing github_url", async () => {
+    const r = await request(TEST_PORT, "POST", "/v1/github/analyze", {});
+    expect(r.status).toBe(400);
+    const data = r.data as Record<string, unknown>;
+    expect(data.error).toBe("github_url is required");
+  });
+
+  it("POST /v1/github/analyze rejects invalid GitHub URL", async () => {
+    const r = await request(TEST_PORT, "POST", "/v1/github/analyze", { github_url: "https://gitlab.com/foo/bar" });
+    expect(r.status).toBe(400);
+    const data = r.data as Record<string, unknown>;
+    expect(data.error).toContain("Invalid GitHub URL");
   });
 });

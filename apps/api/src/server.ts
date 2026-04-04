@@ -22,6 +22,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
+  handleGitHubAnalyze,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -57,6 +58,9 @@ router.post("/v1/artifacts/generate", handleArtifactsGenerate);
 router.post("/v1/remotion/generate", handleRemotionGenerate);
 router.post("/v1/canvas/generate", handleCanvasGenerate);
 router.post("/v1/algorithmic/generate", handleAlgorithmicGenerate);
+
+// GitHub URL intake
+router.post("/v1/github/analyze", handleGitHubAnalyze);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
 createApp(router, port);

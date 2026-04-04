@@ -901,3 +901,106 @@ export async function handleAlgorithmicGenerate(
     files: algorithmicFiles,
   });
 }
+
+// ─── GitHub URL intake ──────────────────────────────────────────
+
+export async function handleGitHubAnalyze(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid JSON body" });
+    return;
+  }
+
+  const githubUrl = body.github_url as string | undefined;
+  if (!githubUrl || typeof githubUrl !== "string") {
+    sendJSON(res, 400, { error: "github_url is required" });
+    return;
+  }
+
+  // Import dynamically to avoid loading github module for other endpoints
+  const { fetchGitHubRepo, parseGitHubUrl } = await import("./github.js");
+
+  let parsed;
+  try {
+    parsed = parseGitHubUrl(githubUrl);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid GitHub URL. Expected: https://github.com/owner/repo" });
+    return;
+  }
+
+  let fetchResult;
+  try {
+    const token = (body.token as string) ?? process.env.GITHUB_TOKEN;
+    fetchResult = await fetchGitHubRepo(githubUrl, token || undefined);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    sendJSON(res, 502, { error: `Failed to fetch GitHub repo: ${message}` });
+    return;
+  }
+
+  if (fetchResult.files.length === 0) {
+    sendJSON(res, 422, { error: "No source files found in repository" });
+    return;
+  }
+
+  // Create snapshot from fetched files
+  const input = {
+    input_method: "github_repo_url" as const,
+    manifest: {
+      project_name: `${parsed.owner}/${parsed.repo}`,
+      project_type: "unknown",
+      frameworks: [] as string[],
+      goals: ["analyze", "generate-config"],
+      requested_outputs: [] as string[],
+    },
+    files: fetchResult.files,
+    github_url: githubUrl,
+  };
+
+  const snapshot = createSnapshot(input);
+
+  try {
+    const contextMap = buildContextMap(snapshot);
+    const repoProfile = buildRepoProfile(snapshot);
+
+    saveContextMap(snapshot.snapshot_id, contextMap);
+    saveRepoProfile(snapshot.snapshot_id, repoProfile);
+
+    const generated = generateFiles({
+      context_map: contextMap,
+      repo_profile: repoProfile,
+      requested_outputs: [],
+    });
+    saveGeneratorResult(snapshot.snapshot_id, generated);
+    updateSnapshotStatus(snapshot.snapshot_id, "ready");
+
+    sendJSON(res, 201, {
+      snapshot_id: snapshot.snapshot_id,
+      project_id: snapshot.project_id,
+      status: "ready",
+      github_url: githubUrl,
+      owner: parsed.owner,
+      repo: parsed.repo,
+      ref: fetchResult.ref,
+      files_fetched: fetchResult.files.length,
+      files_skipped: fetchResult.skipped_count,
+      total_bytes: fetchResult.total_bytes,
+      generated_files: generated.files.map(f => ({ path: f.path, program: f.program, description: f.description })),
+      generated_count: generated.files.length,
+    });
+  } catch (err) {
+    updateSnapshotStatus(snapshot.snapshot_id, "failed");
+    console.error("GitHub snapshot processing failed:", err);
+    sendJSON(res, 500, {
+      snapshot_id: snapshot.snapshot_id,
+      status: "failed",
+      error: "Processing failed",
+    });
+  }
+}
