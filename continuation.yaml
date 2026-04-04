@@ -15,7 +15,7 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-04"
-    commit_or_tag: "b0c2f82"
+    commit_or_tag: "6c72853"
     current_session_id: "session_005"
     one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 281 tests, visual interface layer (toast, command palette, status bar, animations), 3 rounds of bug-fixing (22 bugs), server hardening, theme pack, zero-dep ZIP export, billing+funnel, CLI auth. Grade: B+ (85.2). Gap analysis complete — executing A+ roadmap."
     current_status: "building"
@@ -23,10 +23,10 @@ project_continuation:
 
   executive_truth:
     maturity_estimate:
-      functional_percent: 80
-      hardened_percent: 30
-      integrated_percent: 80
-      production_percent: 15
+      functional_percent: 85
+      hardened_percent: 45
+      integrated_percent: 85
+      production_percent: 25
     confidence:
       architecture_confidence: 93
       runtime_confidence: 90
@@ -629,22 +629,25 @@ project_continuation:
 
     qualifying_candidates:
       - id: "eq_039"
-        description: "Package unit tests — context-engine (~15 tests for buildContextMap), repo-parser (~15 tests for language/framework/import detection), generator-core (~20 tests for program output verification). Target: 50+ new tests."
+        description: "Package unit tests — language-detector (22), framework-detector (15), import-resolver (13), context-engine edge cases (16), generator-core program coverage (94). 160 new tests, 441 total."
         roi_score: 96
         roi_reason: "validation_strength 5, production_quality 5, blocker_removal 4 (test coverage C+ → A). Highest ROI under begin.yaml policy."
-        status: pending
+        completion_status: complete
+        commit: "99aa93e"
 
       - id: "eq_040"
-        description: "REGISTRY metadata — replace Record<string, GeneratorFn> with Record<string, { fn: GeneratorFn; program: string }>, fix listAvailableGenerators() to read real metadata, update ProgramLauncher to fetch from /v1/programs instead of hardcoded array."
+        description: "REGISTRY metadata — GENERATOR_PROGRAMS map for all 80 generators, fix listAvailableGenerators() (was misclassifying 15/17 programs), data-driven /v1/programs endpoint. 444 tests."
         roi_score: 88
-        roi_reason: "canonical_coherence 5, integration_quality 5, blocker_removal 5 (listAvailableGenerators misclassifies 15/17 programs). Fixes broken data flow."
-        status: pending
+        roi_reason: "canonical_coherence 5, integration_quality 5, blocker_removal 5. Fixes broken data flow."
+        completion_status: complete
+        commit: "8128582"
 
       - id: "eq_041"
-        description: "README.md (project description, quickstart, architecture, endpoint listing, program catalog) + CONTRIBUTING.md (dev setup, coding standards, PR process, test conventions)."
+        description: "README.md (architecture, programs table, endpoint listing, quickstart, tech stack) + CONTRIBUTING.md (dev setup, coding standards, test conventions, PR process). Documentation D → A."
         roi_score: 82
-        roi_reason: "team_scale 5, usability 5, production_quality 4. Documentation D → A. Required for open-source readiness."
-        status: pending
+        roi_reason: "team_scale 5, usability 5, production_quality 4. Documentation D → A."
+        completion_status: complete
+        commit: "6c72853"
 
       - id: "eq_042"
         description: "Request logging middleware + structured error codes. Replace console.error with structured logger, add request_id tracing, standardize error response format with error codes."
@@ -1030,6 +1033,39 @@ project_continuation:
       - "No system status display → StatusBar"
     blockers_added: []
     commit_results: ["b0c2f82"]
+    push_results: []
+
+  current_session_result_020:
+    session_goal: "Execute top 3 gap-analysis moves: package tests, REGISTRY metadata fix, documentation"
+    selected_move: "eq_039 → eq_040 → eq_041: tests, metadata, docs (top 3 ROI candidates from gap analysis)"
+    selected_move_roi_reason: "ROI scores 96/88/82. begin.yaml autonomous execution policy: execute qualifying candidates in descending score order."
+    completed_candidates:
+      - "eq_039: 5 new test files — language-detector.test.ts (22), framework-detector.test.ts (15), import-resolver.test.ts (13), engine-edge.test.ts (16), generate-programs.test.ts (94). 160 new tests, 441 total (commit 99aa93e)"
+      - "eq_040: GENERATOR_PROGRAMS map (80 entries), fixed listAvailableGenerators() from heuristic stub to data-driven, replaced /v1/programs workaround with Map-based aggregation, added 3 new classification tests. 444 total tests (commit 8128582)"
+      - "eq_041: README.md (architecture diagram, 17-program table, 52-endpoint listing, quickstart, tech stack) + CONTRIBUTING.md (dev setup, coding standards, test conventions, PR process, generator/endpoint addition guides) (commit 6c72853)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "444 vitest tests passing across 14 files (281→444, +163)"
+      - "5 new test files in packages/ (language-detector, framework-detector, import-resolver, engine-edge, generate-programs)"
+      - "GENERATOR_PROGRAMS map with 80 entries — all 17 programs correctly classified"
+      - "listAvailableGenerators() returns correct program for all 80 generators (was 2/17 correct)"
+      - "/v1/programs endpoint now data-driven (was hardcoded with workaround for search/skills)"
+      - "README.md: 150+ lines with architecture, program catalog, full endpoint listing, quickstart"
+      - "CONTRIBUTING.md: 90+ lines with dev setup, coding standards, test conventions, PR process"
+      - "continuation.yaml synced: session_results 016-019 backfilled for eq_035-038"
+    verticals_advanced:
+      - "Quality — test coverage C+(68) → target A (projected 92+)"
+      - "Documentation — D(42) → target A (projected 90+)"
+      - "Generator Quality — B+(88) → A (listAvailableGenerators fixed)"
+      - "API Design — A-(91) → A (/v1/programs now data-driven)"
+    blockers_removed:
+      - "listAvailableGenerators() misclassified 15/17 programs → all 17 correct"
+      - "No package-level unit tests → 160 new tests across 5 files"
+      - "README was 1 line → comprehensive project documentation"
+      - "No CONTRIBUTING guide → full dev onboarding document"
+    blockers_added: []
+    commit_results: ["99aa93e", "8128582", "6c72853"]
     push_results: []
 
   source_control_policy:
