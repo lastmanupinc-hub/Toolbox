@@ -53,7 +53,7 @@ import { handleExportZip } from "./export.js";
 const router = new Router();
 
 // Health
-router.get("/health", handleHealthCheck);
+router.get("/v1/health", handleHealthCheck);
 
 // Snapshot endpoints (per axis_all_tools.yaml api_architecture)
 router.post("/v1/snapshots", handleCreateSnapshot);

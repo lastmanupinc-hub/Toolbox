@@ -14,6 +14,7 @@ import {
   checkQuota,
   trackEvent,
   resolveStage,
+  TIER_LIMITS,
 } from "@axis/snapshots";
 import type { SnapshotInput, SnapshotManifest, FileEntry } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
@@ -147,14 +148,32 @@ export async function handleCreateSnapshot(
     files,
   };
 
-  // Check quota if authenticated
+  // Reject invalid/revoked keys (key provided but not valid)
   const auth = resolveAuth(req);
+  if (!auth.anonymous && !auth.account) {
+    sendJSON(res, 401, { error: "Invalid or revoked API key" });
+    return;
+  }
+  // Check quota if authenticated
   if (auth.account) {
     const quota = checkQuota(auth.account.account_id);
     if (!quota.allowed) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason });
       sendJSON(res, 429, { error: quota.reason, tier: quota.tier, usage: quota.usage });
       return;
+    }
+
+    // Enforce per-snapshot file count and size limits
+    const limits = TIER_LIMITS[auth.account.tier];
+    if (files.length > limits.max_files_per_snapshot) {
+      sendJSON(res, 413, { error: `File limit exceeded: ${files.length} files (max ${limits.max_files_per_snapshot} for ${auth.account.tier} tier)` });
+      return;
+    }
+    for (const file of files) {
+      if (file.size > limits.max_file_size_bytes) {
+        sendJSON(res, 413, { error: `File too large: ${file.path} is ${file.size} bytes (max ${limits.max_file_size_bytes} for ${auth.account.tier} tier)` });
+        return;
+      }
     }
   }
 
@@ -451,7 +470,15 @@ export async function handleGitHubAnalyze(
     fetchResult = await fetchGitHubRepo(githubUrl, token || undefined);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    sendJSON(res, 502, { error: `Failed to fetch GitHub repo: ${message}` });
+    const statusMatch = message.match(/returned (\d{3})/);
+    const upstreamStatus = statusMatch ? parseInt(statusMatch[1], 10) : 0;
+    if (upstreamStatus === 429 || upstreamStatus === 403) {
+      sendJSON(res, 429, { error: "GitHub API rate limit reached. Try again later or provide a token.", retry_after: 60 });
+    } else if (upstreamStatus === 404) {
+      sendJSON(res, 404, { error: "GitHub repository not found" });
+    } else {
+      sendJSON(res, 502, { error: `Failed to fetch GitHub repo: ${message}` });
+    }
     return;
   }
 
@@ -462,6 +489,10 @@ export async function handleGitHubAnalyze(
 
   // Check quota if authenticated
   const auth = resolveAuth(req);
+  if (!auth.anonymous && !auth.account) {
+    sendJSON(res, 401, { error: "Invalid or revoked API key" });
+    return;
+  }
   if (auth.account) {
     const quota = checkQuota(auth.account.account_id);
     if (!quota.allowed) {

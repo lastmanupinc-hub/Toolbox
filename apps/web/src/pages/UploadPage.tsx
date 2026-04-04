@@ -139,12 +139,37 @@ export function UploadPage({ onComplete }: Props) {
     setLoading(true);
     setError(null);
 
+    // Auto-detect frameworks from uploaded file contents
+    const detectedFrameworks: string[] = [];
+    const allContent = files.map(f => f.content).join("\n");
+    const pkgFile = files.find(f => f.path === "package.json");
+    if (pkgFile) {
+      try {
+        const pkg = JSON.parse(pkgFile.content);
+        const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+        if (deps.react) detectedFrameworks.push("react");
+        if (deps.vue) detectedFrameworks.push("vue");
+        if (deps.svelte) detectedFrameworks.push("svelte");
+        if (deps.next) detectedFrameworks.push("next");
+        if (deps.vite) detectedFrameworks.push("vite");
+        if (deps.express) detectedFrameworks.push("express");
+        if (deps.tailwindcss) detectedFrameworks.push("tailwind");
+        if (deps.typescript) detectedFrameworks.push("typescript");
+        if (deps["@angular/core"]) detectedFrameworks.push("angular");
+      } catch { /* not valid JSON */ }
+    }
+    if (files.some(f => f.path.endsWith(".py"))) {
+      if (allContent.includes("from flask")) detectedFrameworks.push("flask");
+      if (allContent.includes("from django")) detectedFrameworks.push("django");
+      if (allContent.includes("from fastapi")) detectedFrameworks.push("fastapi");
+    }
+
     const payload: SnapshotPayload = {
       input_method: "manual_file_upload",
       manifest: {
         project_name: projectName.trim(),
         project_type: projectType,
-        frameworks: [],
+        frameworks: detectedFrameworks,
         goals: goals
           .split("\n")
           .map((g) => g.trim())

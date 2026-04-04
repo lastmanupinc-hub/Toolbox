@@ -19,6 +19,7 @@ import {
   trackEvent,
   type Account,
   type BillingTier,
+  ALL_PROGRAMS,
 } from "@axis/snapshots";
 
 // ─── Auth context attached to request ───────────────────────────
@@ -50,7 +51,8 @@ export function resolveAuth(req: IncomingMessage): AuthContext {
   const rawKey = authHeader.slice(7);
   const resolved = resolveApiKey(rawKey);
   if (!resolved) {
-    const ctx: AuthContext = { account: null, key_id: null, anonymous: true };
+    // Key was provided but is invalid/revoked — mark as invalid, not anonymous
+    const ctx: AuthContext = { account: null, key_id: null, anonymous: false };
     AUTH_CONTEXT.set(req, ctx);
     return ctx;
   }
@@ -226,6 +228,11 @@ export async function handleRevokeApiKey(
     return;
   }
 
+  if (target.revoked_at) {
+    sendJSON(res, 409, { error: "Key already revoked" });
+    return;
+  }
+
   revokeApiKey(key_id);
   sendJSON(res, 200, { key_id, revoked: true });
 }
@@ -316,6 +323,13 @@ export async function handleUpdatePrograms(
 
   const enable = body.enable as string[] | undefined;
   const disable = body.disable as string[] | undefined;
+
+  const allValid = [...(enable ?? []), ...(disable ?? [])];
+  const invalid = allValid.filter(p => !(ALL_PROGRAMS as readonly string[]).includes(p));
+  if (invalid.length > 0) {
+    sendJSON(res, 400, { error: `Invalid program names: ${invalid.join(", ")}` });
+    return;
+  }
 
   if (enable) {
     for (const prog of enable) {

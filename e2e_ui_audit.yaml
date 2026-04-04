@@ -1,20 +1,35 @@
 # ═══════════════════════════════════════════════════════════════════════
 # AXIS Toolbox — End-to-End UI Audit
 # Generated: 2026-04-04
+# Updated: 2026-04-04 (Round 2 — eq_036)
 # Server: http://localhost:4000  |  Web: http://localhost:5173
 # Method: API endpoint testing + static code analysis of all UI files
 # ═══════════════════════════════════════════════════════════════════════
 
 summary:
   total_clickable_elements: 77
-  total_api_endpoints_tested: 45
-  api_pass: 38
-  api_fail: 7
-  api_fail_expected_error_cases: 4
-  api_fail_real_bugs: 3
-  ui_bugs_found: 12
-  bugs_fixed: 11
-  bugs_remaining: 1
+  total_api_endpoints_tested: 55
+  round_1:
+    api_pass: 38
+    api_fail: 7
+    api_fail_expected_error_cases: 4
+    api_fail_real_bugs: 3
+    bugs_found: 12
+    bugs_fixed: 11
+    bugs_remaining: 1
+  round_2:
+    api_pass: 54
+    api_fail: 1
+    api_fail_external: 1
+    api_fail_external_detail: "github_analyze [429] — GitHub API rate limit (not our bug)"
+    new_bugs_found: 10
+    new_bugs_fixed: 10
+    bugs_remaining: 0
+  totals:
+    bugs_found: 22
+    bugs_fixed: 21
+    bugs_not_a_bug: 1
+    bugs_remaining: 0
 
 # ─── GLOBAL NAVIGATION (App.tsx) ─────────────────────────────────────
 
@@ -958,7 +973,7 @@ api_only_endpoints:
     result: true
     api_test_status: PASS
     api_test_http: 200
-    notes: "Route is /v1/funnel/metrics, NOT /v1/admin/funnel-metrics as tested initially. Works correctly."
+    notes: "Now requires authentication (bug_019 fix). Route is /v1/funnel/metrics."
 
 # ═══════════════════════════════════════════════════════════════════════
 # BUG REGISTRY
@@ -1059,6 +1074,88 @@ bugs:
     description: "URL.revokeObjectURL called synchronously after a.click() — browser may not have started reading blob, producing empty/corrupt ZIP in Firefox/Safari"
     status: FIXED
     fix_applied: "Deferred revocation with setTimeout(() => URL.revokeObjectURL(a.href), 60_000)"
+
+  # ─── Round 2 Bugs (eq_036) ───
+
+  - id: bug_013
+    severity: high
+    component: server.ts
+    element: health endpoint
+    description: "Health route registered at /health instead of /v1/health — returned 404 from API prefix"
+    status: FIXED
+    fix_applied: "Changed router.get('/health') to router.get('/v1/health') in server.ts"
+
+  - id: bug_014
+    severity: medium
+    component: billing.ts
+    element: revoke_key_button
+    description: "Re-revoking an already-revoked API key returned 200 instead of 409"
+    status: FIXED
+    fix_applied: "Added target.revoked_at check before revoking — returns 409 'Key already revoked'"
+
+  - id: bug_015
+    severity: medium
+    component: handlers.ts
+    element: github_analyze
+    description: "GitHub API errors flattened to generic 502 — rate limits (429) and not-found (404) lost"
+    status: FIXED
+    fix_applied: "Error handler now parses HTTP status from error message. Returns 429 with retry_after, 404 for not found, 502 for other errors."
+
+  - id: bug_016
+    severity: high
+    component: funnel.ts
+    element: accept seat API
+    description: "handleAcceptSeat had no authentication — anyone could accept any seat without logging in"
+    status: FIXED
+    fix_applied: "Added requireAuth() + email verification (seat.email must match authenticated user's email, else 403)"
+
+  - id: bug_017
+    severity: medium
+    component: UploadPage.tsx
+    element: submit_upload_button
+    description: "Framework detection always sent empty array — lost framework metadata for all snapshots"
+    status: FIXED
+    fix_applied: "Auto-detects frameworks from package.json deps (react/vue/svelte/next/vite/express/tailwind/typescript/angular) and Python imports (flask/django/fastapi)"
+
+  - id: bug_018
+    severity: medium
+    component: billing.ts
+    element: update programs API
+    description: "handleUpdatePrograms accepted arbitrary program names with no validation"
+    status: FIXED
+    fix_applied: "Added ALL_PROGRAMS validation — returns 400 for any program name not in the master list"
+
+  - id: bug_019
+    severity: high
+    component: funnel.ts
+    element: get_funnel_metrics
+    description: "Funnel metrics endpoint was publicly accessible with no authentication"
+    status: FIXED
+    fix_applied: "Added requireAuth() to handleGetFunnelMetrics"
+
+  - id: bug_020
+    severity: medium
+    component: funnel.ts
+    element: seat_invite_submit
+    description: "Inviting a duplicate email leaked raw SQLite UNIQUE constraint error to the client"
+    status: FIXED
+    fix_applied: "Added getSeatByEmail pre-check — returns 409 'This email already has an active seat' before insert"
+
+  - id: bug_021
+    severity: critical
+    component: handlers.ts
+    element: create_snapshot
+    description: "Tier-based file count and file size limits were defined but never enforced — any user could upload unlimited files of any size"
+    status: FIXED
+    fix_applied: "Added max_files_per_snapshot check (returns 413) and per-file max_file_size_bytes check (returns 413) using TIER_LIMITS"
+
+  - id: bug_022
+    severity: high
+    component: billing.ts / handlers.ts
+    element: resolveAuth
+    description: "Invalid or revoked API keys were silently treated as anonymous — bypassed all access controls"
+    status: FIXED
+    fix_applied: "resolveAuth now differentiates 'no key' (anonymous=true) from 'bad key' (anonymous=false, account=null). Snapshot and GitHub handlers reject invalid keys with 401."
 
 # ═══════════════════════════════════════════════════════════════════════
 # EXPECTED ERROR CASES (intentional — these SHOULD fail)

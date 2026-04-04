@@ -8,6 +8,7 @@ import {
   getActiveSeats,
   getAllSeats,
   getSeat,
+  getSeatByEmail,
   getSeatCount,
   trackEvent,
   getAccountEvents,
@@ -70,6 +71,12 @@ export async function handleInviteSeat(
     return;
   }
 
+  const existing = getSeatByEmail(ctx.account!.account_id, email);
+  if (existing) {
+    sendJSON(res, 409, { error: "This email already has an active seat" });
+    return;
+  }
+
   try {
     const seat = inviteSeat(ctx.account!.account_id, email, role, ctx.account!.account_id);
     sendJSON(res, 201, { seat });
@@ -124,13 +131,25 @@ export async function handleListSeats(
   });
 }
 
-/** POST /v1/account/seats/:seat_id/accept — accept a seat invitation */
+/** POST /v1/account/seats/:seat_id/accept — accept a seat invitation (requires auth) */
 export async function handleAcceptSeat(
-  _req: IncomingMessage,
+  req: IncomingMessage,
   res: ServerResponse,
   params: Record<string, string>,
 ): Promise<void> {
+  const ctx = requireAuth(req, res);
+  if (!ctx) return;
+
   const { seat_id } = params;
+  const seat = getSeat(seat_id);
+  if (!seat) {
+    sendJSON(res, 404, { error: "Seat invitation not found" });
+    return;
+  }
+  if (seat.email !== ctx.account!.email) {
+    sendJSON(res, 403, { error: "This invitation is for a different email address" });
+    return;
+  }
   const ok = acceptSeat(seat_id);
   if (!ok) {
     sendJSON(res, 404, { error: "Seat invitation not found or already accepted/revoked" });
@@ -235,12 +254,14 @@ export async function handleGetFunnelStatus(
   });
 }
 
-/** GET /v1/funnel/metrics — aggregate funnel analytics (admin/internal) */
+/** GET /v1/funnel/metrics — aggregate funnel analytics (requires auth) */
 export async function handleGetFunnelMetrics(
-  _req: IncomingMessage,
+  req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  // In production, this would require admin auth. For now, public for internal use.
+  const ctx = requireAuth(req, res);
+  if (!ctx) return;
+
   const metrics = getFunnelMetrics();
   sendJSON(res, 200, { metrics });
 }
