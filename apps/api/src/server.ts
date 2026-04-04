@@ -20,6 +20,7 @@ import {
   handleMcpProvision,
   handleArtifactsGenerate,
   handleRemotionGenerate,
+  handleCanvasGenerate,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -53,6 +54,7 @@ router.post("/v1/obsidian/analyze", handleObsidianAnalyze);
 router.post("/v1/mcp/provision", handleMcpProvision);
 router.post("/v1/artifacts/generate", handleArtifactsGenerate);
 router.post("/v1/remotion/generate", handleRemotionGenerate);
+router.post("/v1/canvas/generate", handleCanvasGenerate);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
 createApp(router, port);

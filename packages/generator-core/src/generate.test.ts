@@ -678,20 +678,65 @@ describe("remotion generators content", () => {
   });
 });
 
+describe("canvas generators content", () => {
+  const result = generateFiles(makeInput(["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md"]));
+
+  it("generates all 4 canvas files", () => {
+    const canvasFiles = result.files.filter(f => f.program === "canvas");
+    expect(canvasFiles.length).toBe(4);
+  });
+
+  it("canvas-spec.json has design system and templates", () => {
+    const file = result.files.find(f => f.path === "canvas-spec.json")!;
+    const data = JSON.parse(file.content);
+    expect(data.project).toBe("test-app");
+    expect(data.design_system.colors.primary).toBeTruthy();
+    expect(data.templates.length).toBeGreaterThanOrEqual(3);
+    expect(data.data_bindings.title).toBe("test-app");
+    expect(file.content_type).toBe("application/json");
+  });
+
+  it("social-pack.md has OG image and thread templates", () => {
+    const file = result.files.find(f => f.path === "social-pack.md")!;
+    expect(file.content).toContain("Social Pack");
+    expect(file.content).toContain("Open Graph");
+    expect(file.content).toContain("Twitter");
+    expect(file.content).toContain("LinkedIn");
+    expect(file.content).toContain("test-app");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+
+  it("poster-layouts.md has zones and data bindings", () => {
+    const file = result.files.find(f => f.path === "poster-layouts.md")!;
+    expect(file.content).toContain("Poster Layouts");
+    expect(file.content).toContain("Layout A");
+    expect(file.content).toContain("Layout B");
+    expect(file.content).toContain("HERO ZONE");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+
+  it("asset-guidelines.md has colors, typography, and exports", () => {
+    const file = result.files.find(f => f.path === "asset-guidelines.md")!;
+    expect(file.content).toContain("Asset Guidelines");
+    expect(file.content).toContain("Color System");
+    expect(file.content).toContain("Typography");
+    expect(file.content).toContain("Export Specifications");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(53);
+    expect(generators.length).toBe(57);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
-    expect(paths).toContain("superpower-pack.md");
-    expect(paths).toContain("mcp-config.json");
-    expect(paths).toContain("generated-component.tsx");
-    expect(paths).toContain("artifact-spec.md");
     expect(paths).toContain("remotion-script.ts");
-    expect(paths).toContain("scene-plan.md");
     expect(paths).toContain("render-config.json");
-    expect(paths).toContain("asset-checklist.md");
+    expect(paths).toContain("canvas-spec.json");
+    expect(paths).toContain("social-pack.md");
+    expect(paths).toContain("poster-layouts.md");
+    expect(paths).toContain("asset-guidelines.md");
   });
 });

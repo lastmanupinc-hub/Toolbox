@@ -15,3 +15,4 @@ export { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, 
 export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
 export { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
 export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";
+export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines } from "./generators-canvas.js";

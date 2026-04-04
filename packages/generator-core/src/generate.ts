@@ -15,6 +15,7 @@ import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, 
 import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
 import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
 import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist } from "./generators-remotion.js";
+import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines } from "./generators-canvas.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -72,6 +73,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "scene-plan.md": (ctx) => generateScenePlan(ctx),
   "render-config.json": (ctx, profile) => generateRenderConfig(ctx, profile),
   "asset-checklist.md": (ctx) => generateAssetChecklist(ctx),
+  "canvas-spec.json": (ctx, profile) => generateCanvasSpec(ctx, profile),
+  "social-pack.md": (ctx) => generateSocialPack(ctx),
+  "poster-layouts.md": (ctx) => generatePosterLayouts(ctx),
+  "asset-guidelines.md": (ctx) => generateCanvasAssetGuidelines(ctx),
 };
 
 // Aliases (user may request with different naming)
