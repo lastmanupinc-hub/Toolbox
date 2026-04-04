@@ -13,6 +13,7 @@ import {
   handleOptimizationAnalyze,
   handleThemeGenerate,
   handleBrandGenerate,
+  handleSuperpowersGenerate,
   handleHealthCheck,
 } from "./handlers.js";
 
@@ -39,6 +40,7 @@ router.post("/v1/seo/analyze", handleSeoAnalyze);
 router.post("/v1/optimization/analyze", handleOptimizationAnalyze);
 router.post("/v1/theme/generate", handleThemeGenerate);
 router.post("/v1/brand/generate", handleBrandGenerate);
+router.post("/v1/superpowers/generate", handleSuperpowersGenerate);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
 createApp(router, port);

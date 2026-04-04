@@ -8,6 +8,7 @@ import { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityM
 import { generateOptimizationRules, generatePromptDiffReport, generateCostEstimate } from "./generators-optimization.js";
 import { generateDesignTokens, generateThemeCss, generateThemeGuidelines, generateComponentThemeMap } from "./generators-theme.js";
 import { generateBrandGuidelines, generateVoiceAndTone, generateContentConstraints, generateMessagingSystem } from "./generators-brand.js";
+import { generateSuperpowerPack, generateWorkflowRegistry, generateTestGenerationRules, generateRefactorChecklist } from "./generators-superpowers.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -38,6 +39,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "voice-and-tone.md": (ctx) => generateVoiceAndTone(ctx),
   "content-constraints.md": (ctx) => generateContentConstraints(ctx),
   "messaging-system.yaml": (ctx) => generateMessagingSystem(ctx),
+  "superpower-pack.md": (ctx) => generateSuperpowerPack(ctx),
+  "workflow-registry.json": (ctx, profile) => generateWorkflowRegistry(ctx, profile),
+  "test-generation-rules.md": (ctx) => generateTestGenerationRules(ctx),
+  "refactor-checklist.md": (ctx) => generateRefactorChecklist(ctx),
 };
 
 // Aliases (user may request with different naming)

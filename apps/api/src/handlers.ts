@@ -541,3 +541,43 @@ export async function handleBrandGenerate(
     files: brandFiles,
   });
 }
+
+export async function handleSuperpowersGenerate(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendJSON(res, 400, { error: "Invalid JSON body" });
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId) {
+    sendJSON(res, 400, { error: "snapshot_id is required" });
+    return;
+  }
+
+  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
+  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
+  if (!contextMap || !repoProfile) {
+    sendJSON(res, 404, { error: "No context for this snapshot — run POST /v1/snapshots first" });
+    return;
+  }
+
+  const result = generateFiles({
+    context_map: contextMap,
+    repo_profile: repoProfile,
+    requested_outputs: ["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md"],
+  });
+
+  const superpowersFiles = result.files.filter(f => f.program === "superpowers");
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    program: "superpowers",
+    files: superpowersFiles,
+  });
+}

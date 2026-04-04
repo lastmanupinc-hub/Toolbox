@@ -8,3 +8,4 @@ export { generateSeoRules, generateSchemaRecommendations, generateRoutePriorityM
 export { generateOptimizationRules, generatePromptDiffReport, generateCostEstimate } from "./generators-optimization.js";
 export { generateDesignTokens, generateThemeCss, generateThemeGuidelines, generateComponentThemeMap } from "./generators-theme.js";
 export { generateBrandGuidelines, generateVoiceAndTone, generateContentConstraints, generateMessagingSystem } from "./generators-brand.js";
+export { generateSuperpowerPack, generateWorkflowRegistry, generateTestGenerationRules, generateRefactorChecklist } from "./generators-superpowers.js";

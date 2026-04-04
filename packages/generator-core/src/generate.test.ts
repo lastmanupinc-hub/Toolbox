@@ -369,10 +369,54 @@ describe("brand generators content", () => {
   });
 });
 
+describe("superpowers generators content", () => {
+  const result = generateFiles(makeInput(["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md"]));
+
+  it("generates all 4 superpowers files", () => {
+    const spFiles = result.files.filter(f => f.program === "superpowers");
+    expect(spFiles.length).toBe(4);
+  });
+
+  it("superpower-pack.md has quick actions and debugging workflow", () => {
+    const file = result.files.find(f => f.path === "superpower-pack.md")!;
+    expect(file.content).toContain("Quick Actions");
+    expect(file.content).toContain("Debugging Workflow");
+    expect(file.content).toContain("Code Review Checklist");
+    expect(file.content).toContain("test-app");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+
+  it("workflow-registry.json has structured workflows", () => {
+    const file = result.files.find(f => f.path === "workflow-registry.json")!;
+    const data = JSON.parse(file.content);
+    expect(data.total_workflows).toBeGreaterThanOrEqual(4);
+    expect(data.workflows[0].steps.length).toBeGreaterThan(0);
+    expect(file.content_type).toBe("application/json");
+  });
+
+  it("test-generation-rules.md has test structure and categories", () => {
+    const file = result.files.find(f => f.path === "test-generation-rules.md")!;
+    expect(file.content).toContain("Test Framework");
+    expect(file.content).toContain("Test Categories");
+    expect(file.content).toContain("Unit Tests");
+    expect(file.content).toContain("Assertion Patterns");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+
+  it("refactor-checklist.md has risk assessment and patterns", () => {
+    const file = result.files.find(f => f.path === "refactor-checklist.md")!;
+    expect(file.content).toContain("Risk Assessment");
+    expect(file.content).toContain("Pre-Refactor Checklist");
+    expect(file.content).toContain("Refactoring Patterns");
+    expect(file.content).toContain("Post-Refactor Checklist");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(26);
+    expect(generators.length).toBe(30);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
@@ -381,5 +425,9 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("brand-guidelines.md");
     expect(paths).toContain("voice-and-tone.md");
     expect(paths).toContain("messaging-system.yaml");
+    expect(paths).toContain("superpower-pack.md");
+    expect(paths).toContain("workflow-registry.json");
+    expect(paths).toContain("test-generation-rules.md");
+    expect(paths).toContain("refactor-checklist.md");
   });
 });
