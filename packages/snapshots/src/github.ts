@@ -139,13 +139,15 @@ function httpGetBuffer(url: string, token?: string): Promise<Buffer> {
 
 // ─── Tar parser (POSIX/UStar) ───────────────────────────────────
 
-interface TarParseResult {
+/** @internal */
+export interface TarParseResult {
   files: FileEntry[];
   skipped: number;
   totalBytes: number;
 }
 
-function parseTarball(data: Buffer): TarParseResult {
+/** @internal — exported for testing only */
+export function parseTarball(data: Buffer): TarParseResult {
   const files: FileEntry[] = [];
   let skipped = 0;
   let totalBytes = 0;
@@ -193,7 +195,8 @@ function parseTarball(data: Buffer): TarParseResult {
   return { files, skipped, totalBytes };
 }
 
-function shouldInclude(path: string, size: number): boolean {
+/** @internal — exported for testing only */
+export function shouldInclude(path: string, size: number): boolean {
   if (size > MAX_FILE_SIZE) return false;
 
   const fileName = path.split("/").pop() ?? "";
