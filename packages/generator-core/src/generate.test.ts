@@ -586,10 +586,53 @@ describe("mcp generators content", () => {
   });
 });
 
+describe("artifacts generators content", () => {
+  const result = generateFiles(makeInput(["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md"]));
+
+  it("generates all 4 artifacts files", () => {
+    const artFiles = result.files.filter(f => f.program === "artifacts");
+    expect(artFiles.length).toBe(4);
+  });
+
+  it("generated-component.tsx has component scaffold", () => {
+    const file = result.files.find(f => f.path === "generated-component.tsx")!;
+    expect(file.content).toContain("container");
+    expect(file.content).toContain("content");
+    expect(file.content.length).toBeGreaterThan(100);
+  });
+
+  it("dashboard-widget.tsx has project stats", () => {
+    const file = result.files.find(f => f.path === "dashboard-widget.tsx")!;
+    expect(file.content).toContain("test-app");
+    expect(file.content).toContain("Dashboard");
+    expect(file.content.length).toBeGreaterThan(100);
+  });
+
+  it("embed-snippet.ts has context and conventions", () => {
+    const file = result.files.find(f => f.path === "embed-snippet.ts")!;
+    expect(file.content).toContain("PROJECT_CONTEXT");
+    expect(file.content).toContain("CONVENTIONS");
+    expect(file.content).toContain("WARNINGS");
+    expect(file.content).toContain("KEY_ABSTRACTIONS");
+    expect(file.content).toContain("embedProjectContext");
+    expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("artifact-spec.md has architecture and metrics", () => {
+    const file = result.files.find(f => f.path === "artifact-spec.md")!;
+    expect(file.content).toContain("Artifact Specification");
+    expect(file.content).toContain("test-app");
+    expect(file.content).toContain("Language Distribution");
+    expect(file.content).toContain("Architecture");
+    expect(file.content).toContain("Entry Points");
+    expect(file.content.length).toBeGreaterThan(300);
+  });
+});
+
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(45);
+    expect(generators.length).toBe(49);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
@@ -597,11 +640,12 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("campaign-brief.md");
     expect(paths).toContain("notebook-summary.md");
     expect(paths).toContain("obsidian-skill-pack.md");
-    expect(paths).toContain("vault-rules.md");
-    expect(paths).toContain("graph-prompt-map.json");
-    expect(paths).toContain("linking-policy.md");
     expect(paths).toContain("mcp-config.json");
     expect(paths).toContain("connector-map.yaml");
     expect(paths).toContain("capability-registry.json");
+    expect(paths).toContain("generated-component.tsx");
+    expect(paths).toContain("dashboard-widget.tsx");
+    expect(paths).toContain("embed-snippet.ts");
+    expect(paths).toContain("artifact-spec.md");
   });
 });

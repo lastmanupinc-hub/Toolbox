@@ -13,6 +13,7 @@ import { generateCampaignBrief, generateFunnelMap, generateSequencePack, generat
 import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads } from "./generators-notebook.js";
 import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
 import { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
+import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile) => GeneratedFile;
 
@@ -62,6 +63,10 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "mcp-config.json": (ctx, profile) => generateMcpConfig(ctx, profile),
   "connector-map.yaml": (ctx) => generateConnectorMap(ctx),
   "capability-registry.json": (ctx) => generateCapabilityRegistry(ctx),
+  "generated-component.tsx": (ctx) => generateComponent(ctx),
+  "dashboard-widget.tsx": (ctx) => generateDashboardWidget(ctx),
+  "embed-snippet.ts": (ctx) => generateEmbedSnippet(ctx),
+  "artifact-spec.md": (ctx, profile) => generateArtifactSpec(ctx, profile),
 };
 
 // Aliases (user may request with different naming)

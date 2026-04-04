@@ -13,3 +13,4 @@ export { generateCampaignBrief, generateFunnelMap, generateSequencePack, generat
 export { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads } from "./generators-notebook.js";
 export { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy } from "./generators-obsidian.js";
 export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry } from "./generators-mcp.js";
+export { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec } from "./generators-artifacts.js";
