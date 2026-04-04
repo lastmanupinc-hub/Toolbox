@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-03"
-    commit_or_tag: "ee8a95d"
+    commit_or_tag: "9168eca"
     current_session_id: "session_004"
-    one_sentence_summary: "Full-stack Axis Toolbox with billing system (API keys, per-program metering, 3-tier quotas), web UI, CLI, 80 generators across 17 programs, 37 API endpoints, 241 tests."
+    one_sentence_summary: "Full-stack Axis Toolbox with freemium SaaS funnel (plans, seats, upgrade prompts, analytics), billing system, web UI, CLI, 80 generators across 17 programs, 46 API endpoints, 281 tests."
     current_status: "building"
     current_focus_vertical: "v1_search_context_graph"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 85
       product_surface_confidence: 65
       integration_confidence: 90
-      notes: "Full-stack with all 4 input methods exercised (upload, API, CLI, GitHub URL). 37 API endpoints (29 core + 8 billing), 80 generators across 17 programs, 241 tests across 8 files. Billing: API keys (SHA-256), per-program metering, 3-tier quotas (free/paid/suite). Auth is optional — backward compatible."
+      notes: "Full-stack with all 4 input methods exercised. 46 API endpoints (29 core + 8 billing + 9 funnel), 80 generators across 17 programs, 281 tests across 9 files. Billing: API keys, per-program metering, 3-tier quotas. Funnel: plan catalog, enterprise seats, 11-stage progression, contextual upgrade prompts, aggregate analytics."
 
   boundary_truth:
     accepted_input_modes:
@@ -597,6 +597,11 @@ project_continuation:
         completion_status: complete
         commit: "ee8a95d"
 
+      - id: "eq_033"
+        description: "Freemium SaaS marketing funnel — plan catalog ($0/$29/contact), enterprise seats (1/5/unlimited), 11-stage funnel tracking, contextual upgrade prompts, aggregate analytics. 9 funnel handlers. 40 new tests. 281 total tests, 46 endpoints."
+        completion_status: complete
+        commit: "9168eca"
+
     qualifying_candidates: []
 
   current_session_result_005:
@@ -808,6 +813,33 @@ project_continuation:
       - "No authentication → billing system with API keys and 3-tier quotas"
     blockers_added: []
     commit_results: ["ee8a95d"]
+    push_results: []
+
+  current_session_result_014:
+    session_goal: "Freemium SaaS marketing funnel system"
+    selected_move: "eq_033: Plan catalog, enterprise seats, funnel tracking, upgrade prompts, analytics"
+    selected_move_roi_reason: "capability_gain 5, production_quality 5, monetization 5. Completes the commercial infrastructure: billing (eq_032) + funnel (eq_033) = full freemium SaaS stack."
+    completed_candidates:
+      - "eq_033: funnel-types.ts (11 funnel stages, 16 event types, Seat with 4 roles, PlanDefinition, PLAN_CATALOG with Free/$29/Enterprise, 15-row feature comparison), funnel-store.ts (seat invite/accept/revoke with tier limits, event tracking, stage resolution, upgrade prompt engine, aggregate metrics), funnel.ts (9 handlers: plans, seats CRUD, upgrade prompts, funnel status, admin metrics), db.ts (+2 tables), auto-tracking in billing.ts + handlers.ts. 40 new tests. commit 9168eca"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "281 vitest tests passing across 9 files (241→281, +40)"
+      - "46 API endpoints (37→46, +9 funnel)"
+      - "packages/snapshots/src/funnel-types.ts — type definitions, plan catalog, feature matrix"
+      - "packages/snapshots/src/funnel-store.ts — seats, events, stage resolution, upgrade prompts, metrics"
+      - "apps/api/src/funnel.ts — 9 funnel API handlers"
+      - "2 new DB tables: seats, funnel_events"
+      - "Plan tiers: Free ($0, 3 programs, 10 snaps/mo), Pro ($29/mo, all 17, 200 snaps/mo, 5 seats), Enterprise Suite (contact sales, unlimited)"
+      - "11-stage funnel: visitor→signup→activation→engagement→limit_hit→upgrade_shown→conversion→expansion"
+      - "Contextual upgrade prompts: trigger-based (limit_reached, active_user_value, seat_limit_reached)"
+      - "Auto-tracking: account_created, snapshot_created, limit_reached, upgrade/downgrade, program add/remove, seat invite/accept/remove"
+    verticals_advanced:
+      - "v1_search_context_graph → commercial infrastructure complete"
+    blockers_removed:
+      - "No monetization infrastructure → full freemium SaaS funnel"
+    blockers_added: []
+    commit_results: ["9168eca"]
     push_results: []
 
   source_control_policy:
