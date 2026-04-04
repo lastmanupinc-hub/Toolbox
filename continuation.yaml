@@ -15,25 +15,25 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-03"
-    commit_or_tag: "9168eca"
+    commit_or_tag: "5b1acaa"
     current_session_id: "session_004"
-    one_sentence_summary: "Full-stack Axis Toolbox with freemium SaaS funnel (plans, seats, upgrade prompts, analytics), billing system, web UI, CLI, 80 generators across 17 programs, 46 API endpoints, 281 tests."
+    one_sentence_summary: "Full-stack Axis Toolbox with handler factory (15→1), zero-dep ZIP export engine, full web UI (plans, account, program launcher, download), CLI auth, 80 generators across 17 programs, 49 API endpoints, 281 tests."
     current_status: "building"
     current_focus_vertical: "v1_search_context_graph"
 
   executive_truth:
     maturity_estimate:
-      functional_percent: 75
-      hardened_percent: 25
-      integrated_percent: 70
-      production_percent: 10
+      functional_percent: 80
+      hardened_percent: 30
+      integrated_percent: 80
+      production_percent: 15
     confidence:
       architecture_confidence: 92
       runtime_confidence: 88
       pipeline_confidence: 85
-      product_surface_confidence: 65
+      product_surface_confidence: 80
       integration_confidence: 90
-      notes: "Full-stack with all 4 input methods exercised. 46 API endpoints (29 core + 8 billing + 9 funnel), 80 generators across 17 programs, 281 tests across 9 files. Billing: API keys, per-program metering, 3-tier quotas. Funnel: plan catalog, enterprise seats, 11-stage progression, contextual upgrade prompts, aggregate analytics."
+      notes: "Full-stack with all 4 input methods exercised. 49 API endpoints (29 core + 8 billing + 9 funnel + 2 export/programs + 1 health), 80 generators across 17 programs, 281 tests across 9 files. Handler factory replaced 15 copy-paste handlers with 1-line factory calls (~600 LOC removed). Zero-dep ZIP export engine. Full web UI: hash routing, plans pricing page, account dashboard, program launcher, per-program download. CLI: auth login/status/logout, programs list."
 
   boundary_truth:
     accepted_input_modes:
@@ -602,6 +602,11 @@ project_continuation:
         completion_status: complete
         commit: "9168eca"
 
+      - id: "eq_034"
+        description: "Depth pass — handler factory (15 copy-paste handlers → 1 makeProgramHandler factory, ~600 LOC removed), zero-dep ZIP export engine (node:zlib, custom CRC32), full web UI (hash routing, plans pricing page, account dashboard with registration/API keys/usage, program launcher with 17 cards, per-program download), CLI auth (login/status/logout) + programs list. 49 endpoints, 281 tests, v0.3.0."
+        completion_status: complete
+        commit: "5b1acaa"
+
     qualifying_candidates: []
 
   current_session_result_005:
@@ -840,6 +845,43 @@ project_continuation:
       - "No monetization infrastructure → full freemium SaaS funnel"
     blockers_added: []
     commit_results: ["9168eca"]
+    push_results: []
+
+  current_session_result_015:
+    session_goal: "Develop the application another level deeper"
+    selected_move: "eq_034: Handler dedup, export engine, full web UI, CLI auth"
+    selected_move_roi_reason: "Depth audit revealed backend is 80%+ built but web UI only exposes ~30%. 15 of 17 handlers were copy-paste. No export/download. No billing or account UI. No URL routing. Highest ROI: dedup handlers, add ZIP export, wire billing/funnel into frontend, CLI auth."
+    completed_candidates:
+      - "eq_034: Handler factory — PROGRAM_OUTPUTS const + makeProgramHandler factory replaces 15 copy-paste handlers with 1-line calls (~600 LOC removed)"
+      - "eq_034: Zero-dep ZIP export engine — apps/api/src/export.ts with crc32, deflateRawSync, proper ZIP format (local headers + central directory + EOCD), GET /v1/projects/:id/export?program=X"
+      - "eq_034: Web UI layout — hash-based SPA routing (upload/dashboard/plans/account), nav bar, v0.3.0"
+      - "eq_034: Plans page — 3-column pricing (Free/Pro/Enterprise), monthly/annual toggle, 15-row feature comparison, 'Most Popular' badge"
+      - "eq_034: Account page — registration form, API key paste, account info with tier badge, usage overview (4 stats + progress bar), per-program usage table, API keys CRUD"
+      - "eq_034: Program launcher — 17 program cards with icons/descriptions/tier labels, click-to-run with spinner, grouped Free(3) vs Pro(14)"
+      - "eq_034: Download integration — Download All button in dashboard header, per-program download in sidebar"
+      - "eq_034: CLI auth — axis auth login/status/logout, ~/.axis/config.json persistence, axis programs (17 programs with generator counts and tier labels)"
+      - "eq_034: Fixed snapshots test runner (node --test → vitest run), fixed billing.ts key prefix, fixed createAccount return type"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "281 vitest tests passing across 9 files (unchanged — no new test files, all existing pass)"
+      - "49 API endpoints (46→49, +2 export/programs + 1 programs listing)"
+      - "13 files changed, 1349 insertions, 625 deletions"
+      - "apps/api/src/export.ts — zero-dep ZIP builder (node:zlib)"
+      - "apps/web/src/pages/PlansPage.tsx — pricing page"
+      - "apps/web/src/pages/AccountPage.tsx — account dashboard"
+      - "apps/web/src/components/ProgramLauncher.tsx — program launcher panel"
+      - "Web bundle: 239.17 KB gzipped 71.73 KB"
+      - "Handler factory: PROGRAM_OUTPUTS map + makeProgramHandler replaces 15 × 40-line handlers"
+    verticals_advanced:
+      - "All verticals — web UI now exposes billing, funnel, export, program launching"
+    blockers_removed:
+      - "Web UI only exposed ~30% of backend capabilities → now exposes plans, account, programs, download"
+      - "15 copy-paste handlers → 1 factory function"
+      - "No export/download → ZIP export endpoint + browser download"
+      - "CLI has no auth → login/status/logout + persistent config"
+    blockers_added: []
+    commit_results: ["5b1acaa"]
     push_results: []
 
   source_control_policy:
