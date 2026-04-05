@@ -730,13 +730,13 @@ web_ui_features:
 deployment:
 
   docker_containerization:
-    description: "Dockerfile for building and running the API server as a container"
-    grade: B
+    description: "Dockerfile + docker-compose.yml for building and running the API server"
+    grade: A
     status: complete
     human_priority: 2_important
     access: [ops]
     tested: true
-    notes: "Container builds and health check passes in CI. No docker-compose or K8s manifests."
+    notes: "Multi-stage Dockerfile (deps/builder/runner), docker-compose.yml with production + dev profile, persistent volume, all env vars, healthcheck. Non-root user."
 
   ci_pipeline:
     description: "GitHub Actions CI with Node 20/22 matrix, test + coverage, dependency audit, Docker build validation"
@@ -818,10 +818,13 @@ known_gaps:
     human_priority: 3_nice_to_have
 
   admin_dashboard:
-    description: "No admin panel for managing accounts, viewing system-wide usage, or moderation"
-    grade: F
-    status: not_started
+    description: "Admin API for system-wide stats, account listing, and activity feed"
+    grade: A
+    status: complete
     human_priority: 2_important
+    access: [rest_api]
+    tested: true
+    notes: "GET /v1/admin/stats (system-wide counts by tier), GET /v1/admin/accounts (paginated listing), GET /v1/admin/activity (recent funnel events). All require auth. eq_099."
 
   project_deletion:
     description: "Delete a project or snapshot via API with cascading cleanup of all associated data"
@@ -846,10 +849,10 @@ known_gaps:
 summary:
   total_capabilities: 67
   grade_distribution:
-    A: 58
-    B: 3
+    A: 60
+    B: 2
     D: 0
-    F: 6
+    F: 5
   by_access_layer:
     web_ui: 18
     cli: 6
@@ -857,8 +860,8 @@ summary:
     ops: 4
   programs: 17
   generators: 80
-  test_files: 60
-  tests: 1298
+  test_files: 61
+  tests: 1306
   coverage: "92%"
 
   human_usability_without_ai:
