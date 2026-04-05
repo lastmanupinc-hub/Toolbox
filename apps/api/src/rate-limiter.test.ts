@@ -6,6 +6,9 @@ import {
   checkRateLimit,
   resetRateLimits,
   LIMITS,
+  bindRateLimiterDb,
+  flushToDb,
+  unbindRateLimiterDb,
 } from "./rate-limiter.js";
 import { openMemoryDb, closeDb } from "@axis/snapshots";
 
@@ -28,11 +31,13 @@ function makeRes(): ServerResponse {
 }
 
 beforeEach(() => {
+  unbindRateLimiterDb();
   openMemoryDb();
   resetRateLimits();
 });
 
 afterEach(() => {
+  unbindRateLimiterDb();
   closeDb();
 });
 
@@ -241,5 +246,114 @@ describe("LIMITS constants", () => {
     expect(LIMITS.WINDOW_MS).toBe(60_000);
     expect(LIMITS.DEFAULT_MAX).toBe(60);
     expect(LIMITS.AUTHENTICATED_MAX).toBe(120);
+  });
+});
+
+// ─── Persistence ────────────────────────────────────────────────
+
+describe("rate limiter persistence", () => {
+  it("flushToDb writes in-memory state to rate_limits table", () => {
+    const db = openMemoryDb();
+    bindRateLimiterDb(db);
+
+    // Make 5 requests from one IP
+    for (let i = 0; i < 5; i++) {
+      const req = makeReq({ "x-forwarded-for": "40.40.40.40" });
+      const res = makeRes();
+      checkRateLimit(req, res);
+    }
+
+    flushToDb();
+
+    const row = db.prepare("SELECT count, reset_at FROM rate_limits WHERE client_key = ?").get("40.40.40.40") as { count: number; reset_at: number } | undefined;
+    expect(row).toBeDefined();
+    expect(row!.count).toBe(5);
+    expect(row!.reset_at).toBeGreaterThan(Date.now() - 1000);
+
+    unbindRateLimiterDb();
+    closeDb();
+  });
+
+  it("bindRateLimiterDb restores persisted entries on startup", () => {
+    const db = openMemoryDb();
+
+    // Manually insert a persisted rate limit entry into DB
+    const futureReset = Date.now() + 60_000;
+    db.prepare("INSERT INTO rate_limits (client_key, count, reset_at) VALUES (?, ?, ?)").run("50.50.50.50", 30, futureReset);
+
+    bindRateLimiterDb(db);
+
+    // The next request from that IP should continue from 30 (becomes 31)
+    const req = makeReq({ "x-forwarded-for": "50.50.50.50" });
+    const res = makeRes();
+    checkRateLimit(req, res);
+    expect(res.getHeader("RateLimit-Remaining")).toBe("29"); // 60 - 31 = 29
+
+    unbindRateLimiterDb();
+    closeDb();
+  });
+
+  it("expired persisted entries are not loaded", () => {
+    const db = openMemoryDb();
+
+    // Insert an expired entry
+    const pastReset = Date.now() - 1000;
+    db.prepare("INSERT INTO rate_limits (client_key, count, reset_at) VALUES (?, ?, ?)").run("60.60.60.60", 58, pastReset);
+
+    bindRateLimiterDb(db);
+
+    // Should start fresh (not carry over 58 count)
+    const req = makeReq({ "x-forwarded-for": "60.60.60.60" });
+    const res = makeRes();
+    checkRateLimit(req, res);
+    expect(res.getHeader("RateLimit-Remaining")).toBe("59"); // 60 - 1 = 59
+
+    unbindRateLimiterDb();
+    closeDb();
+  });
+
+  it("flushToDb removes expired entries from database", () => {
+    const db = openMemoryDb();
+    bindRateLimiterDb(db);
+
+    // Insert an already-expired entry
+    const pastReset = Date.now() - 5000;
+    db.prepare("INSERT OR REPLACE INTO rate_limits (client_key, count, reset_at) VALUES (?, ?, ?)").run("70.70.70.70", 10, pastReset);
+
+    flushToDb();
+
+    const row = db.prepare("SELECT * FROM rate_limits WHERE client_key = ?").get("70.70.70.70");
+    expect(row).toBeUndefined();
+
+    unbindRateLimiterDb();
+    closeDb();
+  });
+
+  it("unbindRateLimiterDb flushes before disconnecting", () => {
+    const db = openMemoryDb();
+    bindRateLimiterDb(db);
+
+    for (let i = 0; i < 3; i++) {
+      const req = makeReq({ "x-forwarded-for": "80.80.80.80" });
+      const res = makeRes();
+      checkRateLimit(req, res);
+    }
+
+    unbindRateLimiterDb();
+
+    // Data should have been flushed before unbind
+    const row = db.prepare("SELECT count FROM rate_limits WHERE client_key = ?").get("80.80.80.80") as { count: number } | undefined;
+    expect(row).toBeDefined();
+    expect(row!.count).toBe(3);
+
+    closeDb();
+  });
+
+  it("works without persistence (no-op flush)", () => {
+    // No db bound — flushToDb should be a no-op
+    flushToDb();
+    const req = makeReq({ "x-forwarded-for": "90.90.90.90" });
+    const res = makeRes();
+    expect(checkRateLimit(req, res)).toBe(true);
   });
 });

@@ -1,8 +1,9 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import type Database from "better-sqlite3";
 import { sendError } from "./router.js";
 import { ErrorCode, log, getRequestId } from "./logger.js";
 
-// ─── Sliding window rate limiter (in-memory, zero deps) ────────
+// ─── Sliding window rate limiter (in-memory + SQLite persistence) ──
 
 interface WindowEntry {
   count: number;
@@ -18,6 +19,66 @@ const AUTHENTICATED_MAX_REQUESTS = 120; // 120 req/min for keyed users
 
 // Cleanup stale entries every 5 minutes
 let cleanupTimer: ReturnType<typeof setInterval> | null = null;
+
+// ─── Persistence ────────────────────────────────────────────────
+
+let persistDb: Database.Database | null = null;
+let persistTimer: ReturnType<typeof setInterval> | null = null;
+const PERSIST_INTERVAL_MS = 30_000; // flush in-memory state to SQLite every 30s
+
+/** Bind the rate limiter to a database for persistence across restarts. */
+export function bindRateLimiterDb(database: Database.Database): void {
+  persistDb = database;
+
+  // Load any persisted entries whose window hasn't expired
+  const now = Date.now();
+  const rows = database.prepare("SELECT client_key, count, reset_at FROM rate_limits WHERE reset_at > ?").all(now) as Array<{
+    client_key: string;
+    count: number;
+    reset_at: number;
+  }>;
+  for (const row of rows) {
+    windows.set(row.client_key, { count: row.count, resetAt: row.reset_at });
+  }
+
+  // Start periodic flush
+  if (!persistTimer) {
+    persistTimer = setInterval(() => flushToDb(), PERSIST_INTERVAL_MS);
+    if (persistTimer.unref) persistTimer.unref();
+  }
+}
+
+/** Write current in-memory state to SQLite. */
+export function flushToDb(): void {
+  if (!persistDb) return;
+  const now = Date.now();
+  const upsert = persistDb.prepare(
+    "INSERT OR REPLACE INTO rate_limits (client_key, count, reset_at) VALUES (?, ?, ?)",
+  );
+  const deleteExpired = persistDb.prepare("DELETE FROM rate_limits WHERE reset_at <= ?");
+
+  const tx = persistDb.transaction(() => {
+    deleteExpired.run(now);
+    for (const [key, entry] of windows) {
+      if (entry.resetAt > now) {
+        upsert.run(key, entry.count, entry.resetAt);
+      }
+    }
+  });
+  tx();
+}
+
+/** Unbind persistence (for testing / shutdown). */
+export function unbindRateLimiterDb(): void {
+  if (persistTimer) {
+    clearInterval(persistTimer);
+    persistTimer = null;
+  }
+  if (persistDb) {
+    try { flushToDb(); } catch { /* DB may already be closed */ }
+    persistDb = null;
+  }
+}
 
 function startCleanup() {
   if (cleanupTimer) return;

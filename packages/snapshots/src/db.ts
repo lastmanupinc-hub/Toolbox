@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 let db: Database.Database | null = null;
 
-const SCHEMA = `
+const SCHEMA_V1 = `
 CREATE TABLE IF NOT EXISTS projects (
   project_id TEXT PRIMARY KEY,
   project_name TEXT UNIQUE NOT NULL
@@ -110,13 +110,92 @@ CREATE INDEX IF NOT EXISTS idx_funnel_type ON funnel_events(event_type);
 CREATE INDEX IF NOT EXISTS idx_funnel_created ON funnel_events(created_at);
 `;
 
+// ─── Migration framework ────────────────────────────────────────
+
+interface Migration {
+  version: number;
+  name: string;
+  sql: string;
+}
+
+const MIGRATIONS: Migration[] = [
+  {
+    version: 2,
+    name: "add_rate_limits_table",
+    sql: `
+CREATE TABLE IF NOT EXISTS rate_limits (
+  client_key TEXT PRIMARY KEY,
+  count INTEGER NOT NULL DEFAULT 0,
+  reset_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_rate_limits_reset ON rate_limits(reset_at);
+`,
+  },
+  {
+    version: 3,
+    name: "add_search_index_table",
+    sql: `
+CREATE TABLE IF NOT EXISTS search_index (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  snapshot_id TEXT NOT NULL REFERENCES snapshots(snapshot_id),
+  file_path TEXT NOT NULL,
+  line_number INTEGER NOT NULL,
+  content TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_search_snapshot ON search_index(snapshot_id);
+CREATE INDEX IF NOT EXISTS idx_search_content ON search_index(content);
+`,
+  },
+];
+
+function ensureMigrationsTable(database: Database.Database): void {
+  database.exec(`
+    CREATE TABLE IF NOT EXISTS schema_migrations (
+      version INTEGER PRIMARY KEY,
+      name TEXT NOT NULL,
+      applied_at TEXT NOT NULL
+    );
+  `);
+}
+
+export function runMigrations(database: Database.Database): { applied: number; current_version: number } {
+  ensureMigrationsTable(database);
+
+  const getVersion = database.prepare("SELECT MAX(version) as v FROM schema_migrations");
+  const currentRow = getVersion.get() as { v: number | null } | undefined;
+  let currentVersion = currentRow?.v ?? 1; // v1 = initial schema
+
+  const insertMigration = database.prepare(
+    "INSERT INTO schema_migrations (version, name, applied_at) VALUES (?, ?, ?)",
+  );
+
+  let applied = 0;
+  const pending = MIGRATIONS.filter((m) => m.version > currentVersion).sort((a, b) => a.version - b.version);
+
+  for (const migration of pending) {
+    database.exec(migration.sql);
+    insertMigration.run(migration.version, migration.name, new Date().toISOString());
+    applied++;
+    currentVersion = migration.version;
+  }
+
+  return { applied, current_version: currentVersion };
+}
+
+export function getSchemaVersion(database: Database.Database): number {
+  ensureMigrationsTable(database);
+  const row = database.prepare("SELECT MAX(version) as v FROM schema_migrations").get() as { v: number | null } | undefined;
+  return row?.v ?? 1;
+}
+
 export function getDb(): Database.Database {
   if (db) return db;
   const dbPath = process.env.AXIS_DB_PATH ?? join(process.cwd(), "axis.db");
   db = new Database(dbPath);
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
-  db.exec(SCHEMA);
+  db.exec(SCHEMA_V1);
+  runMigrations(db);
   return db;
 }
 
@@ -124,7 +203,8 @@ export function getDb(): Database.Database {
 export function openMemoryDb(): Database.Database {
   db = new Database(":memory:");
   db.pragma("foreign_keys = ON");
-  db.exec(SCHEMA);
+  db.exec(SCHEMA_V1);
+  runMigrations(db);
   return db;
 }
 

@@ -15,6 +15,9 @@ import {
   trackEvent,
   resolveStage,
   TIER_LIMITS,
+  indexSnapshotContent,
+  searchSnapshotContent,
+  getSearchIndexStats,
 } from "@axis/snapshots";
 import type { SnapshotInput, SnapshotManifest, FileEntry } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
@@ -615,4 +618,102 @@ export async function handleGitHubAnalyze(
       status: "failed",
     });
   }
+}
+
+// ─── File Content Search API ────────────────────────────────────
+
+export async function handleSearchIndex(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId || typeof snapshotId !== "string") {
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
+    return;
+  }
+
+  const snapshot = getSnapshot(snapshotId);
+  if (!snapshot) {
+    sendError(res, 404, ErrorCode.NOT_FOUND, "Snapshot not found");
+    return;
+  }
+
+  const files = (snapshot.files as Array<{ path: string; content: string }>).filter(
+    (f) => typeof f.path === "string" && typeof f.content === "string",
+  );
+
+  const result = indexSnapshotContent(snapshotId, files);
+
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    indexed_files: result.indexed_files,
+    indexed_lines: result.indexed_lines,
+  });
+}
+
+export async function handleSearchQuery(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
+    return;
+  }
+
+  const snapshotId = body.snapshot_id as string;
+  if (!snapshotId || typeof snapshotId !== "string") {
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "snapshot_id is required");
+    return;
+  }
+
+  const query = body.query as string;
+  if (!query || typeof query !== "string") {
+    sendError(res, 400, ErrorCode.MISSING_FIELD, "query is required");
+    return;
+  }
+
+  if (query.length > 500) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "query must be 500 characters or fewer");
+    return;
+  }
+
+  const limit = typeof body.limit === "number" ? Math.min(Math.max(1, body.limit), 200) : 50;
+
+  const results = searchSnapshotContent(snapshotId, query, { limit });
+  const stats = getSearchIndexStats(snapshotId);
+
+  sendJSON(res, 200, {
+    snapshot_id: snapshotId,
+    query,
+    total_indexed_lines: stats.line_count,
+    total_indexed_files: stats.file_count,
+    results,
+  });
+}
+
+export async function handleSearchStats(
+  _req: IncomingMessage,
+  res: ServerResponse,
+  params: Record<string, string>,
+): Promise<void> {
+  const { snapshot_id } = params;
+  const stats = getSearchIndexStats(snapshot_id);
+
+  sendJSON(res, 200, {
+    snapshot_id,
+    ...stats,
+  });
 }

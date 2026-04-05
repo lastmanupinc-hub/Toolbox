@@ -11,7 +11,11 @@ export {
   saveGeneratorResult,
   getGeneratorResult,
 } from "./store.js";
-export { getDb, openMemoryDb, closeDb } from "./db.js";
+export { getDb, openMemoryDb, closeDb, runMigrations, getSchemaVersion } from "./db.js";
+
+// Search
+export type { SearchIndexEntry, SearchResult } from "./search-store.js";
+export { indexSnapshotContent, searchSnapshotContent, clearSearchIndex, getSearchIndexStats } from "./search-store.js";
 export type { GitHubFetchResult, ParsedGitHubUrl } from "./github.js";
 export { parseGitHubUrl, fetchGitHubRepo } from "./github.js";
 

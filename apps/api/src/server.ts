@@ -24,6 +24,9 @@ import {
   handleAlgorithmicGenerate,
   handleGitHubAnalyze,
   handleHealthCheck,
+  handleSearchIndex,
+  handleSearchQuery,
+  handleSearchStats,
   makeProgramHandler,
   PROGRAM_OUTPUTS,
 } from "./handlers.js";
@@ -49,11 +52,18 @@ import {
   handleGetFunnelMetrics,
 } from "./funnel.js";
 import { handleExportZip } from "./export.js";
+import { buildOpenApiSpec } from "./openapi.js";
 
 const router = new Router();
 
 // Health
 router.get("/v1/health", handleHealthCheck);
+
+// OpenAPI docs
+router.get("/v1/docs", async (_req, res) => {
+  const { sendJSON } = await import("./router.js");
+  sendJSON(res, 200, buildOpenApiSpec());
+});
 
 // Snapshot endpoints (per axis_all_tools.yaml api_architecture)
 router.post("/v1/snapshots", handleCreateSnapshot);
@@ -85,6 +95,11 @@ router.post("/v1/algorithmic/generate", handleAlgorithmicGenerate);
 
 // GitHub URL intake
 router.post("/v1/github/analyze", handleGitHubAnalyze);
+
+// File Content Search
+router.post("/v1/search/index", handleSearchIndex);
+router.post("/v1/search/query", handleSearchQuery);
+router.get("/v1/search/:snapshot_id/stats", handleSearchStats);
 
 // Export
 router.get("/v1/projects/:project_id/export", handleExportZip);

@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from "vitest";
-import { getDb, openMemoryDb, closeDb } from "./db.js";
+import { getDb, openMemoryDb, closeDb, runMigrations, getSchemaVersion } from "./db.js";
 
 afterEach(() => {
   closeDb();
@@ -20,13 +20,14 @@ describe("openMemoryDb", () => {
     expect(fk).toBe(1);
   });
 
-  it("creates all 10 tables", () => {
+  it("creates all tables (base + migrated)", () => {
     const db = openMemoryDb();
     const tables = db
       .prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
       .all() as { name: string }[];
     const names = tables.map((t) => t.name).sort();
-    expect(names).toEqual([
+    const userTables = names.filter((n) => n !== "sqlite_sequence");
+    expect(userTables).toEqual([
       "accounts",
       "api_keys",
       "context_maps",
@@ -34,7 +35,10 @@ describe("openMemoryDb", () => {
       "generator_results",
       "program_entitlements",
       "projects",
+      "rate_limits",
       "repo_profiles",
+      "schema_migrations",
+      "search_index",
       "seats",
       "snapshots",
       "usage_records",
@@ -60,6 +64,10 @@ describe("openMemoryDb", () => {
     expect(names).toContain("idx_funnel_stage");
     expect(names).toContain("idx_funnel_type");
     expect(names).toContain("idx_funnel_created");
+    // Migration-added indexes
+    expect(names).toContain("idx_rate_limits_reset");
+    expect(names).toContain("idx_search_snapshot");
+    expect(names).toContain("idx_search_content");
   });
 
   it("is idempotent — calling twice resets the handle", () => {
@@ -269,5 +277,73 @@ describe("schema constraints", () => {
     db.prepare("INSERT INTO program_entitlements (account_id, program) VALUES ('a1', 'debug')").run();
     const row = db.prepare("SELECT enabled FROM program_entitlements WHERE account_id = 'a1' AND program = 'debug'").get() as { enabled: number };
     expect(row.enabled).toBe(1);
+  });
+});
+
+// ─── Migration framework ────────────────────────────────────────
+
+describe("migration framework", () => {
+  it("creates schema_migrations table", () => {
+    const db = openMemoryDb();
+    const tables = db
+      .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='schema_migrations'")
+      .all() as { name: string }[];
+    expect(tables.length).toBe(1);
+  });
+
+  it("records applied migrations with version and name", () => {
+    const db = openMemoryDb();
+    const rows = db
+      .prepare("SELECT version, name, applied_at FROM schema_migrations ORDER BY version")
+      .all() as Array<{ version: number; name: string; applied_at: string }>;
+    expect(rows.length).toBeGreaterThanOrEqual(2);
+    expect(rows[0]!.version).toBe(2);
+    expect(rows[0]!.name).toBe("add_rate_limits_table");
+    expect(rows[1]!.version).toBe(3);
+    expect(rows[1]!.name).toBe("add_search_index_table");
+  });
+
+  it("getSchemaVersion returns latest version", () => {
+    const db = openMemoryDb();
+    expect(getSchemaVersion(db)).toBe(3);
+  });
+
+  it("runMigrations is idempotent — second call applies nothing", () => {
+    const db = openMemoryDb();
+    const result = runMigrations(db);
+    expect(result.applied).toBe(0);
+    expect(result.current_version).toBe(3);
+  });
+
+  it("creates rate_limits table via migration", () => {
+    const db = openMemoryDb();
+    const cols = db.prepare("PRAGMA table_info(rate_limits)").all() as Array<{ name: string }>;
+    const colNames = cols.map((c) => c.name).sort();
+    expect(colNames).toEqual(["client_key", "count", "reset_at"]);
+  });
+
+  it("creates search_index table via migration", () => {
+    const db = openMemoryDb();
+    const cols = db.prepare("PRAGMA table_info(search_index)").all() as Array<{ name: string }>;
+    const colNames = cols.map((c) => c.name).sort();
+    expect(colNames).toEqual(["content", "file_path", "id", "line_number", "snapshot_id"]);
+  });
+
+  it("rate_limits table supports CRUD operations", () => {
+    const db = openMemoryDb();
+    db.prepare("INSERT INTO rate_limits (client_key, count, reset_at) VALUES (?, ?, ?)").run("1.2.3.4", 10, Date.now() + 60000);
+    const row = db.prepare("SELECT count FROM rate_limits WHERE client_key = ?").get("1.2.3.4") as { count: number };
+    expect(row.count).toBe(10);
+
+    db.prepare("UPDATE rate_limits SET count = count + 1 WHERE client_key = ?").run("1.2.3.4");
+    const updated = db.prepare("SELECT count FROM rate_limits WHERE client_key = ?").get("1.2.3.4") as { count: number };
+    expect(updated.count).toBe(11);
+  });
+
+  it("search_index enforces FK to snapshots", () => {
+    const db = openMemoryDb();
+    expect(() =>
+      db.prepare("INSERT INTO search_index (snapshot_id, file_path, line_number, content) VALUES (?, ?, ?, ?)").run("missing", "file.ts", 1, "hello"),
+    ).toThrow(/FOREIGN KEY/);
   });
 });
