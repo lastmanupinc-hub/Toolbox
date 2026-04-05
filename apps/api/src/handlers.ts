@@ -349,7 +349,7 @@ export async function handleHealthCheck(
   sendJSON(res, ready ? 200 : 503, {
     status: ready ? "ok" : "shutting_down",
     service: "axis-api",
-    version: "0.2.0",
+    version: "0.4.0",
     timestamp: new Date().toISOString(),
   });
 }

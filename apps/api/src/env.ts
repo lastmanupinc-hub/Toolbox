@@ -21,6 +21,8 @@ export const ENV_SPEC: EnvSpec[] = [
   { key: "RATE_LIMIT_MAX_REQUESTS", required: false, type: "number", default: "60", description: "Max requests per window (anonymous)" },
   { key: "RATE_LIMIT_MAX_AUTHENTICATED", required: false, type: "number", default: "120", description: "Max requests per window (authenticated)" },
   { key: "SHUTDOWN_TIMEOUT_MS", required: false, type: "number", default: "10000", description: "Graceful shutdown drain timeout in ms" },
+  { key: "REQUEST_TIMEOUT_MS", required: false, type: "number", default: "30000", description: "Per-request timeout in ms (0 = no limit)" },
+  { key: "MAX_BODY_BYTES", required: false, type: "number", default: "52428800", description: "Maximum request body size in bytes (default 50MB)" },
 ];
 
 export interface ValidationError {

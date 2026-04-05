@@ -21,7 +21,7 @@ export function buildOpenApiSpec(): OpenApiSpec {
     openapi: "3.1.0",
     info: {
       title: "AXIS Toolbox API",
-      version: "0.2.0",
+      version: "0.4.0",
       description:
         "AXIS Toolbox provides AI-powered code analysis, context mapping, and multi-program file generation. " +
         "Submit a codebase snapshot and AXIS produces tailored configuration files, analysis reports, and generator outputs across 17+ programs.",

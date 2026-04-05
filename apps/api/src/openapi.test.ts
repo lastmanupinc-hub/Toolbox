@@ -7,7 +7,7 @@ describe("buildOpenApiSpec", () => {
   it("returns valid OpenAPI 3.1 spec", () => {
     expect(spec.openapi).toBe("3.1.0");
     expect(spec.info.title).toBe("AXIS Toolbox API");
-    expect(spec.info.version).toBe("0.2.0");
+    expect(spec.info.version).toBe("0.4.0");
   });
 
   it("includes all major route groups", () => {

@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse, type Server } from "node:http";
 import type { Socket } from "node:net";
-import { initRequest, getRequestId, getRequestStart, log, type ErrorCodeValue } from "./logger.js";
+import { initRequest, getRequestId, getRequestStart, log, ErrorCode, type ErrorCodeValue } from "./logger.js";
 import { checkRateLimit } from "./rate-limiter.js";
 import { resolveAuth } from "./billing.js";
 import { recordRequest } from "./metrics.js";
@@ -100,7 +100,7 @@ export async function readBody(req: IncomingMessage): Promise<string> {
     const chunks: Buffer[] = [];
     let totalSize = 0;
     let settled = false;
-    const maxSize = 50 * 1024 * 1024; // 50MB limit
+    const maxSize = parseInt(process.env.MAX_BODY_BYTES ?? "52428800", 10); // default 50MB
 
     req.on("data", (chunk: Buffer) => {
       totalSize += chunk.length;
@@ -129,8 +129,20 @@ export function isShuttingDown(): boolean { return _shuttingDown; }
 export function createApp(router: Router, port: number): Server {
   const connections = new Set<Socket>();
   _shuttingDown = false;
+  const requestTimeoutMs = parseInt(process.env.REQUEST_TIMEOUT_MS ?? "30000", 10);
 
   const server = createServer((req, res) => {
+    // Per-request timeout
+    if (requestTimeoutMs > 0) {
+      const timer = setTimeout(() => {
+        if (!res.writableEnded) {
+          sendError(res, 408, ErrorCode.TIMEOUT, "Request timed out");
+        }
+      }, requestTimeoutMs);
+      res.on("finish", () => clearTimeout(timer));
+      res.on("close", () => clearTimeout(timer));
+    }
+
     // Request ID + timing
     const requestId = initRequest(res);
     res.setHeader("X-Request-Id", requestId);
