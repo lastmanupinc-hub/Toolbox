@@ -24,7 +24,7 @@ export { parseGitHubUrl, fetchGitHubRepo } from "./github.js";
 
 // Billing
 export type { Account, ApiKey, BillingTier, ProgramEntitlement, UsageRecord, UsageSummary, TierLimits, ProgramName } from "./billing-types.js";
-export type { QuotaCheck } from "./billing-store.js";
+export type { QuotaCheck, SystemStats, AccountSummary, RecentActivity } from "./billing-store.js";
 export { TIER_LIMITS, ALL_PROGRAMS } from "./billing-types.js";
 export {
   createAccount,
@@ -44,6 +44,9 @@ export {
   getMonthlySnapshotCount,
   getProjectCount,
   checkQuota,
+  getSystemStats,
+  listAllAccounts,
+  getRecentActivity,
 } from "./billing-store.js";
 
 // Funnel & Seats

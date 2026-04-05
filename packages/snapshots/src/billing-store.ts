@@ -270,3 +270,84 @@ export function checkQuota(account_id: string): QuotaCheck {
 
   return { allowed: true, tier: account.tier, limits, usage };
 }
+
+// ─── Admin queries (cross-account) ──────────────────────────────
+
+export interface SystemStats {
+  total_accounts: number;
+  accounts_by_tier: Record<BillingTier, number>;
+  total_snapshots: number;
+  total_projects: number;
+  total_usage_records: number;
+  total_api_keys: number;
+  active_api_keys: number;
+}
+
+export function getSystemStats(): SystemStats {
+  const db = getDb();
+  const accountRow = db.prepare(
+    "SELECT COUNT(*) as total, SUM(CASE WHEN tier='free' THEN 1 ELSE 0 END) as free_count, SUM(CASE WHEN tier='paid' THEN 1 ELSE 0 END) as paid_count, SUM(CASE WHEN tier='suite' THEN 1 ELSE 0 END) as suite_count FROM accounts",
+  ).get() as { total: number; free_count: number; paid_count: number; suite_count: number };
+
+  const snapCount = (db.prepare("SELECT COUNT(*) as c FROM snapshots").get() as { c: number }).c;
+  const projCount = (db.prepare("SELECT COUNT(DISTINCT project_id) as c FROM snapshots").get() as { c: number }).c;
+  const usageCount = (db.prepare("SELECT COUNT(*) as c FROM usage_records").get() as { c: number }).c;
+  const keyTotals = db.prepare(
+    "SELECT COUNT(*) as total, SUM(CASE WHEN revoked_at IS NULL THEN 1 ELSE 0 END) as active FROM api_keys",
+  ).get() as { total: number; active: number };
+
+  return {
+    total_accounts: accountRow.total,
+    accounts_by_tier: {
+      free: accountRow.free_count ?? 0,
+      paid: accountRow.paid_count ?? 0,
+      suite: accountRow.suite_count ?? 0,
+    },
+    total_snapshots: snapCount,
+    total_projects: projCount,
+    total_usage_records: usageCount,
+    total_api_keys: keyTotals.total,
+    active_api_keys: keyTotals.active ?? 0,
+  };
+}
+
+export interface AccountSummary {
+  account_id: string;
+  name: string;
+  email: string;
+  tier: BillingTier;
+  created_at: string;
+  snapshot_count: number;
+  project_count: number;
+}
+
+export function listAllAccounts(limit = 100, offset = 0): { accounts: AccountSummary[]; total: number } {
+  const db = getDb();
+  const total = (db.prepare("SELECT COUNT(*) as c FROM accounts").get() as { c: number }).c;
+
+  const rows = db.prepare(`
+    SELECT a.account_id, a.name, a.email, a.tier, a.created_at,
+      (SELECT COUNT(*) FROM snapshots s JOIN (SELECT DISTINCT project_id FROM snapshots) p ON s.project_id = p.project_id WHERE EXISTS (SELECT 1 FROM usage_records u WHERE u.account_id = a.account_id AND u.snapshot_id = s.snapshot_id)) as snapshot_count,
+      (SELECT COUNT(DISTINCT u.snapshot_id) FROM usage_records u WHERE u.account_id = a.account_id) as project_count
+    FROM accounts a
+    ORDER BY a.created_at DESC
+    LIMIT ? OFFSET ?
+  `).all(limit, offset) as AccountSummary[];
+
+  return { accounts: rows, total };
+}
+
+export interface RecentActivity {
+  event_id: string;
+  account_id: string;
+  event_type: string;
+  stage: string;
+  created_at: string;
+}
+
+export function getRecentActivity(limit = 50): RecentActivity[] {
+  const db = getDb();
+  return db.prepare(
+    "SELECT event_id, account_id, event_type, stage, created_at FROM funnel_events ORDER BY created_at DESC LIMIT ?",
+  ).all(limit) as RecentActivity[];
+}
