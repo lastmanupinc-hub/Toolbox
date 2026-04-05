@@ -215,3 +215,123 @@ export function closeDb(): void {
     db = null;
   }
 }
+
+// ─── Database maintenance utilities ─────────────────────────────
+
+export interface DbMaintenanceResult {
+  action: string;
+  success: boolean;
+  details: Record<string, unknown>;
+}
+
+/** Run WAL checkpoint to merge WAL file back into main database. */
+export function walCheckpoint(database?: Database.Database): DbMaintenanceResult {
+  const d = database ?? db;
+  if (!d) return { action: "wal_checkpoint", success: false, details: { error: "no_database" } };
+  const row = d.pragma("wal_checkpoint(TRUNCATE)") as Array<{ busy: number; log: number; checkpointed: number }>;
+  const result = row[0] ?? { busy: 0, log: 0, checkpointed: 0 };
+  return {
+    action: "wal_checkpoint",
+    success: result.busy === 0,
+    details: { busy: result.busy, wal_pages: result.log, checkpointed: result.checkpointed },
+  };
+}
+
+/** Run VACUUM to defragment and reclaim disk space. */
+export function vacuum(database?: Database.Database): DbMaintenanceResult {
+  const d = database ?? db;
+  if (!d) return { action: "vacuum", success: false, details: { error: "no_database" } };
+  d.exec("VACUUM");
+  return { action: "vacuum", success: true, details: {} };
+}
+
+/** Run integrity check on the database. */
+export function integrityCheck(database?: Database.Database): DbMaintenanceResult {
+  const d = database ?? db;
+  if (!d) return { action: "integrity_check", success: false, details: { error: "no_database" } };
+  const rows = d.pragma("integrity_check") as Array<{ integrity_check: string }>;
+  const ok = rows.length === 1 && rows[0].integrity_check === "ok";
+  return {
+    action: "integrity_check",
+    success: ok,
+    details: { result: rows.map((r) => r.integrity_check) },
+  };
+}
+
+/** Get database size and table row counts for monitoring. */
+export function getDbStats(database?: Database.Database): DbMaintenanceResult {
+  const d = database ?? db;
+  if (!d) return { action: "db_stats", success: false, details: { error: "no_database" } };
+
+  const pageSizeRow = d.pragma("page_size") as Array<{ page_size: number }>;
+  const pageCountRow = d.pragma("page_count") as Array<{ page_count: number }>;
+  const freelistRow = d.pragma("freelist_count") as Array<{ freelist_count: number }>;
+  const walRow = d.pragma("wal_checkpoint") as Array<{ busy: number; log: number; checkpointed: number }>;
+
+  const pageSize = pageSizeRow[0]?.page_size ?? 0;
+  const pageCount = pageCountRow[0]?.page_count ?? 0;
+  const freelistCount = freelistRow[0]?.freelist_count ?? 0;
+  const walPages = walRow[0]?.log ?? 0;
+
+  const tables = d
+    .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+    .all() as Array<{ name: string }>;
+
+  const tableCounts: Record<string, number> = {};
+  for (const { name } of tables) {
+    const row = d.prepare(`SELECT COUNT(*) as c FROM "${name}"`).get() as { c: number };
+    tableCounts[name] = row.c;
+  }
+
+  return {
+    action: "db_stats",
+    success: true,
+    details: {
+      size_bytes: pageSize * pageCount,
+      page_size: pageSize,
+      page_count: pageCount,
+      freelist_pages: freelistCount,
+      wal_pages: walPages,
+      tables: tableCounts,
+    },
+  };
+}
+
+/** Purge stale data: expired rate limits, old search index entries, revoked API keys older than retention days. */
+export function purgeStaleData(
+  database?: Database.Database,
+  options?: { retentionDays?: number },
+): DbMaintenanceResult {
+  const d = database ?? db;
+  if (!d) return { action: "purge_stale", success: false, details: { error: "no_database" } };
+
+  const retentionDays = options?.retentionDays ?? 90;
+  const cutoff = new Date(Date.now() - retentionDays * 86400000).toISOString();
+  const now = Date.now();
+
+  const expiredRateLimits = d.prepare("DELETE FROM rate_limits WHERE reset_at < ?").run(now);
+  const revokedKeys = d.prepare("DELETE FROM api_keys WHERE revoked_at IS NOT NULL AND revoked_at < ?").run(cutoff);
+  const revokedSeats = d.prepare("DELETE FROM seats WHERE revoked_at IS NOT NULL AND revoked_at < ?").run(cutoff);
+
+  return {
+    action: "purge_stale",
+    success: true,
+    details: {
+      expired_rate_limits: expiredRateLimits.changes,
+      old_revoked_keys: revokedKeys.changes,
+      old_revoked_seats: revokedSeats.changes,
+      retention_days: retentionDays,
+    },
+  };
+}
+
+/** Run full maintenance routine: checkpoint → purge → vacuum → integrity check. */
+export function runMaintenance(database?: Database.Database): DbMaintenanceResult[] {
+  const d = database ?? db ?? undefined;
+  return [
+    walCheckpoint(d),
+    purgeStaleData(d),
+    vacuum(d),
+    integrityCheck(d),
+  ];
+}

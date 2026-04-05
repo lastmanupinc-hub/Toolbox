@@ -27,6 +27,8 @@ import {
   handleSearchIndex,
   handleSearchQuery,
   handleSearchStats,
+  handleDbStats,
+  handleDbMaintenance,
   makeProgramHandler,
   PROGRAM_OUTPUTS,
 } from "./handlers.js";
@@ -53,11 +55,19 @@ import {
 } from "./funnel.js";
 import { handleExportZip } from "./export.js";
 import { buildOpenApiSpec } from "./openapi.js";
+import { handleLiveness, handleReadiness, handleMetrics } from "./metrics.js";
 
 const router = new Router();
 
 // Health
 router.get("/v1/health", handleHealthCheck);
+router.get("/v1/health/live", handleLiveness);
+router.get("/v1/health/ready", handleReadiness);
+router.get("/v1/metrics", handleMetrics);
+
+// Database maintenance
+router.get("/v1/db/stats", handleDbStats);
+router.post("/v1/db/maintenance", handleDbMaintenance);
 
 // OpenAPI docs
 router.get("/v1/docs", async (_req, res) => {

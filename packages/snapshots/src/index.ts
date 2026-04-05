@@ -11,7 +11,8 @@ export {
   saveGeneratorResult,
   getGeneratorResult,
 } from "./store.js";
-export { getDb, openMemoryDb, closeDb, runMigrations, getSchemaVersion } from "./db.js";
+export { getDb, openMemoryDb, closeDb, runMigrations, getSchemaVersion, walCheckpoint, vacuum, integrityCheck, getDbStats, purgeStaleData, runMaintenance } from "./db.js";
+export type { DbMaintenanceResult } from "./db.js";
 
 // Search
 export type { SearchIndexEntry, SearchResult } from "./search-store.js";

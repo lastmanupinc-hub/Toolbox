@@ -18,6 +18,8 @@ import {
   indexSnapshotContent,
   searchSnapshotContent,
   getSearchIndexStats,
+  runMaintenance,
+  getDbStats,
 } from "@axis/snapshots";
 import type { SnapshotInput, SnapshotManifest, FileEntry } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
@@ -350,6 +352,23 @@ export async function handleHealthCheck(
     version: "0.2.0",
     timestamp: new Date().toISOString(),
   });
+}
+
+export async function handleDbStats(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const stats = getDbStats();
+  sendJSON(res, stats.success ? 200 : 500, stats);
+}
+
+export async function handleDbMaintenance(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const results = runMaintenance();
+  const allOk = results.every((r) => r.success);
+  sendJSON(res, allOk ? 200 : 500, { results, success: allOk });
 }
 
 export async function handleGetGeneratedFile(

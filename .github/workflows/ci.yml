@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -30,11 +33,42 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Dependency audit
+        run: pnpm audit --audit-level=moderate
+        continue-on-error: true
+
       - name: Build all packages
         run: pnpm -r build
 
-      - name: Run tests
-        run: npx vitest run
+      - name: Run tests with coverage
+        run: npx vitest run --coverage --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=json-summary --coverage.reportDir=coverage
 
       - name: Type-check
         run: pnpm -r exec tsc --noEmit
+
+      - name: Upload coverage report
+        if: matrix.node-version == 22
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t axis-api:${{ github.sha }} .
+
+      - name: Verify Docker health check
+        run: |
+          docker run -d --name axis-test -p 4000:4000 axis-api:${{ github.sha }}
+          sleep 5
+          curl -sf http://localhost:4000/v1/health | grep -q '"status":"ok"'
+          docker stop axis-test
+          docker rm axis-test
