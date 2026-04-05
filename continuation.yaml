@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-04"
-    commit_or_tag: "2b13117"
-    current_session_id: "session_009"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 712 tests across 28 files. Env validation module, Dockerfile + docker-compose, /v1/programs endpoint tested, billing edge cases, router unit tests (pattern matching, wildcards, middleware pipeline). Grade: A (95+)."
+    commit_or_tag: "6895155"
+    current_session_id: "session_010"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 819 tests across 32 files. GitHub tarball parser tests (41), CLI pipeline edge cases (23 — MAX_FILES, MAX_FILE_SIZE, dot-dirs, extensionless configs, language/project-type detection), billing quota boundaries (27 — off-by-one, tier downgrade, usage aggregation), HTTP fetch resilience (16 — redirects, errors, size limits, timeouts via vi.mock). Grade: A (96+)."
     current_status: "building"
     current_focus_vertical: "quality_hardening_to_a_plus"
 
@@ -29,11 +29,11 @@ project_continuation:
       production_percent: 58
     confidence:
       architecture_confidence: 94
-      runtime_confidence: 93
-      pipeline_confidence: 96
+      runtime_confidence: 94
+      pipeline_confidence: 97
       product_surface_confidence: 92
       integration_confidence: 97
-      notes: "712 tests across 28 files (642→712). Env validation module with startup fail-fast (17 tests). Dockerfile multi-stage + docker-compose + .env.example (deployment readiness). Programs endpoint /v1/programs first-ever tests (6 tests). Billing edge cases: quota breakdown, usage ?since, account validation, entitlement CRUD (23 tests). Router unit tests: pattern matching, param extraction, wildcards, error catching, sendJSON/sendError, middleware pipeline, readBody, query strings (30 tests). Pipeline confidence 95→96."
+      notes: "819 tests across 32 files (712→819). GitHub tarball parser + shouldInclude (41 tests — tar headers, extension filtering, lockfile/node_modules exclusion, binary detection, gzip round-trip). CLI pipeline edge cases (23 tests — MAX_FILES cap, MAX_FILE_SIZE skip, dot-dir exclusion, extensionless configs, project-type/language detection, framework multi-detection, malformed package.json, writer overwrite/unicode). Billing quota boundaries (27 tests — off-by-one at free 10 and paid 200 snapshot limits, tier downgrade suite→free/paid→free, entitlement preservation, usage aggregation all 17 programs, getProjectCount join integrity). HTTP fetch resilience (16 tests — vi.mock(node:https), redirect chains, >5 redirect rejection, 404/403/500 errors, 100MB size limit, timeout, network error, Auth header, User-Agent). Runtime confidence 93→94, pipeline confidence 96→97."
 
   boundary_truth:
     accepted_input_modes:
@@ -747,6 +747,34 @@ project_continuation:
         completion_status: complete
         commit: "2b13117"
 
+      - id: "eq_056"
+        description: "GitHub tarball parser + shouldInclude — 41 tests covering tar header parsing, file extraction, extension filtering, size limits, lockfile exclusion, node_modules exclusion, binary detection, long paths, empty tarballs, synthetic gzip round-trip."
+        roi_score: 92
+        roi_reason: "validation_strength 5, production_quality 5, canonical_coherence 5. Tar parser had zero tests — binary format requires byte-level verification."
+        completion_status: complete
+        commit: "2819622"
+
+      - id: "eq_057"
+        description: "CLI pipeline edge cases — 23 tests covering scanner MAX_FILES cap, MAX_FILE_SIZE skip, dot-directory exclusion, extensionless configs (Dockerfile/Makefile/.gitignore/.eslintrc/.prettierrc), total_bytes accuracy, runner project-type detection (fullstack/frontend/backend/native/static/library), language detection (Python/Go/Rust), malformed package.json fallback, framework multi-detection, writer overwrite and unicode."
+        roi_score: 90
+        roi_reason: "validation_strength 5, production_quality 5, canonical_coherence 4. CLI scanner/runner had untested boundary conditions and detection paths."
+        completion_status: complete
+        commit: "43edc5e"
+
+      - id: "eq_058"
+        description: "Billing quota edge cases — 27 tests covering off-by-one boundary at free (10) and paid (200) snapshot limits, tier downgrade effects (suite→free blocks, paid→free blocks, entitlement preservation, program loss), usage summary filters (since param, all 17 programs), recordUsage edges (zero values, multi-program same snapshot, large values), getProjectCount join integrity, API key revocation isolation, isProgramEnabled for unknown/paid-no-entitlements."
+        roi_score: 85
+        roi_reason: "validation_strength 5, production_quality 5, security 4. Quota boundaries and tier downgrade effects had zero coverage."
+        completion_status: complete
+        commit: "9d2837f"
+
+      - id: "eq_059"
+        description: "GitHub HTTP fetch resilience — 16 tests via vi.mock(node:https) covering valid tarball fetch+parse, single redirect (302), multi-redirect chain (5 hops), >5 redirect rejection, HTTP 404/403/500 error handling, 100MB size limit enforcement, network error (ECONNREFUSED), response stream error, 30s timeout, Authorization header presence/absence, error body truncation (200 chars), User-Agent/Accept headers, tarball URL construction."
+        roi_score: 80
+        roi_reason: "validation_strength 5, production_quality 5, security 4. httpGetBuffer had zero tests — network error handling is production-critical."
+        completion_status: complete
+        commit: "6895155"
+
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
     selected_move: "Implement 3 new programs with generators, handlers, routes, and tests"
@@ -1317,6 +1345,40 @@ project_continuation:
       - "Usage ?since= param untested → tested with future date boundary"
     blockers_added: []
     commit_results: ["43f556d", "20a00a7", "2b13117"]
+    push_results: []
+
+  current_session_result_026:
+    session_goal: "Deepen test coverage across GitHub tarball parser, CLI pipeline boundaries, billing quotas, and HTTP fetch resilience"
+    selected_move: "eq_056 → eq_057 → eq_058 → eq_059: tarball tests, CLI edge cases, billing boundaries, HTTP mocking"
+    selected_move_roi_reason: "ROI scores 92/90/85/80. Fresh gap assessment post-eq_055. begin.yaml autonomous execution: top 4 in descending order."
+    completed_candidates:
+      - "eq_056: GitHub tarball parser + shouldInclude — 41 tests (tar headers, extension filtering, lockfile/node_modules exclusion, binary detection, long paths, empty tarballs, gzip round-trip). 753 total (commit 2819622)"
+      - "eq_057: CLI pipeline edge cases — 23 tests (scanner MAX_FILES/MAX_FILE_SIZE/dot-dirs/extensionless configs, runner project-type/language/framework detection, malformed package.json, writer overwrite/unicode). 776 total (commit 43edc5e)"
+      - "eq_058: Billing quota edge cases — 27 tests (off-by-one boundaries, tier downgrade, entitlement preservation, usage aggregation all 17 programs, getProjectCount join, API key isolation, isProgramEnabled edges). 803 total (commit 9d2837f)"
+      - "eq_059: GitHub HTTP fetch resilience — 16 tests via vi.mock(node:https) (redirects, >5 redirect rejection, 404/403/500, 100MB limit, timeout, network error, Auth headers, URL construction). 819 total (commit 6895155)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "819 vitest tests passing across 32 files (712→819, +107)"
+      - "4 new test files: github-tarball.test.ts, cli-edge-cases.test.ts, billing-edge-cases.test.ts, github-http.test.ts"
+      - "packages/snapshots/src/github.ts — parseTarball, shouldInclude, TarParseResult exported @internal for testing"
+      - "packages/snapshots/src/github-tarball.test.ts — 41 tests, synthetic tar builder, gzip round-trip"
+      - "apps/cli/src/cli-edge-cases.test.ts — 23 tests, filesystem boundary validation"
+      - "packages/snapshots/src/billing-edge-cases.test.ts — 27 tests, quota boundary + tier downgrade coverage"
+      - "packages/snapshots/src/github-http.test.ts — 16 tests, vi.mock(node:https) HTTP layer isolation"
+    verticals_advanced:
+      - "Test Coverage — A+(96) → A+(98) (107 new tests, 4 new test files, 32 total)"
+      - "Runtime Confidence — 93 → 94 (CLI boundary + billing quota + HTTP error paths all covered)"
+      - "Pipeline Confidence — 96 → 97 (tarball parser, HTTP fetch, CLI pipeline all validated)"
+    blockers_removed:
+      - "GitHub tarball parser had 0 tests → 41 tests (binary format byte-level verified)"
+      - "CLI scanner MAX_FILES/MAX_FILE_SIZE/dot-dir untested → 6 scanner edge tests"
+      - "CLI runner detectProjectType/detectPrimaryLanguage/detectFrameworks untested → 14 runner edge tests"
+      - "Billing quota off-by-one boundaries untested → 4 boundary precision tests"
+      - "Tier downgrade effects untested → 4 downgrade tests"
+      - "httpGetBuffer had 0 tests → 16 tests via mock (all error/redirect/limit paths)"
+    blockers_added: []
+    commit_results: ["2819622", "43edc5e", "9d2837f", "6895155"]
     push_results: []
 
   source_control_policy:
