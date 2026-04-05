@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-04"
-    commit_or_tag: "6895155"
-    current_session_id: "session_010"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 819 tests across 32 files. GitHub tarball parser tests (41), CLI pipeline edge cases (23 — MAX_FILES, MAX_FILE_SIZE, dot-dirs, extensionless configs, language/project-type detection), billing quota boundaries (27 — off-by-one, tier downgrade, usage aggregation), HTTP fetch resilience (16 — redirects, errors, size limits, timeouts via vi.mock). Grade: A (96+)."
+    commit_or_tag: "ea16357"
+    current_session_id: "session_011"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 889 tests across 35 files. DB schema+lifecycle tests (24 — FK enforcement, unique constraints, defaults, idempotent init), rate limiter tests (20 — IP extraction, sliding window, auth tiers, per-IP isolation, header compliance), handler factory validation tests (26 — JSON parsing, manifest validation, file validation, path traversal, factory edge cases, PROGRAM_OUTPUTS). Grade: A (97+)."
     current_status: "building"
     current_focus_vertical: "quality_hardening_to_a_plus"
 
@@ -29,11 +29,11 @@ project_continuation:
       production_percent: 58
     confidence:
       architecture_confidence: 94
-      runtime_confidence: 94
-      pipeline_confidence: 97
+      runtime_confidence: 95
+      pipeline_confidence: 98
       product_surface_confidence: 92
       integration_confidence: 97
-      notes: "819 tests across 32 files (712→819). GitHub tarball parser + shouldInclude (41 tests — tar headers, extension filtering, lockfile/node_modules exclusion, binary detection, gzip round-trip). CLI pipeline edge cases (23 tests — MAX_FILES cap, MAX_FILE_SIZE skip, dot-dir exclusion, extensionless configs, project-type/language detection, framework multi-detection, malformed package.json, writer overwrite/unicode). Billing quota boundaries (27 tests — off-by-one at free 10 and paid 200 snapshot limits, tier downgrade suite→free/paid→free, entitlement preservation, usage aggregation all 17 programs, getProjectCount join integrity). HTTP fetch resilience (16 tests — vi.mock(node:https), redirect chains, >5 redirect rejection, 404/403/500 errors, 100MB size limit, timeout, network error, Auth header, User-Agent). Runtime confidence 93→94, pipeline confidence 96→97."
+      notes: "889 tests across 35 files (819→889). DB schema+lifecycle (24 tests — FK enforcement for all FK-constrained tables, unique constraints for projects/accounts/api_keys/seats, defaults for status/tier/role/entitlements, idempotent openMemoryDb, closeDb safety). Rate limiter (20 tests — getClientIp x-forwarded-for parsing/IPv6/remoteAddress fallback/unknown, checkRateLimit sliding window 60/120 limits, per-IP isolation, Retry-After/RateLimit headers, resetRateLimits). Handler factory validation (26 tests — JSON parsing errors, manifest field validation, file array validation, path traversal ../../ + backslash-converted + mid-path, path normalization, makeProgramHandler factory edge cases, PROGRAM_OUTPUTS integrity). Runtime confidence 94→95, pipeline confidence 97→98."
 
   boundary_truth:
     accepted_input_modes:
@@ -775,6 +775,27 @@ project_continuation:
         completion_status: complete
         commit: "6895155"
 
+      - id: "eq_060"
+        description: "DB schema + lifecycle tests — 24 tests covering openMemoryDb (returns Database, enables FK, creates all 10 tables, creates 13 indexes, idempotent re-init), getDb (returns singleton), closeDb (resets handle, safe to call multiple times), FK enforcement (snapshots→projects, api_keys→accounts, usage_records→accounts, seats→accounts, funnel_events→accounts, context_maps→snapshots), schema constraints (project_name UNIQUE, email UNIQUE, key_hash UNIQUE, seats partial unique index with revoked bypass, defaults for status/tier/role/entitlements)."
+        roi_score: 92
+        roi_reason: "validation_strength 5, production_quality 5, blocker_removal 4. Schema correctness is irreversible — FK enforcement and index creation had zero direct tests."
+        completion_status: complete
+        commit: "ea16357"
+
+      - id: "eq_061"
+        description: "Rate limiter tests — 20 tests covering getClientIp (x-forwarded-for parsing, multi-IP first extraction, IPv6, remoteAddress fallback, unknown fallback, empty header, whitespace trimming), checkRateLimit allowed flow (first request, RateLimit-Limit/Remaining/Reset headers, authenticated 120 limit, decrement), checkRateLimit blocked flow (61st anonymous blocked, 121st authenticated blocked, Retry-After header, remaining=0), per-IP isolation, resetRateLimits (clears exhausted windows), LIMITS constants."
+        roi_score: 88
+        roi_reason: "security 5, production_quality 5, validation_strength 5. Rate limiter is DDoS mitigation — IP extraction and window enforcement had zero unit tests."
+        completion_status: complete
+        commit: "ea16357"
+
+      - id: "eq_062"
+        description: "Handler factory validation tests — 26 tests covering invalid JSON body (malformed, empty), missing manifest fields (no manifest, no project_name, no requested_outputs), file array validation (missing, empty, no path, non-string content), path traversal protection (../, mid-path .., backslash-converted traversal, backslash normalization, duplicate slash normalization, leading slash stripping), makeProgramHandler factory (missing snapshot_id, numeric snapshot_id, non-array outputs, 404 no context), successful snapshot flow (status ready, auto-size, input_method), PROGRAM_OUTPUTS integrity (15 programs, non-empty outputs, no duplicates)."
+        roi_score: 85
+        roi_reason: "validation_strength 5, security 5, integration_quality 4. Path traversal and factory edge cases are security-critical — handler factory generates all 15 program endpoints."
+        completion_status: complete
+        commit: "ea16357"
+
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
     selected_move: "Implement 3 new programs with generators, handlers, routes, and tests"
@@ -1379,6 +1400,34 @@ project_continuation:
       - "httpGetBuffer had 0 tests → 16 tests via mock (all error/redirect/limit paths)"
     blockers_added: []
     commit_results: ["2819622", "43edc5e", "9d2837f", "6895155"]
+    push_results: []
+
+  current_session_result_027:
+    session_goal: "Deepen infrastructure-level test coverage across DB schema, rate limiter, and handler factory"
+    selected_move: "eq_060 → eq_061 → eq_062: DB lifecycle/FK tests, rate limiter unit tests, handler validation tests"
+    selected_move_roi_reason: "ROI scores 92/88/85. Fresh gap assessment post-eq_059. All three are infrastructure-level: zero direct test coverage, security/correctness-critical."
+    completed_candidates:
+      - "eq_060: DB schema + lifecycle — 24 tests (FK enforcement all tables, unique constraints, defaults, idempotent init, closeDb safety). 843 total (packages/snapshots/src/db.test.ts)"
+      - "eq_061: Rate limiter — 20 tests (getClientIp parsing, sliding window 60/120, per-IP isolation, header compliance, resetRateLimits). 863 total (apps/api/src/rate-limiter.test.ts)"
+      - "eq_062: Handler factory validation — 26 tests (JSON/manifest/file validation, path traversal, factory edges, PROGRAM_OUTPUTS). 889 total (apps/api/src/handler-validation.test.ts)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "889 vitest tests passing across 35 files (819→889, +70)"
+      - "3 new test files: db.test.ts, rate-limiter.test.ts, handler-validation.test.ts"
+      - "packages/snapshots/src/db.test.ts — 24 tests, direct schema verification via sqlite_master"
+      - "apps/api/src/rate-limiter.test.ts — 20 tests, unit-level IP extraction + window enforcement"
+      - "apps/api/src/handler-validation.test.ts — 26 tests, path traversal + factory edge cases"
+    verticals_advanced:
+      - "Test Coverage — A+(98) → A+(99) (70 new tests, 3 new test files, 35 total)"
+      - "Runtime Confidence — 94 → 95 (DB schema correctness + rate limiter enforcement verified)"
+      - "Pipeline Confidence — 97 → 98 (handler factory validation + path traversal protection verified)"
+    blockers_removed:
+      - "DB schema had zero direct tests → 24 tests (FK enforcement, unique constraints, defaults all verified)"
+      - "Rate limiter had zero unit tests → 20 tests (IP extraction, window math, header compliance)"
+      - "Handler factory had zero dedicated tests → 26 tests (path traversal, JSON validation, factory edges)"
+    blockers_added: []
+    commit_results: ["ea16357"]
     push_results: []
 
   source_control_policy:
