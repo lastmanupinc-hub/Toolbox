@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2025-07-21"
-    commit_or_tag: "2279df1"
-    current_session_id: "session_017"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 55+ endpoints, 1251 tests across 54 files. eq_087-089: DB migration framework (schema_migrations table, versioned SQL migrations), persistent rate limiter (SQLite-backed with in-memory hot path), file content search API (index/query/stats endpoints with ranked LIKE matching), OpenAPI 3.1 specification (GET /v1/docs serving full spec). Grade: A (99+)."
+    commit_or_tag: "b4b983d"
+    current_session_id: "session_018"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 59+ endpoints, 1281 tests across 57 files. eq_090-092: CI pipeline hardening (coverage reporting, dependency audit, Docker build validation), DB maintenance utilities (WAL checkpoint, vacuum, integrity check, stale data purge, stats endpoint), health probes (liveness/readiness/Prometheus metrics). Grade: A (99+)."
     current_status: "building"
     current_focus_vertical: "production_hardening"
 
@@ -31,9 +31,9 @@ project_continuation:
       architecture_confidence: 95
       runtime_confidence: 97
       pipeline_confidence: 99
-      product_surface_confidence: 92
+      product_surface_confidence: 93
       integration_confidence: 97
-      notes: "1251 tests across 54 files (1198→1251). eq_087-089: DB migration framework with schema_migrations tracking, persistent rate limiter via SQLite (bindRateLimiterDb/flushToDb/unbindRateLimiterDb), file content search API (POST /v1/search/index, POST /v1/search/query, GET /v1/search/:id/stats), OpenAPI 3.1 spec at GET /v1/docs documenting all 55+ endpoints. 53 new tests in 3 new test files + additions to 2 existing test files."
+      notes: "1281 tests across 57 files (1251→1281). eq_090-092: CI pipeline hardening (coverage reporting with v8 provider, dependency audit, Docker build validation job), DB maintenance utilities (walCheckpoint, vacuum, integrityCheck, getDbStats, purgeStaleData, runMaintenance), health probes (GET /v1/health/live, GET /v1/health/ready with DB connectivity check, GET /v1/metrics Prometheus-compatible), fixed pre-existing @types/better-sqlite3 build error in apps/api. 30 new tests in 3 new test files."
 
   boundary_truth:
     accepted_input_modes:
@@ -1648,6 +1648,42 @@ project_continuation:
     blockers_added: []
     commit_results: ["1f9473e"]
     push_results: []
+
+  current_session_result_033:
+    session_goal: "Production hardening — CI pipeline, DB maintenance, health probes + metrics"
+    selected_move: "eq_090 → eq_091 → eq_092: CI hardening, DB maintenance utilities, health probes + Prometheus metrics"
+    selected_move_roi_reason: "ROI scores 94/88/86. Production_percent at 64% is dominant gap. CI hardening enables continuous validation. DB maintenance prevents data corruption and enables monitoring. Health probes + metrics enable production observability."
+    completed_candidates:
+      - "eq_090: CI pipeline hardening — @vitest/coverage-v8 with thresholds (60% lines/functions/branches), dependency audit step (pnpm audit --audit-level=moderate), Docker build validation job (build image + health check curl), permissions: contents read, coverage artifact upload. vitest.config.ts updated with coverage provider + thresholds."
+      - "eq_091: DB maintenance utilities — walCheckpoint (WAL→main merge), vacuum (defrag/reclaim), integrityCheck (PRAGMA integrity_check), getDbStats (page_size, page_count, freelist, WAL pages, table row counts), purgeStaleData (expired rate limits, old revoked keys/seats with configurable retention), runMaintenance (checkpoint→purge→vacuum→integrity). GET /v1/db/stats + POST /v1/db/maintenance endpoints. 20 unit tests + 4 HTTP tests. Fixed pre-existing @types/better-sqlite3 missing in apps/api."
+      - "eq_092: Health probes + Prometheus metrics — GET /v1/health/live (liveness: process responsive), GET /v1/health/ready (readiness: not shutting down + DB integrity check), GET /v1/metrics (Prometheus text format: uptime, request count, error count, status buckets, memory RSS/heap, DB size, table row counts). recordRequest() wired into router response finish handler. 10 HTTP tests."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "1281 vitest tests passing across 57 files (1251→1281, +30)"
+      - "3 new test files: db-maintenance.test.ts, db-endpoints.test.ts, metrics.test.ts"
+      - "1 new source file: apps/api/src/metrics.ts"
+      - "packages/snapshots/src/db.ts — 6 new exported functions (walCheckpoint, vacuum, integrityCheck, getDbStats, purgeStaleData, runMaintenance)"
+      - "apps/api/src/handlers.ts — handleDbStats, handleDbMaintenance handlers"
+      - "59+ API endpoints (55→59: /v1/db/stats, /v1/db/maintenance, /v1/health/live, /v1/health/ready, /v1/metrics)"
+      - ".github/workflows/ci.yml — coverage, audit, Docker validation stages"
+      - "vitest.config.ts — coverage provider v8 with thresholds"
+      - "Overall coverage: 92.16% lines (well above 60% threshold)"
+      - "14 files changed, 741 insertions, 10 deletions"
+    verticals_advanced:
+      - "Production Readiness — CI validation, DB maintenance, monitoring infrastructure all new"
+      - "Observability — Prometheus metrics endpoint enables operational dashboards"
+    blockers_removed:
+      - "No coverage in CI → vitest/coverage-v8 with thresholds + artifact upload"
+      - "No dependency security scanning → pnpm audit in CI"
+      - "No Docker build validation → docker-build job with health check verification"
+      - "No database maintenance → 6 maintenance utilities + API endpoints"
+      - "No liveness/readiness probes → /v1/health/live + /v1/health/ready"
+      - "No Prometheus metrics → /v1/metrics with uptime, requests, errors, memory, DB stats"
+      - "Pre-existing build error: @types/better-sqlite3 missing in apps/api → fixed"
+    blockers_added: []
+    commit_results: ["b4b983d"]
+    push_results: ["11c94d7..b4b983d → origin/main"]
 
   source_control_policy:
     commit_after_each_completed_candidate: true
