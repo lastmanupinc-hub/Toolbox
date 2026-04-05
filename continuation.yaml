@@ -15,25 +15,25 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2025-07-21"
-    commit_or_tag: "1f9473e"
-    current_session_id: "session_016"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 1198 tests across 51 files. eq_075-086: Go ecosystem (go.mod parsing, Chi/Gin/Echo/Fiber detection, Go route extraction, Go import resolution, Go entry points), SQL schema extraction, domain model extraction (Go/TS/Python), multi-signal project type scorer (fixes static_site misclassification), cross-boundary separation scoring with 35-entry layer map, determinism proof. Grade: A (99+)."
+    commit_or_tag: "2279df1"
+    current_session_id: "session_017"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 55+ endpoints, 1251 tests across 54 files. eq_087-089: DB migration framework (schema_migrations table, versioned SQL migrations), persistent rate limiter (SQLite-backed with in-memory hot path), file content search API (index/query/stats endpoints with ranked LIKE matching), OpenAPI 3.1 specification (GET /v1/docs serving full spec). Grade: A (99+)."
     current_status: "building"
-    current_focus_vertical: "static_analysis_determinism"
+    current_focus_vertical: "production_hardening"
 
   executive_truth:
     maturity_estimate:
       functional_percent: 90
       hardened_percent: 89
       integrated_percent: 96
-      production_percent: 58
+      production_percent: 64
     confidence:
       architecture_confidence: 95
       runtime_confidence: 97
       pipeline_confidence: 99
       product_surface_confidence: 92
       integration_confidence: 97
-      notes: "1198 tests across 51 files (1129→1198). eq_075-086: Go ecosystem integration (go.mod parsing, 5 Go frameworks, Go route extraction, Go import resolution, Go entry points), SQL schema extraction, domain model extraction (Go/TS/Python), multi-signal project type scorer, cross-boundary separation scoring, determinism proof (6 tests). 69 new tests in 4 new test files + additions to 6 existing test files."
+      notes: "1251 tests across 54 files (1198→1251). eq_087-089: DB migration framework with schema_migrations tracking, persistent rate limiter via SQLite (bindRateLimiterDb/flushToDb/unbindRateLimiterDb), file content search API (POST /v1/search/index, POST /v1/search/query, GET /v1/search/:id/stats), OpenAPI 3.1 spec at GET /v1/docs documenting all 55+ endpoints. 53 new tests in 3 new test files + additions to 2 existing test files."
 
   boundary_truth:
     accepted_input_modes:
@@ -156,11 +156,9 @@ project_continuation:
           - POST /v1/search/export API endpoint
           - 26 context-engine tests + 19 repo-parser tests + 22 framework-detector tests + 17 import-resolver tests + 10 SQL extractor tests + 13 domain extractor tests passing
         missing:
-          - Full-text search indexing
-          - Semantic code search
-          - File content search API
+          - Semantic code search (AST-aware)
         stubs_or_fakes: []
-      next_promotion_step: "Add search indexing and query API"
+      next_promotion_step: "Add semantic/AST-aware code search"
     - name: "debug"
       canonical_path: "packages/generator-core/src/generators-debug.ts"
       maturity:
