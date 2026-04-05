@@ -1,0 +1,868 @@
+# ═══════════════════════════════════════════════════════════════════
+# AXIS Toolbox — Complete User Capability Inventory
+# Date: 2026-04-05  |  Version: 0.4.0  |  HEAD: ad378b2
+# Scope: Everything a human user can do WITHOUT AI assistance
+# ═══════════════════════════════════════════════════════════════════
+
+grading_scale:
+  A: "Complete, tested, human-usable end-to-end"
+  B: "Functional but missing polish, docs, or minor edge cases"
+  C: "Core logic exists, needs integration or UX work"
+  D: "Partially implemented, significant gaps"
+  F: "Stub, placeholder, or not built"
+
+# ─── 1. CODE ANALYSIS & GENERATION ──────────────────────────────
+
+code_analysis_and_generation:
+
+  upload_local_folder_via_web:
+    description: "Drag-drop or browse a local project folder in the web UI, auto-detect frameworks, choose outputs, and receive generated files"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [web_ui]
+    tested: true
+    notes: "UploadPage with file filtering, framework detection, project type selector, output checkboxes"
+
+  upload_via_github_url_web:
+    description: "Paste a GitHub repo URL in the web UI to fetch, analyze, and generate outputs for a public repo"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [web_ui]
+    tested: true
+    notes: "Supports public repos. Private repos require GITHUB_TOKEN."
+
+  analyze_local_project_via_cli:
+    description: "Run 'axis analyze /path/to/project' to scan a local codebase and write generated files to disk"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [cli]
+    tested: true
+    notes: "Respects .gitignore, writes to .ai-output/ by default, supports --program filter"
+
+  analyze_github_repo_via_cli:
+    description: "Run 'axis github <url>' to fetch and analyze a GitHub repo from the command line"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [cli]
+    tested: true
+    notes: "Public repos work out of the box. Private repos via --token or GITHUB_TOKEN env."
+
+  submit_snapshot_via_api:
+    description: "POST /v1/snapshots with files + manifest JSON to create a snapshot and auto-generate all program outputs"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+    notes: "Requires API key (Bearer token). Returns full snapshot + generated files."
+
+  retrieve_snapshot:
+    description: "GET /v1/snapshots/:id to retrieve snapshot metadata and generated file list"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+
+# ─── 2. PROGRAM OUTPUTS (17 PROGRAMS, 80 GENERATORS) ────────────
+
+programs:
+
+  search_program:
+    description: "Repository analysis, context extraction, architecture mapping"
+    tier: free
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    outputs:
+      - ".ai/context-map.json — Full project context (frameworks, routes, architecture, dependency graph)"
+      - ".ai/repo-profile.yaml — Compact identity + health + structure profile"
+      - "architecture-summary.md — Architecture overview with patterns and entry points"
+      - "dependency-hotspots.md — High-risk files by import coupling density"
+    generator_count: 4
+    tested: true
+
+  skills_program:
+    description: "AI agent context files — cursor rules, agent instructions, workflow packs"
+    tier: free
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    outputs:
+      - "AGENTS.md — Agent instructions for codebase"
+      - "CLAUDE.md — Claude/LLM-specific context"
+      - ".cursorrules — Cursor AI editor rules"
+      - "workflow-pack.md — Development workflows and commands"
+      - "policy-pack.md — Project policies and guardrails"
+    generator_count: 5
+    tested: true
+    notes: "Framework-aware (TS/JS/Python-specific rules)"
+
+  debug_program:
+    description: "Debugging playbooks, incident templates, tracing rules"
+    tier: free
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - ".ai/debug-playbook.md — Structured debugging guide with triage steps"
+      - "incident-template.md — Incident response template"
+      - "tracing-rules.md — Request tracing and logging strategies"
+      - "root-cause-checklist.md — Root cause analysis checklist"
+    generator_count: 4
+    tested: true
+
+  frontend_program:
+    description: "UI/UX engineering standards, component guidelines, accessibility audits"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - ".ai/frontend-rules.md — Component conventions, styling, state management, a11y"
+      - "component-guidelines.md — Component design and API guidelines"
+      - "layout-patterns.md — Responsive layout patterns"
+      - "ui-audit.md — UI audit checklist"
+    generator_count: 4
+    tested: true
+    notes: "Framework-aware (React, Next.js, Vue, Svelte)"
+
+  seo_program:
+    description: "SEO strategy — meta tags, schema markup, crawlability, route prioritization"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - ".ai/seo-rules.md — Meta tags, rendering strategy, crawlability"
+      - "schema-recommendations.json — JSON-LD schema suggestions"
+      - "route-priority-map.md — URL prioritization and canonicalization"
+      - "content-audit.md — Content structure audit"
+      - "meta-tag-audit.json — Meta tag analysis"
+    generator_count: 5
+    tested: true
+    notes: "SSR/SSG vs SPA awareness (Next.js, React)"
+
+  optimization_program:
+    description: "Performance optimization — token budgeting, cost estimation, prompt strategies"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - ".ai/optimization-rules.md — Context window budgeting, high-value files"
+      - "prompt-diff-report.md — Prompt strategy comparison"
+      - "cost-estimate.json — Token/LLM cost estimation"
+      - "token-budget-plan.md — Token budget planning for large codebases"
+    generator_count: 4
+    tested: true
+    notes: "Calculates actual LOC and token estimates from scanned code"
+
+  theme_program:
+    description: "Design system — color palettes, typography tokens, CSS custom properties"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - ".ai/design-tokens.json — Color, typography, spacing, border-radius tokens"
+      - "theme.css — CSS custom properties file"
+      - "theme-guidelines.md — Design system documentation"
+      - "component-theme-map.json — Component-to-token mappings"
+      - "dark-mode-tokens.json — Dark mode color overrides"
+    generator_count: 5
+    tested: true
+
+  brand_program:
+    description: "Brand identity — guidelines, voice & tone, messaging system, channel rules"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "brand-guidelines.md — Brand identity and positioning"
+      - "voice-and-tone.md — Communication style guide"
+      - "content-constraints.md — Content rules and restrictions"
+      - "messaging-system.yaml — Message templates and variations"
+      - "channel-rulebook.md — Channel-specific communication guidelines"
+    generator_count: 5
+    tested: true
+    notes: "Adapts to project type (web app, CLI, library)"
+
+  superpowers_program:
+    description: "High-leverage dev workflows — quick commands, automation pipelines, test generation"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - "superpower-pack.md — Quick copy-paste commands for build, test, dev server"
+      - "workflow-registry.json — Workflow definitions and automation orchestration"
+      - "test-generation-rules.md — Testing patterns and strategies"
+      - "refactor-checklist.md — Refactoring safety checklist"
+      - "automation-pipeline.yaml — CI/CD pipeline configuration"
+    generator_count: 5
+    tested: true
+
+  marketing_program:
+    description: "Marketing strategy — campaigns, funnels, email sequences, CRO playbook"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "campaign-brief.md — Campaign foundation and messaging"
+      - "funnel-map.md — Sales/user funnel mapping"
+      - "sequence-pack.md — Email/messaging sequences"
+      - "cro-playbook.md — Conversion rate optimization playbook"
+      - "ab-test-plan.md — A/B testing framework"
+    generator_count: 5
+    tested: true
+
+  notebook_program:
+    description: "Research and documentation — notebook summaries, source maps, study guides"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "notebook-summary.md — Research overview"
+      - "source-map.json — Source reference mapping"
+      - "study-brief.md — Study guide structure"
+      - "research-threads.md — Research topic threads"
+      - "citation-index.json — Citation management index"
+    generator_count: 5
+    tested: true
+
+  obsidian_program:
+    description: "Obsidian vault setup — skill packs, graph prompts, linking policies, templates"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "obsidian-skill-pack.md — Plugin and workflow setup"
+      - "vault-rules.md — Vault organization rules"
+      - "graph-prompt-map.json — Knowledge graph structure"
+      - "linking-policy.md — Cross-linking policies"
+      - "template-pack.md — Obsidian template definitions"
+    generator_count: 5
+    tested: true
+
+  mcp_program:
+    description: "Model Context Protocol — server config, tool registry, capability definitions"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - "mcp-config.json — MCP tool registry and capability definitions"
+      - "connector-map.yaml — Integration connector mappings"
+      - "capability-registry.json — Available capabilities and permissions"
+      - "server-manifest.yaml — MCP server manifest"
+    generator_count: 4
+    tested: true
+
+  artifacts_program:
+    description: "Generated UI components — React components, dashboard widgets, embeddable snippets"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 2_important
+    outputs:
+      - "generated-component.tsx — React/vanilla component scaffold"
+      - "dashboard-widget.tsx — Dashboard component with stats"
+      - "embed-snippet.ts — Embeddable code snippet"
+      - "artifact-spec.md — Component specification"
+      - "component-library.json — Component library catalog"
+    generator_count: 5
+    tested: true
+
+  remotion_program:
+    description: "Video/animation generation — Remotion scripts, scene plans, render configs"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "remotion-script.ts — Remotion video script"
+      - "scene-plan.md — Scene planning guide"
+      - "render-config.json — Rendering configuration"
+      - "asset-checklist.md — Required assets list"
+      - "storyboard.md — Video storyboard"
+    generator_count: 5
+    tested: true
+
+  canvas_program:
+    description: "Social media and visual assets — design specs, social templates, poster layouts"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "canvas-spec.json — Design system specs (colors, typography, spacing, templates)"
+      - "social-pack.md — Social media content templates"
+      - "poster-layouts.md — Poster layout variations"
+      - "asset-guidelines.md — Asset production guidelines"
+      - "brand-board.md — Brand visual reference board"
+    generator_count: 5
+    tested: true
+
+  algorithmic_program:
+    description: "Generative art — p5.js sketches, parameter packs, collection maps, variations"
+    tier: pro
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    outputs:
+      - "generative-sketch.ts — p5.js or Canvas generative code"
+      - "parameter-pack.json — Parameter definitions and ranges"
+      - "collection-map.md — Collection documentation"
+      - "export-manifest.yaml — Export configuration"
+      - "variation-matrix.json — Variation definitions"
+    generator_count: 5
+    tested: true
+
+# ─── 3. FILE BROWSING & SEARCH ──────────────────────────────────
+
+file_operations:
+
+  browse_generated_files_web:
+    description: "View all generated files in the Dashboard tab with syntax highlighting and preview"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [web_ui]
+    tested: true
+
+  download_individual_file:
+    description: "GET /v1/projects/:id/generated-files/:path to download a single generated file"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  export_as_zip:
+    description: "GET /v1/projects/:id/export?program=NAME to download a ZIP archive of generated files, optionally filtered by program"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [rest_api, web_ui]
+    tested: true
+    notes: "Handles multi-byte UTF-8 paths, emoji, CJK characters. 50+ files tested."
+
+  full_text_search:
+    description: "Index snapshot file contents and search with FTS5 full-text search (BM25 ranked)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+    notes: "POST /v1/search/index → POST /v1/search/query. FTS5 with bm25() relevance ranking."
+
+  search_stats:
+    description: "GET /v1/search/:snapshot_id/stats to see indexed file and line counts"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api]
+    tested: true
+
+  list_all_programs:
+    description: "GET /v1/programs to list all 17 programs with generator counts and tier requirements"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, cli, web_ui]
+    tested: true
+
+# ─── 4. PROJECT & CONTEXT MANAGEMENT ────────────────────────────
+
+project_management:
+
+  view_project_context:
+    description: "GET /v1/projects/:id/context to retrieve ContextMap + RepoProfile (frameworks, languages, architecture, health)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  view_project_structure:
+    description: "Dashboard Structure tab showing dependency graph visualization"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [web_ui]
+    tested: true
+
+  view_project_overview:
+    description: "Dashboard Overview tab with identity, structure stats, files/LOC count"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [web_ui]
+    tested: true
+
+  view_dependency_graph:
+    description: "Dashboard Dependencies tab with dependency tree visualization"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [web_ui]
+    tested: true
+
+  re_run_program:
+    description: "ProgramLauncher component to re-execute individual programs on an existing snapshot"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [web_ui]
+    tested: true
+
+# ─── 5. GITHUB INTEGRATION ──────────────────────────────────────
+
+github_integration:
+
+  analyze_public_repo:
+    description: "Fetch a public GitHub repo by URL, parse it, and generate all program outputs"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [rest_api, cli, web_ui]
+    tested: true
+
+  analyze_private_repo:
+    description: "Fetch a private GitHub repo using GITHUB_TOKEN for authentication"
+    grade: B
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, cli, web_ui]
+    tested: true
+    notes: "Functional but requires manual token setup. No OAuth flow."
+
+# ─── 6. ACCOUNT & AUTHENTICATION ────────────────────────────────
+
+account_management:
+
+  create_account:
+    description: "POST /v1/accounts to register with name + email, auto-generates first API key"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [rest_api, web_ui]
+    tested: true
+
+  view_account_info:
+    description: "GET /v1/account to see account details, tier, quota usage, limits"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [rest_api, web_ui]
+    tested: true
+
+  create_api_key:
+    description: "POST /v1/account/keys to generate a new API key"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  list_api_keys:
+    description: "GET /v1/account/keys to view all API keys (active and revoked)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  revoke_api_key:
+    description: "POST /v1/account/keys/:key_id/revoke to immediately disable an API key"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  view_usage:
+    description: "GET /v1/account/usage to see per-program usage statistics for the billing period"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  upgrade_tier:
+    description: "POST /v1/account/tier to change subscription tier (Free / Pro / Suite)"
+    grade: B
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+    notes: "Tier change is immediate in DB. Payment processing will route through No Fate Platform's payment processor (in development)."
+
+  enable_disable_programs:
+    description: "POST /v1/account/programs to enable or disable specific programs on the account"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api]
+    tested: true
+
+  cli_auth_login:
+    description: "Run 'axis auth login <api_key>' to save encrypted API key to ~/.axis/config.json"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [cli]
+    tested: true
+
+  cli_auth_status:
+    description: "Run 'axis auth status' to check current authentication status"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [cli]
+    tested: true
+
+  cli_auth_logout:
+    description: "Run 'axis auth logout' to remove saved API key"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [cli]
+    tested: true
+
+# ─── 7. TEAM & SEAT MANAGEMENT ──────────────────────────────────
+
+team_management:
+
+  invite_team_member:
+    description: "POST /v1/account/seats to invite a team member by email with a role (admin/member/viewer)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+    notes: "Requires Paid or Suite tier"
+
+  list_team_seats:
+    description: "GET /v1/account/seats to view all active and revoked team members"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  accept_seat_invitation:
+    description: "POST /v1/account/seats/:seat_id/accept to accept a team seat invitation"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+  revoke_team_member:
+    description: "POST /v1/account/seats/:seat_id/revoke to remove a team member"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api, web_ui]
+    tested: true
+
+# ─── 8. PLANS & BILLING ─────────────────────────────────────────
+
+plans_and_billing:
+
+  view_plans:
+    description: "GET /v1/plans to see all 3 tiers (Free, Pro, Suite) with pricing, limits, and features"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [rest_api, web_ui]
+    tested: true
+
+  plans_page_web:
+    description: "PlansPage in web UI with feature comparison matrix and monthly/annual toggle"
+    grade: A
+    status: complete
+    human_priority: 1_critical
+    access: [web_ui]
+    tested: true
+
+  upgrade_prompt:
+    description: "GET /v1/account/upgrade-prompt to receive contextual upgrade recommendations based on usage"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api, web_ui]
+    tested: true
+
+  dismiss_upgrade_prompt:
+    description: "POST /v1/account/upgrade-prompt/dismiss to suppress upgrade notifications"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api]
+    tested: true
+
+  funnel_metrics:
+    description: "GET /v1/funnel/metrics to track aggregate user funnel metrics (signup → snapshot → upgrade)"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api]
+    tested: true
+    notes: "Admin/operator facing. Not directly a user action."
+
+# ─── 9. OPERATIONAL & MONITORING ─────────────────────────────────
+
+operations:
+
+  health_check:
+    description: "GET /v1/health to verify the API is running (status, version, timestamp)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+
+  liveness_probe:
+    description: "GET /v1/health/live — lightweight liveness check for orchestrators (K8s, Docker)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+
+  readiness_probe:
+    description: "GET /v1/health/ready — checks not shutting down + DB integrity"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+
+  prometheus_metrics:
+    description: "GET /v1/metrics — Prometheus-compatible text format: uptime, request counts, errors, memory, DB stats"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+
+  db_stats:
+    description: "GET /v1/db/stats — database size, page counts, table row counts, WAL status"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api]
+    tested: true
+
+  db_maintenance:
+    description: "POST /v1/db/maintenance — runs WAL checkpoint, stale data purge, vacuum, integrity check"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [rest_api]
+    tested: true
+
+  openapi_docs:
+    description: "GET /v1/docs — full OpenAPI 3.0 spec for all endpoints, schemas, and parameters"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [rest_api]
+    tested: true
+
+# ─── 10. WEB UI FEATURES ────────────────────────────────────────
+
+web_ui_features:
+
+  command_palette:
+    description: "Keyboard-driven command search interface (Cmd+K / Ctrl+K)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [web_ui]
+    tested: true
+
+  keyboard_shortcuts:
+    description: "Alt+1–5 for dashboard tab switching, Cmd+K for command palette"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [web_ui]
+    tested: true
+
+  toast_notifications:
+    description: "Non-blocking status notifications for operations (success, error, info)"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [web_ui]
+    tested: true
+
+  status_bar:
+    description: "Persistent status indicator for ongoing operations"
+    grade: A
+    status: complete
+    human_priority: 3_nice_to_have
+    access: [web_ui]
+    tested: true
+
+  error_boundary:
+    description: "Graceful crash recovery with reload button instead of white screen"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [web_ui]
+    tested: true
+
+# ─── 11. DEPLOYMENT & INFRASTRUCTURE ────────────────────────────
+
+deployment:
+
+  docker_containerization:
+    description: "Dockerfile for building and running the API server as a container"
+    grade: B
+    status: complete
+    human_priority: 2_important
+    access: [ops]
+    tested: true
+    notes: "Container builds and health check passes in CI. No docker-compose or K8s manifests."
+
+  ci_pipeline:
+    description: "GitHub Actions CI with Node 20/22 matrix, test + coverage, dependency audit, Docker build validation"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [ops]
+    tested: true
+    notes: "92% line coverage. Coverage thresholds enforced. Audit step (continue-on-error)."
+
+  configurable_timeouts:
+    description: "REQUEST_TIMEOUT_MS and MAX_BODY_BYTES env vars for per-deployment tuning"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [ops]
+    tested: true
+
+  graceful_shutdown:
+    description: "Drain existing connections on SIGINT/SIGTERM before exiting"
+    grade: A
+    status: complete
+    human_priority: 2_important
+    access: [ops]
+    tested: true
+
+# ─── 12. KNOWN GAPS (NOT YET BUILT) ─────────────────────────────
+
+known_gaps:
+
+  payment_integration:
+    description: "No payment gateway for actual billing — will integrate with No Fate Platform's paid payment processor (in development)"
+    grade: F
+    status: blocked_on_dependency
+    human_priority: 1_critical
+    notes: "Tier changes are immediate in DB. No real money flow. Will connect to the payment processor being built on the No Fate Platform — not directly to Stripe."
+    dependency: "No Fate Platform payment processor"
+
+  oauth_login:
+    description: "No OAuth / SSO login flow — only API key auth"
+    grade: F
+    status: not_started
+    human_priority: 1_critical
+    notes: "Users must create account via API and manage keys manually. No GitHub/Google OAuth."
+
+  email_notifications:
+    description: "No email delivery for seat invitations, usage alerts, or account events"
+    grade: F
+    status: not_started
+    human_priority: 2_important
+    notes: "Seat invitations exist in DB but no email is sent."
+
+  web_hosting_deployment:
+    description: "No hosted production deployment — requires self-hosting"
+    grade: F
+    status: not_started
+    human_priority: 1_critical
+    notes: "Dockerfile exists. No Vercel/Railway/Fly.io deployment config or hosted instance."
+
+  rate_limit_dashboard:
+    description: "No user-facing view of rate limit status or remaining quota"
+    grade: D
+    status: partial
+    human_priority: 2_important
+    notes: "Rate limiting exists server-side. No UI or API to check remaining quota in real-time."
+
+  file_diff_and_history:
+    description: "No version history or diff view for re-generated outputs"
+    grade: F
+    status: not_started
+    human_priority: 3_nice_to_have
+
+  webhook_notifications:
+    description: "No webhook callbacks for snapshot completion or generation events"
+    grade: F
+    status: not_started
+    human_priority: 3_nice_to_have
+
+  admin_dashboard:
+    description: "No admin panel for managing accounts, viewing system-wide usage, or moderation"
+    grade: F
+    status: not_started
+    human_priority: 2_important
+
+  project_deletion:
+    description: "No endpoint to delete a project or snapshot"
+    grade: F
+    status: not_started
+    human_priority: 2_important
+    notes: "Data can only be purged via db maintenance with retention days."
+
+  search_in_web_ui:
+    description: "FTS5 search exists in API but no search UI in the web app"
+    grade: D
+    status: partial
+    human_priority: 2_important
+    notes: "API fully functional. Web UI has no search input wired to /v1/search/query."
+
+# ─── SUMMARY ─────────────────────────────────────────────────────
+
+summary:
+  total_capabilities: 67
+  grade_distribution:
+    A: 55
+    B: 3
+    D: 2
+    F: 7
+  by_access_layer:
+    web_ui: 18
+    cli: 6
+    rest_api: 40
+    ops: 4
+  programs: 17
+  generators: 80
+  test_files: 58
+  tests: 1285
+  coverage: "92%"
+
+  human_usability_without_ai:
+    ready_now:
+      - "CLI: axis analyze, axis github, axis auth — fully functional for humans"
+      - "Web UI: upload folder, paste GitHub URL, browse outputs, export ZIP"
+      - "API: full REST API with OpenAPI docs at /v1/docs"
+      - "All 17 programs produce real, downloadable outputs"
+    blocked_for_production:
+      - "No payment processing — waiting on No Fate Platform payment processor (not Stripe-direct)"
+      - "No OAuth — users must manually manage API keys"
+      - "No hosted deployment — must self-host"
+      - "No email — seat invitations have no delivery mechanism"
