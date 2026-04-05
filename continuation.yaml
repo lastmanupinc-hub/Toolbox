@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2025-07-21"
-    commit_or_tag: "b4b983d"
-    current_session_id: "session_018"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 59+ endpoints, 1281 tests across 57 files. eq_090-092: CI pipeline hardening (coverage reporting, dependency audit, Docker build validation), DB maintenance utilities (WAL checkpoint, vacuum, integrity check, stale data purge, stats endpoint), health probes (liveness/readiness/Prometheus metrics). Grade: A (99+)."
+    commit_or_tag: "0aa91c1"
+    current_session_id: "session_018b"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 59+ endpoints, 1285 tests across 58 files. eq_093-095: CHANGELOG + version 0.4.0 harmonization, configurable request timeout (REQUEST_TIMEOUT_MS) + body limits (MAX_BODY_BYTES), SQLite FTS5 search upgrade replacing LIKE with bm25() ranked full-text search. Grade: A (99+)."
     current_status: "building"
     current_focus_vertical: "production_hardening"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 93
       integration_confidence: 97
-      notes: "1281 tests across 57 files (1251→1281). eq_090-092: CI pipeline hardening (coverage reporting with v8 provider, dependency audit, Docker build validation job), DB maintenance utilities (walCheckpoint, vacuum, integrityCheck, getDbStats, purgeStaleData, runMaintenance), health probes (GET /v1/health/live, GET /v1/health/ready with DB connectivity check, GET /v1/metrics Prometheus-compatible), fixed pre-existing @types/better-sqlite3 build error in apps/api. 30 new tests in 3 new test files."
+      notes: "1285 tests across 58 files (1281→1285). eq_093-095: CHANGELOG + version 0.4.0 harmonization, configurable request timeout (REQUEST_TIMEOUT_MS default 30s) + body limits (MAX_BODY_BYTES default 50MB) with 408 timeout enforcement, SQLite FTS5 full-text search replacing LIKE-based queries with bm25() relevance ranking. 4 new tests in 1 new test file."
 
   boundary_truth:
     accepted_input_modes:
@@ -1684,6 +1684,40 @@ project_continuation:
     blockers_added: []
     commit_results: ["b4b983d"]
     push_results: ["11c94d7..b4b983d → origin/main"]
+
+  current_session_result_034:
+    session_goal: "Production hardening — version consistency, request limits, FTS5 search"
+    selected_move: "eq_093 → eq_094 → eq_095: CHANGELOG + version 0.4.0, request timeout + body limits, FTS5 search upgrade"
+    selected_move_roi_reason: "Continuation of production_percent gap closure. Version consistency enables proper release tracking. Request timeout/body limits prevent resource exhaustion. FTS5 replaces O(n) LIKE scans with indexed full-text search."
+    completed_candidates:
+      - "eq_093: CHANGELOG + version consistency — Created CHANGELOG.md with full release history (0.1.0-0.4.0). Harmonized all 8 package.json files from inconsistent 0.1.0/0.2.0 to 0.4.0. Updated handlers.ts and openapi.ts version references."
+      - "eq_094: Request timeout + body limits — Added REQUEST_TIMEOUT_MS (default 30000ms) and MAX_BODY_BYTES (default 52428800) to ENV_SPEC. Per-request timeout in createApp with 408/TIMEOUT response. Configurable readBody max size via env var. Added TIMEOUT error code to ErrorCode enum. 4 new tests (request-limits.test.ts)."
+      - "eq_095: SQLite FTS5 search upgrade — Migration v4 creates search_fts virtual table (external content on search_index). indexSnapshotContent populates both search_index and search_fts. searchSnapshotContent uses FTS5 MATCH with bm25() relevance ranking instead of 3-tier LIKE. clearSearchIndex cleans both tables. All 15 existing search tests + 11 API search tests pass unchanged."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "1285 vitest tests passing across 58 files (1281→1285, +4)"
+      - "1 new test file: apps/api/src/request-limits.test.ts"
+      - "CHANGELOG.md created with 4 release entries"
+      - "All 8 package.json + openapi.ts + handlers.ts → version 0.4.0"
+      - "apps/api/src/env.ts — REQUEST_TIMEOUT_MS + MAX_BODY_BYTES in ENV_SPEC"
+      - "apps/api/src/router.ts — per-request timeout (408), configurable readBody max"
+      - "apps/api/src/logger.ts — TIMEOUT error code added"
+      - "packages/snapshots/src/db.ts — migration v4 (search_fts FTS5 virtual table)"
+      - "packages/snapshots/src/search-store.ts — FTS5 MATCH + bm25() ranking"
+      - "16 files changed in eq_093+094, 3 files changed in eq_095"
+    verticals_advanced:
+      - "Production Readiness — configurable resource limits, version management"
+      - "Search Performance — FTS5 indexed search replaces full-table LIKE scans"
+    blockers_removed:
+      - "Inconsistent package versions → all 0.4.0"
+      - "No CHANGELOG → complete release history"
+      - "No request timeout → configurable per-request timeout with 408"
+      - "Hardcoded body limit → configurable MAX_BODY_BYTES"
+      - "LIKE-based search → FTS5 full-text search with BM25 ranking"
+    blockers_added: []
+    commit_results: ["6107f8f", "0aa91c1"]
+    push_results: ["c0804d1..0aa91c1 → origin/main"]
 
   source_control_policy:
     commit_after_each_completed_candidate: true
