@@ -15,25 +15,25 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-04"
-    commit_or_tag: "8fd9b42"
-    current_session_id: "session_012"
-    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 940 tests across 38 files. Funnel edge cases (17 — resolveStage churn_risk/expansion, generateUpgradePrompt paid/churn/engagement, getFunnelMetrics depth), snapshot auth+tier limits (14 — invalid/revoked key 401, quota 429, file count 413, file size 413, tier upgrade, anonymous, retrieval), generator alt profiles (20 — Vue+Sass, Python+Flask, styled-components, CSS modules, minimal project). Grade: A (98+)."
+    commit_or_tag: "6cda9e6"
+    current_session_id: "session_013"
+    one_sentence_summary: "Full-stack Axis Toolbox with 80 generators across 17 programs, 52+ endpoints, 989 tests across 41 files. CLI entry point full coverage: parseArgs+routing (19 — defaults, positionals, flags, shorthands, formatBytes B/KB/MB, unknown command), auth+programs (15 — login/logout/status, key prefix, config paths, FREE/PRO tier, pluralization), analyze+github pipelines (15 — scan/run/write flow, error paths, quiet mode, async fetch, programs filter). Grade: A (98+)."
     current_status: "building"
     current_focus_vertical: "quality_hardening_to_a_plus"
 
   executive_truth:
     maturity_estimate:
       functional_percent: 90
-      hardened_percent: 83
+      hardened_percent: 86
       integrated_percent: 96
       production_percent: 58
     confidence:
       architecture_confidence: 94
-      runtime_confidence: 96
+      runtime_confidence: 97
       pipeline_confidence: 99
       product_surface_confidence: 92
       integration_confidence: 97
-      notes: "940 tests across 38 files (889→940). eq_063: Funnel edge cases (17 tests — resolveStage churn_risk engaged+14d inactive, expansion paid+program_added, generateUpgradePrompt paid/churn_risk/engagement, getFunnelMetrics activation_rate/conversion_rate). eq_064: Snapshot auth+tier limits (14 tests — invalid/revoked key 401, quota exceeded 429 via seeded usage records, file count/size 413, tier upgrade unlocks, anonymous bypass, retrieval 404/200). eq_065: Generator alt profiles (20 tests — Vue+Sass sass detection, Python+Flask plain-css, styled-components css-in-js, CSS modules, minimal project). Runtime confidence 95→96, pipeline confidence 98→99."
+      notes: "989 tests across 41 files (940→989). eq_066: CLI parseArgs+routing (19 tests — default analyze, command/target positionals, --output/--program/--quiet flags, --help/-h/--version/-v overrides, formatBytes B/KB/MB, unknown command error). eq_067: CLI auth+programs (15 tests — login saves key, key prefix display, login without axis_ error, logout removes key, status authenticated/not-authenticated/config-path/api-url, programs grouping/FREE-PRO tiers/pluralization). eq_068: CLI pipelines (15 tests — analyze scan→run→write success, empty scan/generated errors, programs filter, github async fetch/error/empty/info/filter). Runtime confidence 96→97, pipeline confidence 99→99."
 
   boundary_truth:
     accepted_input_modes:
@@ -796,6 +796,48 @@ project_continuation:
         completion_status: complete
         commit: "ea16357"
 
+      - id: "eq_063"
+        description: "Funnel edge cases — 17 tests covering resolveStage churn_risk engaged+14d inactive, expansion paid+program_added, generateUpgradePrompt paid/churn_risk/engagement, getFunnelMetrics activation_rate/conversion_rate."
+        roi_score: 92
+        roi_reason: "validation_strength 5, production_quality 5, integration_quality 4. Funnel resolveStage churn_risk/expansion had zero tests."
+        completion_status: complete
+        commit: "8fd9b42"
+
+      - id: "eq_064"
+        description: "Snapshot auth+tier limits — 14 tests covering invalid/revoked key 401, quota exceeded 429 via seeded usage records, file count/size 413, tier upgrade unlocks, anonymous bypass, retrieval 404/200."
+        roi_score: 88
+        roi_reason: "validation_strength 5, security 5, integration_quality 4. HTTP-level auth/quota enforcement had zero tests."
+        completion_status: complete
+        commit: "8fd9b42"
+
+      - id: "eq_065"
+        description: "Generator alt profiles — 20 tests covering Vue+Sass, Python+Flask, styled-components, CSS modules, minimal project conditional branches."
+        roi_score: 85
+        roi_reason: "validation_strength 5, production_quality 4, canonical_coherence 4. Generator conditional branches only tested with 1 profile."
+        completion_status: complete
+        commit: "8fd9b42"
+
+      - id: "eq_066"
+        description: "CLI parseArgs+routing — 19 tests covering argument parsing (defaults, positionals, flags, shorthands, overrides), formatBytes (B/KB/MB), command routing (help/version/unknown)."
+        roi_score: 90
+        roi_reason: "validation_strength 5, production_quality 5, canonical_coherence 5. cli.ts was the only source module with zero test references. 315 lines, ~42 branches, entirely untested."
+        completion_status: complete
+        commit: "6cda9e6"
+
+      - id: "eq_067"
+        description: "CLI auth+programs — 15 tests covering handleAuth login/logout/status (key save, prefix, encrypted confirm, no-key error, removal, authenticated/unauthenticated/config/url) and printPrograms (grouping, FREE/PRO tiers, pluralization)."
+        roi_score: 90
+        roi_reason: "validation_strength 5, production_quality 5, canonical_coherence 5. handleAuth and printPrograms had zero coverage."
+        completion_status: complete
+        commit: "6cda9e6"
+
+      - id: "eq_068"
+        description: "CLI pipelines — 15 tests covering analyze pipeline (scan→run→write success, empty scan, programs filter, no generated, output dir, summary, program groups) and github pipeline (missing URL, success fetch, fetch error, empty files, no generated, repo info, programs filter)."
+        roi_score: 90
+        roi_reason: "validation_strength 5, production_quality 5, integration_quality 5. Analyze and GitHub async pipelines in main() had zero tests."
+        completion_status: complete
+        commit: "6cda9e6"
+
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
     selected_move: "Implement 3 new programs with generators, handlers, routes, and tests"
@@ -1457,6 +1499,32 @@ project_continuation:
     blockers_added: []
     commit_results: ["8fd9b42"]
     push_results: ["3513d99..8fd9b42 → origin/main"]
+
+  current_session_result_029:
+    session_goal: "CLI entry point full coverage — the only genuinely untested module"
+    selected_move: "eq_066 → eq_067 → eq_068: CLI parseArgs+routing, auth+programs, analyze+github pipelines"
+    selected_move_roi_reason: "ROI score 90. cli.ts (315 lines, ~42 branches) was the ONLY source module with zero test references. Verified all other modules already well-tested (billing 52 tests, funnel 20+, scanner 15, runner 18, github 57). Maximum coverage delta from minimum implementation cost."
+    completed_candidates:
+      - "eq_066: CLI parseArgs+routing — 19 tests (default analyze, command/target positionals, --output/--program/--quiet flags, --help/-h/--version/-v overrides, formatBytes B/KB/MB, unknown command error). 959 total (apps/cli/src/cli-commands.test.ts)"
+      - "eq_067: CLI auth+programs — 15 tests (login saves key/prefix/encrypted, login without axis_ error, logout removes/confirms, status authenticated/not-authenticated/config-path/api-url, programs grouped/FREE-PRO tiers/pluralization). 974 total (apps/cli/src/cli-auth.test.ts)"
+      - "eq_068: CLI pipelines — 15 tests (analyze scan→run→write success/empty-scan/programs-filter/no-generated/output-dir/summary/groups, github missing-URL/success-fetch/fetch-error/empty-files/no-generated/repo-info/programs-filter). 989 total (apps/cli/src/cli-pipeline.test.ts)"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "989 vitest tests passing across 41 files (940→989, +49)"
+      - "3 new test files: cli-commands.test.ts, cli-auth.test.ts, cli-pipeline.test.ts"
+      - "apps/cli/src/cli-commands.test.ts — 19 tests, parseArgs positionals+flags+overrides, formatBytes, command routing"
+      - "apps/cli/src/cli-auth.test.ts — 15 tests, handleAuth login/logout/status, printPrograms tiers+grouping"
+      - "apps/cli/src/cli-pipeline.test.ts — 15 tests, analyze+github full pipelines with async fetch and error paths"
+    verticals_advanced:
+      - "Test Coverage — A+(99) (49 new tests, 3 new test files, 41 total)"
+      - "Runtime Confidence — 96 → 97 (CLI entry point — last untested module — now fully covered)"
+      - "Pipeline Confidence — 99 → 99 (maintained)"
+    blockers_removed:
+      - "cli.ts had zero test coverage despite 315 lines and ~42 branches → 49 tests covering parseArgs, formatBytes, handleAuth, printPrograms, analyze pipeline, github pipeline, all error paths"
+    blockers_added: []
+    commit_results: ["6cda9e6"]
+    push_results: ["95e9817..6cda9e6 → origin/main"]
 
   source_control_policy:
     commit_after_each_completed_candidate: true
