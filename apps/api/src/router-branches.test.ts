@@ -246,6 +246,17 @@ describe("Security headers on non-success responses", () => {
   });
 });
 
+// ─── CORS preflight ─────────────────────────────────────────────
+
+describe("CORS preflight handling", () => {
+  it("OPTIONS returns 204 with correct CORS headers", async () => {
+    const res = await httpReq(PORT_A, "OPTIONS", "/up");
+    expect(res.status).toBe(204);
+    expect(res.headers["access-control-allow-origin"]).toBe("*");
+    expect(res.headers["access-control-allow-methods"]).toContain("OPTIONS");
+  });
+});
+
 // ─── Logging level branches ─────────────────────────────────────
 
 describe("Log level selection via createApp middleware", () => {

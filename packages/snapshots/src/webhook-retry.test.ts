@@ -285,3 +285,21 @@ describe("processRetryQueue", () => {
     expect(dead[0]!.attempt_number).toBe(MAX_RETRY_ATTEMPTS);
   });
 });
+
+// ─── updateWebhookActive edge cases ─────────────────────────────
+
+describe("updateWebhookActive edge cases", () => {
+  it("returns false for non-existent webhook_id", () => {
+    const result = updateWebhookActive("wh-nonexistent-999", false);
+    expect(result).toBe(false);
+  });
+});
+
+// ─── getPendingRetries empty result ─────────────────────────────
+
+describe("getPendingRetries empty result", () => {
+  it("returns empty array when no retries pending", () => {
+    const result = getPendingRetries();
+    expect(result).toEqual([]);
+  });
+});

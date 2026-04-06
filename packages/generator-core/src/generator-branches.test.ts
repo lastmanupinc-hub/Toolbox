@@ -1990,3 +1990,557 @@ describe("Artifacts empty routes + entry_points", () => {
     expect(f).toBeDefined();
   });
 });
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Layer 3 — deeper branch coverage across generators
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+describe("Optimization npm-only package manager", () => {
+  it("optimization-rules: uses npm when no pnpm or yarn detected", () => {
+    const s = snap({ name: "npm-proj", files: [
+      { path: "app.ts", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, [".ai/optimization-rules.md"]);
+    inp.context_map.detection.package_managers = ["npm"];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/optimization-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("npm");
+  });
+
+  it("cost-estimate: includes language-diversity optimization with >3 languages", () => {
+    const s = snap({ name: "poly-lang", files: [
+      { path: "main.py", content: "x=1", size: 5, language: null },
+      { path: "app.ts", content: "x", size: 3, language: null },
+      { path: "lib.rs", content: "fn main(){}", size: 15, language: null },
+      { path: "util.go", content: "package main", size: 14, language: null },
+    ]});
+    const inp = input(s, ["cost-estimate.json"]);
+    inp.context_map.detection.languages = [
+      { name: "Python", confidence: 0.9, file_count: 1, loc_percent: 25 },
+      { name: "TypeScript", confidence: 0.9, file_count: 1, loc_percent: 25 },
+      { name: "Rust", confidence: 0.9, file_count: 1, loc_percent: 25 },
+      { name: "Go", confidence: 0.9, file_count: 1, loc_percent: 25 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "cost-estimate.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.optimization_opportunities.some((o: string) => o.includes("language"))).toBe(true);
+  });
+
+  it("cost-estimate: includes hotspot focus when >5 hotspots", () => {
+    const s = snap({ name: "hot-proj", files: [
+      { path: "a.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["cost-estimate.json"]);
+    inp.context_map.dependency_graph.hotspots = Array.from({ length: 6 }, (_, i) => ({
+      path: `src/file${i}.ts`,
+      inbound_count: 10,
+      outbound_count: 5,
+      risk_score: 7.5,
+    }));
+    const result = generateFiles(inp);
+    const f = getFile(result, "cost-estimate.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.optimization_opportunities.some((o: string) => o.includes("hotspot"))).toBe(true);
+  });
+
+  it("cost-estimate: includes config files optimization", () => {
+    const s = snap({ name: "config-proj", files: [
+      { path: "tsconfig.json", content: "{}", size: 5, language: null },
+    ]});
+    const inp = input(s, ["cost-estimate.json"]);
+    inp.context_map.structure.file_tree_summary = [
+      { path: "tsconfig.json", size: 50, language: "JSON", role: "config", loc: 10 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "cost-estimate.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.optimization_opportunities.some((o: string) => o.includes("config"))).toBe(true);
+  });
+});
+
+describe("Superpowers build tool branches", () => {
+  it("superpower-pack: uses vite build command", () => {
+    const s = snap({ name: "vite-proj", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.detection.build_tools = ["vite"];
+    inp.context_map.detection.package_managers = ["npm"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("npm run build");
+  });
+
+  it("superpower-pack: uses tsc when only tsc detected", () => {
+    const s = snap({ name: "tsc-proj", files: [
+      { path: "main.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.detection.build_tools = ["tsc"];
+    inp.context_map.detection.package_managers = ["yarn"];
+    inp.context_map.detection.test_frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("npx tsc");
+    expect(f!.content).toContain("yarn");
+  });
+
+  it("superpower-pack: uses jest testing commands", () => {
+    const s = snap({ name: "jest-proj", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.detection.test_frameworks = ["jest"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("npx jest");
+  });
+
+  it("superpower-pack: uses pytest testing commands", () => {
+    const s = snap({ name: "py-proj", files: [
+      { path: "main.py", content: "pass", size: 5, language: null },
+    ]});
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.detection.test_frameworks = ["pytest"];
+    inp.context_map.detection.package_managers = ["pip"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("python -m pytest");
+  });
+
+  it("superpower-pack: renders debugging hotspots", () => {
+    const s = snap({ name: "hot-proj", files: [
+      { path: "a.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 15, outbound_count: 8, risk_score: 9.2 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("src/core.ts");
+    expect(f!.content).toContain("9.2");
+  });
+});
+
+describe("Superpowers workflow and refactor branches", () => {
+  it("workflow-registry: includes Next.js page creation workflow", () => {
+    const s = snap({ name: "next-wf", files: [
+      { path: "app/page.tsx", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["workflow-registry.json"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Next.js", confidence: 0.9, signals: ["next.config.js"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "workflow-registry.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.workflows.some((w: { id: string }) => w.id === "nextjs-page-creation")).toBe(true);
+  });
+
+  it("workflow-registry: includes Prisma schema migration workflow", () => {
+    const s = snap({ name: "prisma-wf", files: [
+      { path: "schema.prisma", content: "model User {}", size: 20, language: null },
+    ]});
+    const inp = input(s, ["workflow-registry.json"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Prisma", confidence: 0.9, signals: ["schema.prisma"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "workflow-registry.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.workflows.some((w: { id: string }) => w.id === "schema-migration")).toBe(true);
+  });
+
+  it("refactor-checklist: renders high-risk hotspot files", () => {
+    const s = snap({ name: "risky-proj", files: [
+      { path: "god.ts", content: "x=1", size: 5, language: null },
+    ]});
+    const inp = input(s, ["refactor-checklist.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "god.ts", inbound_count: 20, outbound_count: 15, risk_score: 8.5 },
+      { path: "mid.ts", inbound_count: 5, outbound_count: 3, risk_score: 3.0 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "refactor-checklist.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("High-Risk Files");
+    expect(f!.content).toContain("god.ts");
+    expect(f!.content).toContain("8.5");
+  });
+
+  it("refactor-checklist: shows architecture patterns when present", () => {
+    const s = snap({ name: "layered-proj", files: [
+      { path: "src/api.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["refactor-checklist.md"]);
+    inp.context_map.architecture_signals.patterns_detected = ["layered", "repository"];
+    inp.context_map.architecture_signals.layer_boundaries = [
+      { layer: "API", directories: ["src/api"] },
+      { layer: "Data", directories: ["src/store"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "refactor-checklist.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Architecture Alignment");
+    expect(f!.content).toContain("layered");
+    expect(f!.content).toContain("API");
+  });
+
+  it("test-generation-rules: emits pytest rules", () => {
+    const s = snap({ name: "py-rules", files: [
+      { path: "main.py", content: "pass", size: 5, language: null },
+    ]});
+    const inp = input(s, ["test-generation-rules.md"]);
+    inp.context_map.detection.test_frameworks = ["pytest"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "test-generation-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("pytest");
+    expect(f!.content).toContain("test_<module>.py");
+  });
+
+  it("test-generation-rules: emits component test rules for React", () => {
+    const s = snap({ name: "react-t", files: [
+      { path: "App.tsx", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["test-generation-rules.md"]);
+    inp.context_map.detection.test_frameworks = ["vitest"];
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["App.tsx"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "test-generation-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Component Tests");
+    expect(f!.content).toContain("@testing-library/react");
+  });
+
+  it("automation-pipeline: uses pnpm cache path", () => {
+    const s = snap({ name: "pnpm-pipe", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["automation-pipeline.yaml"]);
+    inp.context_map.detection.package_managers = ["pnpm"];
+    inp.context_map.detection.build_tools = ["eslint"];
+    inp.context_map.detection.test_frameworks = ["vitest"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "automation-pipeline.yaml");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("~/.pnpm-store");
+    expect(f!.content).toContain("pnpm eslint");
+    expect(f!.content).toContain("pnpm vitest run");
+  });
+
+  it("automation-pipeline: uses npm fallback when no test framework", () => {
+    const s = snap({ name: "bare-pipe", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["automation-pipeline.yaml"]);
+    inp.context_map.detection.package_managers = ["npm"];
+    inp.context_map.detection.build_tools = [];
+    inp.context_map.detection.test_frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "automation-pipeline.yaml");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("npm test");
+    expect(f!.content).toContain("node_modules");
+  });
+});
+
+describe("Frontend layout-patterns branches", () => {
+  it("layout-patterns: emits React SPA layout", () => {
+    const s = snap({ name: "react-spa", files: [
+      { path: "App.tsx", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "react", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("React SPA Layout Pattern");
+  });
+
+  it("layout-patterns: emits generic layout for non-React", () => {
+    const s = snap({ name: "py-web", files: [
+      { path: "main.py", content: "pass", size: 5, language: null },
+    ]});
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.detection.frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Standard layout structure");
+  });
+
+  it("component-guidelines: emits non-Next.js file structure", () => {
+    const s = snap({ name: "react-only", files: [
+      { path: "App.tsx", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["component-guidelines.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["App.tsx"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("src/components/");
+    expect(f!.content).toContain("common/");
+  });
+});
+
+describe("Notebook build_tools and score branches", () => {
+  it("study-brief: includes build tools when detected", () => {
+    const s = snap({ name: "built-proj", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["study-brief.md"]);
+    inp.context_map.detection.build_tools = ["vite", "tsc"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "study-brief.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("vite");
+  });
+
+  it("research-threads: includes score < 4 path (low separation)", () => {
+    const s = snap({ name: "tangled", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["research-threads.md"]);
+    inp.context_map.architecture_signals.separation_score = 2;
+    inp.context_map.architecture_signals.patterns_detected = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "research-threads.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("separation is low");
+  });
+});
+
+describe("Debug framework-specific branches", () => {
+  it("debug-playbook: emits Prisma debugging section", () => {
+    const s = snap({ name: "prisma-debug", files: [
+      { path: "schema.prisma", content: "model User {}", size: 20, language: null },
+    ]});
+    const inp = input(s, [".ai/debug-playbook.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Prisma", confidence: 0.9, signals: ["schema.prisma"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/debug-playbook.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Prisma");
+    expect(f!.content).toContain("prisma migrate dev");
+  });
+
+  it("debug-playbook: emits Express API server section", () => {
+    const s = snap({ name: "express-debug", files: [
+      { path: "server.ts", content: "app.get", size: 15, language: null },
+    ]});
+    const inp = input(s, [".ai/debug-playbook.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Express", confidence: 0.9, signals: ["express"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/debug-playbook.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("API Server");
+    expect(f!.content).toContain("Route 404");
+  });
+
+  it("root-cause-checklist: renders hotspot suspect files", () => {
+    const s = snap({ name: "bug-hunt", files: [
+      { path: "core.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["root-cause-checklist.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 12, outbound_count: 8, risk_score: 7.5 },
+    ];
+    inp.context_map.detection.frameworks = [
+      { name: "next", confidence: 0.9, signals: [] },
+      { name: "express", confidence: 0.8, signals: [] },
+      { name: "prisma", confidence: 0.8, signals: [] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "root-cause-checklist.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("src/core.ts");
+    expect(f!.content).toContain("React DevTools");
+    expect(f!.content).toContain("Prisma query logging");
+  });
+});
+
+describe("Algorithmic project type branches", () => {
+  it("parameter-pack: CLI project gets organic symmetry", () => {
+    const s = snap({ name: "my-cli", type: "cli_tool", files: [
+      { path: "cli.ts", content: "process.argv", size: 15, language: null },
+    ]});
+    const inp = input(s, ["parameter-pack.json"]);
+    inp.context_map.architecture_signals.separation_score = 30;
+    const result = generateFiles(inp);
+    const f = getFile(result, "parameter-pack.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.parameters.structure.symmetry).toBe("organic");
+  });
+
+  it("export-manifest: large project gets high density range", () => {
+    const s = snap({ name: "big-proj", files: [
+      { path: "a.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["export-manifest.yaml"]);
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", confidence: 0.9, file_count: 250, loc_percent: 100 },
+    ];
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["app.tsx"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "export-manifest.yaml");
+    expect(f).toBeDefined();
+  });
+});
+
+describe("Brand framework and messaging branches", () => {
+  it("brand-guidelines: emits stack-specific section for React", () => {
+    const s = snap({ name: "react-brand", files: [
+      { path: "App.tsx", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["brand-guidelines.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["App.tsx"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Stack-Specific Application");
+    expect(f!.content).toContain("PascalCase");
+  });
+
+  it("content-constraints: emits project conventions", () => {
+    const s = snap({ name: "strict-proj", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["content-constraints.md"]);
+    inp.context_map.ai_context.conventions = ["Use strict TypeScript", "No any types"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-constraints.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Project-Specific Conventions");
+    expect(f!.content).toContain("Use strict TypeScript");
+  });
+
+  it("messaging-system: includes entry points and language counts", () => {
+    const s = snap({ name: "api-brand", files: [
+      { path: "api.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["messaging-system.yaml"]);
+    inp.context_map.entry_points = [
+      { path: "src/main.ts", type: "application" },
+    ];
+    inp.context_map.routes = [
+      { method: "GET", path: "/api/health", source_file: "api.ts" },
+    ];
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", confidence: 0.9, file_count: 10, loc_percent: 100 },
+    ];
+    inp.context_map.detection.frameworks = [
+      { name: "Express", confidence: 0.9, signals: ["express"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "messaging-system.yaml");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("entry_points:");
+    expect(f!.content).toContain("language_support:");
+    expect(f!.content).toContain("framework_detection:");
+  });
+});
+
+describe("Theme CSS framework branches", () => {
+  it("design-tokens: detects CSS modules styling approach", () => {
+    const s = snap({ name: "css-mod", files: [
+      { path: "App.module.css", content: ".root { color: red }", size: 25, language: null },
+    ]});
+    const inp = input(s, [".ai/design-tokens.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/design-tokens.json");
+    expect(f).toBeDefined();
+  });
+
+  it("design-tokens: detects styled-components approach", () => {
+    const s = snap({ name: "styled-proj", files: [
+      { path: "App.tsx", content: "styled.div", size: 20, language: null },
+    ]});
+    const inp = input(s, [".ai/design-tokens.json"]);
+    inp.context_map.dependency_graph.external_dependencies = [
+      { name: "styled-components", version: "6.0.0" },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/design-tokens.json");
+    expect(f).toBeDefined();
+  });
+
+  it("dark-mode-tokens: generates for plain CSS project", () => {
+    const s = snap({ name: "dark-proj", files: [
+      { path: "style.css", content: "body{}", size: 10, language: null },
+    ]});
+    const inp = input(s, ["dark-mode-tokens.json"]);
+    inp.context_map.detection.frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "dark-mode-tokens.json");
+    expect(f).toBeDefined();
+  });
+
+  it("theme-guidelines: generates for Vue project", () => {
+    const s = snap({ name: "vue-theme", files: [
+      { path: "App.vue", content: "<template>hi</template>", size: 25, language: null },
+    ]});
+    const inp = input(s, ["theme-guidelines.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Vue", confidence: 0.9, signals: ["App.vue"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "theme-guidelines.md");
+    expect(f).toBeDefined();
+  });
+});
+
+describe("Marketing ab-test-plan hasNext branch", () => {
+  it("ab-test-plan: emits SSR approach for Next.js", () => {
+    const s = snap({ name: "next-ab", files: [
+      { path: "app/page.tsx", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["ab-test-plan.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Next.js", confidence: 0.9, signals: ["next.config.js"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "ab-test-plan.md");
+    expect(f).toBeDefined();
+  });
+
+  it("sequence-pack: generates with conventions present", () => {
+    const s = snap({ name: "conv-proj", files: [
+      { path: "app.ts", content: "x", size: 3, language: null },
+    ]});
+    const inp = input(s, ["sequence-pack.md"]);
+    inp.context_map.ai_context.key_abstractions = ["ContextMap", "Generator"];
+    inp.context_map.ai_context.conventions = ["camelCase variables"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "sequence-pack.md");
+    expect(f).toBeDefined();
+  });
+});
