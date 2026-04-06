@@ -3896,4 +3896,423 @@ describe("Layer 6 branch coverage", () => {
     expect(f).toBeDefined();
     expect(f!.content).toContain("Route Optimization");
   });
+
+  // ─── Layer 7 — deeper branch coverage ──────────────────────────
+
+  describe("Layer 7 branch coverage", () => {
+    // --- generators-optimization.ts (83.33%) ---
+
+    it("optimization-rules warns for large projects (>50K LOC)", () => {
+      const files = makeLargeFiles(500, 110);
+      const s = snap({ files });
+      const inp = input(s, [".ai/optimization-rules.md"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, ".ai/optimization-rules.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("exceeds most context windows");
+    });
+
+    it("optimization-rules notes medium projects (10-50K LOC)", () => {
+      const files = makeLargeFiles(100, 150);
+      const s = snap({ files });
+      const inp = input(s, [".ai/optimization-rules.md"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, ".ai/optimization-rules.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("large context windows");
+    });
+
+    it("prompt-diff-report scores arch patterns and >10 routes", () => {
+      const s = snap({ files: NEXTJS_FILES });
+      const inp = input(s, ["prompt-diff-report.md"]);
+      inp.context_map.architecture_signals.patterns_detected = ["MVC", "Repository", "Service"];
+      inp.context_map.architecture_signals.separation_score = 75;
+      for (let i = 0; i < 12; i++) {
+        inp.context_map.routes.push({ path: `/api/r${i}`, method: "GET", source_file: `src/r${i}.ts` });
+      }
+      const result = generateFiles(inp);
+      const f = getFile(result, "prompt-diff-report.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("3 detected patterns");
+      expect(f!.content).toContain("route map");
+    });
+
+    it("cost-estimate includes per-language token breakdown", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["cost-estimate.json"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, "cost-estimate.json");
+      expect(f).toBeDefined();
+      const data = JSON.parse(f!.content);
+      expect(data.language_breakdown.length).toBeGreaterThan(0);
+    });
+
+    it("token-budget-plan generates language budget and context allocation", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["token-budget-plan.md"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, "token-budget-plan.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Token Budget by Language");
+      expect(f!.content).toContain("Context Window Allocation");
+    });
+
+    // --- generators-notebook.ts (85%) ---
+
+    it("notebook-summary includes warnings and entry points", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["notebook-summary.md"]);
+      inp.context_map.ai_context.warnings.push("Circular import detected");
+      inp.context_map.entry_points.push({ path: "src/main.ts", description: "Main entry" });
+      const result = generateFiles(inp);
+      const f = getFile(result, "notebook-summary.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Warnings");
+      expect(f!.content).toContain("Circular import detected");
+      expect(f!.content).toContain("Entry Points");
+    });
+
+    it("citation-index generates framework, language, and pattern citations", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["citation-index.json"]);
+      inp.context_map.detection.frameworks = [
+        { name: "next", version: "14.0.0", confidence: 1.0 },
+        { name: "react", version: "18.0.0", confidence: 1.0 },
+      ];
+      inp.context_map.detection.languages = [
+        { name: "TypeScript", file_count: 20, loc: 5000, loc_percent: 80 },
+        { name: "CSS", file_count: 3, loc: 200, loc_percent: 5 },
+      ];
+      inp.context_map.architecture_signals.patterns_detected = ["MVC"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "citation-index.json");
+      expect(f).toBeDefined();
+      const data = JSON.parse(f!.content);
+      const fwCites = data.citations.filter((c: any) => c.type === "documentation");
+      expect(fwCites.some((c: any) => c.source.includes("nextjs.org"))).toBe(true);
+      expect(fwCites.some((c: any) => c.source.includes("react.dev"))).toBe(true);
+      const langCites = data.citations.filter((c: any) => c.type === "reference");
+      expect(langCites.some((c: any) => c.relevance === "primary")).toBe(true);
+      const patCites = data.citations.filter((c: any) => c.type === "pattern");
+      expect(patCites.length).toBeGreaterThan(0);
+    });
+
+    it("research-threads includes known issues from warnings", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["research-threads.md"]);
+      inp.context_map.ai_context.warnings.push("Missing error boundary");
+      const result = generateFiles(inp);
+      const f = getFile(result, "research-threads.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Known Issues to Investigate");
+      expect(f!.content).toContain("Missing error boundary");
+    });
+
+    // --- generators-superpowers.ts (93.47%) ---
+
+    it("test-generation-rules detects vitest and React component guidance", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["test-generation-rules.md"]);
+      inp.context_map.detection.test_frameworks = ["vitest"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "test-generation-rules.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Detected: **vitest**");
+      expect(f!.content).toContain(".test.ts");
+      expect(f!.content).toContain("Component Tests");
+    });
+
+    it("test-generation-rules handles pytest file naming", () => {
+      const s = snap({ files: PYTHON_DJANGO_FILES });
+      const inp = input(s, ["test-generation-rules.md"]);
+      inp.context_map.detection.test_frameworks = ["pytest"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "test-generation-rules.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("test_<module>.py");
+    });
+
+    it("refactor-checklist shows high-risk files and architecture alignment", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["refactor-checklist.md"]);
+      inp.context_map.dependency_graph.hotspots.push({
+        path: "src/mega-module.ts",
+        risk_score: 8.5,
+        inbound_count: 15,
+        outbound_count: 20,
+      });
+      inp.context_map.architecture_signals.patterns_detected = ["Layered Architecture"];
+      inp.context_map.architecture_signals.layer_boundaries = [
+        { layer: "UI", directories: ["src/components"] },
+        { layer: "Data", directories: ["src/stores"] },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "refactor-checklist.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("High-Risk Files");
+      expect(f!.content).toContain("mega-module.ts");
+      expect(f!.content).toContain("Architecture Alignment");
+      expect(f!.content).toContain("Layer boundaries");
+    });
+
+    it("automation-pipeline uses pnpm, eslint, and vitest", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["automation-pipeline.yaml"]);
+      inp.context_map.detection.package_managers = ["pnpm"];
+      inp.context_map.detection.build_tools = ["eslint", "vite"];
+      inp.context_map.detection.test_frameworks = ["vitest"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "automation-pipeline.yaml");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("pnpm install");
+      expect(f!.content).toContain("pnpm eslint");
+      expect(f!.content).toContain("pnpm vitest run");
+      expect(f!.content).toContain("~/.pnpm-store");
+    });
+
+    // --- generators-marketing.ts (92.98%) ---
+
+    it("cro-playbook categorizes login/signup/dashboard/api/docs routes", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["cro-playbook.md"]);
+      inp.context_map.routes = [
+        { path: "/login", method: "GET", source_file: "src/Login.tsx" },
+        { path: "/signup", method: "GET", source_file: "src/Signup.tsx" },
+        { path: "/dashboard", method: "GET", source_file: "src/Dashboard.tsx" },
+        { path: "/api/users", method: "GET", source_file: "src/api/users.ts" },
+        { path: "/docs/intro", method: "GET", source_file: "src/docs/intro.md" },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "cro-playbook.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Reduce friction");
+      expect(f!.content).toContain("A/B test form length");
+      expect(f!.content).toContain("time-to-value");
+      expect(f!.content).toContain("API adoption rate");
+      expect(f!.content).toContain("documentation coverage");
+    });
+
+    // --- generators-canvas.ts (95%) ---
+
+    it("poster-layouts shows architecture diagram with patterns and layers", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["poster-layouts.md"]);
+      inp.context_map.architecture_signals.patterns_detected = ["MVC", "Observer"];
+      inp.context_map.architecture_signals.layer_boundaries = [
+        { layer: "Presentation", directories: ["src/views"] },
+        { layer: "Domain", directories: ["src/models"] },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "poster-layouts.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Architecture Diagram");
+      expect(f!.content).toContain("MVC, Observer");
+    });
+
+    // --- generators-seo.ts (95.23%) ---
+
+    it("content-audit lists page components and warns about no SSR", () => {
+      const pageFiles = [
+        { path: "src/pages/Home.tsx", content: "export default function Home() { return <div>Home</div>; }", size: 60 },
+        { path: "src/pages/About.tsx", content: "export default function About() { return <div>About</div>; }", size: 60 },
+        { path: "package.json", content: '{"name":"test","version":"1.0.0","dependencies":{"react":"18.0.0"}}', size: 70 },
+      ];
+      const s = snap({ files: pageFiles });
+      const inp = input(s, ["content-audit.md"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, "content-audit.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Page Components");
+      expect(f!.content).toContain("pages/Home.tsx");
+      expect(f!.content).toContain("page components found but no SSR");
+    });
+
+    it("meta-tag-audit uses next framework and audits page routes", () => {
+      const s = snap({ files: NEXTJS_FILES });
+      const inp = input(s, ["meta-tag-audit.json"]);
+      inp.context_map.detection.frameworks = [
+        { name: "next", version: "14.0.0", confidence: 1.0 },
+      ];
+      inp.context_map.routes = [
+        { path: "/", method: "GET", source_file: "app/page.tsx" },
+        { path: "/about", method: "GET", source_file: "app/about/page.tsx" },
+        { path: "/api/data", method: "GET", source_file: "app/api/data/route.ts" },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "meta-tag-audit.json");
+      expect(f).toBeDefined();
+      const data = JSON.parse(f!.content);
+      expect(data.framework).toBe("next");
+      expect(data.per_route_audit.length).toBe(2);
+    });
+
+    // --- generators-frontend.ts (93.68%) ---
+
+    it("ui-audit detects CSS/SCSS styling when no tailwind", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["ui-audit.md"]);
+      inp.context_map.detection.frameworks = inp.context_map.detection.frameworks.filter(
+        f => f.name !== "tailwind" && f.name !== "Tailwind CSS"
+      );
+      inp.context_map.detection.languages.push(
+        { name: "CSS", file_count: 3, loc: 200, loc_percent: 5 }
+      );
+      const result = generateFiles(inp);
+      const f = getFile(result, "ui-audit.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("CSS/SCSS");
+    });
+
+    it("ui-audit scores UI component library deps", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["ui-audit.md"]);
+      inp.context_map.dependency_graph.external_dependencies.push(
+        { name: "@radix-ui/react-dialog", version: "1.0.0", type: "production" }
+      );
+      const result = generateFiles(inp);
+      const f = getFile(result, "ui-audit.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("radix");
+      expect(f!.content).toContain("+5");
+    });
+
+    // ─── Layer 7b — branch inversions ────────────────────────────
+
+    // optimization: large project + hotspots + conventions (lines 182-214)
+    it("prompt-diff-report with large project, hotspots, and conventions", () => {
+      const files = makeLargeFiles(55, 10);
+      const s = snap({ files });
+      const inp = input(s, ["prompt-diff-report.md"]);
+      inp.context_map.dependency_graph.hotspots.push(
+        { path: "src/core.ts", risk_score: 7.0, inbound_count: 12, outbound_count: 8 }
+      );
+      inp.context_map.ai_context.conventions.push("Use strict TypeScript");
+      for (let i = 0; i < 22; i++) {
+        inp.context_map.dependency_graph.external_dependencies.push(
+          { name: `dep-${i}`, version: "1.0.0", type: "production" }
+        );
+      }
+      const result = generateFiles(inp);
+      const f = getFile(result, "prompt-diff-report.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("highest-signal files");
+      expect(f!.content).toContain("conventions as system-level");
+      expect(f!.content).toContain("constrain imports");
+    });
+
+    // optimization: medium project (21-50 files) + 11-20 deps
+    it("prompt-diff-report with medium project and moderate deps", () => {
+      const files = makeLargeFiles(25, 10);
+      const s = snap({ files });
+      const inp = input(s, ["prompt-diff-report.md"]);
+      for (let i = 0; i < 15; i++) {
+        inp.context_map.dependency_graph.external_dependencies.push(
+          { name: `pkg-${i}`, version: "1.0.0", type: "production" }
+        );
+      }
+      const result = generateFiles(inp);
+      const f = getFile(result, "prompt-diff-report.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Prompt Diff Report");
+    });
+
+    // notebook: citation-index with vue, express, tailwind, prisma frameworks
+    it("citation-index covers vue/express/tailwind/prisma framework branches", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["citation-index.json"]);
+      inp.context_map.detection.frameworks = [
+        { name: "vue", version: "3.0.0", confidence: 1.0 },
+        { name: "express", version: "4.0.0", confidence: 1.0 },
+        { name: "tailwind", version: "3.0.0", confidence: 1.0 },
+        { name: "prisma", version: "5.0.0", confidence: 1.0 },
+      ];
+      inp.context_map.detection.languages = [
+        { name: "JavaScript", file_count: 10, loc: 3000, loc_percent: 60 },
+        { name: "Python", file_count: 5, loc: 1000, loc_percent: 20 },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "citation-index.json");
+      expect(f).toBeDefined();
+      const data = JSON.parse(f!.content);
+      const fwCites = data.citations.filter((c: any) => c.type === "documentation");
+      expect(fwCites.some((c: any) => c.source.includes("vuejs.org"))).toBe(true);
+      expect(fwCites.some((c: any) => c.source.includes("expressjs.com"))).toBe(true);
+      expect(fwCites.some((c: any) => c.source.includes("tailwindcss.com"))).toBe(true);
+      expect(fwCites.some((c: any) => c.source.includes("prisma.io"))).toBe(true);
+      const langCites = data.citations.filter((c: any) => c.type === "reference");
+      expect(langCites.some((c: any) => c.source.includes("mozilla.org"))).toBe(true);
+      expect(langCites.some((c: any) => c.source.includes("python.org"))).toBe(true);
+    });
+
+    // superpowers: superpower-pack with hotspots (line 105 TRUE)
+    it("superpower-pack lists debugging hotspots", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["superpower-pack.md"]);
+      inp.context_map.dependency_graph.hotspots.push(
+        { path: "src/core.ts", risk_score: 6.0, inbound_count: 10, outbound_count: 8 }
+      );
+      const result = generateFiles(inp);
+      const f = getFile(result, "superpower-pack.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("src/core.ts");
+    });
+
+    // superpowers: refactor-checklist with low-risk hotspots (line 457 FALSE)
+    it("refactor-checklist with low-risk hotspots skips high-risk section", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["refactor-checklist.md"]);
+      inp.context_map.dependency_graph.hotspots.push(
+        { path: "src/util.ts", risk_score: 2.0, inbound_count: 3, outbound_count: 5 }
+      );
+      const result = generateFiles(inp);
+      const f = getFile(result, "refactor-checklist.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Risk Assessment");
+      expect(f!.content).not.toContain("High-Risk Files");
+    });
+
+    // superpowers: refactor-checklist patterns but no layers (line 524 FALSE)
+    it("refactor-checklist with patterns but no layer boundaries", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["refactor-checklist.md"]);
+      inp.context_map.architecture_signals.patterns_detected = ["MVC"];
+      inp.context_map.architecture_signals.layer_boundaries = [];
+      const result = generateFiles(inp);
+      const f = getFile(result, "refactor-checklist.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Architecture Alignment");
+      expect(f!.content).not.toContain("Layer boundaries");
+    });
+
+    // superpowers: automation-pipeline without eslint (line 595 FALSE)
+    it("automation-pipeline without eslint uses npx tsc only", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["automation-pipeline.yaml"]);
+      inp.context_map.detection.package_managers = ["npm"];
+      inp.context_map.detection.build_tools = ["vite"];
+      inp.context_map.detection.test_frameworks = ["jest"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "automation-pipeline.yaml");
+      expect(f).toBeDefined();
+      expect(f!.content).not.toContain("eslint");
+      expect(f!.content).toContain("npx tsc --noEmit");
+      expect(f!.content).toContain("node_modules");
+    });
+
+    // canvas: poster-layouts with layers but no patterns (line 235 FALSE)
+    it("poster-layouts with layers but no patterns", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["poster-layouts.md"]);
+      inp.context_map.architecture_signals.patterns_detected = [];
+      inp.context_map.architecture_signals.layer_boundaries = [
+        { layer: "UI", directories: ["src/views"] },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "poster-layouts.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Architecture Diagram");
+      expect(f!.content).toContain("UI");
+      expect(f!.content).not.toContain("Patterns:");
+    });
+  });
 });
