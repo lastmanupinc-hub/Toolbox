@@ -4593,4 +4593,142 @@ describe("Layer 6 branch coverage", () => {
       expect(f!.content).not.toContain("Known Issues to Investigate");
     });
   });
+
+  // ─── Layer 9 — final generator branch sweeps ──────────────────
+
+  describe("Layer 9 branch coverage", () => {
+    // optimization: empty project (line 20 totalFiles=0), patterns (line 147)
+    it("optimization-rules with empty project covers zero-files ternary", () => {
+      const s = snap({ files: [] });
+      const inp = input(s, [".ai/optimization-rules.md"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, ".ai/optimization-rules.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("comfortably fits");
+    });
+
+    it("optimization-rules with architecture patterns", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, [".ai/optimization-rules.md"]);
+      inp.context_map.architecture_signals.patterns_detected = ["MVC", "Repository"];
+      inp.context_map.dependency_graph.hotspots.push(
+        { path: "src/core.ts", risk_score: 5.0, inbound_count: 8, outbound_count: 6 }
+      );
+      const result = generateFiles(inp);
+      const f = getFile(result, ".ai/optimization-rules.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Architecture Patterns");
+      expect(f!.content).toContain("Dependency Hotspots");
+    });
+
+    // superpowers: workflow-registry with yarn (line 172)
+    it("workflow-registry uses yarn package manager", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["workflow-registry.json"]);
+      inp.context_map.detection.package_managers = ["yarn"];
+      inp.context_map.detection.test_frameworks = ["jest"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "workflow-registry.json");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("yarn");
+    });
+
+    // superpowers: automation-pipeline with eslint + npm (line 595 npx branch)
+    it("automation-pipeline uses npx eslint when pm is npm", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["automation-pipeline.yaml"]);
+      inp.context_map.detection.package_managers = ["npm"];
+      inp.context_map.detection.build_tools = ["eslint"];
+      inp.context_map.detection.test_frameworks = ["vitest"];
+      const result = generateFiles(inp);
+      const f = getFile(result, "automation-pipeline.yaml");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("npx eslint");
+    });
+
+    // skills: AGENTS.md without warnings (line 109 FALSE branch)
+    it("AGENTS.md without warnings skips Known Issues section", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["AGENTS.md"]);
+      inp.context_map.ai_context.warnings = [];
+      const result = generateFiles(inp);
+      const f = getFile(result, "AGENTS.md");
+      expect(f).toBeDefined();
+      expect(f!.content).not.toContain("Known Issues");
+    });
+
+    // brand: messaging-system with empty languages (line 371/372 FALSE)
+    it("messaging-system with no detected languages", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["messaging-system.yaml"]);
+      inp.context_map.detection.languages = [];
+      const result = generateFiles(inp);
+      const f = getFile(result, "messaging-system.yaml");
+      expect(f).toBeDefined();
+    });
+
+    // artifacts: component-library with lowercase react + tailwind (line 458-459 TRUE)
+    it("component-library detects react and tailwind styling", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["component-library.json"]);
+      inp.context_map.detection.frameworks = [
+        { name: "react", version: "18.0.0", confidence: 1.0 },
+        { name: "tailwind", version: "3.0.0", confidence: 1.0 },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "component-library.json");
+      expect(f).toBeDefined();
+      const data = JSON.parse(f!.content);
+      expect(data.framework).toBe("react");
+      expect(data.styling).toBe("tailwind");
+    });
+
+    // frontend: ui-audit with no styling at all (line 381 "Unknown")
+    it("ui-audit shows Unknown styling when no CSS or tailwind", () => {
+      const files = [
+        { path: "src/app.ts", content: "console.log('hello');", size: 25 },
+        { path: "package.json", content: '{"name":"test","version":"1.0.0"}', size: 30 },
+      ];
+      const s = snap({ files });
+      const inp = input(s, ["ui-audit.md"]);
+      inp.context_map.detection.frameworks = [];
+      inp.context_map.detection.languages = [
+        { name: "TypeScript", file_count: 1, loc: 1, loc_percent: 100 },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "ui-audit.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Unknown");
+    });
+
+    // seo: content-audit with .tsx template files (line 434-435)
+    it("content-audit counts template files", () => {
+      const files = [
+        { path: "src/App.tsx", content: "export default () => <div />;", size: 30 },
+        { path: "src/Page.jsx", content: "export default () => <p />;", size: 30 },
+        { path: "package.json", content: '{"name":"test","version":"1.0.0","dependencies":{"react":"18.0.0"}}', size: 65 },
+      ];
+      const s = snap({ files });
+      const inp = input(s, ["content-audit.md"]);
+      const result = generateFiles(inp);
+      const f = getFile(result, "content-audit.md");
+      expect(f).toBeDefined();
+      expect(f!.content).toContain("Template files");
+    });
+
+    // seo: meta-tag-audit with deep nested route (line 507 optional chain)
+    it("meta-tag-audit handles deep nested routes", () => {
+      const s = snap({ files: REACT_SPA_FILES });
+      const inp = input(s, ["meta-tag-audit.json"]);
+      inp.context_map.detection.frameworks = [];
+      inp.context_map.routes = [
+        { path: "/blog/2025/my-post", method: "GET", source_file: "app/blog/page.tsx" },
+      ];
+      const result = generateFiles(inp);
+      const f = getFile(result, "meta-tag-audit.json");
+      expect(f).toBeDefined();
+      const data = JSON.parse(f!.content);
+      expect(data.per_route_audit[0].required_tags.title.template).toContain("my post");
+    });
+  });
 });
