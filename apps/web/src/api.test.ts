@@ -2,10 +2,12 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
   createSnapshot,
   getGeneratedFiles,
+  getGeneratedFile,
   runProgram,
   analyzeGitHubUrl,
   healthCheck,
   getExportUrl,
+  downloadExport,
   createAccount,
   getAccount,
   createApiKey,
@@ -14,9 +16,14 @@ import {
   getUsage,
   updateTier,
   getPlans,
+  getUpgradePrompt,
+  dismissUpgradePrompt,
   listSeats,
   inviteSeat,
   revokeSeat,
+  searchQuery,
+  indexSnapshot,
+  getFunnelStatus,
   type SnapshotPayload,
 } from "./api.ts";
 
@@ -351,5 +358,189 @@ describe("revokeSeat", () => {
     await revokeSeat("seat123");
     expect(fetchFn.mock.calls[0][0]).toBe("/v1/account/seats/seat123/revoke");
     expect(fetchFn.mock.calls[0][1].method).toBe("POST");
+  });
+});
+
+// ─── getGeneratedFile ───────────────────────────────────────────
+
+describe("getGeneratedFile", () => {
+  it("fetches single file as text", async () => {
+    const fetchFn = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      text: () => Promise.resolve("file content here"),
+      headers: { get: () => null },
+    });
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await getGeneratedFile("proj1", "src/index.ts");
+    expect(result).toBe("file content here");
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/projects/proj1/generated-files/src%2Findex.ts");
+  });
+
+  it("throws on non-OK response", async () => {
+    const fetchFn = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+      text: () => Promise.resolve("Not found"),
+      headers: { get: () => null },
+    });
+    vi.stubGlobal("fetch", fetchFn);
+
+    await expect(getGeneratedFile("proj1", "missing.ts")).rejects.toThrow("404: Not found");
+  });
+});
+
+// ─── searchQuery ────────────────────────────────────────────────
+
+describe("searchQuery", () => {
+  it("sends POST with query and default limit", async () => {
+    const response = { snapshot_id: "s1", query: "foo", total_indexed_lines: 100, total_indexed_files: 5, results: [] };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await searchQuery("snap1", "foo");
+    expect(result.query).toBe("foo");
+    const body = JSON.parse(fetchFn.mock.calls[0][1].body);
+    expect(body).toEqual({ snapshot_id: "snap1", query: "foo", limit: 50 });
+  });
+
+  it("sends custom limit", async () => {
+    const fetchFn = mockFetch({ snapshot_id: "s1", query: "bar", total_indexed_lines: 0, total_indexed_files: 0, results: [] });
+    vi.stubGlobal("fetch", fetchFn);
+
+    await searchQuery("snap2", "bar", 10);
+    const body = JSON.parse(fetchFn.mock.calls[0][1].body);
+    expect(body.limit).toBe(10);
+  });
+});
+
+// ─── indexSnapshot ──────────────────────────────────────────────
+
+describe("indexSnapshot", () => {
+  it("sends POST with snapshot_id", async () => {
+    const response = { snapshot_id: "snap1", indexed_files: 42, indexed_lines: 1337 };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await indexSnapshot("snap1");
+    expect(result.indexed_files).toBe(42);
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/search/index");
+    expect(JSON.parse(fetchFn.mock.calls[0][1].body)).toEqual({ snapshot_id: "snap1" });
+  });
+});
+
+// ─── downloadExport ─────────────────────────────────────────────
+
+describe("downloadExport", () => {
+  it("triggers a download with filename from Content-Disposition", async () => {
+    const blobUrl = "blob:http://localhost/fake";
+    let clickCalled = false;
+    const fakeAnchor = {
+      href: "",
+      download: "",
+      click: () => { clickCalled = true; },
+    };
+
+    vi.stubGlobal("document", {
+      createElement: () => fakeAnchor,
+    });
+    vi.stubGlobal("URL", {
+      createObjectURL: () => blobUrl,
+      revokeObjectURL: vi.fn(),
+    });
+
+    const fetchFn = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      blob: () => Promise.resolve(new Blob(["zip data"])),
+      headers: {
+        get: (name: string) => name === "Content-Disposition" ? 'attachment; filename="export.zip"' : null,
+      },
+    });
+    vi.stubGlobal("fetch", fetchFn);
+
+    await downloadExport("proj1", "search");
+    expect(clickCalled).toBe(true);
+    expect(fakeAnchor.href).toBe(blobUrl);
+    expect(fakeAnchor.download).toBe("export.zip");
+  });
+
+  it("uses default filename when Content-Disposition is absent", async () => {
+    const fakeAnchor = { href: "", download: "", click: () => {} };
+    vi.stubGlobal("document", { createElement: () => fakeAnchor });
+    vi.stubGlobal("URL", { createObjectURL: () => "blob:x", revokeObjectURL: vi.fn() });
+
+    const fetchFn = vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      blob: () => Promise.resolve(new Blob(["data"])),
+      headers: { get: () => null },
+    });
+    vi.stubGlobal("fetch", fetchFn);
+
+    await downloadExport("proj2");
+    expect(fakeAnchor.download).toBe("axis-export.zip");
+  });
+
+  it("throws on non-OK response", async () => {
+    const fetchFn = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 500,
+      headers: { get: () => null },
+    });
+    vi.stubGlobal("fetch", fetchFn);
+
+    await expect(downloadExport("proj1")).rejects.toThrow("Export failed: 500");
+  });
+});
+
+// ─── getUpgradePrompt ───────────────────────────────────────────
+
+describe("getUpgradePrompt", () => {
+  it("calls correct endpoint and returns prompt", async () => {
+    const response = { prompt: { trigger: "usage", current_tier: "free", recommended_tier: "paid" } };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await getUpgradePrompt();
+    expect(result.prompt).toBeTruthy();
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/account/upgrade-prompt");
+  });
+
+  it("returns null prompt when none available", async () => {
+    const fetchFn = mockFetch({ prompt: null });
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await getUpgradePrompt();
+    expect(result.prompt).toBeNull();
+  });
+});
+
+// ─── dismissUpgradePrompt ───────────────────────────────────────
+
+describe("dismissUpgradePrompt", () => {
+  it("sends POST to dismiss endpoint", async () => {
+    const fetchFn = mockFetch({ dismissed: true });
+    vi.stubGlobal("fetch", fetchFn);
+
+    await dismissUpgradePrompt();
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/account/upgrade-prompt/dismiss");
+    expect(fetchFn.mock.calls[0][1].method).toBe("POST");
+  });
+});
+
+// ─── getFunnelStatus ────────────────────────────────────────────
+
+describe("getFunnelStatus", () => {
+  it("calls correct endpoint and returns status", async () => {
+    const response = { account_id: "a1", tier: "free", stage: "signup", recent_events: [] };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await getFunnelStatus();
+    expect(result.account_id).toBe("a1");
+    expect(result.stage).toBe("signup");
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/account/funnel");
   });
 });

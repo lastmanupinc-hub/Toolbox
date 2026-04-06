@@ -326,3 +326,93 @@ describe("webhooks.ts input validation branches", () => {
     expect(r.status).toBe(200);
   });
 });
+
+// ─── webhooks.ts: remaining create branches ─────────────────────
+
+describe("webhooks.ts create handler remaining branches", () => {
+  it("rejects invalid JSON body", async () => {
+    const r: Res = await new Promise((resolve, reject) => {
+      const rr = http.request(
+        { hostname: "127.0.0.1", port: API_PORT, path: "/v1/account/webhooks", method: "POST",
+          headers: { "Content-Type": "application/json", ...acctA.headers } },
+        (resp) => {
+          const chunks: Buffer[] = [];
+          resp.on("data", (c: Buffer) => chunks.push(c));
+          resp.on("end", () => resolve({ status: resp.statusCode ?? 0, data: JSON.parse(Buffer.concat(chunks).toString("utf-8")) }));
+        },
+      );
+      rr.on("error", reject);
+      rr.write("{bad json");
+      rr.end();
+    });
+    expect(r.status).toBe(400);
+    expect(r.data.error_code).toBe("INVALID_JSON");
+  });
+
+  it("rejects missing url field", async () => {
+    const r = await req("POST", "/v1/account/webhooks", {
+      events: ["snapshot.created"],
+    }, acctA.headers);
+    expect(r.status).toBe(400);
+    expect(r.data.error_code).toBe("MISSING_FIELD");
+  });
+
+  it("rejects non-http protocol", async () => {
+    const r = await req("POST", "/v1/account/webhooks", {
+      url: "ftp://example.com/hook",
+      events: ["snapshot.created"],
+    }, acctA.headers);
+    expect(r.status).toBe(400);
+    expect(r.data.error_code).toBe("INVALID_FORMAT");
+  });
+
+  it("rejects events as non-array", async () => {
+    const r = await req("POST", "/v1/account/webhooks", {
+      url: `http://127.0.0.1:${RECEIVER_PORT}/e`,
+      events: "snapshot.created",
+    }, acctA.headers);
+    expect(r.status).toBe(400);
+    expect(r.data.error_code).toBe("MISSING_FIELD");
+  });
+});
+
+// ─── webhooks.ts: toggle handler remaining branches ─────────────
+
+describe("webhooks.ts toggle handler remaining branches", () => {
+  it("rejects invalid JSON body on toggle", async () => {
+    const cRes = await req("POST", "/v1/account/webhooks", {
+      url: `http://127.0.0.1:${RECEIVER_PORT}/tjson`,
+      events: ["snapshot.created"],
+    }, acctA.headers);
+    const whId = (cRes.data.webhook as any).webhook_id;
+
+    const r: Res = await new Promise((resolve, reject) => {
+      const rr = http.request(
+        { hostname: "127.0.0.1", port: API_PORT, path: `/v1/account/webhooks/${whId}/toggle`, method: "POST",
+          headers: { "Content-Type": "application/json", ...acctA.headers } },
+        (resp) => {
+          const chunks: Buffer[] = [];
+          resp.on("data", (c: Buffer) => chunks.push(c));
+          resp.on("end", () => resolve({ status: resp.statusCode ?? 0, data: JSON.parse(Buffer.concat(chunks).toString("utf-8")) }));
+        },
+      );
+      rr.on("error", reject);
+      rr.write("{bad");
+      rr.end();
+    });
+    expect(r.status).toBe(400);
+    expect(r.data.error_code).toBe("INVALID_JSON");
+  });
+
+  it("rejects non-boolean active field", async () => {
+    const cRes = await req("POST", "/v1/account/webhooks", {
+      url: `http://127.0.0.1:${RECEIVER_PORT}/tactive`,
+      events: ["snapshot.created"],
+    }, acctA.headers);
+    const whId = (cRes.data.webhook as any).webhook_id;
+
+    const r = await req("POST", `/v1/account/webhooks/${whId}/toggle`, { active: "yes" }, acctA.headers);
+    expect(r.status).toBe(400);
+    expect(r.data.error_code).toBe("MISSING_FIELD");
+  });
+});
