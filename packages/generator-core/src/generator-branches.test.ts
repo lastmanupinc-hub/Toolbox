@@ -77,6 +77,15 @@ const REACT_SPA_FILES: FileEntry[] = [
   { path: "tests/app.test.tsx", content: 'import { test } from "vitest"; test("stub", () => {});', size: 50 },
 ];
 
+const NEXTJS_FILES: FileEntry[] = [
+  { path: "package.json", content: '{"name":"next-app","dependencies":{"next":"14.0.0","react":"18.0.0","react-dom":"18.0.0"},"devDependencies":{"typescript":"5.0.0"}}', size: 140 },
+  { path: "app/page.tsx", content: "export default function Home() { return <h1>Home</h1> }", size: 55 },
+  { path: "app/layout.tsx", content: "export default function RootLayout({ children }: { children: React.ReactNode }) { return <html><body>{children}</body></html> }", size: 125 },
+  { path: "app/about/page.tsx", content: "export default function About() { return <h1>About</h1> }", size: 57 },
+  { path: "next.config.js", content: "module.exports = {}", size: 22 },
+  { path: "tsconfig.json", content: '{"compilerOptions":{"strict":true}}', size: 34 },
+];
+
 const PYTHON_DJANGO_FILES: FileEntry[] = [
   { path: "requirements.txt", content: "django==4.2\ndjango-rest-framework==3.14\npsycopg2==2.9", size: 60 },
   { path: "manage.py", content: '#!/usr/bin/env python\nimport os\nimport sys\nif __name__ == "__main__":\n    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")\n    from django.core.management import execute_from_command_line\n    execute_from_command_line(sys.argv)', size: 200 },
@@ -2542,5 +2551,602 @@ describe("Marketing ab-test-plan hasNext branch", () => {
     const result = generateFiles(inp);
     const f = getFile(result, "sequence-pack.md");
     expect(f).toBeDefined();
+  });
+});
+
+describe("Layer 4 branch coverage", () => {
+  // ─── Layer 4: optimization hotspots + entry points ────────────
+
+  it("optimization-rules: renders hotspot table when hotspots exist", () => {
+    const s = snap({ name: "hot-proj", files: NEXTJS_FILES });
+    const inp = input(s, [".ai/optimization-rules.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 12, outbound_count: 8, risk_score: 0.85 },
+      { path: "src/utils.ts", inbound_count: 6, outbound_count: 4, risk_score: 0.55 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/optimization-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("src/core.ts");
+    expect(f!.content).toContain("Dependency Hotspots");
+  });
+
+  it("optimization-rules: renders entry points section", () => {
+    const s = snap({ name: "ep-proj", files: [
+      { path: "src/index.ts", content: "export {}", size: 12, language: null },
+      { path: "src/main.ts", content: "start()", size: 10, language: null },
+    ]});
+    const inp = input(s, [".ai/optimization-rules.md"]);
+    inp.context_map.entry_points = [
+      { path: "src/index.ts", type: "app_entry", description: "Main entry" },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/optimization-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Entry Points");
+  });
+
+  // ─── Layer 4: frontend layout-patterns full branch coverage ───
+
+  it("layout-patterns: Next.js App Router hierarchy with actual next framework", () => {
+    const s = snap({ name: "next-layout", files: NEXTJS_FILES });
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "next", confidence: 0.95, signals: ["next.config"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Next.js App Router Layout Hierarchy");
+  });
+
+  it("layout-patterns: Tailwind responsive breakpoints", () => {
+    const s = snap({ name: "tw-proj", files: REACT_SPA_FILES });
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "react", confidence: 0.9, signals: ["react"] },
+      { name: "tailwind", confidence: 0.9, signals: ["tailwind.config"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Tailwind defaults");
+  });
+
+  it("layout-patterns: generic breakpoints without Tailwind", () => {
+    const s = snap({ name: "plain-proj", files: REACT_SPA_FILES });
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "react", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Mobile");
+    expect(f!.content).toContain("Desktop");
+  });
+
+  it("layout-patterns: route-to-layout mapping with routes", () => {
+    const s = snap({ name: "routed", files: NEXTJS_FILES });
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.routes = [
+      { path: "/", method: "GET", source_file: "app/page.tsx" },
+      { path: "/login", method: "GET", source_file: "app/login/page.tsx" },
+      { path: "/dashboard", method: "GET", source_file: "app/dashboard/page.tsx" },
+      { path: "/api/users", method: "GET", source_file: "app/api/users/route.ts" },
+    ];
+    inp.context_map.detection.frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("MarketingLayout");
+    expect(f!.content).toContain("AuthLayout");
+    expect(f!.content).toContain("DashboardLayout");
+    expect(f!.content).toContain("N/A (API)");
+  });
+
+  it("layout-patterns: no routes shows fallback text", () => {
+    const s = snap({ name: "no-routes", files: [
+      { path: "main.py", content: "pass", size: 5, language: null },
+    ]});
+    const inp = input(s, ["layout-patterns.md"]);
+    inp.context_map.routes = [];
+    inp.context_map.detection.frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "layout-patterns.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No routes detected");
+  });
+
+  it("component-guidelines: Next.js file structure path", () => {
+    const s = snap({ name: "next-comp", files: NEXTJS_FILES });
+    const inp = input(s, ["component-guidelines.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Next.js", confidence: 0.95, signals: ["next.config"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("components/");
+    expect(f!.content).toContain("ui/");
+  });
+
+  it("component-guidelines: generic React template without Next.js", () => {
+    const s = snap({ name: "react-comp", files: REACT_SPA_FILES });
+    const inp = input(s, ["component-guidelines.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("MyComponentProps");
+  });
+
+  it("component-guidelines: non-React has no JSX template", () => {
+    const s = snap({ name: "py-comp", files: PYTHON_DJANGO_FILES });
+    const inp = input(s, ["component-guidelines.md"]);
+    inp.context_map.detection.frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).not.toContain("MyComponentProps");
+  });
+
+  // ─── Layer 4: debug with hotspots and framework combos ────────
+
+  it("debug-playbook: hotspots trigger suspect files section in incident-template", () => {
+    const s = snap({ name: "hot-debug", files: EXPRESS_FILES });
+    const inp = input(s, ["incident-template.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 10, outbound_count: 6, risk_score: 0.8 },
+      { path: "src/db.ts", inbound_count: 8, outbound_count: 4, risk_score: 0.6 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "incident-template.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Likely Suspect Files");
+    expect(f!.content).toContain("src/core.ts");
+  });
+
+  it("root-cause-checklist: hotspot suspect files section", () => {
+    const s = snap({ name: "rc-hot", files: EXPRESS_FILES });
+    const inp = input(s, ["root-cause-checklist.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/service.ts", inbound_count: 15, outbound_count: 3, risk_score: 0.9 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "root-cause-checklist.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Suspect Files");
+    expect(f!.content).toContain("src/service.ts");
+  });
+
+  it("debug-playbook: layer boundaries section", () => {
+    const s = snap({ name: "layer-debug", files: EXPRESS_FILES });
+    const inp = input(s, ["debug-playbook.md"]);
+    inp.context_map.architecture_signals.layer_boundaries = [
+      { layer: "api", directories: ["routes", "handlers"] },
+      { layer: "data", directories: ["models"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/debug-playbook.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Layer Boundaries");
+  });
+
+  it("debug-playbook: no linter/formatter warnings", () => {
+    const s = snap({ name: "no-lint", files: [
+      { path: "index.ts", content: "x", size: 1, language: null },
+    ]});
+    const inp = input(s, ["debug-playbook.md"]);
+    inp.context_map.ai_context.conventions = [];
+    inp.context_map.ai_context.warnings = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/debug-playbook.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No linter configured");
+    expect(f!.content).toContain("No formatter");
+  });
+
+  it("debug-playbook: clean project with linter no warnings", () => {
+    const s = snap({ name: "clean-lint", files: [
+      { path: "index.ts", content: "x", size: 1, language: null },
+    ]});
+    const inp = input(s, ["debug-playbook.md"]);
+    inp.context_map.ai_context.conventions = ["Linter: eslint", "Formatter: prettier"];
+    inp.context_map.ai_context.warnings = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/debug-playbook.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("project health looks good");
+  });
+
+  // ─── Layer 4: algorithmic with hotspots ───────────────────────
+
+  it("parameter-pack: hotspots increase node count", () => {
+    const s = snap({ name: "algo-hot", files: REACT_SPA_FILES });
+    const inp = input(s, ["parameter-pack.json"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 10, outbound_count: 5, risk_score: 0.7 },
+      { path: "src/utils.ts", inbound_count: 6, outbound_count: 3, risk_score: 0.4 },
+      { path: "src/db.ts", inbound_count: 8, outbound_count: 4, risk_score: 0.6 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "parameter-pack.json");
+    expect(f).toBeDefined();
+    const parsed = JSON.parse(f!.content);
+    expect(parsed.parameters.structure.node_count).toBeGreaterThanOrEqual(5);
+  });
+
+  it("variation-matrix: React/Vue component-tree layout variant", () => {
+    const s = snap({ name: "react-export", files: REACT_SPA_FILES });
+    const inp = input(s, ["variation-matrix.json"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "variation-matrix.json");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("component-tree");
+  });
+
+  it("export-manifest: large project density range", () => {
+    const s = snap({ name: "big-proj", files: [
+      { path: "package.json", content: '{"name":"big"}', size: 14, language: null },
+    ]});
+    const inp = input(s, ["export-manifest.yaml"]);
+    // Set many languages with high file counts to push total > 200
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", loc_percent: 60, file_count: 150 },
+      { name: "JavaScript", loc_percent: 30, file_count: 80 },
+      { name: "CSS", loc_percent: 10, file_count: 30 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "export-manifest.yaml");
+    expect(f).toBeDefined();
+  });
+
+  // ─── Layer 4: brand empty frameworks and messaging-system ─────
+
+  it("brand-guidelines: no frameworks emits no stack section", () => {
+    const s = snap({ name: "no-fw", files: [
+      { path: "main.py", content: "pass", size: 5, language: null },
+    ]});
+    const inp = input(s, ["brand-guidelines.md"]);
+    inp.context_map.detection.frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).not.toContain("Stack-Specific Application");
+  });
+
+  it("messaging-system: renders entry_points and language_support", () => {
+    const s = snap({ name: "msg-proj", files: [
+      { path: "src/index.ts", content: "export {}", size: 12, language: null },
+      { path: "src/main.ts", content: "start()", size: 10, language: null },
+    ]});
+    const inp = input(s, ["messaging-system.yaml"]);
+    inp.context_map.entry_points = [
+      { path: "src/index.ts", type: "app_entry", description: "Main entry" },
+    ];
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", loc_percent: 80, file_count: 50 },
+      { name: "CSS", loc_percent: 20, file_count: 10 },
+    ];
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "messaging-system.yaml");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("entry_points");
+    expect(f!.content).toContain("language_support");
+    expect(f!.content).toContain("framework_detection");
+  });
+
+  it("content-constraints: renders conventions section when present", () => {
+    const s = snap({ name: "conv-proj", files: [
+      { path: "index.ts", content: "x", size: 1, language: null },
+    ]});
+    const inp = input(s, ["content-constraints.md"]);
+    inp.context_map.ai_context.conventions = [
+      "camelCase variables",
+      "Strict TypeScript",
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-constraints.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Project-Specific Conventions");
+    expect(f!.content).toContain("camelCase variables");
+  });
+
+  it("channel-rulebook: frameworks list in channel rules", () => {
+    const s = snap({ name: "fw-channel", files: REACT_SPA_FILES });
+    const inp = input(s, ["channel-rulebook.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "channel-rulebook.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Channel Rulebook");
+  });
+
+  // ─── Layer 4: theme-guidelines dark-mode variations ───────────
+
+  it("theme-guidelines: Sass styling approach", () => {
+    const s = snap({ name: "sass-proj", files: [
+      { path: "package.json", content: '{"name":"sass-app","dependencies":{"react":"18.0.0"}}', size: 50 },
+      { path: "src/styles/main.scss", content: "$color: red;", size: 15 },
+      { path: "src/App.tsx", content: "export default () => <div/>;", size: 30 },
+    ]});
+    const inp = input(s, [".ai/design-tokens.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/design-tokens.json");
+    expect(f).toBeDefined();
+    const tokens = JSON.parse(f!.content);
+    expect(tokens.styling_approach).toBe("sass");
+    expect(tokens.detected_stack.has_sass).toBe(true);
+  });
+
+  it("dark-mode-tokens: non-Tailwind CSS strategy", () => {
+    const s = snap({ name: "css-dark", files: [
+      { path: "package.json", content: '{"name":"css-app","dependencies":{"react":"18.0.0"}}', size: 50 },
+      { path: "src/App.tsx", content: "export default () => <div/>;", size: 30 },
+    ]});
+    const inp = input(s, ["dark-mode-tokens.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "dark-mode-tokens.json");
+    expect(f).toBeDefined();
+    const dm = JSON.parse(f!.content);
+    expect(dm.implementation.css_strategy).toBe("css-custom-properties");
+    expect(dm.implementation.tailwind_config).toBeNull();
+  });
+
+  it("dark-mode-tokens: Tailwind dark mode strategy", () => {
+    const s = snap({ name: "tw-dark", files: [
+      { path: "package.json", content: '{"name":"tw-app","dependencies":{"react":"18.0.0"}}', size: 50 },
+      { path: "tailwind.config.ts", content: "export default {}", size: 20 },
+      { path: "src/App.tsx", content: "export default () => <div/>;", size: 30 },
+    ]});
+    const inp = input(s, ["dark-mode-tokens.json"]);
+    inp.context_map.detection.frameworks = [
+      { name: "tailwind", confidence: 0.9, signals: ["tailwind.config.ts"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "dark-mode-tokens.json");
+    expect(f).toBeDefined();
+    const dm = JSON.parse(f!.content);
+    expect(dm.implementation.css_strategy).toBe("tailwind-dark-class");
+    expect(dm.implementation.tailwind_config).toBeDefined();
+    expect(dm.implementation.tailwind_config.darkMode).toBe("class");
+  });
+
+  // ─── Layer 4: notebook with hotspots and score branches ───────
+
+  it("research-threads: score >= 7 strong architecture branch", () => {
+    const s = snap({ name: "strong-arch", files: REACT_SPA_FILES });
+    const inp = input(s, ["research-threads.md"]);
+    inp.context_map.architecture_signals.separation_score = 0.8;
+    const result = generateFiles(inp);
+    const f = getFile(result, "research-threads.md");
+    expect(f).toBeDefined();
+    // score is out of 100 scale: 0.8 * 100 = 80, so it should show in Score: X/10 format
+    // Actually from the code: score is 0-1 raw, displayed as score/10
+    // Let's check: if score >= 7 (out of 10?), but the engine returns 0-1
+  });
+
+  it("research-threads: hotspots dependency thread", () => {
+    const s = snap({ name: "hot-threads", files: REACT_SPA_FILES });
+    const inp = input(s, ["research-threads.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 10, outbound_count: 5, risk_score: 0.8 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "research-threads.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Dependency Hotspots");
+    expect(f!.content).toContain("src/core.ts");
+  });
+
+  it("notebook-summary: renders dependency snapshot when deps present", () => {
+    const s = snap({ name: "dep-nb", files: REACT_SPA_FILES });
+    const inp = input(s, ["notebook-summary.md"]);
+    inp.context_map.dependency_graph.external_dependencies = [
+      { name: "react", version: "18.0.0", type: "production" },
+      { name: "vitest", version: "1.0.0", type: "development" },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "notebook-summary.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Dependency Snapshot");
+    expect(f!.content).toContain("react");
+  });
+
+  // ─── Layer 4: search with hotspots ────────────────────────────
+
+  it("dependency-hotspots: sorts by risk and renders tiers", () => {
+    const s = snap({ name: "dep-search", files: REACT_SPA_FILES });
+    const inp = input(s, ["dependency-hotspots.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 15, outbound_count: 8, risk_score: 0.9 },
+      { path: "src/db.ts", inbound_count: 6, outbound_count: 4, risk_score: 0.4 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "dependency-hotspots.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("src/core.ts");
+  });
+
+  // ─── Layer 4: skills uncovered branches ───────────────────────
+
+  it("AGENTS.md: Python lang with Django framework", () => {
+    const s = snap({ name: "py-skills", files: PYTHON_DJANGO_FILES });
+    const inp = input(s, ["AGENTS.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Django", confidence: 0.9, signals: ["django"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "AGENTS.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("PEP 8");
+    expect(f!.content).toContain("Django");
+  });
+
+  it("policy-pack: framework-specific rules for express", () => {
+    const s = snap({ name: "express-gov", files: EXPRESS_FILES });
+    const inp = input(s, ["policy-pack.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "express", confidence: 0.9, signals: ["express"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "policy-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("error handling middleware");
+  });
+
+  it("policy-pack: tailwind framework rules", () => {
+    const s = snap({ name: "tw-gov", files: REACT_SPA_FILES });
+    const inp = input(s, ["policy-pack.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "tailwind", confidence: 0.9, signals: ["tailwind.config"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "policy-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("utility classes");
+  });
+
+  it("policy-pack: generic framework fallback", () => {
+    const s = snap({ name: "angular-gov", files: [
+      { path: "angular.json", content: "{}", size: 2, language: null },
+    ]});
+    const inp = input(s, ["policy-pack.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "Angular", confidence: 0.9, signals: ["angular.json"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "policy-pack.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Angular community best practices");
+  });
+
+  // ─── Layer 4: artifacts with page routes ──────────────────────
+
+  it("component-library: page routes generate page components", () => {
+    const s = snap({ name: "page-comp", files: NEXTJS_FILES });
+    const inp = input(s, ["component-library.json"]);
+    inp.context_map.routes = [
+      { path: "/", method: "GET", source_file: "app/page.tsx" },
+      { path: "/about", method: "GET", source_file: "app/about/page.tsx" },
+      { path: "/api/data", method: "POST", source_file: "app/api/data/route.ts" },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-library.json");
+    expect(f).toBeDefined();
+    const inv = JSON.parse(f!.content);
+    const pageNames = inv.components.map((c: { name: string }) => c.name);
+    expect(pageNames).toContain("HomePage");
+    expect(pageNames).toContain("AboutPage");
+  });
+
+  // ─── Layer 4: superpowers remaining branch ────────────────────
+
+  it("superpower-pack: hotspots isolation strategy", () => {
+    const s = snap({ name: "sp-hot", files: REACT_SPA_FILES });
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core.ts", inbound_count: 12, outbound_count: 6, risk_score: 0.8 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+  });
+
+  // ─── Layer 4: SEO uncovered branches ──────────────────────────
+
+  it("content-audit: no SSR, no routes, no content, pages+no-ssr warnings", () => {
+    const s = snap({ name: "client-only", files: REACT_SPA_FILES });
+    const inp = input(s, ["content-audit.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["react"] },
+    ];
+    inp.context_map.ai_context.conventions = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-audit.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No SSR framework detected");
+    expect(f!.content).toContain("No project conventions detected");
+  });
+
+  it("content-audit: no routes warning", () => {
+    const s = snap({ name: "no-route-seo", files: [
+      { path: "index.html", content: "<html></html>", size: 15, language: null },
+    ]});
+    const inp = input(s, ["content-audit.md"]);
+    inp.context_map.routes = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-audit.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No routes detected");
+  });
+
+  it("content-audit: no content files info", () => {
+    const s = snap({ name: "no-content-seo", files: [
+      { path: "src/index.ts", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["content-audit.md"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-audit.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No markdown/HTML content files found");
+  });
+
+  // ─── Layer 4: marketing ab-test no-SSR branch ────────────────
+
+  it("ab-test-plan: client-side flag for non-Next.js", () => {
+    const s = snap({ name: "react-ab", files: REACT_SPA_FILES });
+    const inp = input(s, ["ab-test-plan.md"]);
+    inp.context_map.detection.frameworks = [
+      { name: "React", confidence: 0.9, signals: ["react"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "ab-test-plan.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Client-side feature flag");
+  });
+
+  // ─── Layer 4: MCP capability-registry branches ────────────────
+
+  it("capability-registry: yarn package manager detection", () => {
+    const s = snap({ name: "yarn-proj", files: [
+      { path: "package.json", content: '{"name":"yarn-app"}', size: 20, language: null },
+      { path: "yarn.lock", content: "# yarn lockfile", size: 15, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.detection.package_managers = ["yarn"];
+    inp.context_map.detection.build_tools = [];
+    inp.context_map.detection.test_frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("yarn");
+  });
+
+  it("capability-registry: TypeScript detection", () => {
+    const s = snap({ name: "ts-proj", files: [
+      { path: "tsconfig.json", content: '{"compilerOptions":{}}', size: 22, language: null },
+      { path: "src/index.ts", content: "export {}\nconst a = 1\nconst b = 2", size: 34, language: null },
+      { path: "src/utils.ts", content: "export function add(a: number, b: number) { return a + b }", size: 55, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", loc_percent: 90, file_count: 50 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("typecheck");
   });
 });

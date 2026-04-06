@@ -173,4 +173,47 @@ describe("round-trip encryption", () => {
     const enc2 = JSON.parse(saved[1]).api_key_encrypted;
     expect(enc1).not.toBe(enc2); // Different IVs → different ciphertext
   });
+
+  it("round-trips encrypted api_key via save then load", () => {
+    let stored = "";
+    vi.mocked(writeFileSync).mockImplementation((_path, content) => {
+      stored = content as string;
+    });
+    saveConfig({ api_key: "axis_roundtrip_secret_key_value" });
+
+    // Now load should read the stored encrypted value
+    vi.mocked(existsSync).mockReturnValue(true);
+    vi.mocked(readFileSync).mockReturnValue(stored);
+    const config = loadConfig();
+    expect(config.api_key).toBe("axis_roundtrip_secret_key_value");
+  });
+
+  it("saves only api_url when no api_key provided", () => {
+    let stored = "";
+    vi.mocked(writeFileSync).mockImplementation((_path, content) => {
+      stored = content as string;
+    });
+    saveConfig({ api_url: "https://custom.api.com" });
+    const parsed = JSON.parse(stored);
+    expect(parsed.api_key_encrypted).toBeUndefined();
+    expect(parsed.api_url).toBe("https://custom.api.com");
+  });
+
+  it("rejects invalid encrypted format with wrong part count", () => {
+    vi.mocked(existsSync).mockReturnValue(true);
+    vi.mocked(readFileSync).mockReturnValue(JSON.stringify({
+      api_key_encrypted: "only_one_part",
+    }));
+    const config = loadConfig();
+    // Invalid format (not 3 parts) — should fail to decrypt gracefully
+    expect(config.api_key).toBeUndefined();
+  });
+
+  it("handles chmod failure gracefully on Windows", () => {
+    vi.mocked(chmodSync).mockImplementation(() => {
+      throw new Error("chmod not supported");
+    });
+    // Should not throw
+    expect(() => saveConfig({ api_key: "axis_test_chmod" })).not.toThrow();
+  });
 });

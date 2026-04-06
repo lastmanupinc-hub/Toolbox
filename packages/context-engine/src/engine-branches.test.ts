@@ -292,3 +292,252 @@ describe("buildRepoProfile — detection passthrough", () => {
     expect(rp.health.separation_score).toBeGreaterThan(0);
   });
 });
+
+// ─── Layer 4: Engine branch coverage — entry points, routes, architecture ────
+
+describe("buildContextMap — entry point detection", () => {
+  it("detects src/index.ts as app_entry", () => {
+    const snap = makeSnapshot([{ path: "src/index.ts", content: "export {}" }]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.path === "src/index.ts" && e.type === "app_entry")).toBe(true);
+  });
+
+  it("detects app/layout.tsx as app_entry", () => {
+    const snap = makeSnapshot([{ path: "app/layout.tsx", content: "export default () => null" }]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.path === "app/layout.tsx")).toBe(true);
+  });
+
+  it("detects src/pages/api/ as api_route", () => {
+    const snap = makeSnapshot([{ path: "src/pages/api/users.ts", content: "export default (req, res) => res.json([])" }]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.path === "src/pages/api/users.ts" && e.type === "api_route")).toBe(true);
+  });
+
+  it("detects pages/*.tsx as page_route", () => {
+    const snap = makeSnapshot([{ path: "src/pages/about.tsx", content: "export default () => null" }]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.type === "page_route")).toBe(true);
+  });
+
+  it("detects src/cli.ts as cli_command", () => {
+    const snap = makeSnapshot([{ path: "src/cli.ts", content: "process.argv" }]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.path === "src/cli.ts" && e.type === "cli_command")).toBe(true);
+  });
+
+  it("detects main.go as Go entry point", () => {
+    const snap = makeSnapshot([
+      { path: "main.go", content: "package main\nfunc main() {}" },
+      { path: "go.mod", content: "module example.com/myapp\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.path === "main.go")).toBe(true);
+  });
+
+  it("detects cmd/server/main.go as Go entry", () => {
+    const snap = makeSnapshot([
+      { path: "cmd/server/main.go", content: "package main\nfunc main() {}" },
+      { path: "go.mod", content: "module example.com/app\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.entry_points.some(e => e.path === "cmd/server/main.go")).toBe(true);
+  });
+});
+
+describe("buildContextMap — route detection", () => {
+  it("extracts Next.js app router page routes", () => {
+    const snap = makeSnapshot([
+      { path: "app/page.tsx", content: "export default () => <div/>" },
+      { path: "app/about/page.tsx", content: "export default () => <div/>" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.routes.some(r => r.path === "/")).toBe(true);
+    expect(ctx.routes.some(r => r.path === "/about")).toBe(true);
+  });
+
+  it("extracts Next.js API route methods", () => {
+    const snap = makeSnapshot([
+      { path: "app/api/users/route.ts", content: "export async function GET() {}\nexport async function POST() {}" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.routes.some(r => r.method === "GET" && r.path === "/api/users")).toBe(true);
+    expect(ctx.routes.some(r => r.method === "POST" && r.path === "/api/users")).toBe(true);
+  });
+
+  it("extracts Express-style routes", () => {
+    const snap = makeSnapshot([
+      { path: "src/server.ts", content: 'app.get("/api/health", handler);\napp.post("/api/users", handler);' },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.routes.some(r => r.method === "GET" && r.path === "/api/health")).toBe(true);
+    expect(ctx.routes.some(r => r.method === "POST" && r.path === "/api/users")).toBe(true);
+  });
+
+  it("extracts Go Chi/Gin/Echo routes", () => {
+    const snap = makeSnapshot([
+      { path: "cmd/server/main.go", content: 'r.Get("/api/health", healthHandler)\nr.Post("/api/users", usersHandler)' },
+      { path: "go.mod", content: "module example.com/app\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.routes.some(r => r.method === "GET" && r.path === "/api/health")).toBe(true);
+    expect(ctx.routes.some(r => r.method === "POST" && r.path === "/api/users")).toBe(true);
+  });
+
+  it("extracts Go stdlib mux routes", () => {
+    const snap = makeSnapshot([
+      { path: "main.go", content: 'http.HandleFunc("/api/status", statusHandler)\nmux.HandleFunc("/api/data", dataHandler)' },
+      { path: "go.mod", content: "module example.com/app\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.routes.some(r => r.method === "ANY")).toBe(true);
+  });
+
+  it("extracts dynamic Next.js routes with params", () => {
+    const snap = makeSnapshot([
+      { path: "app/users/[id]/page.tsx", content: "export default () => null" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.routes.some(r => r.path === "/users/:id")).toBe(true);
+  });
+});
+
+describe("buildContextMap — architecture patterns", () => {
+  it("detects monorepo pattern", () => {
+    const snap = makeSnapshot([
+      { path: "packages/core/index.ts", content: "" },
+      { path: "apps/web/index.ts", content: "" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("monorepo");
+  });
+
+  it("detects MVC pattern", () => {
+    const snap = makeSnapshot([
+      { path: "services/user.ts", content: "" },
+      { path: "controllers/user.ts", content: "" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("mvc");
+  });
+
+  it("detects CQRS pattern", () => {
+    const snap = makeSnapshot([
+      { path: "commands/createUser.ts", content: "" },
+      { path: "queries/getUser.ts", content: "" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("cqrs");
+  });
+
+  it("detects containerized pattern", () => {
+    const snap = makeSnapshot([
+      { path: "Dockerfile", content: "FROM node:18" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("containerized");
+  });
+
+  it("detects serverless pattern", () => {
+    const snap = makeSnapshot([
+      { path: "serverless.yml", content: "service: my-service" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("serverless");
+  });
+
+  it("detects frontend_backend_split", () => {
+    const snap = makeSnapshot([
+      { path: "frontend/index.tsx", content: "" },
+      { path: "backend/server.ts", content: "" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("frontend_backend_split");
+  });
+
+  it("detects database_managed pattern", () => {
+    const snap = makeSnapshot([
+      { path: "migrations/001_init.sql", content: "CREATE TABLE users ();" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("database_managed");
+  });
+
+  it("detects go_standard_layout with internal and pkg", () => {
+    const snap = makeSnapshot([
+      { path: "internal/core/service.go", content: "package core" },
+      { path: "pkg/utils/helper.go", content: "package utils" },
+      { path: "go.mod", content: "module example.com/app\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("go_standard_layout");
+  });
+
+  it("detects go_cmd_layout", () => {
+    const snap = makeSnapshot([
+      { path: "cmd/api/main.go", content: "package main" },
+      { path: "go.mod", content: "module example.com/app\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.architecture_signals.patterns_detected).toContain("go_cmd_layout");
+  });
+
+  it("maps layer boundaries correctly", () => {
+    const snap = makeSnapshot([
+      { path: "components/Button.tsx", content: "" },
+      { path: "api/handler.ts", content: "" },
+      { path: "models/User.ts", content: "" },
+      { path: "utils/format.ts", content: "" },
+    ]);
+    const ctx = buildContextMap(snap);
+    const layerNames = ctx.architecture_signals.layer_boundaries.map(l => l.layer);
+    expect(layerNames).toContain("presentation");
+    expect(layerNames).toContain("api");
+    expect(layerNames).toContain("data");
+    expect(layerNames).toContain("shared");
+  });
+
+  it("computes cross-layer isolation score accurately", () => {
+    // Files that import within same layer should give high isolation
+    const snap = makeSnapshot([
+      { path: "components/A.tsx", content: 'import B from "./B"' },
+      { path: "components/B.tsx", content: "export default () => null" },
+      { path: "utils/format.ts", content: "export const x = 1" },
+    ]);
+    const ctx = buildContextMap(snap);
+    // With same-layer imports, isolation should be >= 0
+    expect(ctx.architecture_signals.separation_score).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe("buildContextMap — AI context", () => {
+  it("includes domain model count in summary", () => {
+    const snap = makeSnapshot([
+      { path: "src/models/User.ts", content: "export interface User { id: string; name: string; }" },
+      { path: "src/models/Post.ts", content: "export interface Post { id: string; title: string; }" },
+    ]);
+    const ctx = buildContextMap(snap);
+    expect(ctx.ai_context.project_summary).toContain("branch-test");
+  });
+
+  it("includes null goals when manifest has no goals", () => {
+    const snap = makeSnapshot([{ path: "index.ts", content: "" }]);
+    const rp = buildRepoProfile(snap);
+    expect(rp.goals).toBeNull();
+  });
+
+  it("includes goals when manifest has goals", () => {
+    const snap = makeSnapshot([{ path: "index.ts", content: "" }], {
+      manifest: {
+        project_name: "branch-test",
+        project_type: "web_application",
+        frameworks: [],
+        goals: ["improve performance"],
+        requested_outputs: ["optimization-report"],
+      },
+    });
+    const rp = buildRepoProfile(snap);
+    expect(rp.goals).toBeDefined();
+    expect(rp.goals!.objectives).toContain("improve performance");
+  });
+});

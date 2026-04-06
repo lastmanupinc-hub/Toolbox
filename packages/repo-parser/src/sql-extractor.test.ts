@@ -167,4 +167,89 @@ describe("extractSQLSchema", () => {
     expect(tables).toHaveLength(1);
     expect(tables[0].columns).toHaveLength(2);
   });
+
+  it("handles standalone composite PRIMARY KEY", () => {
+    const tables = extractSQLSchema([
+      sqlFile("composite.sql", `CREATE TABLE user_roles (
+        user_id INTEGER NOT NULL,
+        role_id INTEGER NOT NULL,
+        assigned_at TEXT,
+        PRIMARY KEY(user_id, role_id)
+      );`),
+    ]);
+    expect(tables).toHaveLength(1);
+    const cols = tables[0].columns;
+    const userIdCol = cols.find(c => c.name === "user_id");
+    const roleIdCol = cols.find(c => c.name === "role_id");
+    expect(userIdCol!.is_pk).toBe(true);
+    expect(userIdCol!.nullable).toBe(false);
+    expect(roleIdCol!.is_pk).toBe(true);
+  });
+
+  it("extracts FOREIGN KEY constraints", () => {
+    const tables = extractSQLSchema([
+      sqlFile("fk.sql", `CREATE TABLE posts (
+        id INTEGER PRIMARY KEY,
+        author_id INTEGER NOT NULL,
+        FOREIGN KEY(author_id) REFERENCES users(id)
+      );`),
+    ]);
+    expect(tables).toHaveLength(1);
+    expect(tables[0].foreign_keys).toHaveLength(1);
+    expect(tables[0].foreign_keys[0].column).toBe("author_id");
+    expect(tables[0].foreign_keys[0].references_table).toBe("users");
+    expect(tables[0].foreign_keys[0].references_column).toBe("id");
+  });
+
+  it("extracts inline REFERENCES on column definition", () => {
+    const tables = extractSQLSchema([
+      sqlFile("inline-ref.sql", `CREATE TABLE comments (
+        id INTEGER PRIMARY KEY,
+        post_id INTEGER NOT NULL REFERENCES posts(id)
+      );`),
+    ]);
+    expect(tables).toHaveLength(1);
+    expect(tables[0].foreign_keys).toHaveLength(1);
+    expect(tables[0].foreign_keys[0].references_table).toBe("posts");
+  });
+
+  it("handles empty table (no columns)", () => {
+    const tables = extractSQLSchema([
+      sqlFile("empty.sql", `CREATE TABLE empty_table ();`),
+    ]);
+    // Edge case: empty body
+    expect(tables).toHaveLength(1);
+    expect(tables[0].columns).toHaveLength(0);
+  });
+
+  it("returns empty for no CREATE TABLE statements", () => {
+    const tables = extractSQLSchema([
+      sqlFile("no-table.sql", "ALTER TABLE users ADD COLUMN age INTEGER;"),
+    ]);
+    expect(tables).toHaveLength(0);
+  });
+
+  it("handles quoted column names", () => {
+    const tables = extractSQLSchema([
+      sqlFile("quoted.sql", `CREATE TABLE "users" (
+        "id" INTEGER PRIMARY KEY,
+        "full_name" TEXT NOT NULL
+      );`),
+    ]);
+    expect(tables).toHaveLength(1);
+    expect(tables[0].name).toBe("users");
+    expect(tables[0].columns[0].name).toBe("id");
+  });
+
+  it("skips INDEX constraints", () => {
+    const tables = extractSQLSchema([
+      sqlFile("index.sql", `CREATE TABLE items (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        INDEX idx_name(name)
+      );`),
+    ]);
+    expect(tables).toHaveLength(1);
+    expect(tables[0].columns).toHaveLength(2);
+  });
 });

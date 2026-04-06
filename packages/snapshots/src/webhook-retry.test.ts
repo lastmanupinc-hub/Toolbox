@@ -16,6 +16,7 @@ import {
   RETRY_BACKOFF_BASE_MS,
   updateWebhookActive,
   deleteWebhook,
+  dispatchWebhookEvent,
 } from "./index.js";
 
 beforeEach(() => {
@@ -301,5 +302,57 @@ describe("getPendingRetries empty result", () => {
   it("returns empty array when no retries pending", () => {
     const result = getPendingRetries();
     expect(result).toEqual([]);
+  });
+
+  it("sendFn rejection records failed delivery", async () => {
+    const acct = createAccount("Test", "catch-path@test.com");
+    const wh = createWebhook(acct.account_id, "https://example.com/hook", ["snapshot.created"], "my-secret");
+    recordDelivery(wh.webhook_id, "snapshot.created", '{"x":1}', 500, "err", false, 1);
+    const db = getDb();
+    db.prepare("UPDATE webhook_deliveries SET next_retry_at = datetime('now', '-1 second')").run();
+
+    const sendFn = async () => { throw new Error("network failure"); };
+
+    const processed = processRetryQueue(sendFn);
+    expect(processed).toBe(1);
+
+    // Wait for the async catch to complete
+    await new Promise(r => setTimeout(r, 100));
+
+    const deliveries = getDeliveries(wh.webhook_id);
+    // Should have original + retry attempt
+    expect(deliveries.length).toBeGreaterThanOrEqual(2);
+    const failedRetry = deliveries.find(d => d.attempt_number === 2 && !d.success);
+    expect(failedRetry).toBeDefined();
+    expect(failedRetry!.response_body).toContain("network failure");
+  });
+
+  it("processRetryQueue with secret adds signature header", async () => {
+    const acct = createAccount("Test", "sig-path@test.com");
+    const wh = createWebhook(acct.account_id, "https://example.com/hook", ["snapshot.created"], "my-secret-key");
+    recordDelivery(wh.webhook_id, "snapshot.created", '{"test":true}', 500, "err", false, 1);
+    const db = getDb();
+    db.prepare("UPDATE webhook_deliveries SET next_retry_at = datetime('now', '-1 second')").run();
+
+    let capturedHeaders: Record<string, string> = {};
+    const sendFn = async (_wh: unknown, _payload: string, headers: Record<string, string>) => {
+      capturedHeaders = headers;
+      return { status_code: 200, response_body: "ok", success: true };
+    };
+
+    const processed = processRetryQueue(sendFn);
+    expect(processed).toBe(1);
+
+    // Wait for async
+    await new Promise(r => setTimeout(r, 100));
+
+    expect(capturedHeaders["X-Axis-Signature"]).toBeDefined();
+    expect(capturedHeaders["X-Axis-Signature"]).toMatch(/^sha256=/);
+    expect(capturedHeaders["X-Axis-Retry"]).toBe("2");
+  });
+
+  it("dispatchWebhookEvent does nothing when no active webhooks", () => {
+    // Just ensure it doesn't throw when no webhooks exist
+    expect(() => dispatchWebhookEvent("snapshot.created", { id: "test-123" })).not.toThrow();
   });
 });
