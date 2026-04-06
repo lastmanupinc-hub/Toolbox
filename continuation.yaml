@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2025-07-21"
-    commit_or_tag: "7b9eba3"
-    current_session_id: "session_021"
-    one_sentence_summary: "Full-stack Axis Toolbox with 82 capabilities (A:78, B:0, F:4), 71 endpoints, 1485 tests across 68 files, 91.5% statement coverage. eq_106-110: B→A upgrades (GitHub token management + billing audit trail), coverage gap tests (+43), performance benchmarks, documentation polish, code quality sweep. Migration v8."
+    commit_or_tag: "adfc7a7"
+    current_session_id: "session_022"
+    one_sentence_summary: "Full-stack Axis Toolbox with 82 capabilities (A:78, B:0, F:4), 71 endpoints, 1621 tests across 71 files, 92.29% stmt / 83.08% branch coverage. eq_111-113: branch coverage offensive — generator branches (+80 tests, 15 fixture profiles), API core branches (+40 tests, funnel+handlers+server.ts), webhook branches (+16 tests, production HTTP paths + cross-account security)."
     current_status: "building"
     current_focus_vertical: "production_hardening"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 95
       integration_confidence: 98
-      notes: "1485 tests across 68 files. eq_106-110: all B→A (GitHub token management, billing audit trail), 91.5% stmt coverage, performance benchmarks, docs updated, clean tsc build. Capability inventory: A:78, B:0, F:4. All remaining Fs blocked on external deps."
+      notes: "1621 tests across 71 files. eq_111-113: branch coverage offensive — 92.29% stmts, 83.08% branches (was 77.58%), 93.09% lines. 136 new tests targeting conditional paths in generators, API handlers, funnel, webhooks. Capability inventory: A:78, B:0, F:4. All remaining Fs blocked on external deps."
 
   boundary_truth:
     accepted_input_modes:
@@ -1850,6 +1850,33 @@ project_continuation:
       - "No cross-endpoint E2E tests → 7 integration flow suites"
     blockers_added: []
     commit_results: ["98afd03", "68f83eb", "8ab744f"]
+
+  current_session_result_039:
+    session_goal: "Branch coverage offensive — push branch coverage from 77.58% toward 85%"
+    selected_move: "eq_111 → eq_112 → eq_113: generator branches, API core branches, webhook branches"
+    selected_move_roi_reason: "Branch coverage (77.58%) was the weakest metric. Generator had 15+ untested framework profiles, handlers.ts had 52 uncovered branches, funnel.ts had 24, webhook-store.ts had production HTTP paths never tested."
+    completed_candidates:
+      - "eq_111: Generator branch coverage — 80 tests across 15 fixture profiles (Vue, Svelte, React SPA, Python/Django, Express/Jest, CLI, pnpm/Vite, yarn/webpack, styled-components, CSS Modules, Sass, rich routes, empty, large, Go). Branches 77.58%→82.6%. (commit c300eb9)"
+      - "eq_112: API core branch coverage — 40 tests targeting handlers.ts (createSnapshot validation, search query limits, delete 404, path traversal, CONTEXT_PENDING), funnel.ts (seat management, upgrade prompts, funnel limits), server.ts inline handlers (/v1/docs, /v1/programs). Branches 82.6%→82.95%. (commit b6b30e1)"
+      - "eq_113: Webhook branch coverage — 16 tests targeting production HTTP dispatch (real localhost receiver), HMAC signatures, 500 responses, connection refused, empty webhooks, malformed URLs, processRetryQueue HTTP retry, cross-account security, secret validation, limit clamping. Branches 82.95%→83.08%. (commit adfc7a7)"
+    refused_candidates: []
+    blocked_candidates:
+      - "Payment integration — blocked on No Fate Platform payment processor"
+      - "OAuth login — blocked on OAuth provider integration"
+      - "Email notifications — blocked on email service provider"
+      - "Web hosting deployment — blocked on deployment platform selection"
+    evidence_added:
+      - "1621 vitest tests passing across 71 files (1565→1621 this session, 1485→1621 total from eq_106)"
+      - "92.29% statement coverage, 83.08% branch coverage, 93.09% line coverage"
+      - "Branch coverage: 77.58% → 83.08% (+5.5pp across 3 test files)"
+      - "3 new test files: generator-branches.test.ts (80), api-branches.test.ts (40), webhook-branches.test.ts (16)"
+    verticals_advanced:
+      - "Test Coverage — branch coverage 77.58%→83.08%, stmt 92.08%→92.29%, lines 92.87%→93.09%"
+      - "Production Hardening — webhook production HTTP paths now tested with real HTTP receiver"
+    blockers_removed: []
+    blockers_added: []
+    commit_results: ["c300eb9", "b6b30e1", "adfc7a7"]
+    push_results: ["7dce44f..adfc7a7"]
 
   current_session_result_038:
     session_goal: "Execute all 5 improvement directions: B→A upgrades, coverage analysis, benchmarks, docs, quality sweep"
