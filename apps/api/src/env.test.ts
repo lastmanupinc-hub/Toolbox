@@ -147,3 +147,63 @@ describe("generateEnvExample", () => {
     expect(example).toContain("Axis Toolbox");
   });
 });
+
+// ─── Branch coverage: boolean and required paths ────────────────
+
+describe("validateEnv edge branches", () => {
+  it("validates boolean-type spec entry (valid)", () => {
+    // Temporarily add a boolean spec to exercise the boolean branch
+    const original = [...ENV_SPEC];
+    ENV_SPEC.push({
+      key: "VERBOSE",
+      required: false,
+      type: "boolean",
+      default: "false",
+      description: "Enable verbose logging",
+    });
+    try {
+      const result = validateEnv({ VERBOSE: "true" });
+      expect(result.valid).toBe(true);
+      expect(result.resolved.VERBOSE).toBe("true");
+    } finally {
+      ENV_SPEC.length = original.length;
+    }
+  });
+
+  it("rejects invalid boolean-type value", () => {
+    const original = [...ENV_SPEC];
+    ENV_SPEC.push({
+      key: "VERBOSE",
+      required: false,
+      type: "boolean",
+      default: "false",
+      description: "Enable verbose logging",
+    });
+    try {
+      const result = validateEnv({ VERBOSE: "yes" });
+      expect(result.valid).toBe(false);
+      expect(result.errors[0].key).toBe("VERBOSE");
+      expect(result.errors[0].message).toContain("true/false/1/0");
+    } finally {
+      ENV_SPEC.length = original.length;
+    }
+  });
+
+  it("errors on missing required var", () => {
+    const original = [...ENV_SPEC];
+    ENV_SPEC.push({
+      key: "API_SECRET",
+      required: true,
+      type: "string",
+      description: "Secret key for API auth",
+    });
+    try {
+      const result = validateEnv({});
+      expect(result.valid).toBe(false);
+      expect(result.errors[0].key).toBe("API_SECRET");
+      expect(result.errors[0].message).toContain("Required");
+    } finally {
+      ENV_SPEC.length = original.length;
+    }
+  });
+});

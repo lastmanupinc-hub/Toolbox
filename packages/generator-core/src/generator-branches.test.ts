@@ -1059,3 +1059,222 @@ describe("Notebook research-threads branches", () => {
     expect(f!.content).toContain("src/database/connection.ts");
   });
 });
+
+// ─── eq_123: algorithmic branch sweep ───────────────────────────
+
+describe("Algorithmic variation-matrix branches", () => {
+  // Project with zero detected languages → empty projectColors → fallback palette
+  const sNoLangs = snap({
+    name: "obscure-project",
+    type: "cli_tool",
+    files: [
+      { path: "Makefile", content: "all:\n\techo hi", size: 20, language: null },
+    ],
+  });
+
+  it("variation-matrix: uses fallback color palette when no languages", () => {
+    const inp = input(sNoLangs, ["variation-matrix.json"]);
+    inp.context_map.detection.languages = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "variation-matrix.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    const primaryParam = data.parameters.find((p: any) => p.name === "primary_hue");
+    expect(primaryParam.values).toEqual(["#2563EB", "#7C3AED", "#06B6D4", "#16A34A"]);
+  });
+
+  it("variation-matrix: tags complexity > 0.5 as 'complex'", () => {
+    const inp = input(sNoLangs, ["variation-matrix.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "variation-matrix.json");
+    const data = JSON.parse(f!.content);
+    const complexVars = data.variations.filter((v: any) => v.tags.includes("complex"));
+    const minVars = data.variations.filter((v: any) => v.tags.includes("minimal"));
+    expect(complexVars.length).toBeGreaterThan(0);
+    expect(minVars.length).toBeGreaterThan(0);
+  });
+
+  it("variation-matrix: adds component-tree layout for Vue projects", () => {
+    const sVue = snap({
+      name: "vue-app",
+      type: "web_app",
+      files: [
+        { path: "App.vue", content: "<template></template>", size: 22, language: null },
+      ],
+    });
+    const inp = input(sVue, ["variation-matrix.json"]);
+    inp.context_map.detection.frameworks = [
+      { name: "vue", confidence: 0.9, signals: ["App.vue"] },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "variation-matrix.json");
+    const data = JSON.parse(f!.content);
+    const layouts = data.parameters.find((p: any) => p.name === "layout");
+    expect(layouts.values).toContain("component-tree");
+  });
+
+  it("variation-matrix: hotspot emphasis tiers (glow/border/subtle)", () => {
+    const inp = input(sNoLangs, ["variation-matrix.json"]);
+    // Inject hotspots with different risk tiers
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "high.ts", inbound_count: 10, outbound_count: 5, risk_score: 8.5 },
+      { path: "med.ts", inbound_count: 5, outbound_count: 3, risk_score: 5.0 },
+      { path: "low.ts", inbound_count: 2, outbound_count: 1, risk_score: 2.0 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "variation-matrix.json");
+    const data = JSON.parse(f!.content);
+    const highlights = data.feature_highlights;
+    expect(highlights.find((h: any) => h.suggested_emphasis === "glow")).toBeDefined();
+    expect(highlights.find((h: any) => h.suggested_emphasis === "border")).toBeDefined();
+    expect(highlights.find((h: any) => h.suggested_emphasis === "subtle")).toBeDefined();
+  });
+});
+
+// ─── eq_125: MCP branch sweep ───────────────────────────────────
+
+describe("MCP capability-registry pkg manager branches", () => {
+  it("selects yarn when pnpm is absent", () => {
+    const s = snap({ name: "yarn-proj", files: [
+      { path: "package.json", content: "{}", size: 2, language: null },
+      { path: "yarn.lock", content: "", size: 0, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.detection.package_managers = ["yarn"];
+    inp.context_map.detection.build_tools = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    const buildCap = data.capabilities.find((c: any) => c.id === "build");
+    expect(buildCap.command).toContain("yarn");
+  });
+
+  it("falls back to npm when neither pnpm nor yarn", () => {
+    const s = snap({ name: "npm-proj", files: [
+      { path: "package.json", content: "{}", size: 2, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.detection.package_managers = ["npm"];
+    inp.context_map.detection.build_tools = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    const data = JSON.parse(f!.content);
+    const buildCap = data.capabilities.find((c: any) => c.id === "build");
+    expect(buildCap.command).toContain("npm");
+  });
+
+  it("skips test capability when test_frameworks is empty", () => {
+    const s = snap({ name: "no-test", files: [
+      { path: "index.ts", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.detection.test_frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    const data = JSON.parse(f!.content);
+    const testCap = data.capabilities.find((c: any) => c.id === "test");
+    expect(testCap).toBeUndefined();
+  });
+
+  it("uses generic test command for unknown test framework", () => {
+    const s = snap({ name: "mocha-proj", files: [
+      { path: "test.js", content: "", size: 0, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.detection.test_frameworks = ["mocha"];
+    inp.context_map.detection.package_managers = ["npm"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    const data = JSON.parse(f!.content);
+    const testCap = data.capabilities.find((c: any) => c.id === "test");
+    expect(testCap).toBeDefined();
+    expect(testCap.command).toBe("npm test");
+  });
+
+  it("omits typecheck for JavaScript without tsc", () => {
+    const s = snap({ name: "js-proj", files: [
+      { path: "index.js", content: "module.exports = {}", size: 22, language: null },
+    ]});
+    const inp = input(s, ["capability-registry.json"]);
+    inp.context_map.project_identity.primary_language = "JavaScript";
+    inp.context_map.detection.build_tools = ["webpack"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    const data = JSON.parse(f!.content);
+    const typecheckCap = data.capabilities.find((c: any) => c.id === "typecheck");
+    expect(typecheckCap).toBeUndefined();
+  });
+});
+
+describe("MCP server-manifest route branch", () => {
+  it("omits list_routes tool when routes array is empty", () => {
+    const s = snap({ name: "no-routes", files: [
+      { path: "cli.ts", content: "console.log('hi')", size: 20, language: null },
+    ]});
+    const inp = input(s, ["server-manifest.yaml"]);
+    inp.context_map.routes = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "server-manifest.yaml");
+    expect(f).toBeDefined();
+    expect(f!.content).not.toContain("list_routes");
+  });
+});
+
+// ─── eq_125: Artifacts branch sweep ─────────────────────────────
+
+describe("Artifacts empty-data branches", () => {
+  it("shows 'No entry points detected' when entry_points is empty", () => {
+    const s = snap({ name: "empty-proj", files: [
+      { path: "index.ts", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["artifact-spec.md"]);
+    inp.context_map.entry_points = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "artifact-spec.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No entry points detected");
+  });
+
+  it("shows 'No hotspots detected' when hotspots is empty", () => {
+    const s = snap({ name: "no-hotspots", files: [
+      { path: "index.ts", content: "export {}", size: 12, language: null },
+    ]});
+    const inp = input(s, ["artifact-spec.md"]);
+    inp.context_map.dependency_graph.hotspots = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "artifact-spec.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No hotspots detected");
+  });
+});
+
+describe("Artifacts component-library framework branches", () => {
+  it("uses css-modules when no tailwind detected", () => {
+    const s = snap({ name: "vue-proj", files: [
+      { path: "App.vue", content: "<template></template>", size: 22, language: null },
+    ]});
+    const inp = input(s, ["component-library.json"]);
+    inp.context_map.detection.frameworks = [{ name: "vue", confidence: 0.9, signals: ["App.vue"] }];
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-library.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    expect(data.framework).toBe("vue");
+    expect(data.styling).toBe("css-modules");
+  });
+
+  it("falls back to primary_language when no frameworks", () => {
+    const s = snap({ name: "plain-proj", files: [
+      { path: "main.py", content: "print('hi')", size: 12, language: null },
+    ]});
+    const inp = input(s, ["component-library.json"]);
+    inp.context_map.detection.frameworks = [];
+    inp.context_map.project_identity.primary_language = "Python";
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-library.json");
+    const data = JSON.parse(f!.content);
+    expect(data.framework).toBe("Python");
+    expect(data.styling).toBe("css-modules");
+  });
+});
