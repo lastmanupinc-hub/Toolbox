@@ -46,6 +46,37 @@ export function buildOpenApiSpec(): OpenApiSpec {
           },
         },
       },
+      "/v1/health/live": {
+        get: {
+          summary: "Liveness probe",
+          operationId: "getLiveness",
+          tags: ["Health"],
+          responses: {
+            200: { description: "Service is alive", content: jsonContent({ type: "object", properties: { status: { type: "string", enum: ["alive"] } } }) },
+          },
+        },
+      },
+      "/v1/health/ready": {
+        get: {
+          summary: "Readiness probe",
+          operationId: "getReadiness",
+          tags: ["Health"],
+          responses: {
+            200: { description: "Service is ready", content: jsonContent(ref("ReadinessResponse")) },
+            503: { description: "Service is not ready", content: jsonContent(ref("ReadinessResponse")) },
+          },
+        },
+      },
+      "/v1/metrics": {
+        get: {
+          summary: "Prometheus-format metrics",
+          operationId: "getMetrics",
+          tags: ["Health"],
+          responses: {
+            200: { description: "Metrics in Prometheus text format", content: { "text/plain": { schema: { type: "string" } } } },
+          },
+        },
+      },
 
       // ── Snapshots ──
       "/v1/snapshots": {
@@ -72,6 +103,61 @@ export function buildOpenApiSpec(): OpenApiSpec {
           responses: {
             200: { description: "Snapshot details", content: jsonContent(ref("SnapshotDetail")) },
             404: { description: "Snapshot not found" },
+          },
+        },
+        delete: {
+          summary: "Delete a snapshot",
+          operationId: "deleteSnapshot",
+          tags: ["Snapshots"],
+          parameters: [pathParam("snapshot_id", "Snapshot identifier")],
+          responses: {
+            200: { description: "Snapshot deleted", content: jsonContent({ type: "object", properties: { deleted: { type: "boolean" }, snapshot_id: { type: "string" } } }) },
+            404: { description: "Snapshot not found" },
+          },
+        },
+      },
+      "/v1/snapshots/{snapshot_id}/versions": {
+        get: {
+          summary: "List generation versions for a snapshot",
+          operationId: "listVersions",
+          tags: ["Versions"],
+          parameters: [pathParam("snapshot_id", "Snapshot identifier")],
+          responses: {
+            200: { description: "Version listing", content: jsonContent(ref("VersionListResponse")) },
+            404: { description: "Snapshot not found" },
+          },
+        },
+      },
+      "/v1/snapshots/{snapshot_id}/versions/{version_number}": {
+        get: {
+          summary: "Get a specific generation version with files",
+          operationId: "getVersion",
+          tags: ["Versions"],
+          parameters: [
+            pathParam("snapshot_id", "Snapshot identifier"),
+            pathParam("version_number", "Version number (positive integer)"),
+          ],
+          responses: {
+            200: { description: "Version details with files", content: jsonContent(ref("VersionDetailResponse")) },
+            400: { description: "Invalid version number" },
+            404: { description: "Version not found" },
+          },
+        },
+      },
+      "/v1/snapshots/{snapshot_id}/diff": {
+        get: {
+          summary: "Diff two generation versions",
+          operationId: "diffVersions",
+          tags: ["Versions"],
+          parameters: [
+            pathParam("snapshot_id", "Snapshot identifier"),
+            queryParam("old", "Old version number (positive integer)"),
+            queryParam("new", "New version number (positive integer)"),
+          ],
+          responses: {
+            200: { description: "Version diff", content: jsonContent(ref("VersionDiffResponse")) },
+            400: { description: "Missing or invalid version parameters" },
+            404: { description: "Version not found" },
           },
         },
       },
@@ -126,6 +212,18 @@ export function buildOpenApiSpec(): OpenApiSpec {
           responses: {
             200: { description: "ZIP archive", content: { "application/zip": { schema: { type: "string", format: "binary" } } } },
             404: { description: "No generated files" },
+          },
+        },
+      },
+      "/v1/projects/{project_id}": {
+        delete: {
+          summary: "Delete a project and all its snapshots",
+          operationId: "deleteProject",
+          tags: ["Projects"],
+          parameters: [pathParam("project_id", "Project identifier")],
+          responses: {
+            200: { description: "Project deleted", content: jsonContent({ type: "object", properties: { deleted: { type: "boolean" }, project_id: { type: "string" }, deleted_snapshots: { type: "integer" } } }) },
+            404: { description: "Project not found" },
           },
         },
       },
@@ -241,6 +339,16 @@ export function buildOpenApiSpec(): OpenApiSpec {
       "/v1/account/usage": {
         get: { summary: "Get account usage summary", operationId: "getUsage", tags: ["Billing"], responses: { 200: { description: "Usage data" } } },
       },
+      "/v1/account/quota": {
+        get: {
+          summary: "Get rate limit and resource quota status",
+          operationId: "getQuota",
+          tags: ["Billing"],
+          responses: {
+            200: { description: "Quota and rate-limit info", content: jsonContent(ref("QuotaResponse")) },
+          },
+        },
+      },
       "/v1/account/tier": {
         post: { summary: "Update account tier", operationId: "updateTier", tags: ["Billing"], responses: { 200: { description: "Tier updated" } } },
       },
@@ -273,6 +381,134 @@ export function buildOpenApiSpec(): OpenApiSpec {
       },
       "/v1/funnel/metrics": {
         get: { summary: "Get aggregate funnel metrics", operationId: "getFunnelMetrics", tags: ["Funnel"], responses: { 200: { description: "Funnel metrics" } } },
+      },
+
+      // ── Admin ──
+      "/v1/admin/stats": {
+        get: {
+          summary: "Get platform-wide statistics",
+          operationId: "adminStats",
+          tags: ["Admin"],
+          responses: {
+            200: { description: "Platform stats", content: jsonContent(ref("AdminStatsResponse")) },
+            401: { description: "Unauthorized" },
+          },
+        },
+      },
+      "/v1/admin/accounts": {
+        get: {
+          summary: "List all accounts (paginated)",
+          operationId: "adminAccounts",
+          tags: ["Admin"],
+          parameters: [
+            queryParam("limit", "Max results (1-200, default 50)"),
+            queryParam("offset", "Pagination offset (default 0)"),
+          ],
+          responses: {
+            200: { description: "Account listing", content: jsonContent(ref("AdminAccountsResponse")) },
+            401: { description: "Unauthorized" },
+          },
+        },
+      },
+      "/v1/admin/activity": {
+        get: {
+          summary: "Get recent platform activity events",
+          operationId: "adminActivity",
+          tags: ["Admin"],
+          parameters: [queryParam("limit", "Max results (1-200, default 50)")],
+          responses: {
+            200: { description: "Activity feed", content: jsonContent(ref("AdminActivityResponse")) },
+            401: { description: "Unauthorized" },
+          },
+        },
+      },
+
+      // ── Webhooks ──
+      "/v1/account/webhooks": {
+        post: {
+          summary: "Create a webhook subscription",
+          operationId: "createWebhook",
+          tags: ["Webhooks"],
+          requestBody: jsonBody(ref("CreateWebhookRequest")),
+          responses: {
+            201: { description: "Webhook created", content: jsonContent(ref("WebhookResponse")) },
+            400: { description: "Validation error" },
+            401: { description: "Unauthorized" },
+          },
+        },
+        get: {
+          summary: "List webhook subscriptions",
+          operationId: "listWebhooks",
+          tags: ["Webhooks"],
+          responses: {
+            200: { description: "Webhook listing", content: jsonContent(ref("WebhookListResponse")) },
+            401: { description: "Unauthorized" },
+          },
+        },
+      },
+      "/v1/account/webhooks/{webhook_id}": {
+        delete: {
+          summary: "Delete a webhook subscription",
+          operationId: "deleteWebhook",
+          tags: ["Webhooks"],
+          parameters: [pathParam("webhook_id", "Webhook identifier")],
+          responses: {
+            200: { description: "Webhook deleted", content: jsonContent({ type: "object", properties: { deleted: { type: "boolean" }, webhook_id: { type: "string" } } }) },
+            404: { description: "Webhook not found" },
+          },
+        },
+      },
+      "/v1/account/webhooks/{webhook_id}/toggle": {
+        post: {
+          summary: "Enable or disable a webhook",
+          operationId: "toggleWebhook",
+          tags: ["Webhooks"],
+          parameters: [pathParam("webhook_id", "Webhook identifier")],
+          requestBody: jsonBody({ type: "object", required: ["active"], properties: { active: { type: "boolean" } } }),
+          responses: {
+            200: { description: "Webhook toggled", content: jsonContent({ type: "object", properties: { webhook_id: { type: "string" }, active: { type: "boolean" } } }) },
+            404: { description: "Webhook not found" },
+          },
+        },
+      },
+      "/v1/account/webhooks/{webhook_id}/deliveries": {
+        get: {
+          summary: "List webhook delivery history",
+          operationId: "getWebhookDeliveries",
+          tags: ["Webhooks"],
+          parameters: [
+            pathParam("webhook_id", "Webhook identifier"),
+            queryParam("limit", "Max results (1-100, default 20)"),
+          ],
+          responses: {
+            200: { description: "Delivery history", content: jsonContent(ref("WebhookDeliveryListResponse")) },
+            404: { description: "Webhook not found" },
+          },
+        },
+      },
+
+      // ── Database ──
+      "/v1/db/stats": {
+        get: {
+          summary: "Get database size and table statistics",
+          operationId: "dbStats",
+          tags: ["Database"],
+          responses: {
+            200: { description: "Database stats", content: jsonContent(ref("DbStatsResponse")) },
+            500: { description: "Database error" },
+          },
+        },
+      },
+      "/v1/db/maintenance": {
+        post: {
+          summary: "Run database maintenance (checkpoint, vacuum, purge)",
+          operationId: "dbMaintenance",
+          tags: ["Database"],
+          responses: {
+            200: { description: "Maintenance results", content: jsonContent(ref("DbMaintenanceResponse")) },
+            500: { description: "Maintenance failed" },
+          },
+        },
       },
     },
     components: {
@@ -432,6 +668,139 @@ export function buildOpenApiSpec(): OpenApiSpec {
             email: { type: "string", format: "email" },
           },
         },
+        ReadinessResponse: {
+          type: "object",
+          properties: {
+            status: { type: "string", enum: ["ready", "not_ready"] },
+            checks: {
+              type: "object",
+              properties: {
+                shutting_down: { type: "boolean" },
+                database: { type: "string", enum: ["ok", "error"] },
+              },
+            },
+          },
+        },
+        VersionListResponse: {
+          type: "object",
+          properties: {
+            snapshot_id: { type: "string" },
+            versions: { type: "array", items: { type: "object", properties: { version_id: { type: "string" }, snapshot_id: { type: "string" }, version_number: { type: "integer" }, program: { type: "string", nullable: true }, file_count: { type: "integer" }, created_at: { type: "string", format: "date-time" } } } },
+            count: { type: "integer" },
+          },
+        },
+        VersionDetailResponse: {
+          type: "object",
+          properties: {
+            version: {
+              type: "object",
+              properties: {
+                version_id: { type: "string" },
+                snapshot_id: { type: "string" },
+                version_number: { type: "integer" },
+                program: { type: "string", nullable: true },
+                files: { type: "array", items: { type: "object", properties: { path: { type: "string" }, content: { type: "string" } } } },
+                file_count: { type: "integer" },
+                created_at: { type: "string", format: "date-time" },
+              },
+            },
+          },
+        },
+        VersionDiffResponse: {
+          type: "object",
+          properties: {
+            diff: {
+              type: "object",
+              properties: {
+                old_version: { type: "integer" },
+                new_version: { type: "integer" },
+                snapshot_id: { type: "string" },
+                files: { type: "array", items: { type: "object", properties: { path: { type: "string" }, status: { type: "string", enum: ["added", "removed", "modified", "unchanged"] }, old_content: { type: "string", nullable: true }, new_content: { type: "string", nullable: true } } } },
+                summary: { type: "object", properties: { added: { type: "integer" }, removed: { type: "integer" }, modified: { type: "integer" }, unchanged: { type: "integer" } } },
+              },
+            },
+          },
+        },
+        QuotaResponse: {
+          type: "object",
+          properties: {
+            rate_limit: { type: "object", properties: { limit: { type: "integer" }, remaining: { type: "integer" }, count: { type: "integer" }, reset_in_seconds: { type: "number" }, window_ms: { type: "integer" } } },
+            authenticated: { type: "boolean" },
+            resource_quota: { type: "object", properties: { tier: { type: "string" }, snapshots_this_month: { type: "integer" }, max_snapshots_per_month: { type: "integer" }, project_count: { type: "integer" }, max_projects: { type: "integer" }, max_files_per_snapshot: { type: "integer" } } },
+          },
+        },
+        AdminStatsResponse: {
+          type: "object",
+          properties: {
+            total_accounts: { type: "integer" },
+            accounts_by_tier: { type: "object", properties: { free: { type: "integer" }, paid: { type: "integer" }, suite: { type: "integer" } } },
+            total_snapshots: { type: "integer" },
+            total_projects: { type: "integer" },
+            total_usage_records: { type: "integer" },
+            total_api_keys: { type: "integer" },
+            active_api_keys: { type: "integer" },
+          },
+        },
+        AdminAccountsResponse: {
+          type: "object",
+          properties: {
+            accounts: { type: "array", items: { type: "object", properties: { account_id: { type: "string" }, name: { type: "string" }, email: { type: "string" }, tier: { type: "string" }, created_at: { type: "string", format: "date-time" }, snapshot_count: { type: "integer" }, project_count: { type: "integer" } } } },
+            total: { type: "integer" },
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+          },
+        },
+        AdminActivityResponse: {
+          type: "object",
+          properties: {
+            events: { type: "array", items: { type: "object", properties: { event_id: { type: "string" }, account_id: { type: "string" }, event_type: { type: "string" }, stage: { type: "string" }, created_at: { type: "string", format: "date-time" } } } },
+            count: { type: "integer" },
+          },
+        },
+        CreateWebhookRequest: {
+          type: "object",
+          required: ["url", "events"],
+          properties: {
+            url: { type: "string", format: "uri", description: "Webhook delivery URL (https recommended)" },
+            events: { type: "array", items: { type: "string", enum: ["snapshot.created", "snapshot.deleted", "project.deleted", "generation.completed"] } },
+            secret: { type: "string", description: "Optional HMAC signing secret" },
+          },
+        },
+        WebhookResponse: {
+          type: "object",
+          properties: {
+            webhook: { type: "object", properties: { webhook_id: { type: "string" }, account_id: { type: "string" }, url: { type: "string" }, events: { type: "array", items: { type: "string" } }, secret: { type: "string", nullable: true }, active: { type: "boolean" }, created_at: { type: "string", format: "date-time" }, updated_at: { type: "string", format: "date-time" } } },
+          },
+        },
+        WebhookListResponse: {
+          type: "object",
+          properties: {
+            webhooks: { type: "array", items: { $ref: "#/components/schemas/WebhookResponse/properties/webhook" } },
+            count: { type: "integer" },
+          },
+        },
+        WebhookDeliveryListResponse: {
+          type: "object",
+          properties: {
+            deliveries: { type: "array", items: { type: "object", properties: { delivery_id: { type: "string" }, webhook_id: { type: "string" }, event_type: { type: "string" }, success: { type: "boolean" }, status_code: { type: "integer", nullable: true }, attempt_number: { type: "integer" }, dead_lettered: { type: "boolean" }, created_at: { type: "string", format: "date-time" } } } },
+            count: { type: "integer" },
+          },
+        },
+        DbStatsResponse: {
+          type: "object",
+          properties: {
+            action: { type: "string" },
+            success: { type: "boolean" },
+            details: { type: "object", properties: { size_bytes: { type: "integer" }, page_size: { type: "integer" }, page_count: { type: "integer" }, freelist_pages: { type: "integer" }, wal_pages: { type: "integer" }, tables: { type: "object", additionalProperties: { type: "integer" } } } },
+          },
+        },
+        DbMaintenanceResponse: {
+          type: "object",
+          properties: {
+            results: { type: "array", items: { type: "object", properties: { action: { type: "string" }, success: { type: "boolean" }, details: { type: "object" } } } },
+            success: { type: "boolean" },
+          },
+        },
       },
     },
   };
@@ -453,6 +822,10 @@ function jsonBody(schema: unknown) {
 
 function pathParam(name: string, description: string) {
   return { name, in: "path", required: true, schema: { type: "string" }, description };
+}
+
+function queryParam(name: string, description: string) {
+  return { name, in: "query", required: false, schema: { type: "string" }, description };
 }
 
 function programEndpoints(): Record<string, unknown> {

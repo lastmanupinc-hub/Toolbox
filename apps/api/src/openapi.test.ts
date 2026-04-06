@@ -102,6 +102,76 @@ describe("buildOpenApiSpec", () => {
     expect(paths).toContain("/v1/projects/{project_id}/context");
     expect(paths).toContain("/v1/projects/{project_id}/generated-files");
     expect(paths).toContain("/v1/projects/{project_id}/export");
+    expect(paths).toContain("/v1/projects/{project_id}");
+    const proj = spec.paths["/v1/projects/{project_id}"] as Record<string, unknown>;
+    expect(proj.delete).toBeDefined();
+  });
+
+  it("includes health probes and metrics", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/health/live");
+    expect(paths).toContain("/v1/health/ready");
+    expect(paths).toContain("/v1/metrics");
+  });
+
+  it("includes version endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/snapshots/{snapshot_id}/versions");
+    expect(paths).toContain("/v1/snapshots/{snapshot_id}/versions/{version_number}");
+    expect(paths).toContain("/v1/snapshots/{snapshot_id}/diff");
+  });
+
+  it("includes snapshot delete operation", () => {
+    const snap = spec.paths["/v1/snapshots/{snapshot_id}"] as Record<string, unknown>;
+    expect(snap.get).toBeDefined();
+    expect(snap.delete).toBeDefined();
+  });
+
+  it("includes quota endpoint", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/account/quota");
+  });
+
+  it("includes admin endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/admin/stats");
+    expect(paths).toContain("/v1/admin/accounts");
+    expect(paths).toContain("/v1/admin/activity");
+  });
+
+  it("includes webhook endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/account/webhooks");
+    expect(paths).toContain("/v1/account/webhooks/{webhook_id}");
+    expect(paths).toContain("/v1/account/webhooks/{webhook_id}/toggle");
+    expect(paths).toContain("/v1/account/webhooks/{webhook_id}/deliveries");
+    const wh = spec.paths["/v1/account/webhooks"] as Record<string, unknown>;
+    expect(wh.post).toBeDefined();
+    expect(wh.get).toBeDefined();
+  });
+
+  it("includes database endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/db/stats");
+    expect(paths).toContain("/v1/db/maintenance");
+  });
+
+  it("defines new schemas for added endpoints", () => {
+    const schemas = Object.keys(spec.components.schemas);
+    expect(schemas).toContain("ReadinessResponse");
+    expect(schemas).toContain("VersionListResponse");
+    expect(schemas).toContain("VersionDetailResponse");
+    expect(schemas).toContain("VersionDiffResponse");
+    expect(schemas).toContain("QuotaResponse");
+    expect(schemas).toContain("AdminStatsResponse");
+    expect(schemas).toContain("AdminAccountsResponse");
+    expect(schemas).toContain("AdminActivityResponse");
+    expect(schemas).toContain("CreateWebhookRequest");
+    expect(schemas).toContain("WebhookResponse");
+    expect(schemas).toContain("WebhookListResponse");
+    expect(schemas).toContain("WebhookDeliveryListResponse");
+    expect(schemas).toContain("DbStatsResponse");
+    expect(schemas).toContain("DbMaintenanceResponse");
   });
 
   it("all paths start with /v1/", () => {
