@@ -14,6 +14,12 @@ pnpm build
 # Run tests
 npx vitest run
 
+# Run with coverage
+npx vitest --coverage
+
+# Run benchmarks
+npx vitest bench
+
 # Start API server
 node apps/api/dist/server.js
 

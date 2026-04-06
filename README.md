@@ -25,7 +25,7 @@ node apps/cli/dist/cli.js github https://github.com/owner/repo
 ```
 axis-toolbox/
 ├── apps/
-│   ├── api/          → Zero-dependency HTTP server (port 4000, 52+ endpoints)
+│   ├── api/          → Zero-dependency HTTP server (port 4000, 71 endpoints)
 │   ├── cli/          → CLI tool: axis analyze <dir> | axis github <url>
 │   └── web/          → Vite + React 19 SPA (dark theme, toast, command palette)
 ├── packages/
@@ -97,8 +97,14 @@ axis-toolbox/
 | GET | `/v1/account/keys` | List API keys |
 | POST | `/v1/account/keys/:id/revoke` | Revoke API key |
 | GET | `/v1/account/usage` | Get usage stats |
+| GET | `/v1/account/quota` | Get quota info |
 | POST | `/v1/account/tier` | Update billing tier |
 | POST | `/v1/account/programs` | Update program entitlements |
+| POST | `/v1/account/github-token` | Save encrypted GitHub token |
+| GET | `/v1/account/github-token` | List GitHub tokens |
+| DELETE | `/v1/account/github-token/:token_id` | Delete GitHub token |
+| GET | `/v1/billing/history` | Billing tier change audit trail |
+| GET | `/v1/billing/proration` | Proration preview for tier changes |
 
 ### Funnel & Plans
 | Method | Path | Description |
@@ -110,6 +116,39 @@ axis-toolbox/
 | GET | `/v1/account/upgrade-prompts` | Get contextual upgrade prompts |
 | GET | `/v1/account/funnel-status` | Get funnel stage |
 | GET | `/v1/admin/funnel-metrics` | Aggregate funnel analytics |
+
+### Search & Versions
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/v1/search/index` | Index snapshot content for FTS5 search |
+| POST | `/v1/search/query` | Full-text search across indexed content |
+| GET | `/v1/search/:id/stats` | Search index statistics |
+| GET | `/v1/snapshots/:id/versions` | List generation versions |
+| GET | `/v1/snapshots/:id/versions/:num` | Get specific version with files |
+| GET | `/v1/snapshots/:id/diff?old=N&new=M` | Diff between two versions |
+
+### Webhooks
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/v1/account/webhooks` | Create webhook |
+| GET | `/v1/account/webhooks` | List webhooks |
+| DELETE | `/v1/account/webhooks/:id` | Delete webhook |
+| POST | `/v1/account/webhooks/:id/toggle` | Toggle webhook active/disabled |
+| GET | `/v1/account/webhooks/:id/deliveries` | List delivery attempts |
+
+### Infrastructure
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/v1/health` | Health check |
+| GET | `/v1/health/live` | Liveness probe |
+| GET | `/v1/health/ready` | Readiness probe (DB connectivity) |
+| GET | `/v1/metrics` | Prometheus-style metrics |
+| GET | `/v1/db/stats` | Database statistics |
+| POST | `/v1/db/maintenance` | Database maintenance (vacuum, WAL checkpoint) |
+| GET | `/v1/docs` | OpenAPI 3.1 specification |
+| GET | `/v1/admin/stats` | System-wide statistics |
+| GET | `/v1/admin/accounts` | Admin: list all accounts |
+| GET | `/v1/admin/activity` | Admin: recent activity feed |
 
 ## Input Methods
 
@@ -123,9 +162,10 @@ axis-toolbox/
 - **Runtime**: Node.js 20+, TypeScript 5.7 strict
 - **Backend**: Zero-dependency custom HTTP router, SQLite (better-sqlite3, WAL mode)
 - **Frontend**: Vite 6 + React 19, CSS design system (dark theme)
-- **Testing**: Vitest 4, 444 tests across 14 files
+- **Testing**: Vitest 4, 1485 tests across 68 files, 91.5% statement coverage
+- **Benchmarks**: Vitest bench — parseRepo 200 files in 21ms, FTS5 search <0.2ms
 - **Build**: pnpm workspaces, tsc per package
-- **CI**: GitHub Actions (Node 20/22 matrix)
+- **CI**: GitHub Actions (Node 20/22 matrix, coverage, dep audit, Docker build)
 
 ## Development
 
@@ -134,6 +174,8 @@ pnpm install          # Install all dependencies
 pnpm build            # Build all packages + apps
 pnpm test             # Run all tests
 npx vitest run        # Run tests directly
+npx vitest bench      # Run performance benchmarks
+npx vitest --coverage # Run tests with coverage report
 ```
 
 ## License

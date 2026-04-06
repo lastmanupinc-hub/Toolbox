@@ -7,6 +7,11 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [0.4.0] - 2025-07-21
 
 ### Added
+- **GitHub Token Management** — Encrypted per-account token storage (AES-256-GCM), CRUD endpoints (`POST/GET/DELETE /v1/account/github-token`), auto-retrieval during `github/analyze`, validation/invalidation tracking.
+- **Billing Audit Trail** — `tier_changes` table, `logTierChange()` with proration calculation, `GET /v1/billing/history`, `GET /v1/billing/proration` preview endpoint.
+- **DB Migration v8** — `github_tokens` table (encrypted storage, scopes, validity, usage timestamps) + `tier_changes` table (from/to tier, reason, proration, metadata).
+- **Test Coverage Analysis** — @vitest/coverage-v8, 43 gap-targeted tests bringing coverage to 91.5% statements, 92.2% lines. version-store, billing-store, tier-audit, github-token-store all at 97%+.
+- **Performance Benchmarks** — 2 vitest bench suites (parser pipeline + storage operations) covering parseRepo, FTS5 search/index, snapshot creation, webhook HMAC, generator storage. All critical paths <100ms for 200-file repos.
 - **CI Pipeline Hardening** — Coverage reporting (vitest/coverage-v8, 92%+ line coverage), dependency audit (`pnpm audit`), Docker build validation job with health check verification.
 - **Database Maintenance** — `walCheckpoint`, `vacuum`, `integrityCheck`, `getDbStats`, `purgeStaleData`, `runMaintenance` utilities. `GET /v1/db/stats` and `POST /v1/db/maintenance` API endpoints.
 - **Health Probes** — `GET /v1/health/live` (liveness), `GET /v1/health/ready` (readiness with DB connectivity check).
