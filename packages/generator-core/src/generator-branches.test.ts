@@ -861,3 +861,128 @@ describe("No-Tailwind styling branches", () => {
     expect(f!.content.length).toBeGreaterThan(50);
   });
 });
+
+// ─── eq_118: Branch sweep — hotspots, entry points, deps, identity ───
+
+/**
+ * Patch a GeneratorInput's context_map to inject hotspots, entry_points,
+ * external_dependencies, and project_identity.description so the
+ * generator branches that require non-empty arrays are exercised.
+ */
+function withRichContext(inp: GeneratorInput): GeneratorInput {
+  const ctx = inp.context_map;
+  ctx.dependency_graph.hotspots = [
+    { path: "src/database/connection.ts", inbound_count: 12, outbound_count: 3, risk_score: 8.5 },
+    { path: "src/auth/middleware.ts", inbound_count: 8, outbound_count: 6, risk_score: 5.2 },
+    { path: "src/utils/helpers.ts", inbound_count: 15, outbound_count: 1, risk_score: 3.0 },
+    { path: "src/api/router.ts", inbound_count: 4, outbound_count: 9, risk_score: 6.8 },
+    { path: "src/models/user.ts", inbound_count: 7, outbound_count: 2, risk_score: 4.1 },
+  ];
+  ctx.entry_points = [
+    { path: "src/index.ts", type: "app_entry", description: "Application entry point" },
+    { path: "src/server.ts", type: "server", description: "HTTP server bootstrap" },
+    { path: "app/api/users/route.ts", type: "api_route", description: "Users API endpoint" },
+  ];
+  ctx.dependency_graph.external_dependencies = [
+    { name: "react", version: "18.2.0", type: "production" as const },
+    { name: "next", version: "14.1.0", type: "production" as const },
+    { name: "zod", version: "3.22.4", type: "production" as const },
+    { name: "prisma", version: "5.8.0", type: "production" as const },
+    { name: "tailwindcss", version: "3.4.0", type: "development" as const },
+  ];
+  ctx.project_identity.description = "A full-stack TypeScript platform for developer tooling";
+  return inp;
+}
+
+describe("Hotspot branches (remotion, algorithmic, obsidian, artifacts)", () => {
+  const s = snap({ name: "rich-project", type: "web_application", files: REACT_SPA_FILES });
+  const result = generateFiles(withRichContext(input(s, [
+    "storyboard.md", "collection-map.md", "linking-policy.md",
+    "artifact-spec.md", "brand-guidelines.md",
+  ])));
+
+  it("remotion: renders hotspot risk indicators", () => {
+    const f = getFile(result, "storyboard.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Hotspots:");
+    // risk_score > 7 → 🔴
+    expect(f!.content).toContain("🔴");
+    // risk_score 4-7 → 🟡
+    expect(f!.content).toContain("🟡");
+    // risk_score < 4 → 🟢
+    expect(f!.content).toContain("🟢");
+  });
+
+  it("algorithmic: renders brightest-stars hotspot list", () => {
+    const f = getFile(result, "collection-map.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Brightest stars");
+    expect(f!.content).toContain("src/database/connection.ts");
+    expect(f!.content).toContain("risk: 8.5");
+  });
+
+  it("obsidian: renders code-to-vault mapping table", () => {
+    const f = getFile(result, "linking-policy.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Code-to-Vault Mapping");
+    expect(f!.content).toContain("| Code File | Risk | Vault Note |");
+    // Path transform: src/database/connection.ts → src-database-connection
+    expect(f!.content).toContain("[[Code/src-database-connection]]");
+  });
+
+  it("artifacts: renders entry points table", () => {
+    const f = getFile(result, "artifact-spec.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("| Path | Type | Description |");
+    expect(f!.content).toContain("src/index.ts");
+    expect(f!.content).toContain("app_entry");
+  });
+
+  it("artifacts: renders hotspots table with risk scores", () => {
+    const f = getFile(result, "artifact-spec.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("| Path | Inbound | Outbound | Risk |");
+    expect(f!.content).toContain("src/database/connection.ts");
+    expect(f!.content).toContain("8.5");
+  });
+
+  it("artifacts: renders dependencies list", () => {
+    const f = getFile(result, "artifact-spec.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("`react` @ 18.2.0");
+    expect(f!.content).toContain("`zod` @ 3.22.4");
+  });
+
+  it("brand: renders description when present", () => {
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("A full-stack TypeScript platform for developer tooling");
+  });
+});
+
+describe("Brand type-classification branches", () => {
+  it("brand: CLI tool positioning", () => {
+    const s = snap({ name: "my-cli", type: "cli_tool", files: CLI_TOOL_FILES });
+    const result = generateFiles(withRichContext(input(s, ["brand-guidelines.md"])));
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("command-line tool");
+    expect(f!.content).toContain("DevOps engineers");
+  });
+
+  it("brand: library/package positioning", () => {
+    const s = snap({ name: "my-lib", type: "typescript_library", files: EMPTY_PROJECT_FILES });
+    const result = generateFiles(withRichContext(input(s, ["brand-guidelines.md"])));
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("library/package consumed");
+  });
+
+  it("brand: generic fallback positioning", () => {
+    const s = snap({ name: "my-playground", type: "playground", files: EMPTY_PROJECT_FILES });
+    const result = generateFiles(withRichContext(input(s, ["brand-guidelines.md"])));
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Technical users");
+  });
+});
