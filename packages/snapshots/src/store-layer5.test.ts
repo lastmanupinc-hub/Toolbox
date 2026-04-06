@@ -1,0 +1,110 @@
+/**
+ * eq_130: Layer 5 store-level branch coverage
+ * Targets uncovered branches in funnel-store.ts, billing-store.ts, db.ts
+ */
+import { describe, it, expect, beforeEach } from "vitest";
+import {
+  openMemoryDb,
+  closeDb,
+  createAccount,
+  getDb,
+} from "./index.js";
+import {
+  inviteSeat,
+  acceptSeat,
+  revokeSeat,
+  getSeat,
+  getActiveSeats,
+  getSeatCount,
+  resolveStage,
+  trackEvent,
+} from "./funnel-store.js";
+import {
+  getSystemStats,
+} from "./billing-store.js";
+import { recordUsage } from "./billing-store.js";
+
+beforeEach(() => {
+  closeDb();
+  openMemoryDb();
+});
+
+// ─── funnel-store.ts branches ───────────────────────────────────
+
+describe("funnel-store — acceptSeat double-accept", () => {
+  // Line 31: inviteSeat with non-existent account
+  it("throws when account_id does not exist", () => {
+    expect(() => inviteSeat("nonexistent-id", "a@test.com", "member", "system"))
+      .toThrow("Account not found");
+  });
+
+  // Lines 67-80: acceptSeat returning false on second call
+  it("acceptSeat returns false when seat already accepted", () => {
+    const acct = createAccount("Test", "t@test.com");
+    const seat = inviteSeat(acct.account_id, "bob@test.com", "member", "system");
+    const first = acceptSeat(seat.seat_id);
+    expect(first).toBe(true);
+    const second = acceptSeat(seat.seat_id);
+    expect(second).toBe(false);
+  });
+
+  // acceptSeat on revoked seat returns false
+  it("acceptSeat returns false when seat is revoked", () => {
+    const acct = createAccount("Test2", "t2@test.com");
+    const seat = inviteSeat(acct.account_id, "revoked@test.com", "member", "system");
+    revokeSeat(seat.seat_id);
+    const result = acceptSeat(seat.seat_id);
+    expect(result).toBe(false);
+  });
+
+  // revokeSeat returns false on second revoke
+  it("revokeSeat returns false when seat already revoked", () => {
+    const acct = createAccount("Test3", "t3@test.com");
+    const seat = inviteSeat(acct.account_id, "rev2@test.com", "member", "system");
+    expect(revokeSeat(seat.seat_id)).toBe(true);
+    expect(revokeSeat(seat.seat_id)).toBe(false);
+  });
+});
+
+describe("funnel-store — getActiveSeats empty", () => {
+  // All seats revoked → empty array
+  it("returns empty array when all seats are revoked", () => {
+    const acct = createAccount("Empty", "empty@test.com");
+    const s = inviteSeat(acct.account_id, "gone@test.com", "member", "system");
+    revokeSeat(s.seat_id);
+    expect(getActiveSeats(acct.account_id)).toEqual([]);
+  });
+
+  // getSeatCount = 0 for new account
+  it("getSeatCount returns 0 for account with no seats", () => {
+    const acct = createAccount("NoSeats", "noseats@test.com");
+    expect(getSeatCount(acct.account_id)).toBe(0);
+  });
+});
+
+describe("funnel-store — resolveStage edge cases", () => {
+  // Line 202: engagement stage without any events
+  it("returns engagement without churn_risk when no events exist", () => {
+    const acct = createAccount("Engaged", "engaged@test.com");
+    // Get past engagement threshold by recording usage
+    for (let i = 0; i < 5; i++) {
+      recordUsage(acct.account_id, "search", `snap-${i}`, 1, 1, 100);
+    }
+    // Don't track any funnel events
+    const stage = resolveStage(acct.account_id);
+    // Should be engagement or higher, not churn (no events to check)
+    expect(["engagement", "activation", "signup"]).toContain(stage);
+  });
+});
+
+// ─── billing-store.ts branches ──────────────────────────────────
+
+describe("billing-store — getSeatCount & getSystemStats", () => {
+  // Lines 302-304: system stats with accounts but no seats
+  it("getSystemStats works with accounts but no seats", () => {
+    createAccount("A", "a@test.com");
+    createAccount("B", "b@test.com");
+    const stats = getSystemStats();
+    expect(stats.total_accounts).toBeGreaterThanOrEqual(2);
+  });
+});

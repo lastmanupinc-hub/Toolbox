@@ -3150,3 +3150,315 @@ describe("Layer 4 branch coverage", () => {
     expect(f!.content).toContain("typecheck");
   });
 });
+
+// ─── Layer 5 branch coverage ─────────────────────────────────────
+describe("Layer 5 branch coverage", () => {
+  // ── generators-notebook.ts ──────────────────────────────────
+  // Line 99: deps.length > 10 → "+N more" overflow row
+  it("notebook-summary shows +N more when >10 external deps", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["notebook-summary.md"]);
+    inp.context_map.dependency_graph.external_dependencies = Array.from(
+      { length: 12 },
+      (_, i) => ({ name: `pkg-${i}`, version: `${i}.0.0` }),
+    );
+    const result = generateFiles(inp);
+    const f = getFile(result, "notebook-summary.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("+2 more");
+  });
+
+  // Lines 317-319: separation_score < 4 → "low" research thread
+  it("research-threads shows low separation for score < 4", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["research-threads.md"]);
+    inp.context_map.architecture_signals.separation_score = 2;
+    const result = generateFiles(inp);
+    const f = getFile(result, "research-threads.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("separation is low");
+  });
+
+  // separation_score >= 7 → "strong" research thread
+  it("research-threads shows strong separation for score >= 7", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["research-threads.md"]);
+    inp.context_map.architecture_signals.separation_score = 8;
+    const result = generateFiles(inp);
+    const f = getFile(result, "research-threads.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("separation is strong");
+  });
+
+  // ── generators-optimization.ts ──────────────────────────────
+  // Lines 329,335: language with 0 LOC filtered out / percentage = 0 guard
+  it("cost-estimate filters languages with zero LOC", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["cost-estimate.json"]);
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", loc_percent: 80, file_count: 10, loc: 500 },
+      { name: "Rust", loc_percent: 0, file_count: 0, loc: 0 },
+    ];
+    inp.context_map.structure.file_tree_summary = [
+      { path: "src/index.ts", type: "file", language: "TypeScript", loc: 500, role: "source" },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "cost-estimate.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    const langs = data.language_breakdown ?? data.languages ?? [];
+    const rustEntry = langs.find((l: Record<string, unknown>) => l.language === "Rust");
+    expect(rustEntry).toBeUndefined();
+  });
+
+  // Lines 454,480: Chunked/RAG for totalTokens > window * 3
+  it("token-budget-plan shows chunked/RAG for massive repos", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["token-budget-plan.md"]);
+    // tokensPerLine = 4.5, need totalTokens > 128000*3 = 384000, so loc > 85334
+    inp.context_map.structure.file_tree_summary = [
+      { path: "src/huge.ts", type: "file", language: "TypeScript", loc: 200000, role: "source" },
+    ];
+    inp.context_map.structure.total_loc = 200000;
+    inp.context_map.detection.languages = [
+      { name: "TypeScript", loc_percent: 100, file_count: 1, loc: 200000 },
+    ];
+    const result = generateFiles(inp);
+    const f = getFile(result, "token-budget-plan.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toMatch(/Chunked|RAG/i);
+  });
+
+  // ── generators-frontend.ts ──────────────────────────────────
+  // Line 116: playwright E2E
+  it("frontend-rules mentions Playwright E2E tests", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, [".ai/frontend-rules.md"]);
+    inp.context_map.detection.test_frameworks = ["vitest", "playwright"];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/frontend-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Playwright");
+  });
+
+  // Line 118: cypress E2E
+  it("frontend-rules mentions Cypress E2E tests", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, [".ai/frontend-rules.md"]);
+    inp.context_map.detection.test_frameworks = ["jest", "cypress"];
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/frontend-rules.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Cypress");
+  });
+
+  // ── generators-algorithmic.ts ───────────────────────────────
+  // Lines 196-217: score > 70 → "radial", score > 40 → "bilateral"
+  it("parameter-pack uses radial symmetry for very high score", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["parameter-pack.json"]);
+    inp.context_map.architecture_signals.separation_score = 80;
+    const result = generateFiles(inp);
+    const f = getFile(result, "parameter-pack.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    expect(data.parameters.structure.symmetry).toBe("radial");
+  });
+
+  it("parameter-pack uses bilateral symmetry for mid score", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["parameter-pack.json"]);
+    inp.context_map.architecture_signals.separation_score = 50;
+    const result = generateFiles(inp);
+    const f = getFile(result, "parameter-pack.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    expect(data.parameters.structure.symmetry).toBe("bilateral");
+  });
+
+  // Line 506: preset "minimal" and "energetic"
+  it("parameter-pack includes energetic and minimal presets", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["parameter-pack.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "parameter-pack.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    const names = data.presets?.map((p: Record<string, unknown>) => p.name) ?? [];
+    expect(names).toContain("energetic");
+    expect(names).toContain("minimal");
+  });
+
+  // ── generators-brand.ts ─────────────────────────────────────
+  // Lines 102-277: frameworks present but not React/Next.js
+  it("brand-guidelines for Vue project skips React-specific rules", () => {
+    const s = snap({ files: VUE_FILES });
+    const inp = input(s, ["brand-guidelines.md"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "brand-guidelines.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Stack-Specific Application");
+    expect(f!.content).not.toContain("PascalCase");
+  });
+
+  // Line 371: conventions.length === 0 → no Project-Specific section
+  it("content-constraints omits conventions section when empty", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["content-constraints.md"]);
+    inp.context_map.ai_context.conventions = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-constraints.md");
+    expect(f).toBeDefined();
+    expect(f!.content).not.toContain("Project-Specific Conventions");
+  });
+
+  // Line 429: few/no components for component-theme-map
+  it("component-theme-map works with no component files", () => {
+    const s = snap({ files: EXPRESS_FILES });
+    const inp = input(s, ["component-theme-map.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-theme-map.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    expect(data.summary.total_components).toBe(0);
+  });
+
+  // ── generators-theme.ts ─────────────────────────────────────
+  // Lines 649-654,660-663: layout/overlay/data-display/decorative types + token categories
+  it("component-theme-map classifies nav/modal/grid/badge components", () => {
+    const themeFiles: FileEntry[] = [
+      { path: "package.json", content: '{"name":"theme-test","dependencies":{"react":"18.0.0"}}', size: 55 },
+      { path: "src/NavBar.tsx", content: "export default function NavBar() { return <nav>Nav</nav> }", size: 60 },
+      { path: "src/ModalDialog.tsx", content: "export default function ModalDialog() { return <div>Modal</div> }", size: 65 },
+      { path: "src/DataGrid.tsx", content: "export default function DataGrid() { return <table></table> }", size: 62 },
+      { path: "src/UserBadge.tsx", content: "export default function UserBadge() { return <span>Badge</span> }", size: 66 },
+      { path: "src/DashPage.tsx", content: "export default function DashPage() { return <main>Page</main> }", size: 64 },
+      { path: "tsconfig.json", content: '{"compilerOptions":{"strict":true}}', size: 34 },
+    ];
+    const s = snap({ files: themeFiles });
+    const inp = input(s, ["component-theme-map.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "component-theme-map.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    const types = data.components.map((c: Record<string, unknown>) => c.component_type);
+    expect(types).toContain("layout");
+    expect(types).toContain("overlay");
+    expect(types).toContain("data-display");
+    expect(types).toContain("decorative");
+    expect(types).toContain("page");
+  });
+
+  // ── generators-seo.ts ──────────────────────────────────────
+  // Line 453: !hasSSR → CRITICAL warning
+  it("content-audit warns about no SSR for Express project", () => {
+    const s = snap({ files: EXPRESS_FILES });
+    const inp = input(s, ["content-audit.md"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "content-audit.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("No SSR framework detected");
+  });
+
+  // ── generators-marketing.ts ─────────────────────────────────
+  // Lines 474-476: !hasNext → client-side feature flag
+  it("ab-test-plan recommends client-side flags without Next.js", () => {
+    const s = snap({ files: VUE_FILES });
+    const inp = input(s, ["ab-test-plan.md"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "ab-test-plan.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Client-side feature flag");
+  });
+
+  // ── generators-superpowers.ts ───────────────────────────────
+  // Line 83: test framework is not vitest/jest/pytest → generic fallback
+  it("superpower-pack uses generic test command for mocha", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["superpower-pack.md"]);
+    inp.context_map.detection.test_frameworks = ["mocha"];
+    const result = generateFiles(inp);
+    const f = getFile(result, "superpower-pack.md");
+    expect(f).toBeDefined();
+    // Generic fallback: "pkgMgr test" instead of specific vitest/jest/pytest
+    expect(f!.content).toContain("test");
+    expect(f!.content).not.toContain("npx vitest");
+    expect(f!.content).not.toContain("npx jest");
+    expect(f!.content).not.toContain("pytest");
+  });
+
+  // ── generators-mcp.ts ──────────────────────────────────────
+  // Lines 280,305,317-326: Python project → no tsc capability
+  it("capability-registry omits typecheck for Python project", () => {
+    const s = snap({ files: PYTHON_DJANGO_FILES });
+    const inp = input(s, ["capability-registry.json"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "capability-registry.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    const typecheck = data.capabilities?.find((c: Record<string, unknown>) => c.id === "typecheck");
+    expect(typecheck).toBeUndefined();
+  });
+
+  // ── generators-skills.ts ───────────────────────────────────
+  // Line 92: FastAPI detection → Pydantic models
+  it("AGENTS.md mentions Pydantic for FastAPI projects", () => {
+    const fastApiFiles: FileEntry[] = [
+      { path: "requirements.txt", content: "fastapi==0.104.0\nuvicorn==0.24.0\npydantic==2.5.0", size: 55 },
+      { path: "main.py", content: 'from fastapi import FastAPI\napp = FastAPI()\n@app.get("/")\nasync def root():\n    return {"Hello": "World"}\n', size: 110 },
+      { path: "models.py", content: 'from pydantic import BaseModel\nclass Item(BaseModel):\n    name: str\n    price: float', size: 80 },
+    ];
+    const s = snap({ files: fastApiFiles });
+    const inp = input(s, ["AGENTS.md"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "AGENTS.md");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Pydantic");
+  });
+
+  // Lines 530-532: no test frameworks → skip test framework line
+  it("AGENTS.md omits test framework line when none detected", () => {
+    const s = snap({ files: CLI_TOOL_FILES });
+    const inp = input(s, ["AGENTS.md"]);
+    inp.context_map.detection.test_frameworks = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "AGENTS.md");
+    expect(f).toBeDefined();
+    expect(f!.content).not.toContain("Run tests with");
+  });
+
+  // ── generators-artifacts.ts ────────────────────────────────
+  // Line 37: non-React component scaffold
+  it("generated-component uses scaffold comment for Vue project", () => {
+    const s = snap({ files: VUE_FILES });
+    const inp = input(s, ["generated-component.tsx"]);
+    const result = generateFiles(inp);
+    const f = getFile(result, "generated-component.tsx");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("Generated component scaffold");
+  });
+
+  // Lines 458-459: no hotspots → low coupling message
+  it("export-manifest with no hotspots", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, ["export-manifest.yaml"]);
+    inp.context_map.dependency_graph.hotspots = [];
+    const result = generateFiles(inp);
+    const f = getFile(result, "export-manifest.yaml");
+    expect(f).toBeDefined();
+    // No hotspot entries should appear
+    expect(f!.content).not.toContain("risk:");
+  });
+
+  // ── generators-search.ts ───────────────────────────────────
+  // toYAML null branch
+  it("repo-profile.yaml handles null values in profile", () => {
+    const s = snap({ files: REACT_SPA_FILES });
+    const inp = input(s, [".ai/repo-profile.yaml"]);
+    (inp.repo_profile as Record<string, unknown>).goals = null;
+    const result = generateFiles(inp);
+    const f = getFile(result, ".ai/repo-profile.yaml");
+    expect(f).toBeDefined();
+    expect(f!.content).toContain("null");
+  });
+});
