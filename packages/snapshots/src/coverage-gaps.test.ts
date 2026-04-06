@@ -37,6 +37,9 @@ import {
   processRetryQueue,
 } from "./index.js";
 import type { VersionFile } from "./index.js";
+import type { InputMethod } from "./types.js";
+import type { WebhookEventType } from "./webhook-store.js";
+import type { BillingTier } from "./billing-types.js";
 
 // Direct imports to fix v8 coverage attribution through re-exports
 import {
@@ -74,7 +77,7 @@ describe("version-store", () => {
 
   function seedSnapshot(): string {
     const snap = createSnapshot({
-      input_method: "upload",
+      input_method: "manual_file_upload" as InputMethod,
       manifest: { project_name: "cov-test", project_type: "lib", frameworks: [], goals: [], requested_outputs: [] },
       files: [{ path: "dummy.ts", content: "x", size: 1 }],
     });
@@ -190,7 +193,7 @@ describe("webhook-store additional coverage", () => {
 
   it("creates webhook with all fields", () => {
     const aid = seedAccount();
-    const wh = createWebhook(aid, "https://example.com/hook", ["snapshot.created", "snapshot.completed"], "my-secret");
+    const wh = createWebhook(aid, "https://example.com/hook", ["snapshot.created", "generation.completed"] as WebhookEventType[], "my-secret");
     expect(wh.webhook_id).toBeTruthy();
     expect(wh.url).toBe("https://example.com/hook");
     expect(wh.active).toBeTruthy();
@@ -200,7 +203,7 @@ describe("webhook-store additional coverage", () => {
   it("lists webhooks for account", () => {
     const aid = seedAccount();
     createWebhook(aid, "https://a.com/hook", ["snapshot.created"]);
-    createWebhook(aid, "https://b.com/hook", ["snapshot.completed"]);
+    createWebhook(aid, "https://b.com/hook", ["generation.completed"] as WebhookEventType[]);
 
     const list = listWebhooks(aid);
     expect(list).toHaveLength(2);
@@ -238,7 +241,7 @@ describe("webhook-store additional coverage", () => {
     createWebhook(aid, "https://active.com/hook", ["snapshot.created"]);
     const wh2 = createWebhook(aid, "https://disabled.com/hook", ["snapshot.created"]);
     updateWebhookActive(wh2.webhook_id, false);
-    createWebhook(aid, "https://other.com/hook", ["snapshot.completed"]);
+    createWebhook(aid, "https://other.com/hook", ["generation.completed"] as WebhookEventType[]);
 
     const active = getActiveWebhooksForEvent("snapshot.created");
     expect(active).toHaveLength(1);
@@ -280,9 +283,9 @@ describe("webhook-store additional coverage", () => {
 
 describe("billing-store admin queries", () => {
   it("getSystemStats returns aggregate counts", () => {
-    createAccount("A", "a@test.com", "free");
-    createAccount("B", "b@test.com", "paid");
-    createAccount("C", "c@test.com", "suite");
+    createAccount("A", "a@test.com", "free" as BillingTier);
+    createAccount("B", "b@test.com", "paid" as BillingTier);
+    createAccount("C", "c@test.com", "suite" as BillingTier);
 
     const stats = getSystemStats();
     expect(stats.total_accounts).toBe(3);
@@ -522,7 +525,7 @@ describe("github-token-store (direct import)", () => {
 // ─── Direct-import: tier-audit (fix v8 coverage attribution) ────
 
 describe("tier-audit (direct import)", () => {
-  function seedAccount(tier = "free"): string {
+  function seedAccount(tier: BillingTier = "free"): string {
     return createAccount("audit-test", `audit-${Date.now()}@test.com`, tier).account_id;
   }
 

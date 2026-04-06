@@ -22,6 +22,7 @@ import {
   trackEvent,
 } from "./index.js";
 import type { FileEntry } from "./index.js";
+import type { InputMethod } from "./types.js";
 
 // ─── Fixtures ───────────────────────────────────────────────────
 
@@ -70,15 +71,15 @@ afterAll(() => {
 
 describe("createSnapshot", () => {
   bench("10 files (small repo)", () => {
-    createSnapshot({ input_method: "upload", manifest: MANIFEST, files: SMALL_FILES });
+    createSnapshot({ input_method: "manual_file_upload" as InputMethod, manifest: MANIFEST, files: SMALL_FILES });
   });
 
   bench("50 files (medium repo)", () => {
-    createSnapshot({ input_method: "upload", manifest: MANIFEST, files: MEDIUM_FILES });
+    createSnapshot({ input_method: "manual_file_upload" as InputMethod, manifest: MANIFEST, files: MEDIUM_FILES });
   });
 
   bench("200 files (large repo)", () => {
-    createSnapshot({ input_method: "upload", manifest: MANIFEST, files: LARGE_FILES });
+    createSnapshot({ input_method: "manual_file_upload" as InputMethod, manifest: MANIFEST, files: LARGE_FILES });
   });
 });
 
@@ -88,7 +89,7 @@ describe("search indexing", () => {
   let snapshotId: string;
 
   beforeAll(() => {
-    const snap = createSnapshot({ input_method: "upload", manifest: MANIFEST, files: MEDIUM_FILES });
+    const snap = createSnapshot({ input_method: "manual_file_upload" as InputMethod, manifest: MANIFEST, files: MEDIUM_FILES });
     snapshotId = snap.snapshot_id;
   });
 
@@ -104,7 +105,7 @@ describe("search query", () => {
   let snapshotId: string;
 
   beforeAll(() => {
-    const snap = createSnapshot({ input_method: "upload", manifest: MANIFEST, files: MEDIUM_FILES });
+    const snap = createSnapshot({ input_method: "manual_file_upload" as InputMethod, manifest: MANIFEST, files: MEDIUM_FILES });
     snapshotId = snap.snapshot_id;
     indexSnapshotContent(snapshotId, MEDIUM_FILES.map(f => ({ path: f.path, content: f.content })));
   });
@@ -132,7 +133,7 @@ describe("account operations", () => {
 
   bench("recordUsage", () => {
     const acct = createAccount(`usage-${Math.random()}`, `usage-${Date.now()}@test.com`);
-    recordUsage(acct.account_id, "search", 1, 0);
+    recordUsage(acct.account_id, "search", "bench-snap-id", 3, 1, 0);
   });
 
   bench("trackEvent", () => {
@@ -187,7 +188,7 @@ describe("webhook operations", () => {
 
 describe("saveGeneratorResult", () => {
   bench("save 10 generated files", () => {
-    const snap = createSnapshot({ input_method: "upload", manifest: MANIFEST, files: SMALL_FILES });
+    const snap = createSnapshot({ input_method: "manual_file_upload" as InputMethod, manifest: MANIFEST, files: SMALL_FILES });
     saveGeneratorResult(snap.snapshot_id, {
       snapshot_id: snap.snapshot_id,
       project_id: snap.project_id,

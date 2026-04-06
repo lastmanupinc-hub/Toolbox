@@ -140,15 +140,15 @@ describe("parseRepo (full pipeline)", () => {
 
 describe("detectLanguage", () => {
   bench("TypeScript file", () => {
-    detectLanguage(TS_FILE(0).path, TS_FILE(0).content);
+    detectLanguage(TS_FILE(0).path);
   });
 
   bench("Python file", () => {
-    detectLanguage(PY_FILE(0).path, PY_FILE(0).content);
+    detectLanguage(PY_FILE(0).path);
   });
 
   bench("Go file", () => {
-    detectLanguage(GO_FILE(0).path, GO_FILE(0).content);
+    detectLanguage(GO_FILE(0).path);
   });
 });
 
