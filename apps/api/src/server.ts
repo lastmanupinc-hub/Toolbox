@@ -195,4 +195,4 @@ router.post("/v1/account/webhooks/:webhook_id/toggle", handleToggleWebhook);
 router.get("/v1/account/webhooks/:webhook_id/deliveries", handleWebhookDeliveries);
 
 const port = parseInt(process.env.PORT ?? "4000", 10);
-createApp(router, port);
+export const app = createApp(router, port);
