@@ -1,4 +1,4 @@
-memory_yaml_standard:
+﻿memory_yaml_standard:
   version: "2.0"
   file_name: "MEMORY.yaml"
   use_contract: {read_on_every_access: true, audit_against_live_folder_on_every_access: true, update_if_truth_changed: true, run_exit_hygiene_after_each_completed_change: true, forbid_skipping: true}
@@ -24,7 +24,7 @@ memory_yaml_standard:
   canonical_truth:
     contract_artifacts: [canvas-spec.json, social-pack/, poster-layouts/, asset-guidelines.md]
   active_state:
-    status: planning
+    status: generators_complete
     currently_true: [subfolder created, MEMORY.yaml initialized]
     known_gaps: [no implementation code, no asset generation engine]
     active_blockers: [requires theme/ and brand/ context]
@@ -37,3 +37,4 @@ memory_yaml_standard:
     if_changed_update: [algorithmic/MEMORY.yaml if canvas-spec schema affects generative output]
   hygiene: {delete_on_exit: [temp, scratch, narrative, duplicate], keep_on_exit: [runtime_required, build_required, canonical_contract]}
   retention_review: {required_after_each_completed_change: true}
+

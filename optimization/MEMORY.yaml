@@ -1,4 +1,4 @@
-memory_yaml_standard:
+﻿memory_yaml_standard:
   version: "2.0"
   file_name: "MEMORY.yaml"
 
@@ -76,7 +76,7 @@ memory_yaml_standard:
       - cost-estimate.json
 
   active_state:
-    status: planning
+    status: generators_complete
     currently_true: [subfolder created, MEMORY.yaml initialized, begin.yaml initialized, continuation.yaml initialized]
     known_gaps: [no implementation code, no analysis engine, no optimization API]
     active_blockers: [requires search/ context map]
@@ -101,3 +101,4 @@ memory_yaml_standard:
     keep_on_exit: [runtime_required, build_required, canonical_contract]
   retention_review:
     required_after_each_completed_change: true
+

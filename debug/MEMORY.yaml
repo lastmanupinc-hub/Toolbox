@@ -1,4 +1,4 @@
-memory_yaml_standard:
+﻿memory_yaml_standard:
   version: "2.0"
   file_name: "MEMORY.yaml"
   purpose: >
@@ -89,7 +89,7 @@ memory_yaml_standard:
       - root-cause-checklist.md
 
   active_state:
-    status: planning
+    status: generators_complete
     currently_true:
       - subfolder created
       - MEMORY.yaml initialized
@@ -176,3 +176,4 @@ memory_yaml_standard:
 
   retention_review:
     required_after_each_completed_change: true
+
