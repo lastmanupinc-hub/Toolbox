@@ -3,6 +3,9 @@ import { UploadPage } from "./pages/UploadPage.tsx";
 import { DashboardPage } from "./pages/DashboardPage.tsx";
 import { PlansPage } from "./pages/PlansPage.tsx";
 import { AccountPage } from "./pages/AccountPage.tsx";
+import { DocsPage } from "./pages/DocsPage.tsx";
+import { HelpPage } from "./pages/HelpPage.tsx";
+import { QAPage } from "./pages/QAPage.tsx";
 import { ToastProvider } from "./components/Toast.tsx";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette.tsx";
 import { StatusBar } from "./components/StatusBar.tsx";
@@ -30,11 +33,11 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   }
 }
 
-type Page = "upload" | "dashboard" | "plans" | "account";
+type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa";
 
 function getInitialPage(): Page {
   const h = location.hash.replace("#", "");
-  if (h === "plans" || h === "account") return h;
+  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa") return h;
   return "upload";
 }
 
@@ -51,6 +54,9 @@ export function App() {
       const h = location.hash.replace("#", "");
       if (h === "plans") setPage("plans");
       else if (h === "account") setPage("account");
+      else if (h === "docs") setPage("docs");
+      else if (h === "help") setPage("help");
+      else if (h === "qa") setPage("qa");
       else if (h === "dashboard" && resultRef.current) setPage("dashboard");
       else setPage("upload");
     };
@@ -95,6 +101,9 @@ export function App() {
       { id: "nav-analyze", label: "Go to Analyze", icon: "📤", shortcut: "Ctrl+1", section: "Navigation", onSelect: () => nav("upload") },
       { id: "nav-plans", label: "Go to Plans", icon: "💳", shortcut: "Ctrl+3", section: "Navigation", onSelect: () => nav("plans") },
       { id: "nav-account", label: "Go to Account", icon: "👤", shortcut: "Ctrl+4", section: "Navigation", onSelect: () => nav("account") },
+      { id: "nav-docs", label: "Go to Docs", icon: "📖", shortcut: "Ctrl+5", section: "Navigation", onSelect: () => nav("docs") },
+      { id: "nav-help", label: "Go to Help", icon: "🔧", shortcut: "Ctrl+6", section: "Navigation", onSelect: () => nav("help") },
+      { id: "nav-qa", label: "Go to Q&A", icon: "❓", shortcut: "Ctrl+7", section: "Navigation", onSelect: () => nav("qa") },
     ];
     if (result) {
       actions.splice(1, 0, {
@@ -118,6 +127,9 @@ export function App() {
       else if (key === "2" && result) { e.preventDefault(); nav("dashboard"); }
       else if (key === "3") { e.preventDefault(); nav("plans"); }
       else if (key === "4") { e.preventDefault(); nav("account"); }
+      else if (key === "5") { e.preventDefault(); nav("docs"); }
+      else if (key === "6") { e.preventDefault(); nav("help"); }
+      else if (key === "7") { e.preventDefault(); nav("qa"); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -160,6 +172,24 @@ export function App() {
             {loggedIn ? "Account" : "Sign Up"}
           </button>
           <button
+            className={`btn ${page === "docs" ? "btn-primary" : ""}`}
+            onClick={() => nav("docs")}
+          >
+            Docs
+          </button>
+          <button
+            className={`btn ${page === "help" ? "btn-primary" : ""}`}
+            onClick={() => nav("help")}
+          >
+            Help
+          </button>
+          <button
+            className={`btn ${page === "qa" ? "btn-primary" : ""}`}
+            onClick={() => nav("qa")}
+          >
+            Q&A
+          </button>
+          <button
             className="btn"
             onClick={() => { window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true })); }}
             title="Command Palette (Ctrl+K)"
@@ -178,6 +208,9 @@ export function App() {
           )}
           {page === "plans" && <PlansPage onSelectPlan={() => nav("account")} />}
           {page === "account" && <AccountPage onAuthChange={handleAuthChange} />}
+          {page === "docs" && <DocsPage />}
+          {page === "help" && <HelpPage />}
+          {page === "qa" && <QAPage />}
         </div>
       </ErrorBoundary>
 
