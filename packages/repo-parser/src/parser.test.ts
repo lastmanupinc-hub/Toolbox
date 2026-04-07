@@ -127,6 +127,21 @@ describe("parseRepo", () => {
     expect(result.health.has_lockfile).toBe(true);
   });
 
+  it("detects lockfile in subdirectory (monorepo)", () => {
+    const result = parseRepo(makeFiles([
+      { path: "frontend/package-lock.json", content: "{}" },
+    ]));
+    expect(result.health.has_lockfile).toBe(true);
+  });
+
+  it("detects Go files as having linter and formatter (go vet/gofmt)", () => {
+    const result = parseRepo(makeFiles([
+      { path: "main.go", content: "package main\nfunc main() {}" },
+    ]));
+    expect(result.health.has_linter).toBe(true);
+    expect(result.health.has_formatter).toBe(true);
+  });
+
   it("extracts Go module info from go.mod", () => {
     const result = parseRepo(makeFiles([
       {

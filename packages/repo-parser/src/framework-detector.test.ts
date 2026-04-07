@@ -61,7 +61,7 @@ describe("detectFrameworks", () => {
     const result = detectFrameworks(files, { svelte: "4.0.0" });
     const svelte = result.find(f => f.name === "Svelte");
     expect(svelte).toBeTruthy();
-    expect(svelte!.confidence).toBe(1);
+    expect(svelte!.confidence).toBe(0.8);
   });
 
   it("detects Express at 0.9 confidence", () => {
@@ -288,5 +288,45 @@ describe("detectFrameworks", () => {
     const next = result.find(f => f.name === "Next.js");
     expect(next).toBeTruthy();
     expect(next!.confidence).toBeCloseTo(1.0);
+  });
+
+  it("detects SvelteKit from @sveltejs/kit dep + config + route files", () => {
+    const files = makeFiles([
+      { path: "svelte.config.js" },
+      { path: "src/routes/+layout.svelte" },
+    ]);
+    const result = detectFrameworks(files, { "@sveltejs/kit": "2.50.2" });
+    const sk = result.find(f => f.name === "SvelteKit");
+    expect(sk).toBeTruthy();
+    expect(sk!.confidence).toBe(1);
+    expect(sk!.version).toBe("2.50.2");
+  });
+
+  it("detects SvelteKit from dep alone at 0.6", () => {
+    const result = detectFrameworks([], { "@sveltejs/kit": "2.0.0" });
+    const sk = result.find(f => f.name === "SvelteKit");
+    expect(sk).toBeTruthy();
+    expect(sk!.confidence).toBe(0.6);
+  });
+
+  it("boosts Svelte confidence with 50+ .svelte files", () => {
+    const files = makeFiles(
+      Array.from({ length: 55 }, (_, i) => ({ path: `src/components/C${i}.svelte` })),
+    );
+    const result = detectFrameworks(files, { svelte: "5.0.0" });
+    const svelte = result.find(f => f.name === "Svelte");
+    expect(svelte).toBeTruthy();
+    expect(svelte!.confidence).toBe(1);
+    expect(svelte!.evidence).toContain("55 .svelte files found");
+  });
+
+  it("gives Svelte 0.4 boost with 10-49 .svelte files", () => {
+    const files = makeFiles(
+      Array.from({ length: 15 }, (_, i) => ({ path: `src/C${i}.svelte` })),
+    );
+    const result = detectFrameworks(files, { svelte: "5.0.0" });
+    const svelte = result.find(f => f.name === "Svelte");
+    expect(svelte).toBeTruthy();
+    expect(svelte!.confidence).toBe(0.9);
   });
 });

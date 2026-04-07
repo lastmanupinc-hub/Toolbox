@@ -64,7 +64,10 @@ export function findEntryPoints(files: SourceFile[]): SourceFile[] {
   ];
   return files.filter(f => {
     const name = basename(f.path).toLowerCase();
-    return ENTRY_NAMES.includes(name);
+    if (ENTRY_NAMES.includes(name)) return true;
+    // SvelteKit root layout/page
+    if (name === "+layout.svelte" || name === "+page.svelte") return true;
+    return false;
   });
 }
 

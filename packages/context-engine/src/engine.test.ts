@@ -234,6 +234,76 @@ func Routes(r chi.Router) {
     );
     expect(hasGoConvention).toBe(true);
   });
+
+  it("skips routes from _test.go files", () => {
+    const snap = makeSnapshot([
+      { path: "go.mod", content: "module github.com/acme/app\ngo 1.22" },
+      { path: "routes.go", content: `package main\nimport "github.com/go-chi/chi/v5"\nfunc init(r chi.Router) {\n\tr.Get("/api/users", list)\n}` },
+      { path: "routes_test.go", content: `package main\nfunc TestRoutes(t *testing.T) {\n\tr.Get("/bad-id", mock)\n\tr.Get("/nope", mock)\n}` },
+      { path: "package.json", content: '{"name":"test"}' },
+    ]);
+    const result = buildContextMap(snap);
+    const goPaths = result.routes.filter(r => r.source_file.endsWith(".go")).map(r => r.path);
+    expect(goPaths).toContain("/api/users");
+    expect(goPaths).not.toContain("/bad-id");
+    expect(goPaths).not.toContain("/nope");
+  });
+
+  it("filters header names from Go routes", () => {
+    const snap = makeSnapshot([
+      { path: "go.mod", content: "module github.com/acme/app\ngo 1.22" },
+      { path: "handler.go", content: `package handler\nimport "github.com/labstack/echo/v4"\nfunc h(e echo.Context) {\n\te.Get("/Authorization", nil)\n\te.Get("/api/auth", handler)\n}` },
+      { path: "package.json", content: '{"name":"test"}' },
+    ]);
+    const result = buildContextMap(snap);
+    const paths = result.routes.map(r => r.path);
+    expect(paths).not.toContain("/Authorization");
+    expect(paths).toContain("/api/auth");
+  });
+});
+
+describe("SvelteKit entry point detection", () => {
+  it("detects SvelteKit +layout.svelte as app entry", () => {
+    const snap = makeSnapshot([
+      { path: "src/routes/+layout.svelte", content: "<slot />" },
+      { path: "src/routes/+page.svelte", content: "<h1>Home</h1>" },
+      { path: "svelte.config.js", content: "export default {}" },
+      { path: "package.json", content: '{"name":"sk","dependencies":{"@sveltejs/kit":"2.50.2"}}' },
+    ]);
+    const result = buildContextMap(snap);
+    const entryPaths = result.entry_points.map(e => e.path);
+    expect(entryPaths).toContain("src/routes/+layout.svelte");
+    expect(entryPaths).toContain("src/routes/+page.svelte");
+  });
+
+  it("sorts Go main.go and SvelteKit layouts before index.ts", () => {
+    const snap = makeSnapshot([
+      { path: "src/index.ts", content: "export {}" },
+      { path: "cmd/api/main.go", content: "package main\nfunc main() {}" },
+      { path: "src/routes/+layout.svelte", content: "<slot />" },
+      { path: "package.json", content: '{"name":"multi"}' },
+    ]);
+    const result = buildContextMap(snap);
+    const appEntries = result.entry_points.filter(e => e.type === "app_entry");
+    const firstPath = appEntries[0]?.path ?? "";
+    expect(firstPath.endsWith("main.go") || firstPath.includes("+layout.svelte")).toBe(true);
+  });
+});
+
+describe("layer boundary substring matching", () => {
+  it("resolves trust-fabric-frontend to presentation layer", () => {
+    const snap = makeSnapshot([
+      { path: "trust-fabric-frontend/src/App.svelte", content: "" },
+      { path: "trust-fabric-frontend/package.json", content: '{"name":"tf-fe"}' },
+      { path: "backend/handler/user.go", content: "package handler" },
+      { path: "package.json", content: '{"name":"monorepo"}' },
+    ]);
+    const result = buildContextMap(snap);
+    const layers = result.architecture_signals.layer_boundaries;
+    const presLayer = layers.find(l => l.layer === "presentation");
+    expect(presLayer).toBeTruthy();
+    expect(presLayer!.directories.some(d => d.includes("frontend"))).toBe(true);
+  });
 });
 
 describe("architecture separation scoring", () => {

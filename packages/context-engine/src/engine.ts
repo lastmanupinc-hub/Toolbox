@@ -182,7 +182,27 @@ function detectEntryPoints(snapshot: SnapshotRecord, parsed: ParseResult): Conte
     if (f.path === "main.go" || /^cmd\/[^/]+\/main\.go$/.test(f.path)) {
       entries.push({ path: f.path, type: "app_entry", description: `Go entry: ${f.path}` });
     }
+    // SvelteKit entry points
+    if (f.path.endsWith("+layout.svelte") && f.path.split("/").length <= 4) {
+      entries.push({ path: f.path, type: "app_entry", description: `SvelteKit layout: ${f.path}` });
+    }
+    if (f.path.endsWith("+page.svelte") && f.path.split("/").length <= 4) {
+      entries.push({ path: f.path, type: "page_route", description: `SvelteKit page: ${f.path}` });
+    }
   }
+
+  // Sort: Go main.go and SvelteKit layouts first, then other app entries, then routes
+  const priority: Record<string, number> = { app_entry: 0, cli_command: 1, page_route: 2, api_route: 3 };
+  entries.sort((a, b) => {
+    const pa = priority[a.type] ?? 9;
+    const pb = priority[b.type] ?? 9;
+    if (pa !== pb) return pa - pb;
+    // Within same type, prefer main.go and +layout.svelte over index.ts
+    const aIsMain = a.path.endsWith("main.go") || a.path.includes("+layout.svelte");
+    const bIsMain = b.path.endsWith("main.go") || b.path.includes("+layout.svelte");
+    if (aIsMain !== bIsMain) return aIsMain ? -1 : 1;
+    return a.path.localeCompare(b.path);
+  });
 
   return entries;
 }
@@ -210,8 +230,8 @@ function detectRoutes(snapshot: SnapshotRecord): ContextMap["routes"] {
       const expressRoutes = extractExpressRoutes(f.path, f.content);
       routes.push(...expressRoutes);
     }
-    // Go routes (Chi, Gin, Echo, Fiber, stdlib)
-    if (f.path.endsWith(".go")) {
+    // Go routes (Chi, Gin, Echo, Fiber, stdlib) — skip test files
+    if (f.path.endsWith(".go") && !f.path.endsWith("_test.go")) {
       const goRoutes = extractGoRoutes(f.path, f.content);
       routes.push(...goRoutes);
     }
@@ -252,20 +272,24 @@ function extractGoRoutes(filePath: string, content: string): ContextMap["routes"
   const chiPattern = /(?:r|router|e|app|g|group)\.(Get|Post|Put|Delete|Patch|Head|Options)\s*\(\s*["'`]([^"'`]+)["'`]/gi;
   let match: RegExpExecArray | null;
   while ((match = chiPattern.exec(content)) !== null) {
-    const key = `${match[1].toUpperCase()}|${match[2]}|${filePath}`;
+    const path = match[2];
+    if (!isLikelyRoute(path)) continue;
+    const key = `${match[1].toUpperCase()}|${path}|${filePath}`;
     if (!seen.has(key)) {
       seen.add(key);
-      routes.push({ path: match[2], method: match[1].toUpperCase(), source_file: filePath });
+      routes.push({ path, method: match[1].toUpperCase(), source_file: filePath });
     }
   }
 
   // stdlib mux style: mux.HandleFunc("/path", handler), http.HandleFunc("/path", handler)
   const muxPattern = /(?:mux|http)\.(HandleFunc|Handle)\s*\(\s*["'`]([^"'`]+)["'`]/gi;
   while ((match = muxPattern.exec(content)) !== null) {
-    const key = `ANY|${match[2]}|${filePath}`;
+    const path = match[2];
+    if (!isLikelyRoute(path)) continue;
+    const key = `ANY|${path}|${filePath}`;
     if (!seen.has(key)) {
       seen.add(key);
-      routes.push({ path: match[2], method: "ANY", source_file: filePath });
+      routes.push({ path, method: "ANY", source_file: filePath });
     }
   }
 
@@ -273,6 +297,14 @@ function extractGoRoutes(filePath: string, content: string): ContextMap["routes"
     /* v8 ignore next */
     a.method.localeCompare(b.method) || a.path.localeCompare(b.path) || a.source_file.localeCompare(b.source_file),
   );
+}
+
+/** Filter out header reads, test fixture IDs, and other non-route strings captured by route regex */
+function isLikelyRoute(path: string): boolean {
+  if (!path.startsWith("/")) return false;
+  // HTTP header names mistakenly captured are not routes
+  if (/^\/?(Authorization|Content-Type|Accept|Stripe-Signature|BinancePay-[\w-]+|X-[\w-]+)$/i.test(path)) return false;
+  return true;
 }
 
 function analyzeArchitecture(snapshot: SnapshotRecord, parsed: ParseResult): ContextMap["architecture_signals"] {
@@ -335,9 +367,19 @@ function analyzeArchitecture(snapshot: SnapshotRecord, parsed: ParseResult): Con
     migrations: "data",
   };
 
+  /** Resolve a directory name to a layer — exact match first, then substring match */
+  function resolveLayer(dirName: string): string | undefined {
+    const lower = dirName.toLowerCase();
+    if (layerMapping[lower]) return layerMapping[lower];
+    for (const [keyword, layer] of Object.entries(layerMapping)) {
+      if (lower.includes(keyword)) return layer;
+    }
+    return undefined;
+  }
+
   const layerDirs = new Map<string, string[]>();
   for (const dir of parsed.top_level_dirs) {
-    const layer = layerMapping[dir.name.toLowerCase()];
+    const layer = resolveLayer(dir.name);
     if (layer) {
       const existing = layerDirs.get(layer) ?? [];
       existing.push(dir.name);
@@ -350,7 +392,7 @@ function analyzeArchitecture(snapshot: SnapshotRecord, parsed: ParseResult): Con
 
   // Separation score: layerCoverage * 0.4 + isolation * 0.6
   const mappedDirCount = parsed.top_level_dirs.filter(
-    (d) => layerMapping[d.name.toLowerCase()],
+    (d) => resolveLayer(d.name),
   ).length;
   const totalDirCount = Math.max(parsed.top_level_dirs.length, 1);
   const layerCoverage = Math.min(mappedDirCount / totalDirCount, 1);
@@ -360,7 +402,7 @@ function analyzeArchitecture(snapshot: SnapshotRecord, parsed: ParseResult): Con
   for (const f of snapshot.files) {
     /* v8 ignore next */
     const topDir = f.path.split("/")[0]?.toLowerCase() ?? "";
-    const layer = layerMapping[topDir];
+    const layer = resolveLayer(topDir);
     if (layer) fileLayerMap.set(f.path, layer);
   }
 

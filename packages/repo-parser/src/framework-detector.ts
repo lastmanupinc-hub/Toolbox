@@ -40,11 +40,27 @@ const rules: FrameworkRule[] = [
     detect: (files, deps) => {
       const evidence: string[] = [];
       let confidence = 0;
-      if (deps["svelte"]) { confidence += 0.7; evidence.push(`package.json: svelte@${deps["svelte"]}`); }
+      if (deps["svelte"]) { confidence += 0.5; evidence.push(`package.json: svelte@${deps["svelte"]}`); }
       /* v8 ignore start — V8 quirk: .svelte file detection tested in framework-detector tests */
-      if (files.some(f => f.path.endsWith(".svelte"))) { confidence += 0.3; evidence.push(".svelte files found"); }
+      const svelteFiles = files.filter(f => f.path.endsWith(".svelte"));
+      if (svelteFiles.length > 0) {
+        const fileBoost = svelteFiles.length >= 50 ? 0.5 : svelteFiles.length >= 10 ? 0.4 : 0.3;
+        confidence += fileBoost;
+        evidence.push(`${svelteFiles.length} .svelte files found`);
+      }
       /* v8 ignore stop */
       return confidence > 0 ? { confidence: Math.min(confidence, 1), version: deps["svelte"] ?? null, evidence } : null;
+    },
+  },
+  {
+    name: "SvelteKit",
+    detect: (files, deps) => {
+      const evidence: string[] = [];
+      let confidence = 0;
+      if (deps["@sveltejs/kit"]) { confidence += 0.6; evidence.push(`package.json: @sveltejs/kit@${deps["@sveltejs/kit"]}`); }
+      if (files.some(f => f.path === "svelte.config.js" || f.path === "svelte.config.ts")) { confidence += 0.2; evidence.push("svelte.config found"); }
+      if (files.some(f => f.path.includes("+layout.svelte") || f.path.includes("+page.svelte"))) { confidence += 0.2; evidence.push("SvelteKit route files found"); }
+      return confidence > 0 ? { confidence: Math.min(confidence, 1), version: deps["@sveltejs/kit"] ?? null, evidence } : null;
     },
   },
   {

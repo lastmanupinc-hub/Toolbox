@@ -48,18 +48,19 @@ export function parseRepo(files: FileEntry[]): ParseResult {
         f.path === ".gitlab-ci.yml" ||
         f.path.startsWith(".circleci/"),
       ),
-      has_lockfile: files.some((f) =>
-        ["package-lock.json", "pnpm-lock.yaml", "yarn.lock", "Gemfile.lock", "poetry.lock", "Cargo.lock", "go.sum"].includes(f.path),
-      ),
+      has_lockfile: files.some((f) => {
+        const base = f.path.split("/").pop() ?? "";
+        return ["package-lock.json", "pnpm-lock.yaml", "yarn.lock", "Gemfile.lock", "poetry.lock", "Cargo.lock", "go.sum"].includes(base);
+      }),
       has_typescript: files.some((f) => f.path === "tsconfig.json" || f.path.endsWith(".ts") || f.path.endsWith(".tsx")),
       has_linter: files.some((f) =>
         f.path.includes(".eslintrc") || f.path === ".eslintrc.json" || f.path === "eslint.config" ||
         f.path.includes("pylintrc") || f.path === ".flake8" || f.path === "ruff.toml",
-      ),
+      ) || files.some((f) => f.path.endsWith(".go")),
       has_formatter: files.some((f) =>
         f.path.includes(".prettierrc") || f.path === ".prettierrc.json" ||
         f.path === ".editorconfig" || f.path.includes("black"),
-      ),
+      ) || files.some((f) => f.path.endsWith(".go")),
     },
     go_module: {
       module_path: goModule.module_path,
