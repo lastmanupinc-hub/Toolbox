@@ -1,22 +1,23 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, renderExcerpts, fileTree, extractExports } from "./file-excerpt-utils.js";
 
 // ─── .ai/design-tokens.json ────────────────────────────────────
 
-export function generateDesignTokens(ctx: ContextMap): GeneratedFile {
+export function generateDesignTokens(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const fwNames = frameworks.map(f => f.name);
 
   // Detect styling approach from file tree
-  const files = ctx.structure.file_tree_summary;
-  const hasTailwind = files.some(f => f.path.includes("tailwind.config"));
-  const hasCssModules = files.some(f => f.path.endsWith(".module.css") || f.path.endsWith(".module.scss"));
+  const treeFiles = ctx.structure.file_tree_summary;
+  const hasTailwind = treeFiles.some(f => f.path.includes("tailwind.config"));
+  const hasCssModules = treeFiles.some(f => f.path.endsWith(".module.css") || f.path.endsWith(".module.scss"));
   const hasStyledComponents = ctx.dependency_graph.external_dependencies.some(
     d => d.name === "styled-components" || d.name === "@emotion/styled" || d.name === "@emotion/react",
   );
-  const hasSass = files.some(f => f.path.endsWith(".scss") || f.path.endsWith(".sass"));
+  const hasSass = treeFiles.some(f => f.path.endsWith(".scss") || f.path.endsWith(".sass"));
 
   const stylingApproach = hasTailwind ? "tailwind" :
     hasStyledComponents ? "css-in-js" :
@@ -138,7 +139,16 @@ export function generateDesignTokens(ctx: ContextMap): GeneratedFile {
       inset: { bg: "neutral.100", text: "neutral.700", border: "neutral.200" },
       overlay: { bg: "white", text: "neutral.900", shadow: "shadows.lg", backdrop: "rgba(0,0,0,0.4)" },
     },
+    source_theme_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const themeFiles = findFiles(files, ["*theme*", "*token*", "*tailwind*", "*variables*", "*.css"]);
+    if (themeFiles.length > 0) {
+      tokens.source_theme_files = themeFiles.slice(0, 15).map(f => f.path);
+    }
+  }
 
   return {
     path: ".ai/design-tokens.json",
@@ -151,7 +161,7 @@ export function generateDesignTokens(ctx: ContextMap): GeneratedFile {
 
 // ─── theme.css ──────────────────────────────────────────────────
 
-export function generateThemeCss(ctx: ContextMap): GeneratedFile {
+export function generateThemeCss(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const lines: string[] = [];
 
   lines.push("/* ==========================================================================");
@@ -395,6 +405,20 @@ export function generateThemeCss(ctx: ContextMap): GeneratedFile {
   lines.push("}");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const cssFiles = findFiles(files, ["*.css", "*.scss", "*.less", "*tailwind*"]);
+    if (cssFiles.length > 0) {
+      lines.push("/* ─── Detected Style Files ─────────────────────────────── */");
+      lines.push("/*");
+      for (const cf of cssFiles.slice(0, 10)) {
+        lines.push(`   ${cf.path} (${cf.content.split("\n").length} lines)`);
+      }
+      lines.push("*/");
+      lines.push("");
+    }
+  }
+
   return {
     path: "theme.css",
     content: lines.join("\n"),
@@ -406,15 +430,15 @@ export function generateThemeCss(ctx: ContextMap): GeneratedFile {
 
 // ─── theme-guidelines.md ────────────────────────────────────────
 
-export function generateThemeGuidelines(ctx: ContextMap): GeneratedFile {
+export function generateThemeGuidelines(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
-  const files = ctx.structure.file_tree_summary;
+  const treeFiles = ctx.structure.file_tree_summary;
   const lines: string[] = [];
 
   // Detect styling signals
-  const hasTailwind = files.some(f => f.path.includes("tailwind.config"));
-  const hasCssModules = files.some(f => f.path.endsWith(".module.css") || f.path.endsWith(".module.scss"));
+  const hasTailwind = treeFiles.some(f => f.path.includes("tailwind.config"));
+  const hasCssModules = treeFiles.some(f => f.path.endsWith(".module.css") || f.path.endsWith(".module.scss"));
   const hasStyledComponents = ctx.dependency_graph.external_dependencies.some(
     d => d.name === "styled-components" || d.name === "@emotion/styled",
   );
@@ -535,7 +559,7 @@ export function generateThemeGuidelines(ctx: ContextMap): GeneratedFile {
   // Component Patterns
   lines.push("## Component Patterns");
   lines.push("");
-  const componentFiles = files.filter(f =>
+  const componentFiles = treeFiles.filter(f =>
     f.path.includes("component") || f.path.includes("Component") ||
     (f.path.endsWith(".tsx") && !f.path.includes("page") && !f.path.includes("layout") && !f.path.includes("route")),
   );
@@ -701,6 +725,34 @@ export function generateThemeGuidelines(ctx: ContextMap): GeneratedFile {
     lines.push("");
   }
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const styleFiles = findFiles(files, ["*.css", "*.scss", "*.less", "*tailwind*", "*theme*", "*token*"]);
+    if (styleFiles.length > 0) {
+      lines.push("## Detected Style Files");
+      lines.push("");
+      for (const sf of styleFiles.slice(0, 10)) {
+        lines.push(`- \`${sf.path}\` (${sf.content.split("\n").length} lines)`);
+      }
+      lines.push("");
+      lines.push(...renderExcerpts("Style File Contents", styleFiles.slice(0, 3), 20));
+    }
+
+    const compFiles = findFiles(files, ["*.tsx", "*.vue", "*.svelte"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec."));
+    if (compFiles.length > 0) {
+      lines.push("## Component Style Usage");
+      lines.push("");
+      lines.push("| Component | Exports | Lines |");
+      lines.push("|-----------|---------|-------|");
+      for (const cf of compFiles.slice(0, 12)) {
+        const exports = extractExports(cf.content);
+        lines.push(`| \`${cf.path}\` | ${exports.join(", ") || "default"} | ${cf.content.split("\n").length} |`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "theme-guidelines.md",
     content: lines.join("\n"),
@@ -712,11 +764,11 @@ export function generateThemeGuidelines(ctx: ContextMap): GeneratedFile {
 
 // ─── component-theme-map.json ───────────────────────────────────
 
-export function generateComponentThemeMap(ctx: ContextMap): GeneratedFile {
-  const files = ctx.structure.file_tree_summary;
+export function generateComponentThemeMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
+  const treeFiles = ctx.structure.file_tree_summary;
 
   // Find component files
-  const componentFiles = files.filter(f =>
+  const componentFiles = treeFiles.filter(f =>
     f.type === "file" &&
     (f.path.endsWith(".tsx") || f.path.endsWith(".vue") || f.path.endsWith(".svelte")) &&
     !f.path.includes("test") && !f.path.includes("spec") &&
@@ -789,7 +841,17 @@ export function generateComponentThemeMap(ctx: ContextMap): GeneratedFile {
       page: "Use section-level spacing (space-8+), neutral backgrounds, full breakpoint responsiveness.",
       custom: "Apply tokens based on the component's actual role. Default to neutral palette.",
     },
+    source_component_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const compSrc = findFiles(files, ["*.tsx", "*.vue", "*.svelte"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec."));
+    if (compSrc.length > 0) {
+      themeMap.source_component_files = compSrc.slice(0, 20).map(f => f.path);
+    }
+  }
 
   return {
     path: "component-theme-map.json",
@@ -802,7 +864,7 @@ export function generateComponentThemeMap(ctx: ContextMap): GeneratedFile {
 
 // ─── dark-mode-tokens.json ──────────────────────────────────────
 
-export function generateDarkModeTokens(ctx: ContextMap): GeneratedFile {
+export function generateDarkModeTokens(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const hasTailwind = hasFw(ctx, "Tailwind CSS", "tailwind");
@@ -894,7 +956,16 @@ export function generateDarkModeTokens(ctx: ContextMap): GeneratedFile {
       "brand-on-surface": { ratio: "8.1:1", passes: "AAA" },
       "error-on-error-bg": { ratio: "5.4:1", passes: "AA" },
     },
+    source_theme_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const darkFiles = findFiles(files, ["*dark*", "*theme*", "*color*", "*.css", "*.scss"]);
+    if (darkFiles.length > 0) {
+      tokens.source_theme_files = darkFiles.slice(0, 15).map(f => f.path);
+    }
+  }
 
   return {
     path: "dark-mode-tokens.json",

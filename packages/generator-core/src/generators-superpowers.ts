@@ -199,7 +199,7 @@ export function generateSuperpowerPack(ctx: ContextMap, files?: SourceFile[]): G
 
 // ─── workflow-registry.json ─────────────────────────────────────
 
-export function generateWorkflowRegistry(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateWorkflowRegistry(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const testFws = ctx.detection.test_frameworks;
   const pkgManagers = ctx.detection.package_managers;
@@ -335,7 +335,17 @@ export function generateWorkflowRegistry(ctx: ContextMap, profile: RepoProfile):
     })),
     total_workflows: workflows.length,
     workflows,
+    source_config_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const cfgFiles = findFiles(files, ["*.yml", "*.yaml", "*Makefile*", "*Dockerfile*", "*docker-compose*", "*.json"])
+      .filter(f => !f.path.includes("node_modules"));
+    if (cfgFiles.length > 0) {
+      registry.source_config_files = cfgFiles.slice(0, 15).map(f => f.path);
+    }
+  }
 
   return {
     path: "workflow-registry.json",
@@ -704,7 +714,7 @@ export function generateRefactorChecklist(ctx: ContextMap, files?: SourceFile[])
 
 // ─── automation-pipeline.yaml ───────────────────────────────────
 
-export function generateAutomationPipeline(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateAutomationPipeline(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const ci = ctx.detection.ci_platform;
   const buildTools = ctx.detection.build_tools;
@@ -832,6 +842,20 @@ export function generateAutomationPipeline(ctx: ContextMap, profile: RepoProfile
   lines.push("      cron: \"0 4 * * 1\"");
   lines.push("      stages: [install, lint, test, build]");
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const ciFiles = findFiles(files, ["*.yml", "*.yaml", "*Dockerfile*", "*docker-compose*", "*Makefile*"]);
+    if (ciFiles.length > 0) {
+      lines.push("  # ─── Detected CI / Config Files ─────────────────────");
+      lines.push("  source_files:");
+      for (const cf of ciFiles.slice(0, 12)) {
+        lines.push(`    - path: ${JSON.stringify(cf.path)}`);
+        lines.push(`      lines: ${cf.content.split("\n").length}`);
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "automation-pipeline.yaml",

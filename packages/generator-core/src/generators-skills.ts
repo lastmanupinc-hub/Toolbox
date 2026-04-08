@@ -380,7 +380,7 @@ export function generateCursorRules(ctx: ContextMap, files?: SourceFile[]): Gene
 
 // ─── workflow-pack.md ───────────────────────────────────────────
 
-export function generateWorkflowPack(ctx: ContextMap): GeneratedFile {
+export function generateWorkflowPack(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const testFrameworks = ctx.detection.test_frameworks;
@@ -475,6 +475,23 @@ export function generateWorkflowPack(ctx: ContextMap): GeneratedFile {
   lines.push("```");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const configs = findConfigs(files);
+    if (configs.length > 0) {
+      lines.push("## Detected Config Files");
+      lines.push("");
+      for (const cf of configs.slice(0, 10)) {
+        lines.push(`- \`${cf.path}\` (${cf.content.split("\n").length} lines)`);
+      }
+      lines.push("");
+    }
+    const entries = findEntryPoints(files);
+    if (entries.length > 0) {
+      lines.push(...renderExcerpts("Entry Points", entries.slice(0, 4), 20));
+    }
+  }
+
   return {
     path: "workflow-pack.md",
     content: lines.join("\n"),
@@ -486,7 +503,7 @@ export function generateWorkflowPack(ctx: ContextMap): GeneratedFile {
 
 // ─── policy-pack.md ─────────────────────────────────────────────
 
-export function generatePolicyPack(ctx: ContextMap): GeneratedFile {
+export function generatePolicyPack(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const conventions = ctx.ai_context.conventions;
@@ -597,6 +614,20 @@ export function generatePolicyPack(ctx: ContextMap): GeneratedFile {
       lines.push(`- Follow ${fw.name} community best practices`);
     }
     lines.push("");
+  }
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const configs = findConfigs(files);
+    if (configs.length > 0) {
+      lines.push("## Detected Project Configs");
+      lines.push("");
+      for (const cf of configs.slice(0, 8)) {
+        lines.push(`- \`${cf.path}\``);
+      }
+      lines.push("");
+      lines.push(...renderExcerpts("Config Contents", configs.slice(0, 3), 15));
+    }
   }
 
   return {

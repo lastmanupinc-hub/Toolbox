@@ -3,20 +3,35 @@ import type { GeneratedFile, SourceFile } from "./types.js";
 import { fileTree, findEntryPoints, findConfigs, renderExcerpts, excerpt, extractExports } from "./file-excerpt-utils.js";
 import { hasFw, getFw } from "./fw-helpers.js";
 
-export function generateContextMapJSON(ctx: ContextMap): GeneratedFile {
+export function generateContextMapJSON(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
+  const enriched: Record<string, unknown> = { ...ctx };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    enriched.source_file_tree = fileTree(files);
+  }
+
   return {
     path: ".ai/context-map.json",
-    content: JSON.stringify(ctx, null, 2),
+    content: JSON.stringify(enriched, null, 2),
     content_type: "application/json",
     program: "search",
     description: "Full project context map — framework detection, routes, architecture, dependency graph",
   };
 }
 
-export function generateRepoProfileYAML(profile: RepoProfile): GeneratedFile {
+export function generateRepoProfileYAML(profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
+  const profileData: Record<string, unknown> = { ...profile };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    profileData.source_file_count = files.length;
+    profileData.source_file_tree = fileTree(files);
+  }
+
   return {
     path: ".ai/repo-profile.yaml",
-    content: toYAML(profile),
+    content: toYAML(profileData),
     content_type: "application/yaml",
     program: "search",
     description: "Compact project profile — identity, detection, structure, health summary",
