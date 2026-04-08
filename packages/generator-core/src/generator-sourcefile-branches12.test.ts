@@ -307,3 +307,88 @@ describe("debug: root-cause-checklist hotspot with no exports", () => {
     expect(getFile(res, "root-cause-checklist.md")).toBeDefined();
   });
 });
+
+/* ================================================================= */
+/* GROUP G: Hotspot-rich contexts for function coverage               */
+/* ================================================================= */
+
+describe("generators with hotspots in context (function coverage)", () => {
+  function addHotspots(inp: GeneratorInput) {
+    inp.context_map.dependency_graph.hotspots = [
+      { path: "src/core/engine.ts", risk_score: 0.95, inbound_count: 12, outbound_count: 3 },
+      { path: "src/api/router.ts", risk_score: 0.82, inbound_count: 8, outbound_count: 5 },
+      { path: "src/utils/helpers.ts", risk_score: 0.60, inbound_count: 4, outbound_count: 7 },
+    ];
+  }
+
+  it("source-map.json includes hotspot data → hotspots.map callback covered", () => {
+    // notebook L154: hotspots.map(h => ...) anonymous function
+    const inp = input(snap(), ["source-map.json"]);
+    addHotspots(inp);
+    const res = generateFiles(inp);
+    const f = getFile(res, "source-map.json");
+    expect(f).toBeDefined();
+    const data = JSON.parse(f!.content);
+    expect(data.hotspots).toHaveLength(3);
+    expect(data.hotspots[0].risk_score).toBe(0.95);
+  });
+
+  it("optimization-rules sorts hotspots by risk → sort callback covered", () => {
+    // optimization L175: .sort((a, b) => b.risk_score - a.risk_score)
+    const src: SourceFile = {
+      path: "src/core/engine.ts",
+      content: 'export class Engine { run() {} }\nexport const VERSION = "1.0";\n// l3\n// l4\n// l5\n',
+      size: 80,
+    };
+    const inp = input(snap(), [".ai/optimization-rules.md"], [src]);
+    addHotspots(inp);
+    const res = generateFiles(inp);
+    const f = getFile(res, ".ai/optimization-rules.md");
+    expect(f!.content).toContain("engine.ts");
+  });
+
+  it("dependency-hotspots sorts and shows hotspot exports → sort callback covered", () => {
+    // search L377: .sort((a, b) => b.risk_score - a.risk_score)
+    const src: SourceFile = {
+      path: "src/core/engine.ts",
+      content: 'export class Engine { run() {} }\nexport function init() {}\n// l3\n// l4\n// l5\n',
+      size: 80,
+    };
+    const inp = input(snap(), ["dependency-hotspots.md"], [src]);
+    addHotspots(inp);
+    const res = generateFiles(inp);
+    const f = getFile(res, "dependency-hotspots.md");
+    expect(f!.content).toContain("engine.ts");
+  });
+});
+
+/* ================================================================= */
+/* GROUP H: SQL with multiple foreign keys (sort callback coverage)  */
+/* ================================================================= */
+
+describe("context_map: SQL table with multiple FKs → FK sort exercised", () => {
+  it("correctly counts foreign keys when table has 3 FKs", () => {
+    // sql-extractor L103: foreignKeys.sort() — exercised during parseRepo from snap()
+    const sqlFile: FileEntry = {
+      path: "schema.sql",
+      content: [
+        "CREATE TABLE orders (",
+        "  id INTEGER PRIMARY KEY,",
+        "  user_id INTEGER,",
+        "  product_id INTEGER,",
+        "  category_id INTEGER,",
+        "  FOREIGN KEY (user_id) REFERENCES users(id),",
+        "  FOREIGN KEY (product_id) REFERENCES products(id),",
+        "  FOREIGN KEY (category_id) REFERENCES categories(id)",
+        ");",
+      ].join("\n"),
+      size: 300,
+    };
+    const s = snap({ files: [sqlFile] });
+    const inp = input(s, ["architecture-summary.md"]);
+    // Context map has sql_schema with FK counts
+    const orders = inp.context_map.sql_schema.find(t => t.name === "orders");
+    expect(orders).toBeDefined();
+    expect(orders!.foreign_key_count).toBe(3);
+  });
+});

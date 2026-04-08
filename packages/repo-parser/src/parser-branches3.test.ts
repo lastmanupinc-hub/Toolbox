@@ -253,3 +253,37 @@ describe("parser: SvelteKit detected without @sveltejs/kit dependency", () => {
     expect(sk!.version).toBeNull();
   });
 });
+
+/* ================================================================= */
+/* SQL: table with multiple FOREIGN KEY constraints (sort callback)  */
+/* ================================================================= */
+
+describe("parser: SQL table with multiple foreign keys", () => {
+  it("sorts foreign keys alphabetically by column name", () => {
+    const files: FileEntry[] = [
+      {
+        path: "schema.sql",
+        content: [
+          "CREATE TABLE orders (",
+          "  id INTEGER PRIMARY KEY,",
+          "  user_id INTEGER,",
+          "  product_id INTEGER,",
+          "  category_id INTEGER,",
+          "  FOREIGN KEY (user_id) REFERENCES users(id),",
+          "  FOREIGN KEY (product_id) REFERENCES products(id),",
+          "  FOREIGN KEY (category_id) REFERENCES categories(id)",
+          ");",
+        ].join("\n"),
+        size: 300,
+      },
+    ];
+    const result = parseRepo(files);
+    const orders = result.sql_schema.find((t) => t.name === "orders");
+    expect(orders).toBeDefined();
+    expect(orders!.foreign_keys).toHaveLength(3);
+    // Should be sorted: category_id, product_id, user_id
+    expect(orders!.foreign_keys[0].column).toBe("category_id");
+    expect(orders!.foreign_keys[1].column).toBe("product_id");
+    expect(orders!.foreign_keys[2].column).toBe("user_id");
+  });
+});
