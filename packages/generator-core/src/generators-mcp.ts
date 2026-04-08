@@ -94,6 +94,12 @@ export function generateMcpConfig(ctx: ContextMap, profile: RepoProfile): Genera
     mcpVersion: "1.0",
     project: id.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     server: {
       name: `${id.name.toLowerCase().replace(/\s+/g, "-")}-mcp`,
       version: "0.1.0",
@@ -157,6 +163,9 @@ export function generateConnectorMap(ctx: ContextMap): GeneratedFile {
   lines.push("# Connector Map");
   lines.push(`# Project: ${id.name}`);
   lines.push(`# Generated: ${new Date().toISOString()}`);
+  if (ctx.ai_context.project_summary) {
+    lines.push(`# Summary: ${ctx.ai_context.project_summary.split("\n")[0]}`);
+  }
   lines.push("");
   lines.push("connectors:");
 
@@ -393,6 +402,12 @@ export function generateCapabilityRegistry(ctx: ContextMap): GeneratedFile {
   const registry = {
     project: id.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     total_capabilities: capabilities.length,
     categories: [...new Set(capabilities.map(c => c.category))],
     capabilities,
@@ -419,6 +434,9 @@ export function generateServerManifest(ctx: ContextMap, profile: RepoProfile): G
   lines.push("# MCP Server Manifest");
   lines.push(`# Project: ${id.name}`);
   lines.push(`# Generated: ${new Date().toISOString()}`);
+  if (ctx.ai_context.project_summary) {
+    lines.push(`# Summary: ${ctx.ai_context.project_summary.split("\n")[0]}`);
+  }
   lines.push("");
 
   lines.push("server:");

@@ -243,7 +243,26 @@ export function generateArtifactSpec(ctx: ContextMap, profile: RepoProfile): Gen
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
-  lines.push("## Project Overview");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
+  lines.push("## Project Identity");
   lines.push("");
   lines.push(`| Field | Value |`);
   lines.push(`|-------|-------|`);
@@ -456,6 +475,12 @@ export function generateComponentLibrary(ctx: ContextMap): GeneratedFile {
   const library = {
     project: id.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     framework: hasReact ? "react" : frameworks[0]?.name ?? id.primary_language,
     styling: hasTailwind ? "tailwind" : "css-modules",
     total_components: components.length,

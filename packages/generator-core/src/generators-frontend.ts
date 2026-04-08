@@ -186,6 +186,24 @@ export function generateComponentGuidelines(ctx: ContextMap): GeneratedFile {
   lines.push(`# Component Guidelines — ${id.name}`);
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Component structure
   lines.push("## File Structure");
   lines.push("");
@@ -272,6 +290,24 @@ export function generateLayoutPatterns(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   const hasNext = hasFw(ctx, "Next.js", "next");
   const hasReact = hasFw(ctx, "React", "react");
@@ -407,6 +443,24 @@ export function generateUiAudit(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   // Detect UI-related frameworks
   const uiFrameworks = frameworks.filter(f =>

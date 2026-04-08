@@ -32,6 +32,24 @@ export function generateArchitectureSummary(ctx: ContextMap, files?: SourceFile[
   lines.push(`> ${id.description ?? id.type.replace(/_/g, " ")}`);
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Overview
   lines.push("## Overview");
   lines.push("");
@@ -250,6 +268,24 @@ export function generateDependencyHotspots(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   lines.push("## Risk Summary");
   lines.push("");

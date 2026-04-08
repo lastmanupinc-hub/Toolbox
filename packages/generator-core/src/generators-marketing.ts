@@ -145,6 +145,24 @@ export function generateFunnelMap(ctx: ContextMap): GeneratedFile {
   lines.push("> User acquisition funnel from awareness to advocacy");
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Awareness
   lines.push("## 1. Awareness");
   lines.push("");
@@ -272,6 +290,24 @@ export function generateSequencePack(ctx: ContextMap): GeneratedFile {
   lines.push("> Email and outreach sequences for onboarding, retention, and re-engagement");
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Welcome Sequence
   lines.push("## Welcome Sequence (Post-Install)");
   lines.push("");
@@ -376,6 +412,24 @@ export function generateCroPlaybook(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push("> Conversion Rate Optimization playbook based on detected routes and architecture");
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   // Core Conversions
   lines.push("## Core Conversion Events");
@@ -487,6 +541,24 @@ export function generateAbTestPlan(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   lines.push("## Test Framework Setup");
   lines.push("");

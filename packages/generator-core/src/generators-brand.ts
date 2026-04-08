@@ -161,6 +161,24 @@ export function generateVoiceAndTone(ctx: ContextMap): GeneratedFile {
   lines.push("> Context-sensitive tone guidance for every communication surface");
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Tone Spectrum
   lines.push("## Tone Spectrum");
   lines.push("");
@@ -259,6 +277,24 @@ export function generateContentConstraints(ctx: ContextMap): GeneratedFile {
   lines.push("> Enforceable rules for AI-generated and human-written content");
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Hard Constraints
   lines.push("## Hard Constraints (Never Violate)");
   lines.push("");
@@ -349,6 +385,9 @@ export function generateMessagingSystem(ctx: ContextMap): GeneratedFile {
   lines.push("# Messaging System");
   lines.push(`# Project: ${id.name}`);
   lines.push(`# Generated: ${new Date().toISOString()}`);
+  if (ctx.ai_context.project_summary) {
+    lines.push(`# Summary: ${ctx.ai_context.project_summary.split("\n")[0]}`);
+  }
   lines.push("");
   lines.push("product:");
   lines.push(`  name: "${id.name}"`);
@@ -436,6 +475,24 @@ export function generateChannelRulebook(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
   lines.push("Channel-specific brand and content rules for consistent communication.");
   lines.push("");
 

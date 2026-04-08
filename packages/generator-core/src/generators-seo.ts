@@ -235,6 +235,12 @@ export function generateSchemaRecommendations(ctx: ContextMap): GeneratedFile {
   const output = {
     project: id.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     total_recommendations: recommendations.length,
     recommendations,
   };
@@ -258,6 +264,24 @@ export function generateRoutePriorityMap(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push("> Route-level SEO prioritization for crawl budget and sitemap configuration");
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   const getRoutes = ctx.routes.filter(r => r.method === "GET");
   const apiRoutes = ctx.routes.filter(r => r.method !== "GET" || r.path.includes("/api/"));
@@ -375,6 +399,24 @@ export function generateContentAudit(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push("> Automated analysis of content structure, metadata coverage, and SEO readiness");
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   // Architecture analysis for content structure
   lines.push("## Project Type Assessment");
@@ -513,6 +555,12 @@ export function generateMetaTagAudit(ctx: ContextMap): GeneratedFile {
   const audit = {
     project: id.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     framework: hasNext ? "next" : frameworks[0]?.name ?? "unknown",
     global_meta: {
       charset: { required: true, value: "utf-8", status: "verify" },

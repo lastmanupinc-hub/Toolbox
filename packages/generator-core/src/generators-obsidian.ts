@@ -168,6 +168,24 @@ export function generateVaultRules(ctx: ContextMap): GeneratedFile {
   lines.push("> Governance rules for maintaining a clean, linked knowledge vault");
   lines.push("");
 
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   // Naming Conventions
   lines.push("## Naming Conventions");
   lines.push("");
@@ -323,6 +341,12 @@ export function generateGraphPromptMap(ctx: ContextMap): GeneratedFile {
   const graphMap = {
     project: id.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     total_nodes: nodes.length,
     total_edges: edges.length,
     nodes,
@@ -349,6 +373,24 @@ export function generateLinkingPolicy(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push("> Rules for how notes should be interconnected in the knowledge graph");
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   // Link Types
   lines.push("## Link Types");
@@ -451,6 +493,25 @@ export function generateTemplatePack(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`Generated: ${new Date().toISOString()}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
+
   lines.push("Obsidian note templates for consistent knowledge capture.");
   lines.push("");
 

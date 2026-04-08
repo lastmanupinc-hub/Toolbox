@@ -314,6 +314,12 @@ export function generateWorkflowRegistry(ctx: ContextMap, profile: RepoProfile):
   const registry = {
     project: ctx.project_identity.name,
     generated_at: new Date().toISOString(),
+    project_summary: ctx.ai_context.project_summary || null,
+    detected_stack: ctx.detection.frameworks.map(fw => ({
+      name: fw.name,
+      version: fw.version ?? null,
+      confidence: fw.confidence,
+    })),
     total_workflows: workflows.length,
     workflows,
   };
@@ -339,6 +345,24 @@ export function generateTestGenerationRules(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push(`> Testing conventions and generation rules for a ${id.type.replace(/_/g, " ")}`);
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   // Test framework
   lines.push("## Test Framework");
@@ -461,6 +485,24 @@ export function generateRefactorChecklist(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push("> Systematic refactoring guide based on codebase analysis");
   lines.push("");
+
+  if (ctx.ai_context.project_summary) {
+    lines.push("## Project Overview");
+    lines.push("");
+    lines.push(ctx.ai_context.project_summary);
+    lines.push("");
+  }
+
+  if (ctx.detection.frameworks.length > 0) {
+    lines.push("## Detected Stack");
+    lines.push("");
+    lines.push("| Framework | Version | Confidence |");
+    lines.push("|-----------|---------|------------|");
+    for (const fw of ctx.detection.frameworks) {
+      lines.push(`| ${fw.name} | ${fw.version ?? "—"} | ${(fw.confidence * 100).toFixed(0)}% |`);
+    }
+    lines.push("");
+  }
 
   // Risk Assessment
   lines.push("## Risk Assessment");
@@ -585,6 +627,9 @@ export function generateAutomationPipeline(ctx: ContextMap, profile: RepoProfile
   lines.push("# Automation Pipeline");
   lines.push(`# Project: ${id.name}`);
   lines.push(`# Generated: ${new Date().toISOString()}`);
+  if (ctx.ai_context.project_summary) {
+    lines.push(`# Summary: ${ctx.ai_context.project_summary.split("\n")[0]}`);
+  }
   lines.push("");
 
   lines.push("pipeline:");
