@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2025-07-06"
-    commit_or_tag: "4c9c9c3"
-    current_session_id: "session_048"
-    one_sentence_summary: "Full-stack Axis Toolbox with 82 capabilities (A:78, B:0, F:4), 71 endpoints, 2402 tests across 85 files, 97.56% stmt / 92.92% branch / 97.86% line coverage. v2.0.0 complete (80/80 generators file-aware), 176 source-file branch tests across 20 generators."
+    commit_or_tag: "b3b74b2"
+    current_session_id: "session_049"
+    one_sentence_summary: "Full-stack Axis Toolbox with 82 capabilities (A:78, B:0, F:4), 71 endpoints, 2441 tests across 86 files, 98.04% stmt / 93.77% branch / 98.32% line coverage. v2.0.0 complete (80/80 generators file-aware), 215 source-file branch tests across 20 generators."
     current_status: "building"
     current_focus_vertical: "source_file_integration_coverage"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 95
       integration_confidence: 98
-      notes: "2402 tests across 85 files. eq_160: 33 branch coverage tests for file-excerpt-utils/obsidian/debug/optimization/skills. Coverage: 97.56% stmts, 92.92% branches, 97.86% funcs, 97.85% lines. v2.0.0 complete (80/80 generators file-aware). Capability inventory: A:78, B:0, F:4. All remaining Fs blocked on external deps."
+      notes: "2441 tests across 86 files. eq_161: 39 branch coverage tests across 12 generators (debug/canvas/artifacts/marketing/notebook/obsidian/search/frontend/superpowers/skills/algorithmic/seo/theme). Coverage: 98.04% stmts, 93.77% branches, 98.5% funcs, 98.32% lines. v2.0.0 complete (80/80 generators file-aware). Capability inventory: A:78, B:0, F:4. All remaining Fs blocked on external deps."
 
   boundary_truth:
     accepted_input_modes:
@@ -2192,3 +2192,30 @@ project_continuation:
     blockers_added: []
     commit_results: ["4c9c9c3"]
     push_results: ["6e89c2e..4c9c9c3 → origin/main"]
+
+  current_session_result_049:
+    session_goal: "Branch coverage sweep across 12 lowest-coverage generator files"
+    selected_move: "eq_161: branch coverage tests for debug/canvas/artifacts/marketing/notebook/obsidian/search/frontend/superpowers/skills/algorithmic/seo/theme"
+    selected_move_roi_reason: "12 generator files had branch coverage between 82-94%. Targeting their uncovered branches (domain_models, brand assets, test exemplars, entry points, hotspot tables, export surfaces, layout patterns, SSR warnings, dark-mode tokens) is highest ROI for recovering toward pre-v2.0.0 branch coverage of 99.15%."
+    completed_candidates:
+      - "eq_161: 39 new branch coverage tests across 12 generator files — debug (domain_models TRUE), canvas (domain_models/warnings/brand assets), artifacts (source_components), marketing (ab-test-plan test infrastructure), notebook (study-brief/research-threads entry points), search (dependency-hotspots export surface), frontend (layout-patterns/ui-audit components/styles), superpowers (test-generation-rules exemplar), skills (.cursorrules file tree/entry points, CLAUDE.md source files), algorithmic (export-manifest assets/variation-matrix source count), seo (content-audit SSR warning/conventions/page components), theme (design-tokens/theme-guidelines/component-theme-map/dark-mode-tokens), obsidian (graph-prompt-map/linking-policy)."
+    refused_candidates: []
+    blocked_candidates:
+      - "Payment integration — blocked on No Fate Platform payment processor"
+      - "OAuth login — blocked on OAuth provider integration"
+      - "Email notifications — blocked on email service provider"
+      - "Web hosting deployment — blocked on deployment platform selection"
+    evidence_added:
+      - "2441 vitest tests passing across 86 files (2402→2441, +39)"
+      - "98.04% statement coverage (97.56→98.04, +0.48pp)"
+      - "93.77% branch coverage (92.92→93.77, +0.85pp)"
+      - "98.50% function coverage (97.86→98.50, +0.64pp)"
+      - "98.32% line coverage (97.85→98.32, +0.47pp)"
+      - "1 new test file: generator-sourcefile-branches5.test.ts (39 tests)"
+      - "Per-file branch improvements: canvas 85→88%, artifacts 85→89%, marketing 86→87%, obsidian 86→89%, notebook 89→91%, search 90→95%, algorithmic 90→91%, skills 90→95%, superpowers 90→92%, seo 93→93%, theme 94→96%"
+    verticals_advanced:
+      - "Test Coverage — branches 92.92→93.77%, stmts 97.56→98.04%, funcs 97.86→98.50%"
+    blockers_removed: []
+    blockers_added: []
+    commit_results: ["b3b74b2"]
+    push_results: ["8ed3da3..b3b74b2 → origin/main"]
