@@ -1,7 +1,7 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
-import { findFiles, findConfigs, renderExcerpts, fileTree } from "./file-excerpt-utils.js";
+import { findFiles, findConfigs, findEntryPoints, renderExcerpts, extractExports, fileTree } from "./file-excerpt-utils.js";
 
 // ─── .ai/optimization-rules.md ──────────────────────────────────
 
@@ -192,7 +192,7 @@ export function generateOptimizationRules(ctx: ContextMap, files?: SourceFile[])
 
 // ─── prompt-diff-report.md ──────────────────────────────────────
 
-export function generatePromptDiffReport(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generatePromptDiffReport(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -327,6 +327,23 @@ export function generatePromptDiffReport(ctx: ContextMap, profile: RepoProfile):
   }
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const entries = findEntryPoints(files);
+    if (entries.length > 0) {
+      lines.push("## Source-Verified Entry Points");
+      lines.push("");
+      lines.push("| File | Lines | Exports |");
+      lines.push("|------|-------|---------|");
+      for (const ep of entries.slice(0, 6)) {
+        const exports = extractExports(ep.content);
+        const lineCount = ep.content.split("\n").length;
+        lines.push(`| \`${ep.path}\` | ${lineCount} | ${exports.join(", ") || "default"} |`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "prompt-diff-report.md",
     content: lines.join("\n"),
@@ -338,7 +355,7 @@ export function generatePromptDiffReport(ctx: ContextMap, profile: RepoProfile):
 
 // ─── cost-estimate.json ─────────────────────────────────────────
 
-export function generateCostEstimate(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateCostEstimate(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const totalLoc = ctx.structure.total_loc;
   const totalFiles = ctx.structure.total_files;
 
@@ -448,6 +465,9 @@ export function generateCostEstimate(ctx: ContextMap, profile: RepoProfile): Gen
       "Output token estimates are approximate for typical operations",
       "Costs are per-operation — multiply by expected daily/weekly frequency",
     ],
+    // ─── Source File Analysis ──────────────────────────────────
+    source_file_count: files ? files.length : null,
+    source_total_lines: files ? files.reduce((sum, f) => sum + f.content.split("\n").length, 0) : null,
   };
 
   return {
@@ -461,7 +481,7 @@ export function generateCostEstimate(ctx: ContextMap, profile: RepoProfile): Gen
 
 // ─── token-budget-plan.md ───────────────────────────────────────
 
-export function generateTokenBudgetPlan(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateTokenBudgetPlan(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const languages = ctx.detection.languages;
   const totalLoc = languages.reduce((sum, l) => sum + l.loc, 0);
@@ -550,6 +570,18 @@ export function generateTokenBudgetPlan(ctx: ContextMap, profile: RepoProfile): 
     lines.push(`| ${op.op} | ${op.inputTokens.toLocaleString()} | ${op.outputTokens.toLocaleString()} | ${op.daily} | $${monthlyCost.toFixed(2)} |`);
   }
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const totalSourceLines = files.reduce((sum, f) => sum + f.content.split("\n").length, 0);
+    const estimatedTokens = Math.round(totalSourceLines * 4.5);
+    lines.push("## Source-Verified Token Estimate");
+    lines.push("");
+    lines.push(`- Source files scanned: ${files.length}`);
+    lines.push(`- Total source lines: ${totalSourceLines.toLocaleString()}`);
+    lines.push(`- Estimated tokens: ~${estimatedTokens.toLocaleString()}`);
+    lines.push("");
+  }
 
   return {
     path: "token-budget-plan.md",

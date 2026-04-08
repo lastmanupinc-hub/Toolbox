@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, findFile, findConfigs, extractExports } from "./file-excerpt-utils.js";
 
 // ─── brand-guidelines.md ────────────────────────────────────────
 
-export function generateBrandGuidelines(ctx: ContextMap): GeneratedFile {
+export function generateBrandGuidelines(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const lines: string[] = [];
@@ -141,6 +142,19 @@ export function generateBrandGuidelines(ctx: ContextMap): GeneratedFile {
   lines.push("| Environment vars | SCREAMING_SNAKE | `AXIS_DB_PATH` |");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const readmes = findFiles(files, ["**/README*", "**/CONTRIBUTING*", "**/BRANDING*"]);
+    if (readmes.length > 0) {
+      lines.push("## Existing Brand Assets");
+      lines.push("");
+      for (const r of readmes.slice(0, 4)) {
+        lines.push(`- \`${r.path}\` (${r.size} bytes)`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "brand-guidelines.md",
     content: lines.join("\n"),
@@ -152,7 +166,7 @@ export function generateBrandGuidelines(ctx: ContextMap): GeneratedFile {
 
 // ─── voice-and-tone.md ──────────────────────────────────────────
 
-export function generateVoiceAndTone(ctx: ContextMap): GeneratedFile {
+export function generateVoiceAndTone(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -256,6 +270,21 @@ export function generateVoiceAndTone(ctx: ContextMap): GeneratedFile {
   lines.push("- [ ] Would a new user understand this without prior context?");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const docFiles = findFiles(files, ["**/docs/**", "**/*.md", "**/CHANGELOG*"]);
+    if (docFiles.length > 0) {
+      lines.push("## Documentation Tone Samples");
+      lines.push("");
+      lines.push(`Found ${docFiles.length} documentation files to audit for tone consistency.`);
+      lines.push("");
+      for (const d of docFiles.slice(0, 6)) {
+        lines.push(`- \`${d.path}\``);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "voice-and-tone.md",
     content: lines.join("\n"),
@@ -267,7 +296,7 @@ export function generateVoiceAndTone(ctx: ContextMap): GeneratedFile {
 
 // ─── content-constraints.md ─────────────────────────────────────
 
-export function generateContentConstraints(ctx: ContextMap): GeneratedFile {
+export function generateContentConstraints(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const conventions = ctx.ai_context.conventions;
   const lines: string[] = [];
@@ -365,6 +394,19 @@ export function generateContentConstraints(ctx: ContextMap): GeneratedFile {
   lines.push("- File names: kebab-case for outputs, PascalCase for components");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const configFiles = findConfigs(files);
+    if (configFiles.length > 0) {
+      lines.push("## Detected Formatting Configs");
+      lines.push("");
+      for (const c of configFiles.slice(0, 5)) {
+        lines.push(`- \`${c.path}\``);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "content-constraints.md",
     content: lines.join("\n"),
@@ -376,7 +418,7 @@ export function generateContentConstraints(ctx: ContextMap): GeneratedFile {
 
 // ─── messaging-system.yaml ──────────────────────────────────────
 
-export function generateMessagingSystem(ctx: ContextMap): GeneratedFile {
+export function generateMessagingSystem(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const routes = ctx.routes;
   const entryPoints = ctx.entry_points;
@@ -454,6 +496,20 @@ export function generateMessagingSystem(ctx: ContextMap): GeneratedFile {
   lines.push("    context: \"Developer documentation, API reference\"");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const pkgJson = findFile(files, "package.json");
+    if (pkgJson) {
+      const descMatch = pkgJson.content.match(/"description"\s*:\s*"([^"]+)"/);
+      if (descMatch) {
+        lines.push("# Source-derived messaging");
+        lines.push("package_description:");
+        lines.push(`  value: ${JSON.stringify(descMatch[1])}`);
+        lines.push("");
+      }
+    }
+  }
+
   return {
     path: "messaging-system.yaml",
     content: lines.join("\n"),
@@ -465,7 +521,7 @@ export function generateMessagingSystem(ctx: ContextMap): GeneratedFile {
 
 // ─── channel-rulebook.md ────────────────────────────────────────
 
-export function generateChannelRulebook(ctx: ContextMap): GeneratedFile {
+export function generateChannelRulebook(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const abstractions = ctx.ai_context.key_abstractions;
@@ -575,6 +631,21 @@ export function generateChannelRulebook(ctx: ContextMap): GeneratedFile {
   lines.push("- Never use jargon without explanation on public channels");
   lines.push("- Never use competitor names negatively");
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const readmes = findFiles(files, ["**/README*"]);
+    if (readmes.length > 0) {
+      lines.push("## Detected Public-Facing Files");
+      lines.push("");
+      lines.push("These files should comply with channel rules:");
+      lines.push("");
+      for (const r of readmes.slice(0, 4)) {
+        lines.push(`- \`${r.path}\` (${r.size} bytes)`);
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "channel-rulebook.md",
