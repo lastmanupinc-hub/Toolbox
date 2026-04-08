@@ -1,0 +1,1839 @@
+repo_snapshot:
+  generated_at: "2025-06-05T00:00:00Z"
+  head_commit: aee559b
+  head_message: "eq_157: wire final 15 generators with SourceFile[] — 80/80 complete (v2.0.0)"
+  branch: main
+
+  section_1_top_level_inventory:
+    - path: ".ai-output/"
+      item_type: directory
+      classification: build_artifact
+      role_one_sentence: "Generated output directory from AXIS generator pipeline runs against this repo."
+      materially_affects_product_assessment: false
+    - path: ".ai-output-search/"
+      item_type: directory
+      classification: build_artifact
+      role_one_sentence: "Duplicate generated output directory from a search-program generator run."
+      materially_affects_product_assessment: false
+    - path: ".github/"
+      item_type: directory
+      classification: config_deploy
+      role_one_sentence: "GitHub Actions CI workflow (build, test, docker) in workflows/ci.yml."
+      materially_affects_product_assessment: true
+    - path: ".pytest_cache/"
+      item_type: directory
+      classification: build_artifact
+      role_one_sentence: "Python test cache from a prior pytest run; empty nodeids file."
+      materially_affects_product_assessment: false
+    - path: "algorithmic/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the algorithmic generator program (begin.yaml, MEMORY.yaml, continuation.yaml, output-contract.schema.json)."
+      materially_affects_product_assessment: true
+    - path: "apps/"
+      item_type: directory
+      classification: canonical_runtime
+      role_one_sentence: "Contains the three application targets: api (HTTP server), cli (axis CLI), web (React SPA)."
+      materially_affects_product_assessment: true
+    - path: "artifacts/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the artifacts generator program."
+      materially_affects_product_assessment: true
+    - path: "brand/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the brand generator program."
+      materially_affects_product_assessment: true
+    - path: "canvas/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the canvas generator program."
+      materially_affects_product_assessment: true
+    - path: "coverage/"
+      item_type: directory
+      classification: build_artifact
+      role_one_sentence: "V8 code coverage output from vitest runs."
+      materially_affects_product_assessment: false
+    - path: "debug/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the debug generator program."
+      materially_affects_product_assessment: true
+    - path: "frontend/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the frontend generator program."
+      materially_affects_product_assessment: true
+    - path: "marketing/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the marketing generator program."
+      materially_affects_product_assessment: true
+    - path: "mcp/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the mcp generator program."
+      materially_affects_product_assessment: true
+    - path: "notebook/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the notebook generator program."
+      materially_affects_product_assessment: true
+    - path: "obsidian/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the obsidian generator program."
+      materially_affects_product_assessment: true
+    - path: "optimization/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the optimization generator program."
+      materially_affects_product_assessment: true
+    - path: "packages/"
+      item_type: directory
+      classification: canonical_runtime
+      role_one_sentence: "Contains the four core library packages: context-engine, generator-core, repo-parser, snapshots."
+      materially_affects_product_assessment: true
+    - path: "payment-processing-output/"
+      item_type: directory
+      classification: refuses_to_belong
+      role_one_sentence: "Generated output from running AXIS against a payment-processing repo; contains a 387KB context-map.json from an external codebase."
+      materially_affects_product_assessment: false
+    - path: "remotion/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the remotion generator program."
+      materially_affects_product_assessment: true
+    - path: "search/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the search generator program."
+      materially_affects_product_assessment: true
+    - path: "seo/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the seo generator program."
+      materially_affects_product_assessment: true
+    - path: "skills/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the skills generator program."
+      materially_affects_product_assessment: true
+    - path: "superpowers/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the superpowers generator program."
+      materially_affects_product_assessment: true
+    - path: "theme/"
+      item_type: directory
+      classification: control_system
+      role_one_sentence: "Program directory for the theme generator program."
+      materially_affects_product_assessment: true
+    - path: ".dockerignore"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "Docker build context exclusions (node_modules, .git, dist, coverage, *.db)."
+      materially_affects_product_assessment: false
+    - path: ".env.example"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "Environment variable contract with 8 documented vars and defaults (PORT, NODE_ENV, DATABASE_PATH, LOG_LEVEL, CORS_ORIGIN, rate limiting)."
+      materially_affects_product_assessment: true
+    - path: ".gitignore"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "Git ignore rules for node_modules, dist, coverage, .env, *.db files."
+      materially_affects_product_assessment: false
+    - path: "automated remedial action.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "AXIS control YAML defining automated remedial action protocols for session management."
+      materially_affects_product_assessment: false
+    - path: "axis.db"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Root-level SQLite database file (4KB); the primary active DB is at apps/api/axis.db (115MB)."
+      materially_affects_product_assessment: false
+    - path: "axis.db-shm"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "SQLite shared memory file for WAL mode."
+      materially_affects_product_assessment: false
+    - path: "axis.db-wal"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "SQLite write-ahead log (1.2MB) for root axis.db."
+      materially_affects_product_assessment: false
+    - path: "axis_all_tools.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Master AXIS tools inventory YAML (23KB) enumerating all available tooling and capabilities."
+      materially_affects_product_assessment: true
+    - path: "axis_master_blueprint.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Master blueprint YAML (9.8KB) defining the overall AXIS Toolbox architecture and strategy."
+      materially_affects_product_assessment: true
+    - path: "begin.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Root-level session initialization YAML (10.6KB) with startup protocols and identity contracts."
+      materially_affects_product_assessment: true
+    - path: "capability_inventory.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Comprehensive capability inventory (32KB) cataloging all system capabilities and their status."
+      materially_affects_product_assessment: true
+    - path: "CHANGELOG.md"
+      item_type: file
+      classification: docs_ops
+      role_one_sentence: "Release changelog documenting version history and changes."
+      materially_affects_product_assessment: false
+    - path: "continuation.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Session continuation protocol (154KB) with execution queue, evidence ledger, and subsystem scorecards."
+      materially_affects_product_assessment: true
+    - path: "CONTRIBUTING.md"
+      item_type: file
+      classification: docs_ops
+      role_one_sentence: "Contributor guidelines for the monorepo (code style, PR process, test requirements)."
+      materially_affects_product_assessment: false
+    - path: "cov.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (430KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "cov2.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (433KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "cov3.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (20KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "cov5.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (224KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "cov6.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (447KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "cov7.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (448KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "cov8.txt"
+      item_type: file
+      classification: build_artifact
+      role_one_sentence: "Coverage report text dump (449KB) from a vitest coverage run."
+      materially_affects_product_assessment: false
+    - path: "docker-compose.yml"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "Docker Compose defining api (production) and api-dev (development) services with persistent volume."
+      materially_affects_product_assessment: true
+    - path: "Dockerfile"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "Multi-stage Docker build (deps → builder → runner) with node:20-slim, non-root user, healthcheck."
+      materially_affects_product_assessment: true
+    - path: "e2e_round2.mjs"
+      item_type: file
+      classification: test_validation
+      role_one_sentence: "End-to-end test script (15KB) exercising the full API lifecycle programmatically."
+      materially_affects_product_assessment: true
+    - path: "e2e_ui_audit.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "End-to-end UI audit YAML (40KB) documenting manual QA audit procedures and results."
+      materially_affects_product_assessment: true
+    - path: "human user audt.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Human user audit protocol YAML (25KB) for manual verification procedures."
+      materially_affects_product_assessment: false
+    - path: "hygiene and memory.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Session hygiene and memory management protocol YAML (9KB)."
+      materially_affects_product_assessment: false
+    - path: "memory generator.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Memory generation protocol YAML (8KB) for session context persistence."
+      materially_affects_product_assessment: false
+    - path: "package.json"
+      item_type: file
+      classification: canonical_runtime
+      role_one_sentence: "Root monorepo manifest: axis-toolbox v0.4.0, private, devDeps vitest 4.1.2, engines node>=20."
+      materially_affects_product_assessment: true
+    - path: "pnpm-lock.yaml"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "pnpm lockfile (81KB) pinning all dependency versions."
+      materially_affects_product_assessment: false
+    - path: "pnpm-workspace.yaml"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "pnpm workspace definition: apps/*, packages/*, onlyBuiltDependencies for better-sqlite3 and esbuild."
+      materially_affects_product_assessment: true
+    - path: "README.md"
+      item_type: file
+      classification: docs_ops
+      role_one_sentence: "Project README (9KB) with architecture overview, quickstart, and feature documentation."
+      materially_affects_product_assessment: false
+    - path: "rules to compile snapshot.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Forensic snapshot compilation protocol (20KB) defining the 13-section YAML schema this snapshot conforms to."
+      materially_affects_product_assessment: true
+    - path: "snapshot_protocol.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Snapshot protocol YAML (8KB) defining snapshot creation rules and quality gates."
+      materially_affects_product_assessment: true
+    - path: "stalling fix.txt"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Session stalling fix instructions (3KB) for AI agent session recovery."
+      materially_affects_product_assessment: false
+    - path: "static_analysis_phase.yaml"
+      item_type: file
+      classification: control_system
+      role_one_sentence: "Static analysis phase protocol YAML (67KB) defining code analysis rules and procedures."
+      materially_affects_product_assessment: true
+    - path: "tsconfig.base.json"
+      item_type: file
+      classification: config_deploy
+      role_one_sentence: "Shared TypeScript base config: ES2022, NodeNext, strict, declarations."
+      materially_affects_product_assessment: true
+    - path: "vitest.config.ts"
+      item_type: file
+      classification: test_validation
+      role_one_sentence: "Root vitest config: includes packages/*/apps/* tests, coverage thresholds 60% lines/functions/statements 50% branches."
+      materially_affects_product_assessment: true
+
+  section_2_canonical_product_map:
+    product_identity_as_evidenced_by_repo_truth: >
+      AXIS Toolbox is a developer-tools SaaS platform that ingests source code repositories
+      (via local filesystem scan or GitHub URL), parses them into structured representations
+      (ContextMap, RepoProfile), and runs 80 AI-ready generators across 17 specialized programs
+      to produce configuration files, audits, design tokens, documentation, and tooling artifacts.
+      The product serves developers who want automated codebase analysis and artifact generation.
+    canonical_runtime_backend_path: "apps/api/src/"
+    canonical_frontend_path: "apps/web/src/"
+    canonical_control_files:
+      - "begin.yaml"
+      - "continuation.yaml"
+      - "capability_inventory.yaml"
+      - "axis_all_tools.yaml"
+      - "axis_master_blueprint.yaml"
+      - "snapshot_protocol.yaml"
+      - "static_analysis_phase.yaml"
+      - "rules to compile snapshot.yaml"
+      - "e2e_ui_audit.yaml"
+      - "automated remedial action.yaml"
+      - "human user audt.yaml"
+      - "hygiene and memory.yaml"
+      - "memory generator.yaml"
+      - "stalling fix.txt"
+    canonical_deploy_path:
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - ".github/workflows/ci.yml"
+    canonical_integration_path:
+      - "packages/snapshots/src/github.ts"
+      - "packages/snapshots/src/github-token-store.ts"
+    canonical_human_facing_entry_path: "apps/web/src/App.tsx"
+    canonical_operator_admin_path: null
+    unresolved_ambiguities:
+      - "Two axis.db databases exist: root (4KB, likely stale) and apps/api/axis.db (115MB, active). Only apps/api/ is the canonical runtime DB path."
+      - "Version skew: root package.json says 0.4.0, CLI reports 0.3.0, web badge shows v0.3.1. No single source of truth for display version."
+
+  section_3_full_subsystem_inventory:
+    - subsystem_name: "repo-parser"
+      purpose: "Parse raw file trees into structured representations: language stats, framework detection, dependency graphs, import resolution, SQL schema extraction, domain model extraction."
+      canonical_paths:
+        - "packages/repo-parser/src/"
+      primary_entrypoints:
+        - "packages/repo-parser/src/parser.ts"
+      key_files:
+        - "packages/repo-parser/src/parser.ts"
+        - "packages/repo-parser/src/framework-detector.ts"
+        - "packages/repo-parser/src/import-resolver.ts"
+        - "packages/repo-parser/src/language-detector.ts"
+        - "packages/repo-parser/src/domain-extractor.ts"
+        - "packages/repo-parser/src/sql-extractor.ts"
+        - "packages/repo-parser/src/types.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "parseRepo() called by context-engine's buildContextMap()"
+        - "Supports JS/TS, Go, Python, SvelteKit file classification"
+        - "13 detection functions for build tools, test frameworks, package managers, CI, deployment"
+
+    - subsystem_name: "context-engine"
+      purpose: "Transform parsed repo data into ContextMap and RepoProfile structures consumed by generators."
+      canonical_paths:
+        - "packages/context-engine/src/"
+      primary_entrypoints:
+        - "packages/context-engine/src/engine.ts"
+      key_files:
+        - "packages/context-engine/src/engine.ts"
+        - "packages/context-engine/src/types.ts"
+        - "packages/context-engine/src/index.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "buildContextMap() produces 12-section ContextMap with dependency hotspots, route detection, architecture signals"
+        - "buildRepoProfile() produces lighter-weight profile with health scores"
+        - "Supports Next.js, Express, Go Chi/Gin/Echo/Fiber/stdlib route detection"
+        - "Called by both apps/api handlers and apps/cli runner"
+
+    - subsystem_name: "generator-core"
+      purpose: "80 generator functions across 17 programs that produce AI-ready config files, audits, design tokens, and documentation from ContextMap + RepoProfile + optional SourceFile[]."
+      canonical_paths:
+        - "packages/generator-core/src/"
+      primary_entrypoints:
+        - "packages/generator-core/src/generate.ts"
+      key_files:
+        - "packages/generator-core/src/generate.ts"
+        - "packages/generator-core/src/generators-search.ts"
+        - "packages/generator-core/src/generators-skills.ts"
+        - "packages/generator-core/src/generators-debug.ts"
+        - "packages/generator-core/src/generators-frontend.ts"
+        - "packages/generator-core/src/generators-seo.ts"
+        - "packages/generator-core/src/generators-optimization.ts"
+        - "packages/generator-core/src/generators-theme.ts"
+        - "packages/generator-core/src/generators-brand.ts"
+        - "packages/generator-core/src/generators-superpowers.ts"
+        - "packages/generator-core/src/generators-marketing.ts"
+        - "packages/generator-core/src/generators-notebook.ts"
+        - "packages/generator-core/src/generators-obsidian.ts"
+        - "packages/generator-core/src/generators-mcp.ts"
+        - "packages/generator-core/src/generators-artifacts.ts"
+        - "packages/generator-core/src/generators-remotion.ts"
+        - "packages/generator-core/src/generators-canvas.ts"
+        - "packages/generator-core/src/generators-algorithmic.ts"
+        - "packages/generator-core/src/file-excerpt-utils.ts"
+        - "packages/generator-core/src/fw-helpers.ts"
+        - "packages/generator-core/src/types.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "REGISTRY has 80 entries + 9 aliases, all wired to real generator functions"
+        - "All 80 generators accept (ctx, profile, files?) signature (v2.0.0)"
+        - "generateFiles() dispatches source_files to all generators"
+        - "610 tests in generator-core alone, all passing"
+
+    - subsystem_name: "snapshots-data-layer"
+      purpose: "Full SaaS data layer: SQLite database with 16+ tables covering projects, snapshots, context maps, billing, funnel, webhooks, search, GitHub tokens, and more."
+      canonical_paths:
+        - "packages/snapshots/src/"
+      primary_entrypoints:
+        - "packages/snapshots/src/db.ts"
+        - "packages/snapshots/src/store.ts"
+        - "packages/snapshots/src/index.ts"
+      key_files:
+        - "packages/snapshots/src/db.ts"
+        - "packages/snapshots/src/store.ts"
+        - "packages/snapshots/src/billing-store.ts"
+        - "packages/snapshots/src/billing-types.ts"
+        - "packages/snapshots/src/funnel-store.ts"
+        - "packages/snapshots/src/funnel-types.ts"
+        - "packages/snapshots/src/webhook-store.ts"
+        - "packages/snapshots/src/search-store.ts"
+        - "packages/snapshots/src/github.ts"
+        - "packages/snapshots/src/github-token-store.ts"
+        - "packages/snapshots/src/version-store.ts"
+        - "packages/snapshots/src/tier-audit.ts"
+        - "packages/snapshots/src/types.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+        - internal_only
+      blocker_summary: []
+      evidence_summary:
+        - "16+ tables after 8 migrations (core 11 + rate_limits, search_index, search_fts, webhooks, webhook_deliveries, generation_versions, github_tokens, tier_changes)"
+        - "Full billing: accounts, API keys (SHA-256 hashed), entitlements, usage tracking, quota enforcement"
+        - "Full funnel: 8-stage PLG engine (visitor→expansion), seat management with tier limits, upgrade prompts"
+        - "Full webhooks: HMAC SHA-256 signatures, 5 retries with exponential backoff, dead letter queue"
+        - "GitHub: tarball fetch with gunzip, 500 file / 256KB limits, redirect following"
+        - "FTS5 search with BM25 ranking"
+
+    - subsystem_name: "api-server"
+      purpose: "HTTP API server on port 4000 exposing 62 routes across health, snapshots, projects, programs, billing, funnel, webhooks, search, export, and admin."
+      canonical_paths:
+        - "apps/api/src/"
+      primary_entrypoints:
+        - "apps/api/src/server.ts"
+      key_files:
+        - "apps/api/src/server.ts"
+        - "apps/api/src/router.ts"
+        - "apps/api/src/handlers.ts"
+        - "apps/api/src/billing.ts"
+        - "apps/api/src/funnel.ts"
+        - "apps/api/src/webhooks.ts"
+        - "apps/api/src/export.ts"
+        - "apps/api/src/openapi.ts"
+        - "apps/api/src/env.ts"
+        - "apps/api/src/metrics.ts"
+        - "apps/api/src/rate-limiter.ts"
+        - "apps/api/src/logger.ts"
+        - "apps/api/src/versions.ts"
+        - "apps/api/src/admin.ts"
+        - "apps/api/src/github.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "Custom node:http router with regex path params, no framework dependency"
+        - "OWASP security headers (7): nosniff, DENY frames, CSP, HSTS, XSS-Protection=0, referrer, permissions"
+        - "Sliding-window rate limiter: 60 req/min anon, 120 req/min authenticated, SQLite-persisted"
+        - "Bearer token auth via SHA-256 hash lookup"
+        - "Zero stubs — every handler calls real store/engine/generator code"
+        - "Graceful shutdown with connection draining"
+        - "OpenAPI 3.1.0 spec with 50+ paths"
+        - "Zero-dependency ZIP export builder with CRC32 and Deflate"
+
+    - subsystem_name: "cli"
+      purpose: "Command-line interface (axis) for local repo analysis, GitHub URL analysis, program listing, and auth management."
+      canonical_paths:
+        - "apps/cli/src/"
+      primary_entrypoints:
+        - "apps/cli/src/cli.ts"
+        - "apps/cli/bin/axis.js"
+      key_files:
+        - "apps/cli/src/cli.ts"
+        - "apps/cli/src/runner.ts"
+        - "apps/cli/src/scanner.ts"
+        - "apps/cli/src/writer.ts"
+        - "apps/cli/src/credential-store.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "4 commands: analyze, github, programs, auth (login/status/logout)"
+        - "In-memory pipeline bypasses SQLite — constructs SnapshotRecord directly"
+        - "Auto-detects project type (monorepo/fullstack/backend/frontend/native/library/static)"
+        - "Score-based framework detection with Go/Python/SvelteKit support"
+        - "Credential store at ~/.axis/config.json"
+        - "Reports version as 0.3.0 (skew vs root 0.4.0)"
+
+    - subsystem_name: "web-spa"
+      purpose: "React 19 + Vite 6 single-page application with 7 pages for file upload, dashboard, plans, account management, docs, help, and QA."
+      canonical_paths:
+        - "apps/web/src/"
+      primary_entrypoints:
+        - "apps/web/src/main.tsx"
+        - "apps/web/src/App.tsx"
+      key_files:
+        - "apps/web/src/App.tsx"
+        - "apps/web/src/api.ts"
+        - "apps/web/src/upload-utils.ts"
+        - "apps/web/src/pages/UploadPage.tsx"
+        - "apps/web/src/pages/DashboardPage.tsx"
+        - "apps/web/src/pages/PlansPage.tsx"
+        - "apps/web/src/pages/AccountPage.tsx"
+        - "apps/web/src/pages/DocsPage.tsx"
+        - "apps/web/src/pages/HelpPage.tsx"
+        - "apps/web/src/pages/QAPage.tsx"
+        - "apps/web/src/components/CommandPalette.tsx"
+        - "apps/web/src/components/ProgramLauncher.tsx"
+        - "apps/web/src/components/FilesTab.tsx"
+        - "apps/web/src/components/GeneratedTab.tsx"
+        - "apps/web/src/components/GraphTab.tsx"
+        - "apps/web/src/components/OverviewTab.tsx"
+        - "apps/web/src/components/SearchTab.tsx"
+        - "apps/web/src/components/StatusBar.tsx"
+        - "apps/web/src/components/Toast.tsx"
+        - "apps/web/src/components/AxisIcons.tsx"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "Hash-based routing (#upload, #dashboard, #plans, #account, #docs, #help, #qa)"
+        - "ErrorBoundary, ToastProvider, CommandPalette (Ctrl+K), keyboard shortcuts (Ctrl+1-7)"
+        - "API client with 30s AbortController timeout, Bearer auth from localStorage"
+        - "StatusBar with auth state, version badge v0.3.1"
+
+    - subsystem_name: "program-control-system"
+      purpose: "17 program directories each containing begin.yaml, MEMORY.yaml, continuation.yaml, and schemas/output-contract.schema.json defining generator program configurations."
+      canonical_paths:
+        - "algorithmic/"
+        - "artifacts/"
+        - "brand/"
+        - "canvas/"
+        - "debug/"
+        - "frontend/"
+        - "marketing/"
+        - "mcp/"
+        - "notebook/"
+        - "obsidian/"
+        - "optimization/"
+        - "remotion/"
+        - "search/"
+        - "seo/"
+        - "skills/"
+        - "superpowers/"
+        - "theme/"
+      primary_entrypoints:
+        - "*/begin.yaml"
+      key_files:
+        - "*/begin.yaml"
+        - "*/continuation.yaml"
+        - "*/MEMORY.yaml"
+        - "*/schemas/output-contract.schema.json"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "All 17 directories structurally uniform: begin.yaml + MEMORY.yaml + continuation.yaml + schemas/output-contract.schema.json"
+        - "search/ also has context-map.schema.json and repo-profile.schema.yaml (extended schemas)"
+        - "Each program maps to 4-5 generators in the REGISTRY (80 total)"
+        - "Programs define output contracts that the generators must conform to"
+
+    - subsystem_name: "billing-and-tiers"
+      purpose: "Tiered billing system with free/pro/suite tiers, API key auth, usage quota enforcement, and entitlement management."
+      canonical_paths:
+        - "packages/snapshots/src/billing-store.ts"
+        - "packages/snapshots/src/billing-types.ts"
+        - "apps/api/src/billing.ts"
+      primary_entrypoints:
+        - "apps/api/src/billing.ts"
+      key_files:
+        - "packages/snapshots/src/billing-store.ts"
+        - "packages/snapshots/src/billing-types.ts"
+        - "packages/snapshots/src/tier-audit.ts"
+        - "apps/api/src/billing.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary:
+        - "No payment provider integration (Stripe, etc.) — tier changes are API-only, not purchase-driven"
+      evidence_summary:
+        - "3 tiers: free (3 programs), pro (all programs), suite (all + seats)"
+        - "API keys prefixed axis_, SHA-256 hashed in DB"
+        - "Quota enforcement with monthly snapshot limits per tier"
+        - "BillingHistory and ProrationPreview endpoints exist but no external payment provider"
+
+    - subsystem_name: "funnel-and-plg-engine"
+      purpose: "Product-led growth funnel with 8-stage lifecycle tracking, seat management, and contextual upgrade prompts."
+      canonical_paths:
+        - "packages/snapshots/src/funnel-store.ts"
+        - "packages/snapshots/src/funnel-types.ts"
+        - "apps/api/src/funnel.ts"
+      primary_entrypoints:
+        - "apps/api/src/funnel.ts"
+      key_files:
+        - "packages/snapshots/src/funnel-store.ts"
+        - "packages/snapshots/src/funnel-types.ts"
+        - "apps/api/src/funnel.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "8 stages: visitor → signup → activation → engagement → limit_hit → churn_risk → conversion → expansion"
+        - "Contextual upgrade prompts based on stage, usage, and limits"
+        - "Seat management with tier-based seat limits"
+        - "Funnel metrics with conversion and activation rates"
+
+    - subsystem_name: "webhook-system"
+      purpose: "Webhook dispatch system with HMAC signing, retry queue with exponential backoff, and dead letter management."
+      canonical_paths:
+        - "packages/snapshots/src/webhook-store.ts"
+        - "apps/api/src/webhooks.ts"
+      primary_entrypoints:
+        - "apps/api/src/webhooks.ts"
+      key_files:
+        - "packages/snapshots/src/webhook-store.ts"
+        - "apps/api/src/webhooks.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "4 event types: snapshot.created, snapshot.deleted, project.deleted, generation.completed"
+        - "HMAC SHA-256 payload signing"
+        - "5 retries with exponential backoff (2s base × 4^attempt)"
+        - "Dead letter queue for failed deliveries"
+        - "Secrets redacted in list responses"
+
+    - subsystem_name: "github-integration"
+      purpose: "GitHub repository fetching via tarball download with token management for private repos."
+      canonical_paths:
+        - "packages/snapshots/src/github.ts"
+        - "packages/snapshots/src/github-token-store.ts"
+        - "apps/api/src/github.ts"
+      primary_entrypoints:
+        - "apps/api/src/github.ts"
+      key_files:
+        - "packages/snapshots/src/github.ts"
+        - "packages/snapshots/src/github-token-store.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "Tarball fetch via GitHub API with optional auth token"
+        - "Custom tar parser (POSIX/UStar), max 500 files, max 256KB/file"
+        - "Follows up to 5 redirects, 30s timeout, 100MB size limit"
+        - "Token CRUD stored in github_tokens table"
+
+    - subsystem_name: "search-and-fts"
+      purpose: "Full-text search over snapshot content using SQLite FTS5 with BM25 ranking."
+      canonical_paths:
+        - "packages/snapshots/src/search-store.ts"
+      primary_entrypoints:
+        - "packages/snapshots/src/search-store.ts"
+      key_files:
+        - "packages/snapshots/src/search-store.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "FTS5 virtual table with BM25 ranking"
+        - "Token quoting for injection safety"
+        - "search_index + search_fts tables populated per snapshot"
+        - "Exposed via /v1/search/* API routes"
+
+    - subsystem_name: "export"
+      purpose: "ZIP export of snapshot generated files with optional program filtering."
+      canonical_paths:
+        - "apps/api/src/export.ts"
+      primary_entrypoints:
+        - "apps/api/src/export.ts"
+      key_files:
+        - "apps/api/src/export.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "Custom zero-dependency ZIP builder (CRC32, Deflate, PKZIP headers)"
+        - "Path traversal sanitization"
+        - "Optional program filter via query param"
+        - "Content-Disposition attachment header"
+
+    - subsystem_name: "observability"
+      purpose: "Prometheus-format metrics, structured request logging, health/liveness/readiness checks."
+      canonical_paths:
+        - "apps/api/src/metrics.ts"
+        - "apps/api/src/logger.ts"
+      primary_entrypoints:
+        - "apps/api/src/metrics.ts"
+      key_files:
+        - "apps/api/src/metrics.ts"
+        - "apps/api/src/logger.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - internal_only
+      blocker_summary: []
+      evidence_summary:
+        - "In-memory counters: requestCount, errorCount, statusCounts by bucket"
+        - "Prometheus text output: uptime, requests, errors, memory (RSS/heap), DB stats"
+        - "Liveness always returns alive, readiness checks DB integrity"
+        - "Structured JSON logger with request IDs"
+
+    - subsystem_name: "rate-limiting"
+      purpose: "Sliding-window rate limiter with SQLite persistence and per-client IP tracking."
+      canonical_paths:
+        - "apps/api/src/rate-limiter.ts"
+      primary_entrypoints:
+        - "apps/api/src/rate-limiter.ts"
+      key_files:
+        - "apps/api/src/rate-limiter.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - internal_only
+      blocker_summary: []
+      evidence_summary:
+        - "60 req/min anonymous, 120 req/min authenticated"
+        - "RateLimit-Limit/Remaining/Reset response headers"
+        - "429 with Retry-After on exceeded"
+        - "SQLite persistence with 30s flush interval"
+        - "X-Forwarded-For aware"
+
+    # Mandatory detection targets from schema — these subsystems do NOT exist in this repo:
+    - subsystem_name: "buyer-facing-payment-checkout-surfaces"
+      purpose: "N/A — AXIS Toolbox is not a payment product."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No checkout, payment, or buyer-facing surfaces exist in the codebase"
+        - "Billing is API-key-based tier management, not payment processing"
+
+    - subsystem_name: "seller-settlement-payout-surfaces"
+      purpose: "N/A — no seller/merchant settlement in this product."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No settlement, payout, or seller surfaces exist"
+
+    - subsystem_name: "merchant-admin-surfaces"
+      purpose: "N/A — no merchant concept in this product."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No merchant admin surfaces exist"
+
+    - subsystem_name: "operator-reconciliation-surfaces"
+      purpose: "N/A — no financial reconciliation in this product."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No reconciliation surfaces exist"
+
+    - subsystem_name: "quoting-pathfinding"
+      purpose: "N/A — no payment quoting or pathfinding."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No quoting or pathfinding code exists"
+
+    - subsystem_name: "orchestration-state-machine"
+      purpose: "N/A — no payment state machine. The closest analog is the funnel stage resolver, which is a stateless computation."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "resolveStage() in funnel-store.ts is a stateless stage computation, not a state machine"
+
+    - subsystem_name: "ledger"
+      purpose: "N/A — no financial ledger. Usage records exist but track API consumption, not financial transactions."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "usage_records table tracks program invocations, not financial ledger entries"
+
+    - subsystem_name: "treasury-liquidity"
+      purpose: "N/A — no treasury or liquidity management."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No treasury or liquidity code exists"
+
+    - subsystem_name: "wallets-custody"
+      purpose: "N/A — no wallet or custody management."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "No wallet or custody code exists"
+
+    - subsystem_name: "risk-compliance"
+      purpose: "N/A — no financial risk or compliance. Security exists via OWASP headers, rate limiting, and auth, but not in a regulatory compliance sense."
+      canonical_paths: []
+      primary_entrypoints: []
+      key_files: []
+      maturity: planned_only
+      integration_status: present_but_not_wired
+      human_facing_relevance: []
+      blocker_summary:
+        - "Not applicable to this product category"
+      evidence_summary:
+        - "Security controls are application-level (auth, rate limiting, OWASP headers) not financial compliance"
+
+    - subsystem_name: "secrets-config"
+      purpose: "Environment-variable-based configuration with .env.example contract and CLI credential store."
+      canonical_paths:
+        - "apps/api/src/env.ts"
+        - "apps/cli/src/credential-store.ts"
+        - ".env.example"
+      primary_entrypoints:
+        - "apps/api/src/env.ts"
+      key_files:
+        - "apps/api/src/env.ts"
+        - "apps/cli/src/credential-store.ts"
+        - ".env.example"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+      blocker_summary: []
+      evidence_summary:
+        - "11 env vars in ENV_SPEC[] with validation and typed defaults"
+        - "CLI stores credentials at ~/.axis/config.json"
+        - "No vault or external secret manager integration"
+
+    - subsystem_name: "deploy-runtime"
+      purpose: "Docker multi-stage build, Docker Compose, and GitHub Actions CI/CD."
+      canonical_paths:
+        - "Dockerfile"
+        - "docker-compose.yml"
+        - ".github/workflows/ci.yml"
+      primary_entrypoints:
+        - "Dockerfile"
+      key_files:
+        - "Dockerfile"
+        - "docker-compose.yml"
+        - ".github/workflows/ci.yml"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - developer
+        - internal_only
+      blocker_summary: []
+      evidence_summary:
+        - "3-stage Dockerfile: deps → builder → runner (node:20-slim)"
+        - "Non-root user (axis:1001), healthcheck endpoint"
+        - "Docker Compose with production + dev profiles"
+        - "CI: Node 20+22 matrix, coverage, type-check, docker build verification"
+
+    - subsystem_name: "test-harness"
+      purpose: "Vitest test suite with 2226 tests across 81 test files covering all packages and apps."
+      canonical_paths:
+        - "vitest.config.ts"
+      primary_entrypoints:
+        - "vitest.config.ts"
+      key_files:
+        - "vitest.config.ts"
+        - "packages/generator-core/src/generate.test.ts"
+        - "packages/generator-core/src/generator-branches.test.ts"
+        - "packages/context-engine/src/engine.test.ts"
+        - "packages/repo-parser/src/parser.test.ts"
+        - "packages/snapshots/src/db.test.ts"
+        - "apps/api/src/api.test.ts"
+        - "apps/cli/src/cli.test.ts"
+        - "apps/web/src/api.test.ts"
+      maturity: real_and_active
+      integration_status: wired_to_runtime
+      human_facing_relevance:
+        - internal_only
+      blocker_summary: []
+      evidence_summary:
+        - "2226 tests, 2226 passing (at current HEAD)"
+        - "81 test files across 4 packages and 3 apps"
+        - "Coverage thresholds: 60% lines/functions/statements, 50% branches"
+        - "generator-branches.test.ts is 223KB — the largest test file"
+
+  section_4_human_facing_product_surface:
+    - path: "apps/web/src/pages/UploadPage.tsx"
+      user_type: developer
+      purpose: "Upload source code files for analysis and artifact generation."
+      surface_state: real_and_wired
+      primary_action: "Upload files → create snapshot → view results"
+      backend_dependency:
+        - "POST /v1/snapshots"
+        - "POST /v1/programs/:program"
+      backend_capability_state: appears_real
+      trust_truth_issues: []
+    - path: "apps/web/src/pages/DashboardPage.tsx"
+      user_type: developer
+      purpose: "View analysis results: overview, files, generated artifacts, dependency graph, search."
+      surface_state: real_and_wired
+      primary_action: "Browse generated files and analysis results"
+      backend_dependency:
+        - "GET /v1/snapshots/:id"
+        - "GET /v1/snapshots/:id/generated"
+        - "GET /v1/snapshots/:id/context"
+      backend_capability_state: appears_real
+      trust_truth_issues: []
+    - path: "apps/web/src/pages/PlansPage.tsx"
+      user_type: developer
+      purpose: "View pricing tiers (free/pro/suite) and feature comparison."
+      surface_state: real_and_wired
+      primary_action: "Compare plans and upgrade"
+      backend_dependency:
+        - "GET /v1/plans"
+      backend_capability_state: appears_real
+      trust_truth_issues:
+        - "No payment provider — upgrade is API-level tier change only, no purchase flow"
+    - path: "apps/web/src/pages/AccountPage.tsx"
+      user_type: developer
+      purpose: "Manage account, API keys, usage, billing history, team seats, and GitHub tokens."
+      surface_state: real_and_wired
+      primary_action: "Manage auth, keys, usage"
+      backend_dependency:
+        - "POST /v1/accounts"
+        - "GET /v1/accounts/me"
+        - "POST /v1/api-keys"
+        - "GET /v1/api-keys"
+        - "DELETE /v1/api-keys/:id"
+        - "GET /v1/usage"
+        - "POST /v1/seats"
+        - "GET /v1/seats"
+        - "POST /v1/github-tokens"
+        - "GET /v1/github-tokens"
+      backend_capability_state: appears_real
+      trust_truth_issues: []
+    - path: "apps/web/src/pages/DocsPage.tsx"
+      user_type: developer
+      purpose: "In-app documentation (73KB) covering API reference, programs, CLI usage."
+      surface_state: real_and_wired
+      primary_action: "Read documentation"
+      backend_dependency: []
+      backend_capability_state: appears_real
+      trust_truth_issues: []
+    - path: "apps/web/src/pages/HelpPage.tsx"
+      user_type: developer
+      purpose: "Help center (43KB) with FAQ, troubleshooting, and guides."
+      surface_state: real_and_wired
+      primary_action: "Read help content"
+      backend_dependency: []
+      backend_capability_state: appears_real
+      trust_truth_issues: []
+    - path: "apps/web/src/pages/QAPage.tsx"
+      user_type: developer
+      purpose: "QA dashboard (24KB) for testing API connectivity, running health checks, and verifying system state."
+      surface_state: real_and_wired
+      primary_action: "Run QA checks against the API"
+      backend_dependency:
+        - "GET /v1/health"
+        - "GET /v1/db/stats"
+      backend_capability_state: appears_real
+      trust_truth_issues: []
+    - path: "apps/cli/src/cli.ts"
+      user_type: developer
+      purpose: "CLI entry point for local repo analysis, GitHub URL analysis, and program listing."
+      surface_state: real_and_wired
+      primary_action: "axis analyze [path] | axis github <url> | axis programs"
+      backend_dependency: []
+      backend_capability_state: appears_real
+      trust_truth_issues:
+        - "CLI version reports 0.3.0 while root package.json is 0.4.0"
+
+    summary_fields:
+      actual_front_door: "apps/web/ (UploadPage is the default landing page)"
+      product_orientation: developer_first
+      bounded_flagship_journey_exists: true
+      flagship_journey_description: "Upload source files → parser analyzes repo → context engine builds ContextMap + RepoProfile → generators produce 80 output artifacts across 17 programs → user browses/downloads results via Dashboard or ZIP export."
+
+  section_5_end_to_end_core_flows:
+    - flow_name: "local-repo-analysis-via-web"
+      start_surface_or_path: "apps/web/src/pages/UploadPage.tsx"
+      end_state: "Generated files viewable in DashboardPage, downloadable as ZIP"
+      participating_subsystems:
+        - "web-spa"
+        - "api-server"
+        - "snapshots-data-layer"
+        - "repo-parser"
+        - "context-engine"
+        - "generator-core"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/web/src/pages/UploadPage.tsx"
+        - "apps/api/src/handlers.ts"
+        - "packages/snapshots/src/store.ts"
+        - "packages/context-engine/src/engine.ts"
+        - "packages/generator-core/src/generate.ts"
+
+    - flow_name: "github-url-analysis-via-web"
+      start_surface_or_path: "apps/web/src/pages/UploadPage.tsx (GitHub URL tab)"
+      end_state: "Generated files viewable in DashboardPage"
+      participating_subsystems:
+        - "web-spa"
+        - "api-server"
+        - "github-integration"
+        - "snapshots-data-layer"
+        - "repo-parser"
+        - "context-engine"
+        - "generator-core"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/web/src/pages/UploadPage.tsx"
+        - "apps/api/src/github.ts"
+        - "packages/snapshots/src/github.ts"
+
+    - flow_name: "cli-local-analysis"
+      start_surface_or_path: "apps/cli/src/cli.ts (axis analyze [path])"
+      end_state: "Generated files written to output directory on disk"
+      participating_subsystems:
+        - "cli"
+        - "repo-parser"
+        - "context-engine"
+        - "generator-core"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/cli/src/cli.ts"
+        - "apps/cli/src/runner.ts"
+        - "apps/cli/src/scanner.ts"
+        - "apps/cli/src/writer.ts"
+
+    - flow_name: "cli-github-analysis"
+      start_surface_or_path: "apps/cli/src/cli.ts (axis github <url>)"
+      end_state: "Generated files written to output directory on disk"
+      participating_subsystems:
+        - "cli"
+        - "github-integration"
+        - "repo-parser"
+        - "context-engine"
+        - "generator-core"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/cli/src/cli.ts"
+        - "apps/cli/src/runner.ts"
+        - "packages/snapshots/src/github.ts"
+
+    - flow_name: "account-creation-and-auth"
+      start_surface_or_path: "apps/web/src/pages/AccountPage.tsx"
+      end_state: "Account created with API key, stored in localStorage for subsequent requests"
+      participating_subsystems:
+        - "web-spa"
+        - "api-server"
+        - "billing-and-tiers"
+        - "funnel-and-plg-engine"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/web/src/pages/AccountPage.tsx"
+        - "apps/api/src/billing.ts"
+        - "packages/snapshots/src/billing-store.ts"
+
+    - flow_name: "tier-upgrade"
+      start_surface_or_path: "apps/web/src/pages/PlansPage.tsx"
+      end_state: "Account tier changed, entitlements updated"
+      participating_subsystems:
+        - "web-spa"
+        - "api-server"
+        - "billing-and-tiers"
+        - "funnel-and-plg-engine"
+      flow_reality: mixed
+      key_blockers:
+        - "No payment provider — tier change is API-only, not purchase-driven"
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/web/src/pages/PlansPage.tsx"
+        - "apps/api/src/billing.ts"
+        - "packages/snapshots/src/billing-store.ts"
+
+    - flow_name: "webhook-dispatch"
+      start_surface_or_path: "apps/api/src/webhooks.ts (webhook registration)"
+      end_state: "HTTP POST delivered to registered URL with HMAC signature, retried on failure"
+      participating_subsystems:
+        - "api-server"
+        - "webhook-system"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: true
+      evidence_files:
+        - "apps/api/src/webhooks.ts"
+        - "packages/snapshots/src/webhook-store.ts"
+
+    - flow_name: "zip-export"
+      start_surface_or_path: "apps/web/src/api.ts (getExportUrl)"
+      end_state: "ZIP file downloaded containing generated artifacts"
+      participating_subsystems:
+        - "web-spa"
+        - "api-server"
+        - "export"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/web/src/api.ts"
+        - "apps/api/src/export.ts"
+
+    - flow_name: "fts-search"
+      start_surface_or_path: "apps/web/src/components/SearchTab.tsx"
+      end_state: "BM25-ranked search results displayed from indexed snapshot content"
+      participating_subsystems:
+        - "web-spa"
+        - "api-server"
+        - "search-and-fts"
+      flow_reality: real
+      key_blockers: []
+      operator_can_observe_flow: true
+      flow_is_reconciliable: false
+      evidence_files:
+        - "apps/web/src/components/SearchTab.tsx"
+        - "apps/api/src/handlers.ts"
+        - "packages/snapshots/src/search-store.ts"
+
+    # Mandatory flow search targets that DO NOT EXIST in this product:
+    - flow_name: "create_payment"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable — AXIS Toolbox is a developer tools product, not a payment platform"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "quote_payment"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "authorize_capture_refund"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "bank_connect"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "provider_session_redirect_link_flow"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "crypto_pay_flow"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "seller_settlement_payout"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "reconciliation_workflow"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "provider_connection_flow"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+    - flow_name: "revenue_pilot_account_workflows"
+      start_surface_or_path: "N/A"
+      end_state: "N/A"
+      participating_subsystems: []
+      flow_reality: unclear
+      key_blockers:
+        - "Not applicable to this product category"
+      operator_can_observe_flow: false
+      flow_is_reconciliable: false
+      evidence_files: []
+
+  section_6_provider_rail_asset_coverage:
+    - name: "GitHub"
+      role: direct_runtime_adapter
+      direction: inbound
+      evidence_files:
+        - "packages/snapshots/src/github.ts"
+        - "packages/snapshots/src/github-token-store.ts"
+        - "apps/api/src/github.ts"
+      runtime_integration_state: active_in_runtime
+      frontend_exposure_state: exposed
+      affects_actual_product_category: true
+    - name: "SQLite (better-sqlite3)"
+      role: direct_runtime_adapter
+      direction: both
+      evidence_files:
+        - "packages/snapshots/src/db.ts"
+        - "packages/snapshots/src/store.ts"
+        - "packages/snapshots/src/billing-store.ts"
+        - "packages/snapshots/src/funnel-store.ts"
+        - "packages/snapshots/src/webhook-store.ts"
+        - "packages/snapshots/src/search-store.ts"
+      runtime_integration_state: active_in_runtime
+      frontend_exposure_state: not_exposed
+      affects_actual_product_category: true
+    - name: "Node.js HTTP (node:http)"
+      role: direct_runtime_adapter
+      direction: both
+      evidence_files:
+        - "apps/api/src/router.ts"
+        - "apps/api/src/server.ts"
+      runtime_integration_state: active_in_runtime
+      frontend_exposure_state: not_exposed
+      affects_actual_product_category: true
+
+    explicit_gap_detection:
+      adapter_exists_but_runtime_does_not_invoke_it: []
+      frontend_mentions_provider_but_no_backend_support:
+        - "PlansPage shows pricing tiers but no payment provider (Stripe, etc.) is integrated — tier changes are API-only"
+      provider_exists_in_docs_only: []
+      provider_exists_in_checklist_but_not_code: []
+
+  section_7_control_files_internal_truth_system:
+    - path: "begin.yaml"
+      role: "Root session initialization protocol with identity contracts, startup procedures, and capability declarations."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality:
+        - "May not reflect the latest generator count (80) or test count (2226)"
+      affects_later_grading: true
+    - path: "continuation.yaml"
+      role: "Session continuation protocol with execution queue, evidence ledger, subsystem scorecards, and active verticals."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality:
+        - "Claims 1790 tests but runtime shows 2226 — stale by 436 tests"
+        - "May not reflect v2.0.0 file-aware generators (80/80 wired)"
+      affects_later_grading: true
+    - path: "capability_inventory.yaml"
+      role: "Comprehensive catalog of all system capabilities and their implementation status."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality:
+        - "May not reflect latest test counts or v2.0.0 status"
+      affects_later_grading: true
+    - path: "axis_all_tools.yaml"
+      role: "Master inventory of all AXIS tools and capabilities."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "axis_master_blueprint.yaml"
+      role: "Master blueprint defining overall architecture and strategy."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "snapshot_protocol.yaml"
+      role: "Snapshot creation rules and quality gates."
+      appears_authoritative: true
+      matches_repo_truth: yes
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: true
+    - path: "static_analysis_phase.yaml"
+      role: "Code analysis rules and procedures (67KB — the largest control file)."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "rules to compile snapshot.yaml"
+      role: "Forensic snapshot compilation protocol defining the 13-section YAML schema."
+      appears_authoritative: true
+      matches_repo_truth: yes
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: true
+    - path: "e2e_ui_audit.yaml"
+      role: "End-to-end UI audit procedures and results."
+      appears_authoritative: true
+      matches_repo_truth: partially
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: true
+    - path: "automated remedial action.yaml"
+      role: "Automated remedial action protocols for session management."
+      appears_authoritative: true
+      matches_repo_truth: unclear
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "human user audt.yaml"
+      role: "Human user audit protocol for manual verification."
+      appears_authoritative: true
+      matches_repo_truth: unclear
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "hygiene and memory.yaml"
+      role: "Session hygiene and memory management protocol."
+      appears_authoritative: true
+      matches_repo_truth: unclear
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "memory generator.yaml"
+      role: "Memory generation protocol for session context persistence."
+      appears_authoritative: true
+      matches_repo_truth: unclear
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "stalling fix.txt"
+      role: "AI agent session stalling recovery instructions."
+      appears_authoritative: false
+      matches_repo_truth: unclear
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+
+    # Per-program control files (uniform structure across all 17):
+    - path: "*/begin.yaml (17 program directories)"
+      role: "Program-specific initialization YAML defining generator output contracts and startup rules."
+      appears_authoritative: true
+      matches_repo_truth: yes
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: true
+    - path: "*/continuation.yaml (17 program directories)"
+      role: "Program-specific continuation protocol."
+      appears_authoritative: true
+      matches_repo_truth: yes
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "*/MEMORY.yaml (17 program directories)"
+      role: "Program-specific memory/context persistence."
+      appears_authoritative: true
+      matches_repo_truth: yes
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: false
+    - path: "*/schemas/output-contract.schema.json (17 program directories)"
+      role: "JSON Schema defining the required output structure for each program's generators."
+      appears_authoritative: true
+      matches_repo_truth: yes
+      overstates_reality: []
+      understates_reality: []
+      affects_later_grading: true
+
+  section_8_build_test_deploy_truth:
+    build_systems:
+      package_managers_manifests:
+        - "pnpm (v10.33.0) — pnpm-workspace.yaml, pnpm-lock.yaml"
+        - "root package.json (axis-toolbox 0.4.0)"
+        - "apps/api/package.json (@axis/api)"
+        - "apps/cli/package.json (@axis/cli)"
+        - "apps/web/package.json (@axis/web)"
+        - "packages/context-engine/package.json (@axis/context-engine)"
+        - "packages/generator-core/package.json (@axis/generator-core)"
+        - "packages/repo-parser/package.json (@axis/repo-parser)"
+        - "packages/snapshots/package.json (@axis/snapshots)"
+      frontend_build_commands:
+        - "pnpm --filter @axis/web build (Vite 6)"
+      backend_build_commands:
+        - "pnpm --filter @axis/api build (esbuild via tsconfig)"
+        - "pnpm --filter @axis/cli build (esbuild)"
+        - "pnpm -r build (all workspaces)"
+      monorepo_or_multi_project_boundaries:
+        - "apps/api — HTTP API server"
+        - "apps/cli — CLI tool"
+        - "apps/web — React SPA"
+        - "packages/context-engine — analysis engine"
+        - "packages/generator-core — generators"
+        - "packages/repo-parser — file parser"
+        - "packages/snapshots — data layer + integrations"
+      build_outputs_detected:
+        - "apps/api/dist/"
+        - "apps/cli/dist/"
+        - "apps/web/dist/"
+        - "packages/context-engine/dist/"
+        - "packages/generator-core/dist/"
+        - "packages/repo-parser/dist/"
+        - "packages/snapshots/dist/"
+      build_contract_drift:
+        - "Version skew: root 0.4.0, CLI 0.3.0, web badge v0.3.1"
+
+    test_systems:
+      test_frameworks_detected:
+        - "vitest 4.1.2 with @vitest/coverage-v8"
+      critical_paths_with_tests:
+        - "packages/generator-core — generate.test.ts, generator-branches.test.ts, generate-programs.test.ts, generate-validation.test.ts, generator-alt-profiles.test.ts, pipeline.test.ts, generators-search-funcs.test.ts (610+ tests)"
+        - "packages/context-engine — engine.test.ts, engine-branches.test.ts, engine-edge.test.ts"
+        - "packages/repo-parser — parser.test.ts, parser-branches.test.ts, framework-detector.test.ts, import-resolver.test.ts, language-detector.test.ts, domain-extractor.test.ts, sql-extractor.test.ts"
+        - "packages/snapshots — db.test.ts, store.test.ts, store-validation.test.ts, store-layer5.test.ts, billing.test.ts, billing-edge-cases.test.ts, b-grade-upgrade.test.ts, funnel.test.ts, funnel-store.test.ts, funnel-edge-cases.test.ts, webhook-http.test.ts, webhook-retry.test.ts, search-store.test.ts, github-http.test.ts, github-tarball.test.ts, github-token-branches.test.ts, coverage-gaps.test.ts, db-maintenance.test.ts"
+        - "apps/api — api.test.ts, api-branches.test.ts, api-layer5.test.ts, router.test.ts, router-branches.test.ts, handlers-deep.test.ts, handler-validation.test.ts, handler-edge-cases.test.ts, billing-flow.test.ts, programs-billing.test.ts, funnel-api.test.ts, webhooks.test.ts, webhook-branches.test.ts, search-api.test.ts, security.test.ts, rate-limiter.test.ts, validation.test.ts, snapshot-auth.test.ts, export.test.ts, export-edge-cases.test.ts, env.test.ts, openapi.test.ts, versions.test.ts, server-lifecycle.test.ts, server-routes.test.ts, logging.test.ts, metrics.test.ts, metrics-branches.test.ts, deletion.test.ts, db-endpoints.test.ts, e2e-flows.test.ts, admin.test.ts, b-grade-upgrade.test.ts, request-limits.test.ts, quota.test.ts, github.test.ts"
+        - "apps/cli — cli.test.ts, cli-commands.test.ts, cli-edge-cases.test.ts, cli-auth.test.ts, cli-pipeline.test.ts, runner.test.ts, credential-store.test.ts, determinism.test.ts"
+        - "apps/web — api.test.ts, upload-utils.test.ts"
+      critical_paths_without_tests: []
+      e2e_test_presence: true
+      adapter_test_presence: true
+      checkout_or_buyer_flow_test_presence: false
+      reconciliation_test_presence: false
+      notable_validation_gaps: []
+
+    deploy_runtime_systems:
+      dockerfiles:
+        - "Dockerfile"
+      compose_files:
+        - "docker-compose.yml"
+      migration_entrypoints:
+        - "packages/snapshots/src/db.ts (runMigrations — 8 migration steps)"
+      env_contracts:
+        - ".env.example"
+        - "apps/api/src/env.ts (ENV_SPEC[])"
+      secrets_contracts:
+        - "API keys: axis_ prefix, SHA-256 hashed, stored in api_keys table"
+        - "Webhook secrets: HMAC SHA-256 signature"
+        - "GitHub tokens: stored in github_tokens table"
+      deploy_contract_drift:
+        - "Dockerfile exposes ports 4000 and 5173 but web is a static SPA built by Vite — 5173 is dev-only"
+      runtime_ambiguities:
+        - "Two axis.db files exist (root 4KB vs apps/api/ 115MB) — only apps/api/ is the active runtime DB"
+
+  section_9_runtime_truth_and_stub_boundaries:
+    - path_or_subsystem: "billing-and-tiers (payment collection)"
+      boundary_type: manual_ops_dependency
+      why_it_matters: "Tier upgrades exist in code but no payment provider processes actual money. Tier changes happen via API call only."
+      evidence_files:
+        - "apps/api/src/billing.ts"
+        - "packages/snapshots/src/billing-store.ts"
+      severity: medium
+
+    - path_or_subsystem: "continuation.yaml (test count drift)"
+      boundary_type: runtime_drift
+      why_it_matters: "continuation.yaml claims 1790 tests but runtime shows 2226. A grader relying on control file truth would undercount by 436 tests."
+      evidence_files:
+        - "continuation.yaml"
+      severity: low
+
+    - path_or_subsystem: "version display skew"
+      boundary_type: runtime_drift
+      why_it_matters: "Root package.json says 0.4.0, CLI hardcodes 0.3.0, web StatusBar shows v0.3.1. No single source of truth for the version shown to users."
+      evidence_files:
+        - "package.json"
+        - "apps/cli/src/cli.ts"
+        - "apps/web/src/components/StatusBar.tsx"
+      severity: low
+
+  section_10_frontend_backend_alignment:
+    - frontend_surface: "UploadPage — file upload and GitHub URL analysis"
+      claimed_capability: "Upload files or paste GitHub URL → create snapshot → get analysis"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/pages/UploadPage.tsx"
+        - "apps/api/src/handlers.ts"
+        - "apps/api/src/github.ts"
+      mismatch_summary: null
+    - frontend_surface: "DashboardPage — overview, files, generated, graph, search tabs"
+      claimed_capability: "View analysis results, browse generated files, search content, view dependency graph"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/pages/DashboardPage.tsx"
+        - "apps/web/src/components/OverviewTab.tsx"
+        - "apps/web/src/components/FilesTab.tsx"
+        - "apps/web/src/components/GeneratedTab.tsx"
+        - "apps/web/src/components/GraphTab.tsx"
+        - "apps/web/src/components/SearchTab.tsx"
+      mismatch_summary: null
+    - frontend_surface: "PlansPage — pricing tiers"
+      claimed_capability: "Compare free/pro/suite plans and upgrade"
+      backend_support_state: partially_supported
+      evidence_files:
+        - "apps/web/src/pages/PlansPage.tsx"
+        - "apps/api/src/funnel.ts"
+        - "apps/api/src/billing.ts"
+      mismatch_summary: "Plans page shows pricing and features but no payment provider is integrated — upgrade is an API-only tier change, not a purchase flow."
+    - frontend_surface: "AccountPage — account management"
+      claimed_capability: "Create account, manage API keys, view usage, manage seats, manage GitHub tokens, view billing history"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/pages/AccountPage.tsx"
+        - "apps/api/src/billing.ts"
+        - "apps/api/src/funnel.ts"
+      mismatch_summary: null
+    - frontend_surface: "DocsPage — documentation"
+      claimed_capability: "Read API reference, program docs, CLI usage"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/pages/DocsPage.tsx"
+      mismatch_summary: null
+    - frontend_surface: "HelpPage — help center"
+      claimed_capability: "FAQ, troubleshooting, guides"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/pages/HelpPage.tsx"
+      mismatch_summary: null
+    - frontend_surface: "QAPage — QA dashboard"
+      claimed_capability: "Run health checks, verify API connectivity"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/pages/QAPage.tsx"
+        - "apps/api/src/metrics.ts"
+      mismatch_summary: null
+    - frontend_surface: "ProgramLauncher — run programs from dashboard"
+      claimed_capability: "Select and run any of 17 programs against a snapshot"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/components/ProgramLauncher.tsx"
+        - "apps/api/src/handlers.ts"
+      mismatch_summary: null
+    - frontend_surface: "CommandPalette — Ctrl+K quick navigation"
+      claimed_capability: "Quick-navigate to any page or action"
+      backend_support_state: fully_supported
+      evidence_files:
+        - "apps/web/src/components/CommandPalette.tsx"
+      mismatch_summary: null
+
+  section_11_shadow_paths_archives_and_non_belonging_material:
+    - path: "payment-processing-output/"
+      classification: refuses_to_belong
+      why: "Generated output from running AXIS against an external payment-processing repository. Contains a 387KB context-map.json from that external codebase, not from AXIS itself."
+      risks_if_misread:
+        - "A grader might mistake this for AXIS having payment processing capabilities"
+        - "The 387KB context-map.json could be misread as AXIS's own context map"
+      evidence_files:
+        - "payment-processing-output/.ai/context-map.json"
+        - "payment-processing-output/architecture-summary.md"
+    - path: ".ai-output/"
+      classification: generated_artifact
+      why: "Generated output from running AXIS against itself. Contains ~100 generated files (context-map, design-tokens, debug-playbook, etc.)."
+      risks_if_misread:
+        - "Could be confused with source code — these are build outputs"
+      evidence_files:
+        - ".ai-output/.ai/context-map.json"
+    - path: ".ai-output-search/"
+      classification: generated_artifact
+      why: "Duplicate generated output from a search-program run against this repo. Subset of .ai-output."
+      risks_if_misread:
+        - "Duplicate presence could inflate file counts"
+      evidence_files:
+        - ".ai-output-search/.ai/context-map.json"
+    - path: "cov.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (430KB). One of 7 coverage dumps at root."
+      risks_if_misread: []
+      evidence_files:
+        - "cov.txt"
+    - path: "cov2.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (433KB)."
+      risks_if_misread: []
+      evidence_files:
+        - "cov2.txt"
+    - path: "cov3.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (20KB)."
+      risks_if_misread: []
+      evidence_files:
+        - "cov3.txt"
+    - path: "cov5.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (224KB)."
+      risks_if_misread: []
+      evidence_files:
+        - "cov5.txt"
+    - path: "cov6.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (447KB)."
+      risks_if_misread: []
+      evidence_files:
+        - "cov6.txt"
+    - path: "cov7.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (448KB)."
+      risks_if_misread: []
+      evidence_files:
+        - "cov7.txt"
+    - path: "cov8.txt"
+      classification: generated_artifact
+      why: "Vitest coverage report text dump (449KB)."
+      risks_if_misread: []
+      evidence_files:
+        - "cov8.txt"
+    - path: "coverage/"
+      classification: generated_artifact
+      why: "V8 coverage output directory from vitest --coverage runs."
+      risks_if_misread: []
+      evidence_files:
+        - "coverage/"
+    - path: "e2e_round2.mjs"
+      classification: experimental
+      why: "Standalone E2E test script (15KB) exercising the full API lifecycle. Not part of the vitest suite — must be run manually."
+      risks_if_misread:
+        - "Could be counted as part of the test suite when it's actually a standalone script"
+      evidence_files:
+        - "e2e_round2.mjs"
+    - path: ".pytest_cache/"
+      classification: generated_artifact
+      why: "Python pytest cache from a prior run. Contains empty nodeids file — no Python tests currently exist."
+      risks_if_misread:
+        - "Could suggest Python test infrastructure exists when it does not"
+      evidence_files:
+        - ".pytest_cache/CACHEDIR.TAG"
+    - path: "axis.db"
+      classification: generated_artifact
+      why: "Root-level SQLite database (4KB) — likely stale. The active runtime DB is apps/api/axis.db (115MB)."
+      risks_if_misread:
+        - "Could be mistaken for the active database"
+      evidence_files:
+        - "axis.db"
+    - path: "axis.db-shm"
+      classification: generated_artifact
+      why: "SQLite shared memory file for root axis.db."
+      risks_if_misread: []
+      evidence_files:
+        - "axis.db-shm"
+    - path: "axis.db-wal"
+      classification: generated_artifact
+      why: "SQLite WAL file (1.2MB) for root axis.db."
+      risks_if_misread: []
+      evidence_files:
+        - "axis.db-wal"
+
+  section_12_blockers_and_integrity_risks:
+    hard_limiters:
+      - "No payment provider integration — billing tiers exist (free/pro/suite) with quota enforcement, but no Stripe/PayPal/etc. processes actual payments. Tier changes are API-only."
+
+    canonical_path_risks:
+      - "Two axis.db files exist (root 4KB stale, apps/api/ 115MB active). A consumer or deployment script targeting the wrong DB would get empty data."
+
+    production_truth_risks:
+      - "CORS is set to '*' — appropriate for development but must be restricted for production deployment."
+      - "Dockerfile exposes port 5173 (Vite dev server) alongside 4000 (API) — 5173 is irrelevant in production."
+
+    human_facing_truth_risks:
+      - "PlansPage shows pricing tiers and upgrade buttons but no actual purchase flow exists. A user clicking 'upgrade' would need manual API intervention."
+
+    deploy_runtime_risks:
+      - "Migrations run automatically on DB open (runMigrations in db.ts). No rollback mechanism exists for failed migrations."
+      - "Rate limiter persists to SQLite with 30s flush interval — data loss window on crash."
+
+    provider_coverage_risks:
+      - "Only GitHub is integrated as an external source provider. No GitLab, Bitbucket, or generic Git integration."
+
+    narrative_vs_product_risks:
+      - "continuation.yaml claims 1790 tests but actual count is 2226 — 436 test deficit in control file."
+      - "Version display skew: root 0.4.0, CLI 0.3.0, web v0.3.1. Users/graders see inconsistent version identifiers."
+      - "payment-processing-output/ directory contains generated artifacts from an external repo analysis — could mislead a grader into thinking AXIS has payment processing capabilities."
+
+  section_13_snapshot_sufficiency_check:
+    all_top_level_items_accounted_for: true
+    canonical_paths_explicitly_identified: true
+    frontend_backend_deploy_test_truth_captured: true
+    provider_coverage_captured: true
+    control_files_captured: true
+    shadow_and_non_belonging_material_captured: true
+    human_facing_surface_captured: true
+    core_flows_captured: true
+    contradictory_evidence_reported: true
+    known_gaps_in_snapshot:
+      - "Individual content of all 17 program begin.yaml/MEMORY.yaml files was not read line-by-line — structural uniformity verified by presence check"
+      - "apps/api/axis.db (115MB) content was not queried for row counts — presence and schema verified via source code"
+      - "cov*.txt files were not read for content — classified as generated artifacts by naming pattern and size"
+    snapshot_valid_for_external_grading: true
