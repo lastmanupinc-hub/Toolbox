@@ -11,7 +11,10 @@ const MAX_EXCERPT_BUDGET = 12_000;
 export function findFiles(files: SourceFile[], patterns: string[]): SourceFile[] {
   return files.filter(f => {
     const lower = f.path.toLowerCase();
-    return patterns.some(p => lower.includes(p.toLowerCase()));
+    return patterns.some(p => {
+      const clean = p.replace(/\*/g, "").replace(/^\/+/, "").toLowerCase();
+      return clean.length > 0 && lower.includes(clean);
+    });
   });
 }
 
