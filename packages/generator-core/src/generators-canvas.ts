@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, renderExcerpts, fileTree } from "./file-excerpt-utils.js";
 
 // ─── canvas-spec.json ───────────────────────────────────────────
 
-export function generateCanvasSpec(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateCanvasSpec(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const languages = ctx.detection.languages;
@@ -89,7 +90,16 @@ export function generateCanvasSpec(ctx: ContextMap, profile: RepoProfile): Gener
       total_files: ctx.structure.total_files,
       total_loc: ctx.structure.total_loc,
     },
+    source_asset_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const assets = findFiles(files, ["*.png", "*.jpg", "*.svg", "*.gif", "*.webp", "*.ico", "*.pdf"]);
+    if (assets.length > 0) {
+      spec.source_asset_files = assets.slice(0, 20).map(f => f.path);
+    }
+  }
 
   return {
     path: "canvas-spec.json",
@@ -102,7 +112,7 @@ export function generateCanvasSpec(ctx: ContextMap, profile: RepoProfile): Gener
 
 // ─── social-pack.md ─────────────────────────────────────────────
 
-export function generateSocialPack(ctx: ContextMap): GeneratedFile {
+export function generateSocialPack(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const languages = ctx.detection.languages;
@@ -196,6 +206,19 @@ export function generateSocialPack(ctx: ContextMap): GeneratedFile {
   lines.push(`• Architecture Score: ${ctx.architecture_signals.separation_score}/100`);
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const mediaFiles = findFiles(files, ["*.png", "*.jpg", "*.svg", "*.gif", "*.webp", "*.ico"]);
+    if (mediaFiles.length > 0) {
+      lines.push("## Available Brand Assets");
+      lines.push("");
+      for (const mf of mediaFiles.slice(0, 10)) {
+        lines.push(`- \`${mf.path}\``);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "social-pack.md",
     content: lines.join("\n"),
@@ -207,7 +230,7 @@ export function generateSocialPack(ctx: ContextMap): GeneratedFile {
 
 // ─── poster-layouts.md ──────────────────────────────────────────
 
-export function generatePosterLayouts(ctx: ContextMap): GeneratedFile {
+export function generatePosterLayouts(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const languages = ctx.detection.languages;
@@ -318,6 +341,19 @@ export function generatePosterLayouts(ctx: ContextMap): GeneratedFile {
   lines.push("```");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const imageFiles = findFiles(files, ["*.png", "*.jpg", "*.svg", "*.gif", "*.webp"]);
+    if (imageFiles.length > 0) {
+      lines.push("## Detected Image Assets");
+      lines.push("");
+      for (const img of imageFiles.slice(0, 10)) {
+        lines.push(`- \`${img.path}\` (${img.size} bytes)`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "poster-layouts.md",
     content: lines.join("\n"),
@@ -329,7 +365,7 @@ export function generatePosterLayouts(ctx: ContextMap): GeneratedFile {
 
 // ─── asset-guidelines.md ────────────────────────────────────────
 
-export function generateCanvasAssetGuidelines(ctx: ContextMap): GeneratedFile {
+export function generateCanvasAssetGuidelines(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
 
@@ -410,6 +446,21 @@ export function generateCanvasAssetGuidelines(ctx: ContextMap): GeneratedFile {
   lines.push("- Border radius: 8px (cards), 4px (badges)");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const assetFiles = findFiles(files, ["*.png", "*.jpg", "*.svg", "*.gif", "*.webp", "*.ico", "*.pdf"]);
+    if (assetFiles.length > 0) {
+      lines.push("## Detected Assets in Repo");
+      lines.push("");
+      lines.push("| File | Size |");
+      lines.push("|------|------|");
+      for (const af of assetFiles.slice(0, 12)) {
+        lines.push(`| \`${af.path}\` | ${af.size} bytes |`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "asset-guidelines.md",
     content: lines.join("\n"),
@@ -421,7 +472,7 @@ export function generateCanvasAssetGuidelines(ctx: ContextMap): GeneratedFile {
 
 // ─── brand-board.md ─────────────────────────────────────────────
 
-export function generateBrandBoard(ctx: ContextMap): GeneratedFile {
+export function generateBrandBoard(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const languages = ctx.detection.languages;
@@ -596,6 +647,19 @@ export function generateBrandBoard(ctx: ContextMap): GeneratedFile {
   lines.push("| GitHub Social | 1280×640 | Minimal, mark + wordmark centered |");
   lines.push("| LinkedIn Banner | 1584×396 | Brand gradient, wordmark left-aligned |");
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const brandAssets = findFiles(files, ["*logo*", "*brand*", "*icon*", "*.svg", "*.png"]);
+    if (brandAssets.length > 0) {
+      lines.push("## Detected Brand Assets");
+      lines.push("");
+      for (const ba of brandAssets.slice(0, 10)) {
+        lines.push(`- \`${ba.path}\``);
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "brand-board.md",

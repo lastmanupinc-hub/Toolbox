@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, renderExcerpts, fileTree } from "./file-excerpt-utils.js";
 
 // ─── remotion-script.ts ─────────────────────────────────────────
 
-export function generateRemotionScript(ctx: ContextMap): GeneratedFile {
+export function generateRemotionScript(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const languages = ctx.detection.languages;
@@ -113,6 +114,18 @@ export function generateRemotionScript(ctx: ContextMap): GeneratedFile {
   lines.push(`  );`);
   lines.push(`}`);
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const mediaFiles = findFiles(files, ["*.mp4", "*.webm", "*.gif", "*.png", "*.jpg", "*.svg", "*.mp3", "*.wav"]);
+    if (mediaFiles.length > 0) {
+      lines.push("");
+      lines.push("// ─── Detected Media Assets ──────────────────────────────");
+      for (const mf of mediaFiles.slice(0, 10)) {
+        lines.push(`// Asset: ${mf.path} (${mf.size} bytes)`);
+      }
+    }
+  }
+
   return {
     path: "remotion-script.ts",
     content: lines.join("\n"),
@@ -124,7 +137,7 @@ export function generateRemotionScript(ctx: ContextMap): GeneratedFile {
 
 // ─── scene-plan.md ──────────────────────────────────────────────
 
-export function generateScenePlan(ctx: ContextMap): GeneratedFile {
+export function generateScenePlan(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const languages = ctx.detection.languages;
@@ -226,6 +239,19 @@ export function generateScenePlan(ctx: ContextMap): GeneratedFile {
   lines.push("- Add branded intro/outro with logo");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const mediaFiles = findFiles(files, ["*.mp4", "*.webm", "*.gif", "*.png", "*.jpg", "*.svg"]);
+    if (mediaFiles.length > 0) {
+      lines.push("## Available Media Assets");
+      lines.push("");
+      for (const mf of mediaFiles.slice(0, 12)) {
+        lines.push(`- \`${mf.path}\` (${mf.size} bytes)`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "scene-plan.md",
     content: lines.join("\n"),
@@ -237,7 +263,7 @@ export function generateScenePlan(ctx: ContextMap): GeneratedFile {
 
 // ─── render-config.json ─────────────────────────────────────────
 
-export function generateRenderConfig(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateRenderConfig(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const compName = id.name.replace(/[^a-zA-Z0-9]/g, "");
 
@@ -289,7 +315,16 @@ export function generateRenderConfig(ctx: ContextMap, profile: RepoProfile): Gen
       total_files: ctx.structure.total_files,
       total_loc: ctx.structure.total_loc,
     },
+    source_media_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const media = findFiles(files, ["*.mp4", "*.webm", "*.gif", "*.png", "*.jpg", "*.svg", "*.mp3"]);
+    if (media.length > 0) {
+      config.source_media_files = media.slice(0, 15).map(f => f.path);
+    }
+  }
 
   return {
     path: "render-config.json",
@@ -302,7 +337,7 @@ export function generateRenderConfig(ctx: ContextMap, profile: RepoProfile): Gen
 
 // ─── asset-checklist.md ─────────────────────────────────────────
 
-export function generateAssetChecklist(ctx: ContextMap): GeneratedFile {
+export function generateAssetChecklist(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
 
@@ -370,6 +405,21 @@ export function generateAssetChecklist(ctx: ContextMap): GeneratedFile {
   lines.push("| PNG Sequence | 1920×1080 | Custom compositing |");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const assets = findFiles(files, ["*.png", "*.jpg", "*.jpeg", "*.svg", "*.gif", "*.webp", "*.mp3", "*.wav", "*.mp4"]);
+    if (assets.length > 0) {
+      lines.push("## Detected Assets in Repository");
+      lines.push("");
+      lines.push("| File | Size |");
+      lines.push("|------|------|");
+      for (const a of assets.slice(0, 15)) {
+        lines.push(`| \`${a.path}\` | ${a.size} bytes |`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "asset-checklist.md",
     content: lines.join("\n"),
@@ -381,7 +431,7 @@ export function generateAssetChecklist(ctx: ContextMap): GeneratedFile {
 
 // ─── storyboard.md ──────────────────────────────────────────────
 
-export function generateStoryboard(ctx: ContextMap): GeneratedFile {
+export function generateStoryboard(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const languages = ctx.detection.languages;
@@ -514,6 +564,19 @@ export function generateStoryboard(ctx: ContextMap): GeneratedFile {
   lines.push("| Music | Ambient electronic, licensed |");
   lines.push("| Voiceover | Optional, see narration notes |");
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const visualFiles = findFiles(files, ["*.png", "*.jpg", "*.svg", "*.gif", "*.webp"]);
+    if (visualFiles.length > 0) {
+      lines.push("## Available Visual Assets");
+      lines.push("");
+      for (const vf of visualFiles.slice(0, 10)) {
+        lines.push(`- \`${vf.path}\``);
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "storyboard.md",

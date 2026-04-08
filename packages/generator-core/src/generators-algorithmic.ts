@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, fileTree } from "./file-excerpt-utils.js";
 
 // ─── generative-sketch.ts ───────────────────────────────────────
 
-export function generateGenerativeSketch(ctx: ContextMap): GeneratedFile {
+export function generateGenerativeSketch(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const languages = ctx.detection.languages;
   const patterns = ctx.architecture_signals.patterns_detected;
@@ -168,6 +169,16 @@ export function generateGenerativeSketch(ctx: ContextMap): GeneratedFile {
 
   lines.push("export { CONFIG, createNodes, createEdges, simulate };");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    lines.push("");
+    lines.push("// ─── Source File Tree ──────────────────────────────────");
+    const tree = fileTree(files);
+    for (const line of tree.slice(0, 20)) {
+      lines.push(`// ${line}`);
+    }
+  }
+
   return {
     path: "generative-sketch.ts",
     content: lines.join("\n"),
@@ -179,7 +190,7 @@ export function generateGenerativeSketch(ctx: ContextMap): GeneratedFile {
 
 // ─── parameter-pack.json ────────────────────────────────────────
 
-export function generateParameterPack(ctx: ContextMap): GeneratedFile {
+export function generateParameterPack(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const languages = ctx.detection.languages;
   const score = ctx.architecture_signals.separation_score;
@@ -243,7 +254,13 @@ export function generateParameterPack(ctx: ContextMap): GeneratedFile {
         overrides: { "structure.node_count": 10, "render.edge_opacity": 0.1, "render.glow": false },
       },
     ],
+    source_files_count: null as number | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    pack.source_files_count = files.length;
+  }
 
   return {
     path: "parameter-pack.json",
@@ -256,7 +273,7 @@ export function generateParameterPack(ctx: ContextMap): GeneratedFile {
 
 // ─── collection-map.md ──────────────────────────────────────────
 
-export function generateCollectionMap(ctx: ContextMap): GeneratedFile {
+export function generateCollectionMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const languages = ctx.detection.languages;
   const patterns = ctx.architecture_signals.patterns_detected;
@@ -368,6 +385,19 @@ export function generateCollectionMap(ctx: ContextMap): GeneratedFile {
   lines.push(`| Parameter Pack | parameter-pack.json |`);
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    lines.push("## Source File Tree");
+    lines.push("");
+    lines.push("```");
+    const tree = fileTree(files);
+    for (const line of tree.slice(0, 25)) {
+      lines.push(line);
+    }
+    lines.push("```");
+    lines.push("");
+  }
+
   return {
     path: "collection-map.md",
     content: lines.join("\n"),
@@ -379,7 +409,7 @@ export function generateCollectionMap(ctx: ContextMap): GeneratedFile {
 
 // ─── export-manifest.yaml ───────────────────────────────────────
 
-export function generateExportManifest(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateExportManifest(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
 
   const lines: string[] = [];
@@ -479,6 +509,19 @@ export function generateExportManifest(ctx: ContextMap, profile: RepoProfile): G
   lines.push("        purpose: Browser-based rendering");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const imageFiles = findFiles(files, ["*.png", "*.jpg", "*.svg", "*.gif", "*.webp"]);
+    if (imageFiles.length > 0) {
+      lines.push("  source_assets:");
+      for (const img of imageFiles.slice(0, 10)) {
+        lines.push(`    - path: ${JSON.stringify(img.path)}`);
+        lines.push(`      size: ${img.size}`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: "export-manifest.yaml",
     content: lines.join("\n"),
@@ -490,7 +533,7 @@ export function generateExportManifest(ctx: ContextMap, profile: RepoProfile): G
 
 // ─── variation-matrix.json ──────────────────────────────────────
 
-export function generateVariationMatrix(ctx: ContextMap): GeneratedFile {
+export function generateVariationMatrix(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks;
   const languages = ctx.detection.languages;
@@ -618,7 +661,13 @@ export function generateVariationMatrix(ctx: ContextMap): GeneratedFile {
       naming: "var_{id}_{layout}_{complexity}",
       formats: ["png", "svg", "webp"],
     },
+    source_file_count: null as number | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    matrix.source_file_count = files.length;
+  }
 
   return {
     path: "variation-matrix.json",
