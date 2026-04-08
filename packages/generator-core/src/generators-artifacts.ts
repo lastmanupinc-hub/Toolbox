@@ -1,6 +1,7 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, findEntryPoints, renderExcerpts, extractExports } from "./file-excerpt-utils.js";
 
 // ─── generated-component.tsx ────────────────────────────────────
 
@@ -228,7 +229,7 @@ export function generateEmbedSnippet(ctx: ContextMap): GeneratedFile {
 
 // ─── artifact-spec.md ──────────────────────────────────────────
 
-export function generateArtifactSpec(ctx: ContextMap, profile: RepoProfile): GeneratedFile {
+export function generateArtifactSpec(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
   const languages = ctx.detection.languages;
@@ -345,6 +346,44 @@ export function generateArtifactSpec(ctx: ContextMap, profile: RepoProfile): Gen
     lines.push("No external dependencies detected.");
   }
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const entries = findEntryPoints(files);
+    if (entries.length > 0) {
+      lines.push("## Source Entry Points");
+      lines.push("");
+      lines.push("| File | Exports |");
+      lines.push("|------|---------|");
+      for (const ep of entries.slice(0, 8)) {
+        const exports = extractExports(ep.content);
+        lines.push(`| \`${ep.path}\` | ${exports.join(", ") || "default"} |`);
+      }
+      lines.push("");
+
+      const exemplar = entries.find(f => {
+        const len = f.content.split("\n").length;
+        return len >= 5 && len <= 80 && extractExports(f.content).length > 0;
+      });
+      if (exemplar) {
+        lines.push(...renderExcerpts("Reference Entry Point", [exemplar], 30));
+      }
+    }
+
+    const components = findFiles(files, ["*.tsx", "*.jsx", "*.vue", "*.svelte"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec."));
+    if (components.length > 0) {
+      lines.push("## Component Signatures");
+      lines.push("");
+      for (const c of components.slice(0, 10)) {
+        const exports = extractExports(c.content);
+        if (exports.length > 0) {
+          lines.push(`- \`${c.path}\`: ${exports.join(", ")}`);
+        }
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "artifact-spec.md",

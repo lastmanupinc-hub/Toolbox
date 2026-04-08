@@ -1,6 +1,7 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, renderExcerpts, extractExports } from "./file-excerpt-utils.js";
 
 // ─── superpower-pack.md ─────────────────────────────────────────
 
@@ -335,7 +336,7 @@ export function generateWorkflowRegistry(ctx: ContextMap, profile: RepoProfile):
 
 // ─── test-generation-rules.md ───────────────────────────────────
 
-export function generateTestGenerationRules(ctx: ContextMap): GeneratedFile {
+export function generateTestGenerationRules(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const testFws = ctx.detection.test_frameworks;
   const frameworks = ctx.detection.frameworks.map(f => f.name);
@@ -464,6 +465,52 @@ export function generateTestGenerationRules(ctx: ContextMap): GeneratedFile {
   lines.push("| `toBeGreaterThan` | Numeric bounds | `expect(count).toBeGreaterThan(0)` |");
   lines.push("| `toBeTruthy` | Existence check | `expect(result).toBeTruthy()` |");
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const testFiles = findFiles(files, ["*.test.ts", "*.spec.ts", "*.test.tsx", "*.spec.tsx", "test_*.py", "*_test.py", "*.test.js", "*.spec.js"]);
+    if (testFiles.length > 0) {
+      lines.push("## Detected Test Files");
+      lines.push("");
+      lines.push("| File | Lines |");
+      lines.push("|------|-------|");
+      for (const tf of testFiles.slice(0, 12)) {
+        lines.push(`| \`${tf.path}\` | ${tf.content.split("\n").length} |`);
+      }
+      lines.push("");
+
+      const exemplar = testFiles.find(f => {
+        const len = f.content.split("\n").length;
+        return len >= 10 && len <= 100;
+      });
+      if (exemplar) {
+        lines.push(...renderExcerpts("Reference Test", [exemplar], 40));
+      }
+    }
+
+    const sourceFiles = findFiles(files, ["*.ts", "*.tsx", "*.js", "*.jsx", "*.py"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec.") && !f.path.includes("test_"));
+    const untestedExports: string[] = [];
+    for (const sf of sourceFiles.slice(0, 20)) {
+      const exports = extractExports(sf.content);
+      if (exports.length > 0) {
+        const hasTest = testFiles.some(tf => tf.path.includes(sf.path.replace(/\.[^.]+$/, "")));
+        if (!hasTest) {
+          untestedExports.push(`\`${sf.path}\` — ${exports.join(", ")}`);
+        }
+      }
+    }
+    if (untestedExports.length > 0) {
+      lines.push("## Untested Exports");
+      lines.push("");
+      lines.push("These source files export functions without matching test files:");
+      lines.push("");
+      for (const ue of untestedExports.slice(0, 10)) {
+        lines.push(`- ${ue}`);
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "test-generation-rules.md",

@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, findConfigs, renderExcerpts, fileTree } from "./file-excerpt-utils.js";
 
 // ─── .ai/optimization-rules.md ──────────────────────────────────
 
-export function generateOptimizationRules(ctx: ContextMap): GeneratedFile {
+export function generateOptimizationRules(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -153,6 +154,31 @@ export function generateOptimizationRules(ctx: ContextMap): GeneratedFile {
       lines.push(`- ⚠️ ${w}`);
     }
     lines.push("");
+  }
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const configs = findConfigs(files);
+    if (configs.length > 0) {
+      lines.push(...renderExcerpts("Configuration Files (Include in Prompts)", configs.slice(0, 4), 20));
+    }
+
+    lines.push("## File Tree");
+    lines.push("");
+    lines.push("```");
+    lines.push(fileTree(files));
+    lines.push("```");
+    lines.push("");
+
+    // Show hotspot file excerpts based on dependency graph
+    const hotspotPaths = ctx.dependency_graph.hotspots
+      .sort((a, b) => b.risk_score - a.risk_score)
+      .slice(0, 3)
+      .map(h => h.path);
+    const hotspotFiles = files.filter(f => hotspotPaths.some(hp => f.path.endsWith(hp) || f.path.includes(hp)));
+    if (hotspotFiles.length > 0) {
+      lines.push(...renderExcerpts("Hotspot File Excerpts", hotspotFiles, 25));
+    }
   }
 
   return {
