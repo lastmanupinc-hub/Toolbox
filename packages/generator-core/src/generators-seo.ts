@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findFiles, findConfigs, renderExcerpts, extractExports } from "./file-excerpt-utils.js";
 
 // ─── .ai/seo-rules.md ──────────────────────────────────────────
 
-export function generateSeoRules(ctx: ContextMap): GeneratedFile {
+export function generateSeoRules(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -137,6 +138,33 @@ export function generateSeoRules(ctx: ContextMap): GeneratedFile {
   lines.push("- Provide `aria-label` for interactive elements without visible text");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const metaFiles = findFiles(files, ["*sitemap*", "*robots*", "*manifest*", "*.xml"]);
+    if (metaFiles.length > 0) {
+      lines.push("## Detected SEO Files");
+      lines.push("");
+      for (const mf of metaFiles.slice(0, 8)) {
+        lines.push(`- \`${mf.path}\` (${mf.content.split("\n").length} lines)`);
+      }
+      lines.push("");
+      lines.push(...renderExcerpts("SEO File Contents", metaFiles.slice(0, 3), 20));
+    }
+
+    const pageFiles = findFiles(files, ["*page.tsx", "*page.ts", "*page.jsx", "*.html", "*.htm"]);
+    if (pageFiles.length > 0) {
+      lines.push("## Detected Page Files");
+      lines.push("");
+      lines.push("| Page | Exports | Lines |");
+      lines.push("|------|---------|-------|");
+      for (const pf of pageFiles.slice(0, 12)) {
+        const exports = extractExports(pf.content);
+        lines.push(`| \`${pf.path}\` | ${exports.join(", ") || "default"} | ${pf.content.split("\n").length} |`);
+      }
+      lines.push("");
+    }
+  }
+
   return {
     path: ".ai/seo-rules.md",
     content: lines.join("\n"),
@@ -148,7 +176,7 @@ export function generateSeoRules(ctx: ContextMap): GeneratedFile {
 
 // ─── schema-recommendations.json ────────────────────────────────
 
-export function generateSchemaRecommendations(ctx: ContextMap): GeneratedFile {
+export function generateSchemaRecommendations(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const recommendations: Array<{
     page: string;
@@ -243,7 +271,17 @@ export function generateSchemaRecommendations(ctx: ContextMap): GeneratedFile {
     })),
     total_recommendations: recommendations.length,
     recommendations,
+    source_page_files: null as string[] | null,
   };
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const pageFiles = findFiles(files, ["*page.tsx", "*page.ts", "*page.jsx", "*.html"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec."));
+    if (pageFiles.length > 0) {
+      output.source_page_files = pageFiles.slice(0, 15).map(f => f.path);
+    }
+  }
 
   return {
     path: "schema-recommendations.json",
@@ -256,7 +294,7 @@ export function generateSchemaRecommendations(ctx: ContextMap): GeneratedFile {
 
 // ─── route-priority-map.md ──────────────────────────────────────
 
-export function generateRoutePriorityMap(ctx: ContextMap): GeneratedFile {
+export function generateRoutePriorityMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -380,6 +418,31 @@ export function generateRoutePriorityMap(ctx: ContextMap): GeneratedFile {
   lines.push("```");
   lines.push("");
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const routeFiles = findFiles(files, ["*route*", "*page*", "*handler*", "*controller*"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec."));
+    if (routeFiles.length > 0) {
+      lines.push("## Route Handler Files");
+      lines.push("");
+      lines.push("| File | Exports | Lines |");
+      lines.push("|------|---------|-------|");
+      for (const rf of routeFiles.slice(0, 10)) {
+        const exports = extractExports(rf.content);
+        lines.push(`| \`${rf.path}\` | ${exports.join(", ") || "default"} | ${rf.content.split("\n").length} |`);
+      }
+      lines.push("");
+
+      const exemplar = routeFiles.find(f => {
+        const len = f.content.split("\n").length;
+        return len >= 5 && len <= 80;
+      });
+      if (exemplar) {
+        lines.push(...renderExcerpts("Route Handler Example", [exemplar], 25));
+      }
+    }
+  }
+
   return {
     path: "route-priority-map.md",
     content: lines.join("\n"),
@@ -391,7 +454,7 @@ export function generateRoutePriorityMap(ctx: ContextMap): GeneratedFile {
 
 // ─── content-audit.md ───────────────────────────────────────────
 
-export function generateContentAudit(ctx: ContextMap): GeneratedFile {
+export function generateContentAudit(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -532,6 +595,35 @@ export function generateContentAudit(ctx: ContextMap): GeneratedFile {
   lines.push("- [ ] Use font-display: swap for web fonts");
   lines.push("- [ ] Preload critical resources");
   lines.push("");
+
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const contentFiles = findFiles(files, ["*.md", "*.mdx", "*.html", "*.htm"]);
+    if (contentFiles.length > 0) {
+      lines.push("## Detected Content Files");
+      lines.push("");
+      for (const cf of contentFiles.slice(0, 12)) {
+        lines.push(`- \`${cf.path}\` (${cf.content.split("\n").length} lines)`);
+      }
+      lines.push("");
+    }
+
+    const pageComponents = findFiles(files, ["*page.tsx", "*page.ts", "*page.jsx", "*.vue", "*.svelte"])
+      .filter(f => !f.path.includes(".test.") && !f.path.includes(".spec."));
+    if (pageComponents.length > 0) {
+      lines.push("## Page Component Analysis");
+      lines.push("");
+      lines.push("| Component | Has Meta | Lines |");
+      lines.push("|-----------|----------|-------|");
+      for (const pc of pageComponents.slice(0, 15)) {
+        const hasMeta = pc.content.includes("metadata") || pc.content.includes("<title") ||
+          pc.content.includes("useHead") || pc.content.includes("svelte:head") ||
+          pc.content.includes("generateMetadata") || pc.content.includes("Head");
+        lines.push(`| \`${pc.path}\` | ${hasMeta ? "Yes" : "**Missing**"} | ${pc.content.split("\n").length} |`);
+      }
+      lines.push("");
+    }
+  }
 
   return {
     path: "content-audit.md",

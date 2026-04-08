@@ -1,10 +1,11 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile } from "./types.js";
+import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
+import { findEntryPoints, findConfigs, renderExcerpts, extractExports, fileTree } from "./file-excerpt-utils.js";
 
 // ─── notebook-summary.md ────────────────────────────────────────
 
-export function generateNotebookSummary(ctx: ContextMap): GeneratedFile {
+export function generateNotebookSummary(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
   const lines: string[] = [];
 
@@ -102,6 +103,27 @@ export function generateNotebookSummary(ctx: ContextMap): GeneratedFile {
     lines.push("");
   }
 
+  // ─── Source File Analysis ────────────────────────────────────
+  if (files && files.length > 0) {
+    const entries = findEntryPoints(files);
+    if (entries.length > 0) {
+      lines.push("## Entry Point Source");
+      lines.push("");
+      lines.push("| File | Exports |");
+      lines.push("|------|---------|");
+      for (const ep of entries.slice(0, 6)) {
+        const exports = extractExports(ep.content);
+        lines.push(`| \`${ep.path}\` | ${exports.join(", ") || "default"} |`);
+      }
+      lines.push("");
+    }
+
+    const configs = findConfigs(files);
+    if (configs.length > 0) {
+      lines.push(...renderExcerpts("Configuration Files", configs.slice(0, 3), 15));
+    }
+  }
+
   return {
     path: "notebook-summary.md",
     content: lines.join("\n"),
@@ -113,7 +135,7 @@ export function generateNotebookSummary(ctx: ContextMap): GeneratedFile {
 
 // ─── source-map.json ────────────────────────────────────────────
 
-export function generateSourceMap(ctx: ContextMap): GeneratedFile {
+export function generateSourceMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
   const id = ctx.project_identity;
 
   const languageBreakdown: Record<string, { files: number; percentage: number }> = {};
@@ -158,6 +180,9 @@ export function generateSourceMap(ctx: ContextMap): GeneratedFile {
     hotspots,
     internal_import_count: ctx.dependency_graph.internal_imports.length,
     external_dependency_count: ctx.dependency_graph.external_dependencies.length,
+    // ─── Source File Analysis ──────────────────────────────────
+    source_file_count: files ? files.length : null,
+    file_tree: files && files.length > 0 ? fileTree(files) : null,
   };
 
   return {
