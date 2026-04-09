@@ -102,9 +102,9 @@ describe("CI workflow deploy jobs", () => {
     expect(existsSync(join(ROOT, ".github/workflows/ci.yml"))).toBe(true);
   });
 
-  it("documents Render auto-deploy strategy", () => {
-    expect(content).toContain("Render auto-deploys from GitHub");
-    expect(content).toContain("render.yaml");
+  it("documents Render deploy strategy", () => {
+    expect(content).toContain("Deploy API to Render");
+    expect(content).toContain("ghcr.io/lastmanupinc-hub/axis-api");
   });
 
   it("has deploy-web job", () => {
