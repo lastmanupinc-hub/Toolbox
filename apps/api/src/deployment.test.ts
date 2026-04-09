@@ -102,20 +102,9 @@ describe("CI workflow deploy jobs", () => {
     expect(existsSync(join(ROOT, ".github/workflows/ci.yml"))).toBe(true);
   });
 
-  it("has deploy-api job", () => {
-    expect(content).toContain("deploy-api:");
-  });
-
-  it("deploy-api depends on docker-build", () => {
-    expect(content).toMatch(/deploy-api:[\s\S]*?needs:\s*docker-build/);
-  });
-
-  it("deploy-api only runs on main", () => {
-    expect(content).toMatch(/deploy-api:[\s\S]*?github\.ref\s*==\s*'refs\/heads\/main'/);
-  });
-
-  it("deploy-api triggers Render deploy hook", () => {
-    expect(content).toContain("RENDER_DEPLOY_HOOK_URL");
+  it("documents Render auto-deploy strategy", () => {
+    expect(content).toContain("Render auto-deploys from GitHub");
+    expect(content).toContain("render.yaml");
   });
 
   it("has deploy-web job", () => {
