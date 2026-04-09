@@ -23,6 +23,7 @@ services:
       - key: LOG_LEVEL
         value: info
       - key: CORS_ORIGIN
+        value: https://toolbox.jonathanarvay.com
         sync: false
       - key: GITHUB_CLIENT_ID
         sync: false
@@ -31,6 +32,7 @@ services:
       - key: GITHUB_CALLBACK_URL
         sync: false
       - key: AXIS_WEB_URL
+        value: https://toolbox.jonathanarvay.com
         sync: false
     disk:
       name: axis-data
