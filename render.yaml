@@ -6,9 +6,9 @@
 services:
   - type: web
     name: axis-api
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    runtime: image
+    image:
+      url: ghcr.io/lastmanupinc-hub/axis-api:latest
     plan: starter
     region: oregon
     healthCheckPath: /v1/health
