@@ -9,6 +9,9 @@ services:
     runtime: image
     image:
       url: ghcr.io/lastmanupinc-hub/axis-api:latest
+      creds:
+        fromRegistryCreds:
+          name: ghcr-lastmanupinc
     plan: starter
     region: oregon
     healthCheckPath: /v1/health
