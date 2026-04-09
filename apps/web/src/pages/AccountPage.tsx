@@ -6,7 +6,9 @@ import {
   listApiKeys,
   revokeApiKey,
   getUsage,
-  updateTier,
+  createCheckout,
+  getSubscription,
+  cancelSubscription,
   listSeats,
   inviteSeat,
   revokeSeat,
@@ -15,6 +17,7 @@ import {
   type UsageSummary,
   type BillingTier,
   type Seat,
+  type SubscriptionInfo,
 } from "../api.ts";
 
 export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
@@ -22,6 +25,7 @@ export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
   const [keys, setKeys] = useState<ApiKeyInfo[]>([]);
   const [usage, setUsage] = useState<{ tier: BillingTier; monthly_snapshots: number; project_count: number; by_program: UsageSummary[] } | null>(null);
   const [seats, setSeats] = useState<{ seats: Seat[]; count: number; limit: number; remaining: number } | null>(null);
+  const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [inviteEmail, setInviteEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,16 +62,18 @@ export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
       return;
     }
     try {
-      const [acct, keysData, usageData, seatsData] = await Promise.all([
+      const [acct, keysData, usageData, seatsData, subData] = await Promise.all([
         getAccount(),
         listApiKeys(),
         getUsage(),
         listSeats(),
+        getSubscription().catch(() => null),
       ]);
       setAccount(acct);
       setKeys(keysData.keys);
       setUsage(usageData);
       setSeats(seatsData);
+      setSubscription(subData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load account");
     } finally {
@@ -132,10 +138,20 @@ export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
   async function handleUpgrade(tier: BillingTier) {
     setError(null);
     try {
-      const result = await updateTier(tier);
-      setAccount(result.account);
+      const result = await createCheckout(tier);
+      window.location.href = result.checkout_url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Upgrade failed");
+      setError(err instanceof Error ? err.message : "Checkout failed");
+    }
+  }
+
+  async function handleCancelSubscription() {
+    setError(null);
+    try {
+      await cancelSubscription();
+      await loadAccount();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Cancellation failed");
     }
   }
 
@@ -278,6 +294,46 @@ export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
               Upgrade to Enterprise
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Subscription Info */}
+      {subscription?.has_active_subscription && subscription.active_subscription && (
+        <div className="card" style={{ marginTop: 0 }}>
+          <h3 style={{ marginBottom: 12 }}>Subscription</h3>
+          <div className="grid grid-3" style={{ marginBottom: 12 }}>
+            <div>
+              <div className="stat-label">Status</div>
+              <span className={`badge ${subscription.active_subscription.status === "active" ? "badge-green" : "badge-yellow"}`}>
+                {subscription.active_subscription.status}
+              </span>
+            </div>
+            {subscription.active_subscription.current_period_end && (
+              <div>
+                <div className="stat-label">Renews</div>
+                <div style={{ fontSize: "0.875rem" }}>
+                  {new Date(subscription.active_subscription.current_period_end).toLocaleDateString()}
+                </div>
+              </div>
+            )}
+            {subscription.active_subscription.card_brand && (
+              <div>
+                <div className="stat-label">Payment</div>
+                <div style={{ fontSize: "0.875rem" }}>
+                  {subscription.active_subscription.card_brand} ····{subscription.active_subscription.card_last_four}
+                </div>
+              </div>
+            )}
+          </div>
+          {subscription.active_subscription.cancel_at ? (
+            <p style={{ color: "var(--yellow)", fontSize: "0.8125rem" }}>
+              Cancels on {new Date(subscription.active_subscription.cancel_at).toLocaleDateString()}
+            </p>
+          ) : (
+            <button className="btn" style={{ fontSize: "0.8125rem" }} onClick={handleCancelSubscription}>
+              Cancel Subscription
+            </button>
+          )}
         </div>
       )}
 

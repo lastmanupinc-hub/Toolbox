@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPlans, type PlanDefinition, type PlanFeature } from "../api.ts";
+import { getPlans, createCheckout, type PlanDefinition, type PlanFeature, type BillingTier } from "../api.ts";
 
 interface Props {
   onSelectPlan: () => void;
@@ -16,6 +16,36 @@ export function PlansPage({ onSelectPlan }: Props) {
   const [features, setFeatures] = useState<PlanFeature[]>([]);
   const [annual, setAnnual] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const isLoggedIn = !!localStorage.getItem("axis_api_key");
+
+  async function handlePlanSelect(planId: string) {
+    if (planId === "free") {
+      onSelectPlan(); // Navigate to account page for free signup
+      return;
+    }
+    if (planId === "suite") {
+      // Enterprise is contact-sales
+      window.location.href = "mailto:sales@lastmanup.com?subject=AXIS%20Toolbox%20Enterprise";
+      return;
+    }
+    if (!isLoggedIn) {
+      onSelectPlan(); // Navigate to account page to create account first
+      return;
+    }
+    // Trigger Lemon Squeezy checkout
+    setCheckoutLoading(planId);
+    setCheckoutError(null);
+    try {
+      const result = await createCheckout(planId as BillingTier);
+      window.location.href = result.checkout_url;
+    } catch (err) {
+      setCheckoutError(err instanceof Error ? err.message : "Checkout failed");
+      setCheckoutLoading(null);
+    }
+  }
 
   useEffect(() => {
     getPlans()
@@ -50,6 +80,11 @@ export function PlansPage({ onSelectPlan }: Props) {
 
   return (
     <div>
+      {checkoutError && (
+        <div className="card" style={{ borderColor: "var(--red)", marginBottom: 16 }}>
+          <p style={{ color: "var(--red)", fontSize: "0.875rem", margin: 0 }}>{checkoutError}</p>
+        </div>
+      )}
       <div style={{ textAlign: "center", marginBottom: 32 }}>
         <h2 style={{ fontSize: "2rem", marginBottom: 8 }}>Choose Your Plan</h2>
         <p style={{ color: "var(--text-muted)", maxWidth: 500, margin: "0 auto 16px" }}>
@@ -142,13 +177,18 @@ export function PlansPage({ onSelectPlan }: Props) {
             <button
               className={`btn ${plan.id === "paid" ? "btn-primary" : ""}`}
               style={{ width: "100%", justifyContent: "center" }}
-              onClick={onSelectPlan}
+              onClick={() => handlePlanSelect(plan.id)}
+              disabled={checkoutLoading === plan.id}
             >
-              {plan.price_monthly_cents === 0
-                ? "Get Started Free"
-                : plan.price_monthly_cents < 0
-                  ? "Contact Sales"
-                  : "Upgrade to Pro"}
+              {checkoutLoading === plan.id
+                ? "Redirecting to checkout…"
+                : plan.price_monthly_cents === 0
+                  ? "Get Started Free"
+                  : plan.price_monthly_cents < 0
+                    ? "Contact Sales"
+                    : isLoggedIn
+                      ? "Upgrade to Pro"
+                      : "Sign Up for Pro"}
             </button>
           </div>
         ))}

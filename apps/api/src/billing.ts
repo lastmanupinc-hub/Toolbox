@@ -26,6 +26,7 @@ import {
   logTierChange,
   getTierHistory,
   calculateProration,
+  sendWelcomeEmail,
   type Account,
   type BillingTier,
   ALL_PROGRAMS,
@@ -148,6 +149,9 @@ export async function handleCreateAccount(
 
   // Track signup funnel event
   trackEvent(account.account_id, "account_created", "signup", { tier, source: "api" });
+
+  // Send welcome email (fire-and-forget)
+  sendWelcomeEmail(email, name, tier).catch(() => {});
 
   sendJSON(res, 201, {
     account,

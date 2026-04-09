@@ -19,6 +19,7 @@ import {
   logTierChange,
   trackEvent,
   getAccount,
+  sendUpgradeConfirmation,
   type LemonSqueezyStatus,
 } from "@axis/snapshots";
 
@@ -123,6 +124,17 @@ function syncTierFromSubscription(accountId: string, variantId: string, status: 
     newTier === "free" ? "signup" : "conversion",
     { from_tier: previousTier, to_tier: newTier, source: "lemonsqueezy" },
   );
+
+  // Send upgrade confirmation email (fire-and-forget)
+  if (newTier !== "free") {
+    const tierNames: Record<string, string> = { paid: "Pro", suite: "Enterprise Suite" };
+    const limits: Record<string, { snaps: string; projects: string; programs: string }> = {
+      paid: { snaps: "200", projects: "20", programs: "17" },
+      suite: { snaps: "Unlimited", projects: "Unlimited", programs: "17" },
+    };
+    const l = limits[newTier] ?? limits.paid;
+    sendUpgradeConfirmation(account.email, account.name, tierNames[newTier] ?? newTier, l.snaps, l.projects, l.programs).catch(() => {});
+  }
 }
 
 // ─── POST /v1/webhooks/lemonsqueezy ────────────────────────────
@@ -239,6 +251,11 @@ export async function handleCreateCheckout(
     return;
   }
 
+  // Determine redirect URLs
+  const webUrl = process.env.CORS_ORIGIN || "http://localhost:5173";
+  const successUrl = `${webUrl}/#account`;
+  const cancelUrl = `${webUrl}/#plans`;
+
   // Build Lemon Squeezy checkout via API
   const checkoutPayload = {
     data: {
@@ -248,6 +265,9 @@ export async function handleCreateCheckout(
           custom: {
             account_id: ctx.account!.account_id,
           },
+        },
+        product_options: {
+          redirect_url: successUrl,
         },
       },
       relationships: {

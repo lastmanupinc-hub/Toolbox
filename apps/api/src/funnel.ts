@@ -20,6 +20,7 @@ import {
   SEAT_LIMITS,
   PLAN_CATALOG,
   PLAN_FEATURES,
+  sendSeatInvitation,
 } from "@axis/snapshots";
 
 // ─── Plans / Pricing ────────────────────────────────────────────
@@ -80,6 +81,10 @@ export async function handleInviteSeat(
 
   try {
     const seat = inviteSeat(ctx.account!.account_id, email, role as SeatRole, ctx.account!.account_id);
+
+    // Send invitation email (fire-and-forget)
+    sendSeatInvitation(email, ctx.account!.name, ctx.account!.name, role, seat.seat_id).catch(() => {});
+
     sendJSON(res, 201, { seat });
   /* v8 ignore start — V8 quirk: seat error handling tested but V8 won't credit ternary/includes */
   } catch (err) {

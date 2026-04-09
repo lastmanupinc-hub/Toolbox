@@ -404,3 +404,37 @@ export async function revokeSeat(seatId: string): Promise<void> {
 export async function getFunnelStatus(): Promise<{ account_id: string; tier: BillingTier; stage: string; recent_events: Array<{ event_type: string; stage: string; metadata: unknown; created_at: string }> }> {
   return fetchJSON("/v1/account/funnel");
 }
+
+// ─── Subscription / Checkout API ────────────────────────────────
+
+export interface SubscriptionInfo {
+  account_id: string;
+  tier: BillingTier;
+  has_active_subscription: boolean;
+  active_subscription: {
+    subscription_id: string;
+    status: string;
+    variant_id: string;
+    current_period_start: string | null;
+    current_period_end: string | null;
+    card_brand: string | null;
+    card_last_four: string | null;
+    cancel_at: string | null;
+  } | null;
+  subscription_count: number;
+}
+
+export async function createCheckout(tier: BillingTier): Promise<{ checkout_url: string; tier: string; variant_id: string }> {
+  return fetchJSON("/v1/checkout", {
+    method: "POST",
+    body: JSON.stringify({ tier }),
+  });
+}
+
+export async function getSubscription(): Promise<SubscriptionInfo> {
+  return fetchJSON("/v1/account/subscription");
+}
+
+export async function cancelSubscription(): Promise<{ subscription_id: string; status: string; message: string }> {
+  return fetchJSON("/v1/account/subscription/cancel", { method: "POST" });
+}
