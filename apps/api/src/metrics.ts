@@ -17,6 +17,56 @@ export function recordRequest(statusCode: number): void {
   statusCounts[bucket] = (statusCounts[bucket] ?? 0) + 1;
 }
 
+// ─── Latency Histogram ─────────────────────────────────────────
+
+const HISTOGRAM_BUCKETS = [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000];
+
+interface HistogramEntry {
+  buckets: number[];
+  sum: number;
+  count: number;
+}
+
+const routeHistograms = new Map<string, HistogramEntry>();
+
+function normalizeRoute(path: string): string {
+  // Strip query strings
+  const base = path.split("?")[0];
+  // Replace UUIDs with :id
+  return base.replace(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, ":id");
+}
+
+export function recordLatency(method: string, path: string, durationMs: number): void {
+  const route = `${method} ${normalizeRoute(path)}`;
+  let entry = routeHistograms.get(route);
+  if (!entry) {
+    entry = { buckets: new Array(HISTOGRAM_BUCKETS.length + 1).fill(0), sum: 0, count: 0 };
+    routeHistograms.set(route, entry);
+  }
+  entry.sum += durationMs;
+  entry.count++;
+  let placed = false;
+  for (let i = 0; i < HISTOGRAM_BUCKETS.length; i++) {
+    if (durationMs <= HISTOGRAM_BUCKETS[i]) {
+      entry.buckets[i]++;
+      placed = true;
+      break;
+    }
+  }
+  // +Inf overflow (value exceeds all fixed buckets)
+  if (!placed) {
+    entry.buckets[HISTOGRAM_BUCKETS.length]++;
+  }
+}
+
+export function getLatencyStats(): { routes: Map<string, HistogramEntry>; buckets: number[] } {
+  return { routes: routeHistograms, buckets: HISTOGRAM_BUCKETS };
+}
+
+export function resetLatencyStats(): void {
+  routeHistograms.clear();
+}
+
 // ─── Readiness / Liveness ───────────────────────────────────────
 
 export async function handleLiveness(
@@ -100,6 +150,25 @@ export async function handleMetrics(
 
     for (const [table, count] of Object.entries(tables)) {
       lines.push(`axis_db_table_rows{table="${table}"} ${count}`);
+    }
+  }
+
+  // Latency histograms
+  const stats = getLatencyStats();
+  if (stats.routes.size > 0) {
+    lines.push("# HELP axis_http_request_duration_ms HTTP request duration in milliseconds");
+    lines.push("# TYPE axis_http_request_duration_ms histogram");
+    for (const [route, entry] of stats.routes) {
+      const label = route.replace(/"/g, '\\"');
+      let cumulative = 0;
+      for (let i = 0; i < stats.buckets.length; i++) {
+        cumulative += entry.buckets[i];
+        lines.push(`axis_http_request_duration_ms_bucket{route="${label}",le="${stats.buckets[i]}"} ${cumulative}`);
+      }
+      cumulative += entry.buckets[stats.buckets.length]; // should already equal entry.count
+      lines.push(`axis_http_request_duration_ms_bucket{route="${label}",le="+Inf"} ${entry.count}`);
+      lines.push(`axis_http_request_duration_ms_sum{route="${label}"} ${entry.sum}`);
+      lines.push(`axis_http_request_duration_ms_count{route="${label}"} ${entry.count}`);
     }
   }
 

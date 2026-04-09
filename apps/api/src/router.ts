@@ -3,7 +3,7 @@ import type { Socket } from "node:net";
 import { initRequest, getRequestId, getRequestStart, log, ErrorCode, type ErrorCodeValue } from "./logger.js";
 import { checkRateLimit } from "./rate-limiter.js";
 import { resolveAuth } from "./billing.js";
-import { recordRequest } from "./metrics.js";
+import { recordRequest, recordLatency } from "./metrics.js";
 
 type RouteHandler = (req: IncomingMessage, res: ServerResponse, params: Record<string, string>) => Promise<void>;
 
@@ -196,6 +196,9 @@ export function createApp(router: Router, port: number): Server {
       const duration = start ? Date.now() - start : undefined;
       const status = res.statusCode ?? 200;
       recordRequest(status);
+      if (duration !== undefined && req.method && req.url) {
+        recordLatency(req.method, req.url, duration);
+      }
       const level = status >= 500 ? "error" as const
         : status >= 400 ? "warn" as const
         : "info" as const;
