@@ -174,8 +174,8 @@ describe("Checkout flow", () => {
   });
 
   it("rejects invalid tier", async () => {
-    process.env.LEMONSQUEEZY_API_KEY = "test_key_169";
-    process.env.LEMONSQUEEZY_STORE_ID = "store_169";
+    process.env.STRIPE_SECRET_KEY = "sk_test_169";
+    process.env.STRIPE_PRICE_ID_PAID = "price_test_paid";
 
     const account = createAccount("Tier Test", "tier-test-169@example.com", "free");
     const { rawKey } = createApiKey(account.account_id, "test");
@@ -187,17 +187,17 @@ describe("Checkout flow", () => {
     expect(r.status).toBe(400);
     expect(r.data.error).toContain("tier must be paid or suite");
 
-    delete process.env.LEMONSQUEEZY_API_KEY;
-    delete process.env.LEMONSQUEEZY_STORE_ID;
+    delete process.env.STRIPE_SECRET_KEY;
+    delete process.env.STRIPE_PRICE_ID_PAID;
   });
 
-  it("returns 503 when LS API key not configured", async () => {
-    const account = createAccount("NoLS Test", "nols-169@example.com", "free");
+  it("returns 503 when Stripe key not configured", async () => {
+    const account = createAccount("NoStripe Test", "nostripe-169@example.com", "free");
     const { rawKey } = createApiKey(account.account_id, "test");
 
-    // Temporarily remove API key
-    const saved = process.env.LEMONSQUEEZY_API_KEY;
-    delete process.env.LEMONSQUEEZY_API_KEY;
+    // Temporarily remove Stripe key
+    const saved = process.env.STRIPE_SECRET_KEY;
+    delete process.env.STRIPE_SECRET_KEY;
 
     const r = await req("POST", "/v1/checkout",
       { tier: "paid" },
@@ -205,7 +205,7 @@ describe("Checkout flow", () => {
     );
     expect(r.status).toBe(503);
 
-    process.env.LEMONSQUEEZY_API_KEY = saved;
+    process.env.STRIPE_SECRET_KEY = saved;
   });
 
   it("checkout payload includes redirect URL", async () => {
@@ -215,15 +215,15 @@ describe("Checkout flow", () => {
     const account = createAccount("Redirect Test", "redirect-169@example.com", "free");
     const { rawKey } = createApiKey(account.account_id, "test");
 
-    // Without LS_API_KEY set, we get 503 — confirms we reach the checkout logic
-    delete process.env.LEMONSQUEEZY_API_KEY;
+    // Without STRIPE_SECRET_KEY set, we get 503 — confirms we reach the checkout logic
+    delete process.env.STRIPE_SECRET_KEY;
     const r = await req("POST", "/v1/checkout",
       { tier: "paid" },
       { Authorization: `Bearer ${rawKey}` },
     );
     expect(r.status).toBe(503);
     expect(r.data.error).toContain("not configured");
-    process.env.LEMONSQUEEZY_API_KEY = "test_key";
+    process.env.STRIPE_SECRET_KEY = "sk_test_temp";
   });
 });
 

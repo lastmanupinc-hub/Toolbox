@@ -212,11 +212,9 @@ export async function handleCreateCheckout(
   const ctx = requireAuth(req, res);
   if (!ctx) return;
 
-  const apiKey = process.env.LEMONSQUEEZY_API_KEY;
-  const storeId = process.env.LEMONSQUEEZY_STORE_ID;
-
-  if (!apiKey || !storeId) {
-    sendError(res, 503, ErrorCode.INTERNAL_ERROR, "Lemon Squeezy not configured");
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey) {
+    sendError(res, 503, ErrorCode.INTERNAL_ERROR, "Stripe not configured");
     return;
   }
 
@@ -235,12 +233,12 @@ export async function handleCreateCheckout(
     return;
   }
 
-  const variantId = tier === "paid"
-    ? process.env.LEMONSQUEEZY_VARIANT_ID_PAID
-    : process.env.LEMONSQUEEZY_VARIANT_ID_SUITE;
+  const priceId = tier === "paid"
+    ? process.env.STRIPE_PRICE_ID_PAID
+    : process.env.STRIPE_PRICE_ID_SUITE;
 
-  if (!variantId) {
-    sendError(res, 503, ErrorCode.INTERNAL_ERROR, `No variant ID configured for ${tier} tier`);
+  if (!priceId) {
+    sendError(res, 503, ErrorCode.INTERNAL_ERROR, `No Stripe price ID configured for ${tier} tier`);
     return;
   }
 
@@ -256,53 +254,44 @@ export async function handleCreateCheckout(
   const successUrl = `${webUrl}/#account`;
   const cancelUrl = `${webUrl}/#plans`;
 
-  // Build Lemon Squeezy checkout via API
-  const checkoutPayload = {
-    data: {
-      type: "checkouts",
-      attributes: {
-        checkout_data: {
-          custom: {
-            account_id: ctx.account!.account_id,
-          },
-        },
-        product_options: {
-          redirect_url: successUrl,
-        },
-      },
-      relationships: {
-        store: { data: { type: "stores", id: storeId } },
-        variant: { data: { type: "variants", id: variantId } },
-      },
-    },
-  };
+  // Build Stripe Checkout Session
+  const params = new URLSearchParams();
+  params.append("mode", "subscription");
+  params.append("line_items[0][price]", priceId);
+  params.append("line_items[0][quantity]", "1");
+  params.append("success_url", successUrl);
+  params.append("cancel_url", cancelUrl);
+  params.append("client_reference_id", ctx.account!.account_id);
+  if (ctx.account!.email) {
+    params.append("customer_email", ctx.account!.email);
+  }
+  params.append("metadata[account_id]", ctx.account!.account_id);
+  params.append("metadata[tier]", tier);
 
   try {
-    const response = await fetch("https://api.lemonsqueezy.com/v1/checkouts", {
+    const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
       method: "POST",
       headers: {
-        "Accept": "application/vnd.api+json",
-        "Content-Type": "application/vnd.api+json",
-        "Authorization": `Bearer ${apiKey}`,
+        "Authorization": `Bearer ${stripeKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(checkoutPayload),
+      body: params.toString(),
     });
 
     if (!response.ok) {
-      const errText = await response.text();
-      sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Lemon Squeezy API error: ${response.status}`);
+      const errBody = await response.text();
+      sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Stripe API error: ${response.status}`);
       return;
     }
 
-    const result = await response.json() as { data: { attributes: { url: string } } };
-    const checkoutUrl = result.data.attributes.url;
+    const session = await response.json() as { id: string; url: string };
 
-    trackEvent(ctx.account!.account_id, "checkout_started", "conversion", { tier, source: "lemonsqueezy" });
+    trackEvent(ctx.account!.account_id, "checkout_started", "conversion", { tier, source: "stripe" });
 
     sendJSON(res, 201, {
-      checkout_url: checkoutUrl,
+      checkout_url: session.url,
       tier,
-      variant_id: variantId,
+      session_id: session.id,
     });
   } catch (err) {
     sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Failed to create checkout: ${err instanceof Error ? err.message : String(err)}`);

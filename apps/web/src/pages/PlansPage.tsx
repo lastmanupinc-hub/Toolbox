@@ -3,6 +3,7 @@ import { getPlans, createCheckout, type PlanDefinition, type PlanFeature, type B
 
 interface Props {
   onSelectPlan: () => void;
+  onRequireLogin?: () => void;
 }
 
 function formatPrice(cents: number): string {
@@ -11,7 +12,7 @@ function formatPrice(cents: number): string {
   return `$${(cents / 100).toFixed(0)}`;
 }
 
-export function PlansPage({ onSelectPlan }: Props) {
+export function PlansPage({ onSelectPlan, onRequireLogin }: Props) {
   const [plans, setPlans] = useState<PlanDefinition[]>([]);
   const [features, setFeatures] = useState<PlanFeature[]>([]);
   const [annual, setAnnual] = useState(false);
@@ -32,7 +33,11 @@ export function PlansPage({ onSelectPlan }: Props) {
       return;
     }
     if (!isLoggedIn) {
-      onSelectPlan(); // Navigate to account page to create account first
+      if (onRequireLogin) {
+        onRequireLogin();
+      } else {
+        onSelectPlan();
+      }
       return;
     }
     // Trigger Lemon Squeezy checkout

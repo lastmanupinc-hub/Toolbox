@@ -9,6 +9,7 @@ import { QAPage } from "./pages/QAPage.tsx";
 import { ToastProvider } from "./components/Toast.tsx";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette.tsx";
 import { StatusBar } from "./components/StatusBar.tsx";
+import { SignUpModal } from "./components/SignUpModal.tsx";
 import type { SnapshotResponse } from "./api.ts";
 
 // ─── Error Boundary ─────────────────────────────────────────────
@@ -48,6 +49,22 @@ export function App() {
   const resultRef = useRef(result);
   resultRef.current = result;
   const [pageKey, setPageKey] = useState(0);
+  const [showSignUp, setShowSignUp] = useState(false);
+  const pendingResultRef = useRef<SnapshotResponse | null>(null);
+
+  // Theme: default light, persist to localStorage
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    return (localStorage.getItem("axis_theme") as "light" | "dark") ?? "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("axis_theme", theme);
+  }, [theme]);
+
+  function toggleTheme() {
+    setTheme((t) => (t === "light" ? "dark" : "light"));
+  }
 
   useEffect(() => {
     const onHash = () => {
@@ -71,6 +88,12 @@ export function App() {
   }, []);
 
   const handleUploadComplete = useCallback((data: SnapshotResponse) => {
+    const isLoggedIn = !!localStorage.getItem("axis_api_key");
+    if (!isLoggedIn) {
+      pendingResultRef.current = data;
+      setShowSignUp(true);
+      return;
+    }
     setResult(data);
     setGeneratedFileCount(data.generated_files.length);
     setPage("dashboard");
@@ -88,6 +111,20 @@ export function App() {
 
   const handleAuthChange = useCallback(() => {
     setLoggedIn(!!localStorage.getItem("axis_api_key"));
+  }, []);
+
+  const handleSignUpSuccess = useCallback(() => {
+    setShowSignUp(false);
+    setLoggedIn(true);
+    if (pendingResultRef.current) {
+      const data = pendingResultRef.current;
+      pendingResultRef.current = null;
+      setResult(data);
+      setGeneratedFileCount(data.generated_files.length);
+      setPage("dashboard");
+      setPageKey((k) => k + 1);
+      location.hash = "dashboard";
+    }
   }, []);
 
   // Track generated file count from DashboardPage
@@ -197,6 +234,13 @@ export function App() {
           >
             ⌘
           </button>
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
         </nav>
       </header>
 
@@ -206,7 +250,7 @@ export function App() {
           {page === "dashboard" && result && (
             <DashboardPage result={result} onGeneratedCountChange={handleGeneratedCountChange} />
           )}
-          {page === "plans" && <PlansPage onSelectPlan={() => nav("account")} />}
+          {page === "plans" && <PlansPage onSelectPlan={() => nav("account")} onRequireLogin={() => setShowSignUp(true)} />}
           {page === "account" && <AccountPage onAuthChange={handleAuthChange} />}
           {page === "docs" && <DocsPage />}
           {page === "help" && <HelpPage />}
@@ -216,6 +260,13 @@ export function App() {
 
       <CommandPalette actions={paletteActions} />
       <StatusBar snapshot={result} fileCount={generatedFileCount} />
+      {showSignUp && (
+        <SignUpModal
+          onSuccess={handleSignUpSuccess}
+          onClose={() => setShowSignUp(false)}
+          allowClose={true}
+        />
+      )}
     </ToastProvider>
   );
 }

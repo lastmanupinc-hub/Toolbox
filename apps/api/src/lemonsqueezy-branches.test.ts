@@ -82,6 +82,9 @@ beforeAll(async () => {
   process.env.LEMONSQUEEZY_VARIANT_ID_SUITE = "variant_suite_171";
   process.env.LEMONSQUEEZY_API_KEY = "test_ls_api_key_171";
   process.env.LEMONSQUEEZY_STORE_ID = "store_171";
+  process.env.STRIPE_SECRET_KEY = "sk_test_171";
+  process.env.STRIPE_PRICE_ID_PAID = "price_paid_171";
+  process.env.STRIPE_PRICE_ID_SUITE = "price_suite_171";
 
   const router = new Router();
   router.post("/v1/accounts", handleCreateAccount);
@@ -101,6 +104,9 @@ afterAll(async () => {
   delete process.env.LEMONSQUEEZY_VARIANT_ID_SUITE;
   delete process.env.LEMONSQUEEZY_API_KEY;
   delete process.env.LEMONSQUEEZY_STORE_ID;
+  delete process.env.STRIPE_SECRET_KEY;
+  delete process.env.STRIPE_PRICE_ID_PAID;
+  delete process.env.STRIPE_PRICE_ID_SUITE;
 });
 
 beforeEach(() => {
@@ -143,14 +149,15 @@ function buildWebhookPayload(eventName: string, accountId: string, overrides: Re
 // ─── 1. handleCreateCheckout — all branches ─────────────────────
 
 describe("handleCreateCheckout branches", () => {
-  it("returns 201 with checkout_url on successful LS API call", async () => {
+  it("returns 201 with checkout_url on successful Stripe API call", async () => {
     const account = createAccount("Checkout OK", "checkout-ok-171@test.com", "free");
     const { rawKey } = createApiKey(account.account_id, "test");
 
     vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        data: { attributes: { url: "https://checkout.lemonsqueezy.com/test-url" } },
+        id: "cs_test_123",
+        url: "https://checkout.stripe.com/test-url",
       }),
     }));
 
@@ -160,9 +167,9 @@ describe("handleCreateCheckout branches", () => {
     );
 
     expect(r.status).toBe(201);
-    expect(r.data.checkout_url).toBe("https://checkout.lemonsqueezy.com/test-url");
+    expect(r.data.checkout_url).toBe("https://checkout.stripe.com/test-url");
     expect(r.data.tier).toBe("paid");
-    expect(r.data.variant_id).toBe("variant_paid_171");
+    expect(r.data.session_id).toBe("cs_test_123");
   });
 
   it("returns 201 for suite tier checkout", async () => {
@@ -172,7 +179,8 @@ describe("handleCreateCheckout branches", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        data: { attributes: { url: "https://checkout.lemonsqueezy.com/suite-url" } },
+        id: "cs_test_suite",
+        url: "https://checkout.stripe.com/suite-url",
       }),
     }));
 
@@ -182,11 +190,11 @@ describe("handleCreateCheckout branches", () => {
     );
 
     expect(r.status).toBe(201);
-    expect(r.data.checkout_url).toBe("https://checkout.lemonsqueezy.com/suite-url");
-    expect(r.data.variant_id).toBe("variant_suite_171");
+    expect(r.data.checkout_url).toBe("https://checkout.stripe.com/suite-url");
+    expect(r.data.session_id).toBe("cs_test_suite");
   });
 
-  it("returns 502 when LS API returns non-ok response", async () => {
+  it("returns 502 when Stripe API returns non-ok response", async () => {
     const account = createAccount("Checkout Fail", "checkout-fail-171@test.com", "free");
     const { rawKey } = createApiKey(account.account_id, "test");
 
@@ -202,7 +210,7 @@ describe("handleCreateCheckout branches", () => {
     );
 
     expect(r.status).toBe(502);
-    expect(r.data.error).toContain("Lemon Squeezy API error");
+    expect(r.data.error).toContain("Stripe API error");
   });
 
   it("returns 502 when fetch throws network error", async () => {
@@ -251,12 +259,12 @@ describe("handleCreateCheckout branches", () => {
     expect(r.data.error).toContain("already has an active subscription");
   });
 
-  it("returns 503 when variant ID not configured for tier", async () => {
+  it("returns 503 when Stripe price ID not configured for tier", async () => {
     const account = createAccount("No Variant", "no-variant-171@test.com", "free");
     const { rawKey } = createApiKey(account.account_id, "test");
 
-    const savedPaid = process.env.LEMONSQUEEZY_VARIANT_ID_PAID;
-    delete process.env.LEMONSQUEEZY_VARIANT_ID_PAID;
+    const savedPaid = process.env.STRIPE_PRICE_ID_PAID;
+    delete process.env.STRIPE_PRICE_ID_PAID;
 
     const r = await req("POST", "/v1/checkout",
       { tier: "paid" },
@@ -264,9 +272,9 @@ describe("handleCreateCheckout branches", () => {
     );
 
     expect(r.status).toBe(503);
-    expect(r.data.error).toContain("No variant ID configured");
+    expect(r.data.error).toContain("No Stripe price ID configured");
 
-    process.env.LEMONSQUEEZY_VARIANT_ID_PAID = savedPaid;
+    process.env.STRIPE_PRICE_ID_PAID = savedPaid;
   });
 
   it("returns 400 on invalid JSON body", async () => {
