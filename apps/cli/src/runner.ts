@@ -69,6 +69,7 @@ function buildInMemorySnapshot(scan: ScanResult, manifest: SnapshotManifest): Sn
     total_size_bytes: scan.total_bytes,
     files: scan.files,
     status: "ready",
+    account_id: null,
   };
 }
 

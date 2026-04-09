@@ -24,6 +24,7 @@ function snap(opts: { name?: string; type?: string; files?: FileEntry[] } = {}):
     total_size_bytes: files.reduce((s, f) => s + f.size, 0),
     files,
     status: "ready",
+    account_id: null,
   };
 }
 
@@ -45,6 +46,7 @@ function snapMinimal(name = "minimal-app"): SnapshotRecord {
     total_size_bytes: 20,
     files: [{ path: "index.ts", content: 'console.log("hello");', size: 20 }],
     status: "ready",
+    account_id: null,
   };
 }
 

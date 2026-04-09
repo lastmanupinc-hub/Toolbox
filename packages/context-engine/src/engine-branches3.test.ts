@@ -19,6 +19,7 @@ function snap(files: FileEntry[] = []): SnapshotRecord {
     total_size_bytes: files.reduce((s, f) => s + f.size, 0),
     files,
     status: "ready",
+    account_id: null,
   };
 }
 
@@ -70,9 +71,9 @@ describe("engine: deeply nested SvelteKit page", () => {
       size: 50,
     };
     const ctx = buildContextMap(snap([deepPage, shallowPage, pkg]));
-    const entries = ctx.ai_context.entry_points ?? [];
+    const entries = ctx.entry_points ?? [];
     // Deep page has path.split('/').length > 4 so may be excluded
-    const hasDeep = entries.some((e) => e.path.includes("admin/settings/security/advanced"));
+    const hasDeep = entries.some((e: { path: string }) => e.path.includes("admin/settings/security/advanced"));
     // The depth filter should exclude the deeply nested page
     expect(hasDeep).toBe(false);
   });

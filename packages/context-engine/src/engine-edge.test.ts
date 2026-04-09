@@ -24,6 +24,7 @@ function makeSnapshot(files: Array<{ path: string; content?: string }>, override
     total_size_bytes: entries.reduce((s, e) => s + e.size, 0),
     files: entries,
     status: "ready",
+    account_id: null,
     ...overrides,
   };
 }

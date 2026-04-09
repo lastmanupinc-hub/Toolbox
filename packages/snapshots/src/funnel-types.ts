@@ -31,7 +31,9 @@ export type FunnelEventType =
   | "seat_removed"
   | "api_key_created"
   | "trial_started"
-  | "trial_expired";
+  | "trial_expired"
+  | "checkout_started"
+  | "cancellation_requested";
 
 export interface FunnelEvent {
   event_id: string;

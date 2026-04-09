@@ -145,7 +145,7 @@ export async function handleLemonSqueezyWebhook(
 ): Promise<void> {
   const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
   if (!secret) {
-    sendError(res, 503, ErrorCode.INTERNAL, "Lemon Squeezy webhook secret not configured");
+    sendError(res, 503, ErrorCode.INTERNAL_ERROR, "Lemon Squeezy webhook secret not configured");
     return;
   }
 
@@ -216,7 +216,7 @@ export async function handleCreateCheckout(
   const storeId = process.env.LEMONSQUEEZY_STORE_ID;
 
   if (!apiKey || !storeId) {
-    sendError(res, 503, ErrorCode.INTERNAL, "Lemon Squeezy not configured");
+    sendError(res, 503, ErrorCode.INTERNAL_ERROR, "Lemon Squeezy not configured");
     return;
   }
 
@@ -240,7 +240,7 @@ export async function handleCreateCheckout(
     : process.env.LEMONSQUEEZY_VARIANT_ID_SUITE;
 
   if (!variantId) {
-    sendError(res, 503, ErrorCode.INTERNAL, `No variant ID configured for ${tier} tier`);
+    sendError(res, 503, ErrorCode.INTERNAL_ERROR, `No variant ID configured for ${tier} tier`);
     return;
   }
 
@@ -290,7 +290,7 @@ export async function handleCreateCheckout(
 
     if (!response.ok) {
       const errText = await response.text();
-      sendError(res, 502, ErrorCode.INTERNAL, `Lemon Squeezy API error: ${response.status}`);
+      sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Lemon Squeezy API error: ${response.status}`);
       return;
     }
 
@@ -305,7 +305,7 @@ export async function handleCreateCheckout(
       variant_id: variantId,
     });
   } catch (err) {
-    sendError(res, 502, ErrorCode.INTERNAL, `Failed to create checkout: ${err instanceof Error ? err.message : String(err)}`);
+    sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Failed to create checkout: ${err instanceof Error ? err.message : String(err)}`);
   }
 }
 
@@ -358,7 +358,7 @@ export async function handleCancelSubscription(
 
   const apiKey = process.env.LEMONSQUEEZY_API_KEY;
   if (!apiKey) {
-    sendError(res, 503, ErrorCode.INTERNAL, "Lemon Squeezy not configured");
+    sendError(res, 503, ErrorCode.INTERNAL_ERROR, "Lemon Squeezy not configured");
     return;
   }
 
@@ -375,7 +375,7 @@ export async function handleCancelSubscription(
     );
 
     if (!response.ok) {
-      sendError(res, 502, ErrorCode.INTERNAL, `Lemon Squeezy API error: ${response.status}`);
+      sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Lemon Squeezy API error: ${response.status}`);
       return;
     }
 
@@ -391,6 +391,6 @@ export async function handleCancelSubscription(
       message: "Subscription will be cancelled at the end of the current billing period.",
     });
   } catch (err) {
-    sendError(res, 502, ErrorCode.INTERNAL, `Failed to cancel subscription: ${err instanceof Error ? err.message : String(err)}`);
+    sendError(res, 502, ErrorCode.INTERNAL_ERROR, `Failed to cancel subscription: ${err instanceof Error ? err.message : String(err)}`);
   }
 }

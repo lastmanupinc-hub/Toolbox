@@ -244,7 +244,7 @@ describe("generateRepoProfileYAML — toYAML edge cases", () => {
         ci_platform: "github-actions",
         deployment_target: "vercel",
       },
-    } as Partial<RepoProfile>);
+    } as unknown as Partial<RepoProfile>);
     const result = generateRepoProfileYAML(profile);
     // Array-of-objects should serialize with "- name:" YAML syntax
     expect(result.content).toContain("- name: express");

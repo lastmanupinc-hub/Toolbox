@@ -38,6 +38,7 @@ function snap(
     total_size_bytes: files.reduce((s, f) => s + f.size, 0),
     files,
     status: "ready",
+    account_id: null,
   };
 }
 
