@@ -510,6 +510,179 @@ export function buildOpenApiSpec(): OpenApiSpec {
           },
         },
       },
+
+      // ── OAuth ──
+      "/v1/auth/github": {
+        get: {
+          summary: "Start GitHub OAuth flow (redirects to GitHub)",
+          operationId: "githubOAuthStart",
+          tags: ["OAuth"],
+          responses: {
+            302: { description: "Redirect to GitHub authorization page" },
+            503: { description: "GitHub OAuth not configured" },
+          },
+        },
+      },
+      "/v1/auth/github/callback": {
+        get: {
+          summary: "GitHub OAuth callback (exchanges code for token)",
+          operationId: "githubOAuthCallback",
+          tags: ["OAuth"],
+          parameters: [
+            queryParam("code", "Authorization code from GitHub"),
+            queryParam("state", "CSRF state parameter"),
+            queryParam("error", "Error code from GitHub if authorization was denied"),
+          ],
+          responses: {
+            302: { description: "Redirect to web app with token" },
+            400: { description: "Missing code or state parameter" },
+            502: { description: "GitHub API error during token exchange" },
+            503: { description: "GitHub OAuth not configured" },
+          },
+        },
+      },
+
+      // ── Lemon Squeezy Payments ──
+      "/v1/webhooks/lemonsqueezy": {
+        post: {
+          summary: "Lemon Squeezy webhook receiver (HMAC-SHA256 verified)",
+          operationId: "lemonSqueezyWebhook",
+          tags: ["Payments"],
+          requestBody: jsonBody(ref("LemonSqueezyWebhookPayload")),
+          responses: {
+            200: { description: "Webhook processed", content: jsonContent(ref("WebhookAckResponse")) },
+            400: { description: "Invalid payload or missing account_id" },
+            401: { description: "Invalid webhook signature" },
+            503: { description: "Webhook secret not configured" },
+          },
+        },
+      },
+      "/v1/checkout": {
+        post: {
+          summary: "Create a Lemon Squeezy checkout URL",
+          operationId: "createCheckout",
+          tags: ["Payments"],
+          security: [{ apiKey: [] }],
+          requestBody: jsonBody(ref("CreateCheckoutRequest")),
+          responses: {
+            201: { description: "Checkout URL created", content: jsonContent(ref("CheckoutResponse")) },
+            400: { description: "Invalid tier" },
+            401: { description: "Authentication required" },
+            409: { description: "Account already has an active subscription" },
+            503: { description: "Lemon Squeezy not configured" },
+          },
+        },
+      },
+      "/v1/account/subscription": {
+        get: {
+          summary: "Get current subscription status",
+          operationId: "getSubscription",
+          tags: ["Payments"],
+          security: [{ apiKey: [] }],
+          responses: {
+            200: { description: "Subscription details", content: jsonContent(ref("SubscriptionResponse")) },
+            401: { description: "Authentication required" },
+          },
+        },
+      },
+      "/v1/account/subscription/cancel": {
+        post: {
+          summary: "Cancel the active subscription",
+          operationId: "cancelSubscription",
+          tags: ["Payments"],
+          security: [{ apiKey: [] }],
+          responses: {
+            200: { description: "Cancellation requested", content: jsonContent(ref("CancellationResponse")) },
+            401: { description: "Authentication required" },
+            404: { description: "No active subscription" },
+            502: { description: "Lemon Squeezy API error" },
+            503: { description: "Lemon Squeezy not configured" },
+          },
+        },
+      },
+
+      // ── GitHub Token Management ──
+      "/v1/account/github-token": {
+        post: {
+          summary: "Save a GitHub personal access token",
+          operationId: "saveGitHubToken",
+          tags: ["GitHub"],
+          security: [{ apiKey: [] }],
+          requestBody: jsonBody(ref("SaveGitHubTokenRequest")),
+          responses: {
+            201: { description: "Token saved" },
+            400: { description: "Invalid token" },
+            401: { description: "Authentication required" },
+          },
+        },
+        get: {
+          summary: "List stored GitHub tokens (masked)",
+          operationId: "listGitHubTokens",
+          tags: ["GitHub"],
+          security: [{ apiKey: [] }],
+          responses: {
+            200: { description: "Token listing" },
+            401: { description: "Authentication required" },
+          },
+        },
+      },
+      "/v1/account/github-token/{token_id}": {
+        delete: {
+          summary: "Delete a stored GitHub token",
+          operationId: "deleteGitHubToken",
+          tags: ["GitHub"],
+          security: [{ apiKey: [] }],
+          parameters: [pathParam("token_id", "GitHub token identifier")],
+          responses: {
+            200: { description: "Token deleted" },
+            401: { description: "Authentication required" },
+            404: { description: "Token not found" },
+          },
+        },
+      },
+
+      // ── Billing History ──
+      "/v1/billing/history": {
+        get: {
+          summary: "Get billing/usage event history",
+          operationId: "billingHistory",
+          tags: ["Billing"],
+          security: [{ apiKey: [] }],
+          parameters: [
+            queryParam("limit", "Max results (default 50)"),
+            queryParam("offset", "Pagination offset (default 0)"),
+          ],
+          responses: {
+            200: { description: "Billing history", content: jsonContent(ref("BillingHistoryResponse")) },
+            401: { description: "Authentication required" },
+          },
+        },
+      },
+      "/v1/billing/proration": {
+        get: {
+          summary: "Preview proration for a tier change",
+          operationId: "prorationPreview",
+          tags: ["Billing"],
+          security: [{ apiKey: [] }],
+          parameters: [queryParam("target_tier", "Target tier to preview (paid | suite)")],
+          responses: {
+            200: { description: "Proration preview", content: jsonContent(ref("ProrationPreviewResponse")) },
+            401: { description: "Authentication required" },
+          },
+        },
+      },
+
+      // ── OpenAPI Docs ──
+      "/v1/docs": {
+        get: {
+          summary: "Get OpenAPI 3.1 specification",
+          operationId: "getDocs",
+          tags: ["Docs"],
+          responses: {
+            200: { description: "OpenAPI specification", content: jsonContent({ type: "object" }) },
+          },
+        },
+      },
     },
     components: {
       securitySchemes: {
@@ -799,6 +972,98 @@ export function buildOpenApiSpec(): OpenApiSpec {
           properties: {
             results: { type: "array", items: { type: "object", properties: { action: { type: "string" }, success: { type: "boolean" }, details: { type: "object" } } } },
             success: { type: "boolean" },
+          },
+        },
+        LemonSqueezyWebhookPayload: {
+          type: "object",
+          required: ["meta", "data"],
+          properties: {
+            meta: { type: "object", properties: { event_name: { type: "string" }, custom_data: { type: "object", properties: { account_id: { type: "string" } } } } },
+            data: { type: "object", properties: { id: { type: "string" }, attributes: { type: "object", properties: { status: { type: "string" }, variant_id: { type: "integer" }, product_id: { type: "integer" }, customer_id: { type: "integer" } } } } },
+          },
+        },
+        WebhookAckResponse: {
+          type: "object",
+          properties: {
+            received: { type: "boolean" },
+            event: { type: "string" },
+            subscription_id: { type: "string" },
+            status: { type: "string" },
+            handled: { type: "boolean" },
+          },
+        },
+        CreateCheckoutRequest: {
+          type: "object",
+          required: ["tier"],
+          properties: {
+            tier: { type: "string", enum: ["paid", "suite"], description: "Target subscription tier" },
+          },
+        },
+        CheckoutResponse: {
+          type: "object",
+          properties: {
+            checkout_url: { type: "string", format: "uri" },
+            tier: { type: "string" },
+            variant_id: { type: "string" },
+          },
+        },
+        SubscriptionResponse: {
+          type: "object",
+          properties: {
+            account_id: { type: "string" },
+            tier: { type: "string" },
+            has_active_subscription: { type: "boolean" },
+            active_subscription: {
+              type: "object",
+              nullable: true,
+              properties: {
+                subscription_id: { type: "string" },
+                status: { type: "string" },
+                variant_id: { type: "string" },
+                current_period_start: { type: "string", nullable: true },
+                current_period_end: { type: "string", nullable: true },
+                card_brand: { type: "string", nullable: true },
+                card_last_four: { type: "string", nullable: true },
+                cancel_at: { type: "string", nullable: true },
+              },
+            },
+            subscription_count: { type: "integer" },
+          },
+        },
+        CancellationResponse: {
+          type: "object",
+          properties: {
+            subscription_id: { type: "string" },
+            status: { type: "string", enum: ["cancellation_requested"] },
+            message: { type: "string" },
+          },
+        },
+        SaveGitHubTokenRequest: {
+          type: "object",
+          required: ["token"],
+          properties: {
+            token: { type: "string", description: "GitHub personal access token" },
+            label: { type: "string", description: "Optional label for the token" },
+          },
+        },
+        BillingHistoryResponse: {
+          type: "object",
+          properties: {
+            events: { type: "array", items: { type: "object", properties: { event_type: { type: "string" }, stage: { type: "string" }, metadata: { type: "object" }, created_at: { type: "string", format: "date-time" } } } },
+            total: { type: "integer" },
+            limit: { type: "integer" },
+            offset: { type: "integer" },
+          },
+        },
+        ProrationPreviewResponse: {
+          type: "object",
+          properties: {
+            current_tier: { type: "string" },
+            target_tier: { type: "string" },
+            current_price: { type: "number" },
+            target_price: { type: "number" },
+            proration_amount: { type: "number" },
+            effective_date: { type: "string", format: "date-time" },
           },
         },
       },

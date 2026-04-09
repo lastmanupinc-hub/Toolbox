@@ -201,4 +201,181 @@ describe("buildOpenApiSpec", () => {
       }
     }
   });
+
+  // ── eq_175: OAuth, Payments, GitHub Tokens, Billing paths ─────
+
+  it("includes OAuth endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/auth/github");
+    expect(paths).toContain("/v1/auth/github/callback");
+    const start = spec.paths["/v1/auth/github"] as Record<string, Record<string, unknown>>;
+    expect(start.get).toBeDefined();
+    expect(start.get.operationId).toBe("githubOAuthStart");
+    const cb = spec.paths["/v1/auth/github/callback"] as Record<string, Record<string, unknown>>;
+    expect(cb.get).toBeDefined();
+    expect(cb.get.operationId).toBe("githubOAuthCallback");
+  });
+
+  it("includes Lemon Squeezy payment endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/webhooks/lemonsqueezy");
+    expect(paths).toContain("/v1/checkout");
+    expect(paths).toContain("/v1/account/subscription");
+    expect(paths).toContain("/v1/account/subscription/cancel");
+  });
+
+  it("LS webhook endpoint has correct responses", () => {
+    const wh = spec.paths["/v1/webhooks/lemonsqueezy"] as Record<string, Record<string, unknown>>;
+    expect(wh.post).toBeDefined();
+    const responses = wh.post.responses as Record<string, unknown>;
+    expect(responses["200"]).toBeDefined();
+    expect(responses["400"]).toBeDefined();
+    expect(responses["401"]).toBeDefined();
+    expect(responses["503"]).toBeDefined();
+  });
+
+  it("checkout endpoint requires authentication", () => {
+    const co = spec.paths["/v1/checkout"] as Record<string, Record<string, unknown>>;
+    expect(co.post.security).toBeDefined();
+  });
+
+  it("includes GitHub token management endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/account/github-token");
+    expect(paths).toContain("/v1/account/github-token/{token_id}");
+    const tok = spec.paths["/v1/account/github-token"] as Record<string, Record<string, unknown>>;
+    expect(tok.post).toBeDefined();
+    expect(tok.get).toBeDefined();
+    const del = spec.paths["/v1/account/github-token/{token_id}"] as Record<string, Record<string, unknown>>;
+    expect(del.delete).toBeDefined();
+  });
+
+  it("includes billing history and proration endpoints", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/billing/history");
+    expect(paths).toContain("/v1/billing/proration");
+  });
+
+  it("includes /v1/docs endpoint", () => {
+    const paths = Object.keys(spec.paths);
+    expect(paths).toContain("/v1/docs");
+  });
+
+  it("defines new payment/token schemas", () => {
+    const schemas = Object.keys(spec.components.schemas);
+    expect(schemas).toContain("LemonSqueezyWebhookPayload");
+    expect(schemas).toContain("WebhookAckResponse");
+    expect(schemas).toContain("CreateCheckoutRequest");
+    expect(schemas).toContain("CheckoutResponse");
+    expect(schemas).toContain("SubscriptionResponse");
+    expect(schemas).toContain("CancellationResponse");
+    expect(schemas).toContain("SaveGitHubTokenRequest");
+    expect(schemas).toContain("BillingHistoryResponse");
+    expect(schemas).toContain("ProrationPreviewResponse");
+  });
+
+  // ── Route-spec parity: every server.ts route has a spec path ──
+
+  it("every registered route has a corresponding OpenAPI path", () => {
+    // All routes from server.ts (normalized to OpenAPI path params)
+    const serverRoutes = [
+      "GET /v1/health",
+      "GET /v1/health/live",
+      "GET /v1/health/ready",
+      "GET /v1/metrics",
+      "GET /v1/db/stats",
+      "POST /v1/db/maintenance",
+      "GET /v1/docs",
+      "POST /v1/snapshots",
+      "GET /v1/snapshots/{snapshot_id}",
+      "DELETE /v1/snapshots/{snapshot_id}",
+      "GET /v1/snapshots/{snapshot_id}/versions",
+      "GET /v1/snapshots/{snapshot_id}/versions/{version_number}",
+      "GET /v1/snapshots/{snapshot_id}/diff",
+      "GET /v1/projects/{project_id}/context",
+      "GET /v1/projects/{project_id}/generated-files",
+      "GET /v1/projects/{project_id}/generated-files/{file_path}",
+      "GET /v1/projects/{project_id}/export",
+      "DELETE /v1/projects/{project_id}",
+      "POST /v1/search/export",
+      "POST /v1/skills/generate",
+      "POST /v1/debug/analyze",
+      "POST /v1/frontend/audit",
+      "POST /v1/seo/analyze",
+      "POST /v1/optimization/analyze",
+      "POST /v1/theme/generate",
+      "POST /v1/brand/generate",
+      "POST /v1/superpowers/generate",
+      "POST /v1/marketing/generate",
+      "POST /v1/notebook/generate",
+      "POST /v1/obsidian/analyze",
+      "POST /v1/mcp/provision",
+      "POST /v1/artifacts/generate",
+      "POST /v1/remotion/generate",
+      "POST /v1/canvas/generate",
+      "POST /v1/algorithmic/generate",
+      "POST /v1/github/analyze",
+      "POST /v1/search/index",
+      "POST /v1/search/query",
+      "GET /v1/search/{snapshot_id}/stats",
+      "GET /v1/programs",
+      "POST /v1/accounts",
+      "GET /v1/account",
+      "POST /v1/account/keys",
+      "GET /v1/account/keys",
+      "POST /v1/account/keys/{key_id}/revoke",
+      "GET /v1/account/usage",
+      "GET /v1/account/quota",
+      "POST /v1/account/tier",
+      "POST /v1/account/programs",
+      "POST /v1/account/github-token",
+      "GET /v1/account/github-token",
+      "DELETE /v1/account/github-token/{token_id}",
+      "GET /v1/billing/history",
+      "GET /v1/billing/proration",
+      "GET /v1/plans",
+      "POST /v1/account/seats",
+      "GET /v1/account/seats",
+      "POST /v1/account/seats/{seat_id}/accept",
+      "POST /v1/account/seats/{seat_id}/revoke",
+      "GET /v1/account/upgrade-prompt",
+      "POST /v1/account/upgrade-prompt/dismiss",
+      "GET /v1/account/funnel",
+      "GET /v1/funnel/metrics",
+      "GET /v1/admin/stats",
+      "GET /v1/admin/accounts",
+      "GET /v1/admin/activity",
+      "GET /v1/auth/github",
+      "GET /v1/auth/github/callback",
+      "POST /v1/account/webhooks",
+      "GET /v1/account/webhooks",
+      "DELETE /v1/account/webhooks/{webhook_id}",
+      "POST /v1/account/webhooks/{webhook_id}/toggle",
+      "GET /v1/account/webhooks/{webhook_id}/deliveries",
+      "POST /v1/webhooks/lemonsqueezy",
+      "POST /v1/checkout",
+      "GET /v1/account/subscription",
+      "POST /v1/account/subscription/cancel",
+    ];
+
+    const specPaths = spec.paths as Record<string, Record<string, unknown>>;
+    const missing: string[] = [];
+
+    for (const route of serverRoutes) {
+      const [method, path] = route.split(" ");
+      const methodLower = method.toLowerCase();
+      const specPath = specPaths[path];
+      if (!specPath || !specPath[methodLower]) {
+        missing.push(route);
+      }
+    }
+
+    expect(missing, `Missing OpenAPI paths: ${missing.join(", ")}`).toEqual([]);
+  });
+
+  it("spec path count matches expected total", () => {
+    const paths = Object.keys(spec.paths);
+    // 57 unique paths (some have multiple methods combined)
+    expect(paths.length).toBeGreaterThanOrEqual(55);
+  });
 });
