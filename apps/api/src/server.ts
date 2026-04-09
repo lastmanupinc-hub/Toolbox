@@ -68,6 +68,7 @@ import { handleAdminStats, handleAdminAccounts, handleAdminActivity } from "./ad
 import { handleCreateWebhook, handleListWebhooks, handleDeleteWebhook, handleToggleWebhook, handleWebhookDeliveries } from "./webhooks.js";
 import { handleListVersions, handleGetVersion, handleDiffVersions } from "./versions.js";
 import { handleGitHubOAuthStart, handleGitHubOAuthCallback } from "./oauth.js";
+import { handleLemonSqueezyWebhook, handleCreateCheckout, handleGetSubscription, handleCancelSubscription } from "./lemonsqueezy.js";
 
 const router = new Router();
 
@@ -198,6 +199,12 @@ router.get("/v1/account/webhooks", handleListWebhooks);
 router.delete("/v1/account/webhooks/:webhook_id", handleDeleteWebhook);
 router.post("/v1/account/webhooks/:webhook_id/toggle", handleToggleWebhook);
 router.get("/v1/account/webhooks/:webhook_id/deliveries", handleWebhookDeliveries);
+
+// Lemon Squeezy Payments
+router.post("/v1/webhooks/lemonsqueezy", handleLemonSqueezyWebhook);
+router.post("/v1/checkout", handleCreateCheckout);
+router.get("/v1/account/subscription", handleGetSubscription);
+router.post("/v1/account/subscription/cancel", handleCancelSubscription);
 
 /* v8 ignore next — server.ts is never imported by test suites */
 const port = parseInt(process.env.PORT ?? "4000", 10);

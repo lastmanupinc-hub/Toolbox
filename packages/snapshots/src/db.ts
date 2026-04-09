@@ -282,6 +282,30 @@ CREATE INDEX IF NOT EXISTS idx_email_status ON email_deliveries(status);
 CREATE INDEX IF NOT EXISTS idx_email_created ON email_deliveries(created_at);
 `,
   },
+  {
+    version: 11,
+    name: "add_lemon_squeezy_subscriptions",
+    sql: `
+CREATE TABLE IF NOT EXISTS lemon_squeezy_subscriptions (
+  subscription_id TEXT PRIMARY KEY,
+  customer_id TEXT NOT NULL,
+  account_id TEXT NOT NULL REFERENCES accounts(account_id),
+  variant_id TEXT NOT NULL,
+  product_id TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  current_period_start TEXT,
+  current_period_end TEXT,
+  card_brand TEXT,
+  card_last_four TEXT,
+  cancel_at TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_ls_account ON lemon_squeezy_subscriptions(account_id);
+CREATE INDEX IF NOT EXISTS idx_ls_customer ON lemon_squeezy_subscriptions(customer_id);
+CREATE INDEX IF NOT EXISTS idx_ls_status ON lemon_squeezy_subscriptions(status);
+`,
+  },
 ];
 
 function ensureMigrationsTable(database: Database.Database): void {

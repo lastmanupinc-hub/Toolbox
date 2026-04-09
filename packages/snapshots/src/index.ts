@@ -152,3 +152,17 @@ export {
   sendUsageAlert,
   sendApiKeyNotification,
 } from "./email-store.js";
+
+// Lemon Squeezy Payments
+export type { LemonSqueezyStatus, LemonSqueezySubscription } from "./lemonsqueezy-store.js";
+export {
+  variantToTier,
+  upsertSubscription,
+  getSubscription,
+  getSubscriptionByAccount,
+  getActiveSubscriptionByAccount,
+  updateSubscriptionStatus,
+  listSubscriptionsByAccount,
+  deleteSubscription,
+  getActiveSubscriptionTier,
+} from "./lemonsqueezy-store.js";

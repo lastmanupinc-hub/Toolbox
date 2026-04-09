@@ -23,6 +23,12 @@ export const ENV_SPEC: EnvSpec[] = [
   { key: "SHUTDOWN_TIMEOUT_MS", required: false, type: "number", default: "10000", description: "Graceful shutdown drain timeout in ms" },
   { key: "REQUEST_TIMEOUT_MS", required: false, type: "number", default: "30000", description: "Per-request timeout in ms (0 = no limit)" },
   { key: "MAX_BODY_BYTES", required: false, type: "number", default: "52428800", description: "Maximum request body size in bytes (default 50MB)" },
+  // Lemon Squeezy payment integration
+  { key: "LEMONSQUEEZY_API_KEY", required: false, type: "string", description: "Lemon Squeezy API key for checkout URL generation" },
+  { key: "LEMONSQUEEZY_STORE_ID", required: false, type: "string", description: "Lemon Squeezy store ID" },
+  { key: "LEMONSQUEEZY_WEBHOOK_SECRET", required: false, type: "string", description: "Lemon Squeezy webhook signing secret (HMAC-SHA256)" },
+  { key: "LEMONSQUEEZY_VARIANT_ID_PAID", required: false, type: "string", description: "Lemon Squeezy variant ID for the paid ($29/mo) tier" },
+  { key: "LEMONSQUEEZY_VARIANT_ID_SUITE", required: false, type: "string", description: "Lemon Squeezy variant ID for the suite ($99/mo) tier" },
 ];
 
 export interface ValidationError {

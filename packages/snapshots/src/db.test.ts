@@ -36,6 +36,7 @@ describe("openMemoryDb", () => {
       "generation_versions",
       "generator_results",
       "github_tokens",
+      "lemon_squeezy_subscriptions",
       "oauth_states",
       "program_entitlements",
       "projects",
@@ -317,14 +318,14 @@ describe("migration framework", () => {
 
   it("getSchemaVersion returns latest version", () => {
     const db = openMemoryDb();
-    expect(getSchemaVersion(db)).toBe(10);
+    expect(getSchemaVersion(db)).toBe(11);
   });
 
   it("runMigrations is idempotent — second call applies nothing", () => {
     const db = openMemoryDb();
     const result = runMigrations(db);
     expect(result.applied).toBe(0);
-    expect(result.current_version).toBe(10);
+    expect(result.current_version).toBe(11);
   });
 
   it("creates rate_limits table via migration", () => {
