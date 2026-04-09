@@ -3,6 +3,7 @@ import {
   createSnapshot,
   getSnapshot,
   getProjectSnapshots,
+  getProjectOwner,
   updateSnapshotStatus,
   deleteSnapshot,
   deleteProject,
@@ -14,6 +15,7 @@ import {
   getGeneratorResult,
 } from "./store.js";
 import { openMemoryDb, closeDb, getDb } from "./db.js";
+import { createAccount } from "./billing-store.js";
 import type { SnapshotInput } from "./types.js";
 
 function makeInput(overrides?: Partial<SnapshotInput>): SnapshotInput {
@@ -242,5 +244,23 @@ describe("snapshot corruption resilience", () => {
     expect(result.deleted_snapshots).toBe(0);
     const proj = db.prepare("SELECT * FROM projects WHERE project_id = ?").get("orphan");
     expect(proj).toBeUndefined();
+  });
+
+  // ─── getProjectOwner ──────────────────────────────────────────
+
+  it("getProjectOwner returns account_id for existing project", () => {
+    const acct = createAccount("Owner", "owner@example.com");
+    const snap = createSnapshot(makeInput(), acct.account_id);
+    expect(getProjectOwner(snap.project_id)).toBe(acct.account_id);
+  });
+
+  it("getProjectOwner returns null for nonexistent project", () => {
+    expect(getProjectOwner("nonexistent-project-id")).toBeNull();
+  });
+
+  it("getProjectOwner returns null when account_id is NULL", () => {
+    const snap = createSnapshot(makeInput());
+    // account_id defaults to NULL in the projects table
+    expect(getProjectOwner(snap.project_id)).toBeNull();
   });
 });

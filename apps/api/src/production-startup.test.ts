@@ -140,6 +140,31 @@ describe("EADDRINUSE error handling", () => {
   });
 });
 
+// ─── Non-EADDRINUSE error handling ──────────────────────────────
+
+describe("non-EADDRINUSE server error", () => {
+  it("logs generic server error for non-EADDRINUSE codes", async () => {
+    openMemoryDb();
+    const router = new Router();
+    router.get("/v1/health", handleHealthCheck);
+    const server = createApp(router, 44508);
+    await new Promise((r) => setTimeout(r, 200));
+
+    // Emit a non-EADDRINUSE error to exercise the else branch
+    const err: NodeJS.ErrnoException = new Error("permission denied");
+    err.code = "EACCES";
+    server.emit("error", err);
+
+    // Server should still be running (error is logged, not thrown)
+    const res = await rawReq("GET", "/v1/health", 44508);
+    expect(res.status).toBe(200);
+
+    server.close();
+    await new Promise((r) => setTimeout(r, 100));
+    closeDb();
+  });
+});
+
 // ─── Startup env validation (unit) ──────────────────────────────
 
 describe("startup env validation", () => {
