@@ -413,25 +413,105 @@ export function generateTestGenerationRules(ctx: ContextMap, files?: SourceFile[
   // Test structure
   lines.push("## Test Structure");
   lines.push("");
+  const models = ctx.domain_models;
+  const firstModel = models.length > 0 ? models[0] : null;
+  const exampleName = firstModel ? firstModel.name : "MyModel";
+  const exampleVar = exampleName.charAt(0).toLowerCase() + exampleName.slice(1);
   if (testFws.includes("vitest") || testFws.includes("jest")) {
+    const importLine = testFws.includes("vitest") ? "import { describe, it, expect, beforeEach } from 'vitest';" : "import { describe, it, expect, beforeEach } from '@jest/globals';";
     lines.push("```typescript");
-    lines.push("import { describe, it, expect } from 'vitest';");
+    lines.push(importLine);
+    lines.push(`import type { ${exampleName} } from '..';`);
     lines.push("");
-    lines.push("describe('<ModuleName>', () => {");
+    lines.push(`describe('${exampleName}', () => {`);
+    lines.push(`  let ${exampleVar}: ${exampleName};`);
+    lines.push("");
+    lines.push("  beforeEach(() => {");
+    lines.push(`    ${exampleVar} = make${exampleName}();`);
+    lines.push("  });");
+    lines.push("");
     lines.push("  it('should <expected behavior> when <condition>', () => {");
     lines.push("    // Arrange");
-    lines.push("    const input = makeTestInput();");
+    lines.push(`    const input = make${exampleName}({ /* override fields */ });`);
     lines.push("");
     lines.push("    // Act");
-    lines.push("    const result = functionUnderTest(input);");
+    lines.push(`    const result = process${exampleName}(input);`);
     lines.push("");
     lines.push("    // Assert");
     lines.push("    expect(result).toEqual(expected);");
     lines.push("  });");
     lines.push("});");
     lines.push("```");
+  } else if (testFws.includes("pytest")) {
+    lines.push("```python");
+    lines.push(`def test_${exampleVar}_should_behave_when_condition():`);
+    lines.push("    # Arrange");
+    lines.push(`    obj = make_${exampleVar}()`);
+    lines.push("    # Act");
+    lines.push(`    result = process_${exampleVar}(obj)`);
+    lines.push("    # Assert");
+    lines.push("    assert result == expected");
+    lines.push("```");
   }
   lines.push("");
+
+  // Domain model test targets
+  if (models.length > 0) {
+    lines.push("## Domain Model Test Targets");
+    lines.push("");
+    lines.push("These models were detected in the codebase. Each should have factory helpers and unit tests:");
+    lines.push("");
+    lines.push("| Model | Kind | Fields | Source |");
+    lines.push("|-------|------|--------|--------|");
+    for (const m of models.slice(0, 15)) {
+      lines.push(`| \`${m.name}\` | ${m.kind} | ${m.field_count} | \`${m.source_file}\` |`);
+    }
+    if (models.length > 15) lines.push(`| *... and ${models.length - 15} more* | | | |`);
+    lines.push("");
+
+    lines.push("### Factory Helper Pattern");
+    lines.push("");
+    lines.push("Create a factory file (`test-factories.ts`) with sensible defaults for each model:");
+    lines.push("");
+    if (testFws.includes("vitest") || testFws.includes("jest")) {
+      lines.push("```typescript");
+      for (const m of models.slice(0, 3)) {
+        const v = m.name.charAt(0).toLowerCase() + m.name.slice(1);
+        lines.push(`export function make${m.name}(overrides: Partial<${m.name}> = {}): ${m.name} {`);
+        lines.push("  return {");
+        lines.push("    // fill in required fields with sensible test defaults");
+        lines.push(`    ...overrides,`);
+        lines.push("  };");
+        lines.push("}");
+        lines.push("");
+      }
+      lines.push("```");
+    } else if (testFws.includes("pytest")) {
+      lines.push("```python");
+      for (const m of models.slice(0, 3)) {
+        const snake = m.name.replace(/([A-Z])/g, "_$1").toLowerCase().replace(/^_/, "");
+        lines.push(`def make_${snake}(**kwargs):`);
+        lines.push("    defaults = {");
+        lines.push("        # fill in required fields with sensible test defaults");
+        lines.push("    }");
+        lines.push("    return {**defaults, **kwargs}");
+        lines.push("");
+      }
+      lines.push("```");
+    }
+    lines.push("");
+
+    // High-field-count models → likely complex, need edge-case coverage
+    const complexModels = models.filter(m => m.field_count >= 5).sort((a, b) => b.field_count - a.field_count);
+    if (complexModels.length > 0) {
+      lines.push("### High-Complexity Models (prioritize edge-case coverage)");
+      lines.push("");
+      for (const m of complexModels.slice(0, 5)) {
+        lines.push(`- **\`${m.name}\`** (${m.field_count} fields) — test with partial input, null fields, and boundary values`);
+      }
+      lines.push("");
+    }
+  }
 
   // Test categories
   lines.push("## Test Categories");
@@ -640,6 +720,45 @@ export function generateRefactorChecklist(ctx: ContextMap, files?: SourceFile[])
   lines.push("- **How:** Extract to named constants or config");
   lines.push("- **Test:** Behavior unchanged, constants are importable");
   lines.push("");
+
+  // Domain Model Complexity
+  const domainModels = ctx.domain_models;
+  if (domainModels.length > 0) {
+    lines.push("## Domain Model Complexity");
+    lines.push("");
+    lines.push("Models with a high field count are strong candidates for decomposition or value-object extraction:");
+    lines.push("");
+    lines.push("| Model | Kind | Fields | Source |");
+    lines.push("|-------|------|--------|--------|");
+    const sortedModels = [...domainModels].sort((a, b) => b.field_count - a.field_count);
+    for (const m of sortedModels.slice(0, 10)) {
+      const flag = m.field_count >= 10 ? " ⚠️ large" : m.field_count >= 6 ? " consider splitting" : "";
+      lines.push(`| \`${m.name}\` | ${m.kind} | ${m.field_count}${flag} | \`${m.source_file}\` |`);
+    }
+    if (domainModels.length > 10) lines.push(`| *... and ${domainModels.length - 10} more* | | | |`);
+    lines.push("");
+
+    const largeModels = sortedModels.filter(m => m.field_count >= 8);
+    if (largeModels.length > 0) {
+      lines.push("### Decomposition Candidates");
+      lines.push("");
+      for (const m of largeModels.slice(0, 5)) {
+        lines.push(`- **\`${m.name}\`** (${m.field_count} fields) — consider extracting related field groups into value objects`);
+      }
+      lines.push("");
+    }
+
+    // Interface vs class split
+    const interfaces = domainModels.filter(m => m.kind === "interface" || m.kind === "type");
+    const classes = domainModels.filter(m => m.kind === "class" || m.kind === "struct");
+    if (interfaces.length > 0 && classes.length > 0) {
+      lines.push(`**Model balance**: ${interfaces.length} interface/type definitions, ${classes.length} class/struct definitions.`);
+      if (classes.length > interfaces.length * 2) {
+        lines.push("Consider extracting shared field sets into shared interfaces to reduce duplication.");
+      }
+      lines.push("");
+    }
+  }
 
   // Architecture Signals
   const patterns = ctx.architecture_signals.patterns_detected;

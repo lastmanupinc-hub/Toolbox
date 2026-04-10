@@ -556,19 +556,62 @@ export function generateTokenBudgetPlan(ctx: ContextMap, profile: RepoProfile, f
 
   lines.push("## Daily Budget Estimates");
   lines.push("");
-  const operations = [
-    { op: "Code review (1 file)", inputTokens: 2000, outputTokens: 500, daily: 10 },
-    { op: "Feature implementation", inputTokens: 5000, outputTokens: 2000, daily: 5 },
-    { op: "Bug investigation", inputTokens: 8000, outputTokens: 1000, daily: 3 },
-    { op: "Refactoring", inputTokens: 4000, outputTokens: 3000, daily: 2 },
-    { op: "Documentation", inputTokens: 3000, outputTokens: 1500, daily: 2 },
+  // Derive operations from actual codebase signals
+  const routeCount = ctx.routes.length;
+  const hotspotCount = ctx.dependency_graph.hotspots.length;
+  const domainModelCount = ctx.domain_models.length;
+  const avgHotspotLoc = hotspotCount > 0
+    ? Math.round(ctx.dependency_graph.hotspots
+        .slice(0, 5)
+        .reduce((sum, h) => {
+          const f = ctx.structure.file_tree_summary.find(ft => ft.path === h.path || ft.path.endsWith(h.path));
+          return sum + (f ? f.loc : 200);
+        }, 0) / Math.min(hotspotCount, 5))
+    : 200;
+  const hotspotTokens = Math.round(avgHotspotLoc * 4.5);
+  const modelDefTokens = domainModelCount > 0 ? Math.round(domainModelCount * 80) : 400;
+  const typicalFileTokens = totalFiles > 0 ? Math.round((totalTokens / totalFiles) * 0.8) : 2000;
+
+  const derivedOps = [
+    {
+      op: "Code review (1 file)",
+      inputTokens: Math.max(1500, typicalFileTokens + 500),
+      outputTokens: 500,
+      daily: 10,
+    },
+    {
+      op: routeCount > 0 ? `API endpoint work (${routeCount} routes detected)` : "Feature implementation",
+      inputTokens: Math.max(3000, Math.min(8000, Math.round(routeCount * 120) + modelDefTokens + 1000)),
+      outputTokens: 2000,
+      daily: 5,
+    },
+    {
+      op: hotspotCount > 0 ? `Hotspot refactor (${hotspotCount} hotspots, avg ${hotspotTokens} tok each)` : "Bug investigation",
+      inputTokens: Math.max(4000, Math.min(12000, hotspotTokens * 2 + modelDefTokens)),
+      outputTokens: 1500,
+      daily: 3,
+    },
+    {
+      op: domainModelCount > 0 ? `Domain model change (${domainModelCount} models)` : "Refactoring",
+      inputTokens: Math.max(2000, Math.min(8000, modelDefTokens * 3)),
+      outputTokens: 2500,
+      daily: 2,
+    },
+    {
+      op: "Documentation",
+      inputTokens: Math.max(2000, Math.round(totalTokens * 0.05)),
+      outputTokens: 1500,
+      daily: 2,
+    },
   ];
   lines.push("| Operation | Input | Output | Daily | Monthly Cost (GPT-4o) |");
   lines.push("|-----------|-------|--------|-------|----------------------|");
-  for (const op of operations) {
+  for (const op of derivedOps) {
     const monthlyCost = (op.inputTokens * 2.50 / 1_000_000 + op.outputTokens * 10.00 / 1_000_000) * op.daily * 22;
     lines.push(`| ${op.op} | ${op.inputTokens.toLocaleString()} | ${op.outputTokens.toLocaleString()} | ${op.daily} | $${monthlyCost.toFixed(2)} |`);
   }
+  lines.push("");
+  lines.push("> Token estimates derived from detected project signals: routes, hotspots, domain models, and average file size.");
   lines.push("");
 
   // ─── Source File Analysis ────────────────────────────────────

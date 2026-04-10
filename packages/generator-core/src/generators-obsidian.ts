@@ -124,6 +124,23 @@ export function generateObsidianSkillPack(ctx: ContextMap, files?: SourceFile[])
   lines.push("```");
   lines.push("");
 
+  // Domain model quick-reference prompts
+  const domainModels = ctx.domain_models;
+  if (domainModels.length > 0) {
+    lines.push("### Domain Model Prompt");
+    lines.push("```");
+    lines.push(`I'm working with the following domain models in ${id.name}:`);
+    for (const m of domainModels.slice(0, 8)) {
+      lines.push(`- ${m.name} (${m.kind}, ${m.field_count} fields) — defined in ${m.source_file}`);
+    }
+    if (domainModels.length > 8) lines.push(`  ... and ${domainModels.length - 8} more`);
+    lines.push("");
+    lines.push("When generating code that uses these types, import from their source files and");
+    lines.push("do not redefine them.");
+    lines.push("```");
+    lines.push("");
+  }
+
   // Vault Structure Recommendation
   lines.push("## Recommended Vault Structure");
   lines.push("");
@@ -350,6 +367,45 @@ export function generateGraphPromptMap(ctx: ContextMap, files?: SourceFile[]): G
       note_path: `Projects/${id.name}/EntryPoints/${ctx.entry_points[i].path.replace(/\//g, "-")}.md`,
     });
     edges.push({ from: "architecture", to: epId, relationship: "has_entry_point" });
+  }
+
+  // Domain model nodes
+  for (let i = 0; i < ctx.domain_models.length; i++) {
+    const dm = ctx.domain_models[i];
+    const dmId = `model_${i}`;
+    nodes.push({
+      id: dmId,
+      type: "domain_model",
+      label: dm.name,
+      note_path: `Projects/${id.name}/Models/${dm.name}.md`,
+    });
+    edges.push({ from: "architecture", to: dmId, relationship: "has_model" });
+    // Link model to its source entry point if one exists
+    const epIdx = ctx.entry_points.findIndex(ep => ep.path === dm.source_file);
+    if (epIdx !== -1) {
+      edges.push({ from: `ep_${epIdx}`, to: dmId, relationship: "defines_model" });
+    }
+  }
+
+  // SQL table nodes
+  for (let i = 0; i < ctx.sql_schema.length; i++) {
+    const tbl = ctx.sql_schema[i];
+    const tblId = `table_${i}`;
+    nodes.push({
+      id: tblId,
+      type: "database_table",
+      label: tbl.name,
+      note_path: `Projects/${id.name}/Database/${tbl.name}.md`,
+    });
+    edges.push({ from: "architecture", to: tblId, relationship: "has_table" });
+    // Cross-link table to matching domain model by name similarity
+    const matchingModelIdx = ctx.domain_models.findIndex(
+      m => m.name.toLowerCase() === tbl.name.toLowerCase() ||
+           m.name.toLowerCase() === tbl.name.replace(/_/g, "").toLowerCase()
+    );
+    if (matchingModelIdx !== -1) {
+      edges.push({ from: `model_${matchingModelIdx}`, to: tblId, relationship: "maps_to_table" });
+    }
   }
 
   // Prompt template nodes

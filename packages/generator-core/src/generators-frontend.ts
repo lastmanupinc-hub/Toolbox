@@ -108,6 +108,38 @@ export function generateFrontendRules(ctx: ContextMap, files?: SourceFile[]): Ge
     lines.push("");
   }
 
+  // Domain models → UI data types
+  const domainModels = ctx.domain_models;
+  if (domainModels.length > 0) {
+    lines.push("## UI Data Types");
+    lines.push("");
+    lines.push("These domain models were detected in the codebase. Use their type names in component props and state:");
+    lines.push("");
+    lines.push("| Type | Kind | Fields | Source |");
+    lines.push("|------|------|--------|--------|");
+    for (const m of domainModels.slice(0, 12)) {
+      lines.push(`| \`${m.name}\` | ${m.kind} | ${m.field_count} | \`${m.source_file}\` |`);
+    }
+    if (domainModels.length > 12) lines.push(`| *... and ${domainModels.length - 12} more* | | | |`);
+    lines.push("");
+    lines.push("**Rule**: Component prop types must reference these detected types, not re-define them. Import from the canonical source file.");
+    lines.push("");
+  }
+
+  // SQL schema → table-backed UI
+  if (ctx.sql_schema.length > 0) {
+    lines.push("## Database-Backed UI");
+    lines.push("");
+    lines.push("These tables back the data displayed in the UI. Component lists, grids, and forms should match these shapes:");
+    lines.push("");
+    lines.push("| Table | Columns | FK Count |");
+    lines.push("|-------|---------|----------|");
+    for (const t of ctx.sql_schema.slice(0, 10)) {
+      lines.push(`| \`${t.name}\` | ${t.column_count} | ${t.foreign_key_count} |`);
+    }
+    lines.push("");
+  }
+
   // Accessibility
   lines.push("## Accessibility");
   lines.push("");
