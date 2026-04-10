@@ -19,15 +19,70 @@ const PROJECT_TYPES = [
 ];
 
 const OUTPUT_OPTIONS = [
-  { value: "context-map.json", label: "Context Map" },
-  { value: "AGENTS.md", label: "AGENTS.md" },
-  { value: "CLAUDE.md", label: "CLAUDE.md" },
-  { value: ".cursorrules", label: ".cursorrules" },
-  { value: ".ai/debug-playbook.md", label: "Debug Playbook" },
-  { value: "incident-template.md", label: "Incident Template" },
-  { value: "tracing-rules.md", label: "Tracing Rules" },
-  { value: ".ai/frontend-rules.md", label: "Frontend Rules" },
-  { value: "component-guidelines.md", label: "Component Guidelines" },
+  // Search (free)
+  { value: "context-map.json", label: "Context Map", group: "Search" },
+  { value: "AGENTS.md", label: "AGENTS.md", group: "Search" },
+  { value: "CLAUDE.md", label: "CLAUDE.md", group: "Search" },
+  { value: ".cursorrules", label: ".cursorrules", group: "Search" },
+  { value: "architecture-summary.md", label: "Architecture Summary", group: "Search" },
+  // Skills (free)
+  { value: "copilot-instructions.md", label: "Copilot Instructions", group: "Skills" },
+  { value: "cursor-rules.md", label: "Cursor Rules", group: "Skills" },
+  { value: "windsurf-rules.md", label: "Windsurf Rules", group: "Skills" },
+  // Debug (free)
+  { value: ".ai/debug-playbook.md", label: "Debug Playbook", group: "Debug" },
+  { value: "incident-template.md", label: "Incident Template", group: "Debug" },
+  { value: "tracing-rules.md", label: "Tracing Rules", group: "Debug" },
+  { value: "dependency-hotspots.md", label: "Dependency Hotspots", group: "Debug" },
+  // Frontend (pro)
+  { value: ".ai/frontend-rules.md", label: "Frontend Rules", group: "Frontend" },
+  { value: "component-guidelines.md", label: "Component Guidelines", group: "Frontend" },
+  { value: "accessibility-checklist.md", label: "Accessibility Checklist", group: "Frontend" },
+  // SEO (pro)
+  { value: ".ai/seo-rules.md", label: "SEO Rules", group: "SEO" },
+  { value: "schema-recommendations.md", label: "Schema Recommendations", group: "SEO" },
+  { value: "sitemap-strategy.md", label: "Sitemap Strategy", group: "SEO" },
+  // Optimization (pro)
+  { value: ".ai/optimization-rules.md", label: "Optimization Rules", group: "Optimization" },
+  { value: "prompt-diff-report.md", label: "Prompt Diff Report", group: "Optimization" },
+  { value: "token-budget-plan.md", label: "Token Budget Plan", group: "Optimization" },
+  // Theme (pro)
+  { value: "theme.css", label: "Theme CSS", group: "Theme" },
+  { value: "design-tokens.json", label: "Design Tokens", group: "Theme" },
+  // Brand (pro)
+  { value: "brand-guidelines.md", label: "Brand Guidelines", group: "Brand" },
+  { value: "messaging-system.md", label: "Messaging System", group: "Brand" },
+  { value: "channel-rulebook.md", label: "Channel Rulebook", group: "Brand" },
+  // Marketing (pro)
+  { value: "campaign-brief.md", label: "Campaign Brief", group: "Marketing" },
+  { value: "funnel-map.md", label: "Funnel Map", group: "Marketing" },
+  { value: "cro-playbook.md", label: "CRO Playbook", group: "Marketing" },
+  // MCP (pro)
+  { value: "mcp-config.json", label: "MCP Config", group: "MCP" },
+  { value: "connector-map.md", label: "Connector Map", group: "MCP" },
+  // Superpowers (pro)
+  { value: "superpower-pack.md", label: "Superpower Pack", group: "Superpowers" },
+  { value: "test-generation-rules.md", label: "Test Generation Rules", group: "Superpowers" },
+  { value: "refactor-checklist.md", label: "Refactor Checklist", group: "Superpowers" },
+  // Notebook (pro)
+  { value: "notebook-summary.md", label: "Notebook Summary", group: "Notebook" },
+  { value: "study-brief.md", label: "Study Brief", group: "Notebook" },
+  { value: "research-threads.md", label: "Research Threads", group: "Notebook" },
+  // Obsidian (pro)
+  { value: "obsidian-skill-pack.md", label: "Obsidian Skill Pack", group: "Obsidian" },
+  { value: "vault-rules.md", label: "Vault Rules", group: "Obsidian" },
+  // Remotion (pro)
+  { value: "remotion-script.ts", label: "Remotion Script", group: "Remotion" },
+  { value: "scene-plan.md", label: "Scene Plan", group: "Remotion" },
+  { value: "render-config.json", label: "Render Config", group: "Remotion" },
+  // Artifacts (pro)
+  { value: "component.tsx", label: "Component", group: "Artifacts" },
+  { value: "dashboard-widget.tsx", label: "Dashboard Widget", group: "Artifacts" },
+  // Canvas (pro)
+  { value: "canvas-pack.md", label: "Canvas Pack", group: "Canvas" },
+  // Algorithmic (pro)
+  { value: "generative-sketch.js", label: "Generative Sketch", group: "Algorithmic" },
+  { value: "parameter-pack.json", label: "Parameter Pack", group: "Algorithmic" },
 ];
 
 export function UploadPage({ onComplete }: Props) {
@@ -201,6 +256,22 @@ export function UploadPage({ onComplete }: Props) {
 
   return (
     <div>
+      {/* ── Hero value prop ────────────────────────────────────── */}
+      <section className="upload-hero">
+        <h1 className="upload-hero-title">
+          Turn any codebase into 80 structured AI artifacts.
+        </h1>
+        <p className="upload-hero-sub">
+          Upload a repo and instantly generate AGENTS.md, CLAUDE.md, .cursorrules, MCP configs,
+          SEO rules, brand guidelines, debug playbooks, and 73 more files — one scan across 17 programs.
+        </p>
+        <div className="upload-hero-pills">
+          {["AGENTS.md", "CLAUDE.md", ".cursorrules", "MCP Config", "SEO Rules", "Brand Guidelines", "Debug Playbook", "Design Tokens", "Obsidian Vault", "Remotion Script"].map((label) => (
+            <span key={label} className="upload-hero-pill">{label}</span>
+          ))}
+        </div>
+      </section>
+
       <div className="card" style={{ marginBottom: 24, textAlign: "center", padding: "32px 24px" }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: 8 }}>Analyze Your Project</h2>
         <p style={{ color: "var(--text-muted)", maxWidth: 500, margin: "0 auto", marginBottom: 16 }}>
@@ -274,21 +345,33 @@ export function UploadPage({ onComplete }: Props) {
         </div>
 
         <div className="card" style={{ marginBottom: 16 }}>
-          <label style={{ marginBottom: 8 }}>Requested Outputs</label>
-          <div className="flex flex-wrap" style={{ gap: 6 }}>
-            {OUTPUT_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                className={`badge ${selectedOutputs.includes(opt.value) ? "badge-accent" : ""}`}
-                style={{ cursor: "pointer", padding: "4px 10px", fontSize: "0.8125rem" }}
-                onClick={() => toggleOutput(opt.value)}
-              >
-                {selectedOutputs.includes(opt.value) ? "✓ " : ""}
-                {opt.label}
-              </button>
-            ))}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+            <label style={{ margin: 0 }}>Requested Outputs <span style={{ color: "var(--text-muted)", fontWeight: "normal", fontSize: "0.8rem" }}>({selectedOutputs.length} selected)</span></label>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button type="button" className="badge" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs(OUTPUT_OPTIONS.map(o => o.value))}>Select all</button>
+              <button type="button" className="badge" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs(OUTPUT_OPTIONS.filter(o => ["Search","Skills","Debug"].includes(o.group)).map(o => o.value))}>Free only</button>
+              <button type="button" className="badge" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs([])}>Clear</button>
+            </div>
           </div>
+          {Array.from(new Set(OUTPUT_OPTIONS.map(o => o.group))).map((group) => (
+            <div key={group} style={{ marginBottom: 8 }}>
+              <div style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>{group}</div>
+              <div className="flex flex-wrap" style={{ gap: 4 }}>
+                {OUTPUT_OPTIONS.filter(o => o.group === group).map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    className={`badge ${selectedOutputs.includes(opt.value) ? "badge-accent" : ""}`}
+                    style={{ cursor: "pointer", padding: "3px 9px", fontSize: "0.78rem" }}
+                    onClick={() => toggleOutput(opt.value)}
+                  >
+                    {selectedOutputs.includes(opt.value) ? "✓ " : ""}
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         <div

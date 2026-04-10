@@ -6,6 +6,7 @@ import { AccountPage } from "./pages/AccountPage.tsx";
 import { DocsPage } from "./pages/DocsPage.tsx";
 import { HelpPage } from "./pages/HelpPage.tsx";
 import { QAPage } from "./pages/QAPage.tsx";
+import { ProgramsPage } from "./pages/ProgramsPage.tsx";
 import { ToastProvider } from "./components/Toast.tsx";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette.tsx";
 import { StatusBar } from "./components/StatusBar.tsx";
@@ -34,11 +35,11 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   }
 }
 
-type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa";
+type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa" | "programs";
 
 function getInitialPage(): Page {
   const h = location.hash.replace("#", "");
-  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa") return h;
+  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa" || h === "programs") return h;
   return "upload";
 }
 
@@ -74,6 +75,7 @@ export function App() {
       else if (h === "docs") setPage("docs");
       else if (h === "help") setPage("help");
       else if (h === "qa") setPage("qa");
+      else if (h === "programs") setPage("programs");
       else if (h === "dashboard" && resultRef.current) setPage("dashboard");
       else setPage("upload");
     };
@@ -136,6 +138,7 @@ export function App() {
   const paletteActions = useMemo<PaletteAction[]>(() => {
     const actions: PaletteAction[] = [
       { id: "nav-analyze", label: "Go to Analyze", icon: "📤", shortcut: "Ctrl+1", section: "Navigation", onSelect: () => nav("upload") },
+      { id: "nav-programs", label: "Go to Programs", icon: "🧩", shortcut: "Ctrl+2", section: "Navigation", onSelect: () => nav("programs") },
       { id: "nav-plans", label: "Go to Plans", icon: "💳", shortcut: "Ctrl+3", section: "Navigation", onSelect: () => nav("plans") },
       { id: "nav-account", label: "Go to Account", icon: "👤", shortcut: "Ctrl+4", section: "Navigation", onSelect: () => nav("account") },
       { id: "nav-docs", label: "Go to Docs", icon: "📖", shortcut: "Ctrl+5", section: "Navigation", onSelect: () => nav("docs") },
@@ -161,6 +164,7 @@ export function App() {
       if (!e.ctrlKey && !e.metaKey) return;
       const key = e.key;
       if (key === "1") { e.preventDefault(); nav("upload"); }
+      else if (key === "2") { e.preventDefault(); nav("programs"); }
       else if (key === "2" && result) { e.preventDefault(); nav("dashboard"); }
       else if (key === "3") { e.preventDefault(); nav("plans"); }
       else if (key === "4") { e.preventDefault(); nav("account"); }
@@ -196,6 +200,12 @@ export function App() {
               Dashboard
             </button>
           )}
+          <button
+            className={`btn ${page === "programs" ? "btn-primary" : ""}`}
+            onClick={() => nav("programs")}
+          >
+            Programs
+          </button>
           <button
             className={`btn ${page === "plans" ? "btn-primary" : ""}`}
             onClick={() => nav("plans")}
@@ -255,6 +265,7 @@ export function App() {
           {page === "docs" && <DocsPage />}
           {page === "help" && <HelpPage />}
           {page === "qa" && <QAPage />}
+          {page === "programs" && <ProgramsPage onAnalyze={() => nav("upload")} />}
         </div>
       </ErrorBoundary>
 
