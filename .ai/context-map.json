@@ -1,0 +1,113 @@
+{
+  "project": {
+    "name": "axis-toolbox",
+    "version": "0.4.0",
+    "tagline": "The operating system for AI-native development",
+    "owner": "Last Man Up Inc.",
+    "license": "Private — All rights reserved",
+    "repository": "lastmanupinc-hub/AXIS-Scalpel",
+    "companion_repo": "lastmanupinc-hub/Toolbox",
+    "runtime": "Node.js >= 20, TypeScript 5.7 strict",
+    "package_manager": "pnpm >= 9",
+    "commit": "5f9f99e",
+    "session": "session_055"
+  },
+
+  "architecture": {
+    "pattern": "monorepo — pnpm workspaces",
+    "layers": [
+      "YAML governance (12 constitutional files)",
+      "packages/repo-parser (language/framework detection)",
+      "packages/context-engine (context-map + repo-profile generation)",
+      "packages/snapshots (SQLite intake, 5 tables, WAL mode)",
+      "packages/generator-core (80 generators across 17 modules)",
+      "apps/api (zero-dep HTTP server, 75+ endpoints, port 4000)",
+      "apps/cli (axis analyze / axis github)",
+      "apps/web (React 19 + Vite 6 SPA, port 5173)"
+    ],
+    "database": "SQLite (better-sqlite3, WAL mode, 5 tables: snapshots, projects, accounts, billings, webhooks)",
+    "http_server": "Custom zero-dependency router (no Express/Fastify)",
+    "frontend_framework": "React 19 + Vite 6, vanilla CSS dark theme"
+  },
+
+  "quantified_metrics": {
+    "capabilities_grade_a": 81,
+    "capabilities_grade_f": 1,
+    "capabilities_total": 82,
+    "programs": 17,
+    "generators": 80,
+    "tests": 2910,
+    "test_files": 101,
+    "statement_coverage_pct": 91.5,
+    "api_endpoints": 75,
+    "languages_detected": 60,
+    "frameworks_detected": 10,
+    "yaml_governance_files": 12,
+    "sqlite_tables": 5
+  },
+
+  "critical_paths": [
+    "packages/generator-core/src/generators/ — all 80 generators live here",
+    "apps/api/src/handlers.ts — 75+ endpoint handlers",
+    "packages/snapshots/src/store.ts — SQLite persistence layer",
+    "packages/repo-parser/src/parser.ts — language/framework detection",
+    "packages/context-engine/src/context-map.ts — context graph builder",
+    "packages/context-engine/src/repo-profile.ts — repo profiling",
+    "apps/web/src/App.tsx — React SPA entry",
+    "axis_all_tools.yaml — canonical program specs (golden source of truth)",
+    "continuation.yaml — live state ledger (session ground truth)",
+    "begin.yaml — session gate + optimization policy"
+  ],
+
+  "deployment": {
+    "api": "Render (Docker, starter plan, Oregon, /data/axis.db persistent volume)",
+    "web": "Cloudflare Pages (static React build)",
+    "ci": "GitHub Actions (Node 20/22 matrix, coverage, Docker build validation)"
+  },
+
+  "programs": [
+    { "name": "Axis Search",       "tier": "free", "generators": 4, "grade": "A" },
+    { "name": "Axis Skills",       "tier": "free", "generators": 5, "grade": "A" },
+    { "name": "Axis Debug",        "tier": "free", "generators": 4, "grade": "A" },
+    { "name": "Axis Frontend",     "tier": "pro",  "generators": 4, "grade": "A" },
+    { "name": "Axis SEO",          "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Optimization", "tier": "pro",  "generators": 4, "grade": "A" },
+    { "name": "Axis Theme",        "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Brand",        "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Superpowers",  "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Marketing",    "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Notebook",     "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Obsidian",     "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis MCP",          "tier": "pro",  "generators": 4, "grade": "A" },
+    { "name": "Axis Artifacts",    "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Remotion",     "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Canvas",       "tier": "pro",  "generators": 5, "grade": "A" },
+    { "name": "Axis Algorithmic",  "tier": "pro",  "generators": 5, "grade": "A" }
+  ],
+
+  "invariants": [
+    "Canonical coherence > speed — no shallow demo wins over integrated capability",
+    "One vertical at a time — monolithic vertical saturation",
+    "Evidence required for promotion — code reference + validation + export artifact",
+    "Snapshot is single source — all programs read snapshot, no re-parsing",
+    "continuation.yaml is ground truth — read on entry, update on exit",
+    "Select single highest-ROI always — one remedial action per cycle",
+    "Same input → byte-identical output — deterministic generators",
+    "Per-program billing — each program is a separate SKU",
+    "MEMORY.yaml is constitutional — read on folder entry, update on exit",
+    "Free gives diagnosis, paid gives execution"
+  ],
+
+  "packages": [
+    { "name": "snapshots", "role": "Intake, SQLite persistence, billing state, funnel tracking" },
+    { "name": "repo-parser", "role": "Language detection (60+), framework detection (10+), import resolution" },
+    { "name": "context-engine", "role": "Context map builder, repo-profile builder, route extraction, architecture analysis" },
+    { "name": "generator-core", "role": "Template engine + 80 generators (17 modules, one per program)" }
+  ],
+
+  "apps": [
+    { "name": "api", "role": "Node.js HTTP server, zero-dep router, 75+ endpoints, port 4000" },
+    { "name": "cli", "role": "Command-line tool: axis analyze <dir>, axis github <url>" },
+    { "name": "web", "role": "React 19 SPA, dark theme, upload + dashboard, port 5173" }
+  ]
+}

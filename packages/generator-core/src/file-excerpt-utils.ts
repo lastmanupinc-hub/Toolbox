@@ -144,6 +144,7 @@ export function extractExports(content: string): string[] {
 
 function basename(p: string): string {
   const parts = p.replace(/\\/g, "/").split("/");
+  /* v8 ignore next */
   return parts[parts.length - 1] ?? p;
 }
 

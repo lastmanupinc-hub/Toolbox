@@ -542,16 +542,16 @@ export function buildOpenApiSpec(): OpenApiSpec {
         },
       },
 
-      // ── Lemon Squeezy Payments ──
-      "/v1/webhooks/lemonsqueezy": {
+      // ── Stripe Payments ──
+      "/v1/webhooks/stripe": {
         post: {
-          summary: "Lemon Squeezy webhook receiver (HMAC-SHA256 verified)",
-          operationId: "lemonSqueezyWebhook",
+          summary: "Stripe webhook receiver (Stripe-Signature verified)",
+          operationId: "stripeWebhook",
           tags: ["Payments"],
-          requestBody: jsonBody(ref("LemonSqueezyWebhookPayload")),
+          requestBody: jsonBody(ref("StripeWebhookPayload")),
           responses: {
             200: { description: "Webhook processed", content: jsonContent(ref("WebhookAckResponse")) },
-            400: { description: "Invalid payload or missing account_id" },
+            400: { description: "Invalid payload" },
             401: { description: "Invalid webhook signature" },
             503: { description: "Webhook secret not configured" },
           },
@@ -559,7 +559,7 @@ export function buildOpenApiSpec(): OpenApiSpec {
       },
       "/v1/checkout": {
         post: {
-          summary: "Create a Lemon Squeezy checkout URL",
+          summary: "Create a Stripe checkout session",
           operationId: "createCheckout",
           tags: ["Payments"],
           security: [{ apiKey: [] }],
@@ -569,7 +569,7 @@ export function buildOpenApiSpec(): OpenApiSpec {
             400: { description: "Invalid tier" },
             401: { description: "Authentication required" },
             409: { description: "Account already has an active subscription" },
-            503: { description: "Lemon Squeezy not configured" },
+            503: { description: "Stripe not configured" },
           },
         },
       },
@@ -595,8 +595,8 @@ export function buildOpenApiSpec(): OpenApiSpec {
             200: { description: "Cancellation requested", content: jsonContent(ref("CancellationResponse")) },
             401: { description: "Authentication required" },
             404: { description: "No active subscription" },
-            502: { description: "Lemon Squeezy API error" },
-            503: { description: "Lemon Squeezy not configured" },
+            502: { description: "Stripe API error" },
+            503: { description: "Stripe not configured" },
           },
         },
       },
@@ -668,6 +668,33 @@ export function buildOpenApiSpec(): OpenApiSpec {
           responses: {
             200: { description: "Proration preview", content: jsonContent(ref("ProrationPreviewResponse")) },
             401: { description: "Authentication required" },
+          },
+        },
+      },
+
+      // ── Persistence Credits ──
+      "/v1/account/credits": {
+        get: {
+          summary: "Get persistence credit balance and ledger",
+          operationId: "getCredits",
+          tags: ["Billing"],
+          security: [{ apiKey: [] }],
+          responses: {
+            200: { description: "Credit balance and ledger", content: jsonContent(ref("CreditsResponse")) },
+            401: { description: "Authentication required" },
+          },
+        },
+        post: {
+          summary: "Grant persistence credits to account",
+          operationId: "addCredits",
+          tags: ["Billing"],
+          security: [{ apiKey: [] }],
+          requestBody: { required: true, content: jsonContent(ref("AddCreditsRequest")) },
+          responses: {
+            200: { description: "Credits granted", content: jsonContent(ref("AddCreditsResponse")) },
+            400: { description: "Invalid request" },
+            401: { description: "Authentication required" },
+            403: { description: "Paid/suite plan required" },
           },
         },
       },
@@ -974,12 +1001,12 @@ export function buildOpenApiSpec(): OpenApiSpec {
             success: { type: "boolean" },
           },
         },
-        LemonSqueezyWebhookPayload: {
+        StripeWebhookPayload: {
           type: "object",
-          required: ["meta", "data"],
+          required: ["type", "data"],
           properties: {
-            meta: { type: "object", properties: { event_name: { type: "string" }, custom_data: { type: "object", properties: { account_id: { type: "string" } } } } },
-            data: { type: "object", properties: { id: { type: "string" }, attributes: { type: "object", properties: { status: { type: "string" }, variant_id: { type: "integer" }, product_id: { type: "integer" }, customer_id: { type: "integer" } } } } },
+            type: { type: "string", description: "Stripe event type (e.g. checkout.session.completed)" },
+            data: { type: "object", properties: { object: { type: "object", description: "Stripe event object" } } },
           },
         },
         WebhookAckResponse: {
@@ -1019,7 +1046,7 @@ export function buildOpenApiSpec(): OpenApiSpec {
               properties: {
                 subscription_id: { type: "string" },
                 status: { type: "string" },
-                variant_id: { type: "string" },
+                price_id: { type: "string" },
                 current_period_start: { type: "string", nullable: true },
                 current_period_end: { type: "string", nullable: true },
                 card_brand: { type: "string", nullable: true },
@@ -1064,6 +1091,34 @@ export function buildOpenApiSpec(): OpenApiSpec {
             target_price: { type: "number" },
             proration_amount: { type: "number" },
             effective_date: { type: "string", format: "date-time" },
+          },
+        },
+        CreditsResponse: {
+          type: "object",
+          properties: {
+            account_id: { type: "string" },
+            tier: { type: "string" },
+            balance: { type: "integer", description: "Current persistence credit balance" },
+            credit_costs: { type: "object", description: "Credit cost per operation type" },
+            credit_packs: { type: "array", items: { type: "object", properties: { pack_id: { type: "string" }, credits: { type: "integer" }, price_cents: { type: "integer" } } } },
+            ledger: { type: "array", items: { type: "object", properties: { credit_id: { type: "string" }, credits_delta: { type: "integer" }, operation: { type: "string" }, snapshot_id: { type: "string" }, balance_after: { type: "integer" }, created_at: { type: "string", format: "date-time" } } } },
+          },
+        },
+        AddCreditsRequest: {
+          type: "object",
+          required: ["credits"],
+          properties: {
+            credits: { type: "integer", minimum: 1, maximum: 10000, description: "Number of credits to add" },
+            operation: { type: "string", default: "purchase", description: "Label for this credit grant (e.g. purchase, suite_monthly_grant)" },
+          },
+        },
+        AddCreditsResponse: {
+          type: "object",
+          properties: {
+            account_id: { type: "string" },
+            credits_added: { type: "integer" },
+            operation: { type: "string" },
+            balance_after: { type: "integer" },
           },
         },
       },

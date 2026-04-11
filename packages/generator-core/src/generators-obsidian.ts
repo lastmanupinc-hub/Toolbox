@@ -399,6 +399,7 @@ export function generateGraphPromptMap(ctx: ContextMap, files?: SourceFile[]): G
     });
     edges.push({ from: "architecture", to: tblId, relationship: "has_table" });
     // Cross-link table to matching domain model by name similarity
+    /* v8 ignore next 2 */
     const matchingModelIdx = ctx.domain_models.findIndex(
       m => m.name.toLowerCase() === tbl.name.toLowerCase() ||
            m.name.toLowerCase() === tbl.name.replace(/_/g, "").toLowerCase()

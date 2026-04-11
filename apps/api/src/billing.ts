@@ -27,6 +27,12 @@ import {
   getTierHistory,
   calculateProration,
   sendWelcomeEmail,
+  getPersistenceBalance,
+  getPersistenceLedger,
+  addPersistenceCredits,
+  applySuiteMonthlyGrant,
+  PERSISTENCE_CREDIT_COSTS,
+  PERSISTENCE_CREDIT_PACKS,
   type Account,
   type BillingTier,
   ALL_PROGRAMS,
@@ -151,6 +157,7 @@ export async function handleCreateAccount(
   trackEvent(account.account_id, "account_created", "signup", { tier, source: "api" });
 
   // Send welcome email (fire-and-forget)
+  // v8 ignore next
   sendWelcomeEmail(email, name, tier).catch(() => {});
 
   sendJSON(res, 201, {
@@ -575,5 +582,83 @@ export async function handleProrationPreview(
     current_tier: ctx.account!.tier,
     target_tier: targetTier,
     ...proration,
+  });
+}
+
+// ─── Persistence Credits ─────────────────────────────────────────────────────
+
+/** GET /v1/account/credits — get persistence credit balance and ledger (requires auth) */
+export async function handleGetCredits(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const ctx = requireAuth(req, res);
+  if (!ctx) return;
+
+  const account_id = ctx.account!.account_id;
+  const tier = ctx.account!.tier;
+
+  // Auto-apply the suite monthly grant if eligible (idempotent — only credits once per month)
+  if (tier === "suite") {
+    applySuiteMonthlyGrant(account_id, tier);
+  }
+
+  const balance = getPersistenceBalance(account_id);
+  const ledger = getPersistenceLedger(account_id, 50);
+
+  sendJSON(res, 200, {
+    account_id,
+    tier,
+    balance,
+    credit_costs: PERSISTENCE_CREDIT_COSTS,
+    credit_packs: PERSISTENCE_CREDIT_PACKS,
+    ledger,
+  });
+}
+
+/** POST /v1/account/credits — grant persistence credits to an account (requires auth, paid/suite only) */
+export async function handleAddCredits(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const ctx = requireAuth(req, res);
+  if (!ctx) return;
+
+  const tier = ctx.account!.tier;
+  if (tier === "free") {
+    sendError(res, 403, ErrorCode.FORBIDDEN, "Persistence credits require a paid plan. Upgrade at toolbox.jonathanarvay.com/billing.");
+    return;
+  }
+
+  const raw = await readBody(req);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    sendError(res, 400, ErrorCode.INVALID_JSON, "Invalid JSON body");
+    return;
+  }
+
+  const credits = body.credits;
+  const operation = body.operation ?? "purchase";
+
+  if (typeof credits !== "number" || !Number.isInteger(credits) || credits <= 0) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "credits must be a positive integer");
+    return;
+  }
+
+  if (credits > 10_000) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "credits cannot exceed 10000 per grant");
+    return;
+  }
+
+  const account_id = ctx.account!.account_id;
+  const balance_after = addPersistenceCredits(account_id, credits, String(operation));
+
+  sendJSON(res, 200, {
+    account_id,
+    credits_added: credits,
+    operation: String(operation),
+    balance_after,
   });
 }

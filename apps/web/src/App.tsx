@@ -7,6 +7,7 @@ import { DocsPage } from "./pages/DocsPage.tsx";
 import { HelpPage } from "./pages/HelpPage.tsx";
 import { QAPage } from "./pages/QAPage.tsx";
 import { ProgramsPage } from "./pages/ProgramsPage.tsx";
+import { TermsPage } from "./pages/TermsPage.tsx";
 import { ToastProvider } from "./components/Toast.tsx";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette.tsx";
 import { StatusBar } from "./components/StatusBar.tsx";
@@ -35,11 +36,11 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   }
 }
 
-type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa" | "programs";
+type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa" | "programs" | "terms";
 
 function getInitialPage(): Page {
   const h = location.hash.replace("#", "");
-  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa" || h === "programs") return h;
+  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa" || h === "programs" || h === "terms") return h as Page;
   return "upload";
 }
 
@@ -77,6 +78,7 @@ export function App() {
       else if (h === "help") setPage("help");
       else if (h === "qa") setPage("qa");
       else if (h === "programs") setPage("programs");
+      else if (h === "terms") setPage("terms");
       else if (h === "dashboard" && resultRef.current) setPage("dashboard");
       else setPage("upload");
     };
@@ -255,8 +257,19 @@ export function App() {
           {page === "help" && <HelpPage />}
           {page === "qa" && <QAPage />}
           {page === "programs" && <ProgramsPage onAnalyze={() => nav("upload")} />}
+          {page === "terms" && <TermsPage />}
         </div>
       </ErrorBoundary>
+
+      {/* Footer */}
+      <footer style={{ textAlign: "center", padding: "24px 16px", borderTop: "1px solid var(--border)", marginTop: 40 }}>
+        <p style={{ color: "var(--text-muted)", fontSize: "0.8rem", margin: 0 }}>
+          © {new Date().getFullYear()} Last Man Up Inc. ·{" "}
+          <button className="btn" style={{ padding: "0 4px", fontSize: "0.8rem", display: "inline" }} onClick={() => nav("terms")}>Terms of Service</button>
+          {" "} · {" "}
+          <a href="mailto:support@lastmanup.com" style={{ color: "var(--text-muted)" }}>support@lastmanup.com</a>
+        </p>
+      </footer>
 
       <CommandPalette actions={paletteActions} />
       <StatusBar snapshot={result} fileCount={generatedFileCount} />

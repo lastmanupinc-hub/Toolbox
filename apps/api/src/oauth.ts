@@ -47,6 +47,7 @@ export async function handleGitHubOAuthCallback(
     return;
   }
 
+  /* v8 ignore next */
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");

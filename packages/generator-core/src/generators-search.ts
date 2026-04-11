@@ -1,4 +1,5 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
+import { extractSymbols } from "@axis/snapshots";
 import type { GeneratedFile, SourceFile } from "./types.js";
 import { fileTree, findEntryPoints, findConfigs, renderExcerpts, excerpt, extractExports } from "./file-excerpt-utils.js";
 import { hasFw, getFw } from "./fw-helpers.js";
@@ -152,7 +153,39 @@ export function generateArchitectureSummary(ctx: ContextMap, files?: SourceFile[
     lines.push("");
   }
 
-  // Tooling
+  // Domain Models
+  if (ctx.domain_models && ctx.domain_models.length > 0) {
+    lines.push("## Domain Models");
+    lines.push("");
+    lines.push(`Detected ${ctx.domain_models.length} domain model${ctx.domain_models.length === 1 ? "" : "s"}:`);
+    lines.push("");
+    lines.push("| Model | Kind | Fields | Source |");
+    lines.push("|-------|------|--------|--------|");
+    for (const m of ctx.domain_models.slice(0, 25)) {
+      lines.push(`| \`${m.name}\` | ${m.kind} | ${m.field_count} | ${m.source_file} |`);
+    }
+    if (ctx.domain_models.length > 25) {
+      lines.push(`| *… ${ctx.domain_models.length - 25} more* | | | |`);
+    }
+    lines.push("");
+    const complex = ctx.domain_models.filter(m => m.field_count >= 8);
+    if (complex.length > 0) {
+      lines.push(`> **High-complexity models** (8+ fields): ${complex.map(m => `\`${m.name}\``).join(", ")} — consider splitting if they grow further.`);
+      lines.push("");
+    }
+  }
+
+  // SQL Schema
+  if (ctx.sql_schema && ctx.sql_schema.length > 0) {
+    lines.push("## Database Schema");
+    lines.push("");
+    lines.push("| Table | Columns | Foreign Keys |");
+    lines.push("|-------|---------|-------------|");
+    for (const t of ctx.sql_schema.slice(0, 20)) {
+      lines.push(`| \`${t.name}\` | ${t.column_count} | ${t.foreign_key_count} |`);
+    }
+    lines.push("");
+  }
   lines.push("## Tooling");
   lines.push("");
   if (ctx.detection.build_tools.length > 0)
@@ -402,5 +435,40 @@ export function generateDependencyHotspots(ctx: ContextMap, files?: SourceFile[]
     content_type: "text/markdown",
     program: "search",
     description: "Dependency coupling analysis with risk scoring and refactor recommendations",
+  };
+}
+
+// ─── .ai/symbol-index.json ──────────────────────────────────────
+
+export function generateSymbolIndex(files?: SourceFile[]): GeneratedFile {
+  const fileList = files ?? [];
+  const symbols = fileList.length > 0 ? extractSymbols(fileList) : [];
+
+  // Group by file for navigability
+  const byFile: Record<string, Array<{ name: string; type: string; line: number; parent?: string }>> = {};
+  for (const sym of symbols) {
+    const entry = byFile[sym.file_path] ?? (byFile[sym.file_path] = []);
+    const record: { name: string; type: string; line: number; parent?: string } = {
+      name: sym.symbol_name,
+      type: sym.symbol_type,
+      line: sym.line_number,
+    };
+    if (sym.parent) record.parent = sym.parent;
+    entry.push(record);
+  }
+
+  const output = {
+    generated_at: new Date().toISOString(),
+    total_symbols: symbols.length,
+    file_count: Object.keys(byFile).length,
+    symbols: byFile,
+  };
+
+  return {
+    path: ".ai/symbol-index.json",
+    content: JSON.stringify(output, null, 2),
+    content_type: "application/json",
+    program: "search",
+    description: "Code symbol index — functions, classes, interfaces, types extracted per file",
   };
 }

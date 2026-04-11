@@ -631,7 +631,7 @@ describe("Layer 5 engine branches", () => {
   });
 
   // Line 368: srcLayer && tgtLayer FALSE — import between files in unmapped directories
-  it("architecture score ignores imports between unmapped directories", () => {
+  it("architecture score ignores imports between unmapped directories", async () => {
     // "scripts" and "tools" are not in layerMapping → srcLayer/tgtLayer undefined
     const files = [
       { path: "scripts/build.ts", content: "import { cfg } from '../tools/config';\nexport const x = cfg;" },
@@ -643,5 +643,22 @@ describe("Layer 5 engine branches", () => {
     // Score should still compute (from src/ layer coverage) without crashing
     expect(cm.architecture_signals.separation_score).toBeGreaterThanOrEqual(0);
     expect(cm.architecture_signals.separation_score).toBeLessThanOrEqual(1);
+  });
+});
+
+// ─── mux route deduplication ────────────────────────────────────
+
+describe("mux route deduplication (Go stdlib)", () => {
+  it("deduplicates identical mux routes from same file (seen.has FALSE branch)", () => {
+    const snap = makeSnapshot([
+      {
+        path: "main.go",
+        content: 'mux.HandleFunc("/api/status", handler)\nmux.HandleFunc("/api/status", handler)',
+      },
+      { path: "go.mod", content: "module example.com/app\ngo 1.21" },
+    ]);
+    const ctx = buildContextMap(snap);
+    const statusRoutes = ctx.routes.filter(r => r.path === "/api/status" && r.method === "ANY");
+    expect(statusRoutes).toHaveLength(1);
   });
 });

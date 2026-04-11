@@ -3,7 +3,7 @@ import type { Server } from "node:http";
 import { openMemoryDb, closeDb } from "@axis/snapshots";
 import { Router, createApp } from "./router.js";
 import { handleCreateSnapshot, handleGetSnapshot, handleGetContext, handleGetGeneratedFiles, handleGetGeneratedFile, handleSearchExport, handleHealthCheck } from "./handlers.js";
-import { handleCreateAccount, handleGetAccount, handleCreateApiKey, handleListApiKeys, handleRevokeApiKey, handleGetUsage, handleUpdateTier, handleUpdatePrograms } from "./billing.js";
+import { handleCreateAccount, handleGetAccount, handleCreateApiKey, handleListApiKeys, handleRevokeApiKey, handleGetUsage, handleUpdateTier, handleUpdatePrograms, handleGetCredits } from "./billing.js";
 import { handleInviteSeat, handleListSeats, handleAcceptSeat, handleRevokeSeat, handleGetPlans } from "./funnel.js";
 import { handleExportZip } from "./export.js";
 import { resetRateLimits } from "./rate-limiter.js";
@@ -70,6 +70,7 @@ beforeAll(async () => {
   router.get("/v1/account/usage", handleGetUsage);
   router.post("/v1/account/tier", handleUpdateTier);
   router.post("/v1/account/programs", handleUpdatePrograms);
+  router.get("/v1/account/credits", handleGetCredits);
   router.get("/v1/plans", handleGetPlans);
   router.post("/v1/account/seats", handleInviteSeat);
   router.get("/v1/account/seats", handleListSeats);
@@ -525,5 +526,22 @@ describe("billing handler branch coverage", () => {
     });
     expect(r.status).toBe(400);
     expect(r.data.error_code).toBe("INVALID_JSON");
+  });
+});
+
+// ─── 8. Credits — suite tier auto-grant ────────────────────────
+
+describe("credits: suite tier auto-applies monthly grant — billing b49", () => {
+  it("GET /v1/account/credits with suite tier triggers applySuiteMonthlyGrant", async () => {
+    const { key } = await createTestAccount("SuiteUser", "suiteuser@test.com");
+    // Upgrade to suite tier
+    await req("POST", "/v1/account/tier", { tier: "paid" }, key);
+    await req("POST", "/v1/account/tier", { tier: "suite" }, key);
+    // Now fetch credits — this triggers the suite monthly grant branch (b49)
+    const r = await req("GET", "/v1/account/credits", undefined, key);
+    expect(r.status).toBe(200);
+    expect(r.data.tier).toBe("suite");
+    expect(r.data.balance).toBeDefined();
+    expect(r.data.ledger).toBeDefined();
   });
 });

@@ -30,6 +30,7 @@ describe("openMemoryDb", () => {
     expect(userTables).toEqual([
       "accounts",
       "api_keys",
+      "code_symbols",
       "context_maps",
       "email_deliveries",
       "funnel_events",
@@ -52,6 +53,7 @@ describe("openMemoryDb", () => {
       "search_index",
       "seats",
       "snapshots",
+      "stripe_subscriptions",
       "tier_changes",
       "usage_records",
       "webhook_deliveries",
@@ -82,6 +84,9 @@ describe("openMemoryDb", () => {
     expect(names).toContain("idx_rate_limits_reset");
     expect(names).toContain("idx_search_snapshot");
     expect(names).toContain("idx_search_content");
+    expect(names).toContain("idx_symbols_snapshot");
+    expect(names).toContain("idx_symbols_name");
+    expect(names).toContain("idx_symbols_type");
   });
 
   it("is idempotent — calling twice resets the handle", () => {
@@ -319,14 +324,14 @@ describe("migration framework", () => {
 
   it("getSchemaVersion returns latest version", () => {
     const db = openMemoryDb();
-    expect(getSchemaVersion(db)).toBe(13);
+    expect(getSchemaVersion(db)).toBe(15);
   });
 
   it("runMigrations is idempotent — second call applies nothing", () => {
     const db = openMemoryDb();
     const result = runMigrations(db);
     expect(result.applied).toBe(0);
-    expect(result.current_version).toBe(13);
+    expect(result.current_version).toBe(15);
   });
 
   it("creates rate_limits table via migration", () => {

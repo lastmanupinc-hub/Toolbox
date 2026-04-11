@@ -155,3 +155,28 @@ describe("parser: package manager detection", () => {
     expect(result.package_managers).toContain("go modules");
   });
 });
+
+/* ─── Multi go.mod sort ──────────────────────────────────────────── */
+
+describe("parser: multiple go.mod files (sort comparator)", () => {
+  it("sorts multiple go.mod files and uses root module", () => {
+    // Two go.mod files — one at root and one in a subdirectory
+    // The root "go.mod" sorts before "vendor/go.mod", so root is used
+    const files: FileEntry[] = [
+      {
+        path: "vendor/go.mod",
+        content: "module example.com/vendor\n\ngo 1.21",
+        size: 35,
+      },
+      {
+        path: "go.mod",
+        content: "module example.com/root\n\ngo 1.21\n\nrequire github.com/pkg/errors v0.9.1",
+        size: 70,
+      },
+      { path: "main.go", content: 'package main\n\nfunc main() {}', size: 30 },
+    ];
+    const result = parseRepo(files);
+    // parseRepo should use the alphabetically first go.mod (root "go.mod" < "vendor/go.mod")
+    expect(result.dependencies.some(d => d.name === "github.com/pkg/errors")).toBe(true);
+  });
+});

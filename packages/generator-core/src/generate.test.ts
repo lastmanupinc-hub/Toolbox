@@ -933,8 +933,9 @@ describe("depth generators content", () => {
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(80);
+    expect(generators.length).toBe(81);
     const paths = generators.map(g => g.path);
+    expect(paths).toContain(".ai/symbol-index.json");
     expect(paths).toContain(".ai/context-map.json");
     expect(paths).toContain("AGENTS.md");
     expect(paths).toContain("remotion-script.ts");

@@ -23,7 +23,11 @@ import {
   revokeSeat,
   searchQuery,
   indexSnapshot,
+  searchSymbols,
   getFunnelStatus,
+  createCheckout,
+  getSubscription,
+  cancelSubscription,
   type SnapshotPayload,
 } from "./api.ts";
 
@@ -559,5 +563,100 @@ describe("fetch timeout handling", () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
 
     await expect(healthCheck()).rejects.toThrow("Failed to fetch");
+  });
+});
+
+// ─── searchSymbols ───────────────────────────────────────────────
+
+describe("searchSymbols", () => {
+  it("sends GET with no query params when opts is omitted", async () => {
+    const response = { snapshot_id: "s1", symbol_count: 3, results: [] };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await searchSymbols("snap1");
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/search/snap1/symbols");
+    expect(result.symbol_count).toBe(3);
+  });
+
+  it("sends GET with name, type, and limit when all opts are provided", async () => {
+    const response = { snapshot_id: "s1", symbol_count: 1, results: [] };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    await searchSymbols("snap2", { name: "handle", type: "function", limit: 10 });
+    const url = fetchFn.mock.calls[0][0] as string;
+    expect(url).toContain("name=handle");
+    expect(url).toContain("type=function");
+    expect(url).toContain("limit=10");
+  });
+});
+
+// ─── createCheckout ──────────────────────────────────────────────
+
+describe("createCheckout", () => {
+  it("POSTs to /v1/checkout with tier in body", async () => {
+    const response = { checkout_url: "https://checkout.lemonsqueezy.com/buy/abc", tier: "paid", variant_id: "v_123" };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await createCheckout("paid");
+
+    expect(result.checkout_url).toBe("https://checkout.lemonsqueezy.com/buy/abc");
+    expect(result.tier).toBe("paid");
+    const [url, init] = fetchFn.mock.calls[0];
+    expect(url).toBe("/v1/checkout");
+    expect(init.method).toBe("POST");
+    expect(JSON.parse(init.body)).toEqual({ tier: "paid" });
+  });
+});
+
+// ─── getSubscription ─────────────────────────────────────────────
+
+describe("getSubscription", () => {
+  it("GETs /v1/account/subscription and returns subscription info", async () => {
+    const response = {
+      account_id: "acct_1",
+      tier: "paid",
+      has_active_subscription: true,
+      active_subscription: {
+        subscription_id: "sub_abc",
+        status: "active",
+        variant_id: "v_paid",
+        current_period_start: "2025-01-01T00:00:00Z",
+        current_period_end: "2025-02-01T00:00:00Z",
+        card_brand: "visa",
+        card_last_four: "4242",
+        cancel_at: null,
+      },
+      subscription_count: 1,
+    };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await getSubscription();
+
+    expect(result.account_id).toBe("acct_1");
+    expect(result.has_active_subscription).toBe(true);
+    expect(result.active_subscription?.status).toBe("active");
+    expect(fetchFn.mock.calls[0][0]).toBe("/v1/account/subscription");
+  });
+});
+
+// ─── cancelSubscription ──────────────────────────────────────────
+
+describe("cancelSubscription", () => {
+  it("POSTs to /v1/account/subscription/cancel", async () => {
+    const response = { subscription_id: "sub_abc", status: "cancelled", message: "Subscription cancelled" };
+    const fetchFn = mockFetch(response);
+    vi.stubGlobal("fetch", fetchFn);
+
+    const result = await cancelSubscription();
+
+    expect(result.subscription_id).toBe("sub_abc");
+    expect(result.status).toBe("cancelled");
+    const [url, init] = fetchFn.mock.calls[0];
+    expect(url).toBe("/v1/account/subscription/cancel");
+    expect(init.method).toBe("POST");
   });
 });

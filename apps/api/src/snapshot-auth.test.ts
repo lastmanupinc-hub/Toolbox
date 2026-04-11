@@ -153,9 +153,9 @@ describe("auth — quota exceeded", () => {
 // ─── File count limits ──────────────────────────────────────────
 
 describe("auth — file count limits", () => {
-  it("returns 413 FILE_COUNT_EXCEEDED when free tier exceeds 200 files", async () => {
+  it("returns 413 FILE_COUNT_EXCEEDED when free tier exceeds 1000 files", async () => {
     const { key } = await createTestAccount("filecount", "filecount@test.com");
-    const files = Array.from({ length: 201 }, (_, i) => ({
+    const files = Array.from({ length: 1001 }, (_, i) => ({
       path: `file-${i}.ts`,
       content: "x",
       size: 1,
@@ -172,20 +172,20 @@ describe("auth — file count limits", () => {
     }, key);
     expect(r.status).toBe(413);
     expect(r.data.error_code).toBe("FILE_COUNT_EXCEEDED");
-    expect((r.data.error as string)).toContain("201");
-    expect((r.data.error as string)).toContain("200");
+    expect((r.data.error as string)).toContain("1001");
+    expect((r.data.error as string)).toContain("1000");
   });
 
-  it("allows exactly 200 files for free tier", async () => {
-    const { key } = await createTestAccount("exact200", "exact200@test.com");
-    const files = Array.from({ length: 200 }, (_, i) => ({
+  it("allows exactly 1000 files for free tier", async () => {
+    const { key } = await createTestAccount("exact1000", "exact1000@test.com");
+    const files = Array.from({ length: 1000 }, (_, i) => ({
       path: `file-${i}.ts`,
       content: "x",
       size: 1,
     }));
     const r = await req("POST", "/v1/snapshots", {
       manifest: {
-        project_name: "two-hundred",
+        project_name: "one-thousand",
         project_type: "web",
         frameworks: ["react"],
         goals: ["test"],

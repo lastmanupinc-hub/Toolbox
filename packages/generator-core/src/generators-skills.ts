@@ -66,7 +66,34 @@ export function generateAgentsMD(ctx: ContextMap, files?: SourceFile[]): Generat
     lines.push("");
   }
 
-  // Agent instructions
+  // Domain Models
+  if (ctx.domain_models && ctx.domain_models.length > 0) {
+    lines.push("### Domain Models");
+    lines.push("");
+    lines.push("| Model | Kind | Fields | Source |");
+    lines.push("|-------|------|--------|--------|");
+    for (const m of ctx.domain_models.slice(0, 20)) {
+      lines.push(`| \`${m.name}\` | ${m.kind} | ${m.field_count} | ${m.source_file} |`);
+    }
+    if (ctx.domain_models.length > 20) {
+      lines.push(`| *… ${ctx.domain_models.length - 20} more* | | | |`);
+    }
+    lines.push("");
+    lines.push("When modifying domain models, update all downstream consumers (handlers, validators, tests).");
+    lines.push("");
+  }
+
+  // SQL Schema
+  if (ctx.sql_schema && ctx.sql_schema.length > 0) {
+    lines.push("### Database Tables");
+    lines.push("");
+    lines.push("| Table | Columns | Foreign Keys |");
+    lines.push("|-------|---------|-------------|");
+    for (const t of ctx.sql_schema.slice(0, 15)) {
+      lines.push(`| \`${t.name}\` | ${t.column_count} | ${t.foreign_key_count} |`);
+    }
+    lines.push("");
+  }
   lines.push("## Agent Instructions");
   lines.push("");
   lines.push("When working in this codebase:");
@@ -231,6 +258,35 @@ export function generateClaudeMD(ctx: ContextMap, files?: SourceFile[]): Generat
     lines.push("- Do not use class components");
   lines.push("");
 
+  // Domain Models
+  if (ctx.domain_models && ctx.domain_models.length > 0) {
+    lines.push("## Data Models");
+    lines.push("");
+    lines.push("Detected domain model contracts:");
+    lines.push("");
+    lines.push("| Model | Kind | Fields | Source |");
+    lines.push("|-------|------|--------|--------|");
+    for (const m of ctx.domain_models.slice(0, 20)) {
+      lines.push(`| \`${m.name}\` | ${m.kind} | ${m.field_count} | ${m.source_file} |`);
+    }
+    if (ctx.domain_models.length > 20) {
+      lines.push(`| *… ${ctx.domain_models.length - 20} more* | | | |`);
+    }
+    lines.push("");
+  }
+
+  // SQL Schema
+  if (ctx.sql_schema && ctx.sql_schema.length > 0) {
+    lines.push("## Database Schema");
+    lines.push("");
+    lines.push("| Table | Columns | Foreign Keys |");
+    lines.push("|-------|---------|-------------|");
+    for (const t of ctx.sql_schema.slice(0, 15)) {
+      lines.push(`| \`${t.name}\` | ${t.column_count} | ${t.foreign_key_count} |`);
+    }
+    lines.push("");
+  }
+
   if (ai.warnings.length > 0) {
     lines.push("## Warnings");
     lines.push("");
@@ -337,6 +393,25 @@ export function generateCursorRules(ctx: ContextMap, files?: SourceFile[]): Gene
     rules.push(`# ${layer.layer}: ${layer.directories.join(", ")}`);
   }
   rules.push("");
+
+  // Domain Models
+  if (ctx.domain_models && ctx.domain_models.length > 0) {
+    rules.push("# === Domain Models ===");
+    for (const m of ctx.domain_models.slice(0, 20)) {
+      rules.push(`# ${m.name} (${m.kind}, ${m.field_count} fields) @ ${m.source_file}`);
+    }
+    if (ctx.domain_models.length > 20) rules.push(`# ... and ${ctx.domain_models.length - 20} more`);
+    rules.push("");
+  }
+
+  // SQL Schema
+  if (ctx.sql_schema && ctx.sql_schema.length > 0) {
+    rules.push("# === Database Tables ===");
+    for (const t of ctx.sql_schema.slice(0, 15)) {
+      rules.push(`# ${t.name} (${t.column_count} cols, ${t.foreign_key_count} fks)`);
+    }
+    rules.push("");
+  }
 
   // Conventions
   const ai = ctx.ai_context;

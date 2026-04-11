@@ -5,7 +5,7 @@ import { openMemoryDb, closeDb, createSnapshot, saveGeneratorResult } from "@axi
 import { Router, createApp } from "./router.js";
 import { handleExportZip } from "./export.js";
 
-const TEST_PORT = 44421;
+const TEST_PORT = 44422;
 let server: Server;
 
 // ─── HTTP helper (binary-safe) ──────────────────────────────────

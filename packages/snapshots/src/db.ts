@@ -349,6 +349,47 @@ CREATE INDEX IF NOT EXISTS idx_pcredits_account ON persistence_credits(account_i
 CREATE INDEX IF NOT EXISTS idx_pcredits_created ON persistence_credits(created_at);
 `,
   },
+  {
+    version: 14,
+    name: "add_code_symbols",
+    sql: `
+CREATE TABLE IF NOT EXISTS code_symbols (
+  symbol_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  snapshot_id TEXT NOT NULL,
+  file_path TEXT NOT NULL,
+  symbol_name TEXT NOT NULL COLLATE NOCASE,
+  symbol_type TEXT NOT NULL,
+  line_number INTEGER NOT NULL,
+  parent TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_symbols_snapshot ON code_symbols(snapshot_id);
+CREATE INDEX IF NOT EXISTS idx_symbols_name ON code_symbols(snapshot_id, symbol_name COLLATE NOCASE);
+CREATE INDEX IF NOT EXISTS idx_symbols_type ON code_symbols(snapshot_id, symbol_type);
+`,
+  },
+  {
+    version: 15,
+    name: "add_stripe_subscriptions",
+    sql: `
+CREATE TABLE IF NOT EXISTS stripe_subscriptions (
+  subscription_id TEXT PRIMARY KEY,
+  customer_id TEXT NOT NULL,
+  account_id TEXT NOT NULL REFERENCES accounts(account_id),
+  price_id TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  current_period_start TEXT,
+  current_period_end TEXT,
+  card_brand TEXT,
+  card_last_four TEXT,
+  cancel_at TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_stripe_account ON stripe_subscriptions(account_id);
+CREATE INDEX IF NOT EXISTS idx_stripe_customer ON stripe_subscriptions(customer_id);
+CREATE INDEX IF NOT EXISTS idx_stripe_status ON stripe_subscriptions(status);
+`,
+  },
 ];
 
 function ensureMigrationsTable(database: Database.Database): void {

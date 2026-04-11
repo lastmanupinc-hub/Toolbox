@@ -125,6 +125,12 @@ export function generateMcpConfig(ctx: ContextMap, profile: RepoProfile, files?:
         description: "Repository health profile with detection and goals",
         mimeType: "application/yaml",
       },
+      ...ctx.domain_models.slice(0, 15).map(m => ({
+        uri: `model://${id.name}/${m.name}`,
+        name: m.name,
+        description: `${m.kind} with ${m.field_count} field${m.field_count === 1 ? "" : "s"} (${m.source_file})`,
+        mimeType: "application/json",
+      })),
     ],
     prompts: [
       {
@@ -143,6 +149,24 @@ export function generateMcpConfig(ctx: ContextMap, profile: RepoProfile, files?:
       denied_patterns: ["node_modules/**", ".env*", "*.key", "*.pem"],
       max_file_size_bytes: 1048576,
     },
+    // ─── Domain Models ─────────────────────────────────────────
+    domain_models: ctx.domain_models.length > 0
+      ? ctx.domain_models.slice(0, 20).map(m => ({
+          name: m.name,
+          kind: m.kind,
+          field_count: m.field_count,
+          source_file: m.source_file,
+          resource_uri: `model://${id.name}/${m.name}`,
+        }))
+      : null,
+    // ─── Database Schema ──────────────────────────────────────
+    sql_schema: ctx.sql_schema && ctx.sql_schema.length > 0
+      ? ctx.sql_schema.slice(0, 15).map(t => ({
+          table: t.name,
+          columns: t.column_count,
+          foreign_keys: t.foreign_key_count,
+        }))
+      : null,
     // ─── Source File Analysis ──────────────────────────────────
     detected_mcp_files: files && files.length > 0 ? (() => {
       const mcpFiles = findFiles(files, ["**/.mcp*", "**/mcp.config*", "**/mcp-server*", "**/server.*"]);
@@ -599,6 +623,25 @@ export function generateServerManifest(ctx: ContextMap, profile: RepoProfile, fi
     lines.push("");
   }
 
+  const models = ctx.domain_models;
+  if (models.length > 0) {
+    for (const m of models.slice(0, 12)) {
+      const toolName = `query_${m.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`;
+      lines.push(`    - name: ${toolName}`);
+      lines.push(`      description: Query ${m.name} records (${m.kind}, ${m.field_count} fields)`);
+      lines.push("      input_schema:");
+      lines.push("        type: object");
+      lines.push("        properties:");
+      lines.push(`          id:`);
+      lines.push(`            type: string`);
+      lines.push(`            description: Primary key or identifier for ${m.name}`);
+      lines.push(`          filter:`);
+      lines.push(`            type: object`);
+      lines.push(`            description: Optional filter criteria`);
+      lines.push("");
+    }
+  }
+
   // Resources
   lines.push("  resources:");
   lines.push("    - uri: project://context-map");
@@ -616,6 +659,17 @@ export function generateServerManifest(ctx: ContextMap, profile: RepoProfile, fi
   lines.push("      mime_type: text/markdown");
   lines.push("      description: Human-readable architecture overview");
   lines.push("");
+
+  const serverModels = ctx.domain_models;
+  if (serverModels.length > 0) {
+    for (const m of serverModels.slice(0, 15)) {
+      lines.push(`    - uri: model://${m.name}`);
+      lines.push(`      name: ${m.name}`);
+      lines.push("      mime_type: application/json");
+      lines.push(`      description: ${m.kind} with ${m.field_count} field${m.field_count === 1 ? "" : "s"} (${m.source_file})`);
+      lines.push("");
+    }
+  }
 
   // Prompts
   lines.push("  prompts:");

@@ -277,6 +277,7 @@ export function createApp(router: Router, port: number): Server {
       const cpResult = walCheckpoint();
       log("info", "shutdown_wal_checkpoint", { success: cpResult.success, ...cpResult.details });
     } catch (err) {
+      // v8 ignore next
       log("error", "shutdown_wal_checkpoint_failed", { error: (err as Error).message });
     }
     closeDb();

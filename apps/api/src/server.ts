@@ -27,6 +27,7 @@ import {
   handleSearchIndex,
   handleSearchQuery,
   handleSearchStats,
+  handleSearchSymbols,
   handleDbStats,
   handleDbMaintenance,
   handleDeleteSnapshot,
@@ -49,6 +50,8 @@ import {
   handleDeleteGitHubToken,
   handleBillingHistory,
   handleProrationPreview,
+  handleGetCredits,
+  handleAddCredits,
 } from "./billing.js";
 import {
   handleGetPlans,
@@ -68,7 +71,7 @@ import { handleAdminStats, handleAdminAccounts, handleAdminActivity } from "./ad
 import { handleCreateWebhook, handleListWebhooks, handleDeleteWebhook, handleToggleWebhook, handleWebhookDeliveries } from "./webhooks.js";
 import { handleListVersions, handleGetVersion, handleDiffVersions } from "./versions.js";
 import { handleGitHubOAuthStart, handleGitHubOAuthCallback } from "./oauth.js";
-import { handleLemonSqueezyWebhook, handleCreateCheckout, handleGetSubscription, handleCancelSubscription } from "./lemonsqueezy.js";
+import { handleStripeWebhook, handleCreateCheckout, handleGetSubscription, handleCancelSubscription } from "./stripe.js";
 import { validateEnv } from "./env.js";
 import { log } from "./logger.js";
 
@@ -143,6 +146,7 @@ router.post("/v1/github/analyze", handleGitHubAnalyze);
 router.post("/v1/search/index", handleSearchIndex);
 router.post("/v1/search/query", handleSearchQuery);
 router.get("/v1/search/:snapshot_id/stats", handleSearchStats);
+router.get("/v1/search/:snapshot_id/symbols", handleSearchSymbols);
 
 // Export
 router.get("/v1/projects/:project_id/export", handleExportZip);
@@ -186,6 +190,10 @@ router.delete("/v1/account/github-token/:token_id", handleDeleteGitHubToken);
 router.get("/v1/billing/history", handleBillingHistory);
 router.get("/v1/billing/proration", handleProrationPreview);
 
+// Persistence Credits
+router.get("/v1/account/credits", handleGetCredits);
+router.post("/v1/account/credits", handleAddCredits);
+
 // Plans & Funnel
 router.get("/v1/plans", handleGetPlans);
 router.post("/v1/account/seats", handleInviteSeat);
@@ -214,7 +222,7 @@ router.post("/v1/account/webhooks/:webhook_id/toggle", handleToggleWebhook);
 router.get("/v1/account/webhooks/:webhook_id/deliveries", handleWebhookDeliveries);
 
 // Lemon Squeezy Payments
-router.post("/v1/webhooks/lemonsqueezy", handleLemonSqueezyWebhook);
+router.post("/v1/webhooks/stripe", handleStripeWebhook);
 router.post("/v1/checkout", handleCreateCheckout);
 router.get("/v1/account/subscription", handleGetSubscription);
 router.post("/v1/account/subscription/cancel", handleCancelSubscription);

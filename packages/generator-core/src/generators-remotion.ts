@@ -3,6 +3,46 @@ import type { GeneratedFile, SourceFile } from "./types.js";
 import { hasFw, getFw } from "./fw-helpers.js";
 import { findFiles, renderExcerpts, fileTree } from "./file-excerpt-utils.js";
 
+// ─── Theme derivation ────────────────────────────────────────────
+
+interface RemotionTheme {
+  bg: string;
+  fg: string;
+  accent: string;
+  muted: string;
+}
+
+/** Derive a video color palette from the detected framework stack. */
+export function deriveRemotionTheme(ctx: ContextMap): RemotionTheme {
+  const names = ctx.detection.frameworks.map(f => f.name.toLowerCase());
+  const lang = ctx.project_identity.primary_language.toLowerCase();
+
+  // Framework-specific palettes (first match wins)
+  if (names.includes("svelte"))          return { bg: "#1a0a00", fg: "#f1f1f1", accent: "#ff3e00", muted: "#7a3a20" };
+  if (names.includes("vue"))             return { bg: "#001a0e", fg: "#e8f5e9", accent: "#41b883", muted: "#2d6a4f" };
+  if (names.includes("angular"))         return { bg: "#1a0005", fg: "#fce4ec", accent: "#dd0031", muted: "#880e4f" };
+  if (names.includes("next.js"))         return { bg: "#000000", fg: "#ffffff", accent: "#ffffff", muted: "#888888" };
+  if (names.includes("react"))           return { bg: "#0d1117", fg: "#c9d1d9", accent: "#61dafb", muted: "#30363d" };
+  if (names.includes("nuxt"))            return { bg: "#001a0e", fg: "#e8f5e9", accent: "#00dc82", muted: "#2d6a4f" };
+  if (names.includes("fastapi"))         return { bg: "#001a1a", fg: "#e0f7fa", accent: "#009688", muted: "#004d40" };
+  if (names.includes("django"))          return { bg: "#001a0a", fg: "#e8ffe8", accent: "#0c4b33", muted: "#2e7d32" };
+  if (names.includes("flask"))           return { bg: "#0a0a0a", fg: "#f5f5f5", accent: "#888888", muted: "#555555" };
+  if (names.includes("gin") || names.includes("chi") || names.includes("fiber") || names.includes("echo"))
+                                         return { bg: "#001a24", fg: "#e0f4ff", accent: "#00add8", muted: "#005f73" };
+
+  // Language fallbacks
+  if (lang === "python")                 return { bg: "#1a1400", fg: "#fff8e1", accent: "#ffd343", muted: "#7a6a00" };
+  if (lang === "go")                     return { bg: "#001a24", fg: "#e0f4ff", accent: "#00add8", muted: "#005f73" };
+  if (lang === "rust")                   return { bg: "#1a0a00", fg: "#fff3e0", accent: "#ce422b", muted: "#7a3a20" };
+  if (lang === "java" || lang === "kotlin")
+                                         return { bg: "#0a1a1a", fg: "#e0f7fa", accent: "#f89820", muted: "#005f73" };
+  if (lang === "typescript" || lang === "javascript")
+                                         return { bg: "#0f101a", fg: "#e2e8f0", accent: "#3178c6", muted: "#475569" };
+
+  // Default (framework-agnostic indigo)
+  return { bg: "#0f0f23", fg: "#e2e8f0", accent: "#6366f1", muted: "#64748b" };
+}
+
 // ─── remotion-script.ts ─────────────────────────────────────────
 
 export function generateRemotionScript(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
@@ -20,11 +60,12 @@ export function generateRemotionScript(ctx: ContextMap, files?: SourceFile[]): G
   lines.push(`// Scenes: Intro → Tech Stack → Architecture → Key Abstractions → Outro`);
   lines.push("");
 
+  const theme = deriveRemotionTheme(ctx);
   lines.push(`const THEME = {`);
-  lines.push(`  bg: "#0f0f23",`);
-  lines.push(`  fg: "#e2e8f0",`);
-  lines.push(`  accent: "#6366f1",`);
-  lines.push(`  muted: "#64748b",`);
+  lines.push(`  bg: "${theme.bg}",`);
+  lines.push(`  fg: "${theme.fg}",`);
+  lines.push(`  accent: "${theme.accent}",`);
+  lines.push(`  muted: "${theme.muted}",`);
   lines.push(`};`);
   lines.push("");
 
@@ -222,6 +263,19 @@ export function generateScenePlan(ctx: ContextMap, files?: SourceFile[]): Genera
   lines.push("- **Visual**: Arrow-prefixed list items");
   lines.push("");
 
+  // Scene 5: Domain Models (conditional)
+  const models = ctx.domain_models;
+  if (models.length > 0) {
+    lines.push("### Scene 5: Domain Models (0:12–0:15)");
+    lines.push("");
+    lines.push("- **Content**: Detected domain model entities");
+    lines.push(`- **Models**: ${models.slice(0, 6).map(m => `${m.name} (${m.kind}, ${m.field_count} fields)`).join("; ")}`);
+    lines.push(`- **Total**: ${models.length} model${models.length === 1 ? "" : "s"} detected`);
+    lines.push("- **Animation**: Entity cards fade in with field-count pill badges");
+    lines.push("- **Visual**: Grid of entity cards with kind and field count");
+    lines.push("");
+  }
+
   lines.push("## Narration Script");
   lines.push("");
   lines.push(`> This is ${id.name}, a ${id.type} built with ${id.primary_language}.`);
@@ -325,13 +379,16 @@ export function generateRenderConfig(ctx: ContextMap, profile: RepoProfile, file
       concurrency: 4,
       overwrite: true,
     },
-    theme: {
-      background: "#0f0f23",
-      foreground: "#e2e8f0",
-      accent: "#6366f1",
-      muted: "#64748b",
-      fontFamily: "Inter, system-ui, sans-serif",
-    },
+    theme: (() => {
+      const t = deriveRemotionTheme(ctx);
+      return {
+        background: t.bg,
+        foreground: t.fg,
+        accent: t.accent,
+        muted: t.muted,
+        fontFamily: "Inter, system-ui, sans-serif",
+      };
+    })(),
     scene_data: {
       tech_stack: {
         frameworks: ctx.detection.frameworks.map(f => ({
@@ -407,10 +464,11 @@ export function generateAssetChecklist(ctx: ContextMap, files?: SourceFile[]): G
   lines.push("- [ ] JetBrains Mono (code snippets)");
   lines.push("");
   lines.push("### Colors");
-  lines.push("- [x] Background: #0f0f23 (defined in theme)");
-  lines.push("- [x] Foreground: #e2e8f0 (defined in theme)");
-  lines.push("- [x] Accent: #6366f1 (defined in theme)");
-  lines.push("- [x] Muted: #64748b (defined in theme)");
+  const palette = deriveRemotionTheme(ctx);
+  lines.push(`- [x] Background: ${palette.bg} (derived from detected stack)`);
+  lines.push(`- [x] Foreground: ${palette.fg} (derived from detected stack)`);
+  lines.push(`- [x] Accent: ${palette.accent} (derived from detected stack)`);
+  lines.push(`- [x] Muted: ${palette.muted} (derived from detected stack)`);
   lines.push("");
 
   lines.push("### Images");

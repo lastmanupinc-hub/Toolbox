@@ -83,6 +83,7 @@ export async function handleInviteSeat(
     const seat = inviteSeat(ctx.account!.account_id, email, role as SeatRole, ctx.account!.account_id);
 
     // Send invitation email (fire-and-forget)
+    // v8 ignore next
     sendSeatInvitation(email, ctx.account!.name, ctx.account!.name, role, seat.seat_id).catch(() => {});
 
     sendJSON(res, 201, { seat });

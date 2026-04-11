@@ -1,0 +1,67 @@
+detection:
+  languages:
+    primary: TypeScript
+    secondary: [JavaScript, YAML, CSS, JSON]
+    build: [Dockerfile, GitHub Actions YAML]
+  frameworks:
+    runtime: Node.js 20+
+    frontend: React 19 + Vite 6
+    test: Vitest 4.1
+    build: pnpm workspaces
+    css: vanilla CSS (no Tailwind)
+    http: custom zero-dependency router
+    database: better-sqlite3 (WAL mode)
+  deployment:
+    api: Render (Docker, Oregon)
+    web: Cloudflare Pages
+    ci: GitHub Actions (Node 20/22 matrix)
+
+structure_summary:
+  type: monorepo (pnpm workspaces)
+  apps: 3 (api, cli, web)
+  packages: 4 (snapshots, repo-parser, context-engine, generator-core)
+  governance_yamls: 12
+  programs: 17
+  generators: 80
+  endpoints: 75+
+
+health:
+  tests: 2910
+  test_files: 101
+  coverage_pct: 91.5
+  capabilities_a: 81
+  capabilities_f: 1
+  capabilities_total: 82
+  determinism_tests: 6
+  runtime_deps: "zero (custom HTTP router, no Express/Fastify)"
+
+architectural_layers:
+  - name: YAML Governance
+    files: 12
+    role: "Constitutional control — project identity, program specs, snapshot intake, dev policy, self-audit"
+  - name: repo-parser
+    role: "Language detection (60+), framework detection (10+), import resolution"
+  - name: context-engine
+    role: "Context map builder, repo-profile builder, route extraction, architecture analysis"
+  - name: snapshots
+    role: "SQLite intake (5 tables: snapshots, projects, accounts, billings, webhooks)"
+  - name: generator-core
+    role: "Template engine + 80 generators across 17 program modules"
+  - name: API server
+    role: "Zero-dep HTTP router, 75+ endpoints, API keys, rate limiting, Prometheus metrics"
+  - name: CLI
+    role: "axis analyze <dir>, axis github <url>"
+  - name: Web SPA
+    role: "React 19 + Vite 6, dark theme, upload + dashboard"
+
+maturity_estimate:
+  functional_percent: 90
+  hardened_percent: 89
+  integrated_percent: 96
+  production_percent: 64
+  confidence:
+    architecture: 95
+    runtime: 97
+    pipeline: 99
+    product_surface: 95
+    integration: 98

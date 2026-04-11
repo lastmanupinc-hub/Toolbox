@@ -272,6 +272,36 @@ export function UploadPage({ onComplete }: Props) {
         </div>
       </section>
 
+      {/* ── 17 Programs listing ──────────────────────────────────── */}
+      <div style={{ textAlign: "center", marginBottom: 20 }}>
+        <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 10 }}>17 Programs — 3 free · 14 pro</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
+          {[
+            { name: "Search", free: true }, { name: "Skills", free: true }, { name: "Debug", free: true },
+            { name: "Frontend", free: false }, { name: "SEO", free: false }, { name: "Optimization", free: false },
+            { name: "Theme", free: false }, { name: "Brand", free: false }, { name: "Superpowers", free: false },
+            { name: "Marketing", free: false }, { name: "Notebook", free: false }, { name: "Obsidian", free: false },
+            { name: "MCP", free: false }, { name: "Artifacts", free: false }, { name: "Remotion", free: false },
+            { name: "Canvas", free: false }, { name: "Algorithmic", free: false },
+          ].map(({ name, free }) => (
+            <span key={name} className={`badge ${free ? "badge-green" : "badge-accent"}`} style={{ fontSize: "0.78rem" }}>
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Go Pro top banner ──────────────────────────────────────── */}
+      <div className="gopro-banner">
+        <div>
+          <strong>Go Pro — unlock all 17 programs and 80 artifacts.</strong>
+          <span style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginLeft: 8 }}>$29/month · cancel anytime · no credit card to start</span>
+        </div>
+        <button className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => { window.location.hash = "plans"; }}>
+          See Plans
+        </button>
+      </div>
+
       <div className="card" style={{ marginBottom: 24, textAlign: "center", padding: "32px 24px" }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: 8 }}>Analyze Your Project</h2>
         <p style={{ color: "var(--text-muted)", maxWidth: 500, margin: "0 auto", marginBottom: 16 }}>
@@ -312,6 +342,85 @@ export function UploadPage({ onComplete }: Props) {
           </div>
         ) : (
           <>
+        <div
+          className="card"
+          style={{
+            marginBottom: 16,
+            border: dragOver ? "1px solid var(--accent)" : undefined,
+            textAlign: "center",
+            padding: "40px 24px",
+          }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            style={{ display: "none" }}
+            {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
+            multiple
+            onChange={handleFileInputChange}
+          />
+          <input
+            ref={zipInputRef}
+            type="file"
+            style={{ display: "none" }}
+            accept=".zip,application/zip,application/x-zip-compressed"
+            onChange={handleZipInputChange}
+          />
+          {files.length === 0 ? (
+            <>
+              <div style={{ fontSize: "2rem", marginBottom: 8, color: "var(--text-muted)" }}>[folder]</div>
+              <p style={{ color: "var(--text-muted)" }}>
+                Drag &amp; drop a folder or .zip file here
+              </p>
+              <div className="flex" style={{ gap: 8, justifyContent: "center", marginTop: 12 }}>
+                <button type="button" className="btn" onClick={(e) => { e.stopPropagation(); handleFolderSelect(); }} style={{ fontSize: "0.8125rem" }}>
+                  Select Folder
+                </button>
+                <button type="button" className="btn" onClick={(e) => { e.stopPropagation(); handleZipSelect(); }} style={{ fontSize: "0.8125rem" }}>
+                  Upload .zip
+                </button>
+              </div>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: 4 }}>
+                node_modules, .git, dist, and binary files are automatically excluded
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="flex-between" style={{ marginBottom: 8 }}>
+                <span className="badge badge-green">{files.length} files</span>
+                <span className="badge">{(totalSize / 1024).toFixed(1)} KB</span>
+                {skippedCount > 0 && (
+                  <span className="badge" style={{ background: "var(--warning-bg)", color: "var(--warning)" }}>
+                    {skippedCount} skipped (&gt;1 MB / binary)
+                  </span>
+                )}
+              </div>
+              <div
+                style={{
+                  maxHeight: 200,
+                  overflow: "auto",
+                  textAlign: "left",
+                  fontSize: "0.8125rem",
+                  fontFamily: "var(--mono)",
+                  color: "var(--text-muted)",
+                }}
+              >
+                {files.slice(0, 50).map((f) => (
+                  <div key={f.path}>{f.path}</div>
+                ))}
+                {files.length > 50 && (
+                  <div style={{ color: "var(--accent)" }}>... and {files.length - 50} more</div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
         <div className="grid grid-2" style={{ marginBottom: 16 }}>
           <div className="card">
             <label>Project Name</label>
@@ -373,86 +482,6 @@ export function UploadPage({ onComplete }: Props) {
             </div>
           ))}
         </div>
-
-        <div
-          className="card"
-          style={{
-            marginBottom: 16,
-            border: dragOver ? "1px solid var(--accent)" : undefined,
-            textAlign: "center",
-            padding: "40px 24px",
-          }}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragOver(true);
-          }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            style={{ display: "none" }}
-            {...({ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>)}
-            multiple
-            onChange={handleFileInputChange}
-          />
-          <input
-            ref={zipInputRef}
-            type="file"
-            style={{ display: "none" }}
-            accept=".zip,application/zip,application/x-zip-compressed"
-            onChange={handleZipInputChange}
-          />
-          {files.length === 0 ? (
-            <>
-              <div style={{ fontSize: "2rem", marginBottom: 8, color: "var(--text-muted)" }}>[folder]</div>
-              <p style={{ color: "var(--text-muted)" }}>
-                Drag & drop a folder or .zip file here
-              </p>
-              <div className="flex" style={{ gap: 8, justifyContent: "center", marginTop: 12 }}>
-                <button type="button" className="btn" onClick={(e) => { e.stopPropagation(); handleFolderSelect(); }} style={{ fontSize: "0.8125rem" }}>
-                  Select Folder
-                </button>
-                <button type="button" className="btn" onClick={(e) => { e.stopPropagation(); handleZipSelect(); }} style={{ fontSize: "0.8125rem" }}>
-                  Upload .zip
-                </button>
-              </div>
-              <p style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: 4 }}>
-                node_modules, .git, dist, and binary files are automatically excluded
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="flex-between" style={{ marginBottom: 8 }}>
-                <span className="badge badge-green">{files.length} files</span>
-                <span className="badge">{(totalSize / 1024).toFixed(1)} KB</span>
-                {skippedCount > 0 && (
-                  <span className="badge" style={{ background: "var(--warning-bg)", color: "var(--warning)" }}>
-                    {skippedCount} skipped (&gt;1 MB / binary)
-                  </span>
-                )}
-              </div>
-              <div
-                style={{
-                  maxHeight: 200,
-                  overflow: "auto",
-                  textAlign: "left",
-                  fontSize: "0.8125rem",
-                  fontFamily: "var(--mono)",
-                  color: "var(--text-muted)",
-                }}
-              >
-                {files.slice(0, 50).map((f) => (
-                  <div key={f.path}>{f.path}</div>
-                ))}
-                {files.length > 50 && (
-                  <div style={{ color: "var(--accent)" }}>... and {files.length - 50} more</div>
-                )}
-              </div>
-            </>
-          )}
-        </div>
           </>
         )}
 
@@ -473,6 +502,17 @@ export function UploadPage({ onComplete }: Props) {
             "Upload & Generate"
           )}
         </button>
+
+        {/* ── Go Pro bottom banner ───────────────────────────────── */}
+        <div className="gopro-banner" style={{ marginTop: 24 }}>
+          <div>
+            <strong>Ready for all 17 programs?</strong>
+            <span style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginLeft: 8 }}>Go Pro for $29/month — all 80 artifacts, unlimited analysis, priority support.</span>
+          </div>
+          <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => { window.location.hash = "plans"; }}>
+            Go Pro
+          </button>
+        </div>
       </form>
     </div>
   );

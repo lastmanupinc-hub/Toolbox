@@ -57,7 +57,7 @@ export const TIER_LIMITS: Record<BillingTier, TierLimits> = {
     max_snapshots_per_month: 10,
     max_projects: 1,
     max_file_size_bytes: 5 * 1024 * 1024,      // 5 MB
-    max_files_per_snapshot: 200,
+    max_files_per_snapshot: 1000,
     programs: ["search", "skills", "debug"],     // 3 free programs
   },
   paid: {

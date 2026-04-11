@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { openMemoryDb, closeDb, getDb, indexSnapshotContent, searchSnapshotContent, getSearchIndexStats } from "@axis/snapshots";
+import { openMemoryDb, closeDb, getDb, indexSnapshotContent, searchSnapshotContent, getSearchIndexStats, indexSymbols } from "@axis/snapshots";
 import {
   handleSearchIndex,
   handleSearchQuery,
   handleSearchStats,
+  handleSearchSymbols,
 } from "./handlers.js";
 import { IncomingMessage, ServerResponse } from "node:http";
 import { Socket } from "node:net";
@@ -40,9 +41,10 @@ function makeReq(body: unknown): IncomingMessage {
   return req;
 }
 
-function makeGetReq(): IncomingMessage {
+function makeGetReq(url = "/"): IncomingMessage {
   const socket = new Socket();
   const req = new IncomingMessage(socket);
+  req.url = url;
   return req;
 }
 
@@ -119,7 +121,7 @@ afterEach(() => {
 // ─── handleSearchIndex ──────────────────────────────────────────
 
 describe("handleSearchIndex", () => {
-  it("indexes snapshot files and returns counts", async () => {
+  it("indexes snapshot files and returns counts including indexed_symbols", async () => {
     seedSnapshot();
     const req = makeReq({ snapshot_id: "snap1" });
     const { res, captured } = makeRes();
@@ -128,6 +130,7 @@ describe("handleSearchIndex", () => {
     expect(result.statusCode).toBe(200);
     expect(result.body).toHaveProperty("indexed_files", 3);
     expect((result.body as Record<string, number>).indexed_lines).toBeGreaterThan(0);
+    expect(typeof (result.body as Record<string, number>).indexed_symbols).toBe("number");
   });
 
   it("returns 404 for non-existent snapshot", async () => {
@@ -269,5 +272,78 @@ describe("handleSearchQuery — invalid JSON", () => {
     await handleSearchQuery(req, res);
     expect(captured().statusCode).toBe(400);
     expect((captured().body as Record<string, unknown>).error_code).toBe("INVALID_JSON");
+  });
+});
+
+// ─── handleSearchSymbols ────────────────────────────────────────
+
+function seedSnapshotWithCode(snapshotId = "code-snap") {
+  const db = getDb();
+  const projectExists = db.prepare("SELECT 1 FROM projects WHERE project_id = 'codep'").get();
+  if (!projectExists) {
+    db.prepare("INSERT INTO projects (project_id, project_name) VALUES ('codep', 'Code Project')").run();
+  }
+  const files = [
+    { path: "src/handlers.ts", content: "export function handleCreate() {}\nexport async function handleDelete() {}\n", size: 70 },
+    { path: "src/models.ts", content: "export class UserModel {}\nexport interface UserPayload { id: string; }\n", size: 70 },
+  ];
+  db.prepare(
+    "INSERT OR REPLACE INTO snapshots (snapshot_id, project_id, created_at, input_method, manifest, file_count, total_size_bytes, files, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  ).run(snapshotId, "codep", "2024-01-01", "api_submission", "{}", files.length, 140, JSON.stringify(files), "ready");
+  return files;
+}
+
+describe("handleSearchSymbols", () => {
+  const snapId = "code-snap";
+
+  beforeEach(() => {
+    const files = seedSnapshotWithCode(snapId);
+    indexSymbols(snapId, files.map((f) => ({ path: f.path, content: f.content })));
+  });
+
+  it("returns all symbols with no query params", async () => {
+    const req = makeGetReq(`/v1/search/${snapId}/symbols`);
+    const { res, captured } = makeRes();
+    await handleSearchSymbols(req, res, { snapshot_id: snapId });
+    const body = captured().body as Record<string, unknown>;
+    expect(captured().statusCode).toBe(200);
+    expect((body.results as unknown[]).length).toBeGreaterThan(0);
+    expect(typeof body.symbol_count).toBe("number");
+  });
+
+  it("filters by name prefix", async () => {
+    const req = makeGetReq(`/v1/search/${snapId}/symbols?name=handle`);
+    const { res, captured } = makeRes();
+    await handleSearchSymbols(req, res, { snapshot_id: snapId });
+    const body = captured().body as Record<string, unknown>;
+    const results = body.results as Array<{ symbol_name: string }>;
+    expect(results.every((r) => r.symbol_name.toLowerCase().startsWith("handle"))).toBe(true);
+  });
+
+  it("filters by type", async () => {
+    const req = makeGetReq(`/v1/search/${snapId}/symbols?type=class`);
+    const { res, captured } = makeRes();
+    await handleSearchSymbols(req, res, { snapshot_id: snapId });
+    const body = captured().body as Record<string, unknown>;
+    const results = body.results as Array<{ symbol_type: string }>;
+    expect(results.every((r) => r.symbol_type === "class")).toBe(true);
+  });
+
+  it("respects limit query param", async () => {
+    const req = makeGetReq(`/v1/search/${snapId}/symbols?limit=1`);
+    const { res, captured } = makeRes();
+    await handleSearchSymbols(req, res, { snapshot_id: snapId });
+    const body = captured().body as Record<string, unknown>;
+    expect((body.results as unknown[]).length).toBeLessThanOrEqual(1);
+  });
+
+  it("returns empty results for unindexed snapshot", async () => {
+    const req = makeGetReq("/v1/search/nobody/symbols");
+    const { res, captured } = makeRes();
+    await handleSearchSymbols(req, res, { snapshot_id: "nobody" });
+    const body = captured().body as Record<string, unknown>;
+    expect(captured().statusCode).toBe(200);
+    expect((body.results as unknown[]).length).toBe(0);
+    expect(body.symbol_count).toBe(0);
   });
 });

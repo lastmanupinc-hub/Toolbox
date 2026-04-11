@@ -382,6 +382,20 @@ pre {
   user-select: none;
 }
 
+/* ─── Go Pro banner ───────────────────────────────────────────────────── */
+.gopro-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
 /* ─── Responsive breakpoints ───────────────────────────────────── */
 
 @media (max-width: 900px) {

@@ -335,3 +335,34 @@ describe("Router — query string handling", () => {
     expect((res.data as Record<string, unknown>).id).toBe("42");
   });
 });
+
+// ─── Direct handle() call with undefined method/url ─────────────
+
+describe("Router — handle() with undefined method and url", () => {
+  it("falls back to '/' when req.url is undefined and 'GET' when req.method is undefined", async () => {
+    const router = new Router();
+    let handlerCalled = false;
+    router.get("/", async (_req, res) => {
+      handlerCalled = true;
+      sendJSON(res, 200, { ok: true });
+    });
+
+    const chunks: Buffer[] = [];
+    const mockRes = {
+      writeHead: (_status: number, _headers?: Record<string, string>) => {},
+      end: (data?: string) => { if (data) chunks.push(Buffer.from(data)); },
+      setHeader: () => {},
+    } as unknown as import("node:http").ServerResponse;
+
+    const mockReq = {
+      url: undefined,     // triggers req.url ?? "/"
+      method: undefined,  // triggers req.method ?? "GET"
+      headers: { host: "localhost" },
+    } as unknown as import("node:http").IncomingMessage;
+
+    await router.handle(mockReq, mockRes);
+    expect(handlerCalled).toBe(true);
+    const body = Buffer.concat(chunks).toString();
+    expect(JSON.parse(body)).toMatchObject({ ok: true });
+  });
+});

@@ -156,7 +156,7 @@ export const PLAN_FEATURES: PlanFeature[] = [
   { name: "Programs available",    free: "3 core",             pro: "All 17 (pick & choose)", suite: "All 17 (always on)" },
   { name: "Snapshots per month",   free: 10,                   pro: 200,                      suite: "Unlimited" },
   { name: "Active projects",       free: 1,                    pro: 20,                       suite: "Unlimited" },
-  { name: "Max files per snapshot", free: 200,                 pro: 2000,                     suite: 5000 },
+  { name: "Max files per snapshot", free: 1000,                pro: 2000,                     suite: 5000 },
   { name: "Max upload size",       free: "5 MB",               pro: "50 MB",                  suite: "100 MB" },
   { name: "Team seats",            free: 1,                    pro: 5,                        suite: "Unlimited" },
   { name: "API access",            free: true,                 pro: true,                     suite: true },

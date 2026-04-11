@@ -216,16 +216,16 @@ describe("buildOpenApiSpec", () => {
     expect(cb.get.operationId).toBe("githubOAuthCallback");
   });
 
-  it("includes Lemon Squeezy payment endpoints", () => {
+  it("includes Stripe payment endpoints", () => {
     const paths = Object.keys(spec.paths);
-    expect(paths).toContain("/v1/webhooks/lemonsqueezy");
+    expect(paths).toContain("/v1/webhooks/stripe");
     expect(paths).toContain("/v1/checkout");
     expect(paths).toContain("/v1/account/subscription");
     expect(paths).toContain("/v1/account/subscription/cancel");
   });
 
-  it("LS webhook endpoint has correct responses", () => {
-    const wh = spec.paths["/v1/webhooks/lemonsqueezy"] as Record<string, Record<string, unknown>>;
+  it("Stripe webhook endpoint has correct responses", () => {
+    const wh = spec.paths["/v1/webhooks/stripe"] as Record<string, Record<string, unknown>>;
     expect(wh.post).toBeDefined();
     const responses = wh.post.responses as Record<string, unknown>;
     expect(responses["200"]).toBeDefined();
@@ -263,7 +263,7 @@ describe("buildOpenApiSpec", () => {
 
   it("defines new payment/token schemas", () => {
     const schemas = Object.keys(spec.components.schemas);
-    expect(schemas).toContain("LemonSqueezyWebhookPayload");
+    expect(schemas).toContain("StripeWebhookPayload");
     expect(schemas).toContain("WebhookAckResponse");
     expect(schemas).toContain("CreateCheckoutRequest");
     expect(schemas).toContain("CheckoutResponse");
@@ -352,7 +352,7 @@ describe("buildOpenApiSpec", () => {
       "DELETE /v1/account/webhooks/{webhook_id}",
       "POST /v1/account/webhooks/{webhook_id}/toggle",
       "GET /v1/account/webhooks/{webhook_id}/deliveries",
-      "POST /v1/webhooks/lemonsqueezy",
+      "POST /v1/webhooks/stripe",
       "POST /v1/checkout",
       "GET /v1/account/subscription",
       "POST /v1/account/subscription/cancel",

@@ -269,7 +269,7 @@ export function ProgramsPage({ onAnalyze }: Props) {
           <button className="btn btn-primary btn-lg" onClick={onAnalyze}>
             Analyze your repo — it&apos;s free
           </button>
-          <a className="btn btn-lg" href="mailto:support@lastmanup.com?subject=AXIS%20Toolbox%20Demo">
+          <a className="btn btn-lg" href="mailto:jonathan@jonathanarvay.com?subject=AXIS%20Toolbox%20Demo">
             Request a demo
           </a>
         </div>

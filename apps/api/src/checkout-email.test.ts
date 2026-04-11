@@ -12,7 +12,7 @@ import {
 import { Router, createApp } from "./router.js";
 import { handleCreateAccount } from "./billing.js";
 import { handleInviteSeat, handleListSeats, handleGetPlans } from "./funnel.js";
-import { handleLemonSqueezyWebhook, handleCreateCheckout, handleGetSubscription, handleCancelSubscription } from "./lemonsqueezy.js";
+import { handleStripeWebhook, handleCreateCheckout, handleGetSubscription, handleCancelSubscription } from "./stripe.js";
 import { resetRateLimits } from "./rate-limiter.js";
 import { createHmac } from "node:crypto";
 
@@ -54,8 +54,9 @@ async function req(
   });
 }
 
-function signPayload(payload: string): string {
-  return createHmac("sha256", WEBHOOK_SECRET).update(payload).digest("hex");
+function signStripePayload(payload: string, ts: number = Math.floor(Date.now() / 1000)): string {
+  const hmac = createHmac("sha256", WEBHOOK_SECRET).update(`${ts}.${payload}`).digest("hex");
+  return `t=${ts},v1=${hmac}`;
 }
 
 // ─── Server setup ───────────────────────────────────────────────
@@ -63,16 +64,16 @@ function signPayload(payload: string): string {
 beforeAll(async () => {
   openMemoryDb();
   resetRateLimits();
-  process.env.LEMONSQUEEZY_WEBHOOK_SECRET = WEBHOOK_SECRET;
-  process.env.LEMONSQUEEZY_VARIANT_ID_PAID = "variant_paid_169";
-  process.env.LEMONSQUEEZY_VARIANT_ID_SUITE = "variant_suite_169";
+  process.env.STRIPE_WEBHOOK_SECRET = WEBHOOK_SECRET;
+  process.env.STRIPE_PRICE_ID_PAID = "price_paid_169";
+  process.env.STRIPE_PRICE_ID_SUITE = "price_suite_169";
 
   const router = new Router();
   router.post("/v1/accounts", handleCreateAccount);
   router.post("/v1/account/seats", handleInviteSeat);
   router.get("/v1/account/seats", handleListSeats);
   router.get("/v1/plans", handleGetPlans);
-  router.post("/v1/webhooks/lemonsqueezy", handleLemonSqueezyWebhook);
+  router.post("/v1/webhooks/stripe", handleStripeWebhook);
   router.post("/v1/checkout", handleCreateCheckout);
   router.get("/v1/account/subscription", handleGetSubscription);
   router.post("/v1/account/subscription/cancel", handleCancelSubscription);
@@ -87,9 +88,9 @@ beforeAll(async () => {
 afterAll(() => {
   server?.close();
   closeDb();
-  delete process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
-  delete process.env.LEMONSQUEEZY_VARIANT_ID_PAID;
-  delete process.env.LEMONSQUEEZY_VARIANT_ID_SUITE;
+  delete process.env.STRIPE_WEBHOOK_SECRET;
+  delete process.env.STRIPE_PRICE_ID_PAID;
+  delete process.env.STRIPE_PRICE_ID_SUITE;
 });
 
 beforeEach(() => {
@@ -188,7 +189,7 @@ describe("Checkout flow", () => {
     expect(r.data.error).toContain("tier must be paid or suite");
 
     delete process.env.STRIPE_SECRET_KEY;
-    delete process.env.STRIPE_PRICE_ID_PAID;
+    process.env.STRIPE_PRICE_ID_PAID = "price_paid_169";
   });
 
   it("returns 503 when Stripe key not configured", async () => {
@@ -266,29 +267,23 @@ describe("Webhook upgrade email notification", () => {
     // Create a free account
     const account = createAccount("Webhook Upgrader", "webhook-upgrade-169@example.com", "free");
 
-    // Send a webhook that activates a paid subscription
+    // Send a checkout.session.completed webhook that activates a paid subscription
+    const ts = Math.floor(Date.now() / 1000);
     const payload = JSON.stringify({
-      meta: {
-        event_name: "subscription_created",
-        custom_data: { account_id: account.account_id },
-      },
+      type: "checkout.session.completed",
       data: {
-        id: "sub_webhook_169",
-        attributes: {
-          status: "active",
-          variant_id: "variant_paid_169",
-          current_period_start: "2025-01-01T00:00:00Z",
-          current_period_end: "2025-02-01T00:00:00Z",
-          card_brand: "visa",
-          card_last_four: "4242",
-          renews_at: "2025-02-01T00:00:00Z",
-          ends_at: null,
+        object: {
+          id: "cs_webhook_169",
+          subscription: "sub_webhook_169",
+          customer: "cus_webhook_169",
+          client_reference_id: account.account_id,
+          metadata: { account_id: account.account_id, tier: "paid" },
         },
       },
     });
 
-    const r = await req("POST", "/v1/webhooks/lemonsqueezy", payload, {
-      "x-signature": signPayload(payload),
+    const r = await req("POST", "/v1/webhooks/stripe", payload, {
+      "stripe-signature": signStripePayload(payload, ts),
       "Content-Type": "application/json",
     });
     expect(r.status).toBe(200);

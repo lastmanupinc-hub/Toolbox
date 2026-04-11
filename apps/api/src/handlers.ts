@@ -21,6 +21,9 @@ import {
   indexSnapshotContent,
   searchSnapshotContent,
   getSearchIndexStats,
+  indexSymbols,
+  searchSymbols,
+  getSymbolStats,
   runMaintenance,
   getDbStats,
   getGitHubTokenDecrypted,
@@ -803,11 +806,13 @@ export async function handleSearchIndex(
   );
 
   const result = indexSnapshotContent(snapshotId, files);
+  const symbolResult = indexSymbols(snapshotId, files);
 
   sendJSON(res, 200, {
     snapshot_id: snapshotId,
     indexed_files: result.indexed_files,
     indexed_lines: result.indexed_lines,
+    indexed_symbols: symbolResult.indexed_symbols,
   });
 }
 
@@ -872,5 +877,33 @@ export async function handleSearchStats(
   sendJSON(res, 200, {
     snapshot_id,
     ...stats,
+  });
+}
+
+export async function handleSearchSymbols(
+  req: IncomingMessage,
+  res: ServerResponse,
+  params: Record<string, string>,
+): Promise<void> {
+  const { snapshot_id } = params;
+  const snapshot = getSnapshot(snapshot_id);
+  // v8 ignore next
+  if (snapshot && !assertSnapshotAccess(req, res, snapshot)) return;
+
+  // v8 ignore next
+  const url = new URL(req.url ?? "/", "http://localhost");
+  const name = url.searchParams.get("name") ?? undefined;
+  const type = url.searchParams.get("type") ?? undefined;
+  const limitParam = url.searchParams.get("limit");
+  // v8 ignore next
+  const limit = limitParam ? Math.min(Math.max(1, parseInt(limitParam, 10) || 50), 200) : 50;
+
+  const results = searchSymbols(snapshot_id, { name, type, limit });
+  const stats = getSymbolStats(snapshot_id);
+
+  sendJSON(res, 200, {
+    snapshot_id,
+    symbol_count: stats.symbol_count,
+    results,
   });
 }

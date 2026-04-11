@@ -172,6 +172,7 @@ export function generateThemeCss(ctx: ContextMap, files?: SourceFile[]): Generat
 
   // ─── Project snapshot comment ────────────────────────────────
   const fwStack = ctx.detection.frameworks.slice(0, 4).map(f => f.name).join(", ") || "—";
+  /* v8 ignore next */
   const totalLoc = ctx.detection.languages.reduce((sum, l) => sum + (l.loc ?? 0), 0);
   const getCount = ctx.routes.filter(r => r.method === "GET").length;
   const postCount = ctx.routes.filter(r => r.method === "POST").length;

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import type { Server } from "node:http";
-import { openMemoryDb, closeDb } from "@axis/snapshots";
+import { openMemoryDb, closeDb, saveGeneratorResult } from "@axis/snapshots";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -183,6 +183,11 @@ describe("cross-account snapshot isolation", () => {
   it("other account cannot GET project context", async () => {
     const r = await req("GET", `/v1/projects/${aliceProject}/context`, undefined, bob.key);
     expect(r.status).toBe(404);
+  });
+
+  it("unauthenticated user cannot GET project context", async () => {
+    const r = await req("GET", `/v1/projects/${aliceProject}/context`);
+    expect(r.status).toBe(401);
   });
 
   it("other account cannot GET project generated-files", async () => {
@@ -414,5 +419,77 @@ describe("ownership tagging", () => {
     const randomAcct = await createTestAccount("random-viewer", "random-viewer@test.com");
     const snap2 = await req("GET", `/v1/snapshots/${r.data.snapshot_id}`, undefined, randomAcct.key);
     expect(snap2.status).toBe(200);
+  });
+});
+
+// ─── 6. Owner DELETE their own auth-owned resources ─────────────
+
+describe("owner can DELETE their own auth-owned resources", () => {
+  let owner: { key: string };
+
+  beforeAll(async () => {
+    const r = await createTestAccount("del-owner", "del-owner@test.com");
+    owner = { key: r.key };
+    // Upgrade to paid so multiple projects don't hit free-tier limit
+    await req("POST", "/v1/account/tier", { tier: "paid" }, owner.key);
+  });
+
+  it("owner can DELETE their own snapshot (auth ownership match → FALSE branch)", async () => {
+    const r = await req("POST", "/v1/snapshots", snapshotBody("del-owner-snap"), owner.key);
+    expect(r.status).toBe(201);
+    const del = await req("DELETE", `/v1/snapshots/${r.data.snapshot_id}`, undefined, owner.key);
+    expect(del.status).toBe(200);
+    expect(del.data.deleted).toBe(true);
+  });
+
+  it("owner can DELETE their own project (auth ownership match → FALSE branch)", async () => {
+    const r = await req("POST", "/v1/snapshots", snapshotBody("del-owner-proj"), owner.key);
+    expect(r.status).toBe(201);
+    const del = await req("DELETE", `/v1/projects/${r.data.project_id}`, undefined, owner.key);
+    expect(del.status).toBe(200);
+    expect(del.data.deleted).toBe(true);
+  });
+});
+
+// ─── 7. Owner GET their own authenticated export ZIP ────────────
+
+describe("owner can GET their own authenticated export ZIP", () => {
+  let exportOwner: { key: string };
+  let exportProjectId: string;
+  let exportSnapshotId: string;
+
+  beforeAll(async () => {
+    exportOwner = await createTestAccount("export-owner", "export-owner@test.com");
+
+    const r = await req("POST", "/v1/snapshots", snapshotBody("export-owned-repo"), exportOwner.key);
+    expect(r.status).toBe(201);
+    exportProjectId = r.data.project_id as string;
+    exportSnapshotId = r.data.snapshot_id as string;
+
+    // Seed some generated files so the export ZIP is non-empty
+    saveGeneratorResult(exportSnapshotId, {
+      snapshot_id: exportSnapshotId,
+      generated_at: new Date().toISOString(),
+      files: [
+        { path: "AGENTS.md", content: "# Agents\nTest content", program: "search" },
+        { path: "SKILLS.md", content: "# Skills\nTest content", program: "skills" },
+      ],
+    });
+  });
+
+  it("owner can GET their own project export ZIP (auth ownership match → FALSE branch)", async () => {
+    const r = await req("GET", `/v1/projects/${exportProjectId}/export`, undefined, exportOwner.key);
+    expect(r.status).toBe(200);
+  });
+
+  it("other account cannot GET owner's project export ZIP", async () => {
+    const other = await createTestAccount("export-other", "export-other@test.com");
+    const r = await req("GET", `/v1/projects/${exportProjectId}/export`, undefined, other.key);
+    expect(r.status).toBe(404);
+  });
+
+  it("unauthenticated request cannot GET owner's project export ZIP", async () => {
+    const r = await req("GET", `/v1/projects/${exportProjectId}/export`);
+    expect(r.status).toBe(401);
   });
 });

@@ -4,7 +4,7 @@ import type { Server } from "node:http";
 import { openMemoryDb, closeDb } from "@axis/snapshots";
 import { Router, createApp } from "./router.js";
 import { handleCreateAccount } from "./billing.js";
-import { handleLemonSqueezyWebhook, handleGetSubscription } from "./lemonsqueezy.js";
+import { handleStripeWebhook, handleGetSubscription } from "./stripe.js";
 import { resetRateLimits } from "./rate-limiter.js";
 
 const TEST_PORT = 44500;
@@ -47,8 +47,9 @@ async function req(
   });
 }
 
-function signPayload(payload: string): string {
-  return createHmac("sha256", WEBHOOK_SECRET).update(payload).digest("hex");
+function signStripePayload(payload: string, ts: number = Math.floor(Date.now() / 1000)): string {
+  const hmac = createHmac("sha256", WEBHOOK_SECRET).update(`${ts}.${payload}`).digest("hex");
+  return `t=${ts},v1=${hmac}`;
 }
 
 // ─── Server setup ───────────────────────────────────────────────
@@ -56,13 +57,13 @@ function signPayload(payload: string): string {
 beforeAll(async () => {
   openMemoryDb();
   resetRateLimits();
-  process.env.LEMONSQUEEZY_WEBHOOK_SECRET = WEBHOOK_SECRET;
-  process.env.LEMONSQUEEZY_VARIANT_ID_PAID = "variant_paid_123";
-  process.env.LEMONSQUEEZY_VARIANT_ID_SUITE = "variant_suite_456";
+  process.env.STRIPE_WEBHOOK_SECRET = WEBHOOK_SECRET;
+  process.env.STRIPE_PRICE_ID_PAID = "price_paid_123";
+  process.env.STRIPE_PRICE_ID_SUITE = "price_suite_456";
 
   const router = new Router();
   router.post("/v1/accounts", handleCreateAccount);
-  router.post("/v1/webhooks/lemonsqueezy", handleLemonSqueezyWebhook);
+  router.post("/v1/webhooks/stripe", handleStripeWebhook);
   router.get("/v1/account/subscription", handleGetSubscription);
   server = createApp(router, TEST_PORT);
   await new Promise<void>((r) => setTimeout(r, 100));
@@ -71,9 +72,9 @@ beforeAll(async () => {
 afterAll(async () => {
   await new Promise<void>((resolve, reject) => server.close((err) => err ? reject(err) : resolve()));
   closeDb();
-  delete process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
-  delete process.env.LEMONSQUEEZY_VARIANT_ID_PAID;
-  delete process.env.LEMONSQUEEZY_VARIANT_ID_SUITE;
+  delete process.env.STRIPE_WEBHOOK_SECRET;
+  delete process.env.STRIPE_PRICE_ID_PAID;
+  delete process.env.STRIPE_PRICE_ID_SUITE;
 });
 
 beforeEach(() => {
@@ -93,27 +94,41 @@ async function createTestAccount(name?: string, email?: string) {
   };
 }
 
-function buildWebhookPayload(eventName: string, accountId: string, overrides: Record<string, unknown> = {}) {
-  const subId = overrides.sub_id ?? `sub_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-  delete overrides.sub_id;
+function buildCheckoutSessionPayload(accountId: string, subscriptionId: string, tier = "paid") {
   return {
-    meta: {
-      event_name: eventName,
-      custom_data: { account_id: accountId },
-    },
+    type: "checkout.session.completed",
     data: {
-      id: subId,
-      attributes: {
+      object: {
+        id: `cs_${subscriptionId}`,
+        subscription: subscriptionId,
+        customer: `cus_${subscriptionId}`,
+        client_reference_id: accountId,
+        metadata: { account_id: accountId, tier },
+      },
+    },
+  };
+}
+
+function buildSubscriptionPayload(
+  eventType: string,
+  subscriptionId: string,
+  accountId: string,
+  overrides: Record<string, unknown> = {},
+) {
+  return {
+    type: eventType,
+    data: {
+      object: {
+        id: subscriptionId,
+        customer: `cus_${subscriptionId}`,
         status: "active",
-        variant_id: 123,
-        product_id: 456,
-        customer_id: 789,
-        current_period_start: "2025-01-01T00:00:00Z",
-        current_period_end: "2025-02-01T00:00:00Z",
-        card_brand: "visa",
-        card_last_four: "4242",
-        cancelled: false,
-        ends_at: null,
+        items: {
+          data: [{ price: { id: "price_paid_123" } }],
+        },
+        current_period_start: 1735689600, // 2025-01-01
+        current_period_end: 1738368000,   // 2025-02-01
+        cancel_at: null,
+        metadata: { account_id: accountId },
         ...overrides,
       },
     },
@@ -122,80 +137,96 @@ function buildWebhookPayload(eventName: string, accountId: string, overrides: Re
 
 // ─── Webhook tests ──────────────────────────────────────────────
 
-describe("Lemon Squeezy webhook", () => {
+describe("Stripe webhook", () => {
   it("rejects requests without signature", async () => {
-    const payload = JSON.stringify(buildWebhookPayload("subscription_created", "acct_test"));
-    const r = await req("POST", "/v1/webhooks/lemonsqueezy", payload);
+    const payload = JSON.stringify(buildCheckoutSessionPayload("acct_test", "sub_001"));
+    const r = await req("POST", "/v1/webhooks/stripe", payload);
     expect(r.status).toBe(401);
   });
 
   it("rejects requests with invalid signature", async () => {
-    const payload = JSON.stringify(buildWebhookPayload("subscription_created", "acct_test"));
-    const r = await req("POST", "/v1/webhooks/lemonsqueezy", payload, {
-      "x-signature": "bad_signature_hex",
+    const payload = JSON.stringify(buildCheckoutSessionPayload("acct_test", "sub_002"));
+    const r = await req("POST", "/v1/webhooks/stripe", payload, {
+      "stripe-signature": "t=1234,v1=badhex",
     });
     expect(r.status).toBe(401);
   });
 
-  it("accepts valid webhook and creates subscription", async () => {
+  it("accepts valid checkout.session.completed and creates subscription", async () => {
     const { account } = await createTestAccount("webhook-test", "webhook@test.com");
     const accountId = account.account_id as string;
-    const payload = JSON.stringify(buildWebhookPayload("subscription_created", accountId, {
-      variant_id: "variant_paid_123",
-    }));
-    const sig = signPayload(payload);
+    const payload = JSON.stringify(buildCheckoutSessionPayload(accountId, "sub_checkout_123", "paid"));
+    const sig = signStripePayload(payload);
 
-    const r = await req("POST", "/v1/webhooks/lemonsqueezy", payload, {
-      "x-signature": sig,
+    const r = await req("POST", "/v1/webhooks/stripe", payload, {
+      "stripe-signature": sig,
     });
 
     expect(r.status).toBe(200);
     expect(r.data.handled).toBe(true);
-    expect(r.data.event).toBe("subscription_created");
-    expect(r.data.subscription_id).toBeTruthy();
+    expect(r.data.event).toBe("checkout.session.completed");
+    expect(r.data.subscription_id).toBe("sub_checkout_123");
   });
 
   it("acknowledges unhandled events with 200", async () => {
-    const payload = JSON.stringify({
-      meta: { event_name: "order_created" },
-      data: { id: "123", attributes: {} },
-    });
-    const sig = signPayload(payload);
+    const payload = JSON.stringify({ type: "payment_intent.created", data: { object: {} } });
+    const sig = signStripePayload(payload);
 
-    const r = await req("POST", "/v1/webhooks/lemonsqueezy", payload, {
-      "x-signature": sig,
+    const r = await req("POST", "/v1/webhooks/stripe", payload, {
+      "stripe-signature": sig,
     });
 
     expect(r.status).toBe(200);
     expect(r.data.handled).toBe(false);
   });
 
-  it("rejects webhook with no account_id and no existing subscription", async () => {
+  it("handles customer.subscription.updated for existing subscription", async () => {
+    const { account } = await createTestAccount("sub-update", "sub-update@test.com");
+    const accountId = account.account_id as string;
+
+    // First create via checkout
+    const checkoutPayload = JSON.stringify(buildCheckoutSessionPayload(accountId, "sub_update_123"));
+    await req("POST", "/v1/webhooks/stripe", checkoutPayload, {
+      "stripe-signature": signStripePayload(checkoutPayload),
+    });
+
+    // Now send subscription updated event
+    const updatePayload = JSON.stringify(
+      buildSubscriptionPayload("customer.subscription.updated", "sub_update_123", accountId),
+    );
+    const r = await req("POST", "/v1/webhooks/stripe", updatePayload, {
+      "stripe-signature": signStripePayload(updatePayload),
+    });
+
+    expect(r.status).toBe(200);
+    expect(r.data.handled).toBe(true);
+    expect(r.data.event).toBe("customer.subscription.updated");
+  });
+
+  it("returns handled:false for subscription event with no account in DB or metadata", async () => {
     const payload = JSON.stringify({
-      meta: { event_name: "subscription_updated" },
+      type: "customer.subscription.updated",
       data: {
-        id: "sub_nonexistent",
-        attributes: {
+        object: {
+          id: "sub_unknown",
+          customer: "cus_unknown",
           status: "active",
-          variant_id: 123,
-          product_id: 456,
-          customer_id: 789,
-          current_period_start: null,
-          current_period_end: null,
-          card_brand: null,
-          card_last_four: null,
-          cancelled: false,
-          ends_at: null,
+          items: { data: [{ price: { id: "price_paid_123" } }] },
+          current_period_start: 1735689600,
+          current_period_end: 1738368000,
+          cancel_at: null,
+          metadata: {}, // no account_id
         },
       },
     });
-    const sig = signPayload(payload);
+    const sig = signStripePayload(payload);
 
-    const r = await req("POST", "/v1/webhooks/lemonsqueezy", payload, {
-      "x-signature": sig,
+    const r = await req("POST", "/v1/webhooks/stripe", payload, {
+      "stripe-signature": sig,
     });
 
-    expect(r.status).toBe(400);
+    expect(r.status).toBe(200);
+    expect(r.data.handled).toBe(false);
   });
 });
 
@@ -212,11 +243,9 @@ describe("GET /v1/account/subscription", () => {
     const accountId = account.account_id as string;
 
     // Fire webhook to create subscription
-    const payload = JSON.stringify(buildWebhookPayload("subscription_created", accountId, {
-      variant_id: "variant_paid_123",
-    }));
-    const sig = signPayload(payload);
-    await req("POST", "/v1/webhooks/lemonsqueezy", payload, { "x-signature": sig });
+    const payload = JSON.stringify(buildCheckoutSessionPayload(accountId, "sub_status_123", "paid"));
+    const sig = signStripePayload(payload);
+    await req("POST", "/v1/webhooks/stripe", payload, { "stripe-signature": sig });
 
     // Check subscription status
     const r = await req("GET", "/v1/account/subscription", undefined, {
@@ -225,7 +254,7 @@ describe("GET /v1/account/subscription", () => {
 
     expect(r.status).toBe(200);
     expect(r.data.has_active_subscription).toBe(true);
-    expect((r.data.active_subscription as Record<string, unknown>).subscription_id).toBeTruthy();
+    expect((r.data.active_subscription as Record<string, unknown>).subscription_id).toBe("sub_status_123");
   });
 
   it("returns null active_subscription when none exists", async () => {

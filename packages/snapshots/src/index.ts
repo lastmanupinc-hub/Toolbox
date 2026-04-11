@@ -18,8 +18,8 @@ export { getDb, openMemoryDb, closeDb, runMigrations, getSchemaVersion, walCheck
 export type { DbMaintenanceResult } from "./db.js";
 
 // Search
-export type { SearchIndexEntry, SearchResult } from "./search-store.js";
-export { indexSnapshotContent, searchSnapshotContent, clearSearchIndex, getSearchIndexStats } from "./search-store.js";
+export type { SearchIndexEntry, SearchResult, CodeSymbol, SymbolSearchResult, SymbolType } from "./search-store.js";
+export { indexSnapshotContent, searchSnapshotContent, clearSearchIndex, getSearchIndexStats, indexSymbols, searchSymbols, clearSymbols, getSymbolStats, extractSymbols } from "./search-store.js";
 export type { GitHubFetchResult, ParsedGitHubUrl } from "./github.js";
 export { parseGitHubUrl, fetchGitHubRepo } from "./github.js";
 
@@ -165,10 +165,10 @@ export {
   sendApiKeyNotification,
 } from "./email-store.js";
 
-// Lemon Squeezy Payments
-export type { LemonSqueezyStatus, LemonSqueezySubscription } from "./lemonsqueezy-store.js";
+// Stripe Payments
+export type { StripeSubscriptionStatus, StripeSubscription } from "./stripe-store.js";
 export {
-  variantToTier,
+  priceToTier,
   upsertSubscription,
   getSubscription,
   getSubscriptionByAccount,
@@ -177,4 +177,4 @@ export {
   listSubscriptionsByAccount,
   deleteSubscription,
   getActiveSubscriptionTier,
-} from "./lemonsqueezy-store.js";
+} from "./stripe-store.js";

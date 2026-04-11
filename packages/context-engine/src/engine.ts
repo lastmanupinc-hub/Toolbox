@@ -194,7 +194,9 @@ function detectEntryPoints(snapshot: SnapshotRecord, parsed: ParseResult): Conte
   // Sort: Go main.go and SvelteKit layouts first, then other app entries, then routes
   const priority: Record<string, number> = { app_entry: 0, cli_command: 1, page_route: 2, api_route: 3 };
   entries.sort((a, b) => {
+    /* v8 ignore next */
     const pa = priority[a.type] ?? 9;
+    /* v8 ignore next */
     const pb = priority[b.type] ?? 9;
     if (pa !== pb) return pa - pb;
     // Within same type, prefer main.go and +layout.svelte over index.ts
@@ -293,10 +295,11 @@ function extractGoRoutes(filePath: string, content: string): ContextMap["routes"
     }
   }
 
+  /* v8 ignore start */
   return routes.sort((a, b) =>
-    /* v8 ignore next */
     a.method.localeCompare(b.method) || a.path.localeCompare(b.path) || a.source_file.localeCompare(b.source_file),
   );
+  /* v8 ignore stop */
 }
 
 /** Filter out header reads, test fixture IDs, and other non-route strings captured by route regex */

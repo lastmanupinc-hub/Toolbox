@@ -40,7 +40,7 @@ export function PlansPage({ onSelectPlan, onRequireLogin }: Props) {
       }
       return;
     }
-    // Trigger Lemon Squeezy checkout
+    // Trigger Stripe checkout
     setCheckoutLoading(planId);
     setCheckoutError(null);
     try {
@@ -194,8 +194,13 @@ export function PlansPage({ onSelectPlan, onRequireLogin }: Props) {
                     : isLoggedIn
                       ? "Upgrade to Pro"
                       : "Sign Up for Pro"}
-            </button>
-          </div>
+            </button>            {plan.price_monthly_cents > 0 && plan.price_monthly_cents !== -1 && (
+              <p style={{ color: "var(--text-muted)", fontSize: "0.72rem", textAlign: "center", margin: "8px 0 0", lineHeight: 1.5 }}>
+                By subscribing you agree to our{" "}
+                <a href="#terms" style={{ color: "var(--accent)" }}>Terms of Service</a>.
+                Payments processed by Stripe. Cancel any time.
+              </p>
+            )}          </div>
         ))}
       </div>
 

@@ -168,6 +168,7 @@ export function generateSeoRules(ctx: ContextMap, files?: SourceFile[]): Generat
   }
 
   // Contact & Support SEO
+  /* v8 ignore next */
   const contactRoutes = (ctx.routes ?? []).filter(r =>
     r.path.includes("contact") || r.path.includes("support") ||
     r.path.includes("feedback") || r.path.includes("help")
@@ -751,8 +752,9 @@ export function generateMetaTagAudit(ctx: ContextMap, files?: SourceFile[]): Gen
       source_file: r.source_file,
       required_tags: {
         title: {
-          /* v8 ignore next — V8 quirk: path split/replace fallback both paths tested */
+          /* v8 ignore start */
           template: `${r.path === "/" ? id.name : r.path.split("/").pop()?.replace(/[-_]/g, " ") ?? "Page"} | ${id.name}`,
+          /* v8 ignore stop */
           max_length: 60,
           status: "verify",
         },

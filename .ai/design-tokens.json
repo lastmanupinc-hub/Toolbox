@@ -1,0 +1,231 @@
+{
+  "designSystem": "AXIS Toolbox — midnight_command",
+  "version": "1.0.0",
+  "description": "Design tokens for the AXIS Toolbox UI. Midnight command-center aesthetic with disciplined cyan-orange signaling.",
+  "themes": {
+    "midnight_command": {
+      "meta": {
+        "label": "Midnight Command",
+        "default": true,
+        "characteristics": [
+          "control_room_clarity",
+          "premium_restraint",
+          "modular_surfaces",
+          "disciplined_cyan_orange_signaling"
+        ]
+      },
+      "colors": {
+        "background": {
+          "canvas": { "value": "#0d1117", "usage": "Page background, app shell" },
+          "surface": { "value": "#161b22", "usage": "Cards, panels, sidebar" },
+          "elevated": { "value": "#21262d", "usage": "Modals, dropdowns, overlays" },
+          "inset": { "value": "#010409", "usage": "Code blocks, embedded regions" }
+        },
+        "border": {
+          "default": { "value": "#30363d", "usage": "Card borders, dividers" },
+          "muted": { "value": "#21262d", "usage": "Subtle separators" },
+          "emphasis": { "value": "#58a6ff", "usage": "Focus rings, active borders" }
+        },
+        "text": {
+          "primary": { "value": "#e6edf3", "usage": "Headlines, body text" },
+          "secondary": { "value": "#8b949e", "usage": "Labels, captions, metadata" },
+          "disabled": { "value": "#484f58", "usage": "Disabled controls" },
+          "link": { "value": "#58a6ff", "usage": "Hyperlinks, interactive text" },
+          "inverse": { "value": "#0d1117", "usage": "Text on light/accent backgrounds" }
+        },
+        "signal": {
+          "cyan": { "value": "#58a6ff", "usage": "Primary accent — links, active states, interactive elements" },
+          "cyanHover": { "value": "#79c0ff", "usage": "Hover state for cyan elements" },
+          "cyanMuted": { "value": "#388bfd26", "usage": "Cyan background tint" },
+          "orange": { "value": "#d29922", "usage": "Secondary accent — warnings, signals, attention markers" },
+          "orangeHover": { "value": "#e3b341", "usage": "Hover state for orange elements" },
+          "orangeMuted": { "value": "#d2992226", "usage": "Orange background tint" }
+        },
+        "semantic": {
+          "success": { "value": "#3fb950", "usage": "Pass states, confirmations, Grade A" },
+          "successMuted": { "value": "#3fb95026", "usage": "Success background tint" },
+          "warning": { "value": "#d29922", "usage": "Caution states, Grade B" },
+          "warningMuted": { "value": "#d2992226", "usage": "Warning background tint" },
+          "danger": { "value": "#f85149", "usage": "Errors, failures, Grade F" },
+          "dangerMuted": { "value": "#f8514926", "usage": "Danger background tint" },
+          "info": { "value": "#58a6ff", "usage": "Informational states" },
+          "infoMuted": { "value": "#58a6ff26", "usage": "Info background tint" }
+        },
+        "component": {
+          "buttonPrimaryBg": { "value": "#238636", "usage": "Primary action button" },
+          "buttonPrimaryHover": { "value": "#2ea043", "usage": "Primary button hover" },
+          "buttonSecondaryBg": { "value": "#21262d", "usage": "Secondary action button" },
+          "buttonSecondaryBorder": { "value": "#30363d", "usage": "Secondary button border" },
+          "inputBg": { "value": "#0d1117", "usage": "Text inputs, selects" },
+          "inputBorder": { "value": "#30363d", "usage": "Input borders" },
+          "inputFocus": { "value": "#58a6ff", "usage": "Input focus ring" },
+          "badgeBg": { "value": "#388bfd26", "usage": "Badge/chip background" },
+          "badgeText": { "value": "#58a6ff", "usage": "Badge/chip text" },
+          "toastBg": { "value": "#161b22", "usage": "Toast notification background" },
+          "toastBorder": { "value": "#30363d", "usage": "Toast notification border" }
+        }
+      },
+      "typography": {
+        "fontFamily": {
+          "sans": "system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Liberation Sans', sans-serif",
+          "mono": "'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', monospace"
+        },
+        "fontSize": {
+          "xs": "0.75rem",
+          "sm": "0.875rem",
+          "base": "1rem",
+          "lg": "1.125rem",
+          "xl": "1.25rem",
+          "2xl": "1.5rem",
+          "3xl": "1.875rem",
+          "4xl": "2.25rem"
+        },
+        "fontWeight": {
+          "normal": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700
+        },
+        "lineHeight": {
+          "tight": 1.25,
+          "normal": 1.5,
+          "relaxed": 1.75
+        }
+      },
+      "spacing": {
+        "unit": "0.25rem",
+        "scale": {
+          "0": "0",
+          "1": "0.25rem",
+          "2": "0.5rem",
+          "3": "0.75rem",
+          "4": "1rem",
+          "5": "1.25rem",
+          "6": "1.5rem",
+          "8": "2rem",
+          "10": "2.5rem",
+          "12": "3rem",
+          "16": "4rem",
+          "20": "5rem"
+        }
+      },
+      "borderRadius": {
+        "none": "0",
+        "sm": "0.25rem",
+        "md": "0.375rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "shadow": {
+        "sm": "0 1px 2px rgba(0, 0, 0, 0.3)",
+        "md": "0 3px 6px rgba(0, 0, 0, 0.4)",
+        "lg": "0 8px 24px rgba(0, 0, 0, 0.5)",
+        "xl": "0 12px 48px rgba(0, 0, 0, 0.6)",
+        "glow-cyan": "0 0 12px rgba(88, 166, 255, 0.3)",
+        "glow-orange": "0 0 12px rgba(210, 153, 34, 0.3)"
+      },
+      "transition": {
+        "fast": "150ms ease",
+        "normal": "250ms ease",
+        "slow": "400ms ease"
+      }
+    },
+    "precision_white": {
+      "meta": {
+        "label": "Precision White",
+        "default": false,
+        "characteristics": [
+          "print_friendly",
+          "export_optimized",
+          "high_contrast_text"
+        ]
+      },
+      "colors": {
+        "background": {
+          "canvas": { "value": "#ffffff", "usage": "Page background" },
+          "surface": { "value": "#f6f8fa", "usage": "Cards, panels" },
+          "elevated": { "value": "#ffffff", "usage": "Modals, overlays" },
+          "inset": { "value": "#f0f2f5", "usage": "Code blocks" }
+        },
+        "border": {
+          "default": { "value": "#d0d7de", "usage": "Card borders" },
+          "muted": { "value": "#e8ecf0", "usage": "Subtle separators" },
+          "emphasis": { "value": "#0969da", "usage": "Focus rings" }
+        },
+        "text": {
+          "primary": { "value": "#1f2328", "usage": "Headlines, body" },
+          "secondary": { "value": "#656d76", "usage": "Labels, metadata" },
+          "disabled": { "value": "#8c959f", "usage": "Disabled controls" },
+          "link": { "value": "#0969da", "usage": "Hyperlinks" },
+          "inverse": { "value": "#ffffff", "usage": "Text on dark backgrounds" }
+        },
+        "signal": {
+          "cyan": { "value": "#0969da", "usage": "Primary accent" },
+          "orange": { "value": "#bf8700", "usage": "Secondary accent" }
+        },
+        "semantic": {
+          "success": { "value": "#1a7f37", "usage": "Pass states" },
+          "warning": { "value": "#bf8700", "usage": "Caution states" },
+          "danger": { "value": "#cf222e", "usage": "Errors" },
+          "info": { "value": "#0969da", "usage": "Informational" }
+        }
+      }
+    }
+  },
+  "cssCustomProperties": {
+    "note": "Generated from midnight_command tokens. Apply to :root in vanilla CSS.",
+    "example": ":root {\n  --ax-bg: #0d1117;\n  --ax-surface: #161b22;\n  --ax-elevated: #21262d;\n  --ax-border: #30363d;\n  --ax-text: #e6edf3;\n  --ax-text-muted: #8b949e;\n  --ax-cyan: #58a6ff;\n  --ax-orange: #d29922;\n  --ax-success: #3fb950;\n  --ax-danger: #f85149;\n  --ax-font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;\n  --ax-font-mono: 'JetBrains Mono', 'Fira Code', monospace;\n  --ax-radius-md: 0.375rem;\n  --ax-shadow-md: 0 3px 6px rgba(0,0,0,0.4);\n  --ax-transition: 250ms ease;\n}"
+  },
+  "componentTokens": {
+    "card": {
+      "background": "var(--ax-surface)",
+      "border": "1px solid var(--ax-border)",
+      "borderRadius": "var(--ax-radius-lg)",
+      "padding": "var(--ax-space-6)",
+      "shadow": "var(--ax-shadow-sm)"
+    },
+    "dashboardTab": {
+      "activeBackground": "var(--ax-surface)",
+      "activeBorder": "2px solid var(--ax-cyan)",
+      "inactiveColor": "var(--ax-text-muted)",
+      "activeColor": "var(--ax-text)"
+    },
+    "commandPalette": {
+      "overlayBg": "rgba(0, 0, 0, 0.5)",
+      "inputBg": "var(--ax-bg)",
+      "resultHover": "var(--ax-elevated)",
+      "shortcutBadge": "var(--ax-border)"
+    },
+    "fileViewer": {
+      "lineNumberColor": "var(--ax-text-muted)",
+      "highlightBg": "rgba(88, 166, 255, 0.1)",
+      "syntaxKeyword": "#ff7b72",
+      "syntaxString": "#a5d6ff",
+      "syntaxComment": "#8b949e",
+      "syntaxFunction": "#d2a8ff",
+      "syntaxNumber": "#79c0ff",
+      "syntaxType": "#ffa657"
+    },
+    "gradeIndicator": {
+      "gradeA": { "color": "var(--ax-success)", "label": "Grade A" },
+      "gradeB": { "color": "var(--ax-orange)", "label": "Grade B" },
+      "gradeF": { "color": "var(--ax-danger)", "label": "Grade F" }
+    },
+    "toast": {
+      "background": "var(--ax-surface)",
+      "border": "var(--ax-border)",
+      "successAccent": "var(--ax-success)",
+      "errorAccent": "var(--ax-danger)",
+      "infoAccent": "var(--ax-cyan)",
+      "duration": "4000ms",
+      "position": "bottom-right"
+    },
+    "progressBar": {
+      "trackBg": "var(--ax-elevated)",
+      "fillBg": "var(--ax-cyan)",
+      "height": "4px",
+      "borderRadius": "var(--ax-radius-full)"
+    }
+  }
+}

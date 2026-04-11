@@ -10,19 +10,19 @@ import {
   listSubscriptionsByAccount,
   deleteSubscription,
   getActiveSubscriptionTier,
-  variantToTier,
-} from "./lemonsqueezy-store.js";
+  priceToTier,
+} from "./stripe-store.js";
 
 beforeEach(() => {
   openMemoryDb();
-  process.env.LEMONSQUEEZY_VARIANT_ID_PAID = "variant_paid_123";
-  process.env.LEMONSQUEEZY_VARIANT_ID_SUITE = "variant_suite_456";
+  process.env.STRIPE_PRICE_ID_PAID = "price_paid_123";
+  process.env.STRIPE_PRICE_ID_SUITE = "price_suite_456";
 });
 
 afterEach(() => {
   closeDb();
-  delete process.env.LEMONSQUEEZY_VARIANT_ID_PAID;
-  delete process.env.LEMONSQUEEZY_VARIANT_ID_SUITE;
+  delete process.env.STRIPE_PRICE_ID_PAID;
+  delete process.env.STRIPE_PRICE_ID_SUITE;
 });
 
 function makeSub(accountId: string, overrides: Record<string, unknown> = {}) {
@@ -30,8 +30,7 @@ function makeSub(accountId: string, overrides: Record<string, unknown> = {}) {
     subscription_id: "sub_001",
     customer_id: "cust_001",
     account_id: accountId,
-    variant_id: "variant_paid_123",
-    product_id: "prod_001",
+    price_id: "price_paid_123",
     status: "active" as const,
     current_period_start: "2025-01-01T00:00:00Z",
     current_period_end: "2025-02-01T00:00:00Z",
@@ -44,19 +43,19 @@ function makeSub(accountId: string, overrides: Record<string, unknown> = {}) {
   };
 }
 
-// ─── variantToTier ──────────────────────────────────────────────
+// ─── priceToTier ────────────────────────────────────────────────
 
-describe("variantToTier", () => {
-  it("maps paid variant to paid tier", () => {
-    expect(variantToTier("variant_paid_123")).toBe("paid");
+describe("priceToTier", () => {
+  it("maps paid price to paid tier", () => {
+    expect(priceToTier("price_paid_123")).toBe("paid");
   });
 
-  it("maps suite variant to suite tier", () => {
-    expect(variantToTier("variant_suite_456")).toBe("suite");
+  it("maps suite price to suite tier", () => {
+    expect(priceToTier("price_suite_456")).toBe("suite");
   });
 
-  it("returns null for unknown variant", () => {
-    expect(variantToTier("unknown_variant")).toBeNull();
+  it("returns null for unknown price", () => {
+    expect(priceToTier("price_unknown")).toBeNull();
   });
 });
 
@@ -74,6 +73,7 @@ describe("Subscription CRUD", () => {
     expect(found!.account_id).toBe(acct.account_id);
     expect(found!.status).toBe("active");
     expect(found!.card_brand).toBe("visa");
+    expect(found!.price_id).toBe("price_paid_123");
   });
 
   it("upserts (updates) an existing subscription", () => {
@@ -121,26 +121,33 @@ describe("Active subscription filtering", () => {
     expect(active!.status).toBe("active");
   });
 
-  it("returns on_trial as active", () => {
+  it("returns trialing as active", () => {
     const acct = createAccount("Frank", "frank@test.com", "free");
-    upsertSubscription(makeSub(acct.account_id, { status: "on_trial" as const }));
+    upsertSubscription(makeSub(acct.account_id, { status: "trialing" as const }));
 
     const active = getActiveSubscriptionByAccount(acct.account_id);
     expect(active).toBeTruthy();
-    expect(active!.status).toBe("on_trial");
+    expect(active!.status).toBe("trialing");
   });
 
-  it("does not return cancelled subscription as active", () => {
+  it("does not return canceled subscription as active", () => {
     const acct = createAccount("Grace", "grace@test.com", "free");
-    upsertSubscription(makeSub(acct.account_id, { status: "cancelled" as const }));
+    upsertSubscription(makeSub(acct.account_id, { status: "canceled" as const }));
 
     const active = getActiveSubscriptionByAccount(acct.account_id);
     expect(active).toBeNull();
   });
 
-  it("does not return expired subscription as active", () => {
+  it("does not return past_due subscription as active", () => {
     const acct = createAccount("Heidi", "heidi@test.com", "free");
-    upsertSubscription(makeSub(acct.account_id, { status: "expired" as const }));
+    upsertSubscription(makeSub(acct.account_id, { status: "past_due" as const }));
+
+    expect(getActiveSubscriptionByAccount(acct.account_id)).toBeNull();
+  });
+
+  it("does not return unpaid subscription as active", () => {
+    const acct = createAccount("Ivan2", "ivan2@test.com", "free");
+    upsertSubscription(makeSub(acct.account_id, { status: "unpaid" as const }));
 
     expect(getActiveSubscriptionByAccount(acct.account_id)).toBeNull();
   });
@@ -153,15 +160,15 @@ describe("updateSubscriptionStatus", () => {
     const acct = createAccount("Ivan", "ivan@test.com", "free");
     upsertSubscription(makeSub(acct.account_id));
 
-    const updated = updateSubscriptionStatus("sub_001", "cancelled");
+    const updated = updateSubscriptionStatus("sub_001", "canceled");
     expect(updated).toBe(true);
 
     const found = getSubscription("sub_001");
-    expect(found!.status).toBe("cancelled");
+    expect(found!.status).toBe("canceled");
   });
 
   it("returns false for nonexistent subscription", () => {
-    expect(updateSubscriptionStatus("nope", "cancelled")).toBe(false);
+    expect(updateSubscriptionStatus("nope", "canceled")).toBe(false);
   });
 });
 
@@ -173,7 +180,7 @@ describe("listSubscriptionsByAccount", () => {
     upsertSubscription(makeSub(acct.account_id, { subscription_id: "sub_a" }));
     upsertSubscription(makeSub(acct.account_id, {
       subscription_id: "sub_b",
-      status: "cancelled" as const,
+      status: "canceled" as const,
       created_at: "2025-02-01T00:00:00Z",
     }));
 
@@ -201,14 +208,14 @@ describe("deleteSubscription", () => {
 describe("getActiveSubscriptionTier", () => {
   it("returns paid for active paid subscription", () => {
     const acct = createAccount("Liam", "liam@test.com", "free");
-    upsertSubscription(makeSub(acct.account_id, { variant_id: "variant_paid_123" }));
+    upsertSubscription(makeSub(acct.account_id, { price_id: "price_paid_123" }));
 
     expect(getActiveSubscriptionTier(acct.account_id)).toBe("paid");
   });
 
   it("returns suite for active suite subscription", () => {
     const acct = createAccount("Mia", "mia@test.com", "free");
-    upsertSubscription(makeSub(acct.account_id, { variant_id: "variant_suite_456" }));
+    upsertSubscription(makeSub(acct.account_id, { price_id: "price_suite_456" }));
 
     expect(getActiveSubscriptionTier(acct.account_id)).toBe("suite");
   });
@@ -218,9 +225,9 @@ describe("getActiveSubscriptionTier", () => {
     expect(getActiveSubscriptionTier(acct.account_id)).toBeNull();
   });
 
-  it("returns null when subscription is cancelled", () => {
+  it("returns null when subscription is canceled", () => {
     const acct = createAccount("Olivia", "olivia@test.com", "free");
-    upsertSubscription(makeSub(acct.account_id, { status: "cancelled" as const }));
+    upsertSubscription(makeSub(acct.account_id, { status: "canceled" as const }));
 
     expect(getActiveSubscriptionTier(acct.account_id)).toBeNull();
   });

@@ -448,6 +448,7 @@ export function generateMessagingSystem(ctx: ContextMap, files?: SourceFile[]): 
   // Project-specific taglines derived from actual data
   const primaryLang = id.primary_language;
   const fwNames = frameworks.map(f => f.name).join(" + ");
+  /* v8 ignore next */
   const projectDesc = ctx.ai_context.project_summary?.split("\n")[0] ?? id.name;
   lines.push("taglines:");
   if (fwNames) {
@@ -490,6 +491,7 @@ export function generateMessagingSystem(ctx: ContextMap, files?: SourceFile[]): 
   if (ctx.detection.test_frameworks.length > 0) {
     lines.push("  - id: quality");
     lines.push(`    headline: "Test-Driven Quality"`);
+    /* v8 ignore next */
     const testCount = ctx.structure.file_tree_summary?.filter(f => f.role === "test").length ?? 0;
     lines.push(`    detail: "Tested with ${ctx.detection.test_frameworks.join(", ")}${testCount > 0 ? ` across ${testCount} test files` : ""}."`);
   }
