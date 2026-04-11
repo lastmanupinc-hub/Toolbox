@@ -1,0 +1,365 @@
+{
+  "mcpVersion": "1.0",
+  "project": "axis-toolbox",
+  "generated_at": "2026-04-11T20:14:34.188Z",
+  "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 132 domain models.",
+  "detected_stack": [
+    {
+      "name": "React",
+      "version": "^19.1.0",
+      "confidence": 0.95
+    }
+  ],
+  "server": {
+    "name": "axis-toolbox-mcp",
+    "version": "0.1.0",
+    "description": "MCP server configuration for axis-toolbox"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": true
+  },
+  "tools": [
+    {
+      "name": "read_file",
+      "description": "Read source files from the project",
+      "category": "filesystem",
+      "enabled": true
+    },
+    {
+      "name": "list_directory",
+      "description": "List directory contents",
+      "category": "filesystem",
+      "enabled": true
+    },
+    {
+      "name": "search_files",
+      "description": "Search for files by pattern",
+      "category": "filesystem",
+      "enabled": true
+    },
+    {
+      "name": "run_build",
+      "description": "Execute pnpm build",
+      "category": "build",
+      "enabled": true
+    },
+    {
+      "name": "run_tests",
+      "description": "Execute test suite via vitest",
+      "category": "build",
+      "enabled": true
+    },
+    {
+      "name": "type_check",
+      "description": "Run TypeScript type checking (tsc --noEmit)",
+      "category": "build",
+      "enabled": true
+    },
+    {
+      "name": "git_status",
+      "description": "Check repository status",
+      "category": "git",
+      "enabled": true
+    },
+    {
+      "name": "git_diff",
+      "description": "Show changes in working directory",
+      "category": "git",
+      "enabled": true
+    },
+    {
+      "name": "git_log",
+      "description": "Show recent commit history",
+      "category": "git",
+      "enabled": true
+    }
+  ],
+  "resources": [
+    {
+      "uri": "project://axis-toolbox/context-map",
+      "name": "Context Map",
+      "description": "Full project context map with structure, detection, and AI context",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "project://axis-toolbox/repo-profile",
+      "name": "Repository Profile",
+      "description": "Repository health profile with detection and goals",
+      "mimeType": "application/yaml"
+    },
+    {
+      "uri": "model://axis-toolbox/AuthContext",
+      "name": "AuthContext",
+      "description": "interface with 3 fields (apps/api/src/billing.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/EnvSpec",
+      "name": "EnvSpec",
+      "description": "interface with 5 fields (apps/api/src/env.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/ValidationError",
+      "name": "ValidationError",
+      "description": "interface with 2 fields (apps/api/src/env.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/ValidationResult",
+      "name": "ValidationResult",
+      "description": "interface with 3 fields (apps/api/src/env.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/ZipEntry",
+      "name": "ZipEntry",
+      "description": "interface with 4 fields (apps/api/src/export.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/HistogramEntry",
+      "name": "HistogramEntry",
+      "description": "interface with 3 fields (apps/api/src/metrics.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/OpenApiSpec",
+      "name": "OpenApiSpec",
+      "description": "interface with 6 fields (apps/api/src/openapi.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/WindowEntry",
+      "name": "WindowEntry",
+      "description": "interface with 2 fields (apps/api/src/rate-limiter.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/AppHandle",
+      "name": "AppHandle",
+      "description": "interface with 3 fields (apps/api/src/router.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/Route",
+      "name": "Route",
+      "description": "interface with 4 fields (apps/api/src/router.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/CliArgs",
+      "name": "CliArgs",
+      "description": "interface with 5 fields (apps/cli/src/cli.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/AxisConfig",
+      "name": "AxisConfig",
+      "description": "interface with 2 fields (apps/cli/src/credential-store.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/RunResult",
+      "name": "RunResult",
+      "description": "interface with 4 fields (apps/cli/src/runner.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/ScanResult",
+      "name": "ScanResult",
+      "description": "interface with 3 fields (apps/cli/src/scanner.ts)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "model://axis-toolbox/WriteResult",
+      "name": "WriteResult",
+      "description": "interface with 3 fields (apps/cli/src/writer.ts)",
+      "mimeType": "application/json"
+    }
+  ],
+  "prompts": [
+    {
+      "name": "project-context",
+      "description": "Inject axis-toolbox project context into the conversation",
+      "arguments": []
+    },
+    {
+      "name": "code-review",
+      "description": "Review code changes against project conventions",
+      "arguments": [
+        {
+          "name": "file_path",
+          "description": "Path to the file to review",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "security": {
+    "allowed_directories": [
+      "."
+    ],
+    "denied_patterns": [
+      "node_modules/**",
+      ".env*",
+      "*.key",
+      "*.pem"
+    ],
+    "max_file_size_bytes": 1048576
+  },
+  "domain_models": [
+    {
+      "name": "AuthContext",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/api/src/billing.ts",
+      "resource_uri": "model://axis-toolbox/AuthContext"
+    },
+    {
+      "name": "EnvSpec",
+      "kind": "interface",
+      "field_count": 5,
+      "source_file": "apps/api/src/env.ts",
+      "resource_uri": "model://axis-toolbox/EnvSpec"
+    },
+    {
+      "name": "ValidationError",
+      "kind": "interface",
+      "field_count": 2,
+      "source_file": "apps/api/src/env.ts",
+      "resource_uri": "model://axis-toolbox/ValidationError"
+    },
+    {
+      "name": "ValidationResult",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/api/src/env.ts",
+      "resource_uri": "model://axis-toolbox/ValidationResult"
+    },
+    {
+      "name": "ZipEntry",
+      "kind": "interface",
+      "field_count": 4,
+      "source_file": "apps/api/src/export.ts",
+      "resource_uri": "model://axis-toolbox/ZipEntry"
+    },
+    {
+      "name": "HistogramEntry",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/api/src/metrics.ts",
+      "resource_uri": "model://axis-toolbox/HistogramEntry"
+    },
+    {
+      "name": "OpenApiSpec",
+      "kind": "interface",
+      "field_count": 6,
+      "source_file": "apps/api/src/openapi.ts",
+      "resource_uri": "model://axis-toolbox/OpenApiSpec"
+    },
+    {
+      "name": "WindowEntry",
+      "kind": "interface",
+      "field_count": 2,
+      "source_file": "apps/api/src/rate-limiter.ts",
+      "resource_uri": "model://axis-toolbox/WindowEntry"
+    },
+    {
+      "name": "AppHandle",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/api/src/router.ts",
+      "resource_uri": "model://axis-toolbox/AppHandle"
+    },
+    {
+      "name": "Route",
+      "kind": "interface",
+      "field_count": 4,
+      "source_file": "apps/api/src/router.ts",
+      "resource_uri": "model://axis-toolbox/Route"
+    },
+    {
+      "name": "CliArgs",
+      "kind": "interface",
+      "field_count": 5,
+      "source_file": "apps/cli/src/cli.ts",
+      "resource_uri": "model://axis-toolbox/CliArgs"
+    },
+    {
+      "name": "AxisConfig",
+      "kind": "interface",
+      "field_count": 2,
+      "source_file": "apps/cli/src/credential-store.ts",
+      "resource_uri": "model://axis-toolbox/AxisConfig"
+    },
+    {
+      "name": "RunResult",
+      "kind": "interface",
+      "field_count": 4,
+      "source_file": "apps/cli/src/runner.ts",
+      "resource_uri": "model://axis-toolbox/RunResult"
+    },
+    {
+      "name": "ScanResult",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/cli/src/scanner.ts",
+      "resource_uri": "model://axis-toolbox/ScanResult"
+    },
+    {
+      "name": "WriteResult",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/cli/src/writer.ts",
+      "resource_uri": "model://axis-toolbox/WriteResult"
+    },
+    {
+      "name": "Account",
+      "kind": "interface",
+      "field_count": 5,
+      "source_file": "apps/web/src/api.ts",
+      "resource_uri": "model://axis-toolbox/Account"
+    },
+    {
+      "name": "ApiKeyInfo",
+      "kind": "interface",
+      "field_count": 5,
+      "source_file": "apps/web/src/api.ts",
+      "resource_uri": "model://axis-toolbox/ApiKeyInfo"
+    },
+    {
+      "name": "ContextMap",
+      "kind": "interface",
+      "field_count": 8,
+      "source_file": "apps/web/src/api.ts",
+      "resource_uri": "model://axis-toolbox/ContextMap"
+    },
+    {
+      "name": "GeneratedFile",
+      "kind": "interface",
+      "field_count": 5,
+      "source_file": "apps/web/src/api.ts",
+      "resource_uri": "model://axis-toolbox/GeneratedFile"
+    },
+    {
+      "name": "GeneratedFilesResponse",
+      "kind": "interface",
+      "field_count": 6,
+      "source_file": "apps/web/src/api.ts",
+      "resource_uri": "model://axis-toolbox/GeneratedFilesResponse"
+    }
+  ],
+  "sql_schema": null,
+  "detected_mcp_files": [
+    {
+      "path": "apps/api/src/server.ts",
+      "exports": [
+        "export const app = ..."
+      ],
+      "size": 9090
+    }
+  ]
+}

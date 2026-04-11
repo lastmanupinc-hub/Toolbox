@@ -1,0 +1,75 @@
+# Messaging System
+# Project: axis-toolbox
+# Generated: 2026-04-11T20:14:34.158Z
+# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 132 domain models.
+
+product:
+  name: "axis-toolbox"
+  type: "monorepo"
+  primary_language: "TypeScript"
+  stack: "React"
+
+taglines:
+  primary: "axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 132 domain models."
+  technical: "React monorepo — 432 files, 95,310 lines of TypeScript"
+  conceptual: "Built around packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory)"
+
+value_propositions:
+  - id: stack
+    headline: "React Expertise"
+    detail: "Built with React ^19.1.0 — stack-native patterns throughout."
+  - id: api_surface
+    headline: "387 API Endpoints"
+    detail: "Complete API with 202 GET, 165 POST, 20 DELETE — ready for integration."
+  - id: domain_model
+    headline: "132 Domain Entities"
+    detail: "Rich domain model with AuthContext, EnvSpec, ValidationError, ValidationResult, ZipEntry and 127 more."
+  - id: architecture
+    headline: "Clean Architecture (0.64 separation)"
+    detail: "monorepo, containerized with 1 layer boundaries."
+  - id: quality
+    headline: "Test-Driven Quality"
+    detail: "Tested with vitest across 123 test files."
+
+feature_messages:
+  api_surface:
+    count: 387
+    message: "387 API endpoints ready for integration"
+    routes:
+      - "GET /v1/health"
+      - "POST /v1/accounts"
+      - "POST /v1/snapshots"
+      - "GET /v1/admin/stats"
+      - "GET /v1/admin/accounts"
+      - "GET /v1/admin/activity"
+      - "POST /v1/snapshots"
+      - "GET /v1/snapshots/:snapshot_id"
+      - "DELETE /v1/snapshots/:snapshot_id"
+      - "GET /v1/projects/:project_id/context"
+  language_support:
+    count: 8
+    message: "8 languages detected and analyzed"
+    breakdown:
+      - "TypeScript: 66,885 lines (71.3%)"
+      - "YAML: 14,923 lines (15.9%)"
+      - "JSON: 6,426 lines (6.8%)"
+      - "Markdown: 3,944 lines (4.2%)"
+      - "CSS: 849 lines (0.9%)"
+  framework_detection:
+    count: 1
+    message: "1 frameworks detected with stack-aware output"
+    detected:
+      - name: "React"
+        version: "^19.1.0"
+        confidence: 0.95
+
+calls_to_action:
+  primary:
+    label: "Upload Project"
+    context: "Main landing page, empty states"
+  secondary:
+    label: "View Results"
+    context: "After snapshot processing complete"
+  api:
+    label: "Send Snapshot via API"
+    context: "Developer documentation, API reference"

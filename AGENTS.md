@@ -17,7 +17,7 @@
 
 ## What This Project Is
 
-AXIS Toolbox analyzes codebases and generates 80 structured artifacts across 17 specialized programs. Users upload a repo (ZIP, GitHub URL, CLI), the system detects languages/frameworks, builds a context graph, fires 80 generators, and produces governance files that make AI coding tools measurably more effective.
+AXIS Toolbox analyzes codebases and generates 81 structured artifacts across 17 specialized programs. Users upload a repo (ZIP, GitHub URL, CLI), the system detects languages/frameworks, builds a context graph, fires 81 generators, and produces governance files that make AI coding tools measurably more effective.
 
 **It is NOT**: a code generator, a linter, a framework, or a SaaS dashboard. It is the meta-layer that produces structured context for AI agents.
 
@@ -27,7 +27,7 @@ AXIS Toolbox analyzes codebases and generates 80 structured artifacts across 17 
 2. **repo-parser** (`packages/repo-parser/`): Language detection (60+), framework detection (10+), import resolution
 3. **context-engine** (`packages/context-engine/`): Context map builder, repo-profile builder, route extraction
 4. **snapshots** (`packages/snapshots/`): SQLite (5 tables, WAL mode), intake, billing state, funnel tracking
-5. **generator-core** (`packages/generator-core/`): Template engine + 80 generators across 17 program modules
+5. **generator-core** (`packages/generator-core/`): Template engine + 81 generators across 17 program modules
 6. **API** (`apps/api/`): Zero-dep HTTP router, 75+ endpoints, API keys, rate limiting, Prometheus metrics
 7. **Web** (`apps/web/`): React 19 + Vite 6 SPA, dark theme, upload + dashboard
 8. **CLI** (`apps/cli/`): `axis analyze <dir>`, `axis github <url>`
@@ -57,7 +57,7 @@ packages/
 ├── snapshots/     → SQLite persistence, intake, billing
 ├── repo-parser/   → Language/framework detection, imports
 ├── context-engine/→ Context-map + repo-profile generation
-└── generator-core/→ 80 generators across 17 programs
+└── generator-core/→ 81 generators across 17 programs
 ```
 
 ## Style Rules
@@ -68,7 +68,7 @@ packages/
 - **Database**: SQLite via better-sqlite3 (WAL mode)
 - **Testing**: Vitest 4.1 — every new function gets a test
 - **Determinism**: Same input must produce byte-identical output
-- **Coverage**: Maintain >= 91.5% statement coverage
+- **Coverage**: Maintain >= 100% branch coverage, >= 99.99% statement coverage (3,370 tests, 123 files)
 - **Naming**: `camelCase` for functions/variables, `PascalCase` for types/classes
 - **Imports**: Explicit, no barrel files, no circular imports
 

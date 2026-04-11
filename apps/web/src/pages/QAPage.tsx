@@ -130,7 +130,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "billing",
     question: "Can I try Pro before committing?",
-    answer: "Start with the Free tier to try the 3 core programs (Search, Skills, Debug). The output quality and format is identical to Pro — you just have access to fewer programs and lower limits (10 snapshots/month, 3 projects, 1 seat). No credit card required for Free tier.",
+    answer: "Start with the Free tier to try the 3 core programs (Search, Skills, Debug). The output quality and format is identical to Pro — you just have access to fewer programs and lower limits (10 snapshots/month, 1 project, 1 seat). No credit card required for Free tier.",
   },
   {
     category: "billing",

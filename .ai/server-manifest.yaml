@@ -1,0 +1,355 @@
+# MCP Server Manifest
+# Project: axis-toolbox
+# Generated: 2026-04-11T20:14:34.411Z
+# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 132 domain models.
+
+server:
+  name: "axis-toolbox-mcp-server"
+  version: "1.0.0"
+  description: "MCP server for axis-toolbox project integration"
+  protocol: "mcp"
+  transport: "stdio"
+
+  capabilities:
+    tools: true
+    resources: true
+    prompts: true
+
+  tools:
+    - name: analyze_project
+      description: Run full project analysis and return context map
+      input_schema:
+        type: object
+        properties:
+          depth:
+            type: string
+            enum: [quick, standard, deep]
+            default: standard
+
+    - name: search_code
+      description: Search project codebase by pattern or semantic query
+      input_schema:
+        type: object
+        required: [query]
+        properties:
+          query:
+            type: string
+          file_pattern:
+            type: string
+
+    - name: generate_files
+      description: Generate output files for a specific program
+      input_schema:
+        type: object
+        required: [program]
+        properties:
+          program:
+            type: string
+            enum: [search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic]
+
+    - name: list_routes
+      description: List all 387 detected routes
+      input_schema:
+        type: object
+        properties:
+          method:
+            type: string
+            enum: [GET, POST, PUT, DELETE, PATCH]
+
+    - name: query_authcontext
+      description: Query AuthContext records (interface, 3 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for AuthContext
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_envspec
+      description: Query EnvSpec records (interface, 5 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for EnvSpec
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_validationerror
+      description: Query ValidationError records (interface, 2 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for ValidationError
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_validationresult
+      description: Query ValidationResult records (interface, 3 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for ValidationResult
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_zipentry
+      description: Query ZipEntry records (interface, 4 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for ZipEntry
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_histogramentry
+      description: Query HistogramEntry records (interface, 3 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for HistogramEntry
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_openapispec
+      description: Query OpenApiSpec records (interface, 6 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for OpenApiSpec
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_windowentry
+      description: Query WindowEntry records (interface, 2 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for WindowEntry
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_apphandle
+      description: Query AppHandle records (interface, 3 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for AppHandle
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_route
+      description: Query Route records (interface, 4 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for Route
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_cliargs
+      description: Query CliArgs records (interface, 5 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for CliArgs
+          filter:
+            type: object
+            description: Optional filter criteria
+
+    - name: query_axisconfig
+      description: Query AxisConfig records (interface, 2 fields)
+      input_schema:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Primary key or identifier for AxisConfig
+          filter:
+            type: object
+            description: Optional filter criteria
+
+  resources:
+    - uri: project://context-map
+      name: Project Context Map
+      mime_type: application/json
+      description: Full project context including structure, detection, and architecture signals
+
+    - uri: project://repo-profile
+      name: Repository Profile
+      mime_type: application/yaml
+      description: Repository health, structure summary, and detection results
+
+    - uri: project://architecture-summary
+      name: Architecture Summary
+      mime_type: text/markdown
+      description: Human-readable architecture overview
+
+    - uri: model://AuthContext
+      name: AuthContext
+      mime_type: application/json
+      description: interface with 3 fields (apps/api/src/billing.ts)
+
+    - uri: model://EnvSpec
+      name: EnvSpec
+      mime_type: application/json
+      description: interface with 5 fields (apps/api/src/env.ts)
+
+    - uri: model://ValidationError
+      name: ValidationError
+      mime_type: application/json
+      description: interface with 2 fields (apps/api/src/env.ts)
+
+    - uri: model://ValidationResult
+      name: ValidationResult
+      mime_type: application/json
+      description: interface with 3 fields (apps/api/src/env.ts)
+
+    - uri: model://ZipEntry
+      name: ZipEntry
+      mime_type: application/json
+      description: interface with 4 fields (apps/api/src/export.ts)
+
+    - uri: model://HistogramEntry
+      name: HistogramEntry
+      mime_type: application/json
+      description: interface with 3 fields (apps/api/src/metrics.ts)
+
+    - uri: model://OpenApiSpec
+      name: OpenApiSpec
+      mime_type: application/json
+      description: interface with 6 fields (apps/api/src/openapi.ts)
+
+    - uri: model://WindowEntry
+      name: WindowEntry
+      mime_type: application/json
+      description: interface with 2 fields (apps/api/src/rate-limiter.ts)
+
+    - uri: model://AppHandle
+      name: AppHandle
+      mime_type: application/json
+      description: interface with 3 fields (apps/api/src/router.ts)
+
+    - uri: model://Route
+      name: Route
+      mime_type: application/json
+      description: interface with 4 fields (apps/api/src/router.ts)
+
+    - uri: model://CliArgs
+      name: CliArgs
+      mime_type: application/json
+      description: interface with 5 fields (apps/cli/src/cli.ts)
+
+    - uri: model://AxisConfig
+      name: AxisConfig
+      mime_type: application/json
+      description: interface with 2 fields (apps/cli/src/credential-store.ts)
+
+    - uri: model://RunResult
+      name: RunResult
+      mime_type: application/json
+      description: interface with 4 fields (apps/cli/src/runner.ts)
+
+    - uri: model://ScanResult
+      name: ScanResult
+      mime_type: application/json
+      description: interface with 3 fields (apps/cli/src/scanner.ts)
+
+    - uri: model://WriteResult
+      name: WriteResult
+      mime_type: application/json
+      description: interface with 3 fields (apps/cli/src/writer.ts)
+
+  prompts:
+    - name: review_code
+      description: Review code following axis-toolbox conventions
+      arguments:
+        - name: file_path
+          type: string
+          required: true
+
+    - name: debug_issue
+      description: Debug an issue using project-specific playbooks
+      arguments:
+        - name: error_message
+          type: string
+          required: true
+        - name: stack_trace
+          type: string
+
+  runtime:
+    language: TypeScript
+    entry: "src/index.ts"
+    env:
+      - name: AXIS_PROJECT_ID
+        required: true
+      - name: AXIS_API_URL
+        default: "http://localhost:4000"
+
+  dependencies:
+    - name: @axis/context-engine
+      version: "workspace:*"
+    - name: @axis/generator-core
+      version: "workspace:*"
+    - name: @axis/repo-parser
+      version: "workspace:*"
+    - name: @axis/snapshots
+      version: "workspace:*"
+    - name: jszip
+      version: "^3.10.1"
+    - name: react
+      version: "^19.1.0"
+    - name: react-dom
+      version: "^19.1.0"
+    - name: better-sqlite3
+      version: "^12.8.0"
+
+  # Detected Server/Tool Files
+  source_files:
+    - path: "apps/api/src/server.ts"
+      exports: ["export const app = ..."]
+    - path: "mcp/begin.yaml"
+      exports: []
+    - path: "mcp/continuation.yaml"
+      exports: []
+    - path: "mcp/MEMORY.yaml"
+      exports: []
+    - path: "mcp/schemas/output-contract.schema.json"
+      exports: []
+    - path: "mcp-config.json"
+      exports: []
+    - path: "packages/generator-core/src/generators-mcp.ts"
+      exports: ["export function generateMcpConfig(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile { ... }", "export function generateConnectorMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile { ... }", "export function generateCapabilityRegistry(ctx: ContextMap, files?: SourceFile[]): GeneratedFile { ... }", "export function generateServerManifest(ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]): GeneratedFile { ..."]
+    - path: "payment-processing-output/mcp-config.json"
+      exports: []

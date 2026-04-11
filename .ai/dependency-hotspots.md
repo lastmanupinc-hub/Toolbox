@@ -1,0 +1,250 @@
+# Dependency Hotspots — axis-toolbox
+
+Generated: 2026-04-11T20:14:34.215Z
+
+## Project Overview
+
+axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 132 domain models.
+
+## Detected Stack
+
+| Framework | Version | Confidence |
+|-----------|---------|------------|
+| React | ^19.1.0 | 95% |
+
+## Risk Summary
+
+| Severity | Count |
+|----------|-------|
+| High (>7) | 0 |
+| Medium (4–7) | 0 |
+| Low (≤4) | 6 |
+| **Total** | **6** |
+
+## Hotspot Files
+
+| File | Risk | Inbound | Outbound | Total Connections |
+|------|------|---------|----------|-------------------|
+| `apps/web/src/api.ts` | 🟢 0.8 | 16 | 0 | 16 |
+| `apps/web/src/App.tsx` | 🟢 0.8 | 1 | 14 | 15 |
+| `apps/web/src/pages/DashboardPage.tsx` | 🟢 0.5 | 1 | 9 | 10 |
+| `apps/web/src/components/Toast.tsx` | 🟢 0.1 | 3 | 0 | 3 |
+| `apps/web/src/components/AxisIcons.tsx` | 🟢 0.1 | 3 | 0 | 3 |
+| `apps/web/src/upload-utils.ts` | 🟢 0.1 | 3 | 0 | 3 |
+
+## Coupling Analysis
+
+### `apps/web/src/api.ts`
+
+- **Risk Score**: 0.8/10
+- **Inbound**: 16 files depend on this
+- **Outbound**: 0 dependencies
+- **Refactor Priority**: LOW — acceptable coupling
+
+### `apps/web/src/App.tsx`
+
+- **Risk Score**: 0.8/10
+- **Inbound**: 1 files depend on this
+- **Outbound**: 14 dependencies
+- **Refactor Priority**: LOW — acceptable coupling
+
+### `apps/web/src/pages/DashboardPage.tsx`
+
+- **Risk Score**: 0.5/10
+- **Inbound**: 1 files depend on this
+- **Outbound**: 9 dependencies
+- **Refactor Priority**: LOW — acceptable coupling
+
+### `apps/web/src/components/Toast.tsx`
+
+- **Risk Score**: 0.1/10
+- **Inbound**: 3 files depend on this
+- **Outbound**: 0 dependencies
+- **Refactor Priority**: LOW — acceptable coupling
+
+### `apps/web/src/components/AxisIcons.tsx`
+
+- **Risk Score**: 0.1/10
+- **Inbound**: 3 files depend on this
+- **Outbound**: 0 dependencies
+- **Refactor Priority**: LOW — acceptable coupling
+
+## External Dependency Risk
+
+| Package | Version | Risk Factor |
+|---------|---------|-------------|
+| @axis/context-engine | workspace:* | Stable |
+| @axis/generator-core | workspace:* | Stable |
+| @axis/repo-parser | workspace:* | Stable |
+| @axis/snapshots | workspace:* | Stable |
+| jszip | ^3.10.1 | Stable |
+| react | ^19.1.0 | Stable |
+| react-dom | ^19.1.0 | Stable |
+| better-sqlite3 | ^12.8.0 | Stable |
+| uuid | ^11.1.0 | Stable |
+| @types/better-sqlite3 | ^7.6.13 | Stable |
+| @types/node | ^22.0.0 | Stable |
+| ts-node | ^10.9.2 | Stable |
+| typescript | ^5.7.0 | Stable |
+| @types/react | ^19.1.2 | Stable |
+| @types/react-dom | ^19.1.2 | Stable |
+
+## Recommendations
+
+1. **Review circular dependencies** in the import graph
+
+## Hotspot Export Surface
+
+### `apps/web/src/api.ts`
+
+- `export interface SnapshotPayload { ... }`
+- `export interface SnapshotResponse { ... }`
+- `export interface ContextMap { ... }`
+- `export interface RepoProfile { ... }`
+- `export interface GeneratedFile { ... }`
+- `export interface GeneratedFilesResponse { ... }`
+- `export type BillingTier = ...`
+- `export interface Account { ... }`
+- `export interface ApiKeyInfo { ... }`
+- `export interface UsageSummary { ... }`
+- `export interface PlanDefinition { ... }`
+- `export interface PlanFeature { ... }`
+
+### `apps/web/src/App.tsx`
+
+- `export function App() { ... }`
+
+### `apps/web/src/components/Toast.tsx`
+
+- `export function useToast() { ... }`
+- `export function ToastProvider({ ... }`
+
+### `apps/web/src/pages/DashboardPage.tsx`
+
+- `export function DashboardPage({ ... }`
+
+## Hotspot File Excerpts
+
+### `apps/web/src/api.ts`
+
+```typescript
+const API_BASE = import.meta.env.VITE_API_URL ?? "";
+
+// ─── Snapshot types ─────────────────────────────────────────────
+
+export interface SnapshotPayload {
+  input_method: string;
+  manifest: {
+    project_name: string;
+    project_type: string;
+    frameworks: string[];
+    goals: string[];
+    requested_outputs: string[];
+  };
+  files: Array<{ path: string; content: string; size: number }>;
+}
+
+export interface SnapshotResponse {
+  snapshot_id: string;
+  project_id: string;
+  status: string;
+  context_map: ContextMap;
+  repo_profile: RepoProfile;
+  generated_files: Array<{ path: string; program: string; description: string }>;
+}
+
+... (446 more lines)
+```
+
+### `apps/web/src/App.tsx`
+
+```tsx
+import { useState, useCallback, useEffect, useRef, useMemo, Component, type ReactNode } from "react";
+import { UploadPage } from "./pages/UploadPage.tsx";
+import { DashboardPage } from "./pages/DashboardPage.tsx";
+import { PlansPage } from "./pages/PlansPage.tsx";
+import { AccountPage } from "./pages/AccountPage.tsx";
+import { DocsPage } from "./pages/DocsPage.tsx";
+import { HelpPage } from "./pages/HelpPage.tsx";
+import { QAPage } from "./pages/QAPage.tsx";
+import { ProgramsPage } from "./pages/ProgramsPage.tsx";
+import { TermsPage } from "./pages/TermsPage.tsx";
+import { ToastProvider } from "./components/Toast.tsx";
+import { CommandPalette, type PaletteAction } from "./components/CommandPalette.tsx";
+import { StatusBar } from "./components/StatusBar.tsx";
+import { SignUpModal } from "./components/SignUpModal.tsx";
+import type { SnapshotResponse } from "./api.ts";
+
+// ─── Error Boundary ─────────────────────────────────────────────
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  state = { error: null as Error | null };
+  static getDerivedStateFromError(error: Error) { return { error }; }
+  componentDidCatch(error: Error) { console.error("UI crash:", error); }
+  render() {
+    if (this.state.error) {
+      return (
+... (261 more lines)
+```
+
+### `apps/web/src/components/Toast.tsx`
+
+```tsx
+import { useState, useEffect, useCallback, useRef, createContext, useContext, type ReactNode } from "react";
+
+// ─── Types ──────────────────────────────────────────────────────
+
+type ToastLevel = "info" | "success" | "error" | "warning";
+
+interface Toast {
+  id: number;
+  level: ToastLevel;
+  message: string;
+  expiresAt: number;
+}
+
+interface ToastContextValue {
+  toast: (level: ToastLevel, message: string, durationMs?: number) => void;
+}
+
+const ToastContext = createContext<ToastContextValue>({
+  toast: () => {},
+});
+
+export function useToast() {
+  return useContext(ToastContext);
+}
+
+... (90 more lines)
+```
+
+### `apps/web/src/pages/DashboardPage.tsx`
+
+```tsx
+import { useState, useEffect } from "react";
+import type { SnapshotResponse, GeneratedFile } from "../api.ts";
+import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
+import { OverviewTab } from "../components/OverviewTab.tsx";
+import { FilesTab } from "../components/FilesTab.tsx";
+import { GraphTab } from "../components/GraphTab.tsx";
+import { GeneratedTab } from "../components/GeneratedTab.tsx";
+import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
+import { SearchTab } from "../components/SearchTab.tsx";
+import { useToast } from "../components/Toast.tsx";
+
+interface Props {
+  result: SnapshotResponse;
+  onGeneratedCountChange?: (count: number) => void;
+}
+
+const TABS = ["Overview", "Structure", "Dependencies", "Generated Files", "Programs", "Search"] as const;
+type Tab = (typeof TABS)[number];
+
+export function DashboardPage({ result, onGeneratedCountChange }: Props) {
+  const [activeTab, setActiveTab] = useState<Tab>("Overview");
+  const [generatedFiles, setGeneratedFiles] = useState<GeneratedFile[]>([]);
+  const [downloading, setDownloading] = useState(false);
+  const { toast } = useToast();
+
+... (133 more lines)
+```

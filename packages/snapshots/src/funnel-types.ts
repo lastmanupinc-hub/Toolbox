@@ -110,7 +110,7 @@ export const PLAN_CATALOG: PlanDefinition[] = [
       "3 core programs (Search, Skills, Debug)",
       "10 snapshots per month",
       "1 active project",
-      "200 files per snapshot (5 MB max)",
+      "1,000 files per snapshot (5 MB max)",
       "API access with key",
       "CLI and web interface",
     ],

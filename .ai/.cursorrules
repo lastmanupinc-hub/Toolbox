@@ -1,0 +1,120 @@
+# .cursorrules — axis-toolbox
+#
+# monorepo | TypeScript
+#
+# Stack: React
+
+# === General ===
+primary_language = "TypeScript"
+project_type = "monorepo"
+
+# === React ===
+component_style = "functional"
+state_management = "hooks"
+class_components = false
+
+# === Testing ===
+test_framework = "vitest"
+test_before_commit = true
+
+# === Tooling ===
+package_manager = "pnpm"
+
+# === Architecture Boundaries ===
+# presentation: apps, frontend
+
+# === Domain Models ===
+# AuthContext (interface, 3 fields) @ apps/api/src/billing.ts
+# EnvSpec (interface, 5 fields) @ apps/api/src/env.ts
+# ValidationError (interface, 2 fields) @ apps/api/src/env.ts
+# ValidationResult (interface, 3 fields) @ apps/api/src/env.ts
+# ZipEntry (interface, 4 fields) @ apps/api/src/export.ts
+# HistogramEntry (interface, 3 fields) @ apps/api/src/metrics.ts
+# OpenApiSpec (interface, 6 fields) @ apps/api/src/openapi.ts
+# WindowEntry (interface, 2 fields) @ apps/api/src/rate-limiter.ts
+# AppHandle (interface, 3 fields) @ apps/api/src/router.ts
+# Route (interface, 4 fields) @ apps/api/src/router.ts
+# CliArgs (interface, 5 fields) @ apps/cli/src/cli.ts
+# AxisConfig (interface, 2 fields) @ apps/cli/src/credential-store.ts
+# RunResult (interface, 4 fields) @ apps/cli/src/runner.ts
+# ScanResult (interface, 3 fields) @ apps/cli/src/scanner.ts
+# WriteResult (interface, 3 fields) @ apps/cli/src/writer.ts
+# Account (interface, 5 fields) @ apps/web/src/api.ts
+# ApiKeyInfo (interface, 5 fields) @ apps/web/src/api.ts
+# ContextMap (interface, 8 fields) @ apps/web/src/api.ts
+# GeneratedFile (interface, 5 fields) @ apps/web/src/api.ts
+# GeneratedFilesResponse (interface, 6 fields) @ apps/web/src/api.ts
+# ... and 112 more
+
+# === Detected Conventions ===
+# - TypeScript strict mode
+# - pnpm workspaces
+
+# === Project File Tree ===
+# .gitignore
+# AGENTS.md
+# algorithmic/begin.yaml
+# algorithmic/continuation.yaml
+# algorithmic/MEMORY.yaml
+# algorithmic/schemas/output-contract.schema.json
+# algorithmic-pack.json
+# apps/api/package.json
+# apps/api/src/admin.test.ts
+# apps/api/src/admin.ts
+# apps/api/src/api-branches.test.ts
+# apps/api/src/api-layer5.test.ts
+# apps/api/src/api.test.ts
+# apps/api/src/b-grade-upgrade.test.ts
+# apps/api/src/billing-flow.test.ts
+# apps/api/src/billing.ts
+# apps/api/src/checkout-email.test.ts
+# apps/api/src/crash-resilience.test.ts
+# apps/api/src/credits-api.test.ts
+# apps/api/src/db-endpoints.test.ts
+# apps/api/src/deletion.test.ts
+# apps/api/src/deployment.test.ts
+# apps/api/src/e2e-flows.test.ts
+# apps/api/src/env.test.ts
+# apps/api/src/env.ts
+# apps/api/src/export-edge-cases.test.ts
+# apps/api/src/export.test.ts
+# apps/api/src/export.ts
+# apps/api/src/funnel-api.test.ts
+# apps/api/src/funnel.ts
+# apps/api/src/github.test.ts
+# apps/api/src/github.ts
+# apps/api/src/handler-edge-cases.test.ts
+# apps/api/src/handler-validation.test.ts
+# apps/api/src/handlers-deep.test.ts
+# apps/api/src/handlers.ts
+# apps/api/src/latency-histogram.test.ts
+# apps/api/src/logger.test.ts
+# apps/api/src/logger.ts
+# apps/api/src/logging.test.ts
+# apps/api/src/metrics-branches.test.ts
+# apps/api/src/metrics.test.ts
+# apps/api/src/metrics.ts
+# apps/api/src/multi-tenancy.test.ts
+# apps/api/src/oauth.test.ts
+# apps/api/src/oauth.ts
+# apps/api/src/openapi.test.ts
+# apps/api/src/openapi.ts
+# apps/api/src/production-startup.test.ts
+# apps/api/src/programs-billing.test.ts
+# ... and 382 more files
+
+# === Key Entry Points ===
+# apps/api/src/server.ts
+#   export const app = ...
+# apps/web/src/App.tsx
+#   export function App() { ... }
+# apps/web/src/main.tsx
+# packages/context-engine/src/index.ts
+#   export type { ... }
+#   export { ... }
+# packages/generator-core/src/index.ts
+#   export type { ... }
+#   export { ... }
+#   export { ... }
+#   export { ... }
+#   export { ... }

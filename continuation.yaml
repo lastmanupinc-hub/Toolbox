@@ -15,7 +15,7 @@ project_continuation:
   current_identity:
     project_name: "Axis Toolbox"
     date: "2026-04-11"
-    commit_or_tag: "29ba24f"
+    commit_or_tag: "a5397b4"
     current_session_id: "session_073"
     one_sentence_summary: "Full-stack Axis Toolbox with 83 capabilities (A:83, B:0, F:0), 77+ endpoints, 3370 tests across 123 files. 81 generators. Branch coverage 100.00% (2231/2231). 100% funcs, 100% lines, 99.99% stmts. Full Stripe migration complete. TermsPage added. stripe.ts 100% branches."
     current_status: "building"
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 95
       integration_confidence: 98
-      notes: "3181 tests across 115 files. Port conflict fixed (export-edge-cases 44421→44422). branches15: 17 tests for skills/search domain_models+sql_schema enrichment branches. branches14: 29 tests for remotion. branches13: 17 tests for mcp. Credits API 17 tests. Stripe $29/month pro LIVE. GitHub OAuth LIVE. A:83, B:0, F:0."
+      notes: "3370 tests across 123 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. stripe.ts 100% branches. TermsPage added. Stripe $29/month pro LIVE. GitHub OAuth LIVE. A:83, B:0, F:0. Symbol search + .ai/symbol-index.json (81st generator) LIVE."
 
   boundary_truth:
     accepted_input_modes:
