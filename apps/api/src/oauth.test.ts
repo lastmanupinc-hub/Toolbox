@@ -5,7 +5,7 @@ import { Router, createApp } from "./router.js";
 import { handleGitHubOAuthStart, handleGitHubOAuthCallback } from "./oauth.js";
 import { resetRateLimits } from "./rate-limiter.js";
 
-const TEST_PORT = 44410;
+const TEST_PORT = 44412;
 let server: Server;
 
 // ─── HTTP helper (follows redirects manually) ────────────────────
