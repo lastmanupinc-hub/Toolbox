@@ -748,7 +748,7 @@ function TroubleshootingSection() {
           <div className="card" style={{ padding: 16, marginBottom: 0, textAlign: "center" }}>
             <div style={{ fontSize: "1.25rem", marginBottom: 8 }}><Icon name="email" /></div>
             <strong style={{ fontSize: "0.8125rem", display: "block", marginBottom: 4 }}>Contact</strong>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>support@axistoolbox.com</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>support@jonathanarvay.com</p>
           </div>
         </div>
       </div>

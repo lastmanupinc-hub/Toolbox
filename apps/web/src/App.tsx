@@ -267,7 +267,7 @@ export function App() {
           © {new Date().getFullYear()} Last Man Up Inc. ·{" "}
           <button className="btn" style={{ padding: "0 4px", fontSize: "0.8rem", display: "inline" }} onClick={() => nav("terms")}>Terms of Service</button>
           {" "} · {" "}
-          <a href="mailto:support@lastmanup.com" style={{ color: "var(--text-muted)" }}>support@lastmanup.com</a>
+          <a href="mailto:support@jonathanarvay.com" style={{ color: "var(--text-muted)" }}>support@jonathanarvay.com</a>
         </p>
       </footer>
 

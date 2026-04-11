@@ -383,7 +383,7 @@ export function QAPage() {
         <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem" }}>
           Don't see your question? Check the{" "}
           <strong style={{ color: "var(--accent)", cursor: "pointer" }}>Help Center</strong> or reach out to{" "}
-          <strong style={{ color: "var(--accent)" }}>support@axistoolbox.com</strong>
+          <strong style={{ color: "var(--accent)" }}>support@jonathanarvay.com</strong>
         </p>
       </div>
     </div>

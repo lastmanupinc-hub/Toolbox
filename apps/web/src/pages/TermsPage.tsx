@@ -201,8 +201,8 @@ export function TermsPage() {
             <h4 style={{ marginBottom: 8, marginTop: 16 }}>5.5 Data Deletion</h4>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.7 }}>
               You may request deletion of your account and all associated data by contacting{" "}
-              <a href="mailto:support@lastmanup.com" style={{ color: "var(--accent)" }}>
-                support@lastmanup.com
+              <a href="mailto:support@jonathanarvay.com" style={{ color: "var(--accent)" }}>
+                support@jonathanarvay.com
               </a>. We will fulfil deletion requests within 30 days.
             </p>
           </div>
@@ -333,8 +333,8 @@ export function TermsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div className="card" style={{ background: "var(--bg-tertiary)" }}>
                 <p style={{ fontWeight: 600, marginBottom: 4 }}>General & Legal</p>
-                <a href="mailto:support@lastmanup.com" style={{ color: "var(--accent)" }}>
-                  support@lastmanup.com
+                <a href="mailto:support@jonathanarvay.com" style={{ color: "var(--accent)" }}>
+                  support@jonathanarvay.com
                 </a>
               </div>
               <div className="card" style={{ background: "var(--bg-tertiary)" }}>
