@@ -640,7 +640,14 @@ export async function handleAddCredits(
   }
 
   const credits = body.credits;
-  const operation = body.operation ?? "purchase";
+  const rawOperation = body.operation ?? "purchase";
+  const VALID_OPERATIONS = ["purchase", "suite_monthly_grant"] as const;
+  type CreditOperation = (typeof VALID_OPERATIONS)[number];
+  if (!VALID_OPERATIONS.includes(rawOperation as CreditOperation)) {
+    sendError(res, 400, ErrorCode.INVALID_FORMAT, "operation must be 'purchase' or 'suite_monthly_grant'");
+    return;
+  }
+  const operation = rawOperation as CreditOperation;
 
   if (typeof credits !== "number" || !Number.isInteger(credits) || credits <= 0) {
     sendError(res, 400, ErrorCode.INVALID_FORMAT, "credits must be a positive integer");
@@ -653,7 +660,7 @@ export async function handleAddCredits(
   }
 
   const account_id = ctx.account!.account_id;
-  const balance_after = addPersistenceCredits(account_id, credits, String(operation));
+  const balance_after = addPersistenceCredits(account_id, credits, operation);
 
   sendJSON(res, 200, {
     account_id,

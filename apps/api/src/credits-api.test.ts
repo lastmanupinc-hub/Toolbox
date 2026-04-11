@@ -251,4 +251,11 @@ describe("POST /v1/account/credits", () => {
     expect(r.status).toBe(200);
     expect(r.data.credits_added).toBe(500);
   });
+
+  it("rejects invalid operation value", async () => {
+    const { api_key } = await createAccountAndKey("credits-bad-op@test.com");
+    await upgradeTier(api_key, "paid");
+    const r = await req("POST", "/v1/account/credits", { credits: 100, operation: "refund" }, api_key);
+    expect(r.status).toBe(400);
+  });
 });
