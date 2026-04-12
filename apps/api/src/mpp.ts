@@ -141,7 +141,14 @@ export async function chargeMpp(
     }) as (req: globalThis.Request) => Promise<MppResult>;
   }
 
-  return Mppx.toNodeListener(handler)(req, res) as Promise<MppResult>;
+  const result = await (Mppx.toNodeListener(handler)(req, res) as Promise<MppResult>);
+  /* v8 ignore next 6 */
+  if (result.status === 402) {
+    console.log(`[MPP] 402 challenge issued — ${options.description ?? "AXIS API credit"}`);
+  } else if (result.status === 200) {
+    console.log(`[MPP] 200 payment validated — ${options.description ?? "AXIS API credit"}`);
+  }
+  return result;
 }
 
 /** Resets the cached mppx instance. Call in tests after changing env vars. */
