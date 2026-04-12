@@ -232,12 +232,10 @@ export async function handleCreateSnapshot(
     if (!quota.allowed) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason });
       const mppResult = await chargeMpp(req, res, {
-        amount: auth.account.tier === "free" ? "39.00" : "0.50",
+        amount: "0.50",
         currency: "usd",
         decimals: 2,
-        description: auth.account.tier === "free"
-          ? "AXIS Toolbox Pro  -  $39/month"
-          : "AXIS API Credit  -  $0.50",
+        description: "AXIS API Credit  -  $0.50 per run",
         meta: { account_id: auth.account.account_id, tier: auth.account.tier },
       });
       if (mppResult === null) {
@@ -701,12 +699,10 @@ export async function handleGitHubAnalyze(
     if (!quota.allowed) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason, source: "github" });
       const mppResult = await chargeMpp(req, res, {
-        amount: auth.account.tier === "free" ? "39.00" : "0.50",
+        amount: "0.50",
         currency: "usd",
         decimals: 2,
-        description: auth.account.tier === "free"
-          ? "AXIS Toolbox Pro  -  $39/month"
-          : "AXIS API Credit  -  $0.50",
+        description: "AXIS API Credit  -  $0.50 per run",
         meta: { account_id: auth.account.account_id, tier: auth.account.tier },
       });
       if (mppResult === null) {
@@ -1188,12 +1184,10 @@ export async function handleAnalyze(
     if (!quota.allowed) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason, source: "analyze" });
       const mppResult = await chargeMpp(req, res, {
-        amount: auth.account.tier === "free" ? "39.00" : "0.50",
+        amount: "0.50",
         currency: "usd",
         decimals: 2,
-        description: auth.account.tier === "free"
-          ? "AXIS Toolbox Pro  -  $39/month"
-          : "AXIS API Credit  -  $0.50",
+        description: "AXIS API Credit  -  $0.50 per run",
         meta: { account_id: auth.account.account_id, tier: auth.account.tier },
       });
       if (mppResult === null) {
@@ -1438,12 +1432,10 @@ export async function handlePreparePurchasing(
     /* v8 ignore start  -  quota exceeded path */
     if (!quota.allowed) {
       const mppResult = await chargeMpp(req, res, {
-        amount: auth.account.tier === "free" ? "39.00" : "0.50",
+        amount: "0.50",
         currency: "usd",
         decimals: 2,
-        description: auth.account.tier === "free"
-          ? "AXIS Toolbox Pro  -  $39/month"
-          : "AXIS API Credit  -  $0.50",
+        description: "AXIS API Credit  -  $0.50 per run",
         meta: { account_id: auth.account.account_id, tier: auth.account.tier },
       });
       if (mppResult === null) {
