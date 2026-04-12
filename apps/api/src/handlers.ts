@@ -1634,10 +1634,10 @@ export async function handleWellKnown(
 
 // â”€â”€â”€ GET /llms.txt  -  llmstxt.org standard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-export function handleLlmsTxt(
+export async function handleLlmsTxt(
   _req: IncomingMessage,
   res: ServerResponse,
-): void {
+): Promise<void> {
   const body = `# AXIS Toolbox
 
 > Analyze any codebase. Generate 86 structured AI context artifacts across 18 programs. Makes any repo immediately legible to AI coding assistants, autonomous agents, and purchasing agents.
@@ -1690,10 +1690,10 @@ For autonomous purchasing agents:
 
 // â”€â”€â”€ GET /.well-known/skills/index.json  -  agent skills registry â”€â”€
 
-export function handleSkillsIndex(
+export async function handleSkillsIndex(
   _req: IncomingMessage,
   res: ServerResponse,
-): void {
+): Promise<void> {
   sendJSON(res, 200, {
     version: "1.0",
     publisher: "AXIS Toolbox / Last Man Up Inc.",
@@ -1764,10 +1764,10 @@ export function handleSkillsIndex(
 
 // â”€â”€â”€ GET /v1/docs.md  -  plain-text OpenAPI summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-export function handleDocsMd(
+export async function handleDocsMd(
   _req: IncomingMessage,
   res: ServerResponse,
-): void {
+): Promise<void> {
   const body = `# AXIS Toolbox API  -  Plain Text Reference
 
 Version: 0.4.0 | Base URL: https://axis-api.onrender.com

@@ -20,9 +20,10 @@ import {
   TIER_LIMITS,
   getGitHubTokenDecrypted,
 } from "@axis/snapshots";
-import type { SnapshotManifest, FileEntry } from "@axis/snapshots";
+import type { SnapshotManifest, FileEntry, InputMethod } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
 import { generateFiles, listAvailableGenerators } from "@axis/generator-core";
+import type { GeneratorResult } from "@axis/generator-core";
 import { computePurchasingReadinessScore, PURCHASING_PROGRAMS } from "./handlers.js";
 
 // ─── Protocol constants ──────────────────────────────────────────
@@ -416,7 +417,7 @@ export async function runAnalyzeRepo(
   };
 
   const snapshot = createSnapshot(
-    { input_method: "github_url", manifest, files },
+    { input_method: "github_repo_url" as InputMethod, manifest, files },
     auth.account.account_id,
   );
   const ctxMap = buildContextMap(snapshot);
@@ -623,7 +624,7 @@ export function runGetSnapshot(
     }
   }
 
-  const generated = getGeneratorResult(snapshot_id);
+  const generated = getGeneratorResult(snapshot_id) as GeneratorResult | undefined;
   return JSON.stringify(
     {
       snapshot_id: snapshot.snapshot_id,
@@ -667,7 +668,7 @@ export function runGetArtifact(
     }
   }
 
-  const generated = getGeneratorResult(snapshot_id);
+  const generated = getGeneratorResult(snapshot_id) as GeneratorResult | undefined;
   if (!generated) throw new Error("No generated artifacts for this snapshot");
 
   const normalized = filePath.replace(/^\.\//, "");
