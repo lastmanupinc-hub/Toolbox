@@ -427,7 +427,7 @@ export async function createMppPaymentUrl(
     : process.env.STRIPE_PRICE_ID_CREDITS;
   if (!priceId) return null;
 
-  const webUrl = process.env.CORS_ORIGIN ?? "https://axistoolbox.com";
+  const webUrl = process.env.CORS_ORIGIN ?? "https://toolbox.jonathanarvay.com";
   const params = new URLSearchParams();
   params.append("mode", isUpgrade ? "subscription" : "payment");
   params.append("line_items[0][price]", priceId);

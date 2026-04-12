@@ -135,7 +135,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "billing",
     question: "What's included in Enterprise?",
-    answer: "Enterprise includes unlimited snapshots, programs, projects, and team seats. Plus SSO integration, audit logs, dedicated support, custom rate limits, and SLA guarantees. Contact sales@axistoolbox.com for pricing — plans are customized based on team size and usage patterns.",
+    answer: "Enterprise includes unlimited snapshots, programs, projects, and team seats. Plus SSO integration, audit logs, dedicated support, custom rate limits, and SLA guarantees. Contact sales@lastmanup.com for pricing — plans are customized based on team size and usage patterns.",
   },
   {
     category: "billing",

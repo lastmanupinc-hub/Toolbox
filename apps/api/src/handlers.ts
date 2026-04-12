@@ -1633,7 +1633,7 @@ Connect directly via Model Context Protocol (Streamable HTTP, 2025-03-26 spec):
 
 - Endpoint: POST /mcp
 - 7 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools
-- No installation required — connect any MCP-compatible agent to https://api.axistoolbox.com/mcp
+- No installation required — connect any MCP-compatible agent to https://axis-api.onrender.com/mcp
 
 ## Programs (18 total)
 
@@ -1746,7 +1746,7 @@ export function handleDocsMd(
 ): void {
   const body = `# AXIS Toolbox API — Plain Text Reference
 
-Version: 0.4.0 | Base URL: https://api.axistoolbox.com
+Version: 0.4.0 | Base URL: https://axis-api.onrender.com
 
 ## Authentication
 
