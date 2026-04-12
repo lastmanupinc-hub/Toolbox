@@ -8,6 +8,7 @@ import { HelpPage } from "./pages/HelpPage.tsx";
 import { QAPage } from "./pages/QAPage.tsx";
 import { ProgramsPage } from "./pages/ProgramsPage.tsx";
 import { TermsPage } from "./pages/TermsPage.tsx";
+import { ForAgentsPage } from "./pages/ForAgentsPage.tsx";
 import { ToastProvider } from "./components/Toast.tsx";
 import { CommandPalette, type PaletteAction } from "./components/CommandPalette.tsx";
 import { StatusBar } from "./components/StatusBar.tsx";
@@ -36,11 +37,11 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
   }
 }
 
-type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa" | "programs" | "terms";
+type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa" | "programs" | "terms" | "for-agents";
 
 function getInitialPage(): Page {
   const h = location.hash.replace("#", "");
-  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa" || h === "programs" || h === "terms") return h as Page;
+  if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa" || h === "programs" || h === "terms" || h === "for-agents") return h as Page;
   return "upload";
 }
 
@@ -79,6 +80,7 @@ export function App() {
       else if (h === "qa") setPage("qa");
       else if (h === "programs") setPage("programs");
       else if (h === "terms") setPage("terms");
+      else if (h === "for-agents") setPage("for-agents");
       else if (h === "dashboard" && resultRef.current) setPage("dashboard");
       else setPage("upload");
     };
@@ -202,6 +204,7 @@ export function App() {
           <button className={`btn ${page === "docs" ? "btn-primary" : ""}`} onClick={() => nav("docs")}>Docs</button>
           <button className={`btn ${page === "help" ? "btn-primary" : ""}`} onClick={() => nav("help")}>Help</button>
           <button className={`btn ${page === "qa" ? "btn-primary" : ""}`} onClick={() => nav("qa")}>Q&amp;A</button>
+          <button className={`btn ${page === "for-agents" ? "btn-primary" : ""}`} onClick={() => nav("for-agents")}>For Agents</button>
           <button className="btn" onClick={() => { window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true })); }} title="Command Palette (Ctrl+K)" style={{ padding: "8px 10px" }}>Cmd</button>
           <button className="theme-toggle" onClick={toggleTheme} title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}>{theme === "light" ? "Dark" : "Light"}</button>
         </nav>
@@ -233,6 +236,7 @@ export function App() {
           <button className={`nav-drawer-item ${page === "docs" ? "active" : ""}`} onClick={() => nav("docs")}>Docs</button>
           <button className={`nav-drawer-item ${page === "help" ? "active" : ""}`} onClick={() => nav("help")}>Help</button>
           <button className={`nav-drawer-item ${page === "qa" ? "active" : ""}`} onClick={() => nav("qa")}>Q&amp;A</button>
+          <button className={`nav-drawer-item ${page === "for-agents" ? "active" : ""}`} onClick={() => nav("for-agents")}>For Agents</button>
         </nav>
       )}
 
@@ -258,6 +262,7 @@ export function App() {
           {page === "qa" && <QAPage />}
           {page === "programs" && <ProgramsPage onAnalyze={() => nav("upload")} />}
           {page === "terms" && <TermsPage />}
+          {page === "for-agents" && <ForAgentsPage />}
         </div>
       </ErrorBoundary>
 
