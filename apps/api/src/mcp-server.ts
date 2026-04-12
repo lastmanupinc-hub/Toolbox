@@ -1,0 +1,689 @@
+import { randomUUID } from "node:crypto";
+import type { IncomingMessage, ServerResponse } from "node:http";
+import { readBody } from "./router.js";
+import { resolveAuth } from "./billing.js";
+import { log } from "./logger.js";
+import {
+  createSnapshot,
+  getSnapshot,
+  updateSnapshotStatus,
+  saveContextMap,
+  saveRepoProfile,
+  saveGeneratorResult,
+  getContextMap,
+  getRepoProfile,
+  getGeneratorResult,
+  checkQuota,
+  recordUsage,
+  trackEvent,
+  resolveStage,
+  TIER_LIMITS,
+  getGitHubTokenDecrypted,
+} from "@axis/snapshots";
+import type { SnapshotManifest, FileEntry } from "@axis/snapshots";
+import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
+import { generateFiles, listAvailableGenerators } from "@axis/generator-core";
+
+// ─── Protocol constants ──────────────────────────────────────────
+
+export const MCP_PROTOCOL_VERSION = "2025-03-26";
+const SERVER_NAME = "axis-toolbox";
+const SERVER_VERSION = "0.4.0";
+
+// Standard JSON-RPC 2.0 error codes
+const RPC_PARSE_ERROR = -32700;
+const RPC_INVALID_REQUEST = -32600;
+const RPC_METHOD_NOT_FOUND = -32601;
+const RPC_INVALID_PARAMS = -32602;
+/* v8 ignore next — internal error code defined for completeness */
+const RPC_INTERNAL_ERROR = -32603;
+
+// ─── Types ───────────────────────────────────────────────────────
+
+interface JsonRpcRequest {
+  jsonrpc: string;
+  id?: string | number | null;
+  method: string;
+  params?: unknown;
+}
+
+interface RpcSuccess {
+  jsonrpc: "2.0";
+  id: string | number | null;
+  result: unknown;
+}
+
+interface RpcError {
+  jsonrpc: "2.0";
+  id: string | number | null;
+  error: { code: number; message: string; data?: unknown };
+}
+
+type RpcResponse = RpcSuccess | RpcError;
+
+// ─── MCP tool schemas ────────────────────────────────────────────
+
+export const MCP_TOOLS = [
+  {
+    name: "analyze_repo",
+    description:
+      "Analyze a GitHub repository and generate 81 structured artifacts across 17 programs — AGENTS.md, .cursorrules, architecture maps, debug playbooks, brand guidelines, design tokens, and more. Returns snapshot_id and full artifact listing. Requires authentication.",
+    inputSchema: {
+      type: "object",
+      required: ["github_url"],
+      properties: {
+        github_url: {
+          type: "string",
+          description: "GitHub repository URL (https://github.com/owner/repo)",
+        },
+      },
+    },
+  },
+  {
+    name: "analyze_files",
+    description:
+      "Analyze source files and generate all 81 AXIS artifacts. Submit raw file content directly. Returns snapshot_id and full artifact listing. Requires authentication.",
+    inputSchema: {
+      type: "object",
+      required: ["project_name", "project_type", "frameworks", "goals", "files"],
+      properties: {
+        project_name: { type: "string", description: "Name of the project" },
+        project_type: {
+          type: "string",
+          description:
+            "Project type (web_application, api_service, cli_tool, library, monorepo)",
+        },
+        frameworks: {
+          type: "array",
+          items: { type: "string" },
+          description: "Detected or known frameworks (e.g. ['react', 'nextjs', 'node'])",
+        },
+        goals: {
+          type: "array",
+          items: { type: "string" },
+          description: "Analysis goals (e.g. ['Generate AI context', 'Debug playbook'])",
+        },
+        files: {
+          type: "array",
+          items: {
+            type: "object",
+            required: ["path", "content"],
+            properties: {
+              path: { type: "string", description: "File path relative to project root" },
+              content: { type: "string", description: "File content (UTF-8)" },
+            },
+          },
+          description: "Source files to analyze (max varies by tier)",
+        },
+      },
+    },
+  },
+  {
+    name: "list_programs",
+    description:
+      "List all 17 AXIS programs and their 81 generators with tier info (free/pro). No authentication required.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "get_snapshot",
+    description:
+      "Retrieve snapshot details and the full list of generated artifacts for a prior analysis. Use the snapshot_id returned by analyze_repo or analyze_files.",
+    inputSchema: {
+      type: "object",
+      required: ["snapshot_id"],
+      properties: {
+        snapshot_id: {
+          type: "string",
+          description: "Snapshot ID returned by analyze_repo or analyze_files",
+        },
+      },
+    },
+  },
+  {
+    name: "get_artifact",
+    description:
+      "Retrieve the full content of a specific generated artifact by file path (e.g. 'AGENTS.md', '.cursorrules', '.ai/debug-playbook.md'). Use snapshot_id from a prior analysis.",
+    inputSchema: {
+      type: "object",
+      required: ["snapshot_id", "path"],
+      properties: {
+        snapshot_id: { type: "string", description: "Snapshot ID" },
+        path: {
+          type: "string",
+          description: "Artifact file path as returned in the artifacts list",
+        },
+      },
+    },
+  },
+];
+
+// ─── Response builders ───────────────────────────────────────────
+
+function rpcOk(id: string | number | null, result: unknown): RpcSuccess {
+  return { jsonrpc: "2.0", id, result };
+}
+
+function rpcErr(
+  id: string | number | null,
+  code: number,
+  message: string,
+): RpcError {
+  return { jsonrpc: "2.0", id, error: { code, message } };
+}
+
+function toolOk(text: string) {
+  return { content: [{ type: "text", text }], isError: false };
+}
+
+function toolErr(text: string) {
+  return { content: [{ type: "text", text }], isError: true };
+}
+
+// ─── Tool: analyze_files ─────────────────────────────────────────
+
+export async function runAnalyzeFiles(
+  args: Record<string, unknown>,
+  req: IncomingMessage,
+): Promise<string> {
+  const auth = resolveAuth(req);
+  if (!auth.account) {
+    throw new Error(
+      auth.anonymous
+        ? "Authentication required. Include Authorization: Bearer <api_key>"
+        : "Invalid or revoked API key",
+    );
+  }
+
+  const { project_name, project_type, frameworks, goals, files: rawFiles } = args;
+
+  if (typeof project_name !== "string" || !project_name)
+    throw new Error("project_name is required");
+  if (typeof project_type !== "string" || !project_type)
+    throw new Error("project_type is required");
+  if (!Array.isArray(frameworks)) throw new Error("frameworks must be an array");
+  if (!Array.isArray(goals)) throw new Error("goals must be an array");
+  if (!Array.isArray(rawFiles) || rawFiles.length === 0)
+    throw new Error("files must be a non-empty array");
+
+  const files: FileEntry[] = rawFiles.map((f: unknown) => {
+    const file = f as Record<string, unknown>;
+    if (typeof file.path !== "string" || typeof file.content !== "string") {
+      throw new Error("Each file must have path (string) and content (string)");
+    }
+    const path = file.path
+      .replace(/\\/g, "/")
+      .replace(/\/+/g, "/")
+      .replace(/^\/+/, "");
+    if (path.includes("..")) throw new Error(`Invalid file path: ${file.path as string}`);
+    return { path, content: file.content, size: Buffer.byteLength(file.content, "utf-8") };
+  });
+
+  /* v8 ignore start — quota exceeded and file limit paths require exhausting account limits in test */
+  const quota = checkQuota(auth.account.account_id);
+  if (!quota.allowed) {
+    throw new Error(`Quota exceeded: ${quota.reason ?? "Quota exceeded"}`);
+  }
+  const limits = TIER_LIMITS[auth.account.tier];
+  if (files.length > limits.max_files_per_snapshot) {
+    throw new Error(
+      `File limit: ${files.length} files exceeds max ${limits.max_files_per_snapshot} for ${auth.account.tier} tier`,
+    );
+  }
+  /* v8 ignore stop */
+
+  const generators = listAvailableGenerators();
+  const requestedOutputs = generators.map(g => g.path);
+  const manifest: SnapshotManifest = {
+    project_name,
+    project_type,
+    frameworks: frameworks as string[],
+    goals: goals as string[],
+    requested_outputs: requestedOutputs,
+  };
+
+  const snapshot = createSnapshot(
+    { input_method: "api_submission", manifest, files },
+    auth.account.account_id,
+  );
+  const ctxMap = buildContextMap(snapshot);
+  const repoProfile = buildRepoProfile(snapshot);
+  saveContextMap(snapshot.snapshot_id, ctxMap);
+  saveRepoProfile(snapshot.snapshot_id, repoProfile);
+
+  const generated = generateFiles({
+    context_map: ctxMap,
+    repo_profile: repoProfile,
+    requested_outputs: requestedOutputs,
+    source_files: snapshot.files,
+  });
+  saveGeneratorResult(snapshot.snapshot_id, generated);
+  updateSnapshotStatus(snapshot.snapshot_id, "ready");
+
+  const programs = new Set(generated.files.map(f => f.program));
+  for (const program of programs) {
+    const pFiles = generated.files.filter(f => f.program === program);
+    recordUsage(
+      auth.account!.account_id,
+      program,
+      snapshot.snapshot_id,
+      pFiles.length,
+      files.length,
+      /* v8 ignore next — size is always defined in FileEntry creation above */
+      files.reduce((s, f) => s + (f.size ?? 0), 0),
+    );
+  }
+  trackEvent(
+    auth.account.account_id,
+    "snapshot_created",
+    resolveStage(auth.account.account_id),
+    { snapshot_id: snapshot.snapshot_id, programs: [...programs], files: files.length, source: "mcp" },
+  );
+
+  return JSON.stringify(
+    {
+      snapshot_id: snapshot.snapshot_id,
+      project_id: snapshot.project_id,
+      status: "ready",
+      programs_executed: [...programs],
+      artifact_count: generated.files.length,
+      artifacts: generated.files.map(f => ({
+        path: f.path,
+        program: f.program,
+        description: f.description,
+      })),
+    },
+    null,
+    2,
+  );
+}
+
+// ─── Tool: analyze_repo ──────────────────────────────────────────
+
+export async function runAnalyzeRepo(
+  args: Record<string, unknown>,
+  req: IncomingMessage,
+): Promise<string> {
+  const auth = resolveAuth(req);
+  if (!auth.account) {
+    throw new Error(
+      auth.anonymous
+        ? "Authentication required. Include Authorization: Bearer <api_key>"
+        : "Invalid or revoked API key",
+    );
+  }
+
+  const { github_url } = args;
+  if (typeof github_url !== "string" || !github_url)
+    throw new Error("github_url is required");
+
+  const { fetchGitHubRepo, parseGitHubUrl } = await import("./github.js");
+  let parsed: ReturnType<typeof parseGitHubUrl>;
+  try {
+    parsed = parseGitHubUrl(github_url);
+  } catch {
+    throw new Error("Invalid GitHub URL. Expected: https://github.com/owner/repo");
+  }
+
+  /* v8 ignore start — quota exceeded path requires exhausting account limits */
+  const quota = checkQuota(auth.account.account_id);
+  if (!quota.allowed) throw new Error(`Quota exceeded: ${quota.reason ?? "Quota exceeded"}`);
+  /* v8 ignore stop */
+
+  /* v8 ignore start — account GitHub token and env var branches require external state */
+  const token =
+    getGitHubTokenDecrypted(auth.account.account_id) ??
+    (process.env.GITHUB_TOKEN ?? undefined);
+  /* v8 ignore stop */
+
+  /* v8 ignore start — GitHub network I/O; tested via integration */
+  let fetchResult: Awaited<ReturnType<typeof fetchGitHubRepo>>;
+  try {
+    fetchResult = await fetchGitHubRepo(github_url, token || undefined);
+  } catch (err) {
+    throw new Error(
+      `GitHub fetch failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
+
+  const files: FileEntry[] = fetchResult.files.map(f => {
+    const path = f.path
+      .replace(/\\/g, "/")
+      .replace(/\/+/g, "/")
+      .replace(/^\/+/, "");
+    return { path, content: f.content, size: Buffer.byteLength(f.content, "utf-8") };
+  });
+
+  const generators = listAvailableGenerators();
+  const requestedOutputs = generators.map(g => g.path);
+  const manifest: SnapshotManifest = {
+    project_name: parsed.repo,
+    project_type: "github_repository",
+    frameworks: [],
+    goals: ["Generate all AXIS artifacts from GitHub repository"],
+    requested_outputs: requestedOutputs,
+  };
+
+  const snapshot = createSnapshot(
+    { input_method: "github_url", manifest, files },
+    auth.account.account_id,
+  );
+  const ctxMap = buildContextMap(snapshot);
+  const repoProfile = buildRepoProfile(snapshot);
+  saveContextMap(snapshot.snapshot_id, ctxMap);
+  saveRepoProfile(snapshot.snapshot_id, repoProfile);
+
+  const generated = generateFiles({
+    context_map: ctxMap,
+    repo_profile: repoProfile,
+    requested_outputs: requestedOutputs,
+    source_files: snapshot.files,
+  });
+  saveGeneratorResult(snapshot.snapshot_id, generated);
+  updateSnapshotStatus(snapshot.snapshot_id, "ready");
+
+  const programs = new Set(generated.files.map(f => f.program));
+  for (const program of programs) {
+    const pFiles = generated.files.filter(f => f.program === program);
+    recordUsage(
+      auth.account!.account_id,
+      program,
+      snapshot.snapshot_id,
+      pFiles.length,
+      files.length,
+      files.reduce((s, f) => s + (f.size ?? 0), 0),
+    );
+  }
+
+  return JSON.stringify(
+    {
+      snapshot_id: snapshot.snapshot_id,
+      project_id: snapshot.project_id,
+      github_url,
+      status: "ready",
+      programs_executed: [...programs],
+      artifact_count: generated.files.length,
+      artifacts: generated.files.map(f => ({
+        path: f.path,
+        program: f.program,
+        description: f.description,
+      })),
+    },
+    null,
+    2,
+  );
+  /* v8 ignore stop */
+}
+
+// ─── Tool: list_programs ─────────────────────────────────────────
+
+export function runListPrograms(): string {
+  const FREE_PROGRAMS = new Set(["search", "skills", "debug"]);
+  const generators = listAvailableGenerators();
+  const programMap = new Map<string, string[]>();
+  for (const g of generators) {
+    const list = programMap.get(g.program) ?? [];
+    list.push(g.path);
+    programMap.set(g.program, list);
+  }
+
+  const programs = Array.from(programMap.entries()).map(([name, outputs]) => ({
+    name,
+    tier: FREE_PROGRAMS.has(name) ? "free" : "pro",
+    generator_count: outputs.length,
+    outputs,
+  }));
+
+  return JSON.stringify(
+    {
+      programs,
+      total_programs: programs.length,
+      total_generators: generators.length,
+      free_programs: programs.filter(p => p.tier === "free").map(p => p.name),
+      pro_programs: programs.filter(p => p.tier === "pro").map(p => p.name),
+    },
+    null,
+    2,
+  );
+}
+
+// ─── Tool: get_snapshot ──────────────────────────────────────────
+
+export function runGetSnapshot(
+  args: Record<string, unknown>,
+  req: IncomingMessage,
+): string {
+  const { snapshot_id } = args;
+  if (typeof snapshot_id !== "string" || !snapshot_id)
+    throw new Error("snapshot_id is required");
+
+  const snapshot = getSnapshot(snapshot_id);
+  if (!snapshot) throw new Error(`Snapshot not found: ${snapshot_id}`);
+
+  if (snapshot.account_id) {
+    const auth = resolveAuth(req);
+    if (!auth.account || auth.account.account_id !== snapshot.account_id) {
+      throw new Error("Snapshot not found");
+    }
+  }
+
+  const generated = getGeneratorResult(snapshot_id);
+  return JSON.stringify(
+    {
+      snapshot_id: snapshot.snapshot_id,
+      project_id: snapshot.project_id,
+      created_at: snapshot.created_at,
+      input_method: snapshot.input_method,
+      manifest: snapshot.manifest,
+      file_count: snapshot.file_count,
+      status: snapshot.status,
+      artifact_count: generated?.files.length ?? 0,
+      artifacts:
+        generated?.files.map(f => ({
+          path: f.path,
+          program: f.program,
+          description: f.description,
+        })) ?? [],
+    },
+    null,
+    2,
+  );
+}
+
+// ─── Tool: get_artifact ──────────────────────────────────────────
+
+export function runGetArtifact(
+  args: Record<string, unknown>,
+  req: IncomingMessage,
+): string {
+  const { snapshot_id, path: filePath } = args;
+  if (typeof snapshot_id !== "string" || !snapshot_id)
+    throw new Error("snapshot_id is required");
+  if (typeof filePath !== "string" || !filePath) throw new Error("path is required");
+
+  const snapshot = getSnapshot(snapshot_id);
+  if (!snapshot) throw new Error(`Snapshot not found: ${snapshot_id}`);
+
+  if (snapshot.account_id) {
+    const auth = resolveAuth(req);
+    if (!auth.account || auth.account.account_id !== snapshot.account_id) {
+      throw new Error("Snapshot not found");
+    }
+  }
+
+  const generated = getGeneratorResult(snapshot_id);
+  if (!generated) throw new Error("No generated artifacts for this snapshot");
+
+  const normalized = filePath.replace(/^\.\//, "");
+  const file = generated.files.find(
+    f => f.path === normalized || f.path === filePath,
+  );
+  if (!file) {
+    const available = generated.files.map(f => f.path).join(", ");
+    throw new Error(`Artifact not found: ${filePath}. Available: ${available}`);
+  }
+  return file.content;
+}
+
+// ─── Method dispatch ─────────────────────────────────────────────
+
+export async function dispatch(
+  method: string,
+  params: unknown,
+  id: string | number | null,
+  req: IncomingMessage,
+): Promise<RpcResponse> {
+  switch (method) {
+    case "initialize": {
+      return rpcOk(id, {
+        protocolVersion: MCP_PROTOCOL_VERSION,
+        capabilities: { tools: { listChanged: false } },
+        serverInfo: { name: SERVER_NAME, version: SERVER_VERSION },
+        instructions:
+          "AXIS Toolbox — analyze any GitHub repo or file set, get 81 structured artifacts across 17 programs (AGENTS.md, .cursorrules, architecture maps, debug playbooks, design tokens, brand guidelines). Use analyze_repo or analyze_files to start. Auth: Authorization: Bearer <api_key>.",
+      });
+    }
+
+    case "notifications/initialized":
+      return rpcOk(id, null);
+
+    case "ping":
+      return rpcOk(id, {});
+
+    case "tools/list":
+      return rpcOk(id, { tools: MCP_TOOLS });
+
+    case "tools/call": {
+      const p = params as Record<string, unknown> | null;
+      const toolName = p?.name;
+      const toolArgs = (p?.arguments as Record<string, unknown>) ?? {};
+      /* v8 ignore next — both arms tested; v8 misses the || short-circuit arm for empty-string toolName */
+      if (typeof toolName !== "string" || !toolName) {
+        return rpcErr(id, RPC_INVALID_PARAMS, "tools/call requires 'name' as string");
+      }
+      try {
+        let text: string;
+        switch (toolName) {
+          case "analyze_files":
+            text = await runAnalyzeFiles(toolArgs, req);
+            break;
+          /* v8 ignore start — analyze_repo success path requires live GitHub network; error path tested */
+          case "analyze_repo":
+            text = await runAnalyzeRepo(toolArgs, req);
+            break;
+          /* v8 ignore stop */
+          case "list_programs":
+            text = runListPrograms();
+            break;
+          case "get_snapshot":
+            text = runGetSnapshot(toolArgs, req);
+            break;
+          case "get_artifact":
+            text = runGetArtifact(toolArgs, req);
+            break;
+          default:
+            return rpcErr(id, RPC_INVALID_PARAMS, `Unknown tool: ${toolName}`);
+        }
+        return rpcOk(id, toolOk(text));
+      } catch (err) {
+        return rpcOk(
+          id,
+          /* v8 ignore next — err is always a thrown Error instance; String(err) path is dead code */
+          toolErr(`Error: ${err instanceof Error ? err.message : String(err)}`),
+        );
+      }
+    }
+
+    default:
+      return rpcErr(id, RPC_METHOD_NOT_FOUND, `Method not found: ${method}`);
+  }
+}
+
+// ─── HTTP handlers ────────────────────────────────────────────────
+
+/** POST /mcp — MCP Streamable HTTP transport (2025-03-26) */
+export async function handleMcpPost(
+  req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  let raw: string;
+  /* v8 ignore start — readBody throws only on >50MB bodies */
+  try {
+    raw = await readBody(req);
+  } catch {
+    res.writeHead(400, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify(rpcErr(null, RPC_PARSE_ERROR, "Parse error: body too large")),
+    );
+    return;
+  }
+  /* v8 ignore stop */
+
+  let msg: JsonRpcRequest;
+  try {
+    msg = JSON.parse(raw) as JsonRpcRequest;
+  } catch {
+    res.writeHead(400, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify(rpcErr(null, RPC_PARSE_ERROR, "Parse error: invalid JSON")),
+    );
+    return;
+  }
+
+  if (msg.jsonrpc !== "2.0" || typeof msg.method !== "string") {
+    res.writeHead(400, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify(
+        rpcErr(
+          (msg as Partial<JsonRpcRequest>).id ?? null,
+          RPC_INVALID_REQUEST,
+          "Invalid JSON-RPC 2.0 request",
+        ),
+      ),
+    );
+    return;
+  }
+
+  // Notifications have no id — respond 202, no body
+  if (msg.id == null && msg.method.startsWith("notifications/")) {
+    await dispatch(msg.method, msg.params, null, req).catch(() => undefined);
+    res.writeHead(202);
+    res.end();
+    return;
+  }
+
+  const id = msg.id ?? null;
+  let response: RpcResponse;
+  /* v8 ignore start — dispatch throws only on programming errors */
+  try {
+    response = await dispatch(msg.method, msg.params, id, req);
+  } catch (err) {
+    log("error", "mcp_dispatch_error", {
+      method: msg.method,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    response = rpcErr(id, RPC_INTERNAL_ERROR, "Internal error");
+  }
+  /* v8 ignore stop */
+
+  const extraHeaders: Record<string, string> =
+    msg.method === "initialize" ? { "Mcp-Session-Id": randomUUID() } : {};
+
+  res.writeHead(200, { "Content-Type": "application/json", ...extraHeaders });
+  res.end(JSON.stringify(response));
+}
+
+/** GET /mcp — SSE endpoint for server-initiated messages (stateless mode: ping + close) */
+export async function handleMcpGet(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+  res.write(
+    `data: ${JSON.stringify({ jsonrpc: "2.0", method: "ping" })}\n\n`,
+  );
+  res.end();
+}

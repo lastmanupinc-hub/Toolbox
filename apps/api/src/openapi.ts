@@ -292,6 +292,41 @@ export function buildOpenApiSpec(): OpenApiSpec {
         },
       },
 
+      // ── MCP Server ──
+      "/mcp": {
+        post: {
+          summary: "MCP Streamable HTTP endpoint (2025-03-26) — call AXIS as a native tool from any MCP-capable agent",
+          operationId: "mcpPost",
+          tags: ["MCP"],
+          requestBody: jsonBody({
+            type: "object",
+            required: ["jsonrpc", "method"],
+            properties: {
+              jsonrpc: { type: "string", enum: ["2.0"] },
+              method: { type: "string" },
+              id: { type: ["string", "number", "null"] },
+              params: { type: "object" },
+            },
+          }),
+          responses: {
+            200: { description: "JSON-RPC 2.0 response (result or error)" },
+            202: { description: "Notification accepted — no body" },
+            400: { description: "Parse error or invalid JSON-RPC 2.0 request" },
+          },
+        },
+        get: {
+          summary: "MCP SSE endpoint for server-initiated messages (stateless mode: ping + close)",
+          operationId: "mcpGet",
+          tags: ["MCP"],
+          responses: {
+            200: {
+              description: "Server-sent events stream",
+              content: { "text/event-stream": { schema: { type: "string" } } },
+            },
+          },
+        },
+      },
+
       // ── Programs listing ──
       "/v1/programs": {
         get: {

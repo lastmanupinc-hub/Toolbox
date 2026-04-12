@@ -65,6 +65,7 @@ import {
   handleGetFunnelMetrics,
 } from "./funnel.js";
 import { handleExportZip } from "./export.js";
+import { handleMcpPost, handleMcpGet } from "./mcp-server.js";
 import { buildOpenApiSpec } from "./openapi.js";
 import { handleLiveness, handleReadiness, handleMetrics } from "./metrics.js";
 import { handleAdminStats, handleAdminAccounts, handleAdminActivity } from "./admin.js";
@@ -169,6 +170,10 @@ router.get("/v1/programs", async (_req, res) => {
   }));
   sendJSON(res, 200, { programs, total_generators: generators.length });
 });
+
+// MCP Server — Streamable HTTP transport (2025-03-26)
+router.post("/mcp", handleMcpPost);
+router.get("/mcp", handleMcpGet);
 
 // Billing & Account management
 router.post("/v1/accounts", handleCreateAccount);

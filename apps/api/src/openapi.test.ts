@@ -174,9 +174,10 @@ describe("buildOpenApiSpec", () => {
     expect(schemas).toContain("DbMaintenanceResponse");
   });
 
-  it("all paths start with /v1/", () => {
+  it("all paths start with /v1/ or are root-level MCP paths", () => {
+    const MCP_ROOT_PATHS = new Set(["/mcp"]);
     for (const path of Object.keys(spec.paths)) {
-      expect(path.startsWith("/v1/")).toBe(true);
+      expect(path.startsWith("/v1/") || MCP_ROOT_PATHS.has(path)).toBe(true);
     }
   });
 
