@@ -14,12 +14,10 @@ project_continuation:
 
   current_identity:
     project_name: "AXIS Toolbox"
-    date: "2026-04-11"
-    commit_or_tag: "5ee7a9c"
-    current_session_id: "session_081"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3632 tests across 127 files. 100% branch coverage. AP2/Visa commerce depth + search_and_discover_tools (7th MCP tool, GET /v1/mcp/tools) LIVE. Next: eq_192 Stripe MPP 402 flow."
-    current_status: "building"
-    current_focus_vertical: "v18_agentic_commerce"
+    date: "2026-04-12"
+    commit_or_tag: "f1d6bab"
+    current_session_id: "session_082"
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3668 tests across 128 files. 100% branch coverage. AI discoverability trio (GET /llms.txt, GET /.well-known/skills/index.json, GET /v1/docs.md) LIVE. Next: eq_193 MCP registry metadata or eq_194 /for-agents page."
 
   executive_truth:
     maturity_estimate:
@@ -33,7 +31,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 95
       integration_confidence: 98
-      notes: "3632 tests across 127 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. MCP integration LIVE (7 tools). prepare_for_agentic_purchasing composite tool LIVE. AP2/UCP/Visa Intelligent Commerce content LIVE (commerce signal detection, SCA/3DS2, mandate schema, dispute flow, compliance assessment). search_and_discover_tools LIVE (GET /v1/mcp/tools, keyword+capability ranking over 18 programs/86 generators). 18 programs, 86 generators, symbol-index LIVE."
+      notes: "3668 tests across 128 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. MCP integration LIVE (7 tools). prepare_for_agentic_purchasing composite tool LIVE. AP2/UCP/Visa Intelligent Commerce content LIVE. search_and_discover_tools LIVE. AI discoverability trio LIVE: GET /llms.txt (llmstxt.org), GET /.well-known/skills/index.json (agentskills.io), GET /v1/docs.md (Stripe-style plain-text). handleWellKnown updated with llms_txt + skills fields. 36 new tests in agent-discovery.test.ts. 18 programs, 86 generators."
 
   boundary_truth:
     accepted_input_modes:
@@ -3202,6 +3200,35 @@ project_continuation:
       - "v18_agentic_commerce: eq_191 complete — agent tool discovery LIVE"
     blockers_removed:
       - "Agents loading all tool schemas caused context window overload at scale — search_and_discover_tools allows targeted capability discovery"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "stripe.ts: 1 statement uncovered (errBody variable — pre-existing)"
+    local_only: false
+
+  session_result_082:
+    date: "2026-04-12"
+    session_id: "session_082"
+    selected_move: "eq_192: AI discoverability trio — /llms.txt + /.well-known/skills/index.json + /v1/docs.md"
+    completed_candidates:
+      - "eq_192a: handleLlmsTxt — GET /llms.txt, returns text/plain. Follows llmstxt.org standard. Sections: name/tagline, quick start (4 endpoints), MCP integration (7 tools), Programs (18 — free vs pro), Agentic Commerce (Readiness Score breakdown), Authentication, Docs links."
+      - "eq_192b: handleSkillsIndex — GET /.well-known/skills/index.json, returns JSON following agentskills.io standard. 4 skills: axis-analyze, axis-prepare-for-agentic-purchasing, axis-search-tools, axis-mcp (with all 7 tool names)."
+      - "eq_192c: handleDocsMd — GET /v1/docs.md, returns text/plain Markdown. Sections: Auth, Core Endpoints, Account Management, Snapshot Workflow, MCP, Search, Discovery, Programs table (18 rows)."
+      - "eq_192d: handleWellKnown updated — llms_txt and skills fields added."
+      - "eq_192e: server.ts — 3 new routes + imports."
+      - "eq_192f: openapi.ts — 3 new path entries under AI tool discovery standards comment. Fixed missing /.well-known/axis.json key. openapi.test.ts NON_V1_PATHS and /v1/skills/ filter updated."
+      - "eq_192g: agent-discovery.test.ts — 36 new tests (port 44517). GET /llms.txt (12), GET /.well-known/skills/index.json (12), GET /v1/docs.md (10), axis.json new fields (2)."
+    evidence_added:
+      - "apps/api/src/handlers.ts: handleLlmsTxt + handleSkillsIndex + handleDocsMd + handleWellKnown updated"
+      - "apps/api/src/server.ts: 3 new routes + imports"
+      - "apps/api/src/openapi.ts: 3 new path entries + /.well-known/axis.json key restored"
+      - "apps/api/src/agent-discovery.test.ts: 36 new tests (new file)"
+      - "apps/api/src/openapi.test.ts: whitelist + filter updated"
+      - "commit f1d6bab: feat(api): eq_192 AI discoverability — /llms.txt + /.well-known/skills/index.json + /v1/docs.md"
+      - "3668 tests passing across 128 files (+36 vs session_081). 0 failures."
+    verticals_advanced:
+      - "v18_agentic_commerce: eq_192 complete — AI discoverability standards LIVE"
+    blockers_removed:
+      - "AI tools had no standard discovery endpoint for AXIS → /llms.txt + /.well-known/skills/index.json resolve this"
     blockers_added: []
     remaining_pre_existing_gaps:
       - "stripe.ts: 1 statement uncovered (errBody variable — pre-existing)"
