@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "AXIS Toolbox"
     date: "2026-04-11"
-    commit_or_tag: "0db3733"
-    current_session_id: "session_079"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3554 tests across 127 files. 100% branch coverage (2231/2231). MCP integration + 6th composite tool prepare_for_agentic_purchasing (Purchasing Readiness Score, AP2/UCP artifacts, negotiation playbooks) LIVE. Next: eq_190 commerce generator depth."
+    commit_or_tag: "208840b"
+    current_session_id: "session_080"
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3606 tests across 127 files. 100% branch coverage. prepare_for_agentic_purchasing composite MCP tool + AP2/UCP/Visa Intelligent Commerce content (commerce signal detection, SCA/3DS2 spec, mandate schema, dispute flow) all LIVE. Next: eq_191 search_and_discover_tools MCP tool."
     current_status: "building"
     current_focus_vertical: "v18_agentic_commerce"
 
@@ -33,7 +33,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 95
       integration_confidence: 98
-      notes: "3554 tests across 127 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. MCP integration LIVE (6 tools). prepare_for_agentic_purchasing composite tool LIVE. Agentic Purchasing program LIVE. POST /v1/analyze + /.well-known/axis.json LIVE. /for-agents discovery page LIVE. Stripe $29/month pro LIVE. GitHub OAuth LIVE. A:83+, B:0, F:0. 18 programs, 86 generators, symbol-index LIVE."
+      notes: "3606 tests across 127 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. MCP integration LIVE (6 tools). prepare_for_agentic_purchasing composite tool LIVE. AP2/UCP/Visa Intelligent Commerce content LIVE (commerce signal detection, SCA/3DS2, mandate schema, dispute flow, compliance assessment). 18 programs, 86 generators, symbol-index LIVE."
 
   boundary_truth:
     accepted_input_modes:
@@ -147,7 +147,7 @@ project_continuation:
         - "POST /v1/analyze unified one-call endpoint + GET /.well-known/axis.json machine-readable manifest (commit d08a1d6)"
         - "/for-agents discovery page — quick start, key outputs, all 18 programs table, MCP tools, agentic purchasing section (commit 1005607)"
       blockers: []
-      next_required_move: "Build eq_190: commerce generator depth — richer AP2/UCP/Visa artifacts for meaningful readiness scoring"
+      next_required_move: "Build eq_191: search_and_discover_tools MCP tool — GET /v1/mcp/tools?q= endpoint returning ranked program/generator matches by keyword or capability tag"
 
   subsystem_scorecards:
     - name: "search"
@@ -3079,7 +3079,7 @@ project_continuation:
         description: "Commerce generator depth — enhance existing Agentic Purchasing generators with richer AP2/UCP/Visa Intelligent Commerce output: scoped product pricing schemas, zero-click checkout flow specification, payment mandate optimization rules, dispute/return playbook, autonomous negotiation constraints. These are the artifacts agents need to safely spend money."
         roi_score: 92
         roi_reason: "capability_gain 5, agentic_commerce_moat 5, integration_quality 4. Fills artifact depth gap — without richer commerce content, the readiness score has nothing meaningful to report."
-        completion_status: not-started
+        completion_status: complete
         manual_prerequisites: []
 
       - id: "eq_191"
@@ -3146,4 +3146,31 @@ project_continuation:
     blockers_added: []
     remaining_pre_existing_gaps:
       - "stripe.ts: 1 statement uncovered (errBody variable — pre-existing)"
-    local_only: true
+    local_only: false
+
+  session_result_080:
+    date: "2026-04-11"
+    session_id: "session_080"
+    selected_move: "eq_190: commerce generator depth — AP2/UCP/Visa Intelligent Commerce content + detectCommerceSignals"
+    completed_candidates:
+      - "eq_190a: detectCommerceSignals(files?) helper — 11 PROVIDER_PATTERNS (stripe/paypal/adyen/braintree/square/apple_pay/google_pay/amazon_pay/klarna/affirm/afterpay), returns CommerceSignals{detected_providers, has_checkout, has_recurring, has_sca, has_dispute_handling, has_webhooks, total_payment_files}"
+      - "eq_190b: generateAgentPurchasingPlaybook enhanced — adds 'Repository Commerce Signals' section + 'AP2 Mandate Requirements' table (mandate type + network tokenization per detected provider)"
+      - "eq_190c: generateProductSchema enhanced — adds repo_commerce_profile: {detected_payment_providers, capabilities{checkout,recurring_billing,sca,dispute_handling,webhooks}, ap2_mandate_compliance{ap2_article2,ucp_article5,visa_ic_fields,ready_for_autonomous_purchase}}"
+      - "eq_190d: generateCheckoutFlow enhanced — adds 'Payment Mandate Schema (AP2 Fields)' JSON block, 'SCA/3DS2 Handling' section (SCA exemption table, zero-click rule), 'Dispute and Return Flow' section, 402 Payment Required in error table, Return Policy section"
+      - "eq_190e: generateNegotiationRules enhanced — adds mandateRows table per detected provider (mandate scope, constraint, max cap by provider: stripe=$50k/Low, paypal=$10k/Medium, other=$5k/High), 'AP2/UCP Mandate Compliance Constraints' section, 'Autonomous Purchase Bounds' table"
+      - "eq_190f: generateCommerceRegistry enhanced — adds repo_commerce_signals (raw detection), ap2_compliance_assessment (readiness_score 0-100 weighted formula, interpretation production-ready>=70/partially-ready>=40/needs-work, gaps[], visa_intelligent_commerce with Stripe/Adyen flag)"
+      - "eq_190g: 52 new tests (33->85) in generators-agentic-purchasing.test.ts — stripeFiles/paypalFiles/klarnaFiles fixtures, all branch paths covered (all 11 providers, all 3 interpretation tiers, all capability flags)"
+    evidence_added:
+      - "packages/generator-core/src/generators-agentic-purchasing.ts: +678 lines, -10 lines — detectCommerceSignals + all 5 generators enhanced"
+      - "packages/generator-core/src/generators-agentic-purchasing.test.ts: +52 tests (33->85)"
+      - "commit 208840b: feat(generators): eq_190 commerce generator depth"
+      - "3606 tests passing across 127 files (+52 vs session_079). 0 failures. 100% branches maintained."
+    verticals_advanced:
+      - "v18_agentic_commerce: eq_190 complete — AP2/Visa depth LIVE, commerce signal detection LIVE"
+    blockers_removed:
+      - "Agentic purchasing generators produced empty/shallow AP2 content — full mandate schema, SCA spec, negotiation constraints LIVE"
+      - "No provider detection in generators — detectCommerceSignals scans SourceFile[] for 11 payment providers"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "stripe.ts: 1 statement uncovered (errBody variable — pre-existing)"
+    local_only: false
