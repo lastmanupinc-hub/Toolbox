@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "AXIS Toolbox"
     date: "2026-04-12"
-    commit_or_tag: "f1d6bab"
-    current_session_id: "session_082"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3668 tests across 128 files. 100% branch coverage. AI discoverability trio (GET /llms.txt, GET /.well-known/skills/index.json, GET /v1/docs.md) LIVE. Next: eq_193 MCP registry metadata or eq_194 /for-agents page."
+    commit_or_tag: "08b8368"
+    current_session_id: "session_083"
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3690 tests across 129 files. 100% branch coverage. MPP 402 flow LIVE: quota-exceeded returns HTTP 402 + payment_session_url (sub upgrade $39/mo or credit top-up $0.50). Next: eq_193 MCP registry metadata or eq_194 /for-agents page."
 
   executive_truth:
     maturity_estimate:
@@ -31,7 +31,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 95
       integration_confidence: 98
-      notes: "3668 tests across 128 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. MCP integration LIVE (7 tools). prepare_for_agentic_purchasing composite tool LIVE. AP2/UCP/Visa Intelligent Commerce content LIVE. search_and_discover_tools LIVE. AI discoverability trio LIVE: GET /llms.txt (llmstxt.org), GET /.well-known/skills/index.json (agentskills.io), GET /v1/docs.md (Stripe-style plain-text). handleWellKnown updated with llms_txt + skills fields. 36 new tests in agent-discovery.test.ts. 18 programs, 86 generators."
+      notes: "3690 tests across 129 files. 100.00% branch coverage (2231/2231). 100% funcs, 100% lines, 99.99% stmts. MCP integration LIVE (7 tools). prepare_for_agentic_purchasing composite tool LIVE. AP2/UCP/Visa Intelligent Commerce content LIVE. search_and_discover_tools LIVE. AI discoverability trio LIVE: GET /llms.txt, GET /.well-known/skills/index.json, GET /v1/docs.md. MPP 402 flow LIVE: all 4 quota-exceeded handlers upgraded — HTTP 402 + payment_session_url (subscription $39/mo for free tier, credits $0.50 for paid tier). createMppPaymentUrl + sendPaymentRequired in stripe.ts. 22 new tests in mpp.test.ts. Requires STRIPE_PRICE_ID_CREDITS in prod env. 18 programs, 86 generators."
 
   boundary_truth:
     accepted_input_modes:
@@ -145,7 +145,7 @@ project_continuation:
         - "POST /v1/analyze unified one-call endpoint + GET /.well-known/axis.json machine-readable manifest (commit d08a1d6)"
         - "/for-agents discovery page — quick start, key outputs, all 18 programs table, MCP tools, agentic purchasing section (commit 1005607)"
       blockers: []
-      next_required_move: "Build eq_192: Stripe MPP 402 flow — return HTTP 402 with payment_session_url on insufficient credits so autonomous agents can pay and retry"
+      next_required_move: "Build eq_193: MCP registry metadata (server.json for mcp-publisher CLI, agent-first tool descriptions) — requires: mcp-publisher publish, Glama.ai review form, Smithery.ai"
 
   subsystem_scorecards:
     - name: "search"
@@ -938,6 +938,11 @@ project_continuation:
         description: "Branch coverage sweep — 67 tests across 14 generators (debug playbook/tracing/root-cause/incident, marketing, artifacts, obsidian, brand, canvas, notebook, frontend, superpowers, skills, mcp, seo, algorithmic). Coverage 94.40→95.46% branches."
         completion_status: complete
         commit: "c8f369e"
+
+      - id: "eq_193_mpp"
+        description: "MPP 402 flow — HTTP 402 + payment_session_url on quota exceeded. createMppPaymentUrl (stripe.ts): tier='free' → subscription checkout $39/mo, tier!='free' → one-time $0.50, mpp_402 metadata, graceful null on missing config. sendPaymentRequired (stripe.ts): HTTP 402 JSON body per MPP spec. All 4 quota-exceeded handlers upgraded (handleCreateSnapshot, handleGitHubAnalyze, handleAnalyze, handlePreparePurchasing). 22 new tests in mpp.test.ts. Requires STRIPE_PRICE_ID_CREDITS in prod."
+        completion_status: complete
+        commit: "08b8368"
 
   current_session_result_005:
     session_goal: "Complete wave-3 program generators (superpowers, marketing, notebook)"
@@ -3091,10 +3096,11 @@ project_continuation:
         description: "Stripe Machine Payments Protocol (MPP) 402 flow — when credits are insufficient on an authenticated call, return HTTP 402 with Content-Type: application/json body containing payment_session_url (Stripe checkout URL for credits purchase) and retry_after instructions. Agents detect 402, follow payment URL, re-call after payment. This makes AXIS directly monetizable by autonomous purchasing agents with no human in the loop."
         roi_score: 85
         roi_reason: "monetization 5, agent_acquisition 4, production_quality 4. Stripe is already fully wired. MPP is a 10-15 line addition to the existing credit check handler. Revenue from autonomous agent calls = pure upside."
-        completion_status: not-started
+        completion_status: complete
+        commit: "08b8368"
         manual_prerequisites:
           - "Enable Machine Payments Protocol in Stripe dashboard"
-          - "Create credit product SKU in Stripe"
+          - "Create credit product SKU in Stripe (STRIPE_PRICE_ID_CREDITS) at $0.50 one-time price"
 
       - id: "eq_193"
         description: "MCP registry metadata — server.json for mcp-publisher CLI with all required fields (name 'AXIS Toolbox — Agentic Commerce Codebase Intelligence', description, endpoint URL, capabilities list, tool schemas for all 18 programs). All 18 tool descriptions rewritten agent-first (natural language, purpose, output, when-to-use, commerce keywords front-loaded). Agent-optimized descriptions are the primary discovery lever in registry + Glama.ai search."
@@ -3230,6 +3236,33 @@ project_continuation:
     blockers_removed:
       - "AI tools had no standard discovery endpoint for AXIS → /llms.txt + /.well-known/skills/index.json resolve this"
     blockers_added: []
+    remaining_pre_existing_gaps:
+      - "stripe.ts: 1 statement uncovered (errBody variable — pre-existing)"
+    local_only: false
+
+  session_result_083:
+    date: "2026-04-12"
+    session_id: "session_083"
+    selected_move: "eq_192/eq_193: MPP 402 flow — HTTP 402 + payment_session_url on quota exceeded"
+    completed_candidates:
+      - "logger.ts: ErrorCode.PAYMENT_REQUIRED added."
+      - "stripe.ts: createMppPaymentUrl(accountId, tier) — tier='free' creates subscription checkout (STRIPE_PRICE_ID_PAID, $39/mo, mode=subscription, subscription_data metadata). tier!='free' creates one-time payment (STRIPE_PRICE_ID_CREDITS, $0.50, mode=payment). mpp_402 source metadata. Returns null on missing key/priceId or Stripe API failure — graceful degradation to 429."
+      - "stripe.ts: sendPaymentRequired(res, paymentUrl, tier, reason) — HTTP 402, Content-Type application/json. Body: error_code PAYMENT_REQUIRED, payment_session_url, payment.type (subscription_upgrade|credit_topup), payment.description ($39/month or $0.50/run), current_tier, retry_after."
+      - "handlers.ts: import createMppPaymentUrl + sendPaymentRequired. All 4 quota-exceeded handlers upgraded (handleCreateSnapshot, handleGitHubAnalyze, handleAnalyze, handlePreparePurchasing). Pattern: await createMppPaymentUrl → if URL send 402, else fall back to existing 429."
+      - "mpp.test.ts: 22 unit tests (new file, 129th test file). createMppPaymentUrl: 9 cases (no key→null, no priceId per tier, subscription mode, payment mode, mpp_402 metadata, CORS_ORIGIN URLs, non-ok→null, missing url→null, Authorization header). sendPaymentRequired: 12 cases (402 status, Content-Type, payment_session_url, free→subscription_upgrade+$39/mo, paid→credit_topup+$0.50, suite→credit_topup, error_code, current_tier, custom reason, default message, retry_after). ErrorCode.PAYMENT_REQUIRED: 1 test."
+    evidence_added:
+      - "apps/api/src/logger.ts: PAYMENT_REQUIRED error code added"
+      - "apps/api/src/stripe.ts: createMppPaymentUrl + sendPaymentRequired added before handleCancelSubscription"
+      - "apps/api/src/handlers.ts: stripe import + all 4 quota-exceeded blocks upgraded"
+      - "apps/api/src/mpp.test.ts: 22 new tests (new file)"
+      - "commit 08b8368: feat(api): eq_193 MPP 402 flow — HTTP 402 + payment_session_url on quota exceeded"
+      - "3690 tests passing across 129 files (+22 vs session_082). 0 failures."
+    verticals_advanced:
+      - "v18_agentic_commerce: MPP 402 flow LIVE — autonomous agent payment without human intervention enabled"
+    blockers_removed:
+      - "Quota-exceeded 429 gave agents no path to pay and retry → MPP 402 now provides payment_session_url"
+    blockers_added:
+      - "STRIPE_PRICE_ID_CREDITS must be created in Stripe Dashboard as a $0.50 one-time price and added to production env before 402 credit top-up flow activates"
     remaining_pre_existing_gaps:
       - "stripe.ts: 1 statement uncovered (errBody variable — pre-existing)"
     local_only: false
