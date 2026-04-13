@@ -1,0 +1,25 @@
+# Go conventions
+- Standard project layout. No framework deps.
+- Table-driven tests with testify assertions.
+- Error wrapping with fmt.Errorf("context: %w", err).
+- Context propagation: every handler receives context.Context.
+
+# Provider adapters
+- All 8 adapters implement dual-mode (PaymentProvider + PayoutProvider).
+- Never add a provider without both interfaces.
+- Test each adapter with mock HTTP responses.
+
+# Database
+- PostgreSQL for production, SQLite WAL for local dev.
+- 125 migrations, sequential, never skip.
+- Ledger is append-only. No UPDATE on ledger rows.
+
+# Trust Fabric
+- 63 packages. Ingest → diagnose → repair → certify pipeline.
+- Each stage produces evidence artifacts.
+- Certification requires all prior stages to pass.
+
+# Frontend
+- Svelte components in frontend/src/routes/.
+- trust-fabric-frontend/ is independent Svelte app.
+- No shared component library between the two frontends.

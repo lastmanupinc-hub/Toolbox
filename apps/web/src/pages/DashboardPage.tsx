@@ -17,6 +17,26 @@ interface Props {
 const TABS = ["Overview", "Structure", "Dependencies", "Generated Files", "Programs", "Search"] as const;
 type Tab = (typeof TABS)[number];
 
+function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: number; onDownload: () => void; downloading: boolean }) {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed || fileCount === 0) return null;
+
+  return (
+    <div className="card" style={{ marginBottom: 16, borderLeft: "3px solid var(--accent)", padding: "16px 20px" }}>
+      <div className="flex-between" style={{ marginBottom: 8 }}>
+        <h3 style={{ fontSize: "1rem", margin: 0 }}>Getting Started</h3>
+        <button className="btn" style={{ fontSize: "0.75rem", padding: "2px 8px" }} onClick={() => setDismissed(true)}>Dismiss</button>
+      </div>
+      <ol style={{ margin: 0, paddingLeft: 20, color: "var(--text-muted)", fontSize: "0.875rem", lineHeight: 1.8 }}>
+        <li><strong>Download your artifacts</strong> — click <button className="btn btn-primary" style={{ fontSize: "0.75rem", padding: "2px 8px", display: "inline" }} disabled={downloading} onClick={onDownload}>{downloading ? "Zipping..." : "Download All"}</button> and unzip into your repo root.</li>
+        <li><strong>Copy <code>AGENTS.md</code> to your repo root</strong> — GitHub Copilot, Cursor, and Claude Code auto-read it.</li>
+        <li><strong>Copy <code>.cursorrules</code></strong> — Cursor picks it up automatically for project-specific rules.</li>
+        <li><strong>Open your AI tool and start coding</strong> — it now has full context of your codebase.</li>
+      </ol>
+    </div>
+  );
+}
+
 export function DashboardPage({ result, onGeneratedCountChange }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
   const [generatedFiles, setGeneratedFiles] = useState<GeneratedFile[]>([]);
@@ -115,6 +135,8 @@ export function DashboardPage({ result, onGeneratedCountChange }: Props) {
           </p>
         )}
       </div>
+
+      <NextStepsCard fileCount={generatedFiles.length} onDownload={handleDownloadAll} downloading={downloading} />
 
       <div className="tabs">
         {TABS.map((tab, idx) => (

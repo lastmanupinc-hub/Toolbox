@@ -1,0 +1,19 @@
+# Artifact-first architecture
+- Every feature starts as an artifact specification.
+- No code without a corresponding artifact.
+- .axp pack format for deterministic distribution.
+
+# Gate certification
+- 9 gates, sequential. No gate may be skipped.
+- Each gate has entry criteria, evidence, exit criteria.
+- GATE9_CERTIFICATION.md is the master report.
+
+# Build process
+- Steps 0–9 with explicit exit criteria.
+- Each step produces required artifacts.
+- Deterministic: same input → identical .axp pack.
+
+# Documentation
+- ARTIFACT_FIRST.md is the primary development model.
+- No spec drift: docs must match code.
+- Evidence-required: no claims without proof.

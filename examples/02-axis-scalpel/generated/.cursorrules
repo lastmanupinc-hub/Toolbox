@@ -1,0 +1,16 @@
+# Medical device constraints
+- NEVER suggest operations that bypass refusal conditions.
+- All 12 refusal conditions are enumerated in AUTHORITY_BINDING.md.
+- Evidence artifacts must be signed before storage.
+- Deterministic execution: same input → byte-identical output.
+
+# Testing
+- Run `pytest slate/tests/` for all 186 tests.
+- Tests are phased: Phase 1 (62), Phase 2 (58), Phase 3 (66).
+- All phases must pass. No partial certification.
+
+# Safety
+- PCE boundaries are hard limits. Do not relax.
+- Audit trails are append-only. No mutations.
+- Refusal-first: when in doubt, refuse.
+- Gate 9 crossmap in GATE9_MEDICAL_DEVICE_CROSSMAP.md.

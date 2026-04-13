@@ -1,0 +1,20 @@
+# Roblox server/client model
+- Game state ONLY on ServerScriptService.
+- Client handles UI, input, visual effects.
+- RemoteEvents for client → server. RemoteFunctions for queries.
+- Never trust client data. Validate everything server-side.
+
+# Lua conventions
+- Use local variables. Avoid globals.
+- Module scripts return a table of functions.
+- Consistent naming: PascalCase for modules, camelCase for functions.
+
+# Maze generation
+- Seeded RNG: seed = round ID for deterministic mazes.
+- Grid-based: each cell has walls, items, spawn points.
+- Generate on server, replicate to clients.
+
+# Content guidelines
+- Rating: 9+ (Mild). No blood, gore, or gambling.
+- Follow Roblox Content Guidelines strictly.
+- No external links or data collection.

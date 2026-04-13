@@ -8,11 +8,11 @@ interface Example {
   title: string;
   description: string;
   stack: string[];
-  before: number;
-  after: number;
-  snapshotId: string;
-  keyArtifacts: string[];
+  stats: { files: number; loc: number };
+  afterCount: number;
+  keyArtifacts: Array<{ file: string; desc: string }>;
   gap: string;
+  previewLines: string[];
 }
 
 // ─── Data ────────────────────────────────────────────────────────
@@ -20,115 +20,253 @@ interface Example {
 const EXAMPLES: Example[] = [
   {
     id: "01",
-    slug: "payment-engine",
-    title: "Payment Engine",
-    description: "Node.js payment orchestration layer with Stripe and Plaid integration. No AP2 fields, no checkout rules, no agent context.",
-    stack: ["Node.js", "TypeScript", "Stripe", "Plaid"],
-    before: 0,
-    after: 100,
-    snapshotId: "a6b061c1-e0eb-4b5b-a91e-a3011d29a5c1",
+    slug: "paid-platform",
+    title: "PAI'D — Payment Processing",
+    description:
+      "End-to-end fintech platform: payment orchestration, ledger, reconciliation, provider routing, settlement, and merchant dashboards. Plus Trust Fabric — a repair-to-certify fintech marketplace. 7,251 tests across Go backend and Svelte frontend, 689 HTTP routes, 8 provider adapters.",
+    stack: ["Go", "Svelte", "PostgreSQL", "Docker", "REST"],
+    stats: { files: 3314, loc: 417166 },
+    afterCount: 75,
     keyArtifacts: [
-      "commerce-registry.json",
-      "agent-purchasing-playbook.md",
-      "autonomous-checkout-rules.yaml",
-      "AP2/UCP compliance checklist",
-      "AGENTS.md",
-      "mcp-config.json",
+      { file: "AGENTS.md", desc: "689 routes mapped with auth requirements and handler files" },
+      { file: "CLAUDE.md", desc: "Go conventions, test commands, package structure" },
+      { file: ".cursorrules", desc: "Go strict mode, dual-system architecture rules" },
+      { file: "context-map.json", desc: "Full dependency graph: go-backend → frontend → trust-fabric" },
+      { file: "debug-playbook.md", desc: "Provider adapter failures, ledger reconciliation patterns" },
+      { file: "architecture-summary.md", desc: "Dual-system pattern: Payment + Trust Fabric layers" },
     ],
-    gap: "Missing AP2 spending_limit fields, no negotiation-rules.md, no MCP config. Agent would fail at checkout authorization.",
+    gap: "3,314 files across two interleaved systems with zero AI context files. Agents couldn't distinguish PAID routes from Trust Fabric routes, or know which of the 8 provider adapters handled which payment method.",
+    previewLines: [
+      "# AGENTS.md — avery-pay-platform",
+      "",
+      "## Project Context",
+      "This is a **fintech_platform** built with **Go**.",
+      "PAI'D is **two systems in one repo**:",
+      "1. PAID — payment orchestration, ledger, settlement",
+      "2. Trust Fabric — repair-to-certify marketplace",
+      "",
+      "### Stack",
+      "- Go 1.22 · Svelte · PostgreSQL · Docker",
+      "",
+      "### Routes (689 total)",
+      "| Method | Path                        | System       |",
+      "|--------|-----------------------------|--------------|",
+      "| POST   | /v1/payments                | PAID         |",
+      "| POST   | /v1/payouts                 | PAID         |",
+      "| POST   | /v1/kyc/check               | PAID         |",
+      "| POST   | /v1/providers/:name/connect | PAID         |",
+      "| POST   | /v1/webhooks/provider       | PAID         |",
+      "| GET    | /v1/admin/metrics           | PAID         |",
+      "| GET    | /healthz                    | shared       |",
+    ],
   },
   {
     id: "02",
-    slug: "payment-processing",
-    title: "Payment Processing API",
-    description: "Express REST API for multi-currency payment processing. No agentic context, no Visa IC telemetry, no self-onboarding docs.",
-    stack: ["Node.js", "Express", "PostgreSQL", "Stripe"],
-    before: 0,
-    after: 100,
-    snapshotId: "ce1c9a64-8020-4c93-a45b-7feb9c186318",
+    slug: "axis-scalpel",
+    title: "AXIS Scalpel — Surgical Robotics",
+    description:
+      "Medical device training platform for surgical robotics. Gate 9 certification framework with 186 passing tests, full audit trails, deterministic execution, and 12 enumerated refusal conditions preventing unsafe operations. Regulatory-grade evidence generation.",
+    stack: ["Python", "TypeScript", "pytest", "Gate 9 Framework"],
+    stats: { files: 20, loc: 3200 },
+    afterCount: 75,
     keyArtifacts: [
-      "commerce-registry.json",
-      "payment-mandate-schema.json",
-      "negotiation-playbook.md",
-      "autonomous-checkout-rules.yaml",
-      ".cursorrules",
-      "mcp-self-onboarding-config.json",
+      { file: "AGENTS.md", desc: "Gate 1–9 certification pipeline with exit criteria" },
+      { file: "CLAUDE.md", desc: "Medical device constraints, refusal system rules" },
+      { file: ".cursorrules", desc: "Deterministic execution enforced, no unsafe ops" },
+      { file: "debug-playbook.md", desc: "Refusal condition diagnosis, audit trail replay" },
+      { file: "architecture-summary.md", desc: "3-phase validation: governance → core → tests" },
+      { file: "test-generation-rules.md", desc: "pytest patterns for safety-critical assertions" },
     ],
-    gap: "No payment-mandate-schema.json, no agent system prompt, no self-onboarding kit. Agents couldn't discover or invoke payment flows.",
+    gap: "Safety-critical medical platform with 12 refusal conditions and Gate 9 compliance — all encoded in source code but invisible to AI agents. Zero context files meant agents could suggest unsafe operations.",
+    previewLines: [
+      "# AGENTS.md — axis-scalpel",
+      "",
+      "## Project Context",
+      "This is a **medical_device** platform built with **Python**.",
+      "AXIS-Scalpel is a surgical robotics training system",
+      "with Gate 9 certification and deterministic execution.",
+      "",
+      "### Safety Constraints",
+      "- 12 enumerated refusal conditions",
+      "- Full audit trails for regulatory compliance",
+      "- Hash verification on every training run",
+      "- PCE (Perceptual Constraint Engine) boundaries",
+      "",
+      "### Test Coverage (186 passing)",
+      "| Phase   | Tests | Status |",
+      "|---------|-------|--------|",
+      "| Phase 1 | 62    | PASS   |",
+      "| Phase 2 | 58    | PASS   |",
+      "| Phase 3 | 66    | PASS   |",
+      "",
+      "### Key Directories",
+      "- slate/core/     (artifact management, validation)",
+      "- slate/axis/     (CLI tools, evidence signing)",
+    ],
   },
   {
     id: "03",
-    slug: "pmd-customizer",
-    title: "PMD Customizer Plugin",
-    description: "WordPress plugin for product customization with conditional pricing. No structured commerce data, no agentic purchasing support.",
-    stack: ["PHP", "WordPress", "WooCommerce", "JavaScript"],
-    before: 0,
-    after: 100,
-    snapshotId: "db80241b-694f-42d4-b21a-0bb32f37b966",
+    slug: "spacey",
+    title: "SpaceY — Enterprise Platform",
+    description:
+      "Post-production enterprise platform enforcing deterministic boundaries for side effects. Complete monorepo with production-grade backend services, responsive React UI, Babble DSL compiler, CI publication gates, and test vectors with expected outcomes.",
+    stack: ["Node.js", "React", "TypeScript", "Babble DSL", "Vitest"],
+    stats: { files: 56, loc: 5800 },
+    afterCount: 75,
     keyArtifacts: [
-      "commerce-registry.json",
-      "product-schema.json",
-      "AGENTS.md",
-      "debug-playbook.md",
-      "AP2 compliance checklist",
-      "agent-purchasing-playbook.md",
+      { file: "AGENTS.md", desc: "Monorepo layout: apps/web, services, DSL compiler" },
+      { file: "CLAUDE.md", desc: "Determinism rules, CI gate requirements, DSL syntax" },
+      { file: ".cursorrules", desc: "TypeScript strict, boundary evaluation patterns" },
+      { file: "context-map.json", desc: "Dependency graph: web → services → babble-compiler" },
+      { file: "frontend-rules.md", desc: "React component patterns tuned to this codebase" },
+      { file: "mcp-config.json", desc: "Model Context Protocol auto-configured for monorepo" },
     ],
-    gap: "PHP codebase with zero agent context. No product schema, no debug playbook. Agents couldn't inspect or invoke customization rules.",
+    gap: "Monorepo with a custom DSL compiler, 4-outcome authorization model, and deterministic boundary evaluation — none of which were documented for AI agents. Agents treated it as a generic React app.",
+    previewLines: [
+      "# AGENTS.md — spacey",
+      "",
+      "## Project Context",
+      "This is an **enterprise_platform** built with **TypeScript**.",
+      "SpaceY enforces deterministic boundaries for side effects",
+      "with a custom Babble DSL compiler and 4-outcome auth model.",
+      "",
+      "### Architecture",
+      "- Monorepo (apps/ + services/ + compiler/)",
+      "- Deterministic boundary evaluation",
+      "- 4 terminal states: compliance / violation / no-outcome / invalid",
+      "",
+      "### Key Components",
+      "| Component              | Role                        |",
+      "|------------------------|-----------------------------|",
+      "| BabbleEditor.tsx       | DSL policy editor + compiler|",
+      "| AuthorizationView.tsx  | 4-outcome authorization     |",
+      "| CanonBrowser.tsx       | Canon reference browser     |",
+      "| VerificationViewer.tsx | Verification artifacts      |",
+      "| GovernanceViewer.tsx   | Supersession viewer         |",
+      "| AuditLogExplorer.tsx   | Audit log query UI          |",
+    ],
   },
   {
     id: "04",
-    slug: "no-fate-contract",
-    title: "No Fate Smart Contract",
-    description: "Solidity escrow and milestone-payment smart contract system. No agentic transaction support, no compliance telemetry.",
-    stack: ["Solidity", "Hardhat", "Ethers.js", "OpenZeppelin"],
-    before: 0,
-    after: 100,
-    snapshotId: "15808e57-7309-45f7-81ae-cd20a1067924",
+    slug: "slate-certification",
+    title: "Slate — Gate 1–9 Certification",
+    description:
+      "AXIS Platform certification slate containing the full Gate 1–9 certified implementation. Artifact-first architecture with .axp pack format, 12 core components, universal input layer, and a 6-phase development roadmap. Build process with step 0–9 exit criteria.",
+    stack: ["Python", "YAML", "JSON", "Markdown", "Shell"],
+    stats: { files: 575, loc: 14200 },
+    afterCount: 75,
     keyArtifacts: [
-      "commerce-registry.json",
-      "autonomous-checkout-rules.yaml",
-      "negotiation-playbook.md",
-      "AGENTS.md",
-      "mcp-config.json",
-      "UCP compliance checklist",
+      { file: "AGENTS.md", desc: "Gate 1–9 pipeline: entry criteria → evidence → exit" },
+      { file: "CLAUDE.md", desc: "Artifact-first rules, .axp format, build sequence" },
+      { file: ".cursorrules", desc: "Deterministic build, no spec drift, evidence-required" },
+      { file: "architecture-summary.md", desc: "4-area layout: Core, Runtime, Design Suite, Ops" },
+      { file: "debug-playbook.md", desc: "Gate certification failures, evidence gaps" },
+      { file: "optimization-rules.md", desc: "Build pipeline bottlenecks, .axp pack optimization" },
     ],
-    gap: "Smart contract codebase — no structured event schemas for agents, no UCP compliance mapping for on-chain documentary credits.",
+    gap: "575 files spanning certification specs, gate evidence, and a 6-phase roadmap — all interleaved with zero navigation aids. Agents had to read every file to understand which gate a change would affect.",
+    previewLines: [
+      "# AGENTS.md — axis-platform-slate",
+      "",
+      "## Project Context",
+      "This is a **certification_system** built with **Python**.",
+      "Slate contains Gate 1–9 certified implementation of the",
+      "AXIS Platform Spine with artifact-first architecture.",
+      "",
+      "### Gate Certification Status",
+      "| Gate | Name              | Status     |",
+      "|------|-------------------|------------|",
+      "| 1    | Foundation        | CERTIFIED  |",
+      "| 2    | Core Components   | CERTIFIED  |",
+      "| 3    | Runtime           | CERTIFIED  |",
+      "| 4    | Design Suite      | CERTIFIED  |",
+      "| 5    | Enterprise Ops    | CERTIFIED  |",
+      "| 9    | Medical Crossmap  | CERTIFIED  |",
+      "",
+      "### Build Process (Steps 0–9)",
+      "Each step has entry criteria, required artifacts,",
+      "and exit evidence. No step may be skipped.",
+      "Format: .axp deterministic packs.",
+    ],
   },
   {
     id: "05",
-    slug: "diamond-clarity",
-    title: "Diamond Clarity Grader",
-    description: "Python ML model for diamond grading with laboratory certification workflow. No B2B commerce schema, no agent procurement support.",
-    stack: ["Python", "FastAPI", "PyTorch", "PostgreSQL"],
-    before: 0,
-    after: 100,
-    snapshotId: "4a73a853-a1c2-4502-bfc0-8d05ce98d3cc",
+    slug: "ruuuun",
+    title: "RUUUUN!!! — Roblox Battle Royale",
+    description:
+      "PvP/PvE battle royale in Roblox: loot-scramble opener into a panic-inducing chase through a procedurally generated maze. 2–50 players, 5–10 minute rounds, deterministic game systems, progression system, and expansion packs.",
+    stack: ["Lua", "Roblox Studio", "ReplicatedStorage", "ServerScript"],
+    stats: { files: 90, loc: 4200 },
+    afterCount: 75,
     keyArtifacts: [
-      "commerce-registry.json",
-      "product-schema.json",
-      "agent-purchasing-playbook.md",
-      "payment-mandate-schema.json",
-      "AGENTS.md",
-      "optimization-rules.md",
+      { file: "AGENTS.md", desc: "Game loop: loot phase → maze chase → extraction" },
+      { file: "CLAUDE.md", desc: "Roblox API patterns, RemoteEvent conventions" },
+      { file: ".cursorrules", desc: "Lua style, server/client boundary, no exploits" },
+      { file: "debug-playbook.md", desc: "Replication bugs, maze generation edge cases" },
+      { file: "architecture-summary.md", desc: "Server → Replicated → Client data flow" },
+      { file: "frontend-rules.md", desc: "UI component patterns for Roblox PlayerGui" },
     ],
-    gap: "ML codebase with no B2B product schema. Agents couldn't price, grade, or procure diamonds without structured commerce artifacts.",
+    gap: "Custom game engine with procedural maze generation, loot tables, progression systems, and expansion packs — all in Lua with Roblox-specific APIs. Zero documentation for AI agents to understand the server/client split.",
+    previewLines: [
+      "# AGENTS.md — ruuuun",
+      "",
+      "## Project Context",
+      "This is a **game** built with **Lua** for **Roblox**.",
+      "RUUUUN!!! is a battle royale: loot-scramble opener",
+      "into a procedurally generated maze chase.",
+      "",
+      "### Game Loop",
+      "1. Lobby     — 2-50 players queue",
+      "2. Loot      — scramble for weapons/items",
+      "3. Maze      — procedural generation, PvE chase",
+      "4. Extract   — reach exit or be eliminated",
+      "",
+      "### Architecture",
+      "| Folder              | Role                  |",
+      "|---------------------|-----------------------|",
+      "| ServerScriptService | Authority, game state |",
+      "| ReplicatedStorage   | Shared modules, data  |",
+      "| StarterPlayer       | Client UI, input      |",
+      "",
+      "### Systems",
+      "- Procedural maze generation (deterministic seed)",
+      "- Loot tables with rarity tiers",
+    ],
   },
 ];
 
 // ─── Components ──────────────────────────────────────────────────
 
-function ScoreBadge({ score, label }: { score: number; label: string }) {
-  const color = score >= 90 ? "var(--green)" : score >= 70 ? "#22c55e" : score >= 50 ? "#f59e0b" : "var(--red)";
+function ArtifactCount({ count }: { count: number }) {
   return (
     <div style={{ textAlign: "center" }}>
       <div style={{
         width: 56, height: 56, borderRadius: "50%",
-        border: `3px solid ${color}`,
+        border: "3px solid var(--green)",
         display: "flex", alignItems: "center", justifyContent: "center",
         margin: "0 auto 4px",
-        fontSize: "1rem", fontWeight: 800, color,
-      }}>{score}</div>
-      <div style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>{label}</div>
+        fontSize: "1rem", fontWeight: 800, color: "var(--green)",
+      }}>{count}</div>
+      <div style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>artifacts</div>
+    </div>
+  );
+}
+
+function CodePreview({ lines }: { lines: string[] }) {
+  return (
+    <div style={{
+      background: "var(--bg-code, rgba(0,0,0,0.05))",
+      border: "1px solid var(--border)",
+      borderRadius: "var(--radius)",
+      padding: "12px 16px",
+      fontSize: "0.68rem",
+      fontFamily: "var(--mono)",
+      lineHeight: 1.7,
+      overflow: "auto",
+      maxHeight: 280,
+      whiteSpace: "pre",
+      color: "var(--text-muted)",
+    }}>
+      {lines.join("\n")}
     </div>
   );
 }
@@ -155,13 +293,21 @@ function ExampleCard({ ex, expanded, onToggle }: { ex: Example; expanded: boolea
         <div>
           <div style={{ fontSize: "0.95rem", fontWeight: 700, marginBottom: 3 }}>{ex.title}</div>
           <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
-            {ex.stack.join(" · ")}
+            {ex.stack.join(" · ")} — {ex.stats.files} files, {ex.stats.loc.toLocaleString()} LOC
           </div>
         </div>
-        <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-          <ScoreBadge score={ex.before} label="Before" />
+        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{
+              width: 42, height: 42, borderRadius: "50%",
+              border: "3px solid var(--red, #ef4444)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "0.85rem", fontWeight: 800, color: "var(--red, #ef4444)",
+            }}>0</div>
+            <div style={{ fontSize: "0.6rem", color: "var(--text-muted)", marginTop: 2 }}>before</div>
+          </div>
           <div style={{ fontSize: "1.2rem", color: "var(--text-muted)" }}>→</div>
-          <ScoreBadge score={ex.after} label="After" />
+          <ArtifactCount count={ex.afterCount} />
         </div>
         <span style={{ fontSize: "0.75rem", color: "var(--accent)" }}>{expanded ? "▲" : "▼"}</span>
       </button>
@@ -175,7 +321,7 @@ function ExampleCard({ ex, expanded, onToggle }: { ex: Example; expanded: boolea
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 14 }}>
             <div>
-              <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 8 }}>Gap (before hardening)</p>
+              <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 8 }}>Gap (before AXIS)</p>
               <div style={{
                 padding: "10px 12px", background: "rgba(239,68,68,0.05)",
                 border: "1px solid rgba(239,68,68,0.2)", borderRadius: "var(--radius)",
@@ -188,18 +334,27 @@ function ExampleCard({ ex, expanded, onToggle }: { ex: Example; expanded: boolea
               <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 8 }}>Key artifacts generated</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {ex.keyArtifacts.map(a => (
-                  <div key={a} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ color: "var(--green)", fontSize: "0.7rem" }}>✓</span>
-                    <code style={{ fontFamily: "var(--mono)", fontSize: "0.68rem", color: "var(--accent)" }}>{a}</code>
+                  <div key={a.file} style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+                    <span style={{ color: "var(--green)", fontSize: "0.7rem", flexShrink: 0 }}>✓</span>
+                    <div>
+                      <code style={{ fontFamily: "var(--mono)", fontSize: "0.68rem", color: "var(--accent)" }}>{a.file}</code>
+                      <span style={{ fontSize: "0.66rem", color: "var(--text-muted)", marginLeft: 6 }}>{a.desc}</span>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
+          {/* AGENTS.md preview */}
+          <div style={{ marginBottom: 14 }}>
+            <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 8 }}>Preview — generated AGENTS.md</p>
+            <CodePreview lines={ex.previewLines} />
+          </div>
+
           <div style={{ display: "flex", gap: 10 }}>
             <a
-              href={`https://github.com/lastmanupinc-hub/axis-toolbox-examples/tree/main/examples/${ex.id}-${ex.slug}`}
+              href={`https://github.com/lastmanupinc-hub/Toolbox/tree/main/examples/${ex.id}-${ex.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -209,20 +364,7 @@ function ExampleCard({ ex, expanded, onToggle }: { ex: Example; expanded: boolea
                 fontWeight: 600, textDecoration: "none",
               }}
             >
-              View before/after on GitHub
-            </a>
-            <a
-              href={`https://axis-api-6c7z.onrender.com/v1/snapshots/${ex.snapshotId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-block", padding: "6px 14px",
-                border: "1px solid var(--border)", color: "var(--text)",
-                borderRadius: "var(--radius)", fontSize: "0.73rem",
-                fontWeight: 600, textDecoration: "none",
-              }}
-            >
-              Live snapshot →
+              View on GitHub
             </a>
           </div>
         </div>
@@ -245,22 +387,22 @@ export function ExamplesPage() {
       {/* Hero */}
       <div className="card" style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: 8 }}>
-          Real-World Examples
+          Before &amp; After — 5 Real Repos
         </h1>
         <p style={{ fontSize: "0.88rem", color: "var(--text-muted)", marginBottom: 16, lineHeight: 1.7 }}>
-          5 real repos — payment engines, smart contracts, ML models, WordPress plugins — hardened from
-          {" "}<strong style={{ color: "var(--red)" }}>0/100</strong>{" "}to{" "}
-          <strong style={{ color: "var(--green)" }}>100/100</strong> Purchasing Readiness Score.
-          Every example is a public GitHub repo with live before/after artifacts and a retrievable snapshot.
+          Five codebases across Go, Python, TypeScript, Lua, and YAML — each went from{" "}
+          <strong style={{ color: "var(--red, #ef4444)" }}>0 AI context files</strong> to{" "}
+          <strong style={{ color: "var(--green)" }}>75 structured artifacts</strong>.
+          Browse the generated AGENTS.md, CLAUDE.md, .cursorrules, debug playbooks, and more.
         </p>
 
-        {/* Summary row */}
+        {/* Summary stats */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 16 }}>
           {[
-            { label: "Repos hardened", value: "5", color: "var(--accent)" },
-            { label: "Avg. before score", value: "0/100", color: "var(--red)" },
-            { label: "Avg. after score", value: "100/100", color: "var(--green)" },
-            { label: "Artifacts generated", value: "81+", color: "var(--text)" },
+            { label: "Repos analyzed", value: "5", color: "var(--accent)" },
+            { label: "Languages covered", value: "5", color: "var(--text)" },
+            { label: "Before (AI files)", value: "0", color: "var(--red, #ef4444)" },
+            { label: "After (per repo)", value: "75", color: "var(--green)" },
           ].map(stat => (
             <div key={stat.label} style={{ padding: "12px 14px", border: "1px solid var(--border)", borderRadius: "var(--radius)", textAlign: "center" }}>
               <div style={{ fontSize: "1.3rem", fontWeight: 800, color: stat.color, marginBottom: 3 }}>{stat.value}</div>
@@ -271,7 +413,7 @@ export function ExamplesPage() {
 
         <div style={{ display: "flex", gap: 10 }}>
           <a
-            href="https://github.com/lastmanupinc-hub/axis-toolbox-examples"
+            href="https://github.com/lastmanupinc-hub/Toolbox/tree/main/examples"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -297,6 +439,31 @@ export function ExamplesPage() {
         </div>
       </div>
 
+      {/* What you get */}
+      <div className="card" style={{ marginBottom: 24 }}>
+        <h2 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 10 }}>What AXIS generates for every repo</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+          <div>
+            <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 6, color: "var(--green)" }}>Free (3 programs, 12 files)</p>
+            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", lineHeight: 1.7 }}>
+              AGENTS.md · CLAUDE.md · .cursorrules · context-map.json · copilot-instructions.md · debug-playbook.md · incident-template.md · tracing-rules.md
+            </div>
+          </div>
+          <div>
+            <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 6, color: "var(--accent)" }}>Pro (14 programs, 63 files)</p>
+            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", lineHeight: 1.7 }}>
+              frontend-rules.md · component-guidelines.md · seo-rules.md · schema-recommendations.json · optimization-rules.md · theme.css · design-tokens.json · brand-guidelines.md · mcp-config.json · superpower-pack.md · and 53 more
+            </div>
+          </div>
+          <div>
+            <p style={{ fontSize: "0.73rem", fontWeight: 600, marginBottom: 6 }}>How it works</p>
+            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", lineHeight: 1.7 }}>
+              Upload your repo (zip, folder, or GitHub URL). AXIS detects 60+ languages and 10+ frameworks, builds a context graph, then fires 75 generators across 17 programs.
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Example cards */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
         {EXAMPLES.map(ex => (
@@ -315,9 +482,8 @@ export function ExamplesPage() {
           Your repo is next
         </h2>
         <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: 16, lineHeight: 1.7 }}>
-          Upload a ZIP or connect a GitHub URL. One call to{" "}
-          <code style={{ fontFamily: "var(--mono)", fontSize: "0.8rem" }}>prepare_for_agentic_purchasing</code>{" "}
-          returns your Purchasing Readiness Score + every artifact these repos got. Takes under 60 seconds.
+          Upload a ZIP, select a folder, or paste a GitHub URL.
+          One scan generates 75 artifacts across 17 programs. Takes under 60 seconds.
         </p>
         <a
           href="#upload"
@@ -327,10 +493,10 @@ export function ExamplesPage() {
             fontSize: "0.85rem", fontWeight: 700, textDecoration: "none",
           }}
         >
-          Analyze your repo — $0.50
+          Analyze your repo — free tier available
         </a>
         <p style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: 8 }}>
-          Free tier available (10 snapshots/month). No subscription required.
+          3 free programs (Search, Skills, Debug). No credit card required.
         </p>
       </div>
     </div>

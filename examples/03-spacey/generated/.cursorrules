@@ -1,0 +1,19 @@
+# TypeScript strict mode
+- Enable strict, noUncheckedIndexedAccess, exactOptionalPropertyTypes.
+- No `any` types. Use `unknown` and narrow.
+- All functions have explicit return types.
+
+# Deterministic boundaries
+- Side effects must be explicitly declared.
+- Every boundary evaluation returns one of 4 states.
+- Test vectors define expected outcomes upfront.
+
+# Babble DSL
+- Custom language in babble/ directory.
+- Policies compile to TypeScript runtime.
+- No external DSL dependencies.
+
+# CI gates
+- Publication requires all gates to pass.
+- No manual overrides allowed.
+- Audit log records every gate evaluation.

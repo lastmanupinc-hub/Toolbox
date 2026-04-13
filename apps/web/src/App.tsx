@@ -43,12 +43,21 @@ type Page = "upload" | "dashboard" | "plans" | "account" | "docs" | "help" | "qa
 function getInitialPage(): Page {
   const h = location.hash.replace("#", "");
   if (h === "plans" || h === "account" || h === "docs" || h === "help" || h === "qa" || h === "programs" || h === "terms" || h === "for-agents" || h === "examples") return h as Page;
+  if (h === "dashboard" && localStorage.getItem("axis_last_result")) return "dashboard";
   return "upload";
+}
+
+function loadPersistedResult(): SnapshotResponse | null {
+  try {
+    const raw = localStorage.getItem("axis_last_result");
+    if (raw) return JSON.parse(raw) as SnapshotResponse;
+  } catch { /* corrupt data, ignore */ }
+  return null;
 }
 
 export function App() {
   const [page, setPage] = useState<Page>(getInitialPage);
-  const [result, setResult] = useState<SnapshotResponse | null>(null);
+  const [result, setResult] = useState<SnapshotResponse | null>(loadPersistedResult);
   const [generatedFileCount, setGeneratedFileCount] = useState(0);
   const resultRef = useRef(result);
   resultRef.current = result;
@@ -84,6 +93,11 @@ export function App() {
       else if (h === "for-agents") setPage("for-agents");
       else if (h === "examples") setPage("examples");
       else if (h === "dashboard" && resultRef.current) setPage("dashboard");
+      else if (h === "dashboard" && !resultRef.current) {
+        const restored = loadPersistedResult();
+        if (restored) { setResult(restored); setPage("dashboard"); }
+        else setPage("upload");
+      }
       else setPage("upload");
     };
     window.addEventListener("hashchange", onHash);
@@ -105,6 +119,7 @@ export function App() {
       return;
     }
     setResult(data);
+    try { localStorage.setItem("axis_last_result", JSON.stringify(data)); } catch { /* quota exceeded, non-fatal */ }
     setGeneratedFileCount(data.generated_files.length);
     setPage("dashboard");
     setPageKey((k) => k + 1);
@@ -114,6 +129,7 @@ export function App() {
   const handleReset = useCallback(() => {
     setResult(null);
     setGeneratedFileCount(0);
+    localStorage.removeItem("axis_last_result");
     nav("upload");
   }, [nav]);
 
@@ -130,6 +146,7 @@ export function App() {
       const data = pendingResultRef.current;
       pendingResultRef.current = null;
       setResult(data);
+      try { localStorage.setItem("axis_last_result", JSON.stringify(data)); } catch { /* quota exceeded, non-fatal */ }
       setGeneratedFileCount(data.generated_files.length);
       setPage("dashboard");
       setPageKey((k) => k + 1);

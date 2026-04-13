@@ -85,6 +85,8 @@ const OUTPUT_OPTIONS = [
   { value: "parameter-pack.json", label: "Parameter Pack", group: "Algorithmic" },
 ];
 
+const ESSENTIALS = ["context-map.json", "AGENTS.md", "CLAUDE.md", ".cursorrules", "copilot-instructions.md"];
+
 export function UploadPage({ onComplete }: Props) {
   const [mode, setMode] = useState<"upload" | "github">("upload");
   const [projectName, setProjectName] = useState("");
@@ -96,6 +98,7 @@ export function UploadPage({ onComplete }: Props) {
   const [files, setFiles] = useState<Array<{ path: string; content: string; size: number }>>([]);
   const [githubUrl, setGithubUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingStep, setLoadingStep] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -196,11 +199,16 @@ export function UploadPage({ onComplete }: Props) {
       }
       setLoading(true);
       setError(null);
+      setLoadingStep("Cloning repository...");
       try {
+        const stepTimer = setTimeout(() => setLoadingStep("Analyzing & generating artifacts..."), 4000);
         const result = await analyzeGitHubUrl(githubUrl.trim());
+        clearTimeout(stepTimer);
+        setLoadingStep("");
         toast("success", `Analyzed ${result.context_map.project_identity.name} — ${result.context_map.structure.total_files} files`);
         onComplete(result);
       } catch (err) {
+        setLoadingStep("");
         const msg = err instanceof Error ? err.message : "GitHub analysis failed";
         setError(msg);
         toast("error", msg);
@@ -221,6 +229,7 @@ export function UploadPage({ onComplete }: Props) {
 
     setLoading(true);
     setError(null);
+    setLoadingStep("Detecting languages & frameworks...");
 
     const detectedFrameworks = detectFrameworks(files);
 
@@ -240,10 +249,15 @@ export function UploadPage({ onComplete }: Props) {
     };
 
     try {
+      setLoadingStep("Building context map...");
+      const stepTimer = setTimeout(() => setLoadingStep("Generating artifacts..."), 3000);
       const result = await createSnapshot(payload);
+      clearTimeout(stepTimer);
+      setLoadingStep("");
       toast("success", `Snapshot created — ${result.generated_files.length} files generated`);
       onComplete(result);
     } catch (err) {
+      setLoadingStep("");
       const msg = err instanceof Error ? err.message : "Upload failed";
       setError(msg);
       toast("error", msg);
@@ -449,6 +463,7 @@ export function UploadPage({ onComplete }: Props) {
             value={goals}
             onChange={(e) => setGoals(e.target.value)}
             rows={2}
+            placeholder="e.g. Generate AI context files&#10;Improve onboarding for new developers"
             style={{ fontFamily: "var(--font)" }}
           />
         </div>
@@ -457,6 +472,7 @@ export function UploadPage({ onComplete }: Props) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
             <label style={{ margin: 0 }}>Requested Outputs <span style={{ color: "var(--text-muted)", fontWeight: "normal", fontSize: "0.8rem" }}>({selectedOutputs.length} selected)</span></label>
             <div style={{ display: "flex", gap: 6 }}>
+              <button type="button" className="badge badge-green" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs(ESSENTIALS)}>Essentials</button>
               <button type="button" className="badge" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs(OUTPUT_OPTIONS.map(o => o.value))}>Select all</button>
               <button type="button" className="badge" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs(OUTPUT_OPTIONS.filter(o => ["Search","Skills","Debug"].includes(o.group)).map(o => o.value))}>Free only</button>
               <button type="button" className="badge" style={{ cursor: "pointer" }} onClick={() => setSelectedOutputs([])}>Clear</button>
@@ -494,7 +510,7 @@ export function UploadPage({ onComplete }: Props) {
         <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: "100%", justifyContent: "center", padding: 12 }}>
           {loading ? (
             <>
-              <span className="spinner" /> {mode === "github" ? "Fetching & Analyzing..." : "Processing..."}
+              <span className="spinner" /> {loadingStep || (mode === "github" ? "Fetching & Analyzing..." : "Processing...")}
             </>
           ) : mode === "github" ? (
             "Analyze GitHub Repo"
