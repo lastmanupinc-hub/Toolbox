@@ -366,3 +366,42 @@ describe("Router — handle() with undefined method and url", () => {
     expect(JSON.parse(body)).toMatchObject({ ok: true });
   });
 });
+
+// ─── HEAD method support ────────────────────────────────────────
+
+describe("Router — HEAD method support", () => {
+  it("HEAD on a GET route returns 200 with empty body", async () => {
+    const res = await req("HEAD", "/echo");
+    expect(res.status).toBe(200);
+    expect(res.body).toBe("");
+  });
+
+  it("HEAD returns the same headers as GET", async () => {
+    const head = await req("HEAD", "/echo");
+    const get = await req("GET", "/echo");
+    expect(head.headers["content-type"]).toBe(get.headers["content-type"]);
+    expect(head.headers["x-request-id"]).toBeTruthy();
+  });
+
+  it("HEAD works on parameterised routes", async () => {
+    const res = await req("HEAD", "/items/99");
+    expect(res.status).toBe(200);
+    expect(res.body).toBe("");
+  });
+
+  it("HEAD on unknown route returns 404", async () => {
+    const res = await req("HEAD", "/does-not-exist");
+    expect(res.status).toBe(404);
+  });
+
+  it("HEAD does not match POST-only routes", async () => {
+    const res = await req("HEAD", "/status/200");
+    expect(res.status).toBe(404);
+  });
+
+  it("CORS allows HEAD method", async () => {
+    const res = await req("HEAD", "/echo");
+    const methods = res.headers["access-control-allow-methods"] as string;
+    expect(methods).toContain("HEAD");
+  });
+});

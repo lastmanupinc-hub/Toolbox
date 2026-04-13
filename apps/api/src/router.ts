@@ -49,9 +49,11 @@ export class Router {
     /* v8 ignore next 2 — req.url and req.method always defined in HTTP requests */
     const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
     const method = req.method ?? "GET";
+    // HEAD should match GET routes — Node.js http.Server auto-suppresses the body
+    const matchMethod = method === "HEAD" ? "GET" : method;
 
     for (const route of this.routes) {
-      if (route.method !== method) continue;
+      if (route.method !== matchMethod) continue;
       const match = url.pathname.match(route.pattern);
       if (!match) continue;
 
@@ -171,7 +173,7 @@ export function createApp(router: Router, port: number): Server {
     // CORS
     const corsOrigin = process.env.CORS_ORIGIN ?? "*";
     res.setHeader("Access-Control-Allow-Origin", corsOrigin);
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
     if (corsOrigin !== "*") {
       res.setHeader("Vary", "Origin");
