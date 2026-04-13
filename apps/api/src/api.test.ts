@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
-import { openMemoryDb, closeDb } from "@axis/snapshots";
+import { openMemoryDb, closeDb, createAccount, createApiKey } from "@axis/snapshots";
 import { Router, createApp, sendJSON, sendError } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -36,11 +36,14 @@ async function request(
   method: string,
   path: string,
   body?: unknown,
+  authKey?: string,
 ): Promise<{ status: number; data: unknown }> {
   return new Promise((resolve, reject) => {
     const payload = body ? JSON.stringify(body) : undefined;
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (authKey) headers["Authorization"] = `Bearer ${authKey}`;
     const req = require("node:http").request(
-      { hostname: "127.0.0.1", port, path, method, headers: { "Content-Type": "application/json" } },
+      { hostname: "127.0.0.1", port, path, method, headers },
       (res: import("node:http").IncomingMessage) => {
         const chunks: Buffer[] = [];
         res.on("data", (c: Buffer) => chunks.push(c));
@@ -64,6 +67,7 @@ async function request(
 
 const TEST_PORT = 44321;
 let server: Server;
+let suiteApiKey: string;
 
 const testPayload = {
   input_method: "api_submission",
@@ -86,6 +90,11 @@ const testPayload = {
 
 beforeAll(async () => {
   openMemoryDb();
+
+  // Create suite account for pro program tests
+  const suiteAccount = createAccount("test-suite", "suite@test.com", "suite");
+  const { rawKey } = createApiKey(suiteAccount.account_id, "test");
+  suiteApiKey = rawKey;
 
   const router = new Router();
   router.get("/health", handleHealthCheck);
@@ -236,7 +245,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/frontend/audit returns frontend files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/frontend/audit", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/frontend/audit", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("frontend");
@@ -246,7 +255,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/seo/analyze returns seo files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/seo/analyze", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/seo/analyze", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("seo");
@@ -256,7 +265,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/optimization/analyze returns optimization files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/optimization/analyze", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/optimization/analyze", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("optimization");
@@ -266,7 +275,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/theme/generate returns theme files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/theme/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/theme/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("theme");
@@ -276,7 +285,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/brand/generate returns brand files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/brand/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/brand/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("brand");
@@ -286,7 +295,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/superpowers/generate returns superpowers files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/superpowers/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/superpowers/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("superpowers");
@@ -296,7 +305,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/marketing/generate returns marketing files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/marketing/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/marketing/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("marketing");
@@ -306,7 +315,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/notebook/generate returns notebook files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/notebook/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/notebook/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("notebook");
@@ -316,7 +325,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/obsidian/analyze returns obsidian files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/obsidian/analyze", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/obsidian/analyze", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("obsidian");
@@ -326,7 +335,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/mcp/provision returns mcp files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/mcp/provision", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/mcp/provision", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("mcp");
@@ -336,7 +345,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/artifacts/generate returns artifacts files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/artifacts/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/artifacts/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("artifacts");
@@ -346,7 +355,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/remotion/generate returns remotion files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/remotion/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/remotion/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("remotion");
@@ -356,7 +365,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/canvas/generate returns canvas files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/canvas/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/canvas/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("canvas");
@@ -366,7 +375,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/algorithmic/generate returns algorithmic files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/algorithmic/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/algorithmic/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("algorithmic");
@@ -376,7 +385,7 @@ describe("API integration", () => {
   });
 
   it("POST /v1/agentic-purchasing/generate returns agentic-purchasing files", async () => {
-    const r = await request(TEST_PORT, "POST", "/v1/agentic-purchasing/generate", { snapshot_id: snapshotId });
+    const r = await request(TEST_PORT, "POST", "/v1/agentic-purchasing/generate", { snapshot_id: snapshotId }, suiteApiKey);
     expect(r.status).toBe(200);
     const data = r.data as Record<string, unknown>;
     expect(data.program).toBe("agentic-purchasing");
@@ -391,42 +400,51 @@ describe("API integration", () => {
   });
 
   it("program endpoints reject missing snapshot_id", async () => {
+    // Free programs: reject with 400 (missing snapshot_id)
     const r1 = await request(TEST_PORT, "POST", "/v1/search/export", {});
     expect(r1.status).toBe(400);
     const r2 = await request(TEST_PORT, "POST", "/v1/skills/generate", {});
     expect(r2.status).toBe(400);
     const r3 = await request(TEST_PORT, "POST", "/v1/debug/analyze", {});
     expect(r3.status).toBe(400);
+
+    // Pro programs without auth: reject with 401
     const r4 = await request(TEST_PORT, "POST", "/v1/frontend/audit", {});
-    expect(r4.status).toBe(400);
+    expect(r4.status).toBe(401);
     const r5 = await request(TEST_PORT, "POST", "/v1/seo/analyze", {});
-    expect(r5.status).toBe(400);
+    expect(r5.status).toBe(401);
     const r6 = await request(TEST_PORT, "POST", "/v1/optimization/analyze", {});
-    expect(r6.status).toBe(400);
+    expect(r6.status).toBe(401);
     const r7 = await request(TEST_PORT, "POST", "/v1/theme/generate", {});
-    expect(r7.status).toBe(400);
+    expect(r7.status).toBe(401);
     const r8 = await request(TEST_PORT, "POST", "/v1/brand/generate", {});
-    expect(r8.status).toBe(400);
+    expect(r8.status).toBe(401);
     const r9 = await request(TEST_PORT, "POST", "/v1/superpowers/generate", {});
-    expect(r9.status).toBe(400);
+    expect(r9.status).toBe(401);
     const r10 = await request(TEST_PORT, "POST", "/v1/marketing/generate", {});
-    expect(r10.status).toBe(400);
+    expect(r10.status).toBe(401);
     const r11 = await request(TEST_PORT, "POST", "/v1/notebook/generate", {});
-    expect(r11.status).toBe(400);
+    expect(r11.status).toBe(401);
     const r12 = await request(TEST_PORT, "POST", "/v1/obsidian/analyze", {});
-    expect(r12.status).toBe(400);
+    expect(r12.status).toBe(401);
     const r13 = await request(TEST_PORT, "POST", "/v1/mcp/provision", {});
-    expect(r13.status).toBe(400);
+    expect(r13.status).toBe(401);
     const r14 = await request(TEST_PORT, "POST", "/v1/artifacts/generate", {});
-    expect(r14.status).toBe(400);
+    expect(r14.status).toBe(401);
     const r15 = await request(TEST_PORT, "POST", "/v1/remotion/generate", {});
-    expect(r15.status).toBe(400);
+    expect(r15.status).toBe(401);
     const r16 = await request(TEST_PORT, "POST", "/v1/canvas/generate", {});
-    expect(r16.status).toBe(400);
+    expect(r16.status).toBe(401);
     const r17 = await request(TEST_PORT, "POST", "/v1/algorithmic/generate", {});
-    expect(r17.status).toBe(400);
+    expect(r17.status).toBe(401);
     const r18 = await request(TEST_PORT, "POST", "/v1/agentic-purchasing/generate", {});
-    expect(r18.status).toBe(400);
+    expect(r18.status).toBe(401);
+
+    // Pro programs with auth: reject with 400 (missing snapshot_id)
+    const r19 = await request(TEST_PORT, "POST", "/v1/frontend/audit", {}, suiteApiKey);
+    expect(r19.status).toBe(400);
+    const r20 = await request(TEST_PORT, "POST", "/v1/seo/analyze", {}, suiteApiKey);
+    expect(r20.status).toBe(400);
   });
 
   it("POST /v1/github/analyze rejects missing github_url", async () => {

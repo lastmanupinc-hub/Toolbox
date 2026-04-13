@@ -19,6 +19,7 @@ import {
   trackEvent,
   resolveStage,
   TIER_LIMITS,
+  isProgramEnabled,
   indexSnapshotContent,
   searchSnapshotContent,
   getSearchIndexStats,
@@ -94,8 +95,53 @@ export const PROGRAM_OUTPUTS: Record<string, string[]> = {
 
 // â”€â”€â”€ Generic program handler factory â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
+const FREE_PROGRAMS = new Set(TIER_LIMITS.free.programs);
+
 export function makeProgramHandler(program: string, defaultOutputs: string[]) {
+  const isPro = !FREE_PROGRAMS.has(program);
+
   return async function (req: IncomingMessage, res: ServerResponse): Promise<void> {
+    // Billing gate for pro programs — $0.50 per call
+    if (isPro) {
+      const auth = resolveAuth(req);
+
+      // Require authentication for pro programs
+      if (auth.anonymous || !auth.account) {
+        sendError(res, 401, ErrorCode.AUTH_REQUIRED, `${program} requires authentication. Include Authorization: Bearer <api_key>`);
+        return;
+      }
+
+      // Check if program is enabled for this account
+      if (!isProgramEnabled(auth.account.account_id, program)) {
+        trackEvent(auth.account.account_id, "limit_reached", "limit_hit", {
+          reason: `program_not_enabled:${program}`,
+          source: "program_handler",
+        });
+
+        // Offer 402 MPP payment ($0.50 per call)
+        const mppResult = await chargeMpp(req, res, {
+          amount: "50",
+          currency: "usd",
+          decimals: 2,
+          description: `AXIS ${program} — $0.50 per run`,
+          meta: { account_id: auth.account.account_id, tier: auth.account.tier, program },
+        });
+
+        if (mppResult === null) {
+          // MPP not configured — return 402 with upgrade instructions
+          sendError(res, 402, ErrorCode.TIER_REQUIRED, `${program} requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing.`, {
+            program,
+            tier: auth.account.tier,
+            price_per_call: "$0.50",
+          });
+        }
+        // 402 challenge issued or payment failed — stop processing
+        if (mppResult === null || mppResult.status === 402) return;
+
+        // mppResult.status === 200 — payment accepted, continue to generation
+      }
+    }
+
     const raw = await readBody(req);
     let body: Record<string, unknown>;
     try {
@@ -134,6 +180,22 @@ export function makeProgramHandler(program: string, defaultOutputs: string[]) {
     });
 
     const programFiles = result.files.filter(f => f.program === program);
+
+    // Record usage for authenticated pro program calls
+    if (isPro) {
+      const auth = resolveAuth(req);
+      if (auth.account) {
+        recordUsage(
+          auth.account.account_id,
+          program,
+          snapshotId,
+          programFiles.length,
+          snapshot?.files?.length ?? 0,
+          snapshot?.total_size_bytes ?? 0,
+        );
+      }
+    }
+
     sendJSON(res, 200, {
       snapshot_id: snapshotId,
       program,
@@ -1196,6 +1258,30 @@ export async function handleAnalyze(
       if (mppResult === null || mppResult.status === 402) return;
     }
     /* v8 ignore stop */
+
+    // Enforce program-level billing: check which pro programs the user lacks access to
+    if (requestedPrograms) {
+      const blockedPrograms = requestedPrograms.filter(
+        p => !FREE_PROGRAMS.has(p) && !isProgramEnabled(auth.account!.account_id, p),
+      );
+      if (blockedPrograms.length > 0) {
+        const mppResult = await chargeMpp(req, res, {
+          amount: "50",
+          currency: "usd",
+          decimals: 2,
+          description: `AXIS pro programs — $0.50 per run (${blockedPrograms.join(", ")})`,
+          meta: { account_id: auth.account.account_id, tier: auth.account.tier, programs: blockedPrograms.join(",") },
+        });
+        if (mppResult === null) {
+          sendError(res, 402, ErrorCode.TIER_REQUIRED, `Pro programs require a paid plan or per-call payment: ${blockedPrograms.join(", ")}. Upgrade at toolbox.jonathanarvay.com/billing.`, {
+            blocked_programs: blockedPrograms,
+            tier: auth.account.tier,
+            price_per_call: "$0.50",
+          });
+        }
+        if (mppResult === null || mppResult.status === 402) return;
+      }
+    }
     const limits = TIER_LIMITS[auth.account.tier];
     if (files.length > limits.max_files_per_snapshot) {
       sendError(res, 413, ErrorCode.FILE_COUNT_EXCEEDED, `File limit exceeded: ${files.length} files (max ${limits.max_files_per_snapshot} for ${auth.account.tier} tier)`);

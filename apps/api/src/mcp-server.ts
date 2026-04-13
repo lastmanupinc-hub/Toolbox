@@ -18,6 +18,7 @@ import {
   trackEvent,
   resolveStage,
   TIER_LIMITS,
+  isProgramEnabled,
   getGitHubTokenDecrypted,
 } from "@axis/snapshots";
 import type { SnapshotManifest, FileEntry, InputMethod } from "@axis/snapshots";
@@ -267,6 +268,23 @@ function toolErr(text: string) {
   return { content: [{ type: "text", text }], isError: true };
 }
 
+const MCP_FREE_PROGRAMS = new Set(TIER_LIMITS.free.programs);
+
+/** Filter generators to only include programs the account has access to. */
+function filterGeneratorsByEntitlement(
+  generators: ReturnType<typeof listAvailableGenerators>,
+  account_id: string,
+): { allowed: ReturnType<typeof listAvailableGenerators>; blocked: string[] } {
+  const blocked = new Set<string>();
+  const allowed = generators.filter(g => {
+    if (MCP_FREE_PROGRAMS.has(g.program)) return true;
+    if (isProgramEnabled(account_id, g.program)) return true;
+    blocked.add(g.program);
+    return false;
+  });
+  return { allowed, blocked: [...blocked] };
+}
+
 // ─── Tool: analyze_files ─────────────────────────────────────────
 
 export async function runAnalyzeFiles(
@@ -320,7 +338,8 @@ export async function runAnalyzeFiles(
   /* v8 ignore stop */
 
   const generators = listAvailableGenerators();
-  const requestedOutputs = generators.map(g => g.path);
+  const { allowed: allowedGenerators, blocked: blockedPrograms } = filterGeneratorsByEntitlement(generators, auth.account.account_id);
+  const requestedOutputs = allowedGenerators.map(g => g.path);
   const manifest: SnapshotManifest = {
     project_name,
     project_type,
@@ -379,6 +398,10 @@ export async function runAnalyzeFiles(
         program: f.program,
         description: f.description,
       })),
+      ...(blockedPrograms.length > 0 ? {
+        blocked_programs: blockedPrograms,
+        billing_note: `${blockedPrograms.length} pro program(s) require a paid plan or per-call payment ($0.50/call). Upgrade at toolbox.jonathanarvay.com/billing.`,
+      } : {}),
     },
     null,
     2,
@@ -442,7 +465,8 @@ export async function runAnalyzeRepo(
   });
 
   const generators = listAvailableGenerators();
-  const requestedOutputs = generators.map(g => g.path);
+  const { allowed: allowedGenerators, blocked: blockedPrograms } = filterGeneratorsByEntitlement(generators, auth.account.account_id);
+  const requestedOutputs = allowedGenerators.map(g => g.path);
   const manifest: SnapshotManifest = {
     project_name: parsed.repo,
     project_type: "github_repository",
@@ -495,6 +519,10 @@ export async function runAnalyzeRepo(
         program: f.program,
         description: f.description,
       })),
+      ...(blockedPrograms.length > 0 ? {
+        blocked_programs: blockedPrograms,
+        billing_note: `${blockedPrograms.length} pro program(s) require a paid plan or per-call payment ($0.50/call). Upgrade at toolbox.jonathanarvay.com/billing.`,
+      } : {}),
     },
     null,
     2,
@@ -770,6 +798,17 @@ export async function runPreparePurchasing(
   /* v8 ignore stop */
 
   const generators = listAvailableGenerators();
+
+  // Check entitlements for purchasing programs
+  const purchasingBlocked = PURCHASING_PROGRAMS.filter(
+    p => !MCP_FREE_PROGRAMS.has(p) && !isProgramEnabled(auth.account!.account_id, p),
+  );
+  if (purchasingBlocked.length > 0) {
+    throw new Error(
+      `Pro programs require a paid plan or per-call payment ($0.50/call): ${purchasingBlocked.join(", ")}. Upgrade at toolbox.jonathanarvay.com/billing.`,
+    );
+  }
+
   const requestedOutputs = generators
     .filter(g => PURCHASING_PROGRAMS.includes(g.program))
     .map(g => g.path);
