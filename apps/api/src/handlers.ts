@@ -1766,8 +1766,11 @@ export async function handleCapabilities(
       "Visa-Intelligent-Commerce", "Visa-IC", "autonomous-checkout",
       "agentic-purchasing", "agentic-commerce", "purchasing-readiness-score",
       "spending-authority", "procurement-protocol", "negotiation-playbook",
-      "compliance-checklist", "autonomous-agent", "MCP", "tool-discovery",
-      "codebase-analysis", "AGENTS.md", "context-artifacts",
+      "compliance-checklist", "autonomous-agent", "MCP", "mcp-server", "tool-discovery",
+      "codebase-analysis", "AGENTS.md", "CLAUDE.md", ".cursorrules", "context-artifacts",
+      "code-review", "repo-analysis", "github-analysis", "ai-coding-assistant",
+      "copilot-context", "cursor-rules", "context-generation", "agent-tools",
+      "commerce-readiness", "codebase-intelligence",
     ],
     capabilities: {
       purchasing_readiness: {

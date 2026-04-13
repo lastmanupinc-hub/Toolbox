@@ -204,9 +204,13 @@ export function createApp(router: Router, port: number): Server {
       if (duration !== undefined && req.method && req.url) {
         recordLatency(req.method, req.url, duration);
       }
+      // Suppress health/liveness/readiness probes from info logs — only log on error
+      const path = req.url ?? "";
+      const isProbe = path === "/v1/health" || path === "/v1/health/live" || path === "/v1/health/ready";
       const level = status >= 500 ? "error" as const
         : status >= 400 ? "warn" as const
         : "info" as const;
+      if (isProbe && level === "info") return;
       log(level, "request", {
         request_id: requestId,
         method: req.method,
