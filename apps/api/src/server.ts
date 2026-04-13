@@ -72,7 +72,7 @@ import {
   handleGetFunnelMetrics,
 } from "./funnel.js";
 import { handleExportZip } from "./export.js";
-import { handleMcpPost, handleMcpGet, handleMcpServerJson, runSearchTools } from "./mcp-server.js";
+import { handleMcpPost, handleMcpGet, handleMcpServerJson, runSearchTools, getMcpCallCounters } from "./mcp-server.js";
 import { buildOpenApiSpec } from "./openapi.js";
 import { handleLiveness, handleReadiness, handleMetrics } from "./metrics.js";
 import { handleAdminStats, handleAdminAccounts, handleAdminActivity } from "./admin.js";
@@ -196,6 +196,22 @@ router.get("/v1/programs", async (_req, res) => {
 // MCP Server — Streamable HTTP transport (2025-03-26)
 router.post("/mcp", handleMcpPost);
 router.get("/mcp", handleMcpGet);
+
+// Anonymous call stats (no auth required)
+router.get("/v1/stats", async (_req, res) => {
+  const { sendJSON } = await import("./router.js");
+  const c = getMcpCallCounters();
+  sendJSON(res, 200, {
+    mcp_calls_today: c.today,
+    mcp_calls_total: c.total,
+    top_tools: Object.entries(c.byTool)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([tool, count]) => ({ tool, count })),
+    process_started_at: c.startedAt,
+    date: c.todayDate,
+  });
+});
 
 // MCP registry metadata — for mcp-publisher CLI and registry crawlers
 router.get("/v1/mcp/server.json", handleMcpServerJson);

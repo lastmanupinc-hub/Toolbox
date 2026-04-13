@@ -348,7 +348,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
               <span style={{ fontSize: "0.65rem", fontWeight: 700, padding: "2px 7px", borderRadius: 99, background: "var(--accent)", color: "#fff", letterSpacing: "0.04em", textTransform: "uppercase" }}>For Agents</span>
             </div>
             <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", maxWidth: 580 }}>
-              Drop a repo URL or inline files. Get 81 structured artifacts across 18 programs: AGENTS.md, .cursorrules, AP2/Visa compliance checklist, negotiation playbook, autonomous checkout rules, debug playbook, MCP config, design tokens, and more. One call via MCP or REST.
+              The definitive MCP server for hardening any codebase for autonomous agentic purchasing. One call to <code style={{ fontFamily: "var(--mono)", fontSize: "0.9rem" }}>prepare_for_agentic_purchasing</code> returns a Purchasing Readiness Score, AP2/UCP/Visa compliance checklist, negotiation playbook, autonomous checkout rules, scoped product schemas, and self-onboarding MCP configs — from any repo.
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end", flexShrink: 0 }}>
@@ -408,7 +408,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
       {/* â”€â”€ Pricing â”€â”€ */}
       <div className="card" style={{ marginBottom: 24 }}>
         <SectionHeader title="Pricing" subtitle="Free for discovery. $0.50 per analysis run for agents. No subscription required." />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
           {[
             {
               name: "Free",

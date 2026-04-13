@@ -88,7 +88,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "api",
     question: "What is the API base URL?",
-    answer: "The API runs at http://localhost:4000 with all endpoints prefixed under /v1. For example: POST /v1/snapshots to create a snapshot, GET /v1/health for status checks. There are 17 documented endpoints covering snapshots, programs, generated files, search, accounts, API keys, team seats, and billing.",
+    answer: "The production API runs at https://axis-api-6c7z.onrender.com with all endpoints prefixed under /v1. For example: POST /v1/snapshots to create a snapshot, GET /v1/health for status checks. There are 17 documented endpoints covering snapshots, programs, generated files, search, accounts, API keys, team seats, and billing.",
   },
   {
     category: "api",
@@ -172,7 +172,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "technical",
     question: "Does Axis work offline?",
-    answer: "The web UI and API server run locally on your machine, so core analysis and generation work offline. Folder uploads and ZIP uploads work entirely offline. Only GitHub URL analysis requires internet access to clone the repository. The API server runs on port 4000 by default.",
+    answer: "The hosted web app and API run on Render and Cloudflare Pages — no local install needed. For self-hosted setups, the web UI and API server can run locally (API on port 4000 by default). GitHub URL analysis always requires internet access to clone the repository.",
   },
   {
     category: "technical",
@@ -226,7 +226,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "security",
     question: "How is my API key stored?",
-    answer: "In the web UI, your API key is stored in the browser's localStorage. It's sent as a Bearer token over HTTP to the local API server. Keys are hashed (SHA-256) before storage in the database — the original key is never stored in plaintext on the server. Treat your key like a password.",
+    answer: "In the web UI, your API key is stored in the browser's localStorage. It's sent as a Bearer token over HTTPS to the API server. Keys are hashed (SHA-256) before storage in the database — the original key is never stored in plaintext on the server. Treat your key like a password.",
   },
   {
     category: "security",
@@ -236,7 +236,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "security",
     question: "Is my source code sent to external AI services?",
-    answer: "No. All analysis runs locally between your browser and the Axis API server on your machine. No code is sent to OpenAI, Anthropic, or any external service. The snapshot engine performs pattern detection, framework identification, and file generation entirely within the local server process.",
+    answer: "No. All analysis runs between your browser and the Axis API server — no code is forwarded to OpenAI, Anthropic, or any external AI service. The snapshot engine performs pattern detection, framework identification, and file generation entirely within the server process.",
   },
   {
     category: "security",

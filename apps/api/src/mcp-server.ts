@@ -32,6 +32,41 @@ export const MCP_PROTOCOL_VERSION = "2025-03-26";
 const SERVER_NAME = "axis-toolbox";
 const SERVER_VERSION = "0.4.0";
 
+// ─── In-memory call counters (reset on process restart) ──────────
+
+interface McpCallCounters {
+  total: number;
+  today: number;
+  todayDate: string; // YYYY-MM-DD UTC
+  byTool: Record<string, number>;
+  startedAt: string;
+}
+
+const _counters: McpCallCounters = {
+  total: 0,
+  today: 0,
+  todayDate: new Date().toISOString().slice(0, 10),
+  byTool: {},
+  startedAt: new Date().toISOString(),
+};
+
+export function logMcpCall(toolName: string, userId: string | null, ip: string): void {
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10);
+  if (today !== _counters.todayDate) {
+    _counters.today = 0;
+    _counters.todayDate = today;
+  }
+  _counters.total += 1;
+  _counters.today += 1;
+  _counters.byTool[toolName] = (_counters.byTool[toolName] ?? 0) + 1;
+  console.log(`[MCP CALL] tool=${toolName} user=${userId ?? "anonymous"} ip=${ip} time=${now.toISOString()}`);
+}
+
+export function getMcpCallCounters(): McpCallCounters {
+  return { ..._counters, byTool: { ..._counters.byTool } };
+}
+
 // Standard JSON-RPC 2.0 error codes
 const RPC_PARSE_ERROR = -32700;
 const RPC_INVALID_REQUEST = -32600;
@@ -885,6 +920,9 @@ export async function dispatch(
       if (typeof toolName !== "string" || !toolName) {
         return rpcErr(id, RPC_INVALID_PARAMS, "tools/call requires 'name' as string");
       }
+      const auth = resolveAuth(req);
+      const ip = (req.headers["x-forwarded-for"] as string | undefined)?.split(",")[0]?.trim() ?? req.socket?.remoteAddress ?? "unknown";
+      logMcpCall(toolName, auth.anonymous ? null : (auth.account?.account_id ?? null), ip);
       try {
         let text: string;
         switch (toolName) {

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
 import { openMemoryDb, closeDb, createSnapshot } from "@axis/snapshots";
 import { Router, createApp, sendJSON } from "./router.js";
-import { handleMcpPost, handleMcpGet, handleMcpServerJson, getMcpServerMeta, MCP_TOOLS, MCP_PROTOCOL_VERSION, runSearchTools } from "./mcp-server.js";
+import { handleMcpPost, handleMcpGet, handleMcpServerJson, getMcpServerMeta, MCP_TOOLS, MCP_PROTOCOL_VERSION, runSearchTools, getMcpCallCounters, logMcpCall } from "./mcp-server.js";
 import {
   handleCreateAccount,
   handleCreateApiKey,
@@ -93,6 +93,16 @@ beforeAll(async () => {
   router.get("/v1/mcp/server.json", handleMcpServerJson);
   router.post("/v1/accounts", handleCreateAccount);
   router.post("/v1/account/keys", handleCreateApiKey);
+  router.get("/v1/stats", async (_req, res) => {
+    const c = getMcpCallCounters();
+    sendJSON(res, 200, {
+      mcp_calls_today: c.today,
+      mcp_calls_total: c.total,
+      top_tools: Object.entries(c.byTool).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([tool, count]) => ({ tool, count })),
+      process_started_at: c.startedAt,
+      date: c.todayDate,
+    });
+  });
 
   // Inline echo for status checks
   router.get("/ping", async (_req, res) => sendJSON(res, 200, { ok: true }));
@@ -201,6 +211,25 @@ describe("POST /mcp — ping", () => {
     expect(r.status).toBe(200);
     const d = r.data as Record<string, unknown>;
     expect(d.result).toEqual({});
+  });
+});
+
+describe("GET /v1/stats — anonymous call counters", () => {
+  it("returns call stats shape", async () => {
+    const r = await get("/v1/stats");
+    expect(r.status).toBe(200);
+    const d = r.data as Record<string, unknown>;
+    expect(typeof d.mcp_calls_today).toBe("number");
+    expect(typeof d.mcp_calls_total).toBe("number");
+    expect(Array.isArray(d.top_tools)).toBe(true);
+    expect(typeof d.date).toBe("string");
+  });
+
+  it("logMcpCall increments counters", () => {
+    const before = getMcpCallCounters().total;
+    logMcpCall("list_programs", null, "127.0.0.1");
+    expect(getMcpCallCounters().total).toBe(before + 1);
+    expect(getMcpCallCounters().byTool["list_programs"]).toBeGreaterThan(0);
   });
 });
 
