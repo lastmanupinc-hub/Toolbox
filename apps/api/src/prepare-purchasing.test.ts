@@ -5,7 +5,7 @@
  */
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
-import { openMemoryDb, closeDb } from "@axis/snapshots";
+import { openMemoryDb, closeDb, createAccount, createApiKey } from "@axis/snapshots";
 import { Router } from "./router.js";
 import {
   handlePreparePurchasing,
@@ -21,6 +21,7 @@ async function req(
   method: string,
   path: string,
   body?: unknown,
+  authKey?: string,
 ): Promise<{ status: number; data: unknown }> {
   return new Promise((resolve, reject) => {
     const payload = body !== undefined ? JSON.stringify(body) : undefined;
@@ -33,6 +34,7 @@ async function req(
         headers: {
           "Content-Type": "application/json",
           ...(payload ? { "Content-Length": Buffer.byteLength(payload) } : {}),
+          ...(authKey ? { "Authorization": `Bearer ${authKey}` } : {}),
         },
       },
       (res: import("node:http").IncomingMessage) => {
@@ -54,6 +56,7 @@ async function req(
 
 const TEST_PORT = 44516;
 let server: Server;
+let suiteApiKey: string;
 
 const minFiles = [
   { path: "package.json", content: '{"name":"commerce-test","dependencies":{"react":"18.0.0"}}' },
@@ -71,6 +74,9 @@ const validBody = {
 
 beforeAll(async () => {
   openMemoryDb();
+  const suiteAccount = createAccount("suite-test", "suite@test.local", "suite");
+  const suiteKey = createApiKey(suiteAccount.account_id);
+  suiteApiKey = suiteKey.rawKey;
   const router = new Router();
   router.post("/v1/prepare-for-agentic-purchasing", handlePreparePurchasing);
   server = createServer((r, res) => {
@@ -293,7 +299,7 @@ describe("POST /v1/prepare-for-agentic-purchasing — success", () => {
   let result: Record<string, unknown>;
 
   beforeAll(async () => {
-    const r = await req("POST", "/v1/prepare-for-agentic-purchasing", validBody);
+    const r = await req("POST", "/v1/prepare-for-agentic-purchasing", validBody, suiteApiKey);
     expect(r.status).toBe(201);
     result = r.data as Record<string, unknown>;
   });
@@ -375,7 +381,7 @@ describe("POST /v1/prepare-for-agentic-purchasing — success", () => {
   });
 
   it("is deterministic — same input produces same artifact paths", async () => {
-    const r2 = await req("POST", "/v1/prepare-for-agentic-purchasing", validBody);
+    const r2 = await req("POST", "/v1/prepare-for-agentic-purchasing", validBody, suiteApiKey);
     expect(r2.status).toBe(201);
     const r2result = r2.data as Record<string, unknown>;
     const paths1 = (result.all_artifacts as Array<{ path: string }>).map(f => f.path).sort();

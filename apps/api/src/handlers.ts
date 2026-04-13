@@ -1513,6 +1513,40 @@ export async function handlePreparePurchasing(
     files.push({ path, content: file.content as string, size: Buffer.byteLength(file.content as string, "utf-8") });
   }
 
+  // Billing gate — the hardener runs pro programs, so require auth + entitlement
+  const proPrograms = PURCHASING_PROGRAMS.filter(p => !FREE_PROGRAMS.has(p));
+  if (proPrograms.length > 0) {
+    if (auth.anonymous || !auth.account) {
+      sendError(res, 401, ErrorCode.AUTH_REQUIRED, "prepare_for_agentic_purchasing requires authentication. Include Authorization: Bearer <api_key>");
+      return;
+    }
+
+    const blockedPrograms = proPrograms.filter(p => !isProgramEnabled(auth.account!.account_id, p));
+    if (blockedPrograms.length > 0) {
+      trackEvent(auth.account.account_id, "limit_reached", "limit_hit", {
+        reason: `program_not_enabled:${blockedPrograms.join(",")}`,
+        source: "prepare_for_agentic_purchasing",
+      });
+
+      const mppResult = await chargeMpp(req, res, {
+        amount: "50",
+        currency: "usd",
+        decimals: 2,
+        description: "AXIS Toolbox - prepare_for_agentic_purchasing - $0.50 per run",
+        meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_for_agentic_purchasing" },
+      });
+
+      if (mppResult === null) {
+        sendError(res, 402, ErrorCode.TIER_REQUIRED, `prepare_for_agentic_purchasing requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing.`, {
+          blocked_programs: blockedPrograms,
+          tier: auth.account.tier,
+          price_per_call: "$0.50",
+        });
+      }
+      if (mppResult === null || mppResult.status === 402) return;
+    }
+  }
+
   if (auth.account) {
     const quota = checkQuota(auth.account.account_id);
     /* v8 ignore start  -  quota exceeded path */
