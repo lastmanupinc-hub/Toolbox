@@ -1749,6 +1749,40 @@ For autonomous purchasing agents:
 
 // â”€â”€â”€ GET /.well-known/skills/index.json  -  agent skills registry â”€â”€
 
+export async function handleRobotsTxt(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const lines = [
+    "# robots.txt for AXIS Toolbox",
+    "# Built specifically for agentic commerce and autonomous purchasing agents",
+    "",
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "# Special directives for AI / MCP / agent probes",
+    "User-agent: GPTBot",
+    "User-agent: OAI-SearchBot",
+    "User-agent: Google-Extended",
+    "User-agent: 402.ad-mcp-probe",
+    "User-agent: *",
+    "Disallow: /private/",
+    "Allow: /mcp",
+    "Allow: /for-agents",
+    "Allow: /v1/",
+    "",
+    "# This is the AXIS Toolbox MCP server (io.github.lastmanupinc-hub/axis-toolbox)",
+    "# Primary tool: prepare_for_agentic_purchasing",
+    "# Use case: Hardens codebases for autonomous purchasing (readiness score, AP2/UCP/Visa compliance, negotiation playbooks, checkout rules)",
+    "# Pay-per-run: $0.50 via Stripe MPP",
+    "# Full documentation: https://toolbox.jonathanarvay.com/for-agents",
+    "",
+    "Sitemap: https://toolbox.jonathanarvay.com/sitemap.xml",
+  ];
+  res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+  res.end(lines.join("\n"));
+}
+
 export async function handleSkillsIndex(
   _req: IncomingMessage,
   res: ServerResponse,
