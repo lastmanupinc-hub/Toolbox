@@ -1613,10 +1613,6 @@ export async function handleWellKnown(
     },
     llms_txt: "GET /llms.txt  -  plain-text instructions for AI tools on how to interact with AXIS",
     skills: "GET /.well-known/skills/index.json  -  agent skills index following the agentskills.io standard",
-    capabilities: "GET /.well-known/capabilities.json  -  semantic capability manifest (AP2/UCP/Visa/purchasing/compliance/agentic-commerce keywords indexed).",
-    capabilities: "GET /.well-known/capabilities.json  -  semantic capability manifest (AP2/UCP/Visa/purchasing/compliance/agentic-commerce keywords indexed).",
-    capabilities: "GET /.well-known/capabilities.json  -  semantic capability manifest (AP2/UCP/Visa/purchasing/compliance/agentic-commerce keywords indexed).",
-    capabilities: "GET /.well-known/capabilities.json  -  semantic capability manifest for agent tool discovery (AP2/UCP/Visa/purchasing/compliance/agentic-commerce keywords indexed).",
     capabilities: "GET /.well-known/capabilities.json  -  semantic capability manifest for agent tool discovery (AP2/UCP/Visa/purchasing/compliance/agentic-commerce keywords indexed).",
     for_agents: {
       note: "Every file in the response includes placement and adoption_hint fields. No guesswork  -  you know exactly what each file does and where it goes.",
@@ -1627,12 +1623,74 @@ export async function handleWellKnown(
       registry_metadata: "GET /v1/mcp/server.json  -  MCP registry metadata for mcp-publisher CLI and registry crawlers (Glama.ai, Smithery.ai).",
       openapi: "GET /v1/docs  -  full OpenAPI 3.1 spec",
       examples: "https://github.com/lastmanupinc-hub/axis-toolbox-examples  -  5 real repos hardened 0/100 to 100/100. Live before/after artifacts.",
-      examples: "https://github.com/lastmanupinc-hub/axis-toolbox-examples  -  5 real repos hardened 0/100 to 100/100. Live before/after artifacts.",
     },
   });
 }
 
 // â”€â”€â”€ GET /llms.txt  -  llmstxt.org standard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+// ─── GET /.well-known/capabilities.json ─────────────────────────
+
+export async function handleCapabilities(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  sendJSON(res, 200, {
+    name: "AXIS Toolbox",
+    version: "0.4.0",
+    description: "Semantic capability manifest for agent tool discovery. Analyzes codebases, generates 81+ artifacts across 18 programs. Full agentic commerce hardening including AP2/UCP/Visa IC compliance.",
+    keywords: [
+      "AP2", "AP2-compliance", "Article-2", "UN-CISG",
+      "UCP", "UCP-600", "UCP-Article-5", "documentary-credits",
+      "Visa-Intelligent-Commerce", "Visa-IC", "autonomous-checkout",
+      "agentic-purchasing", "agentic-commerce", "purchasing-readiness-score",
+      "spending-authority", "procurement-protocol", "negotiation-playbook",
+      "compliance-checklist", "autonomous-agent", "MCP", "tool-discovery",
+      "codebase-analysis", "AGENTS.md", "context-artifacts",
+    ],
+    capabilities: {
+      purchasing_readiness: {
+        endpoint: "POST /v1/prepare-for-agentic-purchasing",
+        mcp_tool: "prepare_for_agentic_purchasing",
+        description: "Computes Purchasing Readiness Score (0-100) across 7 categories. Returns AP2, UCP, Visa IC compliance checklist, negotiation playbook, autonomous checkout rules, MCP self-onboarding config.",
+        score_rubric: {
+          commerce_artifacts: 25,
+          mcp_configs: 20,
+          compliance_checklist: 15,
+          negotiation_playbook: 15,
+          debug_playbook: 10,
+          optimization_rules: 10,
+          onboarding_docs: 5,
+        },
+      },
+      discovery: {
+        endpoint: "GET /v1/mcp/tools",
+        mcp_tool: "search_and_discover_tools",
+        description: "Keyword search across all 18 programs. No auth required.",
+        auth_required: false,
+      },
+      analysis: {
+        endpoint: "POST /v1/analyze",
+        mcp_tool: "analyze_repo",
+        description: "Full repo analysis — 81 artifacts across 18 programs.",
+        auth_required: true,
+      },
+    },
+    mcp: {
+      transport: "Streamable HTTP (2025-03-26 spec)",
+      endpoint: "POST /mcp",
+      tools: [
+        "analyze_repo", "analyze_files", "get_snapshot", "get_artifact",
+        "list_programs", "prepare_for_agentic_purchasing", "search_and_discover_tools",
+      ],
+    },
+    examples_repo: "https://github.com/lastmanupinc-hub/axis-toolbox-examples",
+    for_agents: "https://axis-api-6c7z.onrender.com/for-agents",
+    openapi: "https://axis-api-6c7z.onrender.com/v1/docs",
+  });
+}
+
+// ─── GET /llms.txt  -  llmstxt.org standard ─────────────────────────────────
 
 export async function handleLlmsTxt(
   _req: IncomingMessage,
