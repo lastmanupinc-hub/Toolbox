@@ -143,7 +143,13 @@ export async function chargeMpp(
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const result = await (Mppx.toNodeListener(handler as any)(req, res) as Promise<MppResult>);
+  let result: MppResult;
+  try {
+    result = await (Mppx.toNodeListener(handler as any)(req, res) as Promise<MppResult>);
+  } catch (err) {
+    console.error(`[MPP] charge failed — ${options.description ?? "AXIS API credit"}:`, err);
+    return null;          // treat MPP failure as "not configured" so caller sends 402
+  }
   /* v8 ignore next 6 */
   if (result.status === 402) {
     console.log(`[MPP] 402 challenge issued — ${options.description ?? "AXIS API credit"}`);
