@@ -2,8 +2,9 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.lastmanupinc-hub/axis-toolbox",
   "title": "AXIS Toolbox — Agentic Commerce Hardener",
-  "description": "The definitive MCP server for hardening any codebase for autonomous agentic purchasing.",
+  "description": "Upload code, get 86 AI artifacts — AGENTS.md, .cursorrules, AP2 compliance, commerce hardening.",
   "version": "0.4.0",
+  "websiteUrl": "https://axis-api-6c7z.onrender.com/for-agents",
   "repository": {
     "url": "https://github.com/lastmanupinc-hub/Toolbox",
     "source": "github"
@@ -15,11 +16,76 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer <your-api-key>. Free tier available. Required for paid tools including prepare_for_agentic_purchasing ($0.50/run). Get key at https://axis-api-6c7z.onrender.com",
+          "description": "Bearer <your-api-key>. Free tier available. Get key: POST /v1/accounts",
           "isRequired": false,
           "isSecret": true
         }
       ]
     }
-  ]
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "tool": "axis-skills",
+      "version": "0.4.0"
+    },
+    "io.github.lastmanupinc-hub/axis-toolbox": {
+      "programs": 18,
+      "generators": 86,
+      "tools": 12,
+      "free_tools": [
+        "list_programs",
+        "search_and_discover_tools",
+        "discover_agentic_commerce_tools",
+        "discover_agentic_purchasing_needs",
+        "get_referral_code",
+        "check_referral_credits"
+      ],
+      "categories": [
+        "codebase-analysis",
+        "agentic-commerce",
+        "AP2-compliance",
+        "code-intelligence",
+        "developer-tools"
+      ],
+      "keywords": [
+        "AGENTS.md",
+        ".cursorrules",
+        "CLAUDE.md",
+        "debug-playbook",
+        "design-tokens",
+        "brand-guidelines",
+        "AP2",
+        "UCP",
+        "Visa-IC",
+        "purchasing-readiness",
+        "MCP",
+        "agentic-purchasing",
+        "commerce-hardening",
+        "CE3.0",
+        "SCA-exemption",
+        "dispute-evidence"
+      ],
+      "pricing": {
+        "free_tier": true,
+        "standard_cents_per_run": 50,
+        "lite_cents_per_run": 15,
+        "budget_header": "X-Agent-Budget"
+      },
+      "incentives": {
+        "fifth_paid_call_free": true,
+        "referral_earn_per_share_millicents": 1,
+        "referral_cap_cents_per_call": 20,
+        "referral_reset_days": 30
+      },
+      "discovery": {
+        "for_agents": "https://axis-api-6c7z.onrender.com/for-agents",
+        "well_known": "https://axis-api-6c7z.onrender.com/.well-known/axis.json",
+        "capabilities": "https://axis-api-6c7z.onrender.com/.well-known/capabilities.json",
+        "openapi": "https://axis-api-6c7z.onrender.com/v1/docs",
+        "llms_txt": "https://axis-api-6c7z.onrender.com/llms.txt",
+        "skills_index": "https://axis-api-6c7z.onrender.com/.well-known/skills/index.json",
+        "intent_probe": "https://axis-api-6c7z.onrender.com/probe-intent"
+      }
+    }
+  }
 }

@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "AXIS Toolbox"
     date: "2026-04-14"
-    commit_or_tag: "pending"
-    current_session_id: "session_092"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3917 passing / 3925 total tests (8 skipped) across 132 files. Structured incentives in MCP responses. E2E referral lifecycle tested. Artifact count corrected 87→86 across all source files. Full dogfood regeneration."
+    commit_or_tag: "c8344c3"
+    current_session_id: "session_095"
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3923 passing / 3931 total tests (8 skipped) across 132 files. MCP registry metadata enriched (server.json). 5th-paid-call-free incentive LIVE. Schema v18."
 
   executive_truth:
     maturity_estimate:
@@ -31,7 +31,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 96
       integration_confidence: 98
-      notes: "3917 passing / 3925 total (8 skipped) across 132 files. MCP integration LIVE (12 tools). prepare_for_agentic_purchasing composite tool LIVE with referral_token input. Referral system LIVE: 3 SQLite tables (migration v16), 12 exported functions, chargeWithDiscounts() wired at all 7 billing sites, E2E integration tested. Structured INCENTIVES_BLOCK in every MCP response. HEAD→GET aliasing in router. CORS includes HEAD. Self-propagation in AGENTS.md/CLAUDE.md/.cursorrules. Artifact count corrected 87→86 across all source files + README.md. 18 programs, 86 generators."
+      notes: "3923 passing / 3931 total (8 skipped) across 132 files. MCP integration LIVE (12 tools). prepare_for_agentic_purchasing composite tool LIVE with referral_token input. Referral system LIVE: 3 SQLite tables (migration v18), 12 exported functions, chargeWithDiscounts() wired at all 7 billing sites, E2E integration tested. 5th-paid-call-free: recordPaidCall() tracks paid_call_count, grants free call after 4th paid call. Structured INCENTIVES_BLOCK in every MCP response. server.json enriched with _meta discovery (categories, keywords, pricing, incentives, discovery endpoints). 18 programs, 86 generators."
 
   boundary_truth:
     accepted_input_modes:
@@ -3517,6 +3517,92 @@ project_continuation:
     blockers_added: []
     remaining_pre_existing_gaps:
       - "eq_193: MCP registry metadata (Glama, Smithery, mcp-index) — not started"
+      - "eq_194: /for-agents page enhancement — not started"
+    commit_results: ["23235b3"]
+    push_results: ["pushed to main"]
+
+    session_id: "session_093"
+    selected_move: "Incentives hardening — initFreeCallGrant fix, artifact regeneration, incentives-first key ordering, MCP JSON manifest, 30-day rolling virality"
+    selected_move_roi_reason: "Referral system correctness fixes + incentives rebuild for 30-day rolling virality. Multiple cascading fixes over 5 commits."
+    completed_candidates:
+      - "initFreeCallGrant: fixed lifetime_referrals check instead of fragile timestamp comparison"
+      - "Artifact regeneration: 12 tools, 6 free tools, referral tools in manifests"
+      - "Incentives-first key ordering test + full artifact regeneration"
+      - "GET /mcp returns JSON manifest with incentives-first (HTML docs moved to /mcp/docs)"
+      - "Complete incentives rebuild: 30-day rolling virality, no permanent caps, restructured manifest"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "30-day rolling virality: credits reset every 30 days for continuous monthly earning"
+      - "GET /mcp returns JSON manifest (not HTML) for MCP protocol compliance"
+    verticals_advanced:
+      - "v18_agentic_commerce: referral incentive system hardened for production correctness"
+    blockers_removed:
+      - "initFreeCallGrant timestamp comparison fragility"
+      - "GET /mcp returning HTML instead of JSON"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193: MCP registry metadata (Glama, Smithery, mcp-index) — not started"
+      - "eq_194: /for-agents page enhancement — not started"
+    commit_results: ["28a3303", "df49101", "357fdb0", "965dad7", "00e55b3"]
+    push_results: ["pushed to main"]
+
+    session_id: "session_094"
+    selected_move: "5th-call-free — prevent free-call re-grant + track paid_call_count, grant after 4 paid calls"
+    selected_move_roi_reason: "Bug fix (infinite re-grant) + new incentive mechanic (5th paid call free). Schema v17→v18. Agent acquisition ROI: converts trial agents into paying users before rewarding free call."
+    completed_candidates:
+      - "initFreeCallGrant → recordPaidCall: tracks paid_call_count in accounts table"
+      - "Migration v17: initial_grant_given flag to prevent infinite free-call re-grant"
+      - "Migration v18: paid_call_count INTEGER NOT NULL DEFAULT 0"
+      - "recordPaidCall(): increments paid_call_count, grants free call when count >= 4 with initial_grant_given guard"
+      - "All MCP response blocks: free_call_on_signup → fifth_paid_call_free"
+      - "referral-store.test.ts: recordPaidCall tests + 4-call counting tests"
+      - "referral-e2e.test.ts: initFreeCallGrant → recordPaidCall loops"
+      - "mcp-server.test.ts: free_call_on_signup → fifth_paid_call_free"
+      - "db.test.ts: schema version 17 → 18"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "132 test files / 3923 passed / 8 skipped / 0 failed"
+      - "Schema v18: paid_call_count column in accounts table"
+      - "recordPaidCall() replaces initFreeCallGrant — no more signup-time free call"
+    verticals_advanced:
+      - "v18_agentic_commerce: 5th-paid-call-free incentive LIVE — converts trial agents before rewarding"
+    blockers_removed:
+      - "Infinite free-call re-grant bug (initFreeCallGrant called on every signup check)"
+      - "No paid call tracking — 5th-call logic impossible without counter"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193: MCP registry metadata (Glama, Smithery, mcp-index) — not started"
+      - "eq_194: /for-agents page enhancement — not started"
+    commit_results: ["676faa6", "c8344c3"]
+    push_results: ["pushed to main"]
+
+    session_id: "session_095"
+    selected_move: "eq_193: MCP registry metadata — server.json enrichment + handleWellKnown tool count fix"
+    selected_move_roi_reason: "ROI 82 — highest-scoring unblocked candidate. server.json is the entry point for mcp-publisher CLI and registry crawlers (Glama.ai, Smithery.ai, mcp-index). Enriching with _meta discovery metadata (categories, keywords, pricing, incentives, discovery endpoints) makes AXIS discoverable in all MCP registries."
+    completed_candidates:
+      - "server.json: enriched from 25 lines to full registry metadata with _meta extension"
+      - "server.json: added websiteUrl, _meta.categories, _meta.keywords, _meta.pricing, _meta.incentives, _meta.discovery"
+      - "server.json: description rewrite — agent-first, 95 chars, within schema max 100"
+      - "server.json: validated against official 2025-12-11 server.schema.json"
+      - "handleWellKnown: mcp_discovery tool count 10 → 12 (added get_referral_code + check_referral_credits)"
+    refused_candidates: []
+    blocked_candidates:
+      - "eq_193 manual steps deferred: mcp-publisher publish, Glama.ai submission, Smithery.ai submission"
+    evidence_added:
+      - "server.json now contains _meta with 5 categories, 16 keywords, pricing, incentives, 7 discovery endpoints"
+      - "MCP server.json schema fetched and validated: ServerDetail supports $schema, name, title, description(max100), version, repository, remotes, packages, icons, websiteUrl, _meta"
+      - "Schema confirms no tools/categories/tags field — tools discovered dynamically via MCP protocol"
+      - "132 test files / 3923 passed / 8 skipped / 0 failed"
+    verticals_advanced:
+      - "v18_agentic_commerce: MCP registry metadata ready for mcp-publisher + Glama.ai + Smithery.ai crawlers"
+    blockers_removed:
+      - "server.json was minimal 25-line stub — insufficient for registry discovery"
+      - "handleWellKnown mcp_discovery said '10 tools' when actual count is 12"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193 manual steps: mcp-publisher publish, Glama.ai/Smithery.ai submission"
       - "eq_194: /for-agents page enhancement — not started"
     commit_results: ["pending"]
     push_results: ["pending"]
