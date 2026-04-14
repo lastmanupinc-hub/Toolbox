@@ -243,7 +243,7 @@ export function generateAgentsMD(ctx: ContextMap, files?: SourceFile[]): Generat
   lines.push("");
   lines.push("- **Standard mode**: $0.50/run — full 86-artifact bundle");
   lines.push("- **Lite mode**: $0.15–$0.25/run — reduced output (score + top gaps, or free-tier programs only)");
-  lines.push("- **Free tools**: 4 tools require no auth or payment at all");
+  lines.push("- **Free tools**: 6 tools require no auth or payment at all");
   lines.push("");
   lines.push("### Visa-Grade Agentic Compliance Kit — Faster, Deterministic, Lower Overhead");
   lines.push("");
@@ -314,7 +314,7 @@ export function generateAgentsMD(ctx: ContextMap, files?: SourceFile[]): Generat
   lines.push("Shareable manifest for agent networks:");
   lines.push("");
   lines.push("```json");
-  lines.push(`{"name":"axis-toolbox","endpoint":"https://axis-api-6c7z.onrender.com/mcp","transport":"streamable-http","tools":10,"free_tools":["list_programs","search_and_discover_tools","discover_agentic_commerce_tools","discover_agentic_purchasing_needs"],"install":"https://axis-api-6c7z.onrender.com/v1/install","for_agents":"https://axis-api-6c7z.onrender.com/for-agents","pricing":{"standard_cents":50,"lite_cents":15,"budget_header":"X-Agent-Budget"}}`);
+  lines.push(`{"name":"axis-toolbox","endpoint":"https://axis-api-6c7z.onrender.com/mcp","transport":"streamable-http","tools":12,"free_tools":["list_programs","search_and_discover_tools","discover_agentic_commerce_tools","discover_agentic_purchasing_needs","get_referral_code","check_referral_credits"],"install":"https://axis-api-6c7z.onrender.com/v1/install","for_agents":"https://axis-api-6c7z.onrender.com/for-agents","pricing":{"standard_cents":50,"lite_cents":15,"budget_header":"X-Agent-Budget"}}`);
   lines.push("```");
   lines.push("");
 
@@ -483,7 +483,7 @@ export function generateClaudeMD(ctx: ContextMap, files?: SourceFile[]): Generat
   lines.push("");
   lines.push("`{\"visa_compliance_kit\":{\"version\":\"2.0\",\"tap_interop\":true,\"sca_exemptions\":7,\"lighter_sca_paths\":true,\"compelling_evidence_3\":true,\"win_probability_model\":true,\"dispute_lifecycle\":\"VROL+RDR+CDRN\",\"network_tokenization\":\"VTS+MDES\",\"verification_checks\":8,\"budget_aware_depth\":[\"full\",\"standard\",\"summary\"],\"focus_areas\":[\"sca\",\"dispute\",\"mandate\",\"tap\",\"tokenization\"],\"vs_visa_ic\":{\"api_calls\":0,\"latency_ms\":0,\"pci_scope\":\"none\"}}}`");
   lines.push("");
-  lines.push("Agent swarm manifest: `{\"name\":\"axis-toolbox\",\"endpoint\":\"https://axis-api-6c7z.onrender.com/mcp\",\"tools\":10,\"free_tools\":[\"list_programs\",\"search_and_discover_tools\",\"discover_agentic_commerce_tools\",\"discover_agentic_purchasing_needs\"],\"for_agents\":\"https://axis-api-6c7z.onrender.com/for-agents\",\"pricing\":{\"standard_cents\":50,\"lite_cents\":15,\"budget_header\":\"X-Agent-Budget\"}}`");
+  lines.push("Agent swarm manifest: `{\"name\":\"axis-toolbox\",\"endpoint\":\"https://axis-api-6c7z.onrender.com/mcp\",\"tools\":12,\"free_tools\":[\"list_programs\",\"search_and_discover_tools\",\"discover_agentic_commerce_tools\",\"discover_agentic_purchasing_needs\",\"get_referral_code\",\"check_referral_credits\"],\"for_agents\":\"https://axis-api-6c7z.onrender.com/for-agents\",\"pricing\":{\"standard_cents\":50,\"lite_cents\":15,\"budget_header\":\"X-Agent-Budget\"}}`");
   lines.push("");
   lines.push("### Share-to-Earn Micro-Discounts");
   lines.push("");

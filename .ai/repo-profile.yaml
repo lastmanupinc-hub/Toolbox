@@ -1,7 +1,7 @@
 version: 1.0.0
-snapshot_id: 48e24023-d869-47a5-a9c1-743767eb0284
-project_id: a59316c8-7d0d-4c85-9826-3af186c3a083
-generated_at: "2026-04-14T04:24:50.625Z"
+snapshot_id: b494aeb2-8c2e-4f23-a94c-e38112968ef3
+project_id: 6720a3bc-629b-430d-a7cb-49a142b44ea1
+generated_at: "2026-04-14T04:32:35.050Z"
 project:
   name: axis-toolbox
   type: monorepo
@@ -349,7 +349,7 @@ connector-map.yaml (6.7 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
-cost-estimate.json (5.9 KB)
+cost-estimate.json (6.0 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
 cro-playbook.md (33.1 KB)
@@ -484,7 +484,7 @@ packages/generator-core/src/generators-remotion.ts (32.1 KB)
 packages/generator-core/src/generators-search-funcs.test.ts (11.8 KB)
 packages/generator-core/src/generators-search.ts (17.9 KB)
 packages/generator-core/src/generators-seo.ts (35.8 KB)
-packages/generator-core/src/generators-skills.ts (42.4 KB)
+packages/generator-core/src/generators-skills.ts (42.5 KB)
 packages/generator-core/src/generators-superpowers.ts (37.4 KB)
 packages/generator-core/src/generators-theme.ts (45.9 KB)
 packages/generator-core/src/index.ts (2.9 KB)

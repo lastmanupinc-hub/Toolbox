@@ -272,7 +272,7 @@ Every `prepare_for_agentic_purchasing` output includes TAP/AP2/UCP interoperabil
 
 `{"visa_compliance_kit":{"version":"2.0","tap_interop":true,"sca_exemptions":7,"lighter_sca_paths":true,"compelling_evidence_3":true,"win_probability_model":true,"dispute_lifecycle":"VROL+RDR+CDRN","network_tokenization":"VTS+MDES","verification_checks":8,"budget_aware_depth":["full","standard","summary"],"focus_areas":["sca","dispute","mandate","tap","tokenization"],"vs_visa_ic":{"api_calls":0,"latency_ms":0,"pci_scope":"none"}}}`
 
-Agent swarm manifest: `{"name":"axis-toolbox","endpoint":"https://axis-api-6c7z.onrender.com/mcp","tools":10,"free_tools":["list_programs","search_and_discover_tools","discover_agentic_commerce_tools","discover_agentic_purchasing_needs"],"for_agents":"https://axis-api-6c7z.onrender.com/for-agents","pricing":{"standard_cents":50,"lite_cents":15,"budget_header":"X-Agent-Budget"}}`
+Agent swarm manifest: `{"name":"axis-toolbox","endpoint":"https://axis-api-6c7z.onrender.com/mcp","tools":12,"free_tools":["list_programs","search_and_discover_tools","discover_agentic_commerce_tools","discover_agentic_purchasing_needs","get_referral_code","check_referral_credits"],"for_agents":"https://axis-api-6c7z.onrender.com/for-agents","pricing":{"standard_cents":50,"lite_cents":15,"budget_header":"X-Agent-Budget"}}`
 
 ### Share-to-Earn Micro-Discounts
 
