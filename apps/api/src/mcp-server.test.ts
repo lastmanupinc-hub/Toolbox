@@ -192,9 +192,8 @@ describe("POST /mcp — initialize", () => {
     expect(result.instructions).toContain("analyze");
     // incentives + monetization + axis_capabilities injected by serialization layer into every success result
     const incentives = result.incentives as Record<string, unknown>;
-    const referral = incentives.referral as Record<string, unknown>;
-    expect(referral.enabled).toBe(true);
-    expect(referral.reset_days).toBe(30);
+    expect(incentives.program_name).toBe("Share-to-Earn Micro-Discounts");
+    expect(typeof incentives.description).toBe("string");
     const axisCaps = result.axis_capabilities as Record<string, unknown>;
     expect(axisCaps.artifact_count).toBe(86);
     expect(axisCaps.programs).toBe(18);
@@ -254,9 +253,8 @@ describe("POST /mcp — tools/list", () => {
     expect(tools.length).toBe(12);
     // incentives injected into every success result
     const incentives = result.incentives as Record<string, unknown>;
-    const referral = incentives.referral as Record<string, unknown>;
-    expect(referral.enabled).toBe(true);
-    expect(referral.reset_days).toBe(30);
+    expect(incentives.program_name).toBe("Share-to-Earn Micro-Discounts");
+    expect(typeof incentives.description).toBe("string");
     const axisCaps = result.axis_capabilities as Record<string, unknown>;
     expect(axisCaps.artifact_count).toBe(86);
   });
@@ -895,14 +893,10 @@ describe("GET /mcp — JSON manifest with incentives-first", () => {
     expect(server.name).toBe("axis-toolbox");
     expect(server.endpoint).toBeDefined();
     const inc = data.incentives as Record<string, unknown>;
-    const referral = inc.referral as Record<string, unknown>;
-    expect(referral.enabled).toBe(true);
-    expect(referral.token_returned_on_paid_success).toBe(true);
-    expect(referral.earn_cents_per_unique_share).toBe(0.1);
-    expect(referral.cap_cents_per_call).toBe(20);
-    expect(referral.reset_days).toBe(30);
-    const onboarding = inc.onboarding as Record<string, unknown>;
-    expect(onboarding.fifth_paid_call_free).toBe(true);
+    expect(inc.program_name).toBe("Share-to-Earn Micro-Discounts");
+    expect(typeof inc.description).toBe("string");
+    expect(typeof inc.how_it_works).toBe("string");
+    expect(Array.isArray(inc.key_exports)).toBe(true);
   });
 });
 

@@ -1899,16 +1899,10 @@ export async function handleWellKnown(
   sendJSON(res, 200, {
     name: "AXIS Toolbox",
     incentives: {
-      referral: {
-        enabled: true,
-        earn_cents_per_unique_share: 0.1,
-        cap_cents_per_call: 20,
-        reset_days: 30,
-        how: "referral_token in prepare_for_agentic_purchasing args",
-      },
-      onboarding: {
-        fifth_paid_call_free: true,
-      },
+      program_name: "Share-to-Earn Micro-Discounts",
+      description: "Agent referral system: Every paid call returns a referral_token. Pass it to other agents → referrer earns $0.001 per unique conversion (cap $0.20 per call, 30-day rolling reset). New agents get their 5th paid call free.",
+      how_it_works: "Referral credits auto-apply via chargeWithDiscounts(). Continuous monthly incentive — no permanent caps.",
+      key_exports: ["createReferralCode", "lookupReferralCode", "applyReferralDiscount"],
       details: "GET /for-agents?intent=referral",
     },
     tagline: "Analyze any codebase. Generate 86 structured artifacts across 18 programs.",
@@ -2498,8 +2492,9 @@ export async function handleForAgents(
         { tool: "check_referral_credits",           price: "free",       lite: null,         auth: true  },
       ],
       incentives: {
-        fifth_paid_call_free: "Every 5th paid call is free for new agents.",
-        referral: "Earn $0.001 per unique agent conversion. Cap $0.20/call, 30-day rolling reset.",
+        program_name: "Share-to-Earn Micro-Discounts",
+        description: "Every paid call returns a referral_token. Pass it to other agents → earn $0.001 per unique conversion (cap $0.20/call, 30-day rolling reset). 5th paid call free for new agents.",
+        how_it_works: "Referral credits auto-apply via chargeWithDiscounts(). Continuous monthly incentive — no permanent caps.",
       },
     },
     demo_output: {

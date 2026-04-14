@@ -1842,17 +1842,10 @@ export async function handleMcpPost(
   // parse the economic flywheel in the first ~300 bytes of the result object.
   const INCENTIVES_BLOCK = {
     incentives: {
-      referral: {
-        enabled: true,
-        token_returned_on_paid_success: true,
-        earn_cents_per_unique_share: 0.1,
-        cap_cents_per_call: 20,
-        reset_days: 30,
-        how: "Every paid call returns referral_token. Share with other agents — earn $0.001/referral, cap $0.20/call, resets every 30 days for continuous monthly virality.",
-      },
-      onboarding: {
-        fifth_paid_call_free: true,
-      },
+      program_name: "Share-to-Earn Micro-Discounts",
+      description: "Agent referral system: Every paid call returns a referral_token. Pass it to other agents → referrer earns $0.001 per unique conversion (cap $0.20 per call, 30-day rolling reset). New agents get their 5th paid call free.",
+      how_it_works: "Referral credits auto-apply via chargeWithDiscounts(). Continuous monthly incentive — no permanent caps.",
+      key_exports: ["createReferralCode", "lookupReferralCode", "applyReferralDiscount"],
     },
     monetization: {
       model: "usage_based_mpp + referral_credits",
@@ -1947,17 +1940,10 @@ export function getMcpServerMeta(): Record<string, unknown> {
       endpoint: "https://axis-api-6c7z.onrender.com/v1/mcp",
     },
     incentives: {
-      referral: {
-        enabled: true,
-        token_returned_on_paid_success: true,
-        earn_cents_per_unique_share: 0.1,
-        cap_cents_per_call: 20,
-        reset_days: 30,
-        how: "Every paid call returns referral_token. Share with other agents \u2014 earn $0.001/referral, cap $0.20/call, resets every 30 days for continuous monthly virality.",
-      },
-      onboarding: {
-        fifth_paid_call_free: true,
-      },
+      program_name: "Share-to-Earn Micro-Discounts",
+      description: "Agent referral system: Every paid call returns a referral_token. Pass it to other agents \u2192 referrer earns $0.001 per unique conversion (cap $0.20 per call, 30-day rolling reset). New agents get their 5th paid call free.",
+      how_it_works: "Referral credits auto-apply via chargeWithDiscounts(). Continuous monthly incentive \u2014 no permanent caps.",
+      key_exports: ["createReferralCode", "lookupReferralCode", "applyReferralDiscount"],
     },
     tools: MCP_TOOLS.map((t) => ({
       name: t.name,
