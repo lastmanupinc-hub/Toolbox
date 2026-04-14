@@ -189,10 +189,10 @@ describe("POST /mcp — initialize", () => {
     const info = result.serverInfo as Record<string, unknown>;
     expect(info.name).toBe("axis-toolbox");
     expect(result.instructions).toContain("analyze");
-    // incentives + axis_capabilities injected by serialization layer into every success result
-    const incentives = result.incentives as Record<string, string>;
-    expect(incentives.referral).toContain("referral_token");
-    expect(incentives.onboarding).toContain("free");
+    // incentives + monetization + axis_capabilities injected by serialization layer into every success result
+    const incentives = result.incentives as Record<string, unknown>;
+    expect(incentives.program_name).toBe("Share-to-Earn Micro-Discounts");
+    expect(incentives.description as string).toContain("referral_token");
     const axisCaps = result.axis_capabilities as Record<string, unknown>;
     expect(axisCaps.artifact_count).toBe(86);
     expect(axisCaps.programs).toBe(18);
@@ -251,8 +251,9 @@ describe("POST /mcp — tools/list", () => {
     expect(tools.length).toBe(MCP_TOOLS.length);
     expect(tools.length).toBe(10);
     // incentives injected into every success result
-    const incentives = result.incentives as Record<string, string>;
-    expect(incentives.referral).toContain("referral_token");
+    const incentives = result.incentives as Record<string, unknown>;
+    expect(incentives.program_name).toBe("Share-to-Earn Micro-Discounts");
+    expect(incentives.description as string).toContain("referral_token");
     const axisCaps = result.axis_capabilities as Record<string, unknown>;
     expect(axisCaps.artifact_count).toBe(86);
   });

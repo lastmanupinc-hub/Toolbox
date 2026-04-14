@@ -16,7 +16,7 @@ export const ENV_SPEC: EnvSpec[] = [
   { key: "NODE_ENV", required: false, type: "string", default: "development", description: "Runtime environment (development | production | test)" },
   { key: "DATABASE_PATH", required: false, type: "string", default: "./axis.db", description: "SQLite database file path" },
   { key: "LOG_LEVEL", required: false, type: "string", default: "info", description: "Log verbosity (debug | info | warn | error)" },
-  { key: "CORS_ORIGIN", required: false, type: "string", default: "*", description: "Allowed CORS origin" },
+  { key: "CORS_ORIGIN", required: false, type: "string", default: "*", description: "Allowed CORS origin (* for dev, auto-restricts to production domain when NODE_ENV=production)" },
   { key: "RATE_LIMIT_WINDOW_MS", required: false, type: "number", default: "60000", description: "Rate limit sliding window in ms" },
   { key: "RATE_LIMIT_MAX_REQUESTS", required: false, type: "number", default: "60", description: "Max requests per window (anonymous)" },
   { key: "RATE_LIMIT_MAX_AUTHENTICATED", required: false, type: "number", default: "120", description: "Max requests per window (authenticated)" },
@@ -24,6 +24,8 @@ export const ENV_SPEC: EnvSpec[] = [
   { key: "REQUEST_TIMEOUT_MS", required: false, type: "number", default: "30000", description: "Per-request timeout in ms (0 = no limit)" },
   { key: "MAX_BODY_BYTES", required: false, type: "number", default: "52428800", description: "Maximum request body size in bytes (default 50MB)" },
   { key: "KEEP_ALIVE_TIMEOUT_MS", required: false, type: "number", default: "65000", description: "HTTP keep-alive timeout in ms (must exceed LB idle timeout)" },
+  // Admin access
+  { key: "ADMIN_API_KEY", required: false, type: "string", description: "API key that grants access to /v1/admin/* endpoints. If unset, admin endpoints return 403." },
   // Stripe payment integration
   { key: "STRIPE_SECRET_KEY", required: false, type: "string", description: "Stripe secret API key for checkout and subscription management" },
   { key: "STRIPE_WEBHOOK_SECRET", required: false, type: "string", description: "Stripe webhook signing secret (whsec_...) for Stripe-Signature verification" },

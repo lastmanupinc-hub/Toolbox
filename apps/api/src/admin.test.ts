@@ -46,6 +46,7 @@ async function req(
 }
 
 let apiKey: string;
+let nonAdminKey: string;
 
 beforeAll(async () => {
   openMemoryDb();
@@ -60,12 +61,18 @@ beforeAll(async () => {
   server = createApp(router, TEST_PORT);
   await new Promise<void>((r) => setTimeout(r, 100));
 
-  // Create a test account to get an API key
+  // Create an admin account
   const acct = await req("POST", "/v1/accounts", { name: "Admin Tester", email: "admin@test.com" });
   apiKey = (acct.data as any).api_key.raw_key;
+  process.env.ADMIN_API_KEY = apiKey;
+
+  // Create a non-admin account
+  const acct2 = await req("POST", "/v1/accounts", { name: "Regular User", email: "regular@test.com" });
+  nonAdminKey = (acct2.data as any).api_key.raw_key;
 });
 
 afterAll(async () => {
+  delete process.env.ADMIN_API_KEY;
   await new Promise<void>((resolve, reject) => server.close((err) => err ? reject(err) : resolve()));
   closeDb();
 });
@@ -104,14 +111,15 @@ describe("GET /v1/admin/accounts", () => {
     const r = await req("GET", "/v1/admin/accounts", undefined, apiKey);
     expect(r.status).toBe(200);
     expect(Array.isArray(r.data.accounts)).toBe(true);
-    expect(r.data.total).toBeGreaterThanOrEqual(1);
+    expect(r.data.total).toBeGreaterThanOrEqual(2);
     expect(r.data.limit).toBe(50);
     expect(r.data.offset).toBe(0);
     const accounts = r.data.accounts as Array<Record<string, unknown>>;
     expect(accounts[0].account_id).toBeDefined();
-    expect(accounts[0].name).toBe("Admin Tester");
-    expect(accounts[0].email).toBe("admin@test.com");
-    expect(accounts[0].tier).toBe("free");
+    const adminAccount = accounts.find((a) => a.email === "admin@test.com");
+    expect(adminAccount).toBeDefined();
+    expect(adminAccount!.name).toBe("Admin Tester");
+    expect(adminAccount!.tier).toBe("free");
   });
 
   it("respects limit and offset params", async () => {
@@ -174,6 +182,31 @@ describe("Admin auth failure branches", () => {
   it("activity returns 401 without auth", async () => {
     const r = await req("GET", "/v1/admin/activity");
     expect(r.status).toBe(401);
+  });
+
+  it("stats returns 403 for non-admin key", async () => {
+    const r = await req("GET", "/v1/admin/stats", undefined, nonAdminKey);
+    expect(r.status).toBe(403);
+    expect(r.data.error).toContain("Admin");
+  });
+
+  it("accounts returns 403 for non-admin key", async () => {
+    const r = await req("GET", "/v1/admin/accounts", undefined, nonAdminKey);
+    expect(r.status).toBe(403);
+  });
+
+  it("activity returns 403 for non-admin key", async () => {
+    const r = await req("GET", "/v1/admin/activity", undefined, nonAdminKey);
+    expect(r.status).toBe(403);
+  });
+
+  it("returns 403 when ADMIN_API_KEY is not configured", async () => {
+    const saved = process.env.ADMIN_API_KEY;
+    delete process.env.ADMIN_API_KEY;
+    const r = await req("GET", "/v1/admin/stats", undefined, apiKey);
+    expect(r.status).toBe(403);
+    expect(r.data.error).toContain("not configured");
+    process.env.ADMIN_API_KEY = saved;
   });
 });
 

@@ -116,6 +116,7 @@ beforeAll(async () => {
   const paid = createAccount("Paid User", "paid@test.com", "paid");
   const pKey = createApiKey(paid.account_id, "paid-key");
   acctPaid = { id: paid.account_id, auth: { Authorization: `Bearer ${pKey.rawKey}` } };
+  process.env.ADMIN_API_KEY = pKey.rawKey;
 
   const free = createAccount("Free User", "free@test.com");
   const fKey = createApiKey(free.account_id, "free-key");
@@ -123,6 +124,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  delete process.env.ADMIN_API_KEY;
   await new Promise<void>((resolve, reject) => server.close((err) => err ? reject(err) : resolve()));
   closeDb();
 });

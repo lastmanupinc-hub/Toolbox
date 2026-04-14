@@ -1,18 +1,43 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { sendJSON } from "./router.js";
+import { sendJSON, sendError } from "./router.js";
 import { requireAuth } from "./billing.js";
+import type { AuthContext } from "./billing.js";
 import {
   getSystemStats,
   listAllAccounts,
   getRecentActivity,
 } from "@axis/snapshots";
 
+/**
+ * Require admin access. Validates auth first, then checks the raw API key
+ * against the ADMIN_API_KEY env var. Returns null (and sends 403) on failure.
+ */
+function requireAdmin(req: IncomingMessage, res: ServerResponse): AuthContext | null {
+  const ctx = requireAuth(req, res);
+  if (!ctx) return null; // 401 already sent
+
+  const adminKey = process.env.ADMIN_API_KEY;
+  if (!adminKey) {
+    sendError(res, 403, "FORBIDDEN", "Admin endpoints are not configured");
+    return null;
+  }
+
+  const authHeader = req.headers.authorization;
+  const rawKey = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  if (rawKey !== adminKey) {
+    sendError(res, 403, "FORBIDDEN", "Admin access required");
+    return null;
+  }
+
+  return ctx;
+}
+
 /** GET /v1/admin/stats — system-wide statistics (requires auth) */
 export async function handleAdminStats(
   req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const ctx = requireAuth(req, res);
+  const ctx = requireAdmin(req, res);
   if (!ctx) return;
 
   const stats = getSystemStats();
@@ -24,7 +49,7 @@ export async function handleAdminAccounts(
   req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const ctx = requireAuth(req, res);
+  const ctx = requireAdmin(req, res);
   if (!ctx) return;
 
   /* v8 ignore next — req.url always present in tests */
@@ -42,7 +67,7 @@ export async function handleAdminActivity(
   req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const ctx = requireAuth(req, res);
+  const ctx = requireAdmin(req, res);
   if (!ctx) return;
 
   /* v8 ignore next — req.url always present in tests */

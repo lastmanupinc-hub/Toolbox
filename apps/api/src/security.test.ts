@@ -73,9 +73,9 @@ describe("security headers", () => {
     expect(r.headers["x-frame-options"]).toBe("DENY");
   });
 
-  it("Content-Security-Policy is set", async () => {
+  it("Content-Security-Policy is not set on JSON responses", async () => {
     const r = await req("GET", "/v1/health");
-    expect(r.headers["content-security-policy"]).toBe("default-src 'self'");
+    expect(r.headers["content-security-policy"]).toBeUndefined();
   });
 
   it("Strict-Transport-Security is set", async () => {
@@ -103,7 +103,6 @@ describe("security headers", () => {
     expect(r.status).toBe(404);
     expect(r.headers["x-content-type-options"]).toBe("nosniff");
     expect(r.headers["x-frame-options"]).toBe("DENY");
-    expect(r.headers["content-security-policy"]).toBe("default-src 'self'");
     expect(r.headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   });
 

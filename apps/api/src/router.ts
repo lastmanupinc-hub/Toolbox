@@ -1,10 +1,14 @@
 import { createServer, type IncomingMessage, type ServerResponse, type Server } from "node:http";
 import type { Socket } from "node:net";
+import { gzipSync } from "node:zlib";
 import { initRequest, getRequestId, getRequestStart, log, ErrorCode, type ErrorCodeValue } from "./logger.js";
 import { checkRateLimit } from "./rate-limiter.js";
 import { resolveAuth } from "./billing.js";
 import { recordRequest, recordLatency } from "./metrics.js";
 import { walCheckpoint, closeDb } from "@axis/snapshots";
+
+// Store request reference on response for sendJSON gzip negotiation
+const REQUEST_REF = new WeakMap<ServerResponse, IncomingMessage>();
 
 type RouteHandler = (req: IncomingMessage, res: ServerResponse, params: Record<string, string>) => Promise<void>;
 
@@ -90,8 +94,21 @@ export function sendJSON(res: ServerResponse, status: number, data: unknown) {
   if (requestId && !res.headersSent) {
     res.setHeader("X-Request-Id", requestId);
   }
-  res.writeHead(status, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(payload));
+  const json = JSON.stringify(payload);
+
+  // Negotiate gzip compression for responses > 1KB
+  const req = REQUEST_REF.get(res);
+  const acceptEncoding = req?.headers["accept-encoding"] ?? "";
+  const supportsGzip = typeof acceptEncoding === "string" && acceptEncoding.includes("gzip");
+
+  if (supportsGzip && json.length > 1024) {
+    const compressed = gzipSync(Buffer.from(json));
+    res.writeHead(status, { "Content-Type": "application/json", "Content-Encoding": "gzip" });
+    res.end(compressed);
+  } else {
+    res.writeHead(status, { "Content-Type": "application/json" });
+    res.end(json);
+  }
 }
 
 export function sendError(
@@ -135,6 +152,24 @@ export interface AppHandle {
   isShuttingDown: () => boolean;
 }
 
+// ─── Cache-Control map for static/semi-static GET endpoints ────
+const CACHE_CONTROL: Record<string, string> = {
+  "/.well-known/axis.json": "public, max-age=86400",
+  "/.well-known/capabilities.json": "public, max-age=86400",
+  "/.well-known/mcp.json": "public, max-age=86400",
+  "/robots.txt": "public, max-age=86400",
+  "/llms.txt": "public, max-age=3600",
+  "/v1/programs": "public, max-age=3600",
+  "/v1/plans": "public, max-age=3600",
+  "/v1/docs": "public, max-age=3600",
+  "/v1/docs.md": "public, max-age=3600",
+  "/.well-known/skills/index.json": "public, max-age=3600",
+  "/v1/install": "public, max-age=3600",
+  "/for-agents": "public, max-age=3600",
+  "/v1/mcp/server.json": "public, max-age=86400",
+  "/v1/mcp/tools": "public, max-age=1800",
+};
+
 let _shuttingDown = false;
 export function isShuttingDown(): boolean { return _shuttingDown; }
 
@@ -144,6 +179,8 @@ export function createApp(router: Router, port: number): Server {
   const requestTimeoutMs = parseInt(process.env.REQUEST_TIMEOUT_MS ?? "30000", 10);
 
   const server = createServer((req, res) => {
+    // Store request ref for gzip negotiation in sendJSON
+    REQUEST_REF.set(res, req);
     // Per-request timeout
     /* v8 ignore start — timeout fires only when handler exceeds 30s */
     if (requestTimeoutMs > 0) {
@@ -164,14 +201,14 @@ export function createApp(router: Router, port: number): Server {
     // Security headers (OWASP)
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("X-Frame-Options", "DENY");
-    res.setHeader("Content-Security-Policy", "default-src 'self'");
     res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
     res.setHeader("X-XSS-Protection", "0");
     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
     res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
-    // CORS
-    const corsOrigin = process.env.CORS_ORIGIN ?? "*";
+    // CORS — restrict in production, allow * in development
+    const corsOrigin = process.env.CORS_ORIGIN
+      ?? (process.env.NODE_ENV === "production" ? "https://toolbox.jonathanarvay.com" : "*");
     res.setHeader("Access-Control-Allow-Origin", corsOrigin);
     res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -222,6 +259,13 @@ export function createApp(router: Router, port: number): Server {
       });
     });
     /* v8 ignore stop */
+
+    // Cache-Control for static/semi-static GET endpoints
+    if (req.method === "GET" || req.method === "HEAD") {
+      const path = (req.url ?? "").split("?")[0];
+      const cc = CACHE_CONTROL[path];
+      if (cc) res.setHeader("Cache-Control", cc);
+    }
 
     router.handle(req, res);
   });

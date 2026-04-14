@@ -338,6 +338,11 @@ describe("Flow 4: admin endpoints", () => {
   beforeAll(async () => {
     const r = await req(PORT, "POST", "/v1/accounts", { name: "Admin", email: "admin-e2e@example.com" });
     adminKey = ((r.data as Record<string, unknown>).api_key as Record<string, unknown>).raw_key as string;
+    process.env.ADMIN_API_KEY = adminKey;
+  });
+
+  afterAll(() => {
+    delete process.env.ADMIN_API_KEY;
   });
 
   it("returns platform stats", async () => {

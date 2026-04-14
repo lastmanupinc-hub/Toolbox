@@ -228,7 +228,6 @@ describe("Security headers on non-success responses", () => {
     expect(res.status).toBe(404);
     expect(res.headers["x-content-type-options"]).toBe("nosniff");
     expect(res.headers["x-frame-options"]).toBe("DENY");
-    expect(res.headers["content-security-policy"]).toBeTruthy();
     expect(res.headers["strict-transport-security"]).toBeTruthy();
   });
 

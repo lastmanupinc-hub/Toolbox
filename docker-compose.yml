@@ -17,7 +17,7 @@ services:
       - PORT=4000
       - DATABASE_PATH=/data/axis.db
       - LOG_LEVEL=${LOG_LEVEL:-info}
-      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+      - CORS_ORIGIN=${CORS_ORIGIN:-https://toolbox.jonathanarvay.com}
       - RATE_LIMIT_WINDOW_MS=${RATE_LIMIT_WINDOW_MS:-60000}
       - RATE_LIMIT_MAX_REQUESTS=${RATE_LIMIT_MAX_REQUESTS:-60}
       - RATE_LIMIT_MAX_AUTHENTICATED=${RATE_LIMIT_MAX_AUTHENTICATED:-120}
