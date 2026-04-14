@@ -191,7 +191,7 @@ export {
   recordReferralConversion,
   getReferralConversionCount,
   getReferralCredits,
-  initFreeCallGrant,
+  recordPaidCall,
   consumeFreeCall,
   applyReferralDiscount,
   buildIncentivesSummary,

@@ -37,7 +37,7 @@ import {
   getReferralCredits,
   applyReferralDiscount,
   consumeFreeCall,
-  initFreeCallGrant,
+  recordPaidCall,
 } from "@axis/snapshots";
 import type { SnapshotInput, SnapshotManifest, FileEntry } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
@@ -60,8 +60,16 @@ async function chargeWithDiscounts(
 ): Promise<{ status: 402 | 200 } | null> {
   if (consumeFreeCall(accountId)) return { status: 200 };
   const discount = applyReferralDiscount(accountId, amountCents);
-  if (discount.final_cents <= 0) return { status: 200 };
-  return chargeMpp(req, res, { ...opts, amount: String(discount.final_cents) });
+  let result: { status: 402 | 200 } | null;
+  if (discount.final_cents <= 0) {
+    result = { status: 200 };
+  } else {
+    result = await chargeMpp(req, res, { ...opts, amount: String(discount.final_cents) });
+  }
+  if (result && result.status === 200) {
+    recordPaidCall(accountId);
+  }
+  return result;
 }
 
 // ─── Ownership helpers ──────────────────────────────────────────
@@ -1753,7 +1761,6 @@ export async function handlePreparePurchasing(
           recordReferralConversion(referral.account_id, auth.account.account_id);
         }
       }
-      initFreeCallGrant(auth.account.account_id);
     }
 
     // Generate referral code for authenticated users
@@ -1900,7 +1907,7 @@ export async function handleWellKnown(
         how: "referral_token in prepare_for_agentic_purchasing args",
       },
       onboarding: {
-        free_call_on_signup: true,
+        fifth_paid_call_free: true,
       },
       details: "GET /for-agents?intent=referral",
     },

@@ -22,6 +22,7 @@ export interface ReferralCredits {
   lifetime_referrals: number;
   free_calls_remaining: number;
   initial_grant_given: number;
+  paid_call_count: number;
   last_reset_at: string;
   updated_at: string;
 }
@@ -121,7 +122,7 @@ function ensureReferralCredits(account_id: string): void {
   const existing = db.prepare("SELECT 1 FROM referral_credits WHERE account_id = ?").get(account_id);
   if (!existing) {
     const now = new Date().toISOString();
-    db.prepare("INSERT INTO referral_credits (account_id, earned_credits_millicents, lifetime_referrals, free_calls_remaining, initial_grant_given, last_reset_at, updated_at) VALUES (?, 0, 0, 0, 0, ?, ?)").run(account_id, now, now);
+    db.prepare("INSERT INTO referral_credits (account_id, earned_credits_millicents, lifetime_referrals, free_calls_remaining, initial_grant_given, paid_call_count, last_reset_at, updated_at) VALUES (?, 0, 0, 0, 0, 0, ?, ?)").run(account_id, now, now);
   }
 }
 
@@ -131,14 +132,16 @@ export function getReferralCredits(account_id: string): ReferralCredits {
   return getDb().prepare("SELECT * FROM referral_credits WHERE account_id = ?").get(account_id) as ReferralCredits;
 }
 
-/** One-time onboarding free call — grants 1 free call once per account, never re-grants. */
-export function initFreeCallGrant(account_id: string): void {
+/** Record a paid call and auto-grant 5th-call-free when paid_call_count reaches 4. */
+export function recordPaidCall(account_id: string): void {
   ensureReferralCredits(account_id);
   const db = getDb();
-  const credits = db.prepare("SELECT initial_grant_given FROM referral_credits WHERE account_id = ?").get(account_id) as { initial_grant_given: number };
-  if (credits.initial_grant_given) return;
   const now = new Date().toISOString();
-  db.prepare("UPDATE referral_credits SET free_calls_remaining = 1, initial_grant_given = 1, updated_at = ? WHERE account_id = ?").run(now, account_id);
+  db.prepare("UPDATE referral_credits SET paid_call_count = paid_call_count + 1, updated_at = ? WHERE account_id = ?").run(now, account_id);
+  const row = db.prepare("SELECT paid_call_count, initial_grant_given FROM referral_credits WHERE account_id = ?").get(account_id) as { paid_call_count: number; initial_grant_given: number };
+  if (row.paid_call_count >= 4 && !row.initial_grant_given) {
+    db.prepare("UPDATE referral_credits SET free_calls_remaining = 1, initial_grant_given = 1, updated_at = ? WHERE account_id = ?").run(now, account_id);
+  }
 }
 
 /** Consume one free call. Returns true if a free call was consumed. */
@@ -192,9 +195,9 @@ export function buildIncentivesSummary(account_id?: string): Record<string, unkn
       rolling_window_days: 30,
       how: "Share your referral_token with other agents. When they make their first paid call with your token, you earn $0.001 off future calls.",
     },
-    free_call: {
-      description: "New agents get one free paid call as a one-time onboarding reward.",
-      mechanism: "Granted once per account on first interaction — never re-grants.",
+    fifth_call_free: {
+      description: "After 4 paid calls, the 5th is free — one-time onboarding reward.",
+      mechanism: "Tracked by paid_call_count. Granted exactly once per account when count reaches 4.",
     },
     referral_token_field: "Include referral_token in prepare_for_agentic_purchasing args to attribute referrals.",
   };

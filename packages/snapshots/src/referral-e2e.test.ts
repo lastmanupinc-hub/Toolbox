@@ -17,7 +17,7 @@ import {
   lookupReferralCode,
   recordReferralConversion,
   getReferralCredits,
-  initFreeCallGrant,
+  recordPaidCall,
   consumeFreeCall,
   applyReferralDiscount,
   buildIncentivesSummary,
@@ -54,23 +54,24 @@ describe("E2E Referral Lifecycle", () => {
     expect(credits.earned_credits_millicents).toBe(REWARD_MILLICENTS * 5);
     expect(credits.lifetime_referrals).toBe(5);
 
-    // ── Step 4: Free-call grant (one-time onboarding) ────────────
-    // Agent A has never had a free call grant yet — should succeed even with referrals
-    initFreeCallGrant(agentA.account_id);
+    // ── Step 4: 5th-call-free (after 4 paid calls) ────────────
+    // Simulate 4 paid calls for Agent A
+    for (let i = 0; i < 4; i++) recordPaidCall(agentA.account_id);
     const afterGrant = getReferralCredits(agentA.account_id);
     expect(afterGrant.free_calls_remaining).toBe(1);
+    expect(afterGrant.paid_call_count).toBe(4);
 
     // Consume it — one time only
     expect(consumeFreeCall(agentA.account_id)).toBe(true);
     expect(getReferralCredits(agentA.account_id).free_calls_remaining).toBe(0);
 
-    // Re-calling initFreeCallGrant must NOT re-grant (initial_grant_given = 1)
-    initFreeCallGrant(agentA.account_id);
+    // More paid calls must NOT re-grant (initial_grant_given = 1)
+    recordPaidCall(agentA.account_id);
     expect(getReferralCredits(agentA.account_id).free_calls_remaining).toBe(0);
 
-    // ── Step 5: A brand-new agent gets the free call ────────────
+    // ── Step 5: A brand-new agent earns the 5th-call-free ────────
     const newAgent = createAccount("Brand-New", "new@agents.io");
-    initFreeCallGrant(newAgent.account_id);
+    for (let i = 0; i < 4; i++) recordPaidCall(newAgent.account_id);
     expect(getReferralCredits(newAgent.account_id).free_calls_remaining).toBe(1);
 
     // Consume the free call
@@ -105,7 +106,7 @@ describe("E2E Referral Lifecycle", () => {
     // ── Step 8: Incentives summary reflects full state ───────────
     const summary = buildIncentivesSummary(agentA.account_id);
     expect(summary.share_to_earn).toBeDefined();
-    expect(summary.free_call).toBeDefined();
+    expect(summary.fifth_call_free).toBeDefined();
 
     const status = summary.your_status as Record<string, unknown>;
     expect(status.referral_code).toBe(code.code);
@@ -173,8 +174,8 @@ describe("E2E Referral Lifecycle", () => {
   it("free call takes priority — no discount consumed", () => {
     const agent = createAccount("Free-First", "free@agents.io");
 
-    // Grant free call
-    initFreeCallGrant(agent.account_id);
+    // Grant 5th-call-free via 4 paid calls
+    for (let i = 0; i < 4; i++) recordPaidCall(agent.account_id);
     expect(getReferralCredits(agent.account_id).free_calls_remaining).toBe(1);
 
     // Also seed discount credits
@@ -205,8 +206,8 @@ describe("E2E Referral Lifecycle", () => {
     const disc1 = applyReferralDiscount(agent.account_id, baseCents);
     expect(disc1.final_cents).toBe(50); // would go to chargeMpp
 
-    // ── Grant free call (simulating one-time onboarding trigger) ──────
-    initFreeCallGrant(agent.account_id);
+    // ── Grant 5th-call-free (simulating 4 paid calls) ──────
+    for (let i = 0; i < 4; i++) recordPaidCall(agent.account_id);
 
     // ── Call 2: Free call consumed → no charge at all ───────────
     const free2 = consumeFreeCall(agent.account_id);

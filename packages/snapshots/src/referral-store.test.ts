@@ -8,7 +8,7 @@ import {
   recordReferralConversion,
   getReferralConversionCount,
   getReferralCredits,
-  initFreeCallGrant,
+  recordPaidCall,
   consumeFreeCall,
   applyReferralDiscount,
   buildIncentivesSummary,
@@ -109,37 +109,40 @@ describe("Referral Conversions", () => {
   });
 });
 
-// ─── Free Call Grant (One-Time Onboarding) ─────────────────────────────
+// ─── 5th Call Free (Paid Call Counting) ─────────────────────────────
 
-describe("Free Call Grant", () => {
-  it("grants one free call on first init", () => {
+describe("5th Call Free", () => {
+  it("does not grant free call before 4 paid calls", () => {
     const acct = createAccount("New", "new@example.com");
-    initFreeCallGrant(acct.account_id);
+    for (let i = 0; i < 3; i++) recordPaidCall(acct.account_id);
     const credits = getReferralCredits(acct.account_id);
-    expect(credits.free_calls_remaining).toBe(1);
+    expect(credits.paid_call_count).toBe(3);
+    expect(credits.free_calls_remaining).toBe(0);
   });
 
-  it("does not double-grant on second init", () => {
+  it("grants one free call on 4th paid call", () => {
     const acct = createAccount("New", "new@example.com");
-    initFreeCallGrant(acct.account_id);
-    initFreeCallGrant(acct.account_id);
+    for (let i = 0; i < 4; i++) recordPaidCall(acct.account_id);
     const credits = getReferralCredits(acct.account_id);
+    expect(credits.paid_call_count).toBe(4);
     expect(credits.free_calls_remaining).toBe(1);
+    expect(credits.initial_grant_given).toBe(1);
   });
 
   it("does not re-grant after free call is consumed", () => {
     const acct = createAccount("New", "new@example.com");
-    initFreeCallGrant(acct.account_id);
+    for (let i = 0; i < 4; i++) recordPaidCall(acct.account_id);
     expect(consumeFreeCall(acct.account_id)).toBe(true);
     expect(getReferralCredits(acct.account_id).free_calls_remaining).toBe(0);
-    // Re-calling initFreeCallGrant must NOT re-grant
-    initFreeCallGrant(acct.account_id);
+    // More paid calls must NOT re-grant
+    recordPaidCall(acct.account_id);
     expect(getReferralCredits(acct.account_id).free_calls_remaining).toBe(0);
+    expect(getReferralCredits(acct.account_id).paid_call_count).toBe(5);
   });
 
   it("consumeFreeCall returns true and decrements", () => {
     const acct = createAccount("New", "new@example.com");
-    initFreeCallGrant(acct.account_id);
+    for (let i = 0; i < 4; i++) recordPaidCall(acct.account_id);
     expect(consumeFreeCall(acct.account_id)).toBe(true);
     const credits = getReferralCredits(acct.account_id);
     expect(credits.free_calls_remaining).toBe(0);
@@ -147,7 +150,7 @@ describe("Free Call Grant", () => {
 
   it("consumeFreeCall returns false when none remaining", () => {
     const acct = createAccount("New", "new@example.com");
-    initFreeCallGrant(acct.account_id);
+    for (let i = 0; i < 4; i++) recordPaidCall(acct.account_id);
     consumeFreeCall(acct.account_id);
     expect(consumeFreeCall(acct.account_id)).toBe(false);
   });
@@ -201,7 +204,7 @@ describe("Incentives Summary", () => {
   it("returns base summary without account", () => {
     const summary = buildIncentivesSummary();
     expect(summary.share_to_earn).toBeDefined();
-    expect(summary.free_call).toBeDefined();
+    expect(summary.fifth_call_free).toBeDefined();
     expect(summary.referral_token_field).toBeDefined();
     expect(summary).not.toHaveProperty("your_status");
   });
