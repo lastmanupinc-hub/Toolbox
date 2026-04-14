@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T02:07:26.575Z",
+  "generated_at": "2026-04-14T02:25:34.655Z",
   "total_symbols": 1641,
   "file_count": 222,
   "symbols": {
@@ -1128,242 +1128,242 @@
       {
         "name": "result",
         "type": "function",
-        "line": 242
+        "line": 243
       },
       {
         "name": "result",
         "type": "function",
-        "line": 250
+        "line": 251
       },
       {
         "name": "result",
         "type": "function",
-        "line": 261
+        "line": 262
       },
       {
         "name": "result",
         "type": "function",
-        "line": 281
+        "line": 282
       },
       {
         "name": "result",
         "type": "function",
-        "line": 298
+        "line": 299
       },
       {
         "name": "result",
         "type": "function",
-        "line": 330
+        "line": 331
       },
       {
         "name": "result",
         "type": "function",
-        "line": 357
+        "line": 358
       },
       {
         "name": "result",
         "type": "function",
-        "line": 384
+        "line": 385
       },
       {
         "name": "result",
         "type": "function",
-        "line": 409
+        "line": 410
       },
       {
         "name": "result",
         "type": "function",
-        "line": 429
+        "line": 430
       },
       {
         "name": "result",
         "type": "function",
-        "line": 455
+        "line": 456
       },
       {
         "name": "result",
         "type": "function",
-        "line": 479
+        "line": 480
       },
       {
         "name": "result",
         "type": "function",
-        "line": 503
+        "line": 504
       },
       {
         "name": "result",
         "type": "function",
-        "line": 529
+        "line": 530
       },
       {
         "name": "result",
         "type": "function",
-        "line": 548
+        "line": 549
       },
       {
         "name": "result",
         "type": "function",
-        "line": 564
+        "line": 565
       },
       {
         "name": "result",
         "type": "function",
-        "line": 575
+        "line": 576
       },
       {
         "name": "result",
         "type": "function",
-        "line": 589
+        "line": 590
       },
       {
         "name": "result",
         "type": "function",
-        "line": 610
+        "line": 611
       },
       {
         "name": "result",
         "type": "function",
-        "line": 630
+        "line": 631
       },
       {
         "name": "result",
         "type": "function",
-        "line": 644
+        "line": 645
       },
       {
         "name": "result",
         "type": "function",
-        "line": 655
+        "line": 656
       },
       {
         "name": "result",
         "type": "function",
-        "line": 668
+        "line": 669
       },
       {
         "name": "result",
         "type": "function",
-        "line": 679
+        "line": 680
       },
       {
         "name": "result",
         "type": "function",
-        "line": 692
+        "line": 693
       },
       {
         "name": "result",
         "type": "function",
-        "line": 709
+        "line": 710
       },
       {
         "name": "result",
         "type": "function",
-        "line": 726
+        "line": 727
       },
       {
         "name": "result",
         "type": "function",
-        "line": 744
+        "line": 745
       },
       {
         "name": "result",
         "type": "function",
-        "line": 860
+        "line": 864
       },
       {
         "name": "result",
         "type": "function",
-        "line": 879
+        "line": 883
       },
       {
         "name": "result",
         "type": "function",
-        "line": 908
+        "line": 912
       },
       {
         "name": "result",
         "type": "function",
-        "line": 962
+        "line": 966
       },
       {
         "name": "result",
         "type": "function",
-        "line": 980
+        "line": 984
       },
       {
         "name": "top",
         "type": "function",
-        "line": 1038
+        "line": 1042
       },
       {
         "name": "scores",
         "type": "function",
-        "line": 1067
+        "line": 1071
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1094
+        "line": 1098
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1101
+        "line": 1105
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1107
+        "line": 1111
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1161
+        "line": 1165
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1176
+        "line": 1180
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1311
+        "line": 1315
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1328
+        "line": 1332
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1342
+        "line": 1346
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1358
+        "line": 1362
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1389
+        "line": 1393
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1417
+        "line": 1421
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1441
+        "line": 1445
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1461
+        "line": 1465
       }
     ],
     "apps/api/src/mcp-server.ts": [
@@ -1540,32 +1540,32 @@
       {
         "name": "toolArgs",
         "type": "function",
-        "line": 1606
+        "line": 1611
       },
       {
         "name": "ip",
         "type": "function",
-        "line": 1612
+        "line": 1617
       },
       {
         "name": "handleMcpPost",
         "type": "function",
-        "line": 1670
+        "line": 1675
       },
       {
         "name": "handleMcpGet",
         "type": "function",
-        "line": 1742
+        "line": 1747
       },
       {
         "name": "getMcpServerMeta",
         "type": "function",
-        "line": 1759
+        "line": 1793
       },
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 1842
+        "line": 1876
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [

@@ -1,18 +1,18 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T02:07:26.402Z",
+  "generated_at": "2026-04-14T02:25:34.477Z",
   "summary": {
     "total_files": 500,
-    "total_loc": 114084,
-    "estimated_total_tokens": 513378,
+    "total_loc": 114121,
+    "estimated_total_tokens": 513545,
     "primary_language": "TypeScript"
   },
   "language_breakdown": [
     {
       "language": "TypeScript",
       "files": 249,
-      "loc": 78312,
-      "estimated_tokens": 352404,
+      "loc": 78349,
+      "estimated_tokens": 352571,
       "percentage": 69
     },
     {
@@ -83,14 +83,14 @@
     {
       "operation": "full_project_context",
       "description": "Include entire project source as context",
-      "input_tokens": 513378,
+      "input_tokens": 513545,
       "output_tokens": 2000,
       "costs": [
         {
           "model": "GPT-4o",
-          "input_cost": 1.2834,
+          "input_cost": 1.2839,
           "output_cost": 0.02,
-          "total_cost": 1.3034
+          "total_cost": 1.3039
         },
         {
           "model": "GPT-4o-mini",
@@ -100,35 +100,35 @@
         },
         {
           "model": "Claude Sonnet 4",
-          "input_cost": 1.5401,
+          "input_cost": 1.5406,
           "output_cost": 0.03,
-          "total_cost": 1.5701
+          "total_cost": 1.5706
         },
         {
           "model": "Claude Haiku 3.5",
-          "input_cost": 0.4107,
+          "input_cost": 0.4108,
           "output_cost": 0.008,
-          "total_cost": 0.4187
+          "total_cost": 0.4188
         },
         {
           "model": "Gemini 2.5 Pro",
-          "input_cost": 0.6417,
+          "input_cost": 0.6419,
           "output_cost": 0.02,
-          "total_cost": 0.6617
+          "total_cost": 0.6619
         }
       ]
     },
     {
       "operation": "selective_context",
       "description": "Include top 10 files + config as context",
-      "input_tokens": 128345,
+      "input_tokens": 128386,
       "output_tokens": 2000,
       "costs": [
         {
           "model": "GPT-4o",
-          "input_cost": 0.3209,
+          "input_cost": 0.321,
           "output_cost": 0.02,
-          "total_cost": 0.3409
+          "total_cost": 0.341
         },
         {
           "model": "GPT-4o-mini",
@@ -138,9 +138,9 @@
         },
         {
           "model": "Claude Sonnet 4",
-          "input_cost": 0.385,
+          "input_cost": 0.3852,
           "output_cost": 0.03,
-          "total_cost": 0.415
+          "total_cost": 0.4152
         },
         {
           "model": "Claude Haiku 3.5",
@@ -150,9 +150,9 @@
         },
         {
           "model": "Gemini 2.5 Pro",
-          "input_cost": 0.1604,
+          "input_cost": 0.1605,
           "output_cost": 0.02,
-          "total_cost": 0.1804
+          "total_cost": 0.1805
         }
       ]
     },
@@ -197,14 +197,14 @@
     {
       "operation": "code_review",
       "description": "Review a diff with project context",
-      "input_tokens": 205351,
+      "input_tokens": 205418,
       "output_tokens": 3000,
       "costs": [
         {
           "model": "GPT-4o",
-          "input_cost": 0.5134,
+          "input_cost": 0.5135,
           "output_cost": 0.03,
-          "total_cost": 0.5434
+          "total_cost": 0.5435
         },
         {
           "model": "GPT-4o-mini",
@@ -214,9 +214,9 @@
         },
         {
           "model": "Claude Sonnet 4",
-          "input_cost": 0.6161,
+          "input_cost": 0.6163,
           "output_cost": 0.045,
-          "total_cost": 0.6611
+          "total_cost": 0.6613
         },
         {
           "model": "Claude Haiku 3.5",
@@ -226,9 +226,9 @@
         },
         {
           "model": "Gemini 2.5 Pro",
-          "input_cost": 0.2567,
+          "input_cost": 0.2568,
           "output_cost": 0.03,
-          "total_cost": 0.2867
+          "total_cost": 0.2868
         }
       ]
     }
@@ -246,5 +246,5 @@
     "Costs are per-operation — multiply by expected daily/weekly frequency"
   ],
   "source_file_count": 500,
-  "source_total_lines": 135145
+  "source_total_lines": 135183
 }

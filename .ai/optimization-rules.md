@@ -7,9 +7,9 @@
 | Metric | Value |
 |--------|-------|
 | Total files | 500 |
-| Total LOC | 114,084 |
+| Total LOC | 114,121 |
 | Average LOC / file | 228 |
-| Estimated token count | ~513,378 |
+| Estimated token count | ~513,545 |
 
 **Warning:** This project exceeds most context windows. Use selective context loading.
 
@@ -205,8 +205,8 @@ apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (54.5 KB)
-apps/api/src/mcp-server.ts (79.7 KB)
+apps/api/src/mcp-server.test.ts (54.7 KB)
+apps/api/src/mcp-server.ts (81.6 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
@@ -340,7 +340,7 @@ connector-map.yaml (6.7 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
-cost-estimate.json (6.0 KB)
+cost-estimate.json (5.9 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
 cro-playbook.md (33.0 KB)

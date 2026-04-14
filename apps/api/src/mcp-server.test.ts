@@ -189,8 +189,9 @@ describe("POST /mcp — initialize", () => {
     const info = result.serverInfo as Record<string, unknown>;
     expect(info.name).toBe("axis-toolbox");
     expect(result.instructions).toContain("analyze");
-    expect(result.instructions).toContain("Incentives");
-    expect(result.instructions).toContain("referral_token");
+    const incentives = result.incentives as Record<string, string>;
+    expect(incentives.referral).toContain("referral_token");
+    expect(incentives.onboarding).toContain("free");
   });
 
   it("includes Mcp-Session-Id header on initialize", async () => {
@@ -820,17 +821,20 @@ describe("POST /mcp — notifications", () => {
   });
 });
 
-describe("GET /mcp — SSE endpoint", () => {
-  it("returns 200 with text/event-stream content-type", async () => {
+describe("GET /mcp — human-readable summary", () => {
+  it("returns 200 with text/html content-type", async () => {
     const r = await get("/mcp");
     expect(r.status).toBe(200);
     const ct = r.headers["content-type"] as string;
-    expect(ct).toContain("text/event-stream");
+    expect(ct).toContain("text/html");
   });
 
-  it("body contains a data event", async () => {
+  it("body contains AXIS Toolbox heading and incentives", async () => {
     const r = await get("/mcp");
-    expect(String(r.data)).toContain("data:");
+    const body = String(r.data);
+    expect(body).toContain("AXIS Toolbox");
+    expect(body).toContain("Incentives");
+    expect(body).toContain("referral_token");
   });
 });
 
