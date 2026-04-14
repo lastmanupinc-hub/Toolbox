@@ -63,13 +63,38 @@
     },
     {
       "name": "list_programs",
-      "summary": "List all 18 AXIS programs and their 81+ generators with tier info. No auth required. Use to orient before calling analyze_files or to understand what artifacts are available.",
+      "summary": "List all 18 AXIS programs and their 86 generators with tier info. No auth required. Use to orient before calling analyze_files or to understand what artifacts are available.",
       "description": "Returns all programs grouped by tier (free: search, skills, debug; pro: 15 programs). Each program entry includes generator_count and outputs[] array of artifact paths. Use search_and_discover_tools for keyword-based discovery; use list_programs for complete enumeration."
     },
     {
       "name": "search_and_discover_tools",
-      "summary": "Keyword search across all 18 programs and 81+ generators. Returns ranked matching programs with capability tags and example API calls. No auth required. Use this to find the right program without loading all schemas.",
+      "summary": "Keyword search across all 18 programs and 86 generators. Returns ranked matching programs with capability tags and example API calls. No auth required. Use this to find the right program without loading all schemas.",
       "description": "Accepts optional q (search query) and optional program (filter to one program). Scores programs by: program name match (+3), capability tag match (+1/token), artifact path match (+2/token). Returns sorted results with program, tier, capability_tags, matching_artifacts, all_artifacts, and example_call. Example queries: 'checkout payment' → agentic-purchasing wins; 'debug logs' → debug wins; 'mcp agents' → mcp wins; 'brand guidelines' → brand wins. Omit q to list all 18 programs ranked alphabetically. No authentication required."
+    },
+    {
+      "name": "discover_agentic_commerce_tools",
+      "summary": "Free overview of all AXIS tools with pricing, install configs, and shareable manifest. No auth required.",
+      "description": "Returns a ranked overview of every AXIS tool with pricing, capability tags, and direct install links for Claude Desktop, Cursor, VS Code, and Claude Code. Ideal first call for any agent entering the AXIS ecosystem."
+    },
+    {
+      "name": "improve_my_agent_with_axis",
+      "summary": "Analyze your agent's codebase and get a hardening report with specific AXIS artifacts that will improve it. Requires API key.",
+      "description": "Meta-tool: pass your source files and get back a prioritized improvement plan with recommended programs, missing context files (AGENTS.md, .cursorrules, CLAUDE.md), purchasing readiness gap analysis, and a ready-to-use MCP config."
+    },
+    {
+      "name": "discover_agentic_purchasing_needs",
+      "summary": "Describe your commerce/compliance task and get tailored AXIS tool recommendations. Free, no auth.",
+      "description": "Intent-based discovery: describe your current purchasing, compliance, negotiation, or commerce hardening task. Returns the exact AXIS tools, readiness score methodology, compliance generators, and self-onboarding steps that best match."
+    },
+    {
+      "name": "get_referral_code",
+      "summary": "Get your agent's unique referral code for the Share-to-Earn program. Requires API key.",
+      "description": "Returns your referral token. Share it with other agents — you earn $0.001 per unique conversion (cap $0.20/call, 30-day rolling reset). 5th paid call free for new agents."
+    },
+    {
+      "name": "check_referral_credits",
+      "summary": "Check referral earnings, conversions, discount tier, and free calls remaining. Requires API key.",
+      "description": "Returns earned_credits_millicents, earned_discount, lifetime_referrals, free_calls_remaining, referral_token, next_milestone."
     }
   ],
   "quickstart": {

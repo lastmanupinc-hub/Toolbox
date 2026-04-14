@@ -18,7 +18,7 @@
 |----------|---------|------------|---------------|
 | AI Code Assistants | GitHub Copilot, Cursor, Cody, Tabnine | $2B+ (2024) | **Upstream enabler** — AXIS feeds context to these tools |
 | Static Analysis | SonarQube, ESLint, Semgrep, CodeClimate | $800M | **Different axis** — AXIS analyzes architecture, not lint rules |
-| Code Intelligence | Sourcegraph, Codeium, Codacy | $500M | **Deeper output** — 87 artifacts vs. search results |
+| Code Intelligence | Sourcegraph, Codeium, Codacy | $500M | **Deeper output** — 86 artifacts vs. search results |
 | DevOps Intelligence | LinearB, Sleuth, Faros AI | $300M | **Repo-level** — AXIS operates at code level, not workflow |
 | Documentation | Mintlify, ReadMe, GitBook | $200M | **Broader scope** — docs are 1 of 18 program outputs |
 | AI Dev Tools (new) | Devin, SWE-Agent, OpenHands | $1B+ (projected) | **Infrastructure layer** — AXIS provides the context these agents need |
@@ -38,7 +38,7 @@
 
 | Feature | AXIS Toolbox | Sourcegraph | SonarQube | Devin |
 |---------|-------------|-------------|-----------|-------|
-| Repo analysis | ✅ 87 artifacts | ✅ Search + navigation | ✅ Quality gates | ✅ Task completion |
+| Repo analysis | ✅ 86 artifacts | ✅ Search + navigation | ✅ Quality gates | ✅ Task completion |
 | Agent instructions gen | ✅ AGENTS.md, CLAUDE.md | ❌ | ❌ | ❌ |
 | Design tokens gen | ✅ Theme program | ❌ | ❌ | ❌ |
 | Brand guidelines gen | ✅ Brand program | ❌ | ❌ | ❌ |
@@ -87,7 +87,7 @@ The free tier is the product's moat. It delivers genuine value (Search + Debug +
 | # | Title | Format | Channel | Goal |
 |---|-------|--------|---------|------|
 | 1 | "Why Your AI Coding Assistant Needs Better Context" | Blog post (2,000 words) | Blog, HN, Dev.to | Problem awareness |
-| 2 | "87 Artifacts From One Upload: How AXIS Toolbox Works" | Technical deep-dive | Blog, YouTube | Product understanding |
+| 2 | "86 Artifacts From One Upload: How AXIS Toolbox Works" | Technical deep-dive | Blog, YouTube | Product understanding |
 | 3 | "The YAML Constitution: How We Built a Self-Governing AI System" | Architecture blog | Blog, HN | Technical credibility |
 | 4 | "From 0 to 99.99% Coverage: Testing an 18-Program Generator" | Engineering blog | Blog, Dev.to | Developer respect |
 | 5 | "Zero Dependencies: Why We Built Our Own HTTP Router" | Opinion piece | Blog, HN, Reddit | Philosophy alignment |
@@ -159,7 +159,7 @@ The free tier is the product's moat. It delivers genuine value (Search + Debug +
 | Column | Headline | Body |
 |--------|----------|------|
 | 1 | Make AI tools smarter | Generate AGENTS.md, CLAUDE.md, and .cursorrules that give your AI assistant real context about your codebase. |
-| 2 | 87 artifacts, zero effort | From architecture diagrams to marketing copy to design tokens — all generated from a single snapshot of your repo. |
+| 2 | 86 artifacts, zero effort | From architecture diagrams to marketing copy to design tokens — all generated from a single snapshot of your repo. |
 | 3 | Self-auditing quality | 83 of 83 capabilities at Grade A. 3,906 tests. 99.99% coverage. A system that checks its own work. |
 
 ### Social Proof Section

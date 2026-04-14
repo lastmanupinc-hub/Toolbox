@@ -143,8 +143,8 @@ describe("GET /llms.txt", () => {
     expect(body).toContain("POST /mcp");
   });
 
-  it("contains 10 MCP tools count", () => {
-    expect(body).toContain("10 tools");
+  it("contains 12 MCP tools count", () => {
+    expect(body).toContain("12 tools");
   });
 
   it("contains the 18 programs count", () => {

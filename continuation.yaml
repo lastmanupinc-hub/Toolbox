@@ -15,9 +15,9 @@ project_continuation:
   current_identity:
     project_name: "AXIS Toolbox"
     date: "2026-04-14"
-    commit_or_tag: "c8344c3"
-    current_session_id: "session_095"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3923 passing / 3931 total tests (8 skipped) across 132 files. MCP registry metadata enriched (server.json). /for-agents enhanced with system_prompt_snippet, integration_examples, pricing_table, demo_output. 5th-paid-call-free incentive LIVE. Schema v18."
+    commit_or_tag: "be1ae28"
+    current_session_id: "session_096"
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3923 passing / 3931 total tests (8 skipped) across 132 files. Position improvement coherence sweep: 25+ stale references fixed across handlers, generators, UI pages, static files, dogfood artifacts. All surfaces now show consistent 12 tools / 86 artifacts / 18 programs / 5th-call-free messaging."
 
   executive_truth:
     maturity_estimate:
@@ -31,7 +31,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 96
       integration_confidence: 98
-      notes: "3923 passing / 3931 total (8 skipped) across 132 files. MCP integration LIVE (12 tools). prepare_for_agentic_purchasing composite tool LIVE with referral_token input. Referral system LIVE: 3 SQLite tables (migration v18), 12 exported functions, chargeWithDiscounts() wired at all 7 billing sites, E2E integration tested. 5th-paid-call-free: recordPaidCall() tracks paid_call_count, grants free call after 4th paid call. Structured INCENTIVES_BLOCK in every MCP response. server.json enriched with _meta discovery (categories, keywords, pricing, incentives, discovery endpoints). 18 programs, 86 generators."
+      notes: "3923 passing / 3931 total (8 skipped) across 132 files. MCP integration LIVE (12 tools). Position improvement coherence sweep complete: all handler responses (capabilities, llms.txt, docs.md), all generated artifacts (.cursorrules), mcp-server.json, all 5 UI pages, static marketing/remotion/pipeline files, and dogfood artifacts (AGENTS.md, CLAUDE.md, .cursurrules) now show consistent 12 tools / 86 artifacts / 18 programs / 5th-call-free messaging. Published at mcp-publisher, Glama.ai, Smithery.ai with real probe traffic confirmed."
 
   boundary_truth:
     accepted_input_modes:
@@ -3636,5 +3636,48 @@ project_continuation:
       - "eq_193 manual steps: mcp-publisher publish, Glama.ai/Smithery.ai submission"
       - "eq_194 manual steps: r/mcp + X launch post, free credit offers"
       - "Dogfood regeneration needed: artifacts still reference pre-5th-call-free messaging"
-    commit_results: ["pending"]
-    push_results: ["pending"]
+    commit_results: ["ab2723f"]
+    push_results: ["pushed to main"]
+
+    session_id: "session_096"
+    selected_move: "Position improvement coherence sweep — fix 25+ stale references across all surfaces agents and users hit"
+    selected_move_roi_reason: "Phase shift: user confirmed real probes and users for 2 days, past emplacement, now position improvement. Stale counts (10 tools, 81 artifacts, 17 programs, 87 artifacts, One free call) on handler responses, generated artifacts, UI pages, marketing files, and dogfood create cognitive dissonance and undermine trust at the exact surface agents and users evaluate AXIS on."
+    completed_candidates:
+      - "handlers.ts: capabilities mcp.tools expanded 10→12 (added get_referral_code, check_referral_credits)"
+      - "handlers.ts: llms.txt '10 tools'→'12 tools' with full tool list"
+      - "handlers.ts: docs.md '10 tools'→'12 tools' with full tool list"
+      - "agent-discovery.test.ts: '10 tools'→'12 tools' assertion"
+      - "generators-skills.ts: .cursorrules template '10 MCP tools'→'12 MCP tools'"
+      - "mcp-server.json: '81+ generators'→'86 generators' (×2), +6 missing tool entries"
+      - "ForAgentsPage.tsx: 9 fixes — 7→12 tools, 81→86 artifacts (×6), 9→12 tools, +2 MCP_TOOLS entries"
+      - "InstallPage.tsx: 3 fixes — 7→12 tools, 81→86 generators, 10→12 MCP Tools with full list"
+      - "PlansPage.tsx: 17→18 programs"
+      - "ExamplesPage.tsx: 75→86 generators, 17→18 programs (×2)"
+      - "HelpPage.tsx: 17→18 programs (×2)"
+      - "marketing-pack.md: '87 artifacts'→'86 artifacts' (×4)"
+      - "remotion-pack.md: '87 Artifacts'→'86 Artifacts'"
+      - "ProgramPipeline.js: '87 Artifacts'→'86 Artifacts'"
+      - "AGENTS.md: 'One free call'→'5th call free — After 4 paid calls'"
+      - "CLAUDE.md: 'One free call per new account'→'5th paid call free for new agents'"
+      - ".cursorrules: 'One free call per new account'→'5th paid call free for new agents'"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "All handler responses (capabilities, llms.txt, docs.md) now show 12 tools"
+      - "All generated .cursorrules now show 12 MCP tools"
+      - "mcp-server.json registry lists all 12 tools with descriptions"
+      - "All 5 UI pages show consistent 12 tools / 86 artifacts / 18 programs"
+      - "All marketing/remotion/pipeline files show 86 artifacts"
+      - "All dogfood artifacts show 5th-call-free messaging"
+      - "132 test files / 3923 passed / 8 skipped / 0 failed"
+    verticals_advanced:
+      - "v18_agentic_commerce: all agent-facing surfaces now coherent"
+      - "position_improvement: trust-building through consistent messaging"
+    blockers_removed:
+      - "25+ stale references across 15 files creating inconsistent messaging"
+      - "Dogfood artifacts referencing pre-5th-call-free incentive"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193/eq_194 manual steps DONE per user (published, posted)"
+    commit_results: ["be1ae28"]
+    push_results: ["pushed to main"]

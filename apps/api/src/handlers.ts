@@ -2040,7 +2040,7 @@ export async function handleCapabilities(
         "analyze_repo", "analyze_files", "get_snapshot", "get_artifact",
         "list_programs", "prepare_for_agentic_purchasing", "search_and_discover_tools",
         "discover_agentic_commerce_tools", "improve_my_agent_with_axis",
-        "discover_agentic_purchasing_needs",
+        "discover_agentic_purchasing_needs", "get_referral_code", "check_referral_credits",
       ],
     },
     examples_repo: "https://github.com/lastmanupinc-hub/axis-toolbox-examples",
@@ -2073,7 +2073,7 @@ AXIS Toolbox is an API that accepts source files (or a GitHub URL) and returns s
 Connect directly via Model Context Protocol (Streamable HTTP, 2025-03-26 spec):
 
 - Endpoint: POST /mcp
-- 10 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs
+- 12 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
 - No installation required  -  connect any MCP-compatible agent to https://axis-api-6c7z.onrender.com/mcp
 
 ## Programs (18 total)
@@ -2269,7 +2269,7 @@ List all programs with generator counts and output paths. No auth required.
 
 - \`POST /mcp\`  -  Streamable HTTP transport (2025-03-26 spec)
 - \`GET /mcp\`  -  SSE stream for long-running operations
-- 10 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs
+- 12 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
 
 ## Search & Indexing
 

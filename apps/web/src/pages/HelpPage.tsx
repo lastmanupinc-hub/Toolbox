@@ -34,7 +34,7 @@ const TROUBLESHOOTING: TroubleshootItem[] = [
   { problem: "API shows red dot in the status bar", solution: "The API server isn't running. Start it with `pnpm dev` in the apps/api directory. Make sure port 4000 is available." },
   { problem: "\"Unauthorized\" error on program run", solution: "Your API key may be missing or invalid. Go to Account, check your key, or create a new one. Keys must start with axis_." },
   { problem: "Dashboard won't load after upload", solution: "The upload may have failed silently. Check the browser console for errors. Try re-uploading with a smaller project first." },
-  { problem: "Programs show as locked", solution: "You're on the Free tier which includes 3 programs. Upgrade to Pro or Enterprise to unlock all 17 programs." },
+  { problem: "Programs show as locked", solution: "You're on the Free tier which includes 3 programs. Upgrade to Pro or Enterprise to unlock all 18 programs." },
   { problem: "ZIP upload fails", solution: "Ensure the ZIP file isn't corrupted and contains source files. Maximum recommended size is 50MB. Very large repos should use GitHub URL instead." },
   { problem: "Search returns no results", solution: "You need to build the search index first. Go to the Search tab and click 'Index Snapshot' before running queries." },
   { problem: "Slow analysis for large repo", solution: "Large repositories take longer to scan. Consider uploading only the relevant source directories instead of the entire project root." },
@@ -575,7 +575,7 @@ function AccountGuideSection() {
         <h3 style={{ marginBottom: 12 }}>Upgrading Your Plan</h3>
         <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem", lineHeight: 1.7 }}>
           Visit the Plans page to compare tiers. The Free plan includes 3 core programs and 10
-          snapshots per month. Pro unlocks all 17 programs, 200 snapshots, and team seats.
+          snapshots per month. Pro unlocks all 18 programs, 200 snapshots, and team seats.
           Enterprise offers unlimited usage with dedicated support.
         </p>
         <table style={{ marginTop: 12 }}>

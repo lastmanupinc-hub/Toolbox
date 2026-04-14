@@ -116,7 +116,7 @@ export function InstallPage() {
           Install AXIS Toolbox
         </h1>
         <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: 20 }}>
-          Add AXIS as an MCP server in your AI tool. One config block — your assistant gets 7 tools, 18 programs, and 81 generators for any codebase.
+          Add AXIS as an MCP server in your AI tool. One config block — your assistant gets 12 tools, 18 programs, and 86 generators for any codebase.
         </p>
 
         {/* Platform tabs */}
@@ -164,9 +164,9 @@ export function InstallPage() {
         <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 12 }}>What Your Agent Gets</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           {[
-            { label: "10 MCP Tools", desc: "analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs" },
+            { label: "12 MCP Tools", desc: "analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits" },
             { label: "18 Programs", desc: "search, skills, debug, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic, agentic-purchasing" },
-            { label: "81 Generators", desc: "AGENTS.md, CLAUDE.md, .cursorrules, mcp-config.json, debug-playbook.md, design-tokens.json, and 75 more" },
+            { label: "86 Generators", desc: "AGENTS.md, CLAUDE.md, .cursorrules, mcp-config.json, debug-playbook.md, design-tokens.json, and 80 more" },
             { label: "Autonomous Payment", desc: "HTTP 402 → MPP challenge → Stripe payment → retry. $0.50/run. No human needed." },
           ].map(item => (
             <div key={item.label} style={{ padding: "12px 14px", border: "1px solid var(--border)", borderRadius: "var(--radius)" }}>
