@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-toolbox
 
-> monorepo | TypeScript | 500 files | 114,670 LOC
+> monorepo | TypeScript | 500 files | 114,741 LOC
 
 **Stack:** React ^19.1.0
 
@@ -265,7 +265,7 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
-... (297 more lines)
+... (298 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

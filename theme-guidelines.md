@@ -178,7 +178,7 @@ Routes detected — consider zone-based theming:
 - `/.well-known/axis.json` (GET) → apps/api/src/agent-discovery.test.ts
 - `/for-agents` (GET) → apps/api/src/agent-discovery.test.ts
 - `/v1/install` (GET) → apps/api/src/agent-discovery.test.ts
-- … and 417 more routes
+- … and 419 more routes
 
 ## Domain-Specific Tokens
 
@@ -239,7 +239,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T04:24:50.810Z",
+  "generated_at": "2026-04-14T05:22:05.148Z",
   "detected_stack": [
     {
       "name": "React",
@@ -265,7 +265,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T04:24:51.256Z",
+  "generated_at": "2026-04-14T05:22:05.306Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [

@@ -351,7 +351,7 @@ import {
   handleNotebookGenerate,
   handleObsidianAnalyze,
   handleMcpProvision,
-... (302 more lines)
+... (303 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

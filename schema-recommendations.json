@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T05:01:48.976Z",
+  "generated_at": "2026-04-14T05:22:14.894Z",
   "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.",
   "detected_stack": [
     {
@@ -9,7 +9,7 @@
       "confidence": 0.95
     }
   ],
-  "total_recommendations": 26,
+  "total_recommendations": 28,
   "recommendations": [
     {
       "page": "/",
@@ -78,6 +78,17 @@
       ]
     },
     {
+      "page": "/mcp/docs",
+      "schema_type": "TechArticle",
+      "priority": "medium",
+      "fields": [
+        "headline",
+        "author",
+        "datePublished",
+        "proficiencyLevel"
+      ]
+    },
+    {
       "page": "/users/:userId/posts/:postId",
       "schema_type": "Article",
       "priority": "high",
@@ -102,6 +113,17 @@
     },
     {
       "page": "/v1/docs.md",
+      "schema_type": "TechArticle",
+      "priority": "medium",
+      "fields": [
+        "headline",
+        "author",
+        "datePublished",
+        "proficiencyLevel"
+      ]
+    },
+    {
+      "page": "/mcp/docs",
       "schema_type": "TechArticle",
       "priority": "medium",
       "fields": [

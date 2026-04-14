@@ -1,6 +1,6 @@
 # UI Audit — axis-toolbox
 
-Generated: 2026-04-14T05:01:49.140Z
+Generated: 2026-04-14T05:22:15.087Z
 
 ## Project Overview
 
@@ -20,7 +20,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Styling | CSS/SCSS |
 | TypeScript | Yes |
 | UI Libraries | uuid |
-| Total Routes | 429 |
+| Total Routes | 431 |
 | Entry Points | 0 |
 
 ## Accessibility Checklist

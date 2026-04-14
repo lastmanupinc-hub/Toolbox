@@ -82,7 +82,7 @@ AI-native development operating system. Upload or point at any codebase — get 
 - `POST /probe-intent` → apps/api/src/server.ts
 - `GET /v1/install` → apps/api/src/server.ts
 - `GET /v1/install/:platform` → apps/api/src/server.ts
-- *… 54 more (see OpenAPI spec or `/v1/docs`)*
+- *… 55 more (see OpenAPI spec or `/v1/docs`)*
 
 ### Domain Models
 

@@ -219,6 +219,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | POST | `/v1/snapshots` | apps/api/src/logging.test.ts | NORMAL |
 | POST | `/mcp` | apps/api/src/mcp-server.test.ts | NORMAL |
 | GET | `/mcp` | apps/api/src/mcp-server.test.ts | NORMAL |
+| GET | `/mcp/docs` | apps/api/src/mcp-server.test.ts | NORMAL |
 | GET | `/v1/mcp/server.json` | apps/api/src/mcp-server.test.ts | NORMAL |
 | POST | `/v1/accounts` | apps/api/src/mcp-server.test.ts | NORMAL |
 | POST | `/v1/account/keys` | apps/api/src/mcp-server.test.ts | NORMAL |
@@ -351,6 +352,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/v1/programs` | apps/api/src/server.ts | NORMAL |
 | POST | `/mcp` | apps/api/src/server.ts | NORMAL |
 | GET | `/mcp` | apps/api/src/server.ts | NORMAL |
+| GET | `/mcp/docs` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/stats` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/mcp/server.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts | NORMAL |
@@ -679,7 +681,7 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
-... (297 more lines)
+... (298 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -26,8 +26,10 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/users/:userId/posts/:postId` | 0.8 | weekly | Yes | Content page — high traffic potential |
 | `/v1/docs.md` | 0.7 | monthly | Yes | Documentation — long-tail SEO value |
 | `/v1/docs` | 0.7 | monthly | Yes | Documentation — long-tail SEO value |
+| `/mcp/docs` | 0.7 | monthly | Yes | Documentation — long-tail SEO value |
 | `/v1/docs` | 0.7 | monthly | Yes | Documentation — long-tail SEO value |
 | `/v1/docs.md` | 0.7 | monthly | Yes | Documentation — long-tail SEO value |
+| `/mcp/docs` | 0.7 | monthly | Yes | Documentation — long-tail SEO value |
 | `/v1/health` | 0.5 | monthly | Yes | Standard page |
 | `/v1/admin/stats` | 0.5 | monthly | Yes | Standard page |
 | `/v1/admin/activity` | 0.5 | monthly | Yes | Standard page |
@@ -249,8 +251,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Summary
 
-- **Total routes:** 230
-- **Indexable:** 168
+- **Total routes:** 232
+- **Indexable:** 170
 - **Noindex:** 62
 
 ## API Routes (Excluded)

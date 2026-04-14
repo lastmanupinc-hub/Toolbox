@@ -16,7 +16,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (114670 LOC)
+- **Files:** 500 (114741 LOC)
 - **Directories:** 61
 
 ## Frameworks & Libraries
@@ -242,6 +242,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | POST | `/v1/snapshots` | apps/api/src/logging.test.ts |
 | POST | `/mcp` | apps/api/src/mcp-server.test.ts |
 | GET | `/mcp` | apps/api/src/mcp-server.test.ts |
+| GET | `/mcp/docs` | apps/api/src/mcp-server.test.ts |
 | GET | `/v1/mcp/server.json` | apps/api/src/mcp-server.test.ts |
 | POST | `/v1/accounts` | apps/api/src/mcp-server.test.ts |
 | POST | `/v1/account/keys` | apps/api/src/mcp-server.test.ts |
@@ -374,6 +375,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | GET | `/v1/programs` | apps/api/src/server.ts |
 | POST | `/mcp` | apps/api/src/server.ts |
 | GET | `/mcp` | apps/api/src/server.ts |
+| GET | `/mcp/docs` | apps/api/src/server.ts |
 | GET | `/v1/stats` | apps/api/src/server.ts |
 | GET | `/v1/mcp/server.json` | apps/api/src/server.ts |
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts |
@@ -601,8 +603,8 @@ apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (56.7 KB)
-apps/api/src/mcp-server.ts (88.1 KB)
+apps/api/src/mcp-server.test.ts (58.2 KB)
+apps/api/src/mcp-server.ts (88.4 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
@@ -627,7 +629,7 @@ apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.2 KB)
-apps/api/src/server.ts (11.8 KB)
+apps/api/src/server.ts (11.9 KB)
 apps/api/src/snapshot-auth.test.ts (12.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -691,7 +693,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (69.0 KB)
+architecture-summary.md (69.1 KB)
 artifact-spec.md (7.4 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -736,10 +738,10 @@ connector-map.yaml (6.7 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
-cost-estimate.json (6.0 KB)
+cost-estimate.json (5.9 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
-cro-playbook.md (33.1 KB)
+cro-playbook.md (33.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.3 KB)
 debug/begin.yaml (3.6 KB)
@@ -789,7 +791,7 @@ marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (11.7 KB)
+mcp-config.json (11.8 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
@@ -1039,10 +1041,10 @@ render.yaml (1.2 KB)
 repo_snapshot.yaml (80.7 KB)
 research-threads.md (3.7 KB)
 root-cause-checklist.md (22.2 KB)
-route-priority-map.md (28.0 KB)
+route-priority-map.md (28.1 KB)
 rules to compile snapshot.yaml (19.4 KB)
 scene-plan.md (2.8 KB)
-schema-recommendations.json (6.3 KB)
+schema-recommendations.json (6.7 KB)
 scripts/regenerate.ps1 (1.4 KB)
 scripts/regenerate.sh (0.8 KB)
 search/begin.yaml (3.7 KB)
@@ -1091,7 +1093,7 @@ import {
   handlePreparePurchasing,
   handleWellKnown,
   handleCapabilities,
-... (292 more lines)
+... (293 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -1,7 +1,7 @@
 version: 1.0.0
-snapshot_id: 2453805c-497c-47e6-b18b-060d33960628
-project_id: cc8dc1ac-095f-4e7d-bd7e-f8cbc94c1717
-generated_at: "2026-04-14T05:01:48.934Z"
+snapshot_id: de0e75c5-d24c-40d6-a32b-592aa5051ee1
+project_id: 8a610473-f272-4d12-8c22-4f7781dd214f
+generated_at: "2026-04-14T05:22:14.841Z"
 project:
   name: axis-toolbox
   type: monorepo
@@ -14,19 +14,19 @@ detection:
   languages:
     - name: TypeScript
       file_count: 250
-      loc: 78792
+      loc: 78834
       loc_percent: 69.6
     - name: JSON
       file_count: 63
-      loc: 12620
-      loc_percent: 11.1
+      loc: 12643
+      loc_percent: 11.2
     - name: YAML
       file_count: 68
       loc: 10876
       loc_percent: 9.6
     - name: Markdown
       file_count: 106
-      loc: 9229
+      loc: 9235
       loc_percent: 8.1
     - name: CSS
       file_count: 2
@@ -76,7 +76,7 @@ detection:
 structure_summary:
   total_files: 500
   total_directories: 61
-  total_loc: 114670
+  total_loc: 114741
   top_level_dirs:
     - name: packages
       purpose: monorepo_packages
@@ -214,8 +214,8 @@ apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (56.7 KB)
-apps/api/src/mcp-server.ts (88.1 KB)
+apps/api/src/mcp-server.test.ts (58.2 KB)
+apps/api/src/mcp-server.ts (88.4 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
@@ -240,7 +240,7 @@ apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.2 KB)
-apps/api/src/server.ts (11.8 KB)
+apps/api/src/server.ts (11.9 KB)
 apps/api/src/snapshot-auth.test.ts (12.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -304,7 +304,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (69.0 KB)
+architecture-summary.md (69.1 KB)
 artifact-spec.md (7.4 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -349,10 +349,10 @@ connector-map.yaml (6.7 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
-cost-estimate.json (6.0 KB)
+cost-estimate.json (5.9 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
-cro-playbook.md (33.1 KB)
+cro-playbook.md (33.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.3 KB)
 debug/begin.yaml (3.6 KB)
@@ -402,7 +402,7 @@ marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (11.7 KB)
+mcp-config.json (11.8 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
@@ -652,10 +652,10 @@ render.yaml (1.2 KB)
 repo_snapshot.yaml (80.7 KB)
 research-threads.md (3.7 KB)
 root-cause-checklist.md (22.2 KB)
-route-priority-map.md (28.0 KB)
+route-priority-map.md (28.1 KB)
 rules to compile snapshot.yaml (19.4 KB)
 scene-plan.md (2.8 KB)
-schema-recommendations.json (6.3 KB)
+schema-recommendations.json (6.7 KB)
 scripts/regenerate.ps1 (1.4 KB)
 scripts/regenerate.sh (0.8 KB)
 search/begin.yaml (3.7 KB)

@@ -19,17 +19,17 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | pnpm |
-| Files | 500 files, 114,670 LOC |
+| Files | 500 files, 114,741 LOC |
 | Separation Score | 0.64/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 250 | 78,792 | 69.6% |
-| JSON | 63 | 12,620 | 11.1% |
+| TypeScript | 250 | 78,834 | 69.6% |
+| JSON | 63 | 12,643 | 11.2% |
 | YAML | 68 | 10,876 | 9.6% |
-| Markdown | 106 | 9,229 | 8.1% |
+| Markdown | 106 | 9,235 | 8.1% |
 | CSS | 2 | 849 | 0.7% |
 | JavaScript | 3 | 673 | 0.6% |
 | HTML | 1 | 120 | 0.1% |
@@ -456,6 +456,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | POST | `/v1/snapshots` | apps/api/src/logging.test.ts |
 | POST | `/mcp` | apps/api/src/mcp-server.test.ts |
 | GET | `/mcp` | apps/api/src/mcp-server.test.ts |
+| GET | `/mcp/docs` | apps/api/src/mcp-server.test.ts |
 | GET | `/v1/mcp/server.json` | apps/api/src/mcp-server.test.ts |
 | POST | `/v1/accounts` | apps/api/src/mcp-server.test.ts |
 | POST | `/v1/account/keys` | apps/api/src/mcp-server.test.ts |
@@ -588,6 +589,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/programs` | apps/api/src/server.ts |
 | POST | `/mcp` | apps/api/src/server.ts |
 | GET | `/mcp` | apps/api/src/server.ts |
+| GET | `/mcp/docs` | apps/api/src/server.ts |
 | GET | `/v1/stats` | apps/api/src/server.ts |
 | GET | `/v1/mcp/server.json` | apps/api/src/server.ts |
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts |
@@ -752,7 +754,7 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
-... (297 more lines)
+... (298 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -1871,8 +1871,17 @@ export async function handleMcpPost(
   res.end(body);
 }
 
-/** GET /mcp — human-readable summary for browsers / crawlers; agents use POST */
+/** GET /mcp — MCP server manifest JSON with incentives-first for probe discoverability */
 export async function handleMcpGet(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const { sendJSON } = await import("./router.js");
+  sendJSON(res, 200, getMcpServerMeta());
+}
+
+/** GET /mcp/docs — human-readable HTML documentation for browsers */
+export async function handleMcpDocs(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {

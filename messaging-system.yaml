@@ -1,6 +1,6 @@
 # Messaging System
 # Project: axis-toolbox
-# Generated: 2026-04-14T05:01:49.009Z
+# Generated: 2026-04-14T05:22:14.933Z
 # Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
 
 product:
@@ -11,7 +11,7 @@ product:
 
 taglines:
   primary: "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models."
-  technical: "React monorepo — 500 files, 114,670 lines of TypeScript"
+  technical: "React monorepo — 500 files, 114,741 lines of TypeScript"
   conceptual: "Built around packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory)"
 
 value_propositions:
@@ -19,8 +19,8 @@ value_propositions:
     headline: "React Expertise"
     detail: "Built with React ^19.1.0 — stack-native patterns throughout."
   - id: api_surface
-    headline: "429 API Endpoints"
-    detail: "Complete API with 230 GET, 179 POST, 20 DELETE — ready for integration."
+    headline: "431 API Endpoints"
+    detail: "Complete API with 232 GET, 179 POST, 20 DELETE — ready for integration."
   - id: domain_model
     headline: "152 Domain Entities"
     detail: "Rich domain model with AuthContext, EnvSpec, ValidationError, ValidationResult, ZipEntry and 147 more."
@@ -33,8 +33,8 @@ value_propositions:
 
 feature_messages:
   api_surface:
-    count: 429
-    message: "429 API endpoints ready for integration"
+    count: 431
+    message: "431 API endpoints ready for integration"
     routes:
       - "GET /v1/health"
       - "POST /v1/accounts"
@@ -50,10 +50,10 @@ feature_messages:
     count: 10
     message: "10 languages detected and analyzed"
     breakdown:
-      - "TypeScript: 78,792 lines (69.6%)"
-      - "JSON: 12,620 lines (11.1%)"
+      - "TypeScript: 78,834 lines (69.6%)"
+      - "JSON: 12,643 lines (11.2%)"
       - "YAML: 10,876 lines (9.6%)"
-      - "Markdown: 9,229 lines (8.1%)"
+      - "Markdown: 9,235 lines (8.1%)"
       - "CSS: 849 lines (0.7%)"
   framework_detection:
     count: 1

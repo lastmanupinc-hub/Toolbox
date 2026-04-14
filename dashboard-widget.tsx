@@ -37,7 +37,7 @@ export function DashboardWidget() {
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
         <StatCard label="TypeScript" value={`${69.6}%`} />
-        <StatCard label="JSON" value={`${11.1}%`} />
+        <StatCard label="JSON" value={`${11.2}%`} />
         <StatCard label="YAML" value={`${9.6}%`} />
       </div>
       <div className="framework-tags">
@@ -60,8 +60,8 @@ export default DashboardWidget;
 // apps/web/src/components/AxisIcons.tsx | 3 in | 0 out | risk 0.15
 // apps/web/src/upload-utils.ts | 3 in | 0 out | risk 0.15
 
-// ─── API Surface: 429 routes ───
-// GET: 230 endpoints
+// ─── API Surface: 431 routes ───
+// GET: 232 endpoints
 // POST: 179 endpoints
 // DELETE: 20 endpoints
 

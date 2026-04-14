@@ -77,7 +77,7 @@ import {
   handleGetFunnelMetrics,
 } from "./funnel.js";
 import { handleExportZip } from "./export.js";
-import { handleMcpPost, handleMcpGet, handleMcpServerJson, runSearchTools, getMcpCallCounters } from "./mcp-server.js";
+import { handleMcpPost, handleMcpGet, handleMcpDocs, handleMcpServerJson, runSearchTools, getMcpCallCounters } from "./mcp-server.js";
 import { buildOpenApiSpec } from "./openapi.js";
 import { handleLiveness, handleReadiness, handleMetrics } from "./metrics.js";
 import { handleAdminStats, handleAdminAccounts, handleAdminActivity } from "./admin.js";
@@ -228,6 +228,7 @@ router.get("/v1/programs", async (_req, res) => {
 // MCP Server — Streamable HTTP transport (2025-03-26)
 router.post("/mcp", handleMcpPost);
 router.get("/mcp", handleMcpGet);
+router.get("/mcp/docs", handleMcpDocs);
 
 // Anonymous call stats (no auth required)
 router.get("/v1/stats", async (_req, res) => {

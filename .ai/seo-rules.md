@@ -244,6 +244,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/snapshots` | POST | API route — exclude from sitemap |
 | `/mcp` | POST | API route — exclude from sitemap |
 | `/mcp` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/docs` | GET | Add TechArticle schema · high crawl priority |
 | `/v1/mcp/server.json` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/accounts` | POST | API route — exclude from sitemap |
 | `/v1/account/keys` | POST | API route — exclude from sitemap |
@@ -376,6 +377,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/programs` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/mcp` | POST | API route — exclude from sitemap |
 | `/mcp` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/docs` | GET | Add TechArticle schema · high crawl priority |
 | `/v1/stats` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/mcp/server.json` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/mcp/tools` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -559,7 +561,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-toolbox
-# Generated: 2026-04-14T04:24:50.932Z
+# Generated: 2026-04-14T05:22:05.192Z
 
 manifest:
   project: "axis-toolbox"

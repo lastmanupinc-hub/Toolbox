@@ -103,7 +103,7 @@ import {
   handlePreparePurchasing,
   handleWellKnown,
   handleCapabilities,
-... (292 more lines)
+... (293 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

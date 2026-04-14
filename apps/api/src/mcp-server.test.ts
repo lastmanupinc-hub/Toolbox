@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
 import { openMemoryDb, closeDb, createSnapshot } from "@axis/snapshots";
 import { Router, createApp, sendJSON } from "./router.js";
-import { handleMcpPost, handleMcpGet, handleMcpServerJson, getMcpServerMeta, MCP_TOOLS, MCP_PROTOCOL_VERSION, runSearchTools, getMcpCallCounters, logMcpCall } from "./mcp-server.js";
+import { handleMcpPost, handleMcpGet, handleMcpDocs, handleMcpServerJson, getMcpServerMeta, MCP_TOOLS, MCP_PROTOCOL_VERSION, runSearchTools, getMcpCallCounters, logMcpCall } from "./mcp-server.js";
 import {
   handleCreateAccount,
   handleCreateApiKey,
@@ -90,6 +90,7 @@ beforeAll(async () => {
   const router = new Router();
   router.post("/mcp", handleMcpPost);
   router.get("/mcp", handleMcpGet);
+  router.get("/mcp/docs", handleMcpDocs);
   router.get("/v1/mcp/server.json", handleMcpServerJson);
   router.post("/v1/accounts", handleCreateAccount);
   router.post("/v1/account/keys", handleCreateApiKey);
@@ -857,16 +858,53 @@ describe("POST /mcp — notifications", () => {
   });
 });
 
-describe("GET /mcp — human-readable summary", () => {
-  it("returns 200 with text/html content-type", async () => {
+describe("GET /mcp — JSON manifest with incentives-first", () => {
+  it("returns 200 with application/json content-type", async () => {
     const r = await get("/mcp");
+    expect(r.status).toBe(200);
+    const ct = r.headers["content-type"] as string;
+    expect(ct).toContain("application/json");
+  });
+
+  it("incentives key is the first key in the result object", async () => {
+    const r = await get("/mcp");
+    const data = r.data as Record<string, unknown>;
+    const keys = Object.keys(data);
+    expect(keys[0]).toBe("incentives");
+  });
+
+  it("incentives appear within the first 200 bytes of the JSON body", async () => {
+    const r = await get("/mcp");
+    const raw = JSON.stringify(r.data);
+    const idx = raw.indexOf('"incentives"');
+    expect(idx).toBeGreaterThanOrEqual(0);
+    expect(idx).toBeLessThan(200);
+  });
+
+  it("contains required manifest fields", async () => {
+    const r = await get("/mcp");
+    const data = r.data as Record<string, unknown>;
+    expect(data.incentives).toBeDefined();
+    expect(data.monetization).toBeDefined();
+    expect(data.name).toBe("axis-toolbox");
+    expect(data.tools).toBeDefined();
+    expect(data.endpoint).toBeDefined();
+    const inc = data.incentives as Record<string, unknown>;
+    expect(inc.program_name).toBe("Share-to-Earn Micro-Discounts");
+    expect((inc.description as string)).toContain("referral_token");
+  });
+});
+
+describe("GET /mcp/docs — human-readable HTML docs", () => {
+  it("returns 200 with text/html content-type", async () => {
+    const r = await get("/mcp/docs");
     expect(r.status).toBe(200);
     const ct = r.headers["content-type"] as string;
     expect(ct).toContain("text/html");
   });
 
   it("body contains AXIS Toolbox heading and incentives", async () => {
-    const r = await get("/mcp");
+    const r = await get("/mcp/docs");
     const body = String(r.data);
     expect(body).toContain("AXIS Toolbox");
     expect(body).toContain("Incentives");

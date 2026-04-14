@@ -232,6 +232,7 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/snapshots` | POST | Track API adoption rate per endpoint |
 | `/mcp` | POST | Monitor usage metrics |
 | `/mcp` | GET | Monitor usage metrics |
+| `/mcp/docs` | GET | Track documentation coverage and bounce rate |
 | `/v1/mcp/server.json` | GET | Track API adoption rate per endpoint |
 | `/v1/accounts` | POST | Track API adoption rate per endpoint |
 | `/v1/account/keys` | POST | Track API adoption rate per endpoint |
@@ -364,6 +365,7 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/programs` | GET | Track API adoption rate per endpoint |
 | `/mcp` | POST | Monitor usage metrics |
 | `/mcp` | GET | Monitor usage metrics |
+| `/mcp/docs` | GET | Track documentation coverage and bounce rate |
 | `/v1/stats` | GET | Track API adoption rate per endpoint |
 | `/v1/mcp/server.json` | GET | Track API adoption rate per endpoint |
 | `/v1/mcp/tools` | GET | Track API adoption rate per endpoint |
@@ -487,7 +489,7 @@ Detected routes that are candidates for conversion optimization:
 
 ### Experiment 4: Documentation Navigation
 
-- **Route**: `GET /v1/docs.md`, `GET /v1/docs`, `GET /v1/docs`, `GET /v1/docs.md`
+- **Route**: `GET /v1/docs.md`, `GET /v1/docs`, `GET /mcp/docs`, `GET /v1/docs`, `GET /v1/docs.md`, `GET /mcp/docs`
 - **Hypothesis**: Task-oriented docs will reduce support issues by 30%
 - **Metric**: Issue creation rate for how-to questions, docs bounce rate
 - **Variants**: A: Current structure | B: Task-oriented guides ("How to X" pattern)
@@ -497,7 +499,7 @@ Detected routes that are candidates for conversion optimization:
 
 - **Hypothesis**: A guided first-run wizard will increase first-value moment by 35%
 - **Metric**: Features used in first session, time to first successful output
-- **Context**: 429 API endpoints — users need a path through the complexity
+- **Context**: 431 API endpoints — users need a path through the complexity
 - **Variants**: A: Self-discovery | B: Step-by-step first-run guide with progress indicator
 - **Duration**: 3 weeks
 
