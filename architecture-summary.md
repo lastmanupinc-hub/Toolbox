@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.
 
 ## Detected Stack
 
@@ -16,8 +16,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 466 (107233 LOC)
-- **Directories:** 65
+- **Files:** 500 (117597 LOC)
+- **Directories:** 60
 
 ## Frameworks & Libraries
 
@@ -488,9 +488,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 - `optimization/` — project_directory (4 files)
 - `remotion/` — project_directory (4 files)
 - `seo/` — project_directory (4 files)
-- `skills/` — project_directory (4 files)
-- `superpowers/` — project_directory (4 files)
-- `theme/` — project_directory (4 files)
+- `skills/` — project_directory (1 files)
 
 ## Dependency Hotspots
 
@@ -505,7 +503,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 
 ## Domain Models
 
-Detected 146 domain models:
+Detected 151 domain models:
 
 | Model | Kind | Fields | Source |
 |-------|------|--------|--------|
@@ -534,7 +532,7 @@ Detected 146 domain models:
 | `RunResult` | interface | 4 | apps/cli/src/runner.ts |
 | `ScanResult` | interface | 3 | apps/cli/src/scanner.ts |
 | `WriteResult` | interface | 3 | apps/cli/src/writer.ts |
-| *… 121 more* | | | |
+| *… 126 more* | | | |
 
 > **High-complexity models** (8+ fields): `ContextMap`, `SnapshotResponse`, `SubscriptionInfo`, `UpgradePrompt`, `ProgramDoc`, `ContextMap`, `RepoProfile`, `CommerceSignals`, `ParseResult`, `UsageRecord`, `EmailDelivery`, `FunnelMetrics`, `Seat`, `UpgradePrompt`, `GitHubToken`, `StripeSubscription`, `TierChange`, `SnapshotManifest`, `SnapshotRecord`, `VersionDiff`, `Webhook`, `WebhookDelivery`, `WebhookRow` — consider splitting if they grow further.
 
@@ -559,7 +557,9 @@ Detected 146 domain models:
 
 ```
 .gitignore (0.2 KB)
-AGENTS.md (5.6 KB)
+ab-test-plan.md (2.8 KB)
+agent-purchasing-playbook.md (15.2 KB)
+AGENTS.md (38.0 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
@@ -692,45 +692,68 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (8.9 KB)
-artifact-spec.md (1.6 KB)
+architecture-summary.md (69.0 KB)
+artifact-spec.md (7.3 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
 artifacts/MEMORY.yaml (3.1 KB)
 artifacts/schemas/output-contract.schema.json (1.8 KB)
+asset-checklist.md (1.3 KB)
+asset-guidelines.md (1.7 KB)
 automated remedial action.yaml (7.5 KB)
+automation-pipeline.yaml (3.0 KB)
 axis_all_tools.yaml (22.6 KB)
 AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 begin.yaml (12.9 KB)
-brand-guidelines.md (7.7 KB)
+brand-board.md (5.1 KB)
+brand-guidelines.md (3.3 KB)
 brand/begin.yaml (1.8 KB)
 brand/continuation.yaml (2.4 KB)
 brand/MEMORY.yaml (3.0 KB)
 brand/schemas/output-contract.schema.json (1.8 KB)
+campaign-brief.md (2.5 KB)
 canvas-pack.md (9.7 KB)
+canvas-spec.json (4.0 KB)
 canvas/begin.yaml (1.8 KB)
 canvas/continuation.yaml (2.4 KB)
 canvas/MEMORY.yaml (2.8 KB)
 canvas/schemas/output-contract.schema.json (1.8 KB)
 capability_inventory.yaml (31.7 KB)
+capability-registry.json (2.5 KB)
 CHANGELOG.md (6.6 KB)
-CLAUDE.md (1.1 KB)
+channel-rulebook.md (3.6 KB)
+checkout-flow.md (9.1 KB)
+citation-index.json (6.1 KB)
+CLAUDE.md (9.6 KB)
 cloudflare-pages.md (1.5 KB)
+collection-map.md (2.4 KB)
+commerce-registry.json (4.9 KB)
+component-guidelines.md (3.3 KB)
+component-library.json (7.9 KB)
+component-theme-map.json (8.8 KB)
+connector-map.yaml (6.4 KB)
+content-audit.md (3.8 KB)
+content-constraints.md (2.9 KB)
 continuation.yaml (253.9 KB)
 CONTRIBUTING.md (3.1 KB)
+cost-estimate.json (5.7 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
+cro-playbook.md (33.0 KB)
+dark-mode-tokens.json (3.4 KB)
+dashboard-widget.tsx (3.4 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
-dependency-hotspots.md (5.1 KB)
+dependency-hotspots.md (7.9 KB)
 docker-compose.yml (2.0 KB)
 Dockerfile (4.0 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
+embed-snippet.ts (2.3 KB)
 examples/01-paid-platform/generated/AGENTS.md (1.9 KB)
 examples/01-paid-platform/generated/CLAUDE.md (0.9 KB)
 examples/01-paid-platform/README.md (0.9 KB)
@@ -747,29 +770,41 @@ examples/05-ruuuun/generated/AGENTS.md (1.8 KB)
 examples/05-ruuuun/generated/CLAUDE.md (0.8 KB)
 examples/05-ruuuun/README.md (0.8 KB)
 examples/README.md (3.2 KB)
+export-manifest.yaml (2.2 KB)
 frontend/begin.yaml (3.6 KB)
 frontend/continuation.yaml (2.4 KB)
 frontend/MEMORY.yaml (5.8 KB)
 frontend/schemas/output-contract.schema.json (1.8 KB)
+funnel-map.md (3.0 KB)
+generated-component.tsx (1.6 KB)
 generative-sketch.js (8.3 KB)
+generative-sketch.ts (4.1 KB)
+graph-prompt-map.json (43.2 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
+incident-template.md (18.7 KB)
+layout-patterns.md (2.5 KB)
+linking-policy.md (3.6 KB)
 marketing-pack.md (9.7 KB)
 marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (7.6 KB)
+mcp-config.json (11.8 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
 mcp/schemas/output-contract.schema.json (1.8 KB)
 memory generator.yaml (7.6 KB)
-notebook-summary.md (9.9 KB)
+messaging-system.yaml (2.5 KB)
+meta-tag-audit.json (26.5 KB)
+negotiation-rules.md (6.5 KB)
+notebook-summary.md (3.7 KB)
 notebook/begin.yaml (1.8 KB)
 notebook/continuation.yaml (2.4 KB)
 notebook/MEMORY.yaml (2.9 KB)
 notebook/schemas/output-contract.schema.json (1.8 KB)
+obsidian-skill-pack.md (3.2 KB)
 obsidian-vault-pack.md (9.3 KB)
 obsidian/begin.yaml (1.8 KB)
 obsidian/continuation.yaml (2.4 KB)
@@ -911,6 +946,7 @@ packages/snapshots/src/webhook-http.test.ts (13.3 KB)
 packages/snapshots/src/webhook-retry.test.ts (16.6 KB)
 packages/snapshots/src/webhook-store.ts (14.2 KB)
 packages/snapshots/tsconfig.json (0.2 KB)
+parameter-pack.json (2.2 KB)
 payment-processing-output/ab-test-plan.md (2.4 KB)
 payment-processing-output/AGENTS.md (2.0 KB)
 payment-processing-output/architecture-summary.md (3.2 KB)
@@ -984,16 +1020,28 @@ payment-processing-output/voice-and-tone.md (2.5 KB)
 payment-processing-output/workflow-pack.md (2.0 KB)
 payment-processing-output/workflow-registry.json (1.8 KB)
 pnpm-workspace.yaml (0.1 KB)
+policy-pack.md (2.8 KB)
+poster-layouts.md (3.1 KB)
+product-schema.json (7.3 KB)
 ProgramPipeline.js (11.3 KB)
+prompt-diff-report.md (2.3 KB)
 README.md (9.2 KB)
+refactor-checklist.md (4.0 KB)
 remotion-pack.md (9.2 KB)
+remotion-script.ts (3.7 KB)
 remotion/begin.yaml (1.8 KB)
 remotion/continuation.yaml (2.4 KB)
 remotion/MEMORY.yaml (2.8 KB)
 remotion/schemas/output-contract.schema.json (1.8 KB)
+render-config.json (8.4 KB)
 render.yaml (1.3 KB)
 repo_snapshot.yaml (80.7 KB)
+research-threads.md (3.8 KB)
+root-cause-checklist.md (21.7 KB)
+route-priority-map.md (27.9 KB)
 rules to compile snapshot.yaml (19.4 KB)
+scene-plan.md (2.7 KB)
+schema-recommendations.json (6.3 KB)
 search/begin.yaml (3.7 KB)
 search/continuation.yaml (2.4 KB)
 search/MEMORY.yaml (5.9 KB)
@@ -1004,26 +1052,10 @@ seo/begin.yaml (3.6 KB)
 seo/continuation.yaml (2.4 KB)
 seo/MEMORY.yaml (5.8 KB)
 seo/schemas/output-contract.schema.json (1.8 KB)
+sequence-pack.md (2.1 KB)
+server-manifest.yaml (10.6 KB)
 server.json (0.9 KB)
 skills/begin.yaml (3.6 KB)
-skills/continuation.yaml (2.4 KB)
-skills/MEMORY.yaml (6.0 KB)
-skills/schemas/output-contract.schema.json (1.8 KB)
-snapshot_protocol.yaml (8.3 KB)
-stalling fix.txt (2.6 KB)
-static_analysis_phase.yaml (65.4 KB)
-superpowers-pack.md (9.8 KB)
-superpowers/begin.yaml (1.9 KB)
-superpowers/continuation.yaml (2.5 KB)
-superpowers/MEMORY.yaml (3.0 KB)
-superpowers/schemas/output-contract.schema.json (1.8 KB)
-theme/begin.yaml (1.8 KB)
-theme/continuation.yaml (2.4 KB)
-theme/MEMORY.yaml (3.0 KB)
-theme/schemas/output-contract.schema.json (1.8 KB)
-tsconfig.base.json (0.4 KB)
-vitest.config.ts (0.6 KB)
-workflow-pack.md (7.2 KB)
 ```
 
 ## Entry Points (Source)
@@ -1565,60 +1597,6 @@ export default defineConfig({
   "include": ["src"],
   "exclude": ["src/**/*.test.ts"]
 }
-
-```
-
-### `tsconfig.base.json`
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "outDir": "dist",
-    "rootDir": "src"
-  },
-  "exclude": ["node_modules", "dist"]
-}
-
-```
-
-### `vitest.config.ts`
-
-```typescript
-import { defineConfig } from "vitest/config";
-
-export default defineConfig({
-  test: {
-    include: ["packages/*/src/**/*.test.ts", "apps/*/src/**/*.test.ts"],
-    coverage: {
-      provider: "v8",
-      include: ["packages/*/src/**/*.ts", "apps/*/src/**/*.ts"],
-      exclude: [
-        "**/*.test.ts",
-        "**/*.bench.ts",
-        "**/*.d.ts",
-        "**/node_modules/**",
-        "**/dist/**",
-      ],
-      thresholds: {
-        lines: 60,
-        functions: 60,
-        branches: 50,
-        statements: 60,
-      },
-    },
-  },
-});
 
 ```
 

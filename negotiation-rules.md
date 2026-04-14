@@ -6,8 +6,8 @@
 
 | Signal | Value | Weight |
 |--------|-------|--------|
-| File count | 466 files | Medium |
-| Lines of code | 107233 LOC | High |
+| File count | 500 files | Medium |
+| Lines of code | 117597 LOC | High |
 | Complexity estimate | medium | High |
 | Separation score | 0.64 / 1.0 | High |
 
@@ -21,7 +21,7 @@ value_score = (loc / 1000) * 0.4
 
 Where `complexity_score` = 1 (low) | 2 (medium) | 3 (high).
 
-**Estimated value score for axis-toolbox:** 57.47
+**Estimated value score for axis-toolbox:** 62.64
 
 ## Purchase Rules
 

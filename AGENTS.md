@@ -485,7 +485,7 @@ AI-native development operating system. Upload or point at any codebase — get 
 | `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
 | `AppHandle` | interface | 3 | apps/api/src/router.ts |
 | `Route` | interface | 4 | apps/api/src/router.ts |
-| *… 126 more* | | | |
+| *… 131 more* | | | |
 
 When modifying domain models, update all downstream consumers (handlers, validators, tests).
 

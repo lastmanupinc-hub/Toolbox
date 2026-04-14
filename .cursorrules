@@ -44,7 +44,7 @@ package_manager = "pnpm"
 # WindowEntry (interface, 2 fields) @ apps/api/src/rate-limiter.ts
 # AppHandle (interface, 3 fields) @ apps/api/src/router.ts
 # Route (interface, 4 fields) @ apps/api/src/router.ts
-# ... and 126 more
+# ... and 131 more
 
 # === Detected Conventions ===
 # - TypeScript strict mode
@@ -52,6 +52,8 @@ package_manager = "pnpm"
 
 # === Project File Tree ===
 # .gitignore
+# ab-test-plan.md
+# agent-purchasing-playbook.md
 # AGENTS.md
 # algorithmic/begin.yaml
 # algorithmic/continuation.yaml
@@ -99,9 +101,7 @@ package_manager = "pnpm"
 # apps/api/src/mcp-server.ts
 # apps/api/src/metrics-branches.test.ts
 # apps/api/src/metrics.test.ts
-# apps/api/src/metrics.ts
-# apps/api/src/mpp.test.ts
-# ... and 416 more files
+# ... and 450 more files
 
 # === Key Entry Points ===
 # apps/api/src/server.ts

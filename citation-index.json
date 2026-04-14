@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T00:32:39.356Z",
+  "generated_at": "2026-04-14T00:40:14.699Z",
   "total_citations": 16,
   "by_type": {
     "documentation": 1,
@@ -190,7 +190,7 @@
       ]
     }
   ],
-  "source_file_count": 466,
+  "source_file_count": 500,
   "source_entry_points": [
     {
       "path": "apps/api/src/server.ts",

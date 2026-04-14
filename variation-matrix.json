@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated": "2026-04-14T00:32:39.365Z",
+  "generated": "2026-04-14T00:40:14.707Z",
   "parameters": [
     {
       "name": "primary_hue",
@@ -39,7 +39,7 @@
         200,
         400
       ],
-      "description": "Element density based on project scale (461 files)"
+      "description": "Element density based on project scale (496 files)"
     },
     {
       "name": "layout",
@@ -336,5 +336,5 @@
       "webp"
     ]
   },
-  "source_file_count": 466
+  "source_file_count": 500
 }

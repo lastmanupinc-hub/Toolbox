@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T00:32:39.146Z",
+  "generated_at": "2026-04-14T00:40:14.539Z",
   "detected_stack": [
     {
       "name": "React",
@@ -10,9 +10,9 @@
   ],
   "primary_language": "TypeScript",
   "summary": {
-    "total_components": 27,
+    "total_components": 29,
     "by_type": {
-      "custom": 13,
+      "custom": 15,
       "decorative": 1,
       "overlay": 1,
       "page": 12
@@ -267,6 +267,26 @@
       "path": "apps/web/src/pages/UploadPage.tsx",
       "directory": "apps/web/src/pages",
       "component_type": "page",
+      "token_categories": [
+        "colors",
+        "typography"
+      ]
+    },
+    {
+      "name": "dashboard-widget",
+      "path": "dashboard-widget.tsx",
+      "directory": "",
+      "component_type": "custom",
+      "token_categories": [
+        "colors",
+        "typography"
+      ]
+    },
+    {
+      "name": "generated-component",
+      "path": "generated-component.tsx",
+      "directory": "",
+      "component_type": "custom",
       "token_categories": [
         "colors",
         "typography"

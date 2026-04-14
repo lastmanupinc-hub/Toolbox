@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.
 
 ## Quick Reference
 
@@ -19,18 +19,18 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 | CI | none |
 | Deploy Target | docker |
 | Package Manager | pnpm |
-| Files | 466 files, 107,233 LOC |
+| Files | 500 files, 117,597 LOC |
 | Separation Score | 0.64/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 245 | 77,996 | 73.7% |
-| YAML | 74 | 15,388 | 14.5% |
-| JSON | 54 | 6,549 | 6.2% |
-| Markdown | 81 | 4,155 | 3.9% |
-| CSS | 2 | 849 | 0.8% |
+| TypeScript | 249 | 78,281 | 67.4% |
+| YAML | 69 | 14,287 | 12.3% |
+| JSON | 64 | 12,359 | 10.6% |
+| Markdown | 107 | 9,559 | 8.2% |
+| CSS | 2 | 849 | 0.7% |
 | JavaScript | 3 | 673 | 0.6% |
 | HTML | 1 | 113 | 0.1% |
 | Dockerfile | 1 | 49 | 0% |
@@ -164,6 +164,11 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | Props | interface | TypeScript | 1 | `apps/web/src/pages/UploadPage.tsx` |
 | ImportMeta | interface | TypeScript | 1 | `apps/web/src/vite-env.d.ts` |
 | ImportMetaEnv | interface | TypeScript | 1 | `apps/web/src/vite-env.d.ts` |
+| DashboardData | interface | TypeScript | 6 | `dashboard-widget.tsx` |
+| axistoolboxProps | interface | TypeScript | 3 | `generated-component.tsx` |
+| PaletteAction | interface | TypeScript | 0 | `generated-component.tsx` |
+| Edge | interface | TypeScript | 3 | `generative-sketch.ts` |
+| Node | interface | TypeScript | 7 | `generative-sketch.ts` |
 | ContextMap | interface | TypeScript | 10 | `packages/context-engine/src/types.ts` |
 | RepoProfile | interface | TypeScript | 12 | `packages/context-engine/src/types.ts` |
 | CommerceSignals | interface | TypeScript | 10 | `packages/generator-core/src/generators-agentic-purchasing.ts` |

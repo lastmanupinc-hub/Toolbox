@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.
 
 ## Detected Stack
 
@@ -19,8 +19,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 | Project Type | monorepo |
 | Primary Language | TypeScript |
 | Frameworks | React |
-| Total Files | 466 |
-| Total LOC | 107233 |
+| Total Files | 500 |
+| Total LOC | 117597 |
 
 ## SEO Readiness Score
 
@@ -38,9 +38,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 
 ## Content Files Analysis
 
-- **Content files (md/mdx/html):** 140
-- **Template files (tsx/jsx/vue/svelte):** 27
-- **Total source files:** 466
+- **Content files (md/mdx/html):** 175
+- **Template files (tsx/jsx/vue/svelte):** 29
+- **Total source files:** 500
 
 ## Page Components
 
@@ -78,18 +78,18 @@ These files likely render as individual pages:
 
 ## Detected Content Files
 
-- `AGENTS.md` (128 lines)
+- `ab-test-plan.md` (91 lines)
+- `agent-purchasing-playbook.md` (401 lines)
+- `AGENTS.md` (714 lines)
 - `apps/web/index.html` (121 lines)
-- `architecture-summary.md` (137 lines)
-- `artifact-spec.md` (39 lines)
+- `architecture-summary.md` (1627 lines)
+- `artifact-spec.md` (134 lines)
+- `asset-checklist.md` (50 lines)
+- `asset-guidelines.md` (65 lines)
 - `AXIS_Board_Pitch.md` (504 lines)
 - `AXIS_DEMO_REPORT.md` (274 lines)
-- `brand-guidelines.md` (190 lines)
-- `canvas-pack.md` (215 lines)
-- `CHANGELOG.md` (76 lines)
-- `CLAUDE.md` (13 lines)
-- `cloudflare-pages.md` (34 lines)
-- `CONTRIBUTING.md` (93 lines)
+- `brand-board.md` (151 lines)
+- `brand-guidelines.md` (93 lines)
 
 ## Page Component Analysis
 

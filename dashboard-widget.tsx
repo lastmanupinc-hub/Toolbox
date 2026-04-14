@@ -36,9 +36,9 @@ export function DashboardWidget() {
         <StatCard label="Language" value={data.language} />
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
-        <StatCard label="TypeScript" value={`${73.7}%`} />
-        <StatCard label="YAML" value={`${14.5}%`} />
-        <StatCard label="JSON" value={`${6.2}%`} />
+        <StatCard label="TypeScript" value={`${67.4}%`} />
+        <StatCard label="YAML" value={`${12.3}%`} />
+        <StatCard label="JSON" value={`${10.6}%`} />
       </div>
       <div className="framework-tags">
         {data.frameworks.map(f => (
@@ -65,7 +65,7 @@ export default DashboardWidget;
 // POST: 179 endpoints
 // DELETE: 20 endpoints
 
-// ─── Domain Models: 146 entities ───
+// ─── Domain Models: 151 entities ───
 // AuthContext (interface, 3 fields) — apps/api/src/billing.ts
 // EnvSpec (interface, 5 fields) — apps/api/src/env.ts
 // ValidationError (interface, 2 fields) — apps/api/src/env.ts
@@ -88,5 +88,5 @@ export default DashboardWidget;
 // ⚠ No lockfile found — dependency versions may be inconsistent
 
 // Source file metrics
-// Total source files scanned: 466
-// Config files: apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json, tsconfig.base.json, vitest.config.ts
+// Total source files scanned: 500
+// Config files: apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json

@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T00:32:39.138Z",
+  "generated_at": "2026-04-14T00:40:14.533Z",
   "styling_approach": "plain-css",
   "project_type": "monorepo",
   "primary_language": "TypeScript",
@@ -21,28 +21,28 @@
   "languages": [
     {
       "name": "TypeScript",
-      "file_count": 245,
-      "loc_percent": 73.7
+      "file_count": 249,
+      "loc_percent": 67.4
     },
     {
       "name": "YAML",
-      "file_count": 74,
-      "loc_percent": 14.5
+      "file_count": 69,
+      "loc_percent": 12.3
     },
     {
       "name": "JSON",
-      "file_count": 54,
-      "loc_percent": 6.2
+      "file_count": 64,
+      "loc_percent": 10.6
     },
     {
       "name": "Markdown",
-      "file_count": 81,
-      "loc_percent": 3.9
+      "file_count": 107,
+      "loc_percent": 8.2
     },
     {
       "name": "CSS",
       "file_count": 2,
-      "loc_percent": 0.8
+      "loc_percent": 0.7
     },
     {
       "name": "JavaScript",
@@ -66,8 +66,8 @@
       "monorepo",
       "containerized"
     ],
-    "total_files": 466,
-    "total_loc": 107233
+    "total_files": 500,
+    "total_loc": 117597
   },
   "colors": {
     "primary": {
@@ -260,6 +260,8 @@
   },
   "source_theme_files": [
     "apps/web/src/index.css",
+    "component-theme-map.json",
+    "dark-mode-tokens.json",
     "packages/generator-core/src/generators-theme.ts",
     "packages/snapshots/src/github-token-branches.test.ts",
     "packages/snapshots/src/github-token-store.ts",
@@ -267,10 +269,6 @@
     "payment-processing-output/dark-mode-tokens.json",
     "payment-processing-output/theme-guidelines.md",
     "payment-processing-output/theme.css",
-    "payment-processing-output/token-budget-plan.md",
-    "theme/begin.yaml",
-    "theme/continuation.yaml",
-    "theme/MEMORY.yaml",
-    "theme/schemas/output-contract.schema.json"
+    "payment-processing-output/token-budget-plan.md"
   ]
 }

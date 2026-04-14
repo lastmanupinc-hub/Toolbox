@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "snapshot_id": "00106d5b-e0c7-460d-b660-6866400e6af6",
-  "project_id": "4a78f455-0bdd-4e5a-be85-b45b507075bb",
-  "generated_at": "2026-04-14T00:32:38.963Z",
+  "snapshot_id": "aa859d03-e619-425e-800b-e404f575890e",
+  "project_id": "5f46968a-bc2c-449f-8cb7-360bbbe96b4e",
+  "generated_at": "2026-04-14T00:40:14.396Z",
   "project_identity": {
     "name": "axis-toolbox",
     "type": "monorepo",
@@ -12,9 +12,9 @@
     "go_module": null
   },
   "structure": {
-    "total_files": 466,
-    "total_directories": 65,
-    "total_loc": 107233,
+    "total_files": 500,
+    "total_directories": 60,
+    "total_loc": 117597,
     "file_tree_summary": [
       {
         "path": ".gitignore",
@@ -24,10 +24,24 @@
         "role": "config"
       },
       {
+        "path": "ab-test-plan.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 55,
+        "role": "documentation"
+      },
+      {
+        "path": "agent-purchasing-playbook.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 304,
+        "role": "documentation"
+      },
+      {
         "path": "AGENTS.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 80,
+        "loc": 610,
         "role": "documentation"
       },
       {
@@ -958,14 +972,14 @@
         "path": "architecture-summary.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 117,
+        "loc": 1469,
         "role": "documentation"
       },
       {
         "path": "artifact-spec.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 38,
+        "loc": 88,
         "role": "documentation"
       },
       {
@@ -997,10 +1011,31 @@
         "role": "unknown"
       },
       {
+        "path": "asset-checklist.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 26,
+        "role": "documentation"
+      },
+      {
+        "path": "asset-guidelines.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 41,
+        "role": "documentation"
+      },
+      {
         "path": "automated remedial action.yaml",
         "type": "file",
         "language": "YAML",
         "loc": 70,
+        "role": "unknown"
+      },
+      {
+        "path": "automation-pipeline.yaml",
+        "type": "file",
+        "language": "YAML",
+        "loc": 102,
         "role": "unknown"
       },
       {
@@ -1067,10 +1102,24 @@
         "role": "unknown"
       },
       {
+        "path": "brand-board.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 91,
+        "role": "documentation"
+      },
+      {
         "path": "brand-guidelines.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 117,
+        "loc": 45,
+        "role": "documentation"
+      },
+      {
+        "path": "campaign-brief.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 30,
         "role": "documentation"
       },
       {
@@ -1109,6 +1158,20 @@
         "role": "documentation"
       },
       {
+        "path": "canvas-spec.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 200,
+        "role": "unknown"
+      },
+      {
+        "path": "capability-registry.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 108,
+        "role": "unknown"
+      },
+      {
         "path": "capability_inventory.yaml",
         "type": "file",
         "language": "YAML",
@@ -1123,10 +1186,31 @@
         "role": "documentation"
       },
       {
+        "path": "channel-rulebook.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 73,
+        "role": "documentation"
+      },
+      {
+        "path": "checkout-flow.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 171,
+        "role": "documentation"
+      },
+      {
+        "path": "citation-index.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 264,
+        "role": "unknown"
+      },
+      {
         "path": "CLAUDE.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 0,
+        "loc": 201,
         "role": "documentation"
       },
       {
@@ -1134,6 +1218,62 @@
         "type": "file",
         "language": "Markdown",
         "loc": 0,
+        "role": "documentation"
+      },
+      {
+        "path": "collection-map.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 76,
+        "role": "documentation"
+      },
+      {
+        "path": "commerce-registry.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 199,
+        "role": "unknown"
+      },
+      {
+        "path": "component-guidelines.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 75,
+        "role": "documentation"
+      },
+      {
+        "path": "component-library.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 371,
+        "role": "unknown"
+      },
+      {
+        "path": "component-theme-map.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 329,
+        "role": "unknown"
+      },
+      {
+        "path": "connector-map.yaml",
+        "type": "file",
+        "language": "YAML",
+        "loc": 256,
+        "role": "unknown"
+      },
+      {
+        "path": "content-audit.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 74,
+        "role": "documentation"
+      },
+      {
+        "path": "content-constraints.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 45,
         "role": "documentation"
       },
       {
@@ -1151,6 +1291,13 @@
         "role": "documentation"
       },
       {
+        "path": "cost-estimate.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 236,
+        "role": "unknown"
+      },
+      {
         "path": "cov3.txt",
         "type": "file",
         "language": null,
@@ -1163,6 +1310,27 @@
         "language": null,
         "loc": 1284,
         "role": "documentation"
+      },
+      {
+        "path": "cro-playbook.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 484,
+        "role": "documentation"
+      },
+      {
+        "path": "dark-mode-tokens.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 136,
+        "role": "unknown"
+      },
+      {
+        "path": "dashboard-widget.tsx",
+        "type": "file",
+        "language": "TypeScript",
+        "loc": 47,
+        "role": "source"
       },
       {
         "path": "debug/begin.yaml",
@@ -1196,7 +1364,7 @@
         "path": "dependency-hotspots.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 52,
+        "loc": 165,
         "role": "documentation"
       },
       {
@@ -1226,6 +1394,13 @@
         "language": "YAML",
         "loc": 1044,
         "role": "unknown"
+      },
+      {
+        "path": "embed-snippet.ts",
+        "type": "file",
+        "language": "TypeScript",
+        "loc": 49,
+        "role": "source"
       },
       {
         "path": "examples/01-paid-platform/generated/AGENTS.md",
@@ -1340,6 +1515,13 @@
         "role": "documentation"
       },
       {
+        "path": "export-manifest.yaml",
+        "type": "file",
+        "language": "YAML",
+        "loc": 76,
+        "role": "unknown"
+      },
+      {
         "path": "frontend/begin.yaml",
         "type": "file",
         "language": "YAML",
@@ -1368,11 +1550,39 @@
         "role": "unknown"
       },
       {
+        "path": "funnel-map.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 58,
+        "role": "documentation"
+      },
+      {
+        "path": "generated-component.tsx",
+        "type": "file",
+        "language": "TypeScript",
+        "loc": 17,
+        "role": "source"
+      },
+      {
         "path": "generative-sketch.js",
         "type": "file",
         "language": "JavaScript",
         "loc": 211,
         "role": "source"
+      },
+      {
+        "path": "generative-sketch.ts",
+        "type": "file",
+        "language": "TypeScript",
+        "loc": 116,
+        "role": "source"
+      },
+      {
+        "path": "graph-prompt-map.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 1838,
+        "role": "unknown"
       },
       {
         "path": "human user audt.yaml",
@@ -1387,6 +1597,27 @@
         "language": "YAML",
         "loc": 164,
         "role": "unknown"
+      },
+      {
+        "path": "incident-template.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 309,
+        "role": "documentation"
+      },
+      {
+        "path": "layout-patterns.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 56,
+        "role": "documentation"
+      },
+      {
+        "path": "linking-policy.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 53,
+        "role": "documentation"
       },
       {
         "path": "marketing/begin.yaml",
@@ -1455,7 +1686,7 @@
         "path": "mcp-config.json",
         "type": "file",
         "language": "JSON",
-        "loc": 185,
+        "loc": 409,
         "role": "unknown"
       },
       {
@@ -1464,6 +1695,27 @@
         "language": "YAML",
         "loc": 230,
         "role": "unknown"
+      },
+      {
+        "path": "messaging-system.yaml",
+        "type": "file",
+        "language": "YAML",
+        "loc": 66,
+        "role": "unknown"
+      },
+      {
+        "path": "meta-tag-audit.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 1037,
+        "role": "unknown"
+      },
+      {
+        "path": "negotiation-rules.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 102,
+        "role": "documentation"
       },
       {
         "path": "notebook/begin.yaml",
@@ -1497,7 +1749,7 @@
         "path": "notebook-summary.md",
         "type": "file",
         "language": "Markdown",
-        "loc": 122,
+        "loc": 90,
         "role": "documentation"
       },
       {
@@ -1527,6 +1779,13 @@
         "language": "JSON",
         "loc": 57,
         "role": "unknown"
+      },
+      {
+        "path": "obsidian-skill-pack.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 83,
+        "role": "documentation"
       },
       {
         "path": "obsidian-vault-pack.md",
@@ -2488,6 +2747,13 @@
         "role": "config"
       },
       {
+        "path": "parameter-pack.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 107,
+        "role": "unknown"
+      },
+      {
         "path": "payment-processing-output/ab-test-plan.md",
         "type": "file",
         "language": "Markdown",
@@ -2999,6 +3265,27 @@
         "role": "unknown"
       },
       {
+        "path": "policy-pack.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 104,
+        "role": "documentation"
+      },
+      {
+        "path": "poster-layouts.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 60,
+        "role": "documentation"
+      },
+      {
+        "path": "product-schema.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 257,
+        "role": "unknown"
+      },
+      {
         "path": "ProgramPipeline.js",
         "type": "file",
         "language": "JavaScript",
@@ -3006,10 +3293,24 @@
         "role": "source"
       },
       {
+        "path": "prompt-diff-report.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 28,
+        "role": "documentation"
+      },
+      {
         "path": "README.md",
         "type": "file",
         "language": "Markdown",
         "loc": 141,
+        "role": "documentation"
+      },
+      {
+        "path": "refactor-checklist.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 58,
         "role": "documentation"
       },
       {
@@ -3048,6 +3349,20 @@
         "role": "documentation"
       },
       {
+        "path": "remotion-script.ts",
+        "type": "file",
+        "language": "TypeScript",
+        "loc": 79,
+        "role": "source"
+      },
+      {
+        "path": "render-config.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 378,
+        "role": "unknown"
+      },
+      {
         "path": "render.yaml",
         "type": "file",
         "language": "YAML",
@@ -3062,10 +3377,45 @@
         "role": "unknown"
       },
       {
+        "path": "research-threads.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 50,
+        "role": "documentation"
+      },
+      {
+        "path": "root-cause-checklist.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 343,
+        "role": "documentation"
+      },
+      {
+        "path": "route-priority-map.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 527,
+        "role": "documentation"
+      },
+      {
         "path": "rules to compile snapshot.yaml",
         "type": "file",
         "language": "YAML",
         "loc": 500,
+        "role": "unknown"
+      },
+      {
+        "path": "scene-plan.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 44,
+        "role": "documentation"
+      },
+      {
+        "path": "schema-recommendations.json",
+        "type": "file",
+        "language": "JSON",
+        "loc": 315,
         "role": "unknown"
       },
       {
@@ -3139,6 +3489,20 @@
         "role": "unknown"
       },
       {
+        "path": "sequence-pack.md",
+        "type": "file",
+        "language": "Markdown",
+        "loc": 29,
+        "role": "documentation"
+      },
+      {
+        "path": "server-manifest.yaml",
+        "type": "file",
+        "language": "YAML",
+        "loc": 309,
+        "role": "unknown"
+      },
+      {
         "path": "server.json",
         "type": "file",
         "language": "JSON",
@@ -3151,132 +3515,6 @@
         "language": "YAML",
         "loc": 105,
         "role": "unknown"
-      },
-      {
-        "path": "skills/continuation.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 75,
-        "role": "unknown"
-      },
-      {
-        "path": "skills/MEMORY.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 173,
-        "role": "unknown"
-      },
-      {
-        "path": "skills/schemas/output-contract.schema.json",
-        "type": "file",
-        "language": "JSON",
-        "loc": 57,
-        "role": "unknown"
-      },
-      {
-        "path": "snapshot_protocol.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 275,
-        "role": "unknown"
-      },
-      {
-        "path": "stalling fix.txt",
-        "type": "file",
-        "language": null,
-        "loc": 34,
-        "role": "documentation"
-      },
-      {
-        "path": "static_analysis_phase.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 1105,
-        "role": "unknown"
-      },
-      {
-        "path": "superpowers/begin.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 26,
-        "role": "unknown"
-      },
-      {
-        "path": "superpowers/continuation.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 75,
-        "role": "unknown"
-      },
-      {
-        "path": "superpowers/MEMORY.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 39,
-        "role": "unknown"
-      },
-      {
-        "path": "superpowers/schemas/output-contract.schema.json",
-        "type": "file",
-        "language": "JSON",
-        "loc": 57,
-        "role": "unknown"
-      },
-      {
-        "path": "superpowers-pack.md",
-        "type": "file",
-        "language": "Markdown",
-        "loc": 85,
-        "role": "documentation"
-      },
-      {
-        "path": "theme/begin.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 26,
-        "role": "unknown"
-      },
-      {
-        "path": "theme/continuation.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 75,
-        "role": "unknown"
-      },
-      {
-        "path": "theme/MEMORY.yaml",
-        "type": "file",
-        "language": "YAML",
-        "loc": 41,
-        "role": "unknown"
-      },
-      {
-        "path": "theme/schemas/output-contract.schema.json",
-        "type": "file",
-        "language": "JSON",
-        "loc": 57,
-        "role": "unknown"
-      },
-      {
-        "path": "tsconfig.base.json",
-        "type": "file",
-        "language": "JSON",
-        "loc": 18,
-        "role": "config"
-      },
-      {
-        "path": "vitest.config.ts",
-        "type": "file",
-        "language": "TypeScript",
-        "loc": 23,
-        "role": "config"
-      },
-      {
-        "path": "workflow-pack.md",
-        "type": "file",
-        "language": "Markdown",
-        "loc": 102,
-        "role": "documentation"
       }
     ],
     "top_level_layout": [
@@ -3373,17 +3611,7 @@
       {
         "name": "skills",
         "purpose": "project_directory",
-        "file_count": 4
-      },
-      {
-        "name": "superpowers",
-        "purpose": "project_directory",
-        "file_count": 4
-      },
-      {
-        "name": "theme",
-        "purpose": "project_directory",
-        "file_count": 4
+        "file_count": 1
       }
     ]
   },
@@ -3391,33 +3619,33 @@
     "languages": [
       {
         "name": "TypeScript",
-        "file_count": 245,
-        "loc": 77996,
-        "loc_percent": 73.7
+        "file_count": 249,
+        "loc": 78281,
+        "loc_percent": 67.4
       },
       {
         "name": "YAML",
-        "file_count": 74,
-        "loc": 15388,
-        "loc_percent": 14.5
+        "file_count": 69,
+        "loc": 14287,
+        "loc_percent": 12.3
       },
       {
         "name": "JSON",
-        "file_count": 54,
-        "loc": 6549,
-        "loc_percent": 6.2
+        "file_count": 64,
+        "loc": 12359,
+        "loc_percent": 10.6
       },
       {
         "name": "Markdown",
-        "file_count": 81,
-        "loc": 4155,
-        "loc_percent": 3.9
+        "file_count": 107,
+        "loc": 9559,
+        "loc_percent": 8.2
       },
       {
         "name": "CSS",
         "file_count": 2,
         "loc": 849,
-        "loc_percent": 0.8
+        "loc_percent": 0.7
       },
       {
         "name": "JavaScript",
@@ -6431,6 +6659,41 @@
       "source_file": "apps/web/src/vite-env.d.ts"
     },
     {
+      "name": "DashboardData",
+      "kind": "interface",
+      "language": "TypeScript",
+      "field_count": 6,
+      "source_file": "dashboard-widget.tsx"
+    },
+    {
+      "name": "axistoolboxProps",
+      "kind": "interface",
+      "language": "TypeScript",
+      "field_count": 3,
+      "source_file": "generated-component.tsx"
+    },
+    {
+      "name": "PaletteAction",
+      "kind": "interface",
+      "language": "TypeScript",
+      "field_count": 0,
+      "source_file": "generated-component.tsx"
+    },
+    {
+      "name": "Edge",
+      "kind": "interface",
+      "language": "TypeScript",
+      "field_count": 3,
+      "source_file": "generative-sketch.ts"
+    },
+    {
+      "name": "Node",
+      "kind": "interface",
+      "language": "TypeScript",
+      "field_count": 7,
+      "source_file": "generative-sketch.ts"
+    },
+    {
       "name": "ContextMap",
       "kind": "interface",
       "language": "TypeScript",
@@ -6981,7 +7244,7 @@
     "separation_score": 0.64
   },
   "ai_context": {
-    "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.",
+    "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.",
     "key_abstractions": [
       "packages/ (monorepo_packages)",
       "apps/ (monorepo_apps)",
@@ -7001,5 +7264,5 @@
       "No lockfile found — dependency versions may be inconsistent"
     ]
   },
-  "source_file_tree": ".gitignore (0.2 KB)\nAGENTS.md (5.6 KB)\nalgorithmic-pack.json (7.9 KB)\nalgorithmic/begin.yaml (1.8 KB)\nalgorithmic/continuation.yaml (2.4 KB)\nalgorithmic/MEMORY.yaml (2.9 KB)\nalgorithmic/schemas/output-contract.schema.json (1.8 KB)\napps/api/mcp-server.json (8.1 KB)\napps/api/package.json (0.6 KB)\napps/api/src/admin.test.ts (8.8 KB)\napps/api/src/admin.ts (2.0 KB)\napps/api/src/agent-discovery.test.ts (18.6 KB)\napps/api/src/analyze.test.ts (16.2 KB)\napps/api/src/api-branches.test.ts (22.0 KB)\napps/api/src/api-layer5.test.ts (10.6 KB)\napps/api/src/api.test.ts (20.7 KB)\napps/api/src/b-grade-upgrade.test.ts (8.6 KB)\napps/api/src/billing-flow.test.ts (24.6 KB)\napps/api/src/billing.ts (21.2 KB)\napps/api/src/budget-probe.test.ts (33.2 KB)\napps/api/src/checkout-email.test.ts (11.7 KB)\napps/api/src/crash-resilience.test.ts (6.3 KB)\napps/api/src/credits-api.test.ts (10.9 KB)\napps/api/src/db-endpoints.test.ts (4.1 KB)\napps/api/src/deletion.test.ts (5.6 KB)\napps/api/src/deployment.test.ts (6.9 KB)\napps/api/src/e2e-flows.test.ts (22.4 KB)\napps/api/src/env.test.ts (8.3 KB)\napps/api/src/env.ts (5.5 KB)\napps/api/src/export-edge-cases.test.ts (9.9 KB)\napps/api/src/export.test.ts (13.4 KB)\napps/api/src/export.ts (6.7 KB)\napps/api/src/funnel-api.test.ts (28.0 KB)\napps/api/src/funnel.ts (8.9 KB)\napps/api/src/github.test.ts (6.0 KB)\napps/api/src/github.ts (0.2 KB)\napps/api/src/handler-edge-cases.test.ts (11.8 KB)\napps/api/src/handler-validation.test.ts (11.4 KB)\napps/api/src/handlers-deep.test.ts (18.7 KB)\napps/api/src/handlers.ts (121.8 KB)\napps/api/src/latency-histogram.test.ts (9.1 KB)\napps/api/src/logger.test.ts (3.5 KB)\napps/api/src/logger.ts (2.9 KB)\napps/api/src/logging.test.ts (8.5 KB)\napps/api/src/mcp-server.test.ts (54.5 KB)\napps/api/src/mcp-server.ts (79.3 KB)\napps/api/src/metrics-branches.test.ts (2.5 KB)\napps/api/src/metrics.test.ts (4.3 KB)\napps/api/src/metrics.ts (6.4 KB)\napps/api/src/mpp.test.ts (8.5 KB)\napps/api/src/mpp.ts (13.5 KB)\napps/api/src/multi-tenancy.test.ts (20.0 KB)\napps/api/src/oauth.test.ts (8.0 KB)\napps/api/src/oauth.ts (3.4 KB)\napps/api/src/openapi.test.ts (15.0 KB)\napps/api/src/openapi.ts (59.1 KB)\napps/api/src/prepare-purchasing.test.ts (19.1 KB)\napps/api/src/production-startup.test.ts (8.5 KB)\napps/api/src/programs-billing.test.ts (12.8 KB)\napps/api/src/quota.test.ts (4.5 KB)\napps/api/src/rate-limiter.test.ts (13.8 KB)\napps/api/src/rate-limiter.ts (6.5 KB)\napps/api/src/request-limits.test.ts (3.9 KB)\napps/api/src/router-branches.test.ts (12.6 KB)\napps/api/src/router.test.ts (15.0 KB)\napps/api/src/router.ts (11.6 KB)\napps/api/src/search-api.test.ts (13.8 KB)\napps/api/src/security.test.ts (7.2 KB)\napps/api/src/server-lifecycle.test.ts (7.0 KB)\napps/api/src/server-routes.test.ts (5.2 KB)\napps/api/src/server.ts (11.8 KB)\napps/api/src/snapshot-auth.test.ts (12.4 KB)\napps/api/src/stripe-branches.test.ts (38.6 KB)\napps/api/src/stripe.test.ts (10.1 KB)\napps/api/src/stripe.ts (15.8 KB)\napps/api/src/validation.test.ts (8.1 KB)\napps/api/src/versions.test.ts (8.1 KB)\napps/api/src/versions.ts (2.5 KB)\napps/api/src/webhook-branches.test.ts (16.3 KB)\napps/api/src/webhooks.test.ts (13.6 KB)\napps/api/src/webhooks.ts (5.4 KB)\napps/api/tsconfig.json (0.2 KB)\napps/cli/package.json (0.5 KB)\napps/cli/src/cli-auth.test.ts (7.6 KB)\napps/cli/src/cli-commands.test.ts (8.7 KB)\napps/cli/src/cli-edge-cases.test.ts (14.4 KB)\napps/cli/src/cli-pipeline.test.ts (9.3 KB)\napps/cli/src/cli.test.ts (13.3 KB)\napps/cli/src/cli.ts (9.7 KB)\napps/cli/src/credential-store.test.ts (8.2 KB)\napps/cli/src/credential-store.ts (3.2 KB)\napps/cli/src/determinism.test.ts (5.0 KB)\napps/cli/src/runner.test.ts (6.5 KB)\napps/cli/src/runner.ts (11.2 KB)\napps/cli/src/scanner.ts (3.8 KB)\napps/cli/src/writer.ts (0.9 KB)\napps/cli/tsconfig.json (0.4 KB)\napps/web/index.html (6.4 KB)\napps/web/package.json (0.5 KB)\napps/web/public/robots.txt (0.8 KB)\napps/web/src/api.test.ts (23.7 KB)\napps/web/src/api.ts (15.5 KB)\napps/web/src/App.tsx (15.7 KB)\napps/web/src/components/AxisIcons.tsx (8.9 KB)\napps/web/src/components/CommandPalette.tsx (6.6 KB)\napps/web/src/components/FilesTab.tsx (4.7 KB)\napps/web/src/components/GeneratedTab.tsx (4.1 KB)\napps/web/src/components/GraphTab.tsx (4.8 KB)\napps/web/src/components/OverviewTab.tsx (8.8 KB)\napps/web/src/components/ProgramLauncher.tsx (7.2 KB)\napps/web/src/components/SearchTab.tsx (11.1 KB)\napps/web/src/components/SignUpModal.tsx (3.9 KB)\napps/web/src/components/StatusBar.tsx (2.3 KB)\napps/web/src/components/Toast.tsx (3.8 KB)\napps/web/src/index.css (18.5 KB)\napps/web/src/main.tsx (0.2 KB)\napps/web/src/pages/AccountPage.tsx (21.6 KB)\napps/web/src/pages/DashboardPage.tsx (7.5 KB)\napps/web/src/pages/DocsPage.tsx (71.2 KB)\napps/web/src/pages/ExamplesPage.tsx (24.1 KB)\napps/web/src/pages/ForAgentsPage.tsx (49.7 KB)\napps/web/src/pages/HelpPage.tsx (41.9 KB)\napps/web/src/pages/InstallPage.tsx (8.3 KB)\napps/web/src/pages/PlansPage.tsx (9.3 KB)\napps/web/src/pages/ProgramsPage.tsx (13.9 KB)\napps/web/src/pages/QAPage.tsx (23.7 KB)\napps/web/src/pages/TermsPage.tsx (19.4 KB)\napps/web/src/pages/UploadPage.tsx (23.6 KB)\napps/web/src/upload-utils-zip.test.ts (9.0 KB)\napps/web/src/upload-utils.test.ts (5.7 KB)\napps/web/src/upload-utils.ts (4.1 KB)\napps/web/src/vite-env.d.ts (0.2 KB)\napps/web/tsconfig.json (0.5 KB)\napps/web/vite.config.ts (0.2 KB)\narchitecture-summary.md (8.9 KB)\nartifact-spec.md (1.6 KB)\nartifacts/begin.yaml (1.8 KB)\nartifacts/continuation.yaml (2.4 KB)\nartifacts/MEMORY.yaml (3.1 KB)\nartifacts/schemas/output-contract.schema.json (1.8 KB)\nautomated remedial action.yaml (7.5 KB)\naxis_all_tools.yaml (22.6 KB)\nAXIS_Board_Pitch.md (30.7 KB)\nAXIS_DEMO_REPORT.md (12.3 KB)\naxis_master_blueprint.yaml (9.6 KB)\nbegin.yaml (12.9 KB)\nbrand-guidelines.md (7.7 KB)\nbrand/begin.yaml (1.8 KB)\nbrand/continuation.yaml (2.4 KB)\nbrand/MEMORY.yaml (3.0 KB)\nbrand/schemas/output-contract.schema.json (1.8 KB)\ncanvas-pack.md (9.7 KB)\ncanvas/begin.yaml (1.8 KB)\ncanvas/continuation.yaml (2.4 KB)\ncanvas/MEMORY.yaml (2.8 KB)\ncanvas/schemas/output-contract.schema.json (1.8 KB)\ncapability_inventory.yaml (31.7 KB)\nCHANGELOG.md (6.6 KB)\nCLAUDE.md (1.1 KB)\ncloudflare-pages.md (1.5 KB)\ncontinuation.yaml (253.9 KB)\nCONTRIBUTING.md (3.1 KB)\ncov3.txt (19.3 KB)\ncov5.txt (218.4 KB)\ndebug/begin.yaml (3.6 KB)\ndebug/continuation.yaml (2.4 KB)\ndebug/MEMORY.yaml (5.5 KB)\ndebug/schemas/output-contract.schema.json (1.8 KB)\ndependency-hotspots.md (5.1 KB)\ndocker-compose.yml (2.0 KB)\nDockerfile (4.0 KB)\ne2e_round2.mjs (15.1 KB)\ne2e_ui_audit.yaml (39.3 KB)\nexamples/01-paid-platform/generated/AGENTS.md (1.9 KB)\nexamples/01-paid-platform/generated/CLAUDE.md (0.9 KB)\nexamples/01-paid-platform/README.md (0.9 KB)\nexamples/02-axis-scalpel/generated/AGENTS.md (1.4 KB)\nexamples/02-axis-scalpel/generated/CLAUDE.md (0.8 KB)\nexamples/02-axis-scalpel/README.md (0.7 KB)\nexamples/03-spacey/generated/AGENTS.md (1.4 KB)\nexamples/03-spacey/generated/CLAUDE.md (0.8 KB)\nexamples/03-spacey/README.md (0.7 KB)\nexamples/04-slate-certification/generated/AGENTS.md (1.7 KB)\nexamples/04-slate-certification/generated/CLAUDE.md (0.7 KB)\nexamples/04-slate-certification/README.md (0.7 KB)\nexamples/05-ruuuun/generated/AGENTS.md (1.8 KB)\nexamples/05-ruuuun/generated/CLAUDE.md (0.8 KB)\nexamples/05-ruuuun/README.md (0.8 KB)\nexamples/README.md (3.2 KB)\nfrontend/begin.yaml (3.6 KB)\nfrontend/continuation.yaml (2.4 KB)\nfrontend/MEMORY.yaml (5.8 KB)\nfrontend/schemas/output-contract.schema.json (1.8 KB)\ngenerative-sketch.js (8.3 KB)\nhuman user audt.yaml (24.9 KB)\nhygiene and memory.yaml (8.7 KB)\nmarketing-pack.md (9.7 KB)\nmarketing/begin.yaml (1.8 KB)\nmarketing/continuation.yaml (2.4 KB)\nmarketing/MEMORY.yaml (2.8 KB)\nmarketing/schemas/output-contract.schema.json (1.8 KB)\nmcp-config.json (7.6 KB)\nmcp/begin.yaml (1.8 KB)\nmcp/continuation.yaml (2.4 KB)\nmcp/MEMORY.yaml (2.7 KB)\nmcp/schemas/output-contract.schema.json (1.8 KB)\nmemory generator.yaml (7.6 KB)\nnotebook-summary.md (9.9 KB)\nnotebook/begin.yaml (1.8 KB)\nnotebook/continuation.yaml (2.4 KB)\nnotebook/MEMORY.yaml (2.9 KB)\nnotebook/schemas/output-contract.schema.json (1.8 KB)\nobsidian-vault-pack.md (9.3 KB)\nobsidian/begin.yaml (1.8 KB)\nobsidian/continuation.yaml (2.4 KB)\nobsidian/MEMORY.yaml (2.8 KB)\nobsidian/schemas/output-contract.schema.json (1.8 KB)\noptimization-rules.md (6.3 KB)\noptimization/begin.yaml (2.5 KB)\noptimization/continuation.yaml (2.4 KB)\noptimization/MEMORY.yaml (3.7 KB)\noptimization/schemas/output-contract.schema.json (1.8 KB)\npackage.json (0.5 KB)\npackages/context-engine/package.json (0.4 KB)\npackages/context-engine/src/engine-branches.test.ts (27.5 KB)\npackages/context-engine/src/engine-branches2.test.ts (7.6 KB)\npackages/context-engine/src/engine-branches3.test.ts (7.5 KB)\npackages/context-engine/src/engine-edge.test.ts (8.7 KB)\npackages/context-engine/src/engine.test.ts (13.8 KB)\npackages/context-engine/src/engine.ts (19.0 KB)\npackages/context-engine/src/index.ts (0.1 KB)\npackages/context-engine/src/types.ts (2.7 KB)\npackages/context-engine/tsconfig.json (0.2 KB)\npackages/generator-core/package.json (0.4 KB)\npackages/generator-core/src/file-excerpt-utils.ts (5.4 KB)\npackages/generator-core/src/fw-helpers.ts (0.5 KB)\npackages/generator-core/src/generate-programs.test.ts (11.8 KB)\npackages/generator-core/src/generate-symbol-index.test.ts (10.0 KB)\npackages/generator-core/src/generate-validation.test.ts (10.9 KB)\npackages/generator-core/src/generate.test.ts (42.2 KB)\npackages/generator-core/src/generate.ts (17.2 KB)\npackages/generator-core/src/generator-alt-profiles.test.ts (17.0 KB)\npackages/generator-core/src/generator-branches.test.ts (217.7 KB)\npackages/generator-core/src/generator-sourcefile-branches.test.ts (20.9 KB)\npackages/generator-core/src/generator-sourcefile-branches10.test.ts (34.2 KB)\npackages/generator-core/src/generator-sourcefile-branches11.test.ts (21.4 KB)\npackages/generator-core/src/generator-sourcefile-branches12.test.ts (16.3 KB)\npackages/generator-core/src/generator-sourcefile-branches13.test.ts (10.5 KB)\npackages/generator-core/src/generator-sourcefile-branches14.test.ts (13.8 KB)\npackages/generator-core/src/generator-sourcefile-branches15.test.ts (9.2 KB)\npackages/generator-core/src/generator-sourcefile-branches16.test.ts (22.5 KB)\npackages/generator-core/src/generator-sourcefile-branches17.test.ts (15.9 KB)\npackages/generator-core/src/generator-sourcefile-branches18.test.ts (28.8 KB)\npackages/generator-core/src/generator-sourcefile-branches19.test.ts (12.6 KB)\npackages/generator-core/src/generator-sourcefile-branches2.test.ts (23.9 KB)\npackages/generator-core/src/generator-sourcefile-branches20.test.ts (9.5 KB)\npackages/generator-core/src/generator-sourcefile-branches3.test.ts (31.0 KB)\npackages/generator-core/src/generator-sourcefile-branches4.test.ts (24.7 KB)\npackages/generator-core/src/generator-sourcefile-branches5.test.ts (29.0 KB)\npackages/generator-core/src/generator-sourcefile-branches6.test.ts (26.0 KB)\npackages/generator-core/src/generator-sourcefile-branches7.test.ts (36.7 KB)\npackages/generator-core/src/generator-sourcefile-branches8.test.ts (49.1 KB)\npackages/generator-core/src/generator-sourcefile-branches9.test.ts (33.5 KB)\npackages/generator-core/src/generators-agentic-purchasing.test.ts (52.9 KB)\npackages/generator-core/src/generators-agentic-purchasing.ts (59.8 KB)\npackages/generator-core/src/generators-algorithmic.ts (26.2 KB)\npackages/generator-core/src/generators-artifacts.ts (28.2 KB)\npackages/generator-core/src/generators-brand.ts (32.2 KB)\npackages/generator-core/src/generators-canvas.ts (27.1 KB)\npackages/generator-core/src/generators-debug.ts (42.0 KB)\npackages/generator-core/src/generators-frontend.ts (27.6 KB)\npackages/generator-core/src/generators-marketing.ts (35.4 KB)\npackages/generator-core/src/generators-mcp.ts (26.7 KB)\npackages/generator-core/src/generators-notebook.ts (24.9 KB)\npackages/generator-core/src/generators-obsidian.ts (28.5 KB)\npackages/generator-core/src/generators-optimization.ts (26.1 KB)\npackages/generator-core/src/generators-remotion.ts (32.1 KB)\npackages/generator-core/src/generators-search-funcs.test.ts (11.8 KB)\npackages/generator-core/src/generators-search.ts (17.9 KB)\npackages/generator-core/src/generators-seo.ts (35.8 KB)\npackages/generator-core/src/generators-skills.ts (42.1 KB)\npackages/generator-core/src/generators-superpowers.ts (37.4 KB)\npackages/generator-core/src/generators-theme.ts (45.9 KB)\npackages/generator-core/src/index.ts (2.9 KB)\npackages/generator-core/src/pipeline.test.ts (9.7 KB)\npackages/generator-core/src/types.ts (0.6 KB)\npackages/generator-core/tsconfig.json (0.2 KB)\npackages/repo-parser/package.json (0.4 KB)\npackages/repo-parser/src/domain-extractor.test.ts (7.7 KB)\npackages/repo-parser/src/domain-extractor.ts (6.7 KB)\npackages/repo-parser/src/framework-detector.test.ts (13.7 KB)\npackages/repo-parser/src/framework-detector.ts (7.7 KB)\npackages/repo-parser/src/import-resolver.test.ts (8.6 KB)\npackages/repo-parser/src/import-resolver.ts (3.8 KB)\npackages/repo-parser/src/index.ts (0.6 KB)\npackages/repo-parser/src/language-detector.test.ts (3.7 KB)\npackages/repo-parser/src/language-detector.ts (1.7 KB)\npackages/repo-parser/src/parser-branches.test.ts (13.2 KB)\npackages/repo-parser/src/parser-branches2.test.ts (7.1 KB)\npackages/repo-parser/src/parser-branches3.test.ts (10.1 KB)\npackages/repo-parser/src/parser.test.ts (9.1 KB)\npackages/repo-parser/src/parser.ts (14.5 KB)\npackages/repo-parser/src/perf.bench.ts (6.1 KB)\npackages/repo-parser/src/sql-extractor.test.ts (8.9 KB)\npackages/repo-parser/src/sql-extractor.ts (4.3 KB)\npackages/repo-parser/src/types.ts (2.0 KB)\npackages/repo-parser/tsconfig.json (0.2 KB)\npackages/snapshots/package.json (0.4 KB)\npackages/snapshots/src/b-grade-upgrade.test.ts (8.4 KB)\npackages/snapshots/src/billing-edge-cases.test.ts (14.5 KB)\npackages/snapshots/src/billing-store.ts (13.1 KB)\npackages/snapshots/src/billing-types.ts (3.9 KB)\npackages/snapshots/src/billing.test.ts (12.2 KB)\npackages/snapshots/src/coverage-gaps.test.ts (22.8 KB)\npackages/snapshots/src/db-maintenance.test.ts (6.7 KB)\npackages/snapshots/src/db.test.ts (15.8 KB)\npackages/snapshots/src/db.ts (20.7 KB)\npackages/snapshots/src/email-store.test.ts (10.7 KB)\npackages/snapshots/src/email-store.ts (9.0 KB)\npackages/snapshots/src/funnel-edge-cases.test.ts (10.7 KB)\npackages/snapshots/src/funnel-store.test.ts (3.8 KB)\npackages/snapshots/src/funnel-store.ts (15.1 KB)\npackages/snapshots/src/funnel-types.ts (7.0 KB)\npackages/snapshots/src/funnel.test.ts (17.4 KB)\npackages/snapshots/src/github-http.test.ts (12.7 KB)\npackages/snapshots/src/github-tarball.test.ts (13.2 KB)\npackages/snapshots/src/github-token-branches.test.ts (3.8 KB)\npackages/snapshots/src/github-token-store.ts (5.1 KB)\npackages/snapshots/src/github.ts (7.7 KB)\npackages/snapshots/src/index.ts (5.8 KB)\npackages/snapshots/src/oauth-store.test.ts (8.5 KB)\npackages/snapshots/src/oauth-store.ts (4.6 KB)\npackages/snapshots/src/perf.bench.ts (6.9 KB)\npackages/snapshots/src/persistence-metering.test.ts (9.9 KB)\npackages/snapshots/src/persistence-metering.ts (4.9 KB)\npackages/snapshots/src/referral-store.test.ts (9.8 KB)\npackages/snapshots/src/referral-store.ts (10.0 KB)\npackages/snapshots/src/search-store.test.ts (6.8 KB)\npackages/snapshots/src/search-store.ts (9.7 KB)\npackages/snapshots/src/search-symbols.test.ts (9.3 KB)\npackages/snapshots/src/store-layer5.test.ts (4.0 KB)\npackages/snapshots/src/store-validation.test.ts (15.6 KB)\npackages/snapshots/src/store.test.ts (10.8 KB)\npackages/snapshots/src/store.ts (9.3 KB)\npackages/snapshots/src/stripe-store.test.ts (8.5 KB)\npackages/snapshots/src/stripe-store.ts (5.1 KB)\npackages/snapshots/src/tier-audit.ts (3.8 KB)\npackages/snapshots/src/types.ts (1.1 KB)\npackages/snapshots/src/version-store.ts (5.1 KB)\npackages/snapshots/src/webhook-http.test.ts (13.3 KB)\npackages/snapshots/src/webhook-retry.test.ts (16.6 KB)\npackages/snapshots/src/webhook-store.ts (14.2 KB)\npackages/snapshots/tsconfig.json (0.2 KB)\npayment-processing-output/ab-test-plan.md (2.4 KB)\npayment-processing-output/AGENTS.md (2.0 KB)\npayment-processing-output/architecture-summary.md (3.2 KB)\npayment-processing-output/artifact-spec.md (2.2 KB)\npayment-processing-output/asset-checklist.md (1.2 KB)\npayment-processing-output/asset-guidelines.md (1.7 KB)\npayment-processing-output/automation-pipeline.yaml (2.1 KB)\npayment-processing-output/brand-board.md (4.0 KB)\npayment-processing-output/brand-guidelines.md (2.5 KB)\npayment-processing-output/campaign-brief.md (1.6 KB)\npayment-processing-output/canvas-spec.json (3.5 KB)\npayment-processing-output/capability-registry.json (1.8 KB)\npayment-processing-output/channel-rulebook.md (2.6 KB)\npayment-processing-output/citation-index.json (2.6 KB)\npayment-processing-output/CLAUDE.md (0.9 KB)\npayment-processing-output/collection-map.md (2.2 KB)\npayment-processing-output/component-guidelines.md (0.8 KB)\npayment-processing-output/component-library.json (5.6 KB)\npayment-processing-output/component-theme-map.json (58.8 KB)\npayment-processing-output/connector-map.yaml (0.9 KB)\npayment-processing-output/content-audit.md (4.4 KB)\npayment-processing-output/content-constraints.md (2.4 KB)\npayment-processing-output/cost-estimate.json (6.5 KB)\npayment-processing-output/cro-playbook.md (3.0 KB)\npayment-processing-output/dark-mode-tokens.json (2.8 KB)\npayment-processing-output/dashboard-widget.tsx (0.2 KB)\npayment-processing-output/dependency-hotspots.md (2.3 KB)\npayment-processing-output/embed-snippet.ts (1.4 KB)\npayment-processing-output/export-manifest.yaml (2.2 KB)\npayment-processing-output/funnel-map.md (2.2 KB)\npayment-processing-output/generated-component.tsx (0.5 KB)\npayment-processing-output/generative-sketch.ts (3.9 KB)\npayment-processing-output/graph-prompt-map.json (4.2 KB)\npayment-processing-output/incident-template.md (1.1 KB)\npayment-processing-output/layout-patterns.md (1.8 KB)\npayment-processing-output/linking-policy.md (3.0 KB)\npayment-processing-output/mcp-config.json (2.7 KB)\npayment-processing-output/messaging-system.yaml (1.5 KB)\npayment-processing-output/meta-tag-audit.json (7.3 KB)\npayment-processing-output/notebook-summary.md (1.2 KB)\npayment-processing-output/obsidian-skill-pack.md (2.0 KB)\npayment-processing-output/parameter-pack.json (2.2 KB)\npayment-processing-output/policy-pack.md (1.4 KB)\npayment-processing-output/poster-layouts.md (2.8 KB)\npayment-processing-output/prompt-diff-report.md (1.4 KB)\npayment-processing-output/refactor-checklist.md (2.0 KB)\npayment-processing-output/remotion-script.ts (3.5 KB)\npayment-processing-output/render-config.json (1.2 KB)\npayment-processing-output/research-threads.md (2.3 KB)\npayment-processing-output/root-cause-checklist.md (2.9 KB)\npayment-processing-output/route-priority-map.md (1.0 KB)\npayment-processing-output/scene-plan.md (2.1 KB)\npayment-processing-output/schema-recommendations.json (0.5 KB)\npayment-processing-output/sequence-pack.md (1.7 KB)\npayment-processing-output/server-manifest.yaml (2.8 KB)\npayment-processing-output/social-pack.md (1.6 KB)\npayment-processing-output/source-map.json (4.8 KB)\npayment-processing-output/storyboard.md (4.5 KB)\npayment-processing-output/study-brief.md (2.4 KB)\npayment-processing-output/superpower-pack.md (1.9 KB)\npayment-processing-output/template-pack.md (2.1 KB)\npayment-processing-output/test-generation-rules.md (2.0 KB)\npayment-processing-output/theme-guidelines.md (5.6 KB)\npayment-processing-output/theme.css (6.4 KB)\npayment-processing-output/token-budget-plan.md (2.3 KB)\npayment-processing-output/tracing-rules.md (1.4 KB)\npayment-processing-output/ui-audit.md (2.2 KB)\npayment-processing-output/variation-matrix.json (6.9 KB)\npayment-processing-output/vault-rules.md (2.1 KB)\npayment-processing-output/voice-and-tone.md (2.5 KB)\npayment-processing-output/workflow-pack.md (2.0 KB)\npayment-processing-output/workflow-registry.json (1.8 KB)\npnpm-workspace.yaml (0.1 KB)\nProgramPipeline.js (11.3 KB)\nREADME.md (9.2 KB)\nremotion-pack.md (9.2 KB)\nremotion/begin.yaml (1.8 KB)\nremotion/continuation.yaml (2.4 KB)\nremotion/MEMORY.yaml (2.8 KB)\nremotion/schemas/output-contract.schema.json (1.8 KB)\nrender.yaml (1.3 KB)\nrepo_snapshot.yaml (80.7 KB)\nrules to compile snapshot.yaml (19.4 KB)\nsearch/begin.yaml (3.7 KB)\nsearch/continuation.yaml (2.4 KB)\nsearch/MEMORY.yaml (5.9 KB)\nsearch/schemas/context-map.schema.json (10.9 KB)\nsearch/schemas/output-contract.schema.json (1.8 KB)\nsearch/schemas/repo-profile.schema.yaml (6.7 KB)\nseo/begin.yaml (3.6 KB)\nseo/continuation.yaml (2.4 KB)\nseo/MEMORY.yaml (5.8 KB)\nseo/schemas/output-contract.schema.json (1.8 KB)\nserver.json (0.9 KB)\nskills/begin.yaml (3.6 KB)\nskills/continuation.yaml (2.4 KB)\nskills/MEMORY.yaml (6.0 KB)\nskills/schemas/output-contract.schema.json (1.8 KB)\nsnapshot_protocol.yaml (8.3 KB)\nstalling fix.txt (2.6 KB)\nstatic_analysis_phase.yaml (65.4 KB)\nsuperpowers-pack.md (9.8 KB)\nsuperpowers/begin.yaml (1.9 KB)\nsuperpowers/continuation.yaml (2.5 KB)\nsuperpowers/MEMORY.yaml (3.0 KB)\nsuperpowers/schemas/output-contract.schema.json (1.8 KB)\ntheme/begin.yaml (1.8 KB)\ntheme/continuation.yaml (2.4 KB)\ntheme/MEMORY.yaml (3.0 KB)\ntheme/schemas/output-contract.schema.json (1.8 KB)\ntsconfig.base.json (0.4 KB)\nvitest.config.ts (0.6 KB)\nworkflow-pack.md (7.2 KB)"
+  "source_file_tree": ".gitignore (0.2 KB)\nab-test-plan.md (2.8 KB)\nagent-purchasing-playbook.md (15.2 KB)\nAGENTS.md (38.0 KB)\nalgorithmic-pack.json (7.9 KB)\nalgorithmic/begin.yaml (1.8 KB)\nalgorithmic/continuation.yaml (2.4 KB)\nalgorithmic/MEMORY.yaml (2.9 KB)\nalgorithmic/schemas/output-contract.schema.json (1.8 KB)\napps/api/mcp-server.json (8.1 KB)\napps/api/package.json (0.6 KB)\napps/api/src/admin.test.ts (8.8 KB)\napps/api/src/admin.ts (2.0 KB)\napps/api/src/agent-discovery.test.ts (18.6 KB)\napps/api/src/analyze.test.ts (16.2 KB)\napps/api/src/api-branches.test.ts (22.0 KB)\napps/api/src/api-layer5.test.ts (10.6 KB)\napps/api/src/api.test.ts (20.7 KB)\napps/api/src/b-grade-upgrade.test.ts (8.6 KB)\napps/api/src/billing-flow.test.ts (24.6 KB)\napps/api/src/billing.ts (21.2 KB)\napps/api/src/budget-probe.test.ts (33.2 KB)\napps/api/src/checkout-email.test.ts (11.7 KB)\napps/api/src/crash-resilience.test.ts (6.3 KB)\napps/api/src/credits-api.test.ts (10.9 KB)\napps/api/src/db-endpoints.test.ts (4.1 KB)\napps/api/src/deletion.test.ts (5.6 KB)\napps/api/src/deployment.test.ts (6.9 KB)\napps/api/src/e2e-flows.test.ts (22.4 KB)\napps/api/src/env.test.ts (8.3 KB)\napps/api/src/env.ts (5.5 KB)\napps/api/src/export-edge-cases.test.ts (9.9 KB)\napps/api/src/export.test.ts (13.4 KB)\napps/api/src/export.ts (6.7 KB)\napps/api/src/funnel-api.test.ts (28.0 KB)\napps/api/src/funnel.ts (8.9 KB)\napps/api/src/github.test.ts (6.0 KB)\napps/api/src/github.ts (0.2 KB)\napps/api/src/handler-edge-cases.test.ts (11.8 KB)\napps/api/src/handler-validation.test.ts (11.4 KB)\napps/api/src/handlers-deep.test.ts (18.7 KB)\napps/api/src/handlers.ts (121.8 KB)\napps/api/src/latency-histogram.test.ts (9.1 KB)\napps/api/src/logger.test.ts (3.5 KB)\napps/api/src/logger.ts (2.9 KB)\napps/api/src/logging.test.ts (8.5 KB)\napps/api/src/mcp-server.test.ts (54.5 KB)\napps/api/src/mcp-server.ts (79.3 KB)\napps/api/src/metrics-branches.test.ts (2.5 KB)\napps/api/src/metrics.test.ts (4.3 KB)\napps/api/src/metrics.ts (6.4 KB)\napps/api/src/mpp.test.ts (8.5 KB)\napps/api/src/mpp.ts (13.5 KB)\napps/api/src/multi-tenancy.test.ts (20.0 KB)\napps/api/src/oauth.test.ts (8.0 KB)\napps/api/src/oauth.ts (3.4 KB)\napps/api/src/openapi.test.ts (15.0 KB)\napps/api/src/openapi.ts (59.1 KB)\napps/api/src/prepare-purchasing.test.ts (19.1 KB)\napps/api/src/production-startup.test.ts (8.5 KB)\napps/api/src/programs-billing.test.ts (12.8 KB)\napps/api/src/quota.test.ts (4.5 KB)\napps/api/src/rate-limiter.test.ts (13.8 KB)\napps/api/src/rate-limiter.ts (6.5 KB)\napps/api/src/request-limits.test.ts (3.9 KB)\napps/api/src/router-branches.test.ts (12.6 KB)\napps/api/src/router.test.ts (15.0 KB)\napps/api/src/router.ts (11.6 KB)\napps/api/src/search-api.test.ts (13.8 KB)\napps/api/src/security.test.ts (7.2 KB)\napps/api/src/server-lifecycle.test.ts (7.0 KB)\napps/api/src/server-routes.test.ts (5.2 KB)\napps/api/src/server.ts (11.8 KB)\napps/api/src/snapshot-auth.test.ts (12.4 KB)\napps/api/src/stripe-branches.test.ts (38.6 KB)\napps/api/src/stripe.test.ts (10.1 KB)\napps/api/src/stripe.ts (15.8 KB)\napps/api/src/validation.test.ts (8.1 KB)\napps/api/src/versions.test.ts (8.1 KB)\napps/api/src/versions.ts (2.5 KB)\napps/api/src/webhook-branches.test.ts (16.3 KB)\napps/api/src/webhooks.test.ts (13.6 KB)\napps/api/src/webhooks.ts (5.4 KB)\napps/api/tsconfig.json (0.2 KB)\napps/cli/package.json (0.5 KB)\napps/cli/src/cli-auth.test.ts (7.6 KB)\napps/cli/src/cli-commands.test.ts (8.7 KB)\napps/cli/src/cli-edge-cases.test.ts (14.4 KB)\napps/cli/src/cli-pipeline.test.ts (9.3 KB)\napps/cli/src/cli.test.ts (13.3 KB)\napps/cli/src/cli.ts (9.7 KB)\napps/cli/src/credential-store.test.ts (8.2 KB)\napps/cli/src/credential-store.ts (3.2 KB)\napps/cli/src/determinism.test.ts (5.0 KB)\napps/cli/src/runner.test.ts (6.5 KB)\napps/cli/src/runner.ts (11.2 KB)\napps/cli/src/scanner.ts (3.8 KB)\napps/cli/src/writer.ts (0.9 KB)\napps/cli/tsconfig.json (0.4 KB)\napps/web/index.html (6.4 KB)\napps/web/package.json (0.5 KB)\napps/web/public/robots.txt (0.8 KB)\napps/web/src/api.test.ts (23.7 KB)\napps/web/src/api.ts (15.5 KB)\napps/web/src/App.tsx (15.7 KB)\napps/web/src/components/AxisIcons.tsx (8.9 KB)\napps/web/src/components/CommandPalette.tsx (6.6 KB)\napps/web/src/components/FilesTab.tsx (4.7 KB)\napps/web/src/components/GeneratedTab.tsx (4.1 KB)\napps/web/src/components/GraphTab.tsx (4.8 KB)\napps/web/src/components/OverviewTab.tsx (8.8 KB)\napps/web/src/components/ProgramLauncher.tsx (7.2 KB)\napps/web/src/components/SearchTab.tsx (11.1 KB)\napps/web/src/components/SignUpModal.tsx (3.9 KB)\napps/web/src/components/StatusBar.tsx (2.3 KB)\napps/web/src/components/Toast.tsx (3.8 KB)\napps/web/src/index.css (18.5 KB)\napps/web/src/main.tsx (0.2 KB)\napps/web/src/pages/AccountPage.tsx (21.6 KB)\napps/web/src/pages/DashboardPage.tsx (7.5 KB)\napps/web/src/pages/DocsPage.tsx (71.2 KB)\napps/web/src/pages/ExamplesPage.tsx (24.1 KB)\napps/web/src/pages/ForAgentsPage.tsx (49.7 KB)\napps/web/src/pages/HelpPage.tsx (41.9 KB)\napps/web/src/pages/InstallPage.tsx (8.3 KB)\napps/web/src/pages/PlansPage.tsx (9.3 KB)\napps/web/src/pages/ProgramsPage.tsx (13.9 KB)\napps/web/src/pages/QAPage.tsx (23.7 KB)\napps/web/src/pages/TermsPage.tsx (19.4 KB)\napps/web/src/pages/UploadPage.tsx (23.6 KB)\napps/web/src/upload-utils-zip.test.ts (9.0 KB)\napps/web/src/upload-utils.test.ts (5.7 KB)\napps/web/src/upload-utils.ts (4.1 KB)\napps/web/src/vite-env.d.ts (0.2 KB)\napps/web/tsconfig.json (0.5 KB)\napps/web/vite.config.ts (0.2 KB)\narchitecture-summary.md (69.0 KB)\nartifact-spec.md (7.3 KB)\nartifacts/begin.yaml (1.8 KB)\nartifacts/continuation.yaml (2.4 KB)\nartifacts/MEMORY.yaml (3.1 KB)\nartifacts/schemas/output-contract.schema.json (1.8 KB)\nasset-checklist.md (1.3 KB)\nasset-guidelines.md (1.7 KB)\nautomated remedial action.yaml (7.5 KB)\nautomation-pipeline.yaml (3.0 KB)\naxis_all_tools.yaml (22.6 KB)\nAXIS_Board_Pitch.md (30.7 KB)\nAXIS_DEMO_REPORT.md (12.3 KB)\naxis_master_blueprint.yaml (9.6 KB)\nbegin.yaml (12.9 KB)\nbrand-board.md (5.1 KB)\nbrand-guidelines.md (3.3 KB)\nbrand/begin.yaml (1.8 KB)\nbrand/continuation.yaml (2.4 KB)\nbrand/MEMORY.yaml (3.0 KB)\nbrand/schemas/output-contract.schema.json (1.8 KB)\ncampaign-brief.md (2.5 KB)\ncanvas-pack.md (9.7 KB)\ncanvas-spec.json (4.0 KB)\ncanvas/begin.yaml (1.8 KB)\ncanvas/continuation.yaml (2.4 KB)\ncanvas/MEMORY.yaml (2.8 KB)\ncanvas/schemas/output-contract.schema.json (1.8 KB)\ncapability_inventory.yaml (31.7 KB)\ncapability-registry.json (2.5 KB)\nCHANGELOG.md (6.6 KB)\nchannel-rulebook.md (3.6 KB)\ncheckout-flow.md (9.1 KB)\ncitation-index.json (6.1 KB)\nCLAUDE.md (9.6 KB)\ncloudflare-pages.md (1.5 KB)\ncollection-map.md (2.4 KB)\ncommerce-registry.json (4.9 KB)\ncomponent-guidelines.md (3.3 KB)\ncomponent-library.json (7.9 KB)\ncomponent-theme-map.json (8.8 KB)\nconnector-map.yaml (6.4 KB)\ncontent-audit.md (3.8 KB)\ncontent-constraints.md (2.9 KB)\ncontinuation.yaml (253.9 KB)\nCONTRIBUTING.md (3.1 KB)\ncost-estimate.json (5.7 KB)\ncov3.txt (19.3 KB)\ncov5.txt (218.4 KB)\ncro-playbook.md (33.0 KB)\ndark-mode-tokens.json (3.4 KB)\ndashboard-widget.tsx (3.4 KB)\ndebug/begin.yaml (3.6 KB)\ndebug/continuation.yaml (2.4 KB)\ndebug/MEMORY.yaml (5.5 KB)\ndebug/schemas/output-contract.schema.json (1.8 KB)\ndependency-hotspots.md (7.9 KB)\ndocker-compose.yml (2.0 KB)\nDockerfile (4.0 KB)\ne2e_round2.mjs (15.1 KB)\ne2e_ui_audit.yaml (39.3 KB)\nembed-snippet.ts (2.3 KB)\nexamples/01-paid-platform/generated/AGENTS.md (1.9 KB)\nexamples/01-paid-platform/generated/CLAUDE.md (0.9 KB)\nexamples/01-paid-platform/README.md (0.9 KB)\nexamples/02-axis-scalpel/generated/AGENTS.md (1.4 KB)\nexamples/02-axis-scalpel/generated/CLAUDE.md (0.8 KB)\nexamples/02-axis-scalpel/README.md (0.7 KB)\nexamples/03-spacey/generated/AGENTS.md (1.4 KB)\nexamples/03-spacey/generated/CLAUDE.md (0.8 KB)\nexamples/03-spacey/README.md (0.7 KB)\nexamples/04-slate-certification/generated/AGENTS.md (1.7 KB)\nexamples/04-slate-certification/generated/CLAUDE.md (0.7 KB)\nexamples/04-slate-certification/README.md (0.7 KB)\nexamples/05-ruuuun/generated/AGENTS.md (1.8 KB)\nexamples/05-ruuuun/generated/CLAUDE.md (0.8 KB)\nexamples/05-ruuuun/README.md (0.8 KB)\nexamples/README.md (3.2 KB)\nexport-manifest.yaml (2.2 KB)\nfrontend/begin.yaml (3.6 KB)\nfrontend/continuation.yaml (2.4 KB)\nfrontend/MEMORY.yaml (5.8 KB)\nfrontend/schemas/output-contract.schema.json (1.8 KB)\nfunnel-map.md (3.0 KB)\ngenerated-component.tsx (1.6 KB)\ngenerative-sketch.js (8.3 KB)\ngenerative-sketch.ts (4.1 KB)\ngraph-prompt-map.json (43.2 KB)\nhuman user audt.yaml (24.9 KB)\nhygiene and memory.yaml (8.7 KB)\nincident-template.md (18.7 KB)\nlayout-patterns.md (2.5 KB)\nlinking-policy.md (3.6 KB)\nmarketing-pack.md (9.7 KB)\nmarketing/begin.yaml (1.8 KB)\nmarketing/continuation.yaml (2.4 KB)\nmarketing/MEMORY.yaml (2.8 KB)\nmarketing/schemas/output-contract.schema.json (1.8 KB)\nmcp-config.json (11.8 KB)\nmcp/begin.yaml (1.8 KB)\nmcp/continuation.yaml (2.4 KB)\nmcp/MEMORY.yaml (2.7 KB)\nmcp/schemas/output-contract.schema.json (1.8 KB)\nmemory generator.yaml (7.6 KB)\nmessaging-system.yaml (2.5 KB)\nmeta-tag-audit.json (26.5 KB)\nnegotiation-rules.md (6.5 KB)\nnotebook-summary.md (3.7 KB)\nnotebook/begin.yaml (1.8 KB)\nnotebook/continuation.yaml (2.4 KB)\nnotebook/MEMORY.yaml (2.9 KB)\nnotebook/schemas/output-contract.schema.json (1.8 KB)\nobsidian-skill-pack.md (3.2 KB)\nobsidian-vault-pack.md (9.3 KB)\nobsidian/begin.yaml (1.8 KB)\nobsidian/continuation.yaml (2.4 KB)\nobsidian/MEMORY.yaml (2.8 KB)\nobsidian/schemas/output-contract.schema.json (1.8 KB)\noptimization-rules.md (6.3 KB)\noptimization/begin.yaml (2.5 KB)\noptimization/continuation.yaml (2.4 KB)\noptimization/MEMORY.yaml (3.7 KB)\noptimization/schemas/output-contract.schema.json (1.8 KB)\npackage.json (0.5 KB)\npackages/context-engine/package.json (0.4 KB)\npackages/context-engine/src/engine-branches.test.ts (27.5 KB)\npackages/context-engine/src/engine-branches2.test.ts (7.6 KB)\npackages/context-engine/src/engine-branches3.test.ts (7.5 KB)\npackages/context-engine/src/engine-edge.test.ts (8.7 KB)\npackages/context-engine/src/engine.test.ts (13.8 KB)\npackages/context-engine/src/engine.ts (19.0 KB)\npackages/context-engine/src/index.ts (0.1 KB)\npackages/context-engine/src/types.ts (2.7 KB)\npackages/context-engine/tsconfig.json (0.2 KB)\npackages/generator-core/package.json (0.4 KB)\npackages/generator-core/src/file-excerpt-utils.ts (5.4 KB)\npackages/generator-core/src/fw-helpers.ts (0.5 KB)\npackages/generator-core/src/generate-programs.test.ts (11.8 KB)\npackages/generator-core/src/generate-symbol-index.test.ts (10.0 KB)\npackages/generator-core/src/generate-validation.test.ts (10.9 KB)\npackages/generator-core/src/generate.test.ts (42.2 KB)\npackages/generator-core/src/generate.ts (17.2 KB)\npackages/generator-core/src/generator-alt-profiles.test.ts (17.0 KB)\npackages/generator-core/src/generator-branches.test.ts (217.7 KB)\npackages/generator-core/src/generator-sourcefile-branches.test.ts (20.9 KB)\npackages/generator-core/src/generator-sourcefile-branches10.test.ts (34.2 KB)\npackages/generator-core/src/generator-sourcefile-branches11.test.ts (21.4 KB)\npackages/generator-core/src/generator-sourcefile-branches12.test.ts (16.3 KB)\npackages/generator-core/src/generator-sourcefile-branches13.test.ts (10.5 KB)\npackages/generator-core/src/generator-sourcefile-branches14.test.ts (13.8 KB)\npackages/generator-core/src/generator-sourcefile-branches15.test.ts (9.2 KB)\npackages/generator-core/src/generator-sourcefile-branches16.test.ts (22.5 KB)\npackages/generator-core/src/generator-sourcefile-branches17.test.ts (15.9 KB)\npackages/generator-core/src/generator-sourcefile-branches18.test.ts (28.8 KB)\npackages/generator-core/src/generator-sourcefile-branches19.test.ts (12.6 KB)\npackages/generator-core/src/generator-sourcefile-branches2.test.ts (23.9 KB)\npackages/generator-core/src/generator-sourcefile-branches20.test.ts (9.5 KB)\npackages/generator-core/src/generator-sourcefile-branches3.test.ts (31.0 KB)\npackages/generator-core/src/generator-sourcefile-branches4.test.ts (24.7 KB)\npackages/generator-core/src/generator-sourcefile-branches5.test.ts (29.0 KB)\npackages/generator-core/src/generator-sourcefile-branches6.test.ts (26.0 KB)\npackages/generator-core/src/generator-sourcefile-branches7.test.ts (36.7 KB)\npackages/generator-core/src/generator-sourcefile-branches8.test.ts (49.1 KB)\npackages/generator-core/src/generator-sourcefile-branches9.test.ts (33.5 KB)\npackages/generator-core/src/generators-agentic-purchasing.test.ts (52.9 KB)\npackages/generator-core/src/generators-agentic-purchasing.ts (59.8 KB)\npackages/generator-core/src/generators-algorithmic.ts (26.2 KB)\npackages/generator-core/src/generators-artifacts.ts (28.2 KB)\npackages/generator-core/src/generators-brand.ts (32.2 KB)\npackages/generator-core/src/generators-canvas.ts (27.1 KB)\npackages/generator-core/src/generators-debug.ts (42.0 KB)\npackages/generator-core/src/generators-frontend.ts (27.6 KB)\npackages/generator-core/src/generators-marketing.ts (35.4 KB)\npackages/generator-core/src/generators-mcp.ts (26.7 KB)\npackages/generator-core/src/generators-notebook.ts (24.9 KB)\npackages/generator-core/src/generators-obsidian.ts (28.5 KB)\npackages/generator-core/src/generators-optimization.ts (26.1 KB)\npackages/generator-core/src/generators-remotion.ts (32.1 KB)\npackages/generator-core/src/generators-search-funcs.test.ts (11.8 KB)\npackages/generator-core/src/generators-search.ts (17.9 KB)\npackages/generator-core/src/generators-seo.ts (35.8 KB)\npackages/generator-core/src/generators-skills.ts (42.1 KB)\npackages/generator-core/src/generators-superpowers.ts (37.4 KB)\npackages/generator-core/src/generators-theme.ts (45.9 KB)\npackages/generator-core/src/index.ts (2.9 KB)\npackages/generator-core/src/pipeline.test.ts (9.7 KB)\npackages/generator-core/src/types.ts (0.6 KB)\npackages/generator-core/tsconfig.json (0.2 KB)\npackages/repo-parser/package.json (0.4 KB)\npackages/repo-parser/src/domain-extractor.test.ts (7.7 KB)\npackages/repo-parser/src/domain-extractor.ts (6.7 KB)\npackages/repo-parser/src/framework-detector.test.ts (13.7 KB)\npackages/repo-parser/src/framework-detector.ts (7.7 KB)\npackages/repo-parser/src/import-resolver.test.ts (8.6 KB)\npackages/repo-parser/src/import-resolver.ts (3.8 KB)\npackages/repo-parser/src/index.ts (0.6 KB)\npackages/repo-parser/src/language-detector.test.ts (3.7 KB)\npackages/repo-parser/src/language-detector.ts (1.7 KB)\npackages/repo-parser/src/parser-branches.test.ts (13.2 KB)\npackages/repo-parser/src/parser-branches2.test.ts (7.1 KB)\npackages/repo-parser/src/parser-branches3.test.ts (10.1 KB)\npackages/repo-parser/src/parser.test.ts (9.1 KB)\npackages/repo-parser/src/parser.ts (14.5 KB)\npackages/repo-parser/src/perf.bench.ts (6.1 KB)\npackages/repo-parser/src/sql-extractor.test.ts (8.9 KB)\npackages/repo-parser/src/sql-extractor.ts (4.3 KB)\npackages/repo-parser/src/types.ts (2.0 KB)\npackages/repo-parser/tsconfig.json (0.2 KB)\npackages/snapshots/package.json (0.4 KB)\npackages/snapshots/src/b-grade-upgrade.test.ts (8.4 KB)\npackages/snapshots/src/billing-edge-cases.test.ts (14.5 KB)\npackages/snapshots/src/billing-store.ts (13.1 KB)\npackages/snapshots/src/billing-types.ts (3.9 KB)\npackages/snapshots/src/billing.test.ts (12.2 KB)\npackages/snapshots/src/coverage-gaps.test.ts (22.8 KB)\npackages/snapshots/src/db-maintenance.test.ts (6.7 KB)\npackages/snapshots/src/db.test.ts (15.8 KB)\npackages/snapshots/src/db.ts (20.7 KB)\npackages/snapshots/src/email-store.test.ts (10.7 KB)\npackages/snapshots/src/email-store.ts (9.0 KB)\npackages/snapshots/src/funnel-edge-cases.test.ts (10.7 KB)\npackages/snapshots/src/funnel-store.test.ts (3.8 KB)\npackages/snapshots/src/funnel-store.ts (15.1 KB)\npackages/snapshots/src/funnel-types.ts (7.0 KB)\npackages/snapshots/src/funnel.test.ts (17.4 KB)\npackages/snapshots/src/github-http.test.ts (12.7 KB)\npackages/snapshots/src/github-tarball.test.ts (13.2 KB)\npackages/snapshots/src/github-token-branches.test.ts (3.8 KB)\npackages/snapshots/src/github-token-store.ts (5.1 KB)\npackages/snapshots/src/github.ts (7.7 KB)\npackages/snapshots/src/index.ts (5.8 KB)\npackages/snapshots/src/oauth-store.test.ts (8.5 KB)\npackages/snapshots/src/oauth-store.ts (4.6 KB)\npackages/snapshots/src/perf.bench.ts (6.9 KB)\npackages/snapshots/src/persistence-metering.test.ts (9.9 KB)\npackages/snapshots/src/persistence-metering.ts (4.9 KB)\npackages/snapshots/src/referral-store.test.ts (9.8 KB)\npackages/snapshots/src/referral-store.ts (10.0 KB)\npackages/snapshots/src/search-store.test.ts (6.8 KB)\npackages/snapshots/src/search-store.ts (9.7 KB)\npackages/snapshots/src/search-symbols.test.ts (9.3 KB)\npackages/snapshots/src/store-layer5.test.ts (4.0 KB)\npackages/snapshots/src/store-validation.test.ts (15.6 KB)\npackages/snapshots/src/store.test.ts (10.8 KB)\npackages/snapshots/src/store.ts (9.3 KB)\npackages/snapshots/src/stripe-store.test.ts (8.5 KB)\npackages/snapshots/src/stripe-store.ts (5.1 KB)\npackages/snapshots/src/tier-audit.ts (3.8 KB)\npackages/snapshots/src/types.ts (1.1 KB)\npackages/snapshots/src/version-store.ts (5.1 KB)\npackages/snapshots/src/webhook-http.test.ts (13.3 KB)\npackages/snapshots/src/webhook-retry.test.ts (16.6 KB)\npackages/snapshots/src/webhook-store.ts (14.2 KB)\npackages/snapshots/tsconfig.json (0.2 KB)\nparameter-pack.json (2.2 KB)\npayment-processing-output/ab-test-plan.md (2.4 KB)\npayment-processing-output/AGENTS.md (2.0 KB)\npayment-processing-output/architecture-summary.md (3.2 KB)\npayment-processing-output/artifact-spec.md (2.2 KB)\npayment-processing-output/asset-checklist.md (1.2 KB)\npayment-processing-output/asset-guidelines.md (1.7 KB)\npayment-processing-output/automation-pipeline.yaml (2.1 KB)\npayment-processing-output/brand-board.md (4.0 KB)\npayment-processing-output/brand-guidelines.md (2.5 KB)\npayment-processing-output/campaign-brief.md (1.6 KB)\npayment-processing-output/canvas-spec.json (3.5 KB)\npayment-processing-output/capability-registry.json (1.8 KB)\npayment-processing-output/channel-rulebook.md (2.6 KB)\npayment-processing-output/citation-index.json (2.6 KB)\npayment-processing-output/CLAUDE.md (0.9 KB)\npayment-processing-output/collection-map.md (2.2 KB)\npayment-processing-output/component-guidelines.md (0.8 KB)\npayment-processing-output/component-library.json (5.6 KB)\npayment-processing-output/component-theme-map.json (58.8 KB)\npayment-processing-output/connector-map.yaml (0.9 KB)\npayment-processing-output/content-audit.md (4.4 KB)\npayment-processing-output/content-constraints.md (2.4 KB)\npayment-processing-output/cost-estimate.json (6.5 KB)\npayment-processing-output/cro-playbook.md (3.0 KB)\npayment-processing-output/dark-mode-tokens.json (2.8 KB)\npayment-processing-output/dashboard-widget.tsx (0.2 KB)\npayment-processing-output/dependency-hotspots.md (2.3 KB)\npayment-processing-output/embed-snippet.ts (1.4 KB)\npayment-processing-output/export-manifest.yaml (2.2 KB)\npayment-processing-output/funnel-map.md (2.2 KB)\npayment-processing-output/generated-component.tsx (0.5 KB)\npayment-processing-output/generative-sketch.ts (3.9 KB)\npayment-processing-output/graph-prompt-map.json (4.2 KB)\npayment-processing-output/incident-template.md (1.1 KB)\npayment-processing-output/layout-patterns.md (1.8 KB)\npayment-processing-output/linking-policy.md (3.0 KB)\npayment-processing-output/mcp-config.json (2.7 KB)\npayment-processing-output/messaging-system.yaml (1.5 KB)\npayment-processing-output/meta-tag-audit.json (7.3 KB)\npayment-processing-output/notebook-summary.md (1.2 KB)\npayment-processing-output/obsidian-skill-pack.md (2.0 KB)\npayment-processing-output/parameter-pack.json (2.2 KB)\npayment-processing-output/policy-pack.md (1.4 KB)\npayment-processing-output/poster-layouts.md (2.8 KB)\npayment-processing-output/prompt-diff-report.md (1.4 KB)\npayment-processing-output/refactor-checklist.md (2.0 KB)\npayment-processing-output/remotion-script.ts (3.5 KB)\npayment-processing-output/render-config.json (1.2 KB)\npayment-processing-output/research-threads.md (2.3 KB)\npayment-processing-output/root-cause-checklist.md (2.9 KB)\npayment-processing-output/route-priority-map.md (1.0 KB)\npayment-processing-output/scene-plan.md (2.1 KB)\npayment-processing-output/schema-recommendations.json (0.5 KB)\npayment-processing-output/sequence-pack.md (1.7 KB)\npayment-processing-output/server-manifest.yaml (2.8 KB)\npayment-processing-output/social-pack.md (1.6 KB)\npayment-processing-output/source-map.json (4.8 KB)\npayment-processing-output/storyboard.md (4.5 KB)\npayment-processing-output/study-brief.md (2.4 KB)\npayment-processing-output/superpower-pack.md (1.9 KB)\npayment-processing-output/template-pack.md (2.1 KB)\npayment-processing-output/test-generation-rules.md (2.0 KB)\npayment-processing-output/theme-guidelines.md (5.6 KB)\npayment-processing-output/theme.css (6.4 KB)\npayment-processing-output/token-budget-plan.md (2.3 KB)\npayment-processing-output/tracing-rules.md (1.4 KB)\npayment-processing-output/ui-audit.md (2.2 KB)\npayment-processing-output/variation-matrix.json (6.9 KB)\npayment-processing-output/vault-rules.md (2.1 KB)\npayment-processing-output/voice-and-tone.md (2.5 KB)\npayment-processing-output/workflow-pack.md (2.0 KB)\npayment-processing-output/workflow-registry.json (1.8 KB)\npnpm-workspace.yaml (0.1 KB)\npolicy-pack.md (2.8 KB)\nposter-layouts.md (3.1 KB)\nproduct-schema.json (7.3 KB)\nProgramPipeline.js (11.3 KB)\nprompt-diff-report.md (2.3 KB)\nREADME.md (9.2 KB)\nrefactor-checklist.md (4.0 KB)\nremotion-pack.md (9.2 KB)\nremotion-script.ts (3.7 KB)\nremotion/begin.yaml (1.8 KB)\nremotion/continuation.yaml (2.4 KB)\nremotion/MEMORY.yaml (2.8 KB)\nremotion/schemas/output-contract.schema.json (1.8 KB)\nrender-config.json (8.4 KB)\nrender.yaml (1.3 KB)\nrepo_snapshot.yaml (80.7 KB)\nresearch-threads.md (3.8 KB)\nroot-cause-checklist.md (21.7 KB)\nroute-priority-map.md (27.9 KB)\nrules to compile snapshot.yaml (19.4 KB)\nscene-plan.md (2.7 KB)\nschema-recommendations.json (6.3 KB)\nsearch/begin.yaml (3.7 KB)\nsearch/continuation.yaml (2.4 KB)\nsearch/MEMORY.yaml (5.9 KB)\nsearch/schemas/context-map.schema.json (10.9 KB)\nsearch/schemas/output-contract.schema.json (1.8 KB)\nsearch/schemas/repo-profile.schema.yaml (6.7 KB)\nseo/begin.yaml (3.6 KB)\nseo/continuation.yaml (2.4 KB)\nseo/MEMORY.yaml (5.8 KB)\nseo/schemas/output-contract.schema.json (1.8 KB)\nsequence-pack.md (2.1 KB)\nserver-manifest.yaml (10.6 KB)\nserver.json (0.9 KB)\nskills/begin.yaml (3.6 KB)"
 }

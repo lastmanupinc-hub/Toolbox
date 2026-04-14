@@ -1,10 +1,10 @@
 # Artifact Specification — axis-toolbox
 
-Generated: 2026-04-14T00:32:39.191Z
+Generated: 2026-04-14T00:40:14.568Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.
 
 ## Detected Stack
 
@@ -23,11 +23,11 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 466 fi
 
 ## Language Distribution
 
-- **TypeScript**: 73.7% ███████████████ (245 files, 77996 LOC)
-- **YAML**: 14.5% ███ (74 files, 15388 LOC)
-- **JSON**: 6.2% █ (54 files, 6549 LOC)
-- **Markdown**: 3.9% █ (81 files, 4155 LOC)
-- **CSS**: 0.8% █ (2 files, 849 LOC)
+- **TypeScript**: 67.4% █████████████ (249 files, 78281 LOC)
+- **YAML**: 12.3% ██ (69 files, 14287 LOC)
+- **JSON**: 10.6% ██ (64 files, 12359 LOC)
+- **Markdown**: 8.2% ██ (107 files, 9559 LOC)
+- **CSS**: 0.7% █ (2 files, 849 LOC)
 - **JavaScript**: 0.6% █ (3 files, 673 LOC)
 - **HTML**: 0.1% █ (1 files, 113 LOC)
 - **Dockerfile**: 0% █ (1 files, 49 LOC)

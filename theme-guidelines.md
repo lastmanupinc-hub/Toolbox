@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.
 
 ## Detected Stack
 
@@ -61,7 +61,7 @@ Theme tokens should be applied consistently across these layers:
 
 ## Component Patterns
 
-Detected 18 component file(s). Apply these patterns:
+Detected 23 component file(s). Apply these patterns:
 
 - Buttons: `radius-md`, `primary-500` bg, `space-2` horizontal padding, `space-1` vertical
 - Cards: `radius-lg`, `shadow-base`, `space-4` padding, `neutral-50` bg
@@ -201,6 +201,8 @@ Consider extending the token system for domain entity states:
 ## Detected Style Files
 
 - `apps/web/src/index.css` (770 lines)
+- `component-theme-map.json` (329 lines)
+- `dark-mode-tokens.json` (136 lines)
 - `packages/generator-core/src/generators-theme.ts` (1027 lines)
 - `packages/snapshots/src/github-token-branches.test.ts` (89 lines)
 - `packages/snapshots/src/github-token-store.ts` (136 lines)
@@ -208,8 +210,6 @@ Consider extending the token system for domain entity states:
 - `payment-processing-output/dark-mode-tokens.json` (117 lines)
 - `payment-processing-output/theme-guidelines.md` (137 lines)
 - `payment-processing-output/theme.css` (226 lines)
-- `payment-processing-output/token-budget-plan.md` (71 lines)
-- `theme/begin.yaml` (27 lines)
 
 ## Style File Contents
 
@@ -239,56 +239,56 @@ Consider extending the token system for domain entity states:
 ... (750 more lines)
 ```
 
-### `packages/generator-core/src/generators-theme.ts`
+### `component-theme-map.json`
 
-```typescript
-import type { ContextMap, RepoProfile } from "@axis/context-engine";
-import type { GeneratedFile, SourceFile } from "./types.js";
-import { hasFw, getFw } from "./fw-helpers.js";
-import { findFiles, renderExcerpts, fileTree, extractExports } from "./file-excerpt-utils.js";
-
-// ─── .ai/design-tokens.json ────────────────────────────────────
-
-export function generateDesignTokens(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
-  const id = ctx.project_identity;
-  const frameworks = ctx.detection.frameworks;
-  const fwNames = frameworks.map(f => f.name);
-
-  // Detect styling approach from file tree
-  const treeFiles = ctx.structure.file_tree_summary;
-  const hasTailwind = treeFiles.some(f => f.path.includes("tailwind.config"));
-  const hasCssModules = treeFiles.some(f => f.path.endsWith(".module.css") || f.path.endsWith(".module.scss"));
-  const hasStyledComponents = ctx.dependency_graph.external_dependencies.some(
-    d => d.name === "styled-components" || d.name === "@emotion/styled" || d.name === "@emotion/react",
-  );
-  const hasSass = treeFiles.some(f => f.path.endsWith(".scss") || f.path.endsWith(".sass"));
-... (1007 more lines)
+```json
+{
+  "project": "axis-toolbox",
+  "generated_at": "2026-04-14T00:32:39.146Z",
+  "detected_stack": [
+    {
+      "name": "React",
+      "version": "^19.1.0",
+      "confidence": 0.95
+    }
+  ],
+  "primary_language": "TypeScript",
+  "summary": {
+    "total_components": 27,
+    "by_type": {
+      "custom": 13,
+      "decorative": 1,
+      "overlay": 1,
+      "page": 12
+    }
+  },
+... (309 more lines)
 ```
 
-### `packages/snapshots/src/github-token-branches.test.ts`
+### `dark-mode-tokens.json`
 
-```typescript
-/**
- * eq_129: GitHub token store branch coverage
- * Targets uncovered branches: lines 31 (valid decrypt format), 103-106 (token_id query path)
- */
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { openMemoryDb, closeDb, getDb } from "./db.js";
-import { createAccount } from "./billing-store.js";
-import {
-  saveGitHubToken,
-  getGitHubTokens,
-  getGitHubTokenDecrypted,
-} from "./github-token-store.js";
-
-beforeEach(() => { openMemoryDb(); });
-afterEach(() => { closeDb(); });
-
-describe("github-token-store branches", () => {
-  it("decrypts a saved token via getGitHubTokenDecrypted (no token_id)", () => {
-    const acct = createAccount("TokenTest", "token@test.com");
-    const raw = "ghp_1234567890abcdef1234567890abcdef12";
-... (69 more lines)
+```json
+{
+  "project": "axis-toolbox",
+  "generated_at": "2026-04-14T00:32:39.353Z",
+  "scheme": "dark",
+  "detected_stack": {
+    "frameworks": [
+      "React ^19.1.0"
+    ],
+    "primary_language": "TypeScript",
+    "project_type": "monorepo"
+  },
+  "colors": {
+    "background": {
+      "base": "#0f172a",
+      "surface": "#1e293b",
+      "elevated": "#334155",
+      "overlay": "rgba(0, 0, 0, 0.6)"
+    },
+    "foreground": {
+      "primary": "#f8fafc",
+... (116 more lines)
 ```
 
 ## Component Style Usage

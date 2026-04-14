@@ -27,7 +27,7 @@
     "has_tap_protocol": true,
     "has_network_tokenization": true,
     "has_mandate_management": true,
-    "total_payment_files": 65
+    "total_payment_files": 81
   },
   "ap2_compliance_assessment": {
     "readiness_score": 100,

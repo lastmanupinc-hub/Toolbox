@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-toolbox
 
-> monorepo | TypeScript | 466 files | 107,233 LOC
+> monorepo | TypeScript | 500 files | 117,597 LOC
 
 **Stack:** React ^19.1.0
 
@@ -124,6 +124,11 @@ Check these entities for state corruption or relationship violations:
 - [ ] `Props` (interface, 1 fields) — `apps/web/src/pages/UploadPage.tsx`
 - [ ] `ImportMeta` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - [ ] `ImportMetaEnv` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
+- [ ] `DashboardData` (interface, 6 fields) — `dashboard-widget.tsx`
+- [ ] `axistoolboxProps` (interface, 3 fields) — `generated-component.tsx`
+- [ ] `PaletteAction` (interface, 0 fields) — `generated-component.tsx`
+- [ ] `Edge` (interface, 3 fields) — `generative-sketch.ts`
+- [ ] `Node` (interface, 7 fields) — `generative-sketch.ts`
 - [ ] `ContextMap` (interface, 10 fields) — `packages/context-engine/src/types.ts`
 - [ ] `RepoProfile` (interface, 12 fields) — `packages/context-engine/src/types.ts`
 - [ ] `CommerceSignals` (interface, 10 fields) — `packages/generator-core/src/generators-agentic-purchasing.ts`

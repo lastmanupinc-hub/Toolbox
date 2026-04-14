@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-14T00:32:39.316Z",
-  "total_symbols": 1618,
-  "file_count": 217,
+  "generated_at": "2026-04-14T00:40:14.674Z",
+  "total_symbols": 1640,
+  "file_count": 222,
   "symbols": {
     "apps/api/src/admin.test.ts": [
       {
@@ -3969,6 +3969,28 @@
         "line": 7
       }
     ],
+    "dashboard-widget.tsx": [
+      {
+        "name": "DashboardData",
+        "type": "interface",
+        "line": 3
+      },
+      {
+        "name": "data",
+        "type": "const",
+        "line": 12
+      },
+      {
+        "name": "StatCard",
+        "type": "function",
+        "line": 21
+      },
+      {
+        "name": "DashboardWidget",
+        "type": "function",
+        "line": 30
+      }
+    ],
     "e2e_round2.mjs": [
       {
         "name": "go",
@@ -4026,6 +4048,30 @@
         "line": 333
       }
     ],
+    "embed-snippet.ts": [
+      {
+        "name": "PROJECT_CONTEXT",
+        "type": "const",
+        "line": 7
+      },
+      {
+        "name": "embedProjectContext",
+        "type": "function",
+        "line": 39
+      }
+    ],
+    "generated-component.tsx": [
+      {
+        "name": "axistoolboxProps",
+        "type": "interface",
+        "line": 3
+      },
+      {
+        "name": "axistoolbox",
+        "type": "function",
+        "line": 9
+      }
+    ],
     "generative-sketch.js": [
       {
         "name": "COLORS",
@@ -4066,6 +4112,48 @@
         "name": "loop",
         "type": "function",
         "line": 268
+      }
+    ],
+    "generative-sketch.ts": [
+      {
+        "name": "Node",
+        "type": "interface",
+        "line": 7
+      },
+      {
+        "name": "Edge",
+        "type": "interface",
+        "line": 17
+      },
+      {
+        "name": "CONFIG",
+        "type": "const",
+        "line": 23
+      },
+      {
+        "name": "createNodes",
+        "type": "function",
+        "line": 35
+      },
+      {
+        "name": "createEdges",
+        "type": "function",
+        "line": 52
+      },
+      {
+        "name": "simulate",
+        "type": "function",
+        "line": 65
+      },
+      {
+        "name": "renderSketch",
+        "type": "function",
+        "line": 103
+      },
+      {
+        "name": "frame",
+        "type": "function",
+        "line": 110
       }
     ],
     "packages/context-engine/src/engine-branches.test.ts": [
@@ -8525,6 +8613,38 @@
         "name": "colors",
         "type": "const",
         "line": 47
+      }
+    ],
+    "remotion-script.ts": [
+      {
+        "name": "THEME",
+        "type": "const",
+        "line": 6
+      },
+      {
+        "name": "IntroScene",
+        "type": "function",
+        "line": 13
+      },
+      {
+        "name": "TechStackScene",
+        "type": "function",
+        "line": 24
+      },
+      {
+        "name": "ArchitectureScene",
+        "type": "function",
+        "line": 45
+      },
+      {
+        "name": "AbstractionsScene",
+        "type": "function",
+        "line": 62
+      },
+      {
+        "name": "axistoolboxVideo",
+        "type": "function",
+        "line": 79
       }
     ]
   }

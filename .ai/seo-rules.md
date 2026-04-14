@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 466 files across 21 top-level directories. It defines 146 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 19 top-level directories. It defines 151 domain models.
 
 ## Detected Stack
 
@@ -521,8 +521,10 @@ These domain models represent structured content — mapping them to schema type
 ## Detected SEO Files
 
 - `apps/web/public/robots.txt` (26 lines)
+- `export-manifest.yaml` (87 lines)
 - `payment-processing-output/export-manifest.yaml` (87 lines)
 - `payment-processing-output/server-manifest.yaml` (107 lines)
+- `server-manifest.yaml` (356 lines)
 
 ## SEO File Contents
 
@@ -552,6 +554,32 @@ Allow: /v1/
 ... (6 more lines)
 ```
 
+### `export-manifest.yaml`
+
+```yaml
+# Export Manifest
+# Project: axis-toolbox
+# Generated: 2026-04-14T00:32:39.204Z
+
+manifest:
+  project: "axis-toolbox"
+  version: "1.0"
+  total_artifacts: 4
+
+  artifacts:
+    - id: generative-sketch
+      file: generative-sketch.ts
+      type: code
+      format: typescript
+      description: Force-directed graph animation
+      exports:
+        - format: html
+          resolution: 1920x1080
+          self_contained: true
+        - format: mp4
+... (67 more lines)
+```
+
 ### `payment-processing-output/export-manifest.yaml`
 
 ```yaml
@@ -576,32 +604,6 @@ manifest:
           self_contained: true
         - format: mp4
 ... (67 more lines)
-```
-
-### `payment-processing-output/server-manifest.yaml`
-
-```yaml
-# MCP Server Manifest
-# Project: avery-pay-platform
-# Generated: 2026-04-05T07:37:21.804Z
-
-server:
-  name: "avery-pay-platform-mcp-server"
-  version: "1.0.0"
-  description: "MCP server for avery-pay-platform project integration"
-  protocol: "mcp"
-  transport: "stdio"
-
-  capabilities:
-    tools: true
-    resources: true
-    prompts: true
-
-  tools:
-    - name: analyze_project
-      description: Run full project analysis and return context map
-      input_schema:
-... (87 more lines)
 ```
 
 ## Detected Page Files
