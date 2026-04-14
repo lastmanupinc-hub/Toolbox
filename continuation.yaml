@@ -17,7 +17,7 @@ project_continuation:
     date: "2026-04-14"
     commit_or_tag: "c8344c3"
     current_session_id: "session_095"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3923 passing / 3931 total tests (8 skipped) across 132 files. MCP registry metadata enriched (server.json). 5th-paid-call-free incentive LIVE. Schema v18."
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3923 passing / 3931 total tests (8 skipped) across 132 files. MCP registry metadata enriched (server.json). /for-agents enhanced with system_prompt_snippet, integration_examples, pricing_table, demo_output. 5th-paid-call-free incentive LIVE. Schema v18."
 
   executive_truth:
     maturity_estimate:
@@ -3604,5 +3604,37 @@ project_continuation:
     remaining_pre_existing_gaps:
       - "eq_193 manual steps: mcp-publisher publish, Glama.ai/Smithery.ai submission"
       - "eq_194: /for-agents page enhancement — not started"
+    commit_results: ["pending"]
+    push_results: ["pending"]
+
+    session_id: "session_095b"
+    selected_move: "eq_194: /for-agents page enhancement — system prompt snippet, integration examples, pricing table, demo output"
+    selected_move_roi_reason: "ROI 78 — next highest unblocked candidate. /for-agents is the agent-facing landing page. Adding copy-paste system prompt snippet, pricing table, integration examples, and demo output converts page visitors into recurring AXIS callers. System prompt inclusion = recurring calls."
+    completed_candidates:
+      - "/for-agents: added system_prompt_snippet (copy-paste block for any agent's system prompt)"
+      - "/for-agents: added integration_examples for claude_desktop, cursor, custom_swarm (with snapshot sharing pattern)"
+      - "/for-agents: added pricing_table — 12 tools with standard/lite pricing, incentives section"
+      - "/for-agents: added demo_output — illustrative analyze_repo output with 7 sample artifacts"
+      - "/for-agents: allTools list expanded from 10 → 12 (added get_referral_code, check_referral_credits)"
+      - "Skills index: axis-mcp tool list expanded 10 → 12 with get_referral_code, check_referral_credits"
+      - "agent-discovery.test.ts: 3 assertions updated toBe(10) → toBe(12) + test name updates"
+    refused_candidates: []
+    blocked_candidates:
+      - "eq_194 manual steps deferred: Post r/mcp + X launch thread, offer 20-50 free credits"
+    evidence_added:
+      - "/for-agents now returns system_prompt_snippet, integration_examples, pricing_table, demo_output"
+      - "Skills index axis-mcp lists all 12 MCP tools"
+      - "132 test files / 3923 passed / 8 skipped / 0 failed"
+    verticals_advanced:
+      - "v18_agentic_commerce: agent acquisition page fully structured for system prompt adoption"
+    blockers_removed:
+      - "/for-agents lacked copy-paste hooks for system prompt inclusion"
+      - "/for-agents listed only 10 tools, missing referral tools"
+      - "Skills index axis-mcp listed only 10 tools"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193 manual steps: mcp-publisher publish, Glama.ai/Smithery.ai submission"
+      - "eq_194 manual steps: r/mcp + X launch post, free credit offers"
+      - "Dogfood regeneration needed: artifacts still reference pre-5th-call-free messaging"
     commit_results: ["pending"]
     push_results: ["pending"]
