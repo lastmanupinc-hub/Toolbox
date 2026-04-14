@@ -1,6 +1,6 @@
 # Poster Layouts — axis-toolbox
 
-Generated: 2026-04-14T00:43:50.523Z
+Generated: 2026-04-14T00:47:02.615Z
 
 ## Layout A: Tech Overview (A4 Portrait)
 
