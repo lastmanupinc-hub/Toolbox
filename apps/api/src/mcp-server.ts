@@ -165,7 +165,7 @@ export const MCP_TOOLS = [
   {
     name: "analyze_repo",
     description:
-      "Analyze any public GitHub repo and receive 81+ structured AI-context artifacts across 18 programs: AGENTS.md, .cursorrules, CLAUDE.md, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2/UCP/Visa compliance checklist, autonomous-checkout rules, and more. Returns snapshot_id to retrieve any artifact with get_artifact. Requires API key.",
+      "Analyze any public GitHub repo and receive 86 structured AI-context artifacts across 18 programs: AGENTS.md, .cursorrules, CLAUDE.md, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2/UCP/Visa compliance checklist, autonomous-checkout rules, and more. Returns snapshot_id to retrieve any artifact with get_artifact. Requires API key.",
     inputSchema: {
       type: "object",
       required: ["github_url"],
@@ -180,7 +180,7 @@ export const MCP_TOOLS = [
   {
     name: "analyze_files",
     description:
-      "Analyze source files directly (no GitHub required) and receive all 81+ AXIS artifacts: AGENTS.md, .cursorrules, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2 compliance checklist, autonomous-checkout rules, and more. Pass files as [{path, content}] array. Returns snapshot_id. Use get_artifact to retrieve any specific file. Deterministic: same input → byte-identical output. Requires API key.",
+      "Analyze source files directly (no GitHub required) and receive all 86 AXIS artifacts: AGENTS.md, .cursorrules, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2 compliance checklist, autonomous-checkout rules, and more. Pass files as [{path, content}] array. Returns snapshot_id. Use get_artifact to retrieve any specific file. Deterministic: same input → byte-identical output. Requires API key.",
     inputSchema: {
       type: "object",
       required: ["project_name", "project_type", "frameworks", "goals", "files"],
@@ -219,7 +219,7 @@ export const MCP_TOOLS = [
   {
     name: "list_programs",
     description:
-      "List all 18 AXIS programs, their 81+ generators, tier (free/pro), and artifact paths. No authentication required. Use search_and_discover_tools for keyword-based discovery; use this for complete enumeration.",
+      "List all 18 AXIS programs, their 86 generators, tier (free/pro), and artifact paths. No authentication required. Use search_and_discover_tools for keyword-based discovery; use this for complete enumeration.",
     inputSchema: { type: "object", properties: {} },
   },
   {
@@ -307,7 +307,7 @@ export const MCP_TOOLS = [
   {
     name: "search_and_discover_tools",
     description:
-      "Keyword search across all 18 AXIS programs and 81+ generators. Returns ranked matches with capability tags, artifact paths, and example API calls. Searchable terms include: AP2 compliance, UCP Article 5, Visa Intelligent Commerce, agentic purchasing, purchasing readiness score, autonomous checkout, spending authority, procurement protocol, negotiation playbook, compliance checklist, agentic-commerce, MCP tools, debug playbook, brand guidelines, design tokens, SEO, Remotion, Canvas. Context-efficient: call this before loading full tool schemas to find the right program without wasting tokens. Examples: 'AP2 UCP' → agentic-purchasing; 'checkout payment' → agentic-purchasing; 'debug logs' → debug; 'mcp agents' → mcp; 'brand guidelines' → brand. Omit q to list all 18 programs alphabetically. No authentication required.",
+      "Keyword search across all 18 AXIS programs and 86 generators. Returns ranked matches with capability tags, artifact paths, and example API calls. Searchable terms include: AP2 compliance, UCP Article 5, Visa Intelligent Commerce, agentic purchasing, purchasing readiness score, autonomous checkout, spending authority, procurement protocol, negotiation playbook, compliance checklist, agentic-commerce, MCP tools, debug playbook, brand guidelines, design tokens, SEO, Remotion, Canvas. Context-efficient: call this before loading full tool schemas to find the right program without wasting tokens. Examples: 'AP2 UCP' → agentic-purchasing; 'checkout payment' → agentic-purchasing; 'debug logs' → debug; 'mcp agents' → mcp; 'brand guidelines' → brand. Omit q to list all 18 programs alphabetically. No authentication required.",
     inputSchema: {
       type: "object",
       properties: {
@@ -787,9 +787,9 @@ export function runDiscoverAgenticCommerceTools(): string {
   return JSON.stringify({
     axis_toolbox: {
       tagline: "The operating system for AI-native development",
-      what_it_does: "Analyzes any codebase and generates 81+ structured artifacts across 18 programs — AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, design tokens, brand guidelines, AP2/Visa compliance, MCP configs, and more.",
+      what_it_does: "Analyzes any codebase and generates 86 structured artifacts across 18 programs — AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, design tokens, brand guidelines, AP2/Visa compliance, MCP configs, and more.",
       why_your_agent_needs_it: [
-        "81+ artifacts from a single call — complete codebase context",
+        "86 artifacts from a single call — complete codebase context",
         "Deterministic: same input → byte-identical output, safe for caching",
         "Free tier: search, skills, debug programs cost nothing",
         "Agentic commerce: purchasing readiness score, autonomous checkout rules, negotiation playbook",
@@ -1583,11 +1583,6 @@ export async function dispatch(
   switch (method) {
     case "initialize": {
       return rpcOk(id, {
-        incentives: {
-          referral: "Share your referral_token → earn $0.001/referral (cap $0.20, 30-day rolling). Token returned on every paid call.",
-          onboarding: "5th paid call free — automatically applied on qualifying accounts",
-          how: "Pass referral_token in prepare_for_agentic_purchasing args. 200 referrals = permanent $0.20/call discount.",
-        },
         protocolVersion: MCP_PROTOCOL_VERSION,
         capabilities: { tools: { listChanged: false } },
         serverInfo: { name: SERVER_NAME, version: SERVER_VERSION },
@@ -1739,8 +1734,35 @@ export async function handleMcpPost(
   const extraHeaders: Record<string, string> =
     msg.method === "initialize" ? { "Mcp-Session-Id": randomUUID() } : {};
 
+  // Inject incentives + capabilities into every success response so agents
+  // see the economic flywheel in the first ~200 bytes of the result object.
+  const INCENTIVES_BLOCK = {
+    incentives: {
+      referral: "Pass referral_token in context or headers → referrer earns micro-credits (20% discount on future calls), referred gets 5th call free",
+      onboarding: "New accounts start with 5th paid call free. Credits auto-apply.",
+      pricing: "Pay-per-call MPP. Free tier limited. Agents optimize via credits.",
+    },
+    axis_capabilities: {
+      artifact_count: 86,
+      programs: 18,
+      monetization: "usage_based + referral_credits",
+    },
+  };
+
+  let body: string;
+  if ("result" in response && response.result != null && typeof response.result === "object" && !Array.isArray(response.result)) {
+    // Merge incentives as first keys in the result object
+    body = JSON.stringify({
+      jsonrpc: response.jsonrpc,
+      id: response.id,
+      result: { ...INCENTIVES_BLOCK, ...(response.result as Record<string, unknown>) },
+    });
+  } else {
+    body = JSON.stringify(response);
+  }
+
   res.writeHead(200, { "Content-Type": "application/json", ...extraHeaders });
-  res.end(JSON.stringify(response));
+  res.end(body);
 }
 
 /** GET /mcp — human-readable summary for browsers / crawlers; agents use POST */

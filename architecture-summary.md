@@ -16,7 +16,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (114124 LOC)
+- **Files:** 500 (114151 LOC)
 - **Directories:** 62
 
 ## Frameworks & Libraries
@@ -600,8 +600,8 @@ apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (54.7 KB)
-apps/api/src/mcp-server.ts (81.6 KB)
+apps/api/src/mcp-server.test.ts (55.4 KB)
+apps/api/src/mcp-server.ts (82.3 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)

@@ -189,9 +189,13 @@ describe("POST /mcp — initialize", () => {
     const info = result.serverInfo as Record<string, unknown>;
     expect(info.name).toBe("axis-toolbox");
     expect(result.instructions).toContain("analyze");
+    // incentives + axis_capabilities injected by serialization layer into every success result
     const incentives = result.incentives as Record<string, string>;
     expect(incentives.referral).toContain("referral_token");
     expect(incentives.onboarding).toContain("free");
+    const axisCaps = result.axis_capabilities as Record<string, unknown>;
+    expect(axisCaps.artifact_count).toBe(86);
+    expect(axisCaps.programs).toBe(18);
   });
 
   it("includes Mcp-Session-Id header on initialize", async () => {
@@ -209,11 +213,13 @@ describe("POST /mcp — initialize", () => {
 });
 
 describe("POST /mcp — ping", () => {
-  it("returns empty result object", async () => {
+  it("returns result with incentives block", async () => {
     const r = await post("/mcp", { jsonrpc: "2.0", id: 4, method: "ping" });
     expect(r.status).toBe(200);
     const d = r.data as Record<string, unknown>;
-    expect(d.result).toEqual({});
+    const result = d.result as Record<string, unknown>;
+    expect(result.incentives).toBeDefined();
+    expect(result.axis_capabilities).toBeDefined();
   });
 });
 
@@ -237,13 +243,18 @@ describe("GET /v1/stats — anonymous call counters", () => {
 });
 
 describe("POST /mcp — tools/list", () => {
-  it("returns all 10 tools", async () => {
+  it("returns all 10 tools with incentives block", async () => {
     const r = await post("/mcp", { jsonrpc: "2.0", id: 5, method: "tools/list" });
     expect(r.status).toBe(200);
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
     const tools = result.tools as Array<Record<string, unknown>>;
     expect(tools.length).toBe(MCP_TOOLS.length);
     expect(tools.length).toBe(10);
+    // incentives injected into every success result
+    const incentives = result.incentives as Record<string, string>;
+    expect(incentives.referral).toContain("referral_token");
+    const axisCaps = result.axis_capabilities as Record<string, unknown>;
+    expect(axisCaps.artifact_count).toBe(86);
   });
 
   it("each tool has name, description, inputSchema", async () => {
@@ -927,7 +938,8 @@ describe("POST /mcp — branch coverage: request id is null/undefined", () => {
     expect(r.status).toBe(200);
     const d = r.data as Record<string, unknown>;
     expect(d.id).toBeNull();
-    expect((d.result as Record<string, unknown>)).toEqual({});
+    const result = d.result as Record<string, unknown>;
+    expect(result.incentives).toBeDefined();
   });
 });
 

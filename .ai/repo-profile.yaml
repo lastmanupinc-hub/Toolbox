@@ -1,7 +1,7 @@
 version: 1.0.0
-snapshot_id: 9befa564-2a38-47ce-97f4-b7f836ad8849
-project_id: 66b66577-aa6e-448c-aca6-86349e4433a9
-generated_at: "2026-04-14T02:33:20.326Z"
+snapshot_id: e783cfa6-0e64-4ca6-b220-0cc7786a47e1
+project_id: 95e957a4-a7b4-466d-b371-360a4a6de641
+generated_at: "2026-04-14T02:57:57.744Z"
 project:
   name: axis-toolbox
   type: monorepo
@@ -14,7 +14,7 @@ detection:
   languages:
     - name: TypeScript
       file_count: 249
-      loc: 78349
+      loc: 78376
       loc_percent: 69.5
     - name: JSON
       file_count: 63
@@ -23,7 +23,7 @@ detection:
     - name: YAML
       file_count: 68
       loc: 10876
-      loc_percent: 9.7
+      loc_percent: 9.6
     - name: Markdown
       file_count: 107
       loc: 9249
@@ -76,7 +76,7 @@ detection:
 structure_summary:
   total_files: 500
   total_directories: 62
-  total_loc: 114124
+  total_loc: 114151
   top_level_dirs:
     - name: packages
       purpose: monorepo_packages
@@ -214,8 +214,8 @@ apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (54.7 KB)
-apps/api/src/mcp-server.ts (81.6 KB)
+apps/api/src/mcp-server.test.ts (55.4 KB)
+apps/api/src/mcp-server.ts (82.3 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
