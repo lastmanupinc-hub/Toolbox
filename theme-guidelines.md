@@ -201,8 +201,8 @@ Consider extending the token system for domain entity states:
 ## Detected Style Files
 
 - `apps/web/src/index.css` (770 lines)
-- `component-theme-map.json` (329 lines)
-- `dark-mode-tokens.json` (136 lines)
+- `component-theme-map.json` (349 lines)
+- `dark-mode-tokens.json` (134 lines)
 - `packages/generator-core/src/generators-theme.ts` (1027 lines)
 - `packages/snapshots/src/github-token-branches.test.ts` (89 lines)
 - `packages/snapshots/src/github-token-store.ts` (136 lines)
@@ -244,7 +244,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T00:32:39.146Z",
+  "generated_at": "2026-04-14T00:40:14.539Z",
   "detected_stack": [
     {
       "name": "React",
@@ -254,15 +254,15 @@ Consider extending the token system for domain entity states:
   ],
   "primary_language": "TypeScript",
   "summary": {
-    "total_components": 27,
+    "total_components": 29,
     "by_type": {
-      "custom": 13,
+      "custom": 15,
       "decorative": 1,
       "overlay": 1,
       "page": 12
     }
   },
-... (309 more lines)
+... (329 more lines)
 ```
 
 ### `dark-mode-tokens.json`
@@ -270,7 +270,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T00:32:39.353Z",
+  "generated_at": "2026-04-14T00:40:14.697Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [
@@ -288,7 +288,7 @@ Consider extending the token system for domain entity states:
     },
     "foreground": {
       "primary": "#f8fafc",
-... (116 more lines)
+... (114 more lines)
 ```
 
 ## Component Style Usage

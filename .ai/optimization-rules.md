@@ -7,9 +7,9 @@
 | Metric | Value |
 |--------|-------|
 | Total files | 500 |
-| Total LOC | 117,597 |
+| Total LOC | 117,670 |
 | Average LOC / file | 235 |
-| Estimated token count | ~529,187 |
+| Estimated token count | ~529,515 |
 
 **Warning:** This project exceeds most context windows. Use selective context loading.
 
@@ -299,7 +299,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (69.0 KB)
+architecture-summary.md (68.7 KB)
 artifact-spec.md (7.3 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -339,7 +339,7 @@ collection-map.md (2.4 KB)
 commerce-registry.json (4.9 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
-component-theme-map.json (8.8 KB)
+component-theme-map.json (9.2 KB)
 connector-map.yaml (6.4 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
@@ -349,7 +349,7 @@ cost-estimate.json (5.7 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
 cro-playbook.md (33.0 KB)
-dark-mode-tokens.json (3.4 KB)
+dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.4 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
@@ -386,10 +386,10 @@ funnel-map.md (3.0 KB)
 generated-component.tsx (1.6 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
-graph-prompt-map.json (43.2 KB)
+graph-prompt-map.json (44.5 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
-incident-template.md (18.7 KB)
+incident-template.md (19.1 KB)
 layout-patterns.md (2.5 KB)
 linking-policy.md (3.6 KB)
 marketing-pack.md (9.7 KB)
@@ -644,7 +644,7 @@ render-config.json (8.4 KB)
 render.yaml (1.3 KB)
 repo_snapshot.yaml (80.7 KB)
 research-threads.md (3.8 KB)
-root-cause-checklist.md (21.7 KB)
+root-cause-checklist.md (22.0 KB)
 route-priority-map.md (27.9 KB)
 rules to compile snapshot.yaml (19.4 KB)
 scene-plan.md (2.7 KB)

@@ -1,6 +1,6 @@
 # Scene Plan — axis-toolbox
 
-Generated: 2026-04-14T00:40:14.571Z
+Generated: 2026-04-14T00:43:50.518Z
 
 ## Video Overview
 
@@ -35,7 +35,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Content**: Framework badges with staggered reveal
 - **Frameworks**: React
-- **Languages**: TypeScript (67.4%), YAML (12.3%), JSON (10.6%), Markdown (8.2%), CSS (0.7%), JavaScript (0.6%), HTML (0.1%), Dockerfile (0%)
+- **Languages**: TypeScript (67.3%), YAML (12.3%), JSON (10.7%), Markdown (8.2%), CSS (0.7%), JavaScript (0.6%), HTML (0.1%), Dockerfile (0%)
 - **Animation**: Staggered fade-in, 0.3s delay per item
 - **Visual**: Pill badges in accent color
 

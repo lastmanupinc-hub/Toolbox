@@ -20,7 +20,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Primary Language | TypeScript |
 | Frameworks | React |
 | Total Files | 500 |
-| Total LOC | 117597 |
+| Total LOC | 117670 |
 
 ## SEO Readiness Score
 
@@ -82,13 +82,13 @@ These files likely render as individual pages:
 - `agent-purchasing-playbook.md` (401 lines)
 - `AGENTS.md` (714 lines)
 - `apps/web/index.html` (121 lines)
-- `architecture-summary.md` (1627 lines)
+- `architecture-summary.md` (1605 lines)
 - `artifact-spec.md` (134 lines)
 - `asset-checklist.md` (50 lines)
 - `asset-guidelines.md` (65 lines)
 - `AXIS_Board_Pitch.md` (504 lines)
 - `AXIS_DEMO_REPORT.md` (274 lines)
-- `brand-board.md` (151 lines)
+- `brand-board.md` (152 lines)
 - `brand-guidelines.md` (93 lines)
 
 ## Page Component Analysis
