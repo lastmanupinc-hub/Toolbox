@@ -198,18 +198,18 @@ export function ProgramsPage({ onAnalyze }: Props) {
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="programs-hero">
         <div className="programs-hero-inner">
-          <span className="badge badge-accent" style={{ marginBottom: 12, display: "inline-block" }}>18 Programs · 87 Artifacts</span>
+          <span className="badge badge-accent" style={{ marginBottom: 12, display: "inline-block" }}>18 Programs · 86 Artifacts</span>
           <h1 className="programs-hero-title">
             Every AI artifact your codebase needs. Generated in seconds.
           </h1>
           <p className="programs-hero-sub">
             AXIS Toolbox analyzes your repo across 60+ languages and generates structured governance files
             for every AI coding tool — GitHub Copilot, Claude Code, Cursor, Windsurf, Aider, and more.
-            One scan. 87 outputs. Zero manual work.
+            One scan. 86 outputs. Zero manual work.
           </p>
           <div className="programs-hero-stats">
             <div className="programs-stat">
-              <span className="programs-stat-value">87</span>
+              <span className="programs-stat-value">86</span>
               <span className="programs-stat-label">Generated Artifacts</span>
             </div>
             <div className="programs-stat">

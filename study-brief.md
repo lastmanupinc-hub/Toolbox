@@ -17,7 +17,7 @@ Before diving into this codebase, you should be comfortable with:
 1. Read the project README and any CONTRIBUTING.md
 2. Understand the top-level directory structure:
 
-   - `packages` — monorepo_packages (130 files)
+   - `packages` — monorepo_packages (131 files)
    - `apps` — monorepo_apps (127 files)
    - `payment-processing-output` — project_directory (72 files)
    - `examples` — project_directory (16 files)

@@ -1,7 +1,7 @@
 version: 1.0.0
-snapshot_id: cab4ae54-5679-457d-801c-667ca3c109ff
-project_id: 29ff6c81-e4f8-4178-893c-1b7961de5ba3
-generated_at: "2026-04-14T03:53:42.584Z"
+snapshot_id: 48e24023-d869-47a5-a9c1-743767eb0284
+project_id: a59316c8-7d0d-4c85-9826-3af186c3a083
+generated_at: "2026-04-14T04:24:50.625Z"
 project:
   name: axis-toolbox
   type: monorepo
@@ -13,8 +13,8 @@ project:
 detection:
   languages:
     - name: TypeScript
-      file_count: 249
-      loc: 78562
+      file_count: 250
+      loc: 78771
       loc_percent: 69.6
     - name: JSON
       file_count: 63
@@ -25,8 +25,8 @@ detection:
       loc: 10876
       loc_percent: 9.6
     - name: Markdown
-      file_count: 107
-      loc: 9254
+      file_count: 106
+      loc: 9225
       loc_percent: 8.2
     - name: CSS
       file_count: 2
@@ -76,11 +76,11 @@ detection:
 structure_summary:
   total_files: 500
   total_directories: 62
-  total_loc: 114357
+  total_loc: 114537
   top_level_dirs:
     - name: packages
       purpose: monorepo_packages
-      file_count: 130
+      file_count: 131
     - name: apps
       purpose: monorepo_apps
       file_count: 127
@@ -143,7 +143,7 @@ structure_summary:
 health:
   has_readme: true
   has_tests: true
-  test_file_count: 131
+  test_file_count: 132
   has_ci: true
   has_lockfile: true
   has_typescript: true
@@ -215,7 +215,7 @@ apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
 apps/api/src/mcp-server.test.ts (55.5 KB)
-apps/api/src/mcp-server.ts (84.7 KB)
+apps/api/src/mcp-server.ts (88.1 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
@@ -539,6 +539,7 @@ packages/snapshots/src/oauth-store.ts (4.6 KB)
 packages/snapshots/src/perf.bench.ts (6.9 KB)
 packages/snapshots/src/persistence-metering.test.ts (9.9 KB)
 packages/snapshots/src/persistence-metering.ts (4.9 KB)
+packages/snapshots/src/referral-e2e.test.ts (10.2 KB)
 packages/snapshots/src/referral-store.test.ts (9.8 KB)
 packages/snapshots/src/referral-store.ts (10.0 KB)
 packages/snapshots/src/search-store.test.ts (6.8 KB)
@@ -665,5 +666,4 @@ search/schemas/repo-profile.schema.yaml (6.7 KB)
 seo/begin.yaml (3.6 KB)
 seo/continuation.yaml (2.4 KB)
 seo/MEMORY.yaml (5.8 KB)
-seo/schemas/output-contract.schema.json (1.8 KB)
-sequence-pack.md (2.1 KB)"
+seo/schemas/output-contract.schema.json (1.8 KB)"

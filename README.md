@@ -32,7 +32,7 @@ axis-toolbox/
 │   ├── snapshots/    → Snapshot intake, SQLite persistence, billing, funnel
 │   ├── repo-parser/  → Language detection (60+), framework detection (10), import graph
 │   ├── context-engine/ → Context map builder, repo profile, route/architecture analysis
-    └── generator-core/ → 87 generators across 18 programs
+    └── generator-core/ → 86 generators across 18 programs
 └── vitest.config.ts  → Shared test config
 ```
 

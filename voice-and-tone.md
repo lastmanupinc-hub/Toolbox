@@ -79,7 +79,7 @@ Before publishing any user-facing text:
 
 ## Documentation Tone Samples
 
-Found 107 documentation files to audit for tone consistency.
+Found 106 documentation files to audit for tone consistency.
 
 - `ab-test-plan.md`
 - `agent-purchasing-playbook.md`

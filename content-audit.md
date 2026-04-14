@@ -20,7 +20,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Primary Language | TypeScript |
 | Frameworks | React |
 | Total Files | 500 |
-| Total LOC | 114357 |
+| Total LOC | 114537 |
 
 ## SEO Readiness Score
 
@@ -38,7 +38,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Content Files Analysis
 
-- **Content files (md/mdx/html):** 174
+- **Content files (md/mdx/html):** 173
 - **Template files (tsx/jsx/vue/svelte):** 29
 - **Total source files:** 500
 

@@ -729,7 +729,7 @@ export function generateProductSchema(
       },
     },
     total_programs: 18,
-    total_outputs: 87,
+    total_outputs: 86,
   };
 
   return {
@@ -1183,11 +1183,11 @@ export function generateCommerceRegistry(
         id: "pro-all",
         name: "Pro Complete (All 18 Programs)",
         programs: ["search","skills","debug","frontend","seo","optimization","theme","brand","superpowers","marketing","notebook","obsidian","mcp","artifacts","remotion","canvas","algorithmic","agentic-purchasing"],
-        outputs: 87,
+        outputs: 86,
         tier: "pro",
         price_cents: 5000,
         price_interval: "per_call",
-        description: "All 87 structured artifacts across 18 programs — full AI-native governance layer",
+        description: "All 86 structured artifacts across 18 programs — full AI-native governance layer",
         api_call: { method: "tools/call", tool: "analyze_repo", requires_auth: true },
       },
       {

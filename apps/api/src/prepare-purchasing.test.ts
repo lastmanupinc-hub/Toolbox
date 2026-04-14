@@ -450,8 +450,8 @@ describe("MCP_TOOLS — prepare_for_agentic_purchasing", () => {
     expect(tool!.description).toContain("win-probability");
   });
 
-  it("lists 10 total MCP tools", () => {
-    expect(MCP_TOOLS.length).toBe(10);
+  it("lists 12 total MCP tools", () => {
+    expect(MCP_TOOLS.length).toBe(12);
   });
 });
 

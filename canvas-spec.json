@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T03:53:42.700Z",
+  "generated_at": "2026-04-14T04:24:50.917Z",
   "design_system": {
     "colors": {
       "primary": "#6366f1",
@@ -137,7 +137,7 @@
       {
         "name": "TypeScript",
         "percent": 69.6,
-        "loc": 78562
+        "loc": 78771
       },
       {
         "name": "JSON",
@@ -152,7 +152,7 @@
       {
         "name": "Markdown",
         "percent": 8.2,
-        "loc": 9254
+        "loc": 9225
       },
       {
         "name": "CSS",
@@ -204,7 +204,7 @@
     "domain_model_count": 152,
     "route_count": 429,
     "total_files": 500,
-    "total_loc": 114357
+    "total_loc": 114537
   },
   "source_asset_files": null
 }

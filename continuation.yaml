@@ -16,8 +16,8 @@ project_continuation:
     project_name: "AXIS Toolbox"
     date: "2026-04-14"
     commit_or_tag: "pending"
-    current_session_id: "session_091"
-    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 3906 passing / 3914 total tests (8 skipped) across 131 files. 100% branch coverage. Artifact count corrected 87→86 across all source files + README.md (root description source). .ai/.ai/ nested duplicates removed. Full dogfood regeneration with corrected count."
+    current_session_id: "session_092"
+    one_sentence_summary: "AXIS Toolbox v0.4.0 — 18 programs, 86 generators, 12 MCP tools, 3917 passing / 3925 total tests (8 skipped) across 132 files. Structured incentives in MCP responses. E2E referral lifecycle tested. Artifact count corrected 87→86 across all source files. Full dogfood regeneration."
 
   executive_truth:
     maturity_estimate:
@@ -31,7 +31,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 96
       integration_confidence: 98
-      notes: "3906 passing / 3914 total (8 skipped) across 131 files. 100.00% branch coverage (2231/2231). MCP integration LIVE (10 tools). prepare_for_agentic_purchasing composite tool LIVE with referral_token input. Referral system LIVE: 3 SQLite tables (migration v16), 12 exported functions, chargeWithDiscounts() wired at all 7 billing sites. HEAD→GET aliasing in router. CORS includes HEAD. Self-propagation in AGENTS.md/CLAUDE.md/.cursorrules. Artifact count corrected 87→86 across all source files + README.md. .ai/.ai/ nested duplicates removed. 18 programs, 86 generators."
+      notes: "3917 passing / 3925 total (8 skipped) across 132 files. MCP integration LIVE (12 tools). prepare_for_agentic_purchasing composite tool LIVE with referral_token input. Referral system LIVE: 3 SQLite tables (migration v16), 12 exported functions, chargeWithDiscounts() wired at all 7 billing sites, E2E integration tested. Structured INCENTIVES_BLOCK in every MCP response. HEAD→GET aliasing in router. CORS includes HEAD. Self-propagation in AGENTS.md/CLAUDE.md/.cursorrules. Artifact count corrected 87→86 across all source files + README.md. 18 programs, 86 generators."
 
   boundary_truth:
     accepted_input_modes:
@@ -3460,5 +3460,63 @@ project_continuation:
       - "eq_193: MCP registry metadata (Glama, Smithery, mcp-index) — not started"
       - "eq_194: /for-agents page enhancement — not started"
       - "continuation.yaml: sessions 085-090 were not recorded until this session"
+    commit_results: ["f457fce"]
+    push_results: ["pushed to main"]
+
+    session_id: "session_091"
+    selected_move: "Structured incentives injection into MCP responses"
+    selected_move_roi_reason: "Agent acquisition gain 5 + revenue loop closure 5 + self-propagation 4 = highest ROI. Structured INCENTIVES_BLOCK at top of every MCP success response ensures every agent interaction surfaces the referral program in machine-readable format."
+    completed_candidates:
+      - "INCENTIVES_BLOCK upgraded: program_name, description, how_it_works, key_exports, monetization structure"
+      - "tools/list response includes incentives + monetization + axis_capabilities blocks"
+      - "prepare_for_agentic_purchasing description enhanced with referral economics + share-to-earn tag"
+      - "getMcpServerMeta() upgraded for .well-known/mcp.json"
+      - "Test assertions updated from incentives.referral to incentives.program_name/description"
+      - "All 131 test files / 3911 tests pass"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "Every MCP success response now includes structured incentives block as first keys"
+      - "tools/list includes incentives, monetization, axis_capabilities"
+    verticals_advanced:
+      - "v18_agentic_commerce: agent acquisition funnel hardened — every MCP interaction surfaces referral program"
+    blockers_removed:
+      - "Agent incentive program was only described in documentation, not surfaced in machine-readable MCP responses"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193: MCP registry metadata (Glama, Smithery, mcp-index) — not started"
+      - "eq_194: /for-agents page enhancement — not started"
+    commit_results: ["f457fce"]
+    push_results: ["pushed to main"]
+
+    session_id: "session_092"
+    selected_move: "87→86 source fix sweep + E2E referral integration test + MCP tool count fix (10→12)"
+    selected_move_roi_reason: "Candidate A (87→86 fix ROI 24) + Candidate B (E2E referral test ROI 20) + cascading test fix (10→12 tool count). Combined session maximizes canonical coherence and integration quality."
+    completed_candidates:
+      - "README.md line 35: 87→86 (1 instance)"
+      - "ProgramsPage.tsx: 87→86 (3 instances — badge, hero text, stat value)"
+      - "generators-agentic-purchasing.ts: 87→86 (3 instances — total_outputs, outputs, description)"
+      - "generators-agentic-purchasing.test.ts: toBe(87)→toBe(86)"
+      - "mcp-server.test.ts: 10→12 tool count assertions (5 instances)"
+      - "prepare-purchasing.test.ts: 10→12 tool count assertion"
+      - "referral-e2e.test.ts: NEW — 6 E2E tests covering full referral lifecycle (code→conversions→credits→free call→discount→summary)"
+      - "Full dogfood regeneration — all 86 generated artifacts refreshed"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "E2E referral test: full flow (code→conversions→credits→free call→discount→summary)"
+      - "E2E referral test: expired credits reset, cross-referrer duplicate block, discount cap, free-call priority, chargeWithDiscounts chain"
+      - "132 test files / 3917 passed / 8 skipped / 0 failed"
+      - "MCP_TOOLS array confirmed at 12 entries (added get_referral_code + check_referral_credits)"
+    verticals_advanced:
+      - "v18_agentic_commerce: referral system fully integration-tested end-to-end"
+      - "v0_core_platform: canonical coherence — 87→86 in last 3 source files"
+    blockers_removed:
+      - "Stale 87 count in README.md line 35, ProgramsPage.tsx (3), generators-agentic-purchasing.ts (3)"
+      - "Test assertions hardcoded to 10 MCP tools when actual count is 12"
+    blockers_added: []
+    remaining_pre_existing_gaps:
+      - "eq_193: MCP registry metadata (Glama, Smithery, mcp-index) — not started"
+      - "eq_194: /for-agents page enhancement — not started"
     commit_results: ["pending"]
     push_results: ["pending"]

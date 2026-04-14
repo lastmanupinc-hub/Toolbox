@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-14T03:53:42.797Z",
-  "total_symbols": 1646,
+  "generated_at": "2026-04-14T04:24:51.189Z",
+  "total_symbols": 1648,
   "file_count": 222,
   "symbols": {
     "apps/api/src/admin.test.ts": [
@@ -1445,137 +1445,147 @@
       {
         "name": "rpcOk",
         "type": "function",
-        "line": 387
+        "line": 405
       },
       {
         "name": "rpcErr",
         "type": "function",
-        "line": 391
+        "line": 409
       },
       {
         "name": "toolOk",
         "type": "function",
-        "line": 399
+        "line": 417
       },
       {
         "name": "toolErr",
         "type": "function",
-        "line": 403
+        "line": 421
       },
       {
         "name": "filterGeneratorsByEntitlement",
         "type": "function",
-        "line": 410
+        "line": 428
       },
       {
         "name": "runAnalyzeFiles",
         "type": "function",
-        "line": 426
+        "line": 444
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 479
+        "line": 497
       },
       {
         "name": "runAnalyzeRepo",
         "type": "function",
-        "line": 549
+        "line": 567
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 606
+        "line": 624
       },
       {
         "name": "runSearchTools",
         "type": "function",
-        "line": 700
+        "line": 718
       },
       {
         "name": "runDiscoverAgenticCommerceTools",
         "type": "function",
-        "line": 778
+        "line": 796
       },
       {
         "name": "runImproveMyAgent",
         "type": "function",
-        "line": 829
+        "line": 847
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 870
+        "line": 888
       },
       {
         "name": "runDiscoverAgenticPurchasingNeeds",
         "type": "function",
-        "line": 1037
+        "line": 1055
+      },
+      {
+        "name": "runGetReferralCode",
+        "type": "function",
+        "line": 1184
+      },
+      {
+        "name": "runCheckReferralCredits",
+        "type": "function",
+        "line": 1212
       },
       {
         "name": "runListPrograms",
         "type": "function",
-        "line": 1166
+        "line": 1243
       },
       {
         "name": "runGetSnapshot",
         "type": "function",
-        "line": 1199
+        "line": 1281
       },
       {
         "name": "runGetArtifact",
         "type": "function",
-        "line": 1242
+        "line": 1324
       },
       {
         "name": "runPreparePurchasing",
         "type": "function",
-        "line": 1277
+        "line": 1359
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1349
+        "line": 1431
       },
       {
         "name": "dispatch",
         "type": "function",
-        "line": 1578
+        "line": 1660
       },
       {
         "name": "toolArgs",
         "type": "function",
-        "line": 1623
+        "line": 1691
       },
       {
         "name": "ip",
         "type": "function",
-        "line": 1629
+        "line": 1697
       },
       {
         "name": "handleMcpPost",
         "type": "function",
-        "line": 1694
+        "line": 1768
       },
       {
         "name": "INCENTIVES_BLOCK",
         "type": "const",
-        "line": 1763
+        "line": 1837
       },
       {
         "name": "handleMcpGet",
         "type": "function",
-        "line": 1801
+        "line": 1875
       },
       {
         "name": "getMcpServerMeta",
         "type": "function",
-        "line": 1848
+        "line": 1922
       },
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 1940
+        "line": 2014
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [

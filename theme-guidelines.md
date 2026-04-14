@@ -239,7 +239,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T03:15:00.619Z",
+  "generated_at": "2026-04-14T03:53:42.660Z",
   "detected_stack": [
     {
       "name": "React",
@@ -265,7 +265,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T03:15:00.812Z",
+  "generated_at": "2026-04-14T03:53:42.822Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [

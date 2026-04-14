@@ -243,13 +243,13 @@ describe("GET /v1/stats — anonymous call counters", () => {
 });
 
 describe("POST /mcp — tools/list", () => {
-  it("returns all 10 tools with incentives block", async () => {
+  it("returns all 12 tools with incentives block", async () => {
     const r = await post("/mcp", { jsonrpc: "2.0", id: 5, method: "tools/list" });
     expect(r.status).toBe(200);
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
     const tools = result.tools as Array<Record<string, unknown>>;
     expect(tools.length).toBe(MCP_TOOLS.length);
-    expect(tools.length).toBe(10);
+    expect(tools.length).toBe(12);
     // incentives injected into every success result
     const incentives = result.incentives as Record<string, unknown>;
     expect(incentives.program_name).toBe("Share-to-Earn Micro-Discounts");
@@ -1228,9 +1228,9 @@ describe("getMcpServerMeta — shape and content", () => {
     expect(String(getMcpServerMeta().protocol)).toContain(MCP_PROTOCOL_VERSION);
   });
 
-  it("tools array has 10 entries derived from MCP_TOOLS", () => {
+  it("tools array has 12 entries derived from MCP_TOOLS", () => {
     const tools = getMcpServerMeta().tools as Array<{ name: string; description: string }>;
-    expect(tools).toHaveLength(10);
+    expect(tools).toHaveLength(12);
     expect(tools.map(t => t.name)).toEqual(MCP_TOOLS.map(t => t.name));
   });
 
@@ -1294,11 +1294,11 @@ describe("GET /v1/mcp/server.json", () => {
     expect(data.endpoint).toBe("https://axis-api-6c7z.onrender.com/v1/mcp");
   });
 
-  it("body contains 10 tools", async () => {
+  it("body contains 12 tools", async () => {
     const r = await get("/v1/mcp/server.json");
     const data = r.data as Record<string, unknown>;
     const tools = data.tools as unknown[];
-    expect(tools).toHaveLength(10);
+    expect(tools).toHaveLength(12);
   });
 
   it("body contains categories array", async () => {
@@ -1332,7 +1332,7 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
     expect(parsed.axis_toolbox).toBeDefined();
     expect(parsed.tools).toBeDefined();
     expect(Array.isArray(parsed.tools)).toBe(true);
-    expect(parsed.tools.length).toBe(10);
+    expect(parsed.tools.length).toBe(12);
   });
 
   it("includes free_tools array", async () => {
@@ -1377,7 +1377,7 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
     const parsed = JSON.parse(content[0].text);
     expect(parsed.shareable_manifest).toBeDefined();
     expect(typeof parsed.system_prompt_snippet).toBe("string");
-    expect(parsed.shareable_manifest.tools).toBe(10);
+    expect(parsed.shareable_manifest.tools).toBe(12);
   });
 
   it("tool name appears in MCP_TOOLS", () => {

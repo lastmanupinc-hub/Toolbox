@@ -16,7 +16,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (114357 LOC)
+- **Files:** 500 (114537 LOC)
 - **Directories:** 62
 
 ## Frameworks & Libraries
@@ -471,7 +471,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Directory Layout
 
-- `packages/` — monorepo_packages (130 files)
+- `packages/` — monorepo_packages (131 files)
 - `apps/` — monorepo_apps (127 files)
 - `payment-processing-output/` — project_directory (72 files)
 - `examples/` — project_directory (16 files)
@@ -602,7 +602,7 @@ apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
 apps/api/src/mcp-server.test.ts (55.5 KB)
-apps/api/src/mcp-server.ts (84.7 KB)
+apps/api/src/mcp-server.ts (88.1 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
@@ -926,6 +926,7 @@ packages/snapshots/src/oauth-store.ts (4.6 KB)
 packages/snapshots/src/perf.bench.ts (6.9 KB)
 packages/snapshots/src/persistence-metering.test.ts (9.9 KB)
 packages/snapshots/src/persistence-metering.ts (4.9 KB)
+packages/snapshots/src/referral-e2e.test.ts (10.2 KB)
 packages/snapshots/src/referral-store.test.ts (9.8 KB)
 packages/snapshots/src/referral-store.ts (10.0 KB)
 packages/snapshots/src/search-store.test.ts (6.8 KB)
@@ -1053,7 +1054,6 @@ seo/begin.yaml (3.6 KB)
 seo/continuation.yaml (2.4 KB)
 seo/MEMORY.yaml (5.8 KB)
 seo/schemas/output-contract.schema.json (1.8 KB)
-sequence-pack.md (2.1 KB)
 ```
 
 ## Entry Points (Source)
