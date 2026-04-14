@@ -82,9 +82,9 @@ ENV NODE_ENV=production
 ENV PORT=4000
 EXPOSE 4000 5173
 
-# Health check
+# Health check — uses $PORT so Render's dynamic assignment works
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD node -e "const h=require('http');h.get('http://localhost:4000/v1/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"
+  CMD node -e "const p=process.env.PORT||4000;const h=require('http');h.get('http://localhost:'+p+'/v1/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"
 
 # Run as non-root
 USER axis
