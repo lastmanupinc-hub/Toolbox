@@ -1,7 +1,7 @@
 version: 1.0.0
-snapshot_id: cf887ac4-3809-46f4-a927-4de143309981
-project_id: 79e9d45e-bde1-451e-8293-dba432acb0e3
-generated_at: "2026-04-14T01:46:20.328Z"
+snapshot_id: 1c57bee2-8dce-4f2d-b847-68bbbd3c8b67
+project_id: e3783a44-a22f-4f6a-9e9f-796241409e5d
+generated_at: "2026-04-14T02:07:26.344Z"
 project:
   name: axis-toolbox
   type: monorepo
@@ -14,20 +14,20 @@ detection:
   languages:
     - name: TypeScript
       file_count: 249
-      loc: 78309
-      loc_percent: 69.4
+      loc: 78312
+      loc_percent: 69.5
     - name: JSON
       file_count: 63
-      loc: 12409
-      loc_percent: 11
+      loc: 12501
+      loc_percent: 11.1
     - name: YAML
       file_count: 68
-      loc: 10865
-      loc_percent: 9.6
+      loc: 10876
+      loc_percent: 9.7
     - name: Markdown
       file_count: 107
-      loc: 9559
-      loc_percent: 8.5
+      loc: 9249
+      loc_percent: 8.2
     - name: CSS
       file_count: 2
       loc: 849
@@ -76,7 +76,7 @@ detection:
 structure_summary:
   total_files: 500
   total_directories: 62
-  total_loc: 114288
+  total_loc: 114084
   top_level_dirs:
     - name: packages
       purpose: monorepo_packages
@@ -170,8 +170,8 @@ source_file_count: 500
 source_file_tree: ".github/workflows/ci.yml (4.4 KB)
 .gitignore (0.2 KB)
 ab-test-plan.md (2.8 KB)
-agent-purchasing-playbook.md (15.2 KB)
-AGENTS.md (38.0 KB)
+agent-purchasing-playbook.md (16.9 KB)
+AGENTS.md (14.2 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
@@ -215,7 +215,7 @@ apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
 apps/api/src/mcp-server.test.ts (54.5 KB)
-apps/api/src/mcp-server.ts (79.3 KB)
+apps/api/src/mcp-server.ts (79.7 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.4 KB)
@@ -304,8 +304,8 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (68.7 KB)
-artifact-spec.md (7.3 KB)
+architecture-summary.md (68.9 KB)
+artifact-spec.md (7.4 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
 artifacts/MEMORY.yaml (3.1 KB)
@@ -313,13 +313,13 @@ artifacts/schemas/output-contract.schema.json (1.8 KB)
 asset-checklist.md (1.3 KB)
 asset-guidelines.md (1.7 KB)
 automated remedial action.yaml (7.5 KB)
-automation-pipeline.yaml (3.0 KB)
+automation-pipeline.yaml (3.1 KB)
 axis_all_tools.yaml (22.6 KB)
 AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 begin.yaml (12.9 KB)
-brand-board.md (5.1 KB)
+brand-board.md (5.0 KB)
 brand-guidelines.md (3.3 KB)
 brand/begin.yaml (1.8 KB)
 brand/continuation.yaml (2.4 KB)
@@ -327,7 +327,7 @@ brand/MEMORY.yaml (3.0 KB)
 brand/schemas/output-contract.schema.json (1.8 KB)
 campaign-brief.md (2.5 KB)
 canvas-pack.md (9.7 KB)
-canvas-spec.json (4.0 KB)
+canvas-spec.json (4.2 KB)
 canvas/begin.yaml (1.8 KB)
 canvas/continuation.yaml (2.4 KB)
 canvas/MEMORY.yaml (2.8 KB)
@@ -336,35 +336,35 @@ capability_inventory.yaml (31.7 KB)
 capability-registry.json (2.5 KB)
 CHANGELOG.md (6.6 KB)
 channel-rulebook.md (3.6 KB)
-checkout-flow.md (9.1 KB)
+checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.6 KB)
+CLAUDE.md (9.9 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
-commerce-registry.json (4.9 KB)
+commerce-registry.json (6.3 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
 component-theme-map.json (9.2 KB)
-connector-map.yaml (6.4 KB)
+connector-map.yaml (6.7 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
-cost-estimate.json (5.7 KB)
+cost-estimate.json (6.0 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
 cro-playbook.md (33.0 KB)
 dark-mode-tokens.json (3.3 KB)
-dashboard-widget.tsx (3.4 KB)
+dashboard-widget.tsx (3.3 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
 dependency-hotspots.md (7.9 KB)
 docker-compose.yml (2.0 KB)
-Dockerfile (4.0 KB)
+Dockerfile (4.1 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
-embed-snippet.ts (2.3 KB)
+embed-snippet.ts (2.2 KB)
 examples/01-paid-platform/generated/AGENTS.md (1.9 KB)
 examples/01-paid-platform/generated/CLAUDE.md (0.9 KB)
 examples/01-paid-platform/README.md (0.9 KB)
@@ -386,7 +386,7 @@ frontend/begin.yaml (3.6 KB)
 frontend/continuation.yaml (2.4 KB)
 frontend/MEMORY.yaml (5.8 KB)
 frontend/schemas/output-contract.schema.json (1.8 KB)
-funnel-map.md (3.0 KB)
+funnel-map.md (2.9 KB)
 generated-component.tsx (1.6 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
@@ -401,7 +401,7 @@ marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (11.8 KB)
+mcp-config.json (11.7 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
@@ -409,8 +409,8 @@ mcp/schemas/output-contract.schema.json (1.8 KB)
 memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (26.5 KB)
-negotiation-rules.md (6.5 KB)
-notebook-summary.md (3.7 KB)
+negotiation-rules.md (7.6 KB)
+notebook-summary.md (3.6 KB)
 notebook/begin.yaml (1.8 KB)
 notebook/continuation.yaml (2.4 KB)
 notebook/MEMORY.yaml (2.9 KB)
@@ -632,9 +632,9 @@ payment-processing-output/workflow-pack.md (2.0 KB)
 payment-processing-output/workflow-registry.json (1.8 KB)
 pnpm-lock.yaml (0.0 KB)
 pnpm-workspace.yaml (0.1 KB)
-policy-pack.md (2.8 KB)
+policy-pack.md (2.6 KB)
 poster-layouts.md (3.1 KB)
-product-schema.json (7.3 KB)
+product-schema.json (7.7 KB)
 ProgramPipeline.js (11.3 KB)
 prompt-diff-report.md (2.3 KB)
 README.md (9.2 KB)
@@ -646,13 +646,13 @@ remotion/continuation.yaml (2.4 KB)
 remotion/MEMORY.yaml (2.8 KB)
 remotion/schemas/output-contract.schema.json (1.8 KB)
 render-config.json (8.4 KB)
-render.yaml (1.3 KB)
+render.yaml (1.2 KB)
 repo_snapshot.yaml (80.7 KB)
-research-threads.md (3.8 KB)
-root-cause-checklist.md (22.0 KB)
+research-threads.md (3.7 KB)
+root-cause-checklist.md (22.1 KB)
 route-priority-map.md (27.9 KB)
 rules to compile snapshot.yaml (19.4 KB)
-scene-plan.md (2.7 KB)
+scene-plan.md (2.8 KB)
 schema-recommendations.json (6.3 KB)
 scripts/regenerate.ps1 (1.4 KB)
 scripts/regenerate.sh (0.8 KB)

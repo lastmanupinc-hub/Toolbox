@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T01:46:20.571Z",
+  "generated_at": "2026-04-14T02:07:26.575Z",
   "total_symbols": 1641,
   "file_count": 222,
   "symbols": {
@@ -1565,7 +1565,7 @@
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 1837
+        "line": 1842
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [
@@ -4062,7 +4062,7 @@
       {
         "name": "embedProjectContext",
         "type": "function",
-        "line": 39
+        "line": 37
       }
     ],
     "generated-component.tsx": [

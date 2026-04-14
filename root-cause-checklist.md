@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-toolbox
 
-> monorepo | TypeScript | 500 files | 114,288 LOC
+> monorepo | TypeScript | 500 files | 114,084 LOC
 
 **Stack:** React ^19.1.0
 
