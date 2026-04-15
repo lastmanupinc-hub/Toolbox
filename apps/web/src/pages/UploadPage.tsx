@@ -277,10 +277,21 @@ export function UploadPage({ onComplete }: Props) {
       files,
     };
 
+    // Log payload size to help diagnose upload failures
+    const jsonBody = JSON.stringify(payload);
+    const payloadMB = (jsonBody.length / 1_048_576).toFixed(1);
+    console.log(`[AXIS] Upload payload: ${files.length} files, ${payloadMB} MB JSON`);
+
+    if (jsonBody.length > 50_000_000) {
+      setError(`Upload too large (${payloadMB} MB). Reduce file count or remove large files. Max is 50 MB.`);
+      setLoading(false);
+      return;
+    }
+
     try {
-      setLoadingStep("Building context map...");
+      setLoadingStep("Uploading & building context map...");
       const stepTimer = setTimeout(() => setLoadingStep("Generating artifacts..."), 3000);
-      const result = await createSnapshot(payload);
+      const result = await createSnapshot(payload, jsonBody);
       clearTimeout(stepTimer);
       setLoadingStep("");
       toast("success", `Snapshot created — ${result.generated_files.length} files generated`);

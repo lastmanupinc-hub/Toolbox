@@ -200,12 +200,13 @@ function authHeaders(): Record<string, string> {
 
 async function fetchJSON<T>(url: string, init?: RequestInit & { timeoutMs?: number }): Promise<T> {
   const controller = new AbortController();
-  const timeoutMs = init?.timeoutMs ?? 30_000;
+  const { timeoutMs: customTimeout, ...fetchInit } = init ?? {};
+  const timeoutMs = customTimeout ?? 30_000;
   // v8 ignore next
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(`${API_BASE}${url}`, {
-      ...init,
+      ...fetchInit,
       headers: { ...authHeaders(), ...init?.headers },
       signal: controller.signal,
     });
@@ -239,9 +240,10 @@ async function fetchJSON<T>(url: string, init?: RequestInit & { timeoutMs?: numb
     // Network-level failure (server unreachable, CORS, DNS, SSL, connection reset, or
     // AbortController fired during body upload — Chrome throws TypeError instead of AbortError)
     if (err instanceof TypeError || (err instanceof DOMException && err.name !== "AbortError")) {
+      console.error("[AXIS] Network error on", url, err);
+      const detail = err instanceof Error ? err.message : String(err);
       throw new ApiError(
-        "Request failed — the server may have timed out processing a large upload. " +
-        "Try uploading fewer files or a smaller project.",
+        `Request failed (${detail}). Check your connection and try again.`,
         0,
         "NETWORK_ERROR",
       );
@@ -254,10 +256,10 @@ async function fetchJSON<T>(url: string, init?: RequestInit & { timeoutMs?: numb
 
 // ─── Snapshot API ───────────────────────────────────────────────
 
-export async function createSnapshot(payload: SnapshotPayload): Promise<SnapshotResponse> {
+export async function createSnapshot(payload: SnapshotPayload, preSerializedBody?: string): Promise<SnapshotResponse> {
   return fetchJSON<SnapshotResponse>("/v1/snapshots", {
     method: "POST",
-    body: JSON.stringify(payload),
+    body: preSerializedBody ?? JSON.stringify(payload),
     timeoutMs: 120_000,  // 2 min — large zip payloads need time to upload + process
   });
 }

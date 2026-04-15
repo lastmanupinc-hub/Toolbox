@@ -75,7 +75,12 @@ export class Router {
           error: err instanceof Error ? err.message : String(err),
         });
         if (!res.writableEnded) {
-          sendError(res, 500, "INTERNAL_ERROR", "Internal server error");
+          const msg = err instanceof Error ? err.message : "";
+          if (msg === "Request body too large") {
+            sendError(res, 413, "BODY_TOO_LARGE", "Request body exceeds the maximum allowed size (50 MB)");
+          } else {
+            sendError(res, 500, "INTERNAL_ERROR", "Internal server error");
+          }
         }
       }
       return;
@@ -132,7 +137,9 @@ export async function readBody(req: IncomingMessage): Promise<string> {
     req.on("data", (chunk: Buffer) => {
       totalSize += chunk.length;
       if (totalSize > maxSize) {
-        req.destroy();
+        // Stop reading further data but don't destroy the socket —
+        // destroying prevents the server from sending an HTTP response.
+        req.removeAllListeners("data");
         if (!settled) { settled = true; reject(new Error("Request body too large")); }
         return;
       }
