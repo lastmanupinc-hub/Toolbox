@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse, type Server } from "node:http";
 import type { Socket } from "node:net";
-import { gzipSync } from "node:zlib";
+import { gzipSync, gunzipSync } from "node:zlib";
 import { initRequest, getRequestId, getRequestStart, log, ErrorCode, type ErrorCodeValue } from "./logger.js";
 import { checkRateLimit } from "./rate-limiter.js";
 import { resolveAuth } from "./billing.js";
@@ -145,7 +145,30 @@ export async function readBody(req: IncomingMessage): Promise<string> {
       }
       chunks.push(chunk);
     });
-    req.on("end", () => { if (!settled) { settled = true; resolve(Buffer.concat(chunks).toString("utf-8")); } });
+    req.on("end", () => {
+      if (settled) return;
+      settled = true;
+      const raw = Buffer.concat(chunks);
+
+      // Decompress gzip-encoded request bodies (browser Compression Streams API)
+      const encoding = req.headers?.["content-encoding"];
+      if (encoding === "gzip") {
+        try {
+          const decompressed = gunzipSync(raw);
+          if (decompressed.length > maxSize) {
+            reject(new Error("Request body too large"));
+            return;
+          }
+          resolve(decompressed.toString("utf-8"));
+        } catch {
+          // Proxy may have already decompressed — try raw
+          resolve(raw.toString("utf-8"));
+        }
+        return;
+      }
+
+      resolve(raw.toString("utf-8"));
+    });
     req.on("error", (err) => { if (!settled) { settled = true; reject(err); } });
     /* v8 ignore stop */
     /* v8 ignore next — premature close hard to simulate in tests */
@@ -218,7 +241,8 @@ export function createApp(router: Router, port: number): Server {
       ?? (process.env.NODE_ENV === "production" ? "https://toolbox.jonathanarvay.com" : "*");
     res.setHeader("Access-Control-Allow-Origin", corsOrigin);
     res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Content-Encoding, Authorization");
+    res.setHeader("Access-Control-Max-Age", "86400"); // cache preflight for 24h
     if (corsOrigin !== "*") {
       res.setHeader("Vary", "Origin");
     }

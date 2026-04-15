@@ -257,9 +257,26 @@ async function fetchJSON<T>(url: string, init?: RequestInit & { timeoutMs?: numb
 // ─── Snapshot API ───────────────────────────────────────────────
 
 export async function createSnapshot(payload: SnapshotPayload, preSerializedBody?: string): Promise<SnapshotResponse> {
+  const json = preSerializedBody ?? JSON.stringify(payload);
+
+  // Compress large payloads with gzip to stay under proxy body-size limits.
+  // Render's nginx proxy may reject bodies >10 MB before they reach Node.js,
+  // returning an error without CORS headers → browser shows "Failed to fetch".
+  let body: BodyInit = json;
+  const extraHeaders: Record<string, string> = {};
+  if (json.length > 1_000_000 && typeof CompressionStream !== "undefined") {
+    const compressed = await new Response(
+      new Blob([json]).stream().pipeThrough(new CompressionStream("gzip")),
+    ).blob();
+    body = compressed;
+    extraHeaders["Content-Encoding"] = "gzip";
+    console.log(`[AXIS] Compressed ${(json.length / 1_048_576).toFixed(1)} MB → ${(compressed.size / 1_048_576).toFixed(1)} MB`);
+  }
+
   return fetchJSON<SnapshotResponse>("/v1/snapshots", {
     method: "POST",
-    body: preSerializedBody ?? JSON.stringify(payload),
+    body,
+    headers: extraHeaders,
     timeoutMs: 120_000,  // 2 min — large zip payloads need time to upload + process
   });
 }
