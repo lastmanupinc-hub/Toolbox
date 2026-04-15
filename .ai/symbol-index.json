@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-14T13:38:18.894Z",
-  "total_symbols": 1651,
-  "file_count": 222,
+  "generated_at": "2026-04-15T19:53:55.684Z",
+  "total_symbols": 1743,
+  "file_count": 232,
   "symbols": {
     "apps/api/src/admin.test.ts": [
       {
@@ -47,6 +47,18 @@
         "name": "postReq",
         "type": "function",
         "line": 53
+      }
+    ],
+    "apps/api/src/analyze-repo-success.test.ts": [
+      {
+        "name": "Res",
+        "type": "interface",
+        "line": 34
+      },
+      {
+        "name": "post",
+        "type": "function",
+        "line": 36
       }
     ],
     "apps/api/src/analyze.test.ts": [
@@ -429,6 +441,13 @@
         "line": 486
       }
     ],
+    "apps/api/src/e2e-smoke.test.ts": [
+      {
+        "name": "guard",
+        "type": "function",
+        "line": 29
+      }
+    ],
     "apps/api/src/env.test.ts": [
       {
         "name": "msg",
@@ -722,6 +741,18 @@
         "line": 149
       }
     ],
+    "apps/api/src/handler-shutdown.test.ts": [
+      {
+        "name": "stubReq",
+        "type": "function",
+        "line": 20
+      },
+      {
+        "name": "stubRes",
+        "type": "function",
+        "line": 24
+      }
+    ],
     "apps/api/src/handler-validation.test.ts": [
       {
         "name": "Res",
@@ -760,252 +791,282 @@
       {
         "name": "chargeWithDiscounts",
         "type": "function",
-        "line": 54
+        "line": 56
       },
       {
         "name": "assertSnapshotAccess",
         "type": "function",
-        "line": 70
+        "line": 80
       },
       {
         "name": "assertProjectAccess",
         "type": "function",
-        "line": 85
+        "line": 95
       },
       {
         "name": "makeProgramHandler",
         "type": "function",
-        "line": 125
+        "line": 135
       },
       {
         "name": "requestedOutputs",
         "type": "function",
-        "line": 203
+        "line": 213
       },
       {
         "name": "handleCreateSnapshot",
         "type": "function",
-        "line": 257
+        "line": 267
       },
       {
         "name": "input",
         "type": "const",
-        "line": 308
+        "line": 318
       },
       {
         "name": "handleGetSnapshot",
         "type": "function",
-        "line": 419
+        "line": 519
       },
       {
         "name": "handleDeleteSnapshot",
         "type": "function",
-        "line": 444
+        "line": 544
       },
       {
         "name": "handleDeleteProject",
         "type": "function",
-        "line": 473
+        "line": 573
       },
       {
         "name": "db",
         "type": "function",
-        "line": 492
+        "line": 592
       },
       {
         "name": "handleGetContext",
         "type": "function",
-        "line": 503
+        "line": 603
       },
       {
         "name": "handleGetGeneratedFiles",
         "type": "function",
-        "line": 532
+        "line": 632
       },
       {
         "name": "handleHealthCheck",
         "type": "function",
-        "line": 565
+        "line": 665
       },
       {
         "name": "handleDbStats",
         "type": "function",
-        "line": 580
+        "line": 678
       },
       {
         "name": "handleDbMaintenance",
         "type": "function",
-        "line": 589
+        "line": 687
       },
       {
         "name": "handleGetGeneratedFile",
         "type": "function",
-        "line": 599
+        "line": 697
       },
       {
         "name": "handleSearchExport",
         "type": "function",
-        "line": 637
+        "line": 735
       },
       {
         "name": "handleSkillsGenerate",
         "type": "function",
-        "line": 670
+        "line": 768
       },
       {
         "name": "requestedOutputs",
         "type": "function",
-        "line": 703
+        "line": 801
       },
       {
         "name": "handleGitHubAnalyze",
         "type": "function",
-        "line": 723
+        "line": 821
       },
       {
         "name": "input",
         "type": "const",
-        "line": 822
+        "line": 920
       },
       {
         "name": "handleSearchIndex",
         "type": "function",
-        "line": 905
+        "line": 1003
       },
       {
         "name": "files",
         "type": "function",
-        "line": 931
+        "line": 1029
       },
       {
         "name": "handleSearchQuery",
         "type": "function",
-        "line": 946
+        "line": 1044
       },
       {
         "name": "handleSearchStats",
         "type": "function",
-        "line": 994
+        "line": 1092
       },
       {
         "name": "handleSearchSymbols",
         "type": "function",
-        "line": 1010
+        "line": 1108
       },
       {
         "name": "adoptionHint",
         "type": "function",
-        "line": 1127
+        "line": 1225
       },
       {
         "name": "buildNextSteps",
         "type": "function",
-        "line": 1136
+        "line": 1234
       },
       {
         "name": "detectProjectName",
         "type": "function",
-        "line": 1157
+        "line": 1255
       },
       {
         "name": "handleAnalyze",
         "type": "function",
-        "line": 1173
+        "line": 1271
       },
       {
         "name": "input",
         "type": "const",
-        "line": 1366
+        "line": 1464
       },
       {
         "name": "PURCHASING_READINESS_WEIGHTS",
         "type": "const",
-        "line": 1466
+        "line": 1564
       },
       {
         "name": "computePurchasingReadinessScore",
         "type": "function",
-        "line": 1477
+        "line": 1575
       },
       {
         "name": "has",
         "type": "function",
-        "line": 1482
+        "line": 1580
       },
       {
         "name": "checks",
         "type": "const",
-        "line": 1484
+        "line": 1582
       },
       {
         "name": "computePurchasingReadinessEvidence",
         "type": "function",
-        "line": 1544
+        "line": 1642
       },
       {
         "name": "handlePreparePurchasing",
         "type": "function",
-        "line": 1574
+        "line": 1672
       },
       {
         "name": "path",
         "type": "function",
-        "line": 1619
+        "line": 1717
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1706
+        "line": 1804
       },
       {
         "name": "complianceSection",
         "type": "const",
-        "line": 1789
+        "line": 1886
       },
       {
         "name": "handleWellKnown",
         "type": "function",
-        "line": 1888
+        "line": 1985
       },
       {
         "name": "handleCapabilities",
         "type": "function",
-        "line": 1969
+        "line": 2063
       },
       {
         "name": "handleLlmsTxt",
         "type": "function",
-        "line": 2047
+        "line": 2143
+      },
+      {
+        "name": "handleSecurityTxt",
+        "type": "function",
+        "line": 2216
       },
       {
         "name": "handleRobotsTxt",
         "type": "function",
-        "line": 2104
+        "line": 2235
+      },
+      {
+        "name": "handleSitemapXml",
+        "type": "function",
+        "line": 2284
       },
       {
         "name": "handleSkillsIndex",
         "type": "function",
-        "line": 2138
+        "line": 2327
       },
       {
         "name": "handleDocsMd",
         "type": "function",
-        "line": 2212
+        "line": 2401
       },
       {
         "name": "handleForAgents",
         "type": "function",
-        "line": 2316
+        "line": 2505
       },
       {
         "name": "handleInstall",
         "type": "function",
-        "line": 2503
+        "line": 2760
       },
       {
         "name": "handleProbeIntent",
         "type": "function",
-        "line": 2543
+        "line": 2796
+      },
+      {
+        "name": "handleAgentJson",
+        "type": "function",
+        "line": 2907
+      },
+      {
+        "name": "handleHealthRedirect",
+        "type": "function",
+        "line": 2945
+      },
+      {
+        "name": "handleDocsRedirect",
+        "type": "function",
+        "line": 2960
+      },
+      {
+        "name": "handleOpenApiJson",
+        "type": "function",
+        "line": 2974
       }
     ],
     "apps/api/src/latency-histogram.test.ts": [
@@ -1133,192 +1194,197 @@
       {
         "name": "result",
         "type": "function",
-        "line": 251
+        "line": 250
       },
       {
         "name": "result",
         "type": "function",
-        "line": 266
+        "line": 264
       },
       {
         "name": "result",
         "type": "function",
-        "line": 277
+        "line": 275
       },
       {
         "name": "result",
         "type": "function",
-        "line": 289
+        "line": 287
       },
       {
         "name": "result",
         "type": "function",
-        "line": 303
+        "line": 301
       },
       {
         "name": "result",
         "type": "function",
-        "line": 321
+        "line": 319
       },
       {
         "name": "result",
         "type": "function",
-        "line": 338
+        "line": 336
       },
       {
         "name": "result",
         "type": "function",
-        "line": 370
+        "line": 368
       },
       {
         "name": "result",
         "type": "function",
-        "line": 397
+        "line": 395
       },
       {
         "name": "result",
         "type": "function",
-        "line": 424
+        "line": 422
       },
       {
         "name": "result",
         "type": "function",
-        "line": 449
+        "line": 447
       },
       {
         "name": "result",
         "type": "function",
-        "line": 469
+        "line": 467
       },
       {
         "name": "result",
         "type": "function",
-        "line": 495
+        "line": 493
       },
       {
         "name": "result",
         "type": "function",
-        "line": 519
+        "line": 517
       },
       {
         "name": "result",
         "type": "function",
-        "line": 543
+        "line": 541
       },
       {
         "name": "result",
         "type": "function",
-        "line": 569
+        "line": 567
       },
       {
         "name": "result",
         "type": "function",
-        "line": 588
+        "line": 586
       },
       {
         "name": "result",
         "type": "function",
-        "line": 604
+        "line": 602
       },
       {
         "name": "result",
         "type": "function",
-        "line": 615
+        "line": 613
       },
       {
         "name": "result",
         "type": "function",
-        "line": 629
+        "line": 627
       },
       {
         "name": "result",
         "type": "function",
-        "line": 650
+        "line": 648
       },
       {
         "name": "result",
         "type": "function",
-        "line": 670
+        "line": 668
       },
       {
         "name": "result",
         "type": "function",
-        "line": 684
+        "line": 682
       },
       {
         "name": "result",
         "type": "function",
-        "line": 695
+        "line": 693
       },
       {
         "name": "result",
         "type": "function",
-        "line": 708
+        "line": 706
       },
       {
         "name": "result",
         "type": "function",
-        "line": 719
+        "line": 717
       },
       {
         "name": "result",
         "type": "function",
-        "line": 732
+        "line": 730
       },
       {
         "name": "result",
         "type": "function",
-        "line": 749
+        "line": 747
       },
       {
         "name": "result",
         "type": "function",
-        "line": 766
+        "line": 764
       },
       {
         "name": "result",
         "type": "function",
-        "line": 784
+        "line": 782
       },
       {
         "name": "result",
         "type": "function",
-        "line": 949
+        "line": 943
       },
       {
         "name": "result",
         "type": "function",
-        "line": 968
+        "line": 962
       },
       {
         "name": "result",
         "type": "function",
-        "line": 997
+        "line": 991
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1052
+        "line": 1046
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1070
+        "line": 1064
       },
       {
         "name": "top",
         "type": "function",
-        "line": 1128
+        "line": 1122
       },
       {
         "name": "scores",
         "type": "function",
-        "line": 1157
+        "line": 1151
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1184
+        "line": 1178
+      },
+      {
+        "name": "programs",
+        "type": "function",
+        "line": 1185
       },
       {
         "name": "programs",
@@ -1326,298 +1392,378 @@
         "line": 1191
       },
       {
-        "name": "programs",
+        "name": "result",
         "type": "function",
-        "line": 1197
+        "line": 1245
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1251
+        "line": 1260
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1266
+        "line": 1396
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1402
+        "line": 1413
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1419
+        "line": 1427
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1433
+        "line": 1443
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1449
+        "line": 1474
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1480
+        "line": 1502
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1508
+        "line": 1526
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1532
+        "line": 1546
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1552
+        "line": 1571
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1585
+      },
+      {
+        "name": "c1",
+        "type": "function",
+        "line": 1609
+      },
+      {
+        "name": "c2",
+        "type": "function",
+        "line": 1610
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1633
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1647
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1670
+      },
+      {
+        "name": "key",
+        "type": "function",
+        "line": 1690
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1712
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1748
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1764
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1791
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1814
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1836
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1854
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1870
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1886
       }
     ],
     "apps/api/src/mcp-server.ts": [
       {
         "name": "McpCallCounters",
         "type": "interface",
-        "line": 45
+        "line": 46
       },
       {
         "name": "_counters",
         "type": "const",
-        "line": 53
+        "line": 54
       },
       {
         "name": "ProbeClass",
         "type": "type",
-        "line": 63
+        "line": 64
       },
       {
         "name": "classifyProbe",
         "type": "function",
-        "line": 73
+        "line": 74
       },
       {
         "name": "IntentCapture",
         "type": "interface",
-        "line": 82
+        "line": 83
       },
       {
         "name": "captureIntent",
         "type": "function",
-        "line": 93
+        "line": 94
       },
       {
         "name": "entry",
         "type": "const",
-        "line": 94
+        "line": 95
       },
       {
         "name": "getIntentLog",
         "type": "function",
-        "line": 105
+        "line": 106
       },
       {
         "name": "logMcpCall",
         "type": "function",
-        "line": 111
+        "line": 112
       },
       {
         "name": "getMcpCallCounters",
         "type": "function",
-        "line": 128
+        "line": 129
       },
       {
         "name": "JsonRpcRequest",
         "type": "interface",
-        "line": 142
+        "line": 143
       },
       {
         "name": "RpcSuccess",
         "type": "interface",
-        "line": 149
+        "line": 150
       },
       {
         "name": "RpcError",
         "type": "interface",
-        "line": 155
+        "line": 156
       },
       {
         "name": "RpcResponse",
         "type": "type",
-        "line": 161
+        "line": 162
       },
       {
         "name": "rpcOk",
         "type": "function",
-        "line": 405
+        "line": 462
       },
       {
         "name": "rpcErr",
         "type": "function",
-        "line": 409
+        "line": 466
       },
       {
         "name": "toolOk",
         "type": "function",
-        "line": 417
+        "line": 474
       },
       {
         "name": "toolErr",
         "type": "function",
-        "line": 421
+        "line": 478
       },
       {
         "name": "filterGeneratorsByEntitlement",
         "type": "function",
-        "line": 428
+        "line": 485
       },
       {
         "name": "runAnalyzeFiles",
         "type": "function",
-        "line": 444
+        "line": 501
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 497
+        "line": 553
       },
       {
         "name": "runAnalyzeRepo",
         "type": "function",
-        "line": 567
+        "line": 623
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 624
+        "line": 677
       },
       {
         "name": "runSearchTools",
         "type": "function",
-        "line": 718
+        "line": 770
       },
       {
         "name": "runDiscoverAgenticCommerceTools",
         "type": "function",
-        "line": 796
+        "line": 848
       },
       {
         "name": "runImproveMyAgent",
         "type": "function",
-        "line": 847
+        "line": 899
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 888
+        "line": 940
       },
       {
         "name": "runDiscoverAgenticPurchasingNeeds",
         "type": "function",
-        "line": 1055
+        "line": 1107
       },
       {
         "name": "runGetReferralCode",
         "type": "function",
-        "line": 1184
+        "line": 1236
       },
       {
         "name": "runCheckReferralCredits",
         "type": "function",
-        "line": 1212
+        "line": 1268
       },
       {
         "name": "runListPrograms",
         "type": "function",
-        "line": 1241
+        "line": 1301
       },
       {
         "name": "runGetSnapshot",
         "type": "function",
-        "line": 1279
+        "line": 1339
       },
       {
         "name": "runGetArtifact",
         "type": "function",
-        "line": 1322
+        "line": 1382
       },
       {
         "name": "runPreparePurchasing",
         "type": "function",
-        "line": 1357
+        "line": 1417
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1429
+        "line": 1489
       },
       {
         "name": "dispatch",
         "type": "function",
-        "line": 1658
+        "line": 1718
       },
       {
         "name": "toolArgs",
         "type": "function",
-        "line": 1689
+        "line": 1749
       },
       {
         "name": "ip",
         "type": "function",
-        "line": 1695
+        "line": 1755
       },
       {
         "name": "handleMcpPost",
         "type": "function",
-        "line": 1766
+        "line": 1824
       },
       {
         "name": "INCENTIVES_BLOCK",
         "type": "const",
-        "line": 1835
+        "line": 1893
       },
       {
         "name": "handleMcpGet",
         "type": "function",
-        "line": 1878
+        "line": 1929
       },
       {
         "name": "handleMcpDocs",
         "type": "function",
-        "line": 1887
+        "line": 1938
       },
       {
         "name": "getMcpServerMeta",
         "type": "function",
-        "line": 1934
+        "line": 1985
       },
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 2006
+        "line": 2050
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [
       {
         "name": "mockRes",
         "type": "function",
-        "line": 22
+        "line": 23
       },
       {
         "name": "res",
         "type": "const",
-        "line": 23
+        "line": 24
       },
       {
         "name": "mockReq",
         "type": "const",
-        "line": 36
+        "line": 37
       }
     ],
     "apps/api/src/metrics.test.ts": [
@@ -1676,12 +1822,12 @@
       {
         "name": "handleMetrics",
         "type": "function",
-        "line": 104
+        "line": 105
       },
       {
         "name": "tables",
         "type": "function",
-        "line": 111
+        "line": 112
       }
     ],
     "apps/api/src/mpp.test.ts": [
@@ -1893,42 +2039,42 @@
       {
         "name": "OpenApiSpec",
         "type": "interface",
-        "line": 3
+        "line": 4
       },
       {
         "name": "buildOpenApiSpec",
         "type": "function",
-        "line": 19
+        "line": 20
       },
       {
         "name": "ref",
         "type": "function",
-        "line": 1350
+        "line": 1512
       },
       {
         "name": "jsonContent",
         "type": "function",
-        "line": 1354
+        "line": 1516
       },
       {
         "name": "jsonBody",
         "type": "function",
-        "line": 1358
+        "line": 1520
       },
       {
         "name": "pathParam",
         "type": "function",
-        "line": 1362
+        "line": 1524
       },
       {
         "name": "queryParam",
         "type": "function",
-        "line": 1366
+        "line": 1528
       },
       {
         "name": "programEndpoints",
         "type": "function",
-        "line": 1370
+        "line": 1532
       }
     ],
     "apps/api/src/prepare-purchasing.test.ts": [
@@ -1997,6 +2143,28 @@
         "line": 51
       }
     ],
+    "apps/api/src/quota-guardrails.test.ts": [
+      {
+        "name": "Res",
+        "type": "interface",
+        "line": 14
+      },
+      {
+        "name": "post",
+        "type": "function",
+        "line": 16
+      },
+      {
+        "name": "rpcCall",
+        "type": "function",
+        "line": 43
+      },
+      {
+        "name": "getToolResult",
+        "type": "function",
+        "line": 52
+      }
+    ],
     "apps/api/src/quota.test.ts": [
       {
         "name": "Res",
@@ -2012,6 +2180,13 @@
         "name": "rawKey",
         "type": "function",
         "line": 85
+      }
+    ],
+    "apps/api/src/rate-limit-integration.test.ts": [
+      {
+        "name": "get",
+        "type": "function",
+        "line": 11
       }
     ],
     "apps/api/src/rate-limiter.test.ts": [
@@ -2168,47 +2343,47 @@
       {
         "name": "sendJSON",
         "type": "function",
-        "line": 88
+        "line": 93
       },
       {
         "name": "sendError",
         "type": "function",
-        "line": 114
+        "line": 119
       },
       {
         "name": "readBody",
         "type": "function",
-        "line": 124
+        "line": 129
       },
       {
         "name": "AppHandle",
         "type": "interface",
-        "line": 149
+        "line": 179
       },
       {
         "name": "isShuttingDown",
         "type": "function",
-        "line": 174
+        "line": 204
       },
       {
         "name": "createApp",
         "type": "function",
-        "line": 176
+        "line": 206
       },
       {
         "name": "path",
         "type": "function",
-        "line": 265
+        "line": 303
       },
       {
         "name": "shutdown",
         "type": "function",
-        "line": 298
+        "line": 336
       },
       {
         "name": "onSignal",
         "type": "function",
-        "line": 341
+        "line": 379
       }
     ],
     "apps/api/src/search-api.test.ts": [
@@ -2301,9 +2476,14 @@
         "line": 77
       },
       {
+        "name": "proSnapshot",
+        "type": "function",
+        "line": 91
+      },
+      {
         "name": "createTestAccount",
         "type": "function",
-        "line": 90
+        "line": 104
       }
     ],
     "apps/api/src/stripe-branches.test.ts": [
@@ -2597,6 +2777,13 @@
         "name": "handleWebhookDeliveries",
         "type": "function",
         "line": 158
+      }
+    ],
+    "apps/api/src/well-known-handlers.test.ts": [
+      {
+        "name": "req",
+        "type": "function",
+        "line": 29
       }
     ],
     "apps/cli/src/cli-commands.test.ts": [
@@ -3110,194 +3297,199 @@
         "line": 166
       },
       {
+        "name": "ApiError",
+        "type": "class",
+        "line": 180
+      },
+      {
         "name": "authHeaders",
         "type": "function",
-        "line": 180
+        "line": 194
       },
       {
         "name": "fetchJSON",
         "type": "function",
-        "line": 187
+        "line": 201
       },
       {
         "name": "createSnapshot",
         "type": "function",
-        "line": 226
+        "line": 259
       },
       {
         "name": "getGeneratedFiles",
         "type": "function",
-        "line": 233
+        "line": 284
       },
       {
         "name": "getGeneratedFile",
         "type": "function",
-        "line": 237
+        "line": 288
       },
       {
         "name": "runProgram",
         "type": "function",
-        "line": 245
+        "line": 296
       },
       {
         "name": "analyzeGitHubUrl",
         "type": "function",
-        "line": 255
+        "line": 306
       },
       {
         "name": "healthCheck",
         "type": "function",
-        "line": 262
+        "line": 314
       },
       {
         "name": "SearchResult",
         "type": "interface",
-        "line": 268
+        "line": 320
       },
       {
         "name": "SearchResponse",
         "type": "interface",
-        "line": 275
+        "line": 327
       },
       {
         "name": "searchQuery",
         "type": "function",
-        "line": 283
+        "line": 335
       },
       {
         "name": "indexSnapshot",
         "type": "function",
-        "line": 290
+        "line": 342
       },
       {
         "name": "SymbolResult",
         "type": "interface",
-        "line": 297
+        "line": 349
       },
       {
         "name": "SymbolsResponse",
         "type": "interface",
-        "line": 305
+        "line": 357
       },
       {
         "name": "searchSymbols",
         "type": "function",
-        "line": 311
+        "line": 363
       },
       {
         "name": "getExportUrl",
         "type": "function",
-        "line": 325
+        "line": 377
       },
       {
         "name": "downloadExport",
         "type": "function",
-        "line": 330
+        "line": 382
       },
       {
         "name": "createAccount",
         "type": "function",
-        "line": 347
+        "line": 399
       },
       {
         "name": "getAccount",
         "type": "function",
-        "line": 354
+        "line": 406
       },
       {
         "name": "createApiKey",
         "type": "function",
-        "line": 359
+        "line": 411
       },
       {
         "name": "listApiKeys",
         "type": "function",
-        "line": 366
+        "line": 418
       },
       {
         "name": "revokeApiKey",
         "type": "function",
-        "line": 370
+        "line": 422
       },
       {
         "name": "getUsage",
         "type": "function",
-        "line": 374
+        "line": 426
       },
       {
         "name": "updateTier",
         "type": "function",
-        "line": 384
+        "line": 436
       },
       {
         "name": "getPlans",
         "type": "function",
-        "line": 393
+        "line": 445
       },
       {
         "name": "getUpgradePrompt",
         "type": "function",
-        "line": 397
+        "line": 449
       },
       {
         "name": "dismissUpgradePrompt",
         "type": "function",
-        "line": 401
+        "line": 453
       },
       {
         "name": "CreditsInfo",
         "type": "interface",
-        "line": 407
+        "line": 459
       },
       {
         "name": "getCredits",
         "type": "function",
-        "line": 416
+        "line": 468
       },
       {
         "name": "Seat",
         "type": "interface",
-        "line": 422
+        "line": 474
       },
       {
         "name": "listSeats",
         "type": "function",
-        "line": 432
+        "line": 484
       },
       {
         "name": "inviteSeat",
         "type": "function",
-        "line": 436
+        "line": 488
       },
       {
         "name": "revokeSeat",
         "type": "function",
-        "line": 443
+        "line": 495
       },
       {
         "name": "getFunnelStatus",
         "type": "function",
-        "line": 449
+        "line": 501
       },
       {
         "name": "SubscriptionInfo",
         "type": "interface",
-        "line": 455
+        "line": 507
       },
       {
         "name": "createCheckout",
         "type": "function",
-        "line": 472
+        "line": 524
       },
       {
         "name": "getSubscription",
         "type": "function",
-        "line": 479
+        "line": 531
       },
       {
         "name": "cancelSubscription",
         "type": "function",
-        "line": 483
+        "line": 535
       }
     ],
     "apps/web/src/App.tsx": [
@@ -3564,6 +3756,23 @@
         "line": 72
       }
     ],
+    "apps/web/src/components/UpsellModal.tsx": [
+      {
+        "name": "Props",
+        "type": "interface",
+        "line": 4
+      },
+      {
+        "name": "UpsellModal",
+        "type": "function",
+        "line": 11
+      },
+      {
+        "name": "handleSignup",
+        "type": "function",
+        "line": 19
+      }
+    ],
     "apps/web/src/pages/AccountPage.tsx": [
       {
         "name": "AccountPage",
@@ -3746,7 +3955,7 @@
       {
         "name": "ForAgentsPage",
         "type": "function",
-        "line": 137
+        "line": 139
       }
     ],
     "apps/web/src/pages/HelpPage.tsx": [
@@ -3910,62 +4119,87 @@
       {
         "name": "Props",
         "type": "interface",
-        "line": 6
+        "line": 7
       },
       {
         "name": "UploadPage",
         "type": "function",
-        "line": 90
+        "line": 91
       },
       {
         "name": "readFiles",
         "type": "function",
-        "line": 109
+        "line": 111
       },
       {
         "name": "handleZipFile",
         "type": "function",
-        "line": 128
+        "line": 130
       },
       {
         "name": "handleFolderSelect",
         "type": "function",
-        "line": 147
+        "line": 149
       },
       {
         "name": "handleZipSelect",
         "type": "function",
-        "line": 151
+        "line": 153
       },
       {
         "name": "handleFileInputChange",
         "type": "function",
-        "line": 155
+        "line": 157
       },
       {
         "name": "handleZipInputChange",
         "type": "function",
-        "line": 166
+        "line": 168
       },
       {
         "name": "handleDrop",
         "type": "function",
-        "line": 172
+        "line": 174
       },
       {
         "name": "toggleOutput",
         "type": "function",
-        "line": 186
+        "line": 188
       },
       {
         "name": "handleSubmit",
         "type": "function",
-        "line": 192
+        "line": 194
+      },
+      {
+        "name": "blocked",
+        "type": "function",
+        "line": 235
+      },
+      {
+        "name": "allowed",
+        "type": "function",
+        "line": 236
       },
       {
         "name": "payload",
         "type": "const",
-        "line": 236
+        "line": 270
+      },
+      {
+        "name": "payloadMB",
+        "type": "function",
+        "line": 287
+      },
+      {
+        "name": "blocked",
+        "type": "function",
+        "line": 307
+      },
+      {
+        "name": "allowed",
+        "type": "function",
+        "line": 308
       }
     ],
     "apps/web/src/upload-utils-zip.test.ts": [
@@ -4101,6 +4335,173 @@
         "name": "opts",
         "type": "const",
         "line": 333
+      }
+    ],
+    "e2e_wiring_audit.mjs": [
+      {
+        "name": "delay",
+        "type": "function",
+        "line": 14
+      },
+      {
+        "name": "pace",
+        "type": "function",
+        "line": 15
+      },
+      {
+        "name": "record",
+        "type": "function",
+        "line": 20
+      },
+      {
+        "name": "go",
+        "type": "function",
+        "line": 28
+      },
+      {
+        "name": "opts",
+        "type": "const",
+        "line": 29
+      },
+      {
+        "name": "PROGRAM_ENDPOINTS",
+        "type": "const",
+        "line": 67
+      },
+      {
+        "name": "PROGRAM_OUTPUTS_FRONTEND",
+        "type": "const",
+        "line": 89
+      },
+      {
+        "name": "PROGRAM_OUTPUTS_BACKEND",
+        "type": "const",
+        "line": 111
+      },
+      {
+        "name": "main",
+        "type": "function",
+        "line": 133
+      },
+      {
+        "name": "pass",
+        "type": "function",
+        "line": 154
+      },
+      {
+        "name": "freeAuth",
+        "type": "const",
+        "line": 192
+      },
+      {
+        "name": "proAuth",
+        "type": "const",
+        "line": 193
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 204
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 235
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 263
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 292
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 319
+      },
+      {
+        "name": "isRefusal",
+        "type": "function",
+        "line": 335
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 349
+      },
+      {
+        "name": "pass",
+        "type": "function",
+        "line": 376
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 486
+      },
+      {
+        "name": "isRefusal",
+        "type": "function",
+        "line": 511
+      },
+      {
+        "name": "proSnapIds",
+        "type": "const",
+        "line": 524
+      },
+      {
+        "name": "proProjIds",
+        "type": "const",
+        "line": 525
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 535
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 651
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 665
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 714
+      },
+      {
+        "name": "isRefusal",
+        "type": "function",
+        "line": 726
+      },
+      {
+        "name": "payload",
+        "type": "const",
+        "line": 741
+      },
+      {
+        "name": "isRefusal",
+        "type": "function",
+        "line": 753
+      },
+      {
+        "name": "buildYaml",
+        "type": "function",
+        "line": 888
+      },
+      {
+        "name": "sections",
+        "type": "const",
+        "line": 917
       }
     ],
     "embed-snippet.ts": [
@@ -4502,17 +4903,17 @@
       {
         "name": "makeContextMap",
         "type": "function",
-        "line": 6
+        "line": 21
       },
       {
         "name": "makeProfile",
         "type": "function",
-        "line": 26
+        "line": 41
       },
       {
         "name": "makeInput",
         "type": "function",
-        "line": 41
+        "line": 56
       }
     ],
     "packages/generator-core/src/generate.test.ts": [
@@ -4541,12 +4942,12 @@
       {
         "name": "generateFiles",
         "type": "function",
-        "line": 142
+        "line": 140
       },
       {
         "name": "listAvailableGenerators",
         "type": "function",
-        "line": 287
+        "line": 282
       }
     ],
     "packages/generator-core/src/generator-alt-profiles.test.ts": [
@@ -5749,122 +6150,122 @@
       {
         "name": "CommerceSignals",
         "type": "interface",
-        "line": 12
+        "line": 16
       },
       {
         "name": "detectCommerceSignals",
         "type": "function",
-        "line": 39
+        "line": 43
       },
       {
         "name": "buildVerificationProof",
         "type": "function",
-        "line": 86
+        "line": 90
       },
       {
         "name": "FocusArea",
         "type": "type",
-        "line": 118
+        "line": 122
       },
       {
         "name": "parseFocusAreas",
         "type": "function",
-        "line": 120
+        "line": 124
       },
       {
         "name": "shouldExpand",
         "type": "function",
-        "line": 127
+        "line": 131
       },
       {
         "name": "buildAP2ComplianceScoring",
         "type": "function",
-        "line": 132
+        "line": 136
       },
       {
         "name": "art2",
         "type": "function",
-        "line": 133
+        "line": 137
       },
       {
         "name": "art6",
         "type": "function",
-        "line": 134
+        "line": 138
       },
       {
         "name": "art7",
         "type": "function",
-        "line": 135
+        "line": 139
       },
       {
         "name": "art11",
         "type": "function",
-        "line": 136
+        "line": 140
       },
       {
         "name": "buildCompellingEvidence3Section",
         "type": "function",
-        "line": 163
+        "line": 167
       },
       {
         "name": "buildWinProbabilitySection",
         "type": "function",
-        "line": 222
+        "line": 226
       },
       {
         "name": "buildLighterScaSection",
         "type": "function",
-        "line": 274
+        "line": 278
       },
       {
         "name": "buildTapInteropSection",
         "type": "function",
-        "line": 330
+        "line": 334
       },
       {
         "name": "buildDisputeFlowSection",
         "type": "function",
-        "line": 399
+        "line": 403
       },
       {
         "name": "generateAgentPurchasingPlaybook",
         "type": "function",
-        "line": 459
+        "line": 463
       },
       {
         "name": "generateProductSchema",
         "type": "function",
-        "line": 631
+        "line": 635
       },
       {
         "name": "schema",
         "type": "const",
-        "line": 637
+        "line": 641
       },
       {
         "name": "generateCheckoutFlow",
         "type": "function",
-        "line": 746
+        "line": 750
       },
       {
         "name": "generateNegotiationRules",
         "type": "function",
-        "line": 932
+        "line": 936
       },
       {
         "name": "riskLevel",
         "type": "function",
-        "line": 946
+        "line": 950
       },
       {
         "name": "generateCommerceRegistry",
         "type": "function",
-        "line": 1080
+        "line": 1084
       },
       {
         "name": "registry",
         "type": "const",
-        "line": 1097
+        "line": 1101
       }
     ],
     "packages/generator-core/src/generators-algorithmic.ts": [
@@ -6366,27 +6767,27 @@
       {
         "name": "generateAgentsMD",
         "type": "function",
-        "line": 6
+        "line": 11
       },
       {
         "name": "generateClaudeMD",
         "type": "function",
-        "line": 334
+        "line": 339
       },
       {
         "name": "generateCursorRules",
         "type": "function",
-        "line": 506
+        "line": 511
       },
       {
         "name": "generateWorkflowPack",
         "type": "function",
-        "line": 673
+        "line": 678
       },
       {
         "name": "generatePolicyPack",
         "type": "function",
-        "line": 796
+        "line": 801
       }
     ],
     "packages/generator-core/src/generators-superpowers.ts": [
@@ -7015,6 +7416,85 @@
         "line": 36
       }
     ],
+    "packages/sdk/src/index.test.ts": [
+      {
+        "name": "mockFetch",
+        "type": "function",
+        "line": 16
+      },
+      {
+        "name": "mockMcpResponse",
+        "type": "function",
+        "line": 28
+      },
+      {
+        "name": "snapshot",
+        "type": "const",
+        "line": 161
+      },
+      {
+        "name": "snapshot",
+        "type": "const",
+        "line": 184
+      },
+      {
+        "name": "spec",
+        "type": "const",
+        "line": 244
+      }
+    ],
+    "packages/sdk/src/index.ts": [
+      {
+        "name": "AxisClientOptions",
+        "type": "interface",
+        "line": 13
+      },
+      {
+        "name": "FileEntry",
+        "type": "interface",
+        "line": 22
+      },
+      {
+        "name": "AnalyzeFilesInput",
+        "type": "interface",
+        "line": 27
+      },
+      {
+        "name": "AnalyzeRepoInput",
+        "type": "interface",
+        "line": 35
+      },
+      {
+        "name": "ArtifactEntry",
+        "type": "interface",
+        "line": 39
+      },
+      {
+        "name": "SnapshotResult",
+        "type": "interface",
+        "line": 45
+      },
+      {
+        "name": "HealthResponse",
+        "type": "interface",
+        "line": 55
+      },
+      {
+        "name": "McpToolCallResult",
+        "type": "interface",
+        "line": 62
+      },
+      {
+        "name": "OpenApiSpec",
+        "type": "interface",
+        "line": 72
+      },
+      {
+        "name": "AxisClient",
+        "type": "class",
+        "line": 83
+      }
+    ],
     "packages/snapshots/src/billing-edge-cases.test.ts": [
       {
         "name": "makeSnapshotInput",
@@ -7309,67 +7789,67 @@
       {
         "name": "ensureMigrationsTable",
         "type": "function",
-        "line": 431
+        "line": 438
       },
       {
         "name": "runMigrations",
         "type": "function",
-        "line": 441
+        "line": 448
       },
       {
         "name": "getSchemaVersion",
         "type": "function",
-        "line": 465
+        "line": 472
       },
       {
         "name": "getDb",
         "type": "function",
-        "line": 472
+        "line": 479
       },
       {
         "name": "openMemoryDb",
         "type": "function",
-        "line": 486
+        "line": 493
       },
       {
         "name": "closeDb",
         "type": "function",
-        "line": 495
+        "line": 502
       },
       {
         "name": "DbMaintenanceResult",
         "type": "interface",
-        "line": 504
+        "line": 511
       },
       {
         "name": "walCheckpoint",
         "type": "function",
-        "line": 511
+        "line": 518
       },
       {
         "name": "vacuum",
         "type": "function",
-        "line": 525
+        "line": 532
       },
       {
         "name": "integrityCheck",
         "type": "function",
-        "line": 533
+        "line": 540
       },
       {
         "name": "getDbStats",
         "type": "function",
-        "line": 546
+        "line": 553
       },
       {
         "name": "purgeStaleData",
         "type": "function",
-        "line": 587
+        "line": 594
       },
       {
         "name": "runMaintenance",
         "type": "function",
-        "line": 615
+        "line": 622
       }
     ],
     "packages/snapshots/src/email-store.test.ts": [
@@ -7958,77 +8438,77 @@
       {
         "name": "generateCode",
         "type": "function",
-        "line": 43
+        "line": 44
       },
       {
         "name": "createReferralCode",
         "type": "function",
-        "line": 48
+        "line": 49
       },
       {
         "name": "code",
         "type": "const",
-        "line": 53
+        "line": 54
       },
       {
         "name": "lookupReferralCode",
         "type": "function",
-        "line": 63
+        "line": 64
       },
       {
         "name": "getReferralCodes",
         "type": "function",
-        "line": 68
+        "line": 69
       },
       {
         "name": "recordReferralConversion",
         "type": "function",
-        "line": 75
+        "line": 76
       },
       {
         "name": "conversion",
         "type": "const",
-        "line": 85
+        "line": 86
       },
       {
         "name": "getReferralConversionCount",
         "type": "function",
-        "line": 111
+        "line": 112
       },
       {
         "name": "ensureReferralCredits",
         "type": "function",
-        "line": 119
+        "line": 120
       },
       {
         "name": "getReferralCredits",
         "type": "function",
-        "line": 129
+        "line": 130
       },
       {
-        "name": "initFreeCallGrant",
+        "name": "recordPaidCall",
         "type": "function",
-        "line": 135
+        "line": 136
       },
       {
         "name": "consumeFreeCall",
         "type": "function",
-        "line": 145
+        "line": 148
       },
       {
         "name": "applyReferralDiscount",
         "type": "function",
-        "line": 152
+        "line": 155
       },
       {
         "name": "buildIncentivesSummary",
         "type": "function",
-        "line": 185
+        "line": 188
       },
       {
         "name": "base",
         "type": "const",
-        "line": 186
+        "line": 189
       }
     ],
     "packages/snapshots/src/search-store.ts": [

@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -34,6 +34,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 Available API routes:
 
+- `GET /openapi.json` → apps/api/src/server.ts
+- `GET /openapi.json` → apps/api/src/well-known-handlers.test.ts
 - `GET /api/health` → packages/context-engine/src/engine-branches.test.ts
 - `POST /api/users` → packages/context-engine/src/engine-branches.test.ts
 - `GET /api/users` → packages/context-engine/src/engine-edge.test.ts
@@ -63,7 +65,7 @@ These domain models were detected in the codebase. Use their type names in compo
 | `RpcSuccess` | interface | 3 | `apps/api/src/mcp-server.ts` |
 | `HistogramEntry` | interface | 3 | `apps/api/src/metrics.ts` |
 | `AgentBudget` | interface | 5 | `apps/api/src/mpp.ts` |
-| *... and 140 more* | | | |
+| *... and 150 more* | | | |
 
 **Rule**: Component prop types must reference these detected types, not re-define them. Import from the canonical source file.
 
@@ -98,7 +100,7 @@ These domain models were detected in the codebase. Use their type names in compo
 - **`apps/web/src/components/ProgramLauncher.tsx`**: `export function ProgramLauncher({ ... }`
 - **`apps/web/src/components/SearchTab.tsx`**: `export function SearchTab({ ... }`
 - **`apps/web/src/components/SignUpModal.tsx`**: `export function SignUpModal({ ... }`
-- *... and 25 more*
+- *... and 27 more*
 
 ## Style Sources
 

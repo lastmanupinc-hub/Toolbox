@@ -1,7 +1,7 @@
 # Messaging System
 # Project: axis-toolbox
-# Generated: 2026-04-14T13:38:18.704Z
-# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+# Generated: 2026-04-15T19:53:55.558Z
+# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 product:
   name: "axis-toolbox"
@@ -10,31 +10,31 @@ product:
   stack: "React"
 
 taglines:
-  primary: "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models."
-  technical: "React monorepo — 500 files, 114,770 lines of TypeScript"
-  conceptual: "Built around packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory)"
+  primary: "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models."
+  technical: "React monorepo — 500 files, 116,097 lines of TypeScript"
+  conceptual: "Built around apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory)"
 
 value_propositions:
   - id: stack
     headline: "React Expertise"
     detail: "Built with React ^19.1.0 — stack-native patterns throughout."
   - id: api_surface
-    headline: "431 API Endpoints"
-    detail: "Complete API with 232 GET, 179 POST, 20 DELETE — ready for integration."
+    headline: "449 API Endpoints"
+    detail: "Complete API with 248 GET, 181 POST, 20 DELETE — ready for integration."
   - id: domain_model
-    headline: "152 Domain Entities"
-    detail: "Rich domain model with AuthContext, EnvSpec, ValidationError, ValidationResult, ZipEntry and 147 more."
+    headline: "162 Domain Entities"
+    detail: "Rich domain model with AuthContext, EnvSpec, ValidationError, ValidationResult, ZipEntry and 157 more."
   - id: architecture
-    headline: "Clean Architecture (0.64 separation)"
+    headline: "Clean Architecture (0.65 separation)"
     detail: "monorepo, containerized with 1 layer boundaries."
   - id: quality
     headline: "Test-Driven Quality"
-    detail: "Tested with vitest across 132 test files."
+    detail: "Tested with vitest across 140 test files."
 
 feature_messages:
   api_surface:
-    count: 431
-    message: "431 API endpoints ready for integration"
+    count: 449
+    message: "449 API endpoints ready for integration"
     routes:
       - "GET /v1/health"
       - "POST /v1/accounts"
@@ -47,14 +47,14 @@ feature_messages:
       - "GET /v1/docs.md"
       - "GET /.well-known/axis.json"
   language_support:
-    count: 10
-    message: "10 languages detected and analyzed"
+    count: 8
+    message: "8 languages detected and analyzed"
     breakdown:
-      - "TypeScript: 78,863 lines (69.6%)"
-      - "JSON: 12,643 lines (11.2%)"
-      - "YAML: 10,876 lines (9.6%)"
-      - "Markdown: 9,235 lines (8.1%)"
-      - "CSS: 849 lines (0.7%)"
+      - "TypeScript: 81,263 lines (70.9%)"
+      - "JSON: 12,048 lines (10.5%)"
+      - "YAML: 10,479 lines (9.1%)"
+      - "Markdown: 8,406 lines (7.3%)"
+      - "JavaScript: 1,456 lines (1.3%)"
   framework_detection:
     count: 1
     message: "1 frameworks detected with stack-aware output"

@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T13:38:18.960Z",
+  "generated_at": "2026-04-15T19:53:55.712Z",
   "total_citations": 16,
   "by_type": {
     "documentation": 1,
@@ -197,7 +197,7 @@
       "exports": [
         "export const app = ..."
       ],
-      "lines": 323
+      "lines": 338
     },
     {
       "path": "apps/web/src/App.tsx",

@@ -8,16 +8,16 @@
 |-----------|--------|-------|-------|
 | Context Precision | 30/100 | 60/100 | +30 |
 | Convention Compliance | 40/100 | 90/100 | +50 |
-| Dependency Awareness | 50/100 | 80/100 | +30 |
+| Dependency Awareness | 30/100 | 60/100 | +30 |
 | Architecture Alignment | 40/100 | 85/100 | +45 |
 | Route Awareness | 35/100 | 85/100 | +50 |
-| **Overall** | **39/100** | **80/100** | **+41** |
+| **Overall** | **35/100** | **76/100** | **+41** |
 
 ## Recommendations
 
 ### Context Precision
 
-Use dependency hotspot analysis to select the 6 highest-signal files instead of including entire directories.
+Use dependency hotspot analysis to select the 7 highest-signal files instead of including entire directories.
 
 ### Convention Compliance
 
@@ -25,19 +25,19 @@ Embed 2 detected conventions as system-level constraints in every code generatio
 
 ### Dependency Awareness
 
-Include package.json to ensure generated code uses existing dependencies.
+Reference package.json in prompts to constrain imports to the 23 actual dependencies. Prevents hallucinated package references.
 
 ### Architecture Alignment
 
-Reference 2 detected patterns (separation score: 0.64/100) in architectural prompts to maintain layer boundaries.
+Reference 2 detected patterns (separation score: 0.65/100) in architectural prompts to maintain layer boundaries.
 
 ### Route Awareness
 
-Include route map (431 routes) in prompts when working on API or page code to prevent duplicate endpoints.
+Include route map (449 routes) in prompts when working on API or page code to prevent duplicate endpoints.
 
 ## Token Budget Guidance
 
-Estimated full-project tokens: ~516,465
+Estimated full-project tokens: ~522,437
 
 **Selective context required.** Use this priority order:
 1. Active file being modified
@@ -50,7 +50,7 @@ Estimated full-project tokens: ~516,465
 
 | File | Lines | Exports |
 |------|-------|---------|
-| `apps/api/src/server.ts` | 323 | export const app = ... |
+| `apps/api/src/server.ts` | 338 | export const app = ... |
 | `apps/web/src/App.tsx` | 326 | export function App() { ... } |
 | `apps/web/src/main.tsx` | 11 | default |
 | `packages/context-engine/src/index.ts` | 3 | export type { ... }, export { ... } |

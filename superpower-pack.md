@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -51,10 +51,10 @@ npx vitest run --coverage
 2. **Isolate** — Use dependency hotspots to narrow the search area:
 
    - `apps/web/src/App.tsx` (risk: 0.9, 1 inbound, 17 outbound)
-   - `apps/web/src/api.ts` (risk: 0.8, 16 inbound, 0 outbound)
+   - `apps/web/src/api.ts` (risk: 0.8, 17 inbound, 0 outbound)
+   - `apps/web/src/pages.test.tsx` (risk: 0.8, 0 inbound, 15 outbound)
    - `apps/web/src/pages/DashboardPage.tsx` (risk: 0.5, 1 inbound, 9 outbound)
-   - `apps/web/src/components/Toast.tsx` (risk: 0.1, 3 inbound, 0 outbound)
-   - `apps/web/src/components/AxisIcons.tsx` (risk: 0.1, 3 inbound, 0 outbound)
+   - `apps/web/src/components/Toast.tsx` (risk: 0.2, 4 inbound, 0 outbound)
 
 3. **Trace** — Follow the import chain from entry point to failure
 4. **Fix** — Make the smallest change that resolves the issue
@@ -119,7 +119,7 @@ export interface SnapshotResponse {
   snapshot_id: string;
   project_id: string;
   status: string;
-... (466 more lines)
+... (518 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -148,28 +148,28 @@ import type { SnapshotResponse } from "./api.ts";
 ... (306 more lines)
 ```
 
-### `apps/web/src/pages/DashboardPage.tsx`
+### `apps/web/src/pages.test.tsx`
 
 ```tsx
-import { useState, useEffect } from "react";
-import type { SnapshotResponse, GeneratedFile } from "../api.ts";
-import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
-import { OverviewTab } from "../components/OverviewTab.tsx";
-import { FilesTab } from "../components/FilesTab.tsx";
-import { GraphTab } from "../components/GraphTab.tsx";
-import { GeneratedTab } from "../components/GeneratedTab.tsx";
-import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
-import { SearchTab } from "../components/SearchTab.tsx";
-import { useToast } from "../components/Toast.tsx";
+// @vitest-environment happy-dom
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
 
-interface Props {
-  result: SnapshotResponse;
-  onGeneratedCountChange?: (count: number) => void;
-}
+// ─── Zero-prop page smoke tests ─────────────────────────────────
+// Each test renders the page and verifies it mounts without throwing.
 
-const TABS = ["Overview", "Structure", "Dependencies", "Generated Files", "Programs", "Search"] as const;
-type Tab = (typeof TABS)[number];
+import { DocsPage } from "./pages/DocsPage";
+import { ExamplesPage } from "./pages/ExamplesPage";
+import { ForAgentsPage } from "./pages/ForAgentsPage";
+import { HelpPage } from "./pages/HelpPage";
+import { InstallPage } from "./pages/InstallPage";
+import { QAPage } from "./pages/QAPage";
+import { TermsPage } from "./pages/TermsPage";
 
-function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: number; onDownload: () => void; downloading: boolean }) {
-... (160 more lines)
+describe("Page smoke tests — zero-prop pages", () => {
+  it("DocsPage renders without crashing", () => {
+    const { container } = render(<DocsPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
+... (94 more lines)
 ```

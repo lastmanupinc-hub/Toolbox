@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -20,7 +20,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Primary Language | TypeScript |
 | Frameworks | React |
 | Total Files | 500 |
-| Total LOC | 114770 |
+| Total LOC | 116097 |
 
 ## SEO Readiness Score
 
@@ -38,8 +38,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Content Files Analysis
 
-- **Content files (md/mdx/html):** 173
-- **Template files (tsx/jsx/vue/svelte):** 29
+- **Content files (md/mdx/html):** 169
+- **Template files (tsx/jsx/vue/svelte):** 31
 - **Total source files:** 500
 
 ## Page Components
@@ -52,14 +52,14 @@ These files likely render as individual pages:
 | `apps/web/src/pages/DashboardPage.tsx` | TypeScript | 160 | Needs meta tags |
 | `apps/web/src/pages/DocsPage.tsx` | TypeScript | 1248 | Needs meta tags |
 | `apps/web/src/pages/ExamplesPage.tsx` | TypeScript | 479 | Needs meta tags |
-| `apps/web/src/pages/ForAgentsPage.tsx` | TypeScript | 698 | Needs meta tags |
+| `apps/web/src/pages/ForAgentsPage.tsx` | TypeScript | 700 | Needs meta tags |
 | `apps/web/src/pages/HelpPage.tsx` | TypeScript | 723 | Needs meta tags |
 | `apps/web/src/pages/InstallPage.tsx` | TypeScript | 185 | Needs meta tags |
 | `apps/web/src/pages/PlansPage.tsx` | TypeScript | 224 | Needs meta tags |
 | `apps/web/src/pages/ProgramsPage.tsx` | TypeScript | 282 | Needs meta tags |
 | `apps/web/src/pages/QAPage.tsx` | TypeScript | 367 | Needs meta tags |
 | `apps/web/src/pages/TermsPage.tsx` | TypeScript | 318 | Needs meta tags |
-| `apps/web/src/pages/UploadPage.tsx` | TypeScript | 486 | Needs meta tags |
+| `apps/web/src/pages/UploadPage.tsx` | TypeScript | 579 | Needs meta tags |
 
 ## Recommendations
 
@@ -82,7 +82,7 @@ These files likely render as individual pages:
 - `agent-purchasing-playbook.md` (443 lines)
 - `AGENTS.md` (333 lines)
 - `apps/web/index.html` (128 lines)
-- `architecture-summary.md` (1605 lines)
+- `architecture-summary.md` (1700 lines)
 - `artifact-spec.md` (136 lines)
 - `asset-checklist.md` (50 lines)
 - `asset-guidelines.md` (65 lines)
@@ -99,11 +99,11 @@ These files likely render as individual pages:
 | `apps/web/src/pages/DashboardPage.tsx` | **Missing** | 180 |
 | `apps/web/src/pages/DocsPage.tsx` | **Missing** | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | Yes | 505 |
-| `apps/web/src/pages/ForAgentsPage.tsx` | Yes | 896 |
+| `apps/web/src/pages/ForAgentsPage.tsx` | Yes | 898 |
 | `apps/web/src/pages/HelpPage.tsx` | Yes | 758 |
 | `apps/web/src/pages/InstallPage.tsx` | **Missing** | 204 |
 | `apps/web/src/pages/PlansPage.tsx` | **Missing** | 242 |
 | `apps/web/src/pages/ProgramsPage.tsx` | **Missing** | 313 |
 | `apps/web/src/pages/QAPage.tsx` | Yes | 392 |
 | `apps/web/src/pages/TermsPage.tsx` | Yes | 357 |
-| `apps/web/src/pages/UploadPage.tsx` | **Missing** | 537 |
+| `apps/web/src/pages/UploadPage.tsx` | **Missing** | 640 |

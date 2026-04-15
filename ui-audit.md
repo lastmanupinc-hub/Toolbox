@@ -1,10 +1,10 @@
 # UI Audit — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.908Z
+Generated: 2026-04-15T19:53:55.691Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -20,7 +20,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Styling | CSS/SCSS |
 | TypeScript | Yes |
 | UI Libraries | uuid |
-| Total Routes | 431 |
+| Total Routes | 449 |
 | Entry Points | 0 |
 
 ## Accessibility Checklist
@@ -89,9 +89,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `apps/web/src/components/SignUpModal.tsx` | export function SignUpModal({ ... } | 122 |
 | `apps/web/src/components/StatusBar.tsx` | export function StatusBar({ ... } | 76 |
 | `apps/web/src/components/Toast.tsx` | export function useToast() { ... }, export function ToastProvider({ ... } | 115 |
+| `apps/web/src/components/UpsellModal.tsx` | export function UpsellModal({ ... } | 123 |
 | `apps/web/src/main.tsx` | default | 11 |
 | `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 623 |
-| `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 180 |
 
 ## Detected Style Files
 

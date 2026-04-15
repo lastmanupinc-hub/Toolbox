@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -51,9 +51,10 @@ Map high-importance code files to vault notes for traceability:
 |-----------|------|-----------|
 | `apps/web/src/App.tsx` | 0.9 | `[[Code/apps-web-src-App]]` |
 | `apps/web/src/api.ts` | 0.8 | `[[Code/apps-web-src-api]]` |
+| `apps/web/src/pages.test.tsx` | 0.8 | `[[Code/apps-web-src-pages.test]]` |
 | `apps/web/src/pages/DashboardPage.tsx` | 0.5 | `[[Code/apps-web-src-pages-DashboardPage]]` |
-| `apps/web/src/components/Toast.tsx` | 0.1 | `[[Code/apps-web-src-components-Toast]]` |
-| `apps/web/src/components/AxisIcons.tsx` | 0.1 | `[[Code/apps-web-src-components-AxisIcons]]` |
+| `apps/web/src/components/Toast.tsx` | 0.2 | `[[Code/apps-web-src-components-Toast]]` |
+| `apps/web/src/components/AxisIcons.tsx` | 0.2 | `[[Code/apps-web-src-components-AxisIcons]]` |
 | `apps/web/src/upload-utils.ts` | 0.1 | `[[Code/apps-web-src-upload-utils]]` |
 
 ## Anti-Patterns

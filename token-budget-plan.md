@@ -1,30 +1,28 @@
 # Token Budget Plan — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.919Z
+Generated: 2026-04-15T19:53:55.697Z
 
 ## Project Token Profile
 
 | Metric | Value |
 |--------|-------|
-| Total LOC | 113,343 |
+| Total LOC | 114,670 |
 | Total Files | 496 |
-| Est. Total Tokens | 510,044 |
-| Avg Tokens/File | 1,028 |
+| Est. Total Tokens | 516,015 |
+| Avg Tokens/File | 1,040 |
 
 ## Token Budget by Language
 
 | Language | LOC | Tokens | % of Budget |
 |----------|-----|--------|-------------|
-| TypeScript | 78,863 | 354,884 | 69.6% |
-| JSON | 12,643 | 56,894 | 11.2% |
-| YAML | 10,876 | 48,942 | 9.6% |
-| Markdown | 9,235 | 41,558 | 8.1% |
+| TypeScript | 81,263 | 365,684 | 70.9% |
+| JSON | 12,048 | 54,216 | 10.5% |
+| YAML | 10,479 | 47,156 | 9.1% |
+| Markdown | 8,406 | 37,827 | 7.3% |
+| JavaScript | 1,456 | 6,552 | 1.3% |
 | CSS | 849 | 3,821 | 0.7% |
-| JavaScript | 673 | 3,029 | 0.6% |
 | HTML | 120 | 540 | 0.1% |
 | Dockerfile | 49 | 221 | 0.0% |
-| PowerShell | 21 | 95 | 0.0% |
-| Shell | 14 | 63 | 0.0% |
 
 ## Context Window Allocation
 
@@ -59,15 +57,15 @@ Generated: 2026-04-14T13:38:18.919Z
 | Operation | Input | Output | Daily | Monthly Cost (GPT-4o) |
 |-----------|-------|--------|-------|----------------------|
 | Code review (1 file) | 1,500 | 500 | 10 | $1.93 |
-| API endpoint work (431 routes detected) | 8,000 | 2,000 | 5 | $4.40 |
-| Hotspot refactor (6 hotspots, avg 932 tok each) | 12,000 | 1,500 | 3 | $2.97 |
-| Domain model change (152 models) | 8,000 | 2,500 | 2 | $1.98 |
-| Documentation | 25,502 | 1,500 | 2 | $3.47 |
+| API endpoint work (449 routes detected) | 8,000 | 2,000 | 5 | $4.40 |
+| Hotspot refactor (7 hotspots, avg 968 tok each) | 12,000 | 1,500 | 3 | $2.97 |
+| Domain model change (162 models) | 8,000 | 2,500 | 2 | $1.98 |
+| Documentation | 25,801 | 1,500 | 2 | $3.50 |
 
 > Token estimates derived from detected project signals: routes, hotspots, domain models, and average file size.
 
 ## Source-Verified Token Estimate
 
 - Source files scanned: 500
-- Total source lines: 135,923
-- Estimated tokens: ~611,654
+- Total source lines: 137,643
+- Estimated tokens: ~619,394

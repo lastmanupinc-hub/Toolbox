@@ -1,6 +1,6 @@
 # Collection Map — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.757Z
+Generated: 2026-04-15T19:53:55.593Z
 
 ## Collection Overview
 
@@ -9,7 +9,7 @@ metrics, and architecture of axis-toolbox.
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -22,7 +22,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 ### 1. Dependency Network
 
 - **Type**: Force-directed graph
-- **Nodes**: 6 (entry points + hotspots)
+- **Nodes**: 7 (entry points + hotspots)
 - **Edges**: Based on import graph density
 - **Color mapping**: Language → hue
 - **Animation**: Continuous force simulation
@@ -32,22 +32,20 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Type**: Concentric ring visualization
 - **Rings**: One per language, radius ∝ LOC percentage
-  - TypeScript: 69.6% → radius 209px
-  - JSON: 11.2% → radius 34px
-  - YAML: 9.6% → radius 29px
-  - Markdown: 8.1% → radius 24px
+  - TypeScript: 70.9% → radius 213px
+  - JSON: 10.5% → radius 32px
+  - YAML: 9.1% → radius 27px
+  - Markdown: 7.3% → radius 22px
+  - JavaScript: 1.3% → radius 4px
   - CSS: 0.7% → radius 2px
-  - JavaScript: 0.6% → radius 2px
   - HTML: 0.1% → radius 0px
   - Dockerfile: 0% → radius 0px
-  - PowerShell: 0% → radius 0px
-  - Shell: 0% → radius 0px
 - **Animation**: Slow rotation, pulse on interaction
 
 ### 3. Architecture Terrain
 
 - **Type**: Topographic height map
-- **Elevation**: Architecture score 0.64/100 → height multiplier
+- **Elevation**: Architecture score 0.65/100 → height multiplier
 - **Ridges**: monorepo, containerized
 - **Strata**:
   - presentation: apps, frontend
@@ -56,13 +54,13 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 ### 4. Hotspot Constellation
 
 - **Type**: Star field / particle system
-- **Stars**: 6 hotspot files
+- **Stars**: 7 hotspot files
 - **Brightest stars (highest risk)**:
   - `apps/web/src/App.tsx` (risk: 0.9, connections: 18)
-  - `apps/web/src/api.ts` (risk: 0.8, connections: 16)
+  - `apps/web/src/api.ts` (risk: 0.8, connections: 17)
+  - `apps/web/src/pages.test.tsx` (risk: 0.8, connections: 15)
   - `apps/web/src/pages/DashboardPage.tsx` (risk: 0.5, connections: 10)
-  - `apps/web/src/components/Toast.tsx` (risk: 0.1, connections: 3)
-  - `apps/web/src/components/AxisIcons.tsx` (risk: 0.1, connections: 3)
+  - `apps/web/src/components/Toast.tsx` (risk: 0.2, connections: 4)
 - **Brightness**: risk_score mapped to luminosity
 - **Size**: inbound + outbound connections
 - **Animation**: Twinkling, slow drift
@@ -73,11 +71,11 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 |----------|-------|
 | Total Pieces | 4 |
 | Source Project | axis-toolbox |
-| Data Points | 18 |
-| Domain Models | 152 |
-| Routes | 431 |
+| Data Points | 17 |
+| Domain Models | 162 |
+| Routes | 449 |
 | Total Files | 500 |
-| Total LOC | 114770 |
+| Total LOC | 116097 |
 | Render Target | Canvas 2D / WebGL |
 | Parameter Pack | parameter-pack.json |
 

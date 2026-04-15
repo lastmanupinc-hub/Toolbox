@@ -98,12 +98,25 @@ cycles:
 # Daily Scorecard (Opus: fill this at the end of the run)
 daily_scorecard:
   date: "2026-04-15"
-  cycle_1_status: "✅ / ❌"
-  cycle_2_status: "✅ / ❌"
-  cycle_3_status: "✅ / ❌"
+  cycle_1_status: "✅"
+  cycle_2_status: "✅"
+  cycle_3_status: "✅"
   critical_issues_found: 0
   404s_remaining: []
-  notes_and_observations: ""
+  notes_and_observations: |
+    - Tasks 1.1, 2.2, 3.2 skipped — require Render log API (not available locally)
+    - Health endpoints: /v1/health/ready → 200, /health → 200
+    - Free-tier POST /v1/analyze → 201, snapshot created cleanly
+    - All 9 discovery endpoints return 200 with correct content-types
+    - MCP: clean JSON-RPC 2.0 response with incentives
+    - Version 0.5.0 consistent across all 8 package.json files, live API, source refs
+    - Test suite: 139 files, 4049 tests, 0 failures
+    - Coverage: lines 95.76%, statements 95.49%, functions 88.1%, branches 89.86%
+    - Regeneration: CLI dogfood ran successfully, 18 programs × 86 artifacts
+    - Conversion: 401 auth gate works, 402 MPP path covered by 14 unit tests
+    - Router hardening: DELETE/PUT/PATCH /mcp all return 405 ✅
+    - Hygiene: no .ai/.ai/ duplicates, ProgramPipeline.js comment fixed (17→18 programs), canvas-pack.md version fixed 0.4.0→0.5.0
+    - Known: .ai/architecture-summary.md has stale 0.4.0 in embedded JSON from prior analysis — needs full AXIS re-analysis to update
 
 # Preventive Rules (apply every day)
 preventive_rules:

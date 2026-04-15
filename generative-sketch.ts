@@ -23,9 +23,9 @@ interface Edge {
 const CONFIG = {
   width: 1920,
   height: 1080,
-  nodeCount: 12,
+  nodeCount: 14,
   complexity: 0.01,
-  palette: [{"name":"TypeScript","hue":220,"weight":69.6},{"name":"JSON","hue":280,"weight":11.2},{"name":"YAML","hue":340,"weight":9.6},{"name":"Markdown","hue":160,"weight":8.1},{"name":"CSS","hue":40,"weight":0.7}],
+  palette: [{"name":"TypeScript","hue":220,"weight":70.9},{"name":"JSON","hue":280,"weight":10.5},{"name":"YAML","hue":340,"weight":9.1},{"name":"Markdown","hue":160,"weight":7.3},{"name":"JavaScript","hue":40,"weight":1.3}],
   dampening: 0.98,
   attractionStrength: 0.001,
   repulsionStrength: 500,

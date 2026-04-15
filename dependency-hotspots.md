@@ -1,10 +1,10 @@
 # Dependency Hotspots — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.759Z
+Generated: 2026-04-15T19:53:55.595Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -18,18 +18,19 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 |----------|-------|
 | High (>7) | 0 |
 | Medium (4–7) | 0 |
-| Low (≤4) | 6 |
-| **Total** | **6** |
+| Low (≤4) | 7 |
+| **Total** | **7** |
 
 ## Hotspot Files
 
 | File | Risk | Inbound | Outbound | Total Connections |
 |------|------|---------|----------|-------------------|
 | `apps/web/src/App.tsx` | 🟢 0.9 | 1 | 17 | 18 |
-| `apps/web/src/api.ts` | 🟢 0.8 | 16 | 0 | 16 |
+| `apps/web/src/api.ts` | 🟢 0.8 | 17 | 0 | 17 |
+| `apps/web/src/pages.test.tsx` | 🟢 0.8 | 0 | 15 | 15 |
 | `apps/web/src/pages/DashboardPage.tsx` | 🟢 0.5 | 1 | 9 | 10 |
-| `apps/web/src/components/Toast.tsx` | 🟢 0.1 | 3 | 0 | 3 |
-| `apps/web/src/components/AxisIcons.tsx` | 🟢 0.1 | 3 | 0 | 3 |
+| `apps/web/src/components/Toast.tsx` | 🟢 0.2 | 4 | 0 | 4 |
+| `apps/web/src/components/AxisIcons.tsx` | 🟢 0.2 | 4 | 0 | 4 |
 | `apps/web/src/upload-utils.ts` | 🟢 0.1 | 3 | 0 | 3 |
 
 ## Coupling Analysis
@@ -44,8 +45,15 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 ### `apps/web/src/api.ts`
 
 - **Risk Score**: 0.8/10
-- **Inbound**: 16 files depend on this
+- **Inbound**: 17 files depend on this
 - **Outbound**: 0 dependencies
+- **Refactor Priority**: LOW — acceptable coupling
+
+### `apps/web/src/pages.test.tsx`
+
+- **Risk Score**: 0.8/10
+- **Inbound**: 0 files depend on this
+- **Outbound**: 15 dependencies
 - **Refactor Priority**: LOW — acceptable coupling
 
 ### `apps/web/src/pages/DashboardPage.tsx`
@@ -57,15 +65,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ### `apps/web/src/components/Toast.tsx`
 
-- **Risk Score**: 0.1/10
-- **Inbound**: 3 files depend on this
-- **Outbound**: 0 dependencies
-- **Refactor Priority**: LOW — acceptable coupling
-
-### `apps/web/src/components/AxisIcons.tsx`
-
-- **Risk Score**: 0.1/10
-- **Inbound**: 3 files depend on this
+- **Risk Score**: 0.2/10
+- **Inbound**: 4 files depend on this
 - **Outbound**: 0 dependencies
 - **Refactor Priority**: LOW — acceptable coupling
 
@@ -114,11 +115,6 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - `export function App() { ... }`
 
-### `apps/web/src/components/Toast.tsx`
-
-- `export function useToast() { ... }`
-- `export function ToastProvider({ ... }`
-
 ### `apps/web/src/pages/DashboardPage.tsx`
 
 - `export function DashboardPage({ ... }`
@@ -153,7 +149,7 @@ export interface SnapshotResponse {
   generated_files: Array<{ path: string; program: string; description: string }>;
 }
 
-... (461 more lines)
+... (513 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -187,37 +183,6 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ... (301 more lines)
 ```
 
-### `apps/web/src/components/Toast.tsx`
-
-```tsx
-import { useState, useEffect, useCallback, useRef, createContext, useContext, type ReactNode } from "react";
-
-// ─── Types ──────────────────────────────────────────────────────
-
-type ToastLevel = "info" | "success" | "error" | "warning";
-
-interface Toast {
-  id: number;
-  level: ToastLevel;
-  message: string;
-  expiresAt: number;
-}
-
-interface ToastContextValue {
-  toast: (level: ToastLevel, message: string, durationMs?: number) => void;
-}
-
-const ToastContext = createContext<ToastContextValue>({
-  toast: () => {},
-});
-
-export function useToast() {
-  return useContext(ToastContext);
-}
-
-... (90 more lines)
-```
-
 ### `apps/web/src/pages/DashboardPage.tsx`
 
 ```tsx
@@ -247,4 +212,35 @@ function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: numb
   return (
     <div className="card" style={{ marginBottom: 16, borderLeft: "3px solid var(--accent)", padding: "16px 20px" }}>
 ... (155 more lines)
+```
+
+### `apps/web/src/pages.test.tsx`
+
+```tsx
+// @vitest-environment happy-dom
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
+
+// ─── Zero-prop page smoke tests ─────────────────────────────────
+// Each test renders the page and verifies it mounts without throwing.
+
+import { DocsPage } from "./pages/DocsPage";
+import { ExamplesPage } from "./pages/ExamplesPage";
+import { ForAgentsPage } from "./pages/ForAgentsPage";
+import { HelpPage } from "./pages/HelpPage";
+import { InstallPage } from "./pages/InstallPage";
+import { QAPage } from "./pages/QAPage";
+import { TermsPage } from "./pages/TermsPage";
+
+describe("Page smoke tests — zero-prop pages", () => {
+  it("DocsPage renders without crashing", () => {
+    const { container } = render(<DocsPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
+
+  it("ExamplesPage renders without crashing", () => {
+    const { container } = render(<ExamplesPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
+... (89 more lines)
 ```

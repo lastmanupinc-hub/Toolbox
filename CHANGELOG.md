@@ -4,6 +4,23 @@ All notable changes to the Axis Toolbox project are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-04-15
+
+### Added
+- **Centralized Count Constants** — `apps/api/src/counts.ts` with `ARTIFACT_COUNT`, `PROGRAM_COUNT`, `MCP_TOOL_COUNT`, `ENDPOINT_COUNT`. 63 hardcoded references replaced across 6 source files (handlers.ts, mcp-server.ts, server.ts, openapi.ts, generators-skills.ts, generators-agentic-purchasing.ts).
+- **SDK Test Suite** — 25 tests covering SDK client interface, type contracts, and API response shapes (commit `5e38a9c`).
+- **7 Missing OpenAPI Paths** — Added undocumented routes to the OpenAPI 3.1 specification.
+- **Daily Maintenance Runbook** — `daily-maintenance-runbook.yaml` with 3-cycle daily ops protocol (health pulse, discovery surface, deep maintenance).
+- **Regeneration Pipeline** — `scripts/regenerate.ps1` and `scripts/regenerate.sh` for full dogfood artifact regeneration via CLI.
+
+### Fixed
+- 8 stale version references updated from 0.4.0 to 0.5.0 across AGENTS.md, CLAUDE.md, and `.ai/` variants.
+- Version consistency across all 8 `package.json` files harmonized to 0.5.0.
+
+### Changed
+- All source files referencing artifact/program/tool/endpoint counts now use imported constants instead of magic numbers.
+- `continuation.yaml` ledger updated with session_097 results.
+
 ## [0.4.0] - 2025-07-21
 
 ### Added

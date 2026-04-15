@@ -44,10 +44,11 @@
 ### Likely Suspect Files (by coupling risk)
 
 - [ ] `apps/web/src/App.tsx` — 1 inbound, 17 outbound (risk 90%)
-- [ ] `apps/web/src/api.ts` — 16 inbound, 0 outbound (risk 80%)
+- [ ] `apps/web/src/api.ts` — 17 inbound, 0 outbound (risk 85%)
+- [ ] `apps/web/src/pages.test.tsx` — 0 inbound, 15 outbound (risk 75%)
 - [ ] `apps/web/src/pages/DashboardPage.tsx` — 1 inbound, 9 outbound (risk 50%)
-- [ ] `apps/web/src/components/Toast.tsx` — 3 inbound, 0 outbound (risk 15%)
-- [ ] `apps/web/src/components/AxisIcons.tsx` — 3 inbound, 0 outbound (risk 15%)
+- [ ] `apps/web/src/components/Toast.tsx` — 4 inbound, 0 outbound (risk 20%)
+- [ ] `apps/web/src/components/AxisIcons.tsx` — 4 inbound, 0 outbound (risk 20%)
 - [ ] `apps/web/src/upload-utils.ts` — 3 inbound, 0 outbound (risk 15%)
 
 ### Domain Entities to Check
@@ -110,6 +111,7 @@
 - [ ] `Props` (interface, 2 fields) — apps/web/src/components/StatusBar.tsx
 - [ ] `Toast` (interface, 4 fields) — apps/web/src/components/Toast.tsx
 - [ ] `ToastContextValue` (interface, 1 fields) — apps/web/src/components/Toast.tsx
+- [ ] `Props` (interface, 4 fields) — apps/web/src/components/UpsellModal.tsx
 - [ ] `Props` (interface, 2 fields) — apps/web/src/pages/DashboardPage.tsx
 - [ ] `ProgramDoc` (interface, 13 fields) — apps/web/src/pages/DocsPage.tsx
 - [ ] `Example` (interface, 7 fields) — apps/web/src/pages/ExamplesPage.tsx
@@ -151,6 +153,15 @@
 - [ ] `ImportEdge` (interface, 2 fields) — packages/repo-parser/src/types.ts
 - [ ] `LanguageStats` (interface, 4 fields) — packages/repo-parser/src/types.ts
 - [ ] `ParseResult` (interface, 13 fields) — packages/repo-parser/src/types.ts
+- [ ] `AnalyzeFilesInput` (interface, 5 fields) — packages/sdk/src/index.ts
+- [ ] `AnalyzeRepoInput` (interface, 1 fields) — packages/sdk/src/index.ts
+- [ ] `ArtifactEntry` (interface, 3 fields) — packages/sdk/src/index.ts
+- [ ] `AxisClientOptions` (interface, 3 fields) — packages/sdk/src/index.ts
+- [ ] `FileEntry` (interface, 2 fields) — packages/sdk/src/index.ts
+- [ ] `HealthResponse` (interface, 4 fields) — packages/sdk/src/index.ts
+- [ ] `McpToolCallResult` (interface, 5 fields) — packages/sdk/src/index.ts
+- [ ] `OpenApiSpec` (interface, 4 fields) — packages/sdk/src/index.ts
+- [ ] `SnapshotResult` (interface, 7 fields) — packages/sdk/src/index.ts
 - [ ] `AccountSummary` (interface, 7 fields) — packages/snapshots/src/billing-store.ts
 - [ ] `QuotaCheck` (interface, 6 fields) — packages/snapshots/src/billing-store.ts
 - [ ] `RecentActivity` (interface, 5 fields) — packages/snapshots/src/billing-store.ts
@@ -180,7 +191,7 @@
 - [ ] `GitHubUser` (interface, 4 fields) — packages/snapshots/src/oauth-store.ts
 - [ ] `ReferralCode` (interface, 3 fields) — packages/snapshots/src/referral-store.ts
 - [ ] `ReferralConversion` (interface, 4 fields) — packages/snapshots/src/referral-store.ts
-- [ ] `ReferralCredits` (interface, 7 fields) — packages/snapshots/src/referral-store.ts
+- [ ] `ReferralCredits` (interface, 8 fields) — packages/snapshots/src/referral-store.ts
 - [ ] `CodeSymbol` (interface, 6 fields) — packages/snapshots/src/search-store.ts
 - [ ] `SearchIndexEntry` (interface, 3 fields) — packages/snapshots/src/search-store.ts
 - [ ] `SearchResult` (interface, 4 fields) — packages/snapshots/src/search-store.ts
@@ -261,7 +272,7 @@ export interface SnapshotResponse {
   generated_files: Array<{ path: string; program: string; description: string }>;
 }
 
-... (461 more lines)
+... (513 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -295,35 +306,35 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ... (301 more lines)
 ```
 
-### `apps/web/src/pages/DashboardPage.tsx`
+### `apps/web/src/pages.test.tsx`
 
 ```tsx
-import { useState, useEffect } from "react";
-import type { SnapshotResponse, GeneratedFile } from "../api.ts";
-import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
-import { OverviewTab } from "../components/OverviewTab.tsx";
-import { FilesTab } from "../components/FilesTab.tsx";
-import { GraphTab } from "../components/GraphTab.tsx";
-import { GeneratedTab } from "../components/GeneratedTab.tsx";
-import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
-import { SearchTab } from "../components/SearchTab.tsx";
-import { useToast } from "../components/Toast.tsx";
+// @vitest-environment happy-dom
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
 
-interface Props {
-  result: SnapshotResponse;
-  onGeneratedCountChange?: (count: number) => void;
-}
+// ─── Zero-prop page smoke tests ─────────────────────────────────
+// Each test renders the page and verifies it mounts without throwing.
 
-const TABS = ["Overview", "Structure", "Dependencies", "Generated Files", "Programs", "Search"] as const;
-type Tab = (typeof TABS)[number];
+import { DocsPage } from "./pages/DocsPage";
+import { ExamplesPage } from "./pages/ExamplesPage";
+import { ForAgentsPage } from "./pages/ForAgentsPage";
+import { HelpPage } from "./pages/HelpPage";
+import { InstallPage } from "./pages/InstallPage";
+import { QAPage } from "./pages/QAPage";
+import { TermsPage } from "./pages/TermsPage";
 
-function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: number; onDownload: () => void; downloading: boolean }) {
-  const [dismissed, setDismissed] = useState(false);
-  if (dismissed || fileCount === 0) return null;
+describe("Page smoke tests — zero-prop pages", () => {
+  it("DocsPage renders without crashing", () => {
+    const { container } = render(<DocsPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
 
-  return (
-    <div className="card" style={{ marginBottom: 16, borderLeft: "3px solid var(--accent)", padding: "16px 20px" }}>
-... (155 more lines)
+  it("ExamplesPage renders without crashing", () => {
+    const { container } = render(<ExamplesPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
+... (89 more lines)
 ```
 
 ## Entry Point Excerpts
@@ -351,7 +362,7 @@ import {
   handleNotebookGenerate,
   handleObsidianAnalyze,
   handleMcpProvision,
-... (303 more lines)
+... (318 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

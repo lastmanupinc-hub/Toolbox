@@ -1,6 +1,6 @@
 # Scene Plan — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.746Z
+Generated: 2026-04-15T19:53:55.586Z
 
 ## Video Overview
 
@@ -14,7 +14,7 @@ Generated: 2026-04-14T13:38:18.746Z
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -35,7 +35,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Content**: Framework badges with staggered reveal
 - **Frameworks**: React
-- **Languages**: TypeScript (69.6%), JSON (11.2%), YAML (9.6%), Markdown (8.1%), CSS (0.7%), JavaScript (0.6%), HTML (0.1%), Dockerfile (0%), PowerShell (0%), Shell (0%)
+- **Languages**: TypeScript (70.9%), JSON (10.5%), YAML (9.1%), Markdown (7.3%), JavaScript (1.3%), CSS (0.7%), HTML (0.1%), Dockerfile (0%)
 - **Animation**: Staggered fade-in, 0.3s delay per item
 - **Visual**: Pill badges in accent color
 
@@ -43,14 +43,14 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Content**: Architecture patterns and separation score
 - **Patterns**: monorepo, containerized
-- **Separation Score**: 0.64/100
+- **Separation Score**: 0.65/100
 - **Animation**: List items reveal sequentially
 - **Visual**: Bullet list with score indicator
 
 ### Scene 4: Key Abstractions (0:09–0:12)
 
 - **Content**: Core abstractions and concepts
-- **Items**: packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory), examples/ (project_directory), search/ (project_directory), algorithmic/ (project_directory)
+- **Items**: apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory), examples/ (project_directory), algorithmic/ (project_directory), artifacts/ (project_directory)
 - **Animation**: Staggered reveal from top
 - **Visual**: Arrow-prefixed list items
 
@@ -58,7 +58,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Content**: Detected domain model entities
 - **Models**: AuthContext (interface, 3 fields); EnvSpec (interface, 5 fields); ValidationError (interface, 2 fields); ValidationResult (interface, 3 fields); ZipEntry (interface, 4 fields); IntentCapture (interface, 5 fields)
-- **Total**: 152 models detected
+- **Total**: 162 models detected
 - **Animation**: Entity cards fade in with field-count pill badges
 - **Visual**: Grid of entity cards with kind and field count
 
@@ -66,8 +66,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 > This is axis-toolbox, a monorepo built with TypeScript.
 > The tech stack includes React.
-> The architecture scores 0.64 out of 100 for separation.
-> Key abstractions include packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory).
+> The architecture scores 0.65 out of 100 for separation.
+> Key abstractions include apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory).
 
 ## Extension Points
 

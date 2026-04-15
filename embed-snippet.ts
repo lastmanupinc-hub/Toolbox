@@ -20,14 +20,14 @@ export const WARNINGS = [
 ] as const;
 
 export const KEY_ABSTRACTIONS = [
-  "packages/ (monorepo_packages)",
   "apps/ (monorepo_apps)",
+  "packages/ (monorepo_packages)",
   "payment-processing-output/ (project_directory)",
   "examples/ (project_directory)",
-  "search/ (project_directory)",
   "algorithmic/ (project_directory)",
   "artifacts/ (project_directory)",
   "brand/ (project_directory)",
+  "canvas/ (project_directory)",
 ] as const;
 
 /**

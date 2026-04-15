@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -43,6 +43,7 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/install` | GET | Track API adoption rate per endpoint |
 | `/v1/install/:platform` | GET | Track API adoption rate per endpoint |
 | `/probe-intent` | POST | Monitor usage metrics |
+| `/mcp` | POST | Monitor usage metrics |
 | `/v1/analyze` | POST | Track API adoption rate per endpoint |
 | `/.well-known/axis.json` | GET | Monitor usage metrics |
 | `/v1/snapshots` | POST | Track API adoption rate per endpoint |
@@ -238,6 +239,7 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/account/keys` | POST | Track API adoption rate per endpoint |
 | `/v1/stats` | GET | Track API adoption rate per endpoint |
 | `/ping` | GET | Monitor usage metrics |
+| `/` | GET | Monitor usage metrics |
 | `/v1/health` | GET | Track API adoption rate per endpoint |
 | `/v1/health/live` | GET | Track API adoption rate per endpoint |
 | `/v1/health/ready` | GET | Track API adoption rate per endpoint |
@@ -279,9 +281,11 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/account/usage` | GET | Track API adoption rate per endpoint |
 | `/v1/account/tier` | POST | Track API adoption rate per endpoint |
 | `/v1/account/programs` | POST | Track API adoption rate per endpoint |
+| `/mcp` | POST | Monitor usage metrics |
 | `/v1/health` | GET | Track API adoption rate per endpoint |
 | `/v1/accounts` | POST | Track API adoption rate per endpoint |
 | `/v1/account/quota` | GET | Track API adoption rate per endpoint |
+| `/v1/health` | GET | Track API adoption rate per endpoint |
 | `/v1/test/fast` | GET | Track API adoption rate per endpoint |
 | `/v1/test/slow` | GET | Track API adoption rate per endpoint |
 | `/slow` | GET | Monitor usage metrics |
@@ -349,7 +353,13 @@ Detected routes that are candidates for conversion optimization:
 | `/.well-known/axis.json` | GET | Monitor usage metrics |
 | `/.well-known/capabilities.json` | GET | Monitor usage metrics |
 | `/.well-known/mcp.json` | GET | Monitor usage metrics |
+| `/.well-known/security.txt` | GET | Monitor usage metrics |
+| `/.well-known/agent.json` | GET | Monitor usage metrics |
 | `/robots.txt` | GET | Monitor usage metrics |
+| `/sitemap.xml` | GET | Monitor usage metrics |
+| `/health` | GET | Monitor usage metrics |
+| `/docs` | GET | Track documentation coverage and bounce rate |
+| `/openapi.json` | GET | Track API adoption rate per endpoint |
 | `/llms.txt` | GET | Monitor usage metrics |
 | `/.well-known/skills/index.json` | GET | Monitor usage metrics |
 | `/v1/docs.md` | GET | Track API adoption rate per endpoint |
@@ -444,6 +454,14 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/account/webhooks/:webhook_id` | DELETE | Track API adoption rate per endpoint |
 | `/v1/account/webhooks/:webhook_id/toggle` | POST | Track API adoption rate per endpoint |
 | `/v1/account/webhooks/:webhook_id/deliveries` | GET | Track API adoption rate per endpoint |
+| `/.well-known/agent.json` | GET | Monitor usage metrics |
+| `/.well-known/security.txt` | GET | Monitor usage metrics |
+| `/.well-known/capabilities.json` | GET | Monitor usage metrics |
+| `/robots.txt` | GET | Monitor usage metrics |
+| `/sitemap.xml` | GET | Monitor usage metrics |
+| `/health` | GET | Monitor usage metrics |
+| `/docs` | GET | Track documentation coverage and bounce rate |
+| `/openapi.json` | GET | Track API adoption rate per endpoint |
 | `/health` | GET | Monitor usage metrics |
 | `/v1/health` | GET | Track API adoption rate per endpoint |
 | `/api/health` | GET | Track API adoption rate per endpoint |
@@ -489,7 +507,7 @@ Detected routes that are candidates for conversion optimization:
 
 ### Experiment 4: Documentation Navigation
 
-- **Route**: `GET /v1/docs.md`, `GET /v1/docs`, `GET /mcp/docs`, `GET /v1/docs`, `GET /v1/docs.md`, `GET /mcp/docs`
+- **Route**: `GET /v1/docs.md`, `GET /v1/docs`, `GET /mcp/docs`, `GET /v1/docs`, `GET /docs`, `GET /v1/docs.md`, `GET /mcp/docs`, `GET /docs`
 - **Hypothesis**: Task-oriented docs will reduce support issues by 30%
 - **Metric**: Issue creation rate for how-to questions, docs bounce rate
 - **Variants**: A: Current structure | B: Task-oriented guides ("How to X" pattern)
@@ -499,7 +517,7 @@ Detected routes that are candidates for conversion optimization:
 
 - **Hypothesis**: A guided first-run wizard will increase first-value moment by 35%
 - **Metric**: Features used in first session, time to first successful output
-- **Context**: 431 API endpoints — users need a path through the complexity
+- **Context**: 449 API endpoints — users need a path through the complexity
 - **Variants**: A: Self-discovery | B: Step-by-step first-run guide with progress indicator
 - **Duration**: 3 weeks
 

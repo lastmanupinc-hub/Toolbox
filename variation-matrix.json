@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated": "2026-04-14T13:38:18.972Z",
+  "generated": "2026-04-15T19:53:55.721Z",
   "parameters": [
     {
       "name": "primary_hue",
@@ -259,8 +259,14 @@
     },
     {
       "source_file": "apps/web/src/api.ts",
-      "risk_score": 0.8,
-      "visual_weight": 0.08,
+      "risk_score": 0.85,
+      "visual_weight": 0.08499999999999999,
+      "suggested_emphasis": "subtle"
+    },
+    {
+      "source_file": "apps/web/src/pages.test.tsx",
+      "risk_score": 0.75,
+      "visual_weight": 0.075,
       "suggested_emphasis": "subtle"
     },
     {
@@ -271,25 +277,19 @@
     },
     {
       "source_file": "apps/web/src/components/Toast.tsx",
-      "risk_score": 0.15,
-      "visual_weight": 0.015,
-      "suggested_emphasis": "subtle"
-    },
-    {
-      "source_file": "apps/web/src/components/AxisIcons.tsx",
-      "risk_score": 0.15,
-      "visual_weight": 0.015,
+      "risk_score": 0.2,
+      "visual_weight": 0.02,
       "suggested_emphasis": "subtle"
     }
   ],
   "label_overlays": [
     {
-      "text": "packages/ (monorepo_packages)",
+      "text": "apps/ (monorepo_apps)",
       "position": "top",
       "style": "hero"
     },
     {
-      "text": "apps/ (monorepo_apps)",
+      "text": "packages/ (monorepo_packages)",
       "position": "top",
       "style": "caption"
     },
@@ -304,12 +304,12 @@
       "style": "caption"
     },
     {
-      "text": "search/ (project_directory)",
+      "text": "algorithmic/ (project_directory)",
       "position": "bottom",
       "style": "caption"
     },
     {
-      "text": "algorithmic/ (project_directory)",
+      "text": "artifacts/ (project_directory)",
       "position": "bottom",
       "style": "caption"
     }

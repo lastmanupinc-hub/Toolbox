@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-toolbox
 
-> monorepo | TypeScript | 500 files | 114,770 LOC
+> monorepo | TypeScript | 500 files | 116,097 LOC
 
 **Stack:** React ^19.1.0
 
@@ -112,6 +112,7 @@ Check these entities for state corruption or relationship violations:
 - [ ] `Props` (interface, 2 fields) — `apps/web/src/components/StatusBar.tsx`
 - [ ] `Toast` (interface, 4 fields) — `apps/web/src/components/Toast.tsx`
 - [ ] `ToastContextValue` (interface, 1 fields) — `apps/web/src/components/Toast.tsx`
+- [ ] `Props` (interface, 4 fields) — `apps/web/src/components/UpsellModal.tsx`
 - [ ] `Props` (interface, 2 fields) — `apps/web/src/pages/DashboardPage.tsx`
 - [ ] `ProgramDoc` (interface, 13 fields) — `apps/web/src/pages/DocsPage.tsx`
 - [ ] `Example` (interface, 7 fields) — `apps/web/src/pages/ExamplesPage.tsx`
@@ -153,6 +154,15 @@ Check these entities for state corruption or relationship violations:
 - [ ] `ImportEdge` (interface, 2 fields) — `packages/repo-parser/src/types.ts`
 - [ ] `LanguageStats` (interface, 4 fields) — `packages/repo-parser/src/types.ts`
 - [ ] `ParseResult` (interface, 13 fields) — `packages/repo-parser/src/types.ts`
+- [ ] `AnalyzeFilesInput` (interface, 5 fields) — `packages/sdk/src/index.ts`
+- [ ] `AnalyzeRepoInput` (interface, 1 fields) — `packages/sdk/src/index.ts`
+- [ ] `ArtifactEntry` (interface, 3 fields) — `packages/sdk/src/index.ts`
+- [ ] `AxisClientOptions` (interface, 3 fields) — `packages/sdk/src/index.ts`
+- [ ] `FileEntry` (interface, 2 fields) — `packages/sdk/src/index.ts`
+- [ ] `HealthResponse` (interface, 4 fields) — `packages/sdk/src/index.ts`
+- [ ] `McpToolCallResult` (interface, 5 fields) — `packages/sdk/src/index.ts`
+- [ ] `OpenApiSpec` (interface, 4 fields) — `packages/sdk/src/index.ts`
+- [ ] `SnapshotResult` (interface, 7 fields) — `packages/sdk/src/index.ts`
 - [ ] `AccountSummary` (interface, 7 fields) — `packages/snapshots/src/billing-store.ts`
 - [ ] `QuotaCheck` (interface, 6 fields) — `packages/snapshots/src/billing-store.ts`
 - [ ] `RecentActivity` (interface, 5 fields) — `packages/snapshots/src/billing-store.ts`
@@ -182,7 +192,7 @@ Check these entities for state corruption or relationship violations:
 - [ ] `GitHubUser` (interface, 4 fields) — `packages/snapshots/src/oauth-store.ts`
 - [ ] `ReferralCode` (interface, 3 fields) — `packages/snapshots/src/referral-store.ts`
 - [ ] `ReferralConversion` (interface, 4 fields) — `packages/snapshots/src/referral-store.ts`
-- [ ] `ReferralCredits` (interface, 7 fields) — `packages/snapshots/src/referral-store.ts`
+- [ ] `ReferralCredits` (interface, 8 fields) — `packages/snapshots/src/referral-store.ts`
 - [ ] `CodeSymbol` (interface, 6 fields) — `packages/snapshots/src/search-store.ts`
 - [ ] `SearchIndexEntry` (interface, 3 fields) — `packages/snapshots/src/search-store.ts`
 - [ ] `SearchResult` (interface, 4 fields) — `packages/snapshots/src/search-store.ts`
@@ -214,10 +224,11 @@ High-coupling files are more likely to be involved in cross-cutting bugs:
 | File | Risk | Inbound | Outbound |
 |------|------|---------|----------|
 | `apps/web/src/App.tsx` | 90% | 1 | 17 |
-| `apps/web/src/api.ts` | 80% | 16 | 0 |
+| `apps/web/src/api.ts` | 85% | 17 | 0 |
+| `apps/web/src/pages.test.tsx` | 75% | 0 | 15 |
 | `apps/web/src/pages/DashboardPage.tsx` | 50% | 1 | 9 |
-| `apps/web/src/components/Toast.tsx` | 15% | 3 | 0 |
-| `apps/web/src/components/AxisIcons.tsx` | 15% | 3 | 0 |
+| `apps/web/src/components/Toast.tsx` | 20% | 4 | 0 |
+| `apps/web/src/components/AxisIcons.tsx` | 20% | 4 | 0 |
 | `apps/web/src/upload-utils.ts` | 15% | 3 | 0 |
 
 ## Step 6: Verification
@@ -225,7 +236,7 @@ High-coupling files are more likely to be involved in cross-cutting bugs:
 - [ ] Does the fix resolve the original reproduction case?
 - [ ] Do all existing tests still pass? (`pnpm test`)
 - [ ] Is a new test added for this specific failure mode?
-- [ ] Has the fix been reviewed for side effects on 6 coupled hotspot files?
+- [ ] Has the fix been reviewed for side effects on 7 coupled hotspot files?
 - [ ] Does CI pass? (github_actions)
 
 ## Step 7: Prevention
@@ -265,7 +276,7 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
-... (298 more lines)
+... (313 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -334,10 +345,6 @@ createRoot(document.getElementById("root")!).render(
 
 - `export function App() { ... }`
 
-### `apps/web/src/pages/DashboardPage.tsx` exports
-
-- `export function DashboardPage({ ... }`
-
 ## Suspect File Source
 
 ### `apps/web/src/api.ts`
@@ -368,7 +375,7 @@ export interface SnapshotResponse {
   generated_files: Array<{ path: string; program: string; description: string }>;
 }
 
-... (461 more lines)
+... (513 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -402,33 +409,33 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ... (301 more lines)
 ```
 
-### `apps/web/src/pages/DashboardPage.tsx`
+### `apps/web/src/pages.test.tsx`
 
 ```tsx
-import { useState, useEffect } from "react";
-import type { SnapshotResponse, GeneratedFile } from "../api.ts";
-import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
-import { OverviewTab } from "../components/OverviewTab.tsx";
-import { FilesTab } from "../components/FilesTab.tsx";
-import { GraphTab } from "../components/GraphTab.tsx";
-import { GeneratedTab } from "../components/GeneratedTab.tsx";
-import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
-import { SearchTab } from "../components/SearchTab.tsx";
-import { useToast } from "../components/Toast.tsx";
+// @vitest-environment happy-dom
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
 
-interface Props {
-  result: SnapshotResponse;
-  onGeneratedCountChange?: (count: number) => void;
-}
+// ─── Zero-prop page smoke tests ─────────────────────────────────
+// Each test renders the page and verifies it mounts without throwing.
 
-const TABS = ["Overview", "Structure", "Dependencies", "Generated Files", "Programs", "Search"] as const;
-type Tab = (typeof TABS)[number];
+import { DocsPage } from "./pages/DocsPage";
+import { ExamplesPage } from "./pages/ExamplesPage";
+import { ForAgentsPage } from "./pages/ForAgentsPage";
+import { HelpPage } from "./pages/HelpPage";
+import { InstallPage } from "./pages/InstallPage";
+import { QAPage } from "./pages/QAPage";
+import { TermsPage } from "./pages/TermsPage";
 
-function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: number; onDownload: () => void; downloading: boolean }) {
-  const [dismissed, setDismissed] = useState(false);
-  if (dismissed || fileCount === 0) return null;
+describe("Page smoke tests — zero-prop pages", () => {
+  it("DocsPage renders without crashing", () => {
+    const { container } = render(<DocsPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
 
-  return (
-    <div className="card" style={{ marginBottom: 16, borderLeft: "3px solid var(--accent)", padding: "16px 20px" }}>
-... (155 more lines)
+  it("ExamplesPage renders without crashing", () => {
+    const { container } = render(<ExamplesPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
+... (89 more lines)
 ```

@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T13:38:18.750Z",
+  "generated_at": "2026-04-15T19:53:55.589Z",
   "design_system": {
     "colors": {
       "primary": "#6366f1",
@@ -122,7 +122,7 @@
     "subtitle": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.",
     "type": "monorepo",
     "language": "TypeScript",
-    "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.",
+    "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.",
     "frameworks": [
       {
         "name": "React",
@@ -136,33 +136,33 @@
     "language_stats": [
       {
         "name": "TypeScript",
-        "percent": 69.6,
-        "loc": 78863
+        "percent": 70.9,
+        "loc": 81263
       },
       {
         "name": "JSON",
-        "percent": 11.2,
-        "loc": 12643
+        "percent": 10.5,
+        "loc": 12048
       },
       {
         "name": "YAML",
-        "percent": 9.6,
-        "loc": 10876
+        "percent": 9.1,
+        "loc": 10479
       },
       {
         "name": "Markdown",
-        "percent": 8.1,
-        "loc": 9235
+        "percent": 7.3,
+        "loc": 8406
+      },
+      {
+        "name": "JavaScript",
+        "percent": 1.3,
+        "loc": 1456
       },
       {
         "name": "CSS",
         "percent": 0.7,
         "loc": 849
-      },
-      {
-        "name": "JavaScript",
-        "percent": 0.6,
-        "loc": 673
       },
       {
         "name": "HTML",
@@ -173,19 +173,9 @@
         "name": "Dockerfile",
         "percent": 0,
         "loc": 49
-      },
-      {
-        "name": "PowerShell",
-        "percent": 0,
-        "loc": 21
-      },
-      {
-        "name": "Shell",
-        "percent": 0,
-        "loc": 14
       }
     ],
-    "architecture_score": 0.64,
+    "architecture_score": 0.65,
     "patterns": [
       "monorepo",
       "containerized"
@@ -200,11 +190,11 @@
       }
     ],
     "entry_point_count": 0,
-    "hotspot_count": 6,
-    "domain_model_count": 152,
-    "route_count": 431,
+    "hotspot_count": 7,
+    "domain_model_count": 162,
+    "route_count": 449,
     "total_files": 500,
-    "total_loc": 114770
+    "total_loc": 116097
   },
   "source_asset_files": null
 }

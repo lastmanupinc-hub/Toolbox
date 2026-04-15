@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -55,6 +55,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/install` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/install/:platform` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/probe-intent` | POST | API route — exclude from sitemap |
+| `/mcp` | POST | API route — exclude from sitemap |
 | `/v1/analyze` | POST | API route — exclude from sitemap |
 | `/.well-known/axis.json` | GET | Add WebPage schema · unique title + description required |
 | `/v1/snapshots` | POST | API route — exclude from sitemap |
@@ -250,6 +251,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/account/keys` | POST | API route — exclude from sitemap |
 | `/v1/stats` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/ping` | GET | Add WebPage schema · unique title + description required |
+| `/` | GET | Add WebSite + SearchAction schema · highest priority |
 | `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/health/live` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/health/ready` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -291,9 +293,11 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/account/usage` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/account/tier` | POST | API route — exclude from sitemap |
 | `/v1/account/programs` | POST | API route — exclude from sitemap |
+| `/mcp` | POST | API route — exclude from sitemap |
 | `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/accounts` | POST | API route — exclude from sitemap |
 | `/v1/account/quota` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/test/fast` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/test/slow` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/slow` | GET | Add WebPage schema · unique title + description required |
@@ -361,7 +365,13 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/.well-known/axis.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/capabilities.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/mcp.json` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/security.txt` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/agent.json` | GET | Add WebPage schema · unique title + description required |
 | `/robots.txt` | GET | Add WebPage schema · unique title + description required |
+| `/sitemap.xml` | GET | Add WebPage schema · unique title + description required |
+| `/health` | GET | Add WebPage schema · unique title + description required |
+| `/docs` | GET | Add TechArticle schema · high crawl priority |
+| `/openapi.json` | GET | Add WebPage schema · unique title + description required |
 | `/llms.txt` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/skills/index.json` | GET | Add WebPage schema · unique title + description required |
 | `/v1/docs.md` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -456,6 +466,14 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/account/webhooks/:webhook_id` | DELETE | API route — exclude from sitemap |
 | `/v1/account/webhooks/:webhook_id/toggle` | POST | API route — exclude from sitemap |
 | `/v1/account/webhooks/:webhook_id/deliveries` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/.well-known/agent.json` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/security.txt` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/capabilities.json` | GET | Add WebPage schema · unique title + description required |
+| `/robots.txt` | GET | Add WebPage schema · unique title + description required |
+| `/sitemap.xml` | GET | Add WebPage schema · unique title + description required |
+| `/health` | GET | Add WebPage schema · unique title + description required |
+| `/docs` | GET | Add TechArticle schema · high crawl priority |
+| `/openapi.json` | GET | Add WebPage schema · unique title + description required |
 | `/health` | GET | Add WebPage schema · unique title + description required |
 | `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/api/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -561,7 +579,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-toolbox
-# Generated: 2026-04-14T13:11:11.985Z
+# Generated: 2026-04-15T19:50:19.122Z
 
 manifest:
   project: "axis-toolbox"
@@ -617,7 +635,7 @@ manifest:
 | `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 180 |
 | `apps/web/src/pages/DocsPage.tsx` | export function DocsPage() { ... } | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | export function ExamplesPage() { ... } | 505 |
-| `apps/web/src/pages/ForAgentsPage.tsx` | export function ForAgentsPage() { ... } | 896 |
+| `apps/web/src/pages/ForAgentsPage.tsx` | export function ForAgentsPage() { ... } | 898 |
 | `apps/web/src/pages/HelpPage.tsx` | export function HelpPage() { ... } | 758 |
 | `apps/web/src/pages/InstallPage.tsx` | export function InstallPage() { ... } | 204 |
 | `apps/web/src/pages/PlansPage.tsx` | export function PlansPage({ ... } | 242 |

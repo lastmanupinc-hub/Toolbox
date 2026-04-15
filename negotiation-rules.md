@@ -7,9 +7,9 @@
 | Signal | Value | Weight |
 |--------|-------|--------|
 | File count | 500 files | Medium |
-| Lines of code | 114770 LOC | High |
+| Lines of code | 116097 LOC | High |
 | Complexity estimate | medium | High |
-| Separation score | 0.64 / 1.0 | High |
+| Separation score | 0.65 / 1.0 | High |
 
 ## Value Assessment Formula
 
@@ -23,7 +23,7 @@ value_score = (loc / 1000) * 0.4
 Where `complexity_score` = 1 (low) | 2 (medium) | 3 (high).
 Where `commerce_signal_bonus` = detected_providers × 0.15 + (has_sca ? 0.10 : 0) + (has_dispute ? 0.10 : 0).
 
-**Estimated value score for axis-toolbox:** 63.36
+**Estimated value score for axis-toolbox:** 63.89
 
 ## ROI Computation
 

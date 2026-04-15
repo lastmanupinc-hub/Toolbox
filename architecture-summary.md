@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -16,8 +16,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (114770 LOC)
-- **Directories:** 61
+- **Files:** 500 (116097 LOC)
+- **Directories:** 59
 
 ## Frameworks & Libraries
 
@@ -27,7 +27,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - `monorepo`
 - `containerized`
-- **Separation Score:** 0.64
+- **Separation Score:** 0.65
 
 ## Layer Boundaries
 
@@ -53,6 +53,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | GET | `/v1/install` | apps/api/src/agent-discovery.test.ts |
 | GET | `/v1/install/:platform` | apps/api/src/agent-discovery.test.ts |
 | POST | `/probe-intent` | apps/api/src/agent-discovery.test.ts |
+| POST | `/mcp` | apps/api/src/analyze-repo-success.test.ts |
 | POST | `/v1/analyze` | apps/api/src/analyze.test.ts |
 | GET | `/.well-known/axis.json` | apps/api/src/analyze.test.ts |
 | POST | `/v1/snapshots` | apps/api/src/api-branches.test.ts |
@@ -248,6 +249,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | POST | `/v1/account/keys` | apps/api/src/mcp-server.test.ts |
 | GET | `/v1/stats` | apps/api/src/mcp-server.test.ts |
 | GET | `/ping` | apps/api/src/mcp-server.test.ts |
+| GET | `/` | apps/api/src/mcp-server.test.ts |
 | GET | `/v1/health` | apps/api/src/metrics.test.ts |
 | GET | `/v1/health/live` | apps/api/src/metrics.test.ts |
 | GET | `/v1/health/ready` | apps/api/src/metrics.test.ts |
@@ -289,9 +291,11 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | GET | `/v1/account/usage` | apps/api/src/programs-billing.test.ts |
 | POST | `/v1/account/tier` | apps/api/src/programs-billing.test.ts |
 | POST | `/v1/account/programs` | apps/api/src/programs-billing.test.ts |
+| POST | `/mcp` | apps/api/src/quota-guardrails.test.ts |
 | GET | `/v1/health` | apps/api/src/quota.test.ts |
 | POST | `/v1/accounts` | apps/api/src/quota.test.ts |
 | GET | `/v1/account/quota` | apps/api/src/quota.test.ts |
+| GET | `/v1/health` | apps/api/src/rate-limit-integration.test.ts |
 | GET | `/v1/test/fast` | apps/api/src/request-limits.test.ts |
 | GET | `/v1/test/slow` | apps/api/src/request-limits.test.ts |
 | GET | `/slow` | apps/api/src/router-branches.test.ts |
@@ -359,7 +363,13 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | GET | `/.well-known/axis.json` | apps/api/src/server.ts |
 | GET | `/.well-known/capabilities.json` | apps/api/src/server.ts |
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts |
+| GET | `/.well-known/security.txt` | apps/api/src/server.ts |
+| GET | `/.well-known/agent.json` | apps/api/src/server.ts |
 | GET | `/robots.txt` | apps/api/src/server.ts |
+| GET | `/sitemap.xml` | apps/api/src/server.ts |
+| GET | `/health` | apps/api/src/server.ts |
+| GET | `/docs` | apps/api/src/server.ts |
+| GET | `/openapi.json` | apps/api/src/server.ts |
 | GET | `/llms.txt` | apps/api/src/server.ts |
 | GET | `/.well-known/skills/index.json` | apps/api/src/server.ts |
 | GET | `/v1/docs.md` | apps/api/src/server.ts |
@@ -454,6 +464,14 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | DELETE | `/v1/account/webhooks/:webhook_id` | apps/api/src/webhooks.test.ts |
 | POST | `/v1/account/webhooks/:webhook_id/toggle` | apps/api/src/webhooks.test.ts |
 | GET | `/v1/account/webhooks/:webhook_id/deliveries` | apps/api/src/webhooks.test.ts |
+| GET | `/.well-known/agent.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/.well-known/security.txt` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/.well-known/capabilities.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/robots.txt` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/sitemap.xml` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/health` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/docs` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/openapi.json` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/health` | e2e_ui_audit.yaml |
 | GET | `/v1/health` | e2e_ui_audit.yaml |
 | GET | `/api/health` | packages/context-engine/src/engine-branches.test.ts |
@@ -473,11 +491,10 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Directory Layout
 
-- `packages/` — monorepo_packages (131 files)
-- `apps/` — monorepo_apps (127 files)
+- `apps/` — monorepo_apps (136 files)
+- `packages/` — monorepo_packages (135 files)
 - `payment-processing-output/` — project_directory (72 files)
 - `examples/` — project_directory (17 files)
-- `search/` — project_directory (6 files)
 - `algorithmic/` — project_directory (4 files)
 - `artifacts/` — project_directory (4 files)
 - `brand/` — project_directory (4 files)
@@ -490,8 +507,6 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 - `obsidian/` — project_directory (4 files)
 - `optimization/` — project_directory (4 files)
 - `remotion/` — project_directory (4 files)
-- `seo/` — project_directory (3 files)
-- `scripts/` — build_scripts (2 files)
 - `.github/` — project_directory (1 files)
 
 ## Dependency Hotspots
@@ -499,15 +514,16 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | File | Inbound | Outbound | Risk |
 |------|---------|----------|------|
 | apps/web/src/App.tsx | 1 | 17 | 90% |
-| apps/web/src/api.ts | 16 | 0 | 80% |
+| apps/web/src/api.ts | 17 | 0 | 85% |
+| apps/web/src/pages.test.tsx | 0 | 15 | 75% |
 | apps/web/src/pages/DashboardPage.tsx | 1 | 9 | 50% |
-| apps/web/src/components/Toast.tsx | 3 | 0 | 15% |
-| apps/web/src/components/AxisIcons.tsx | 3 | 0 | 15% |
+| apps/web/src/components/Toast.tsx | 4 | 0 | 20% |
+| apps/web/src/components/AxisIcons.tsx | 4 | 0 | 20% |
 | apps/web/src/upload-utils.ts | 3 | 0 | 15% |
 
 ## Domain Models
 
-Detected 152 domain models:
+Detected 162 domain models:
 
 | Model | Kind | Fields | Source |
 |-------|------|--------|--------|
@@ -536,9 +552,9 @@ Detected 152 domain models:
 | `RunResult` | interface | 4 | apps/cli/src/runner.ts |
 | `ScanResult` | interface | 3 | apps/cli/src/scanner.ts |
 | `WriteResult` | interface | 3 | apps/cli/src/writer.ts |
-| *… 127 more* | | | |
+| *… 137 more* | | | |
 
-> **High-complexity models** (8+ fields): `ContextMap`, `SnapshotResponse`, `SubscriptionInfo`, `UpgradePrompt`, `ProgramDoc`, `ContextMap`, `RepoProfile`, `CommerceSignals`, `ParseResult`, `UsageRecord`, `EmailDelivery`, `FunnelMetrics`, `Seat`, `UpgradePrompt`, `GitHubToken`, `StripeSubscription`, `TierChange`, `SnapshotManifest`, `SnapshotRecord`, `VersionDiff`, `Webhook`, `WebhookDelivery`, `WebhookRow` — consider splitting if they grow further.
+> **High-complexity models** (8+ fields): `ContextMap`, `SnapshotResponse`, `SubscriptionInfo`, `UpgradePrompt`, `ProgramDoc`, `ContextMap`, `RepoProfile`, `CommerceSignals`, `ParseResult`, `UsageRecord`, `EmailDelivery`, `FunnelMetrics`, `Seat`, `UpgradePrompt`, `GitHubToken`, `ReferralCredits`, `StripeSubscription`, `TierChange`, `SnapshotManifest`, `SnapshotRecord`, `VersionDiff`, `Webhook`, `WebhookDelivery`, `WebhookRow` — consider splitting if they grow further.
 
 ## Tooling
 
@@ -556,21 +572,22 @@ Detected 152 domain models:
 ## File Tree
 
 ```
-.github/workflows/ci.yml (4.4 KB)
+.github/workflows/ci.yml (4.5 KB)
 .gitignore (0.2 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
-AGENTS.md (14.3 KB)
+AGENTS.md (14.2 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
 algorithmic/MEMORY.yaml (2.9 KB)
 algorithmic/schemas/output-contract.schema.json (1.8 KB)
-apps/api/mcp-server.json (8.1 KB)
+apps/api/mcp-server.json (10.1 KB)
 apps/api/package.json (0.6 KB)
 apps/api/src/admin.test.ts (10.0 KB)
 apps/api/src/admin.ts (2.8 KB)
 apps/api/src/agent-discovery.test.ts (18.6 KB)
+apps/api/src/analyze-repo-success.test.ts (5.0 KB)
 apps/api/src/analyze.test.ts (16.2 KB)
 apps/api/src/api-branches.test.ts (22.0 KB)
 apps/api/src/api-layer5.test.ts (10.6 KB)
@@ -580,12 +597,14 @@ apps/api/src/billing-flow.test.ts (24.6 KB)
 apps/api/src/billing.ts (21.2 KB)
 apps/api/src/budget-probe.test.ts (33.2 KB)
 apps/api/src/checkout-email.test.ts (11.7 KB)
+apps/api/src/counts.ts (0.2 KB)
 apps/api/src/crash-resilience.test.ts (6.3 KB)
 apps/api/src/credits-api.test.ts (10.9 KB)
 apps/api/src/db-endpoints.test.ts (4.1 KB)
 apps/api/src/deletion.test.ts (5.6 KB)
 apps/api/src/deployment.test.ts (6.9 KB)
 apps/api/src/e2e-flows.test.ts (22.5 KB)
+apps/api/src/e2e-smoke.test.ts (4.5 KB)
 apps/api/src/env.test.ts (8.3 KB)
 apps/api/src/env.ts (5.7 KB)
 apps/api/src/export-edge-cases.test.ts (9.9 KB)
@@ -596,41 +615,44 @@ apps/api/src/funnel.ts (8.9 KB)
 apps/api/src/github.test.ts (6.0 KB)
 apps/api/src/github.ts (0.2 KB)
 apps/api/src/handler-edge-cases.test.ts (11.8 KB)
+apps/api/src/handler-shutdown.test.ts (2.8 KB)
 apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
-apps/api/src/handlers.ts (121.9 KB)
+apps/api/src/handlers.ts (140.2 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (58.9 KB)
-apps/api/src/mcp-server.ts (87.5 KB)
+apps/api/src/mcp-server.test.ts (72.8 KB)
+apps/api/src/mcp-server.ts (90.8 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
-apps/api/src/metrics.ts (6.4 KB)
+apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
 apps/api/src/mpp.ts (13.6 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
 apps/api/src/oauth.test.ts (8.0 KB)
 apps/api/src/oauth.ts (3.4 KB)
-apps/api/src/openapi.test.ts (15.0 KB)
-apps/api/src/openapi.ts (59.1 KB)
+apps/api/src/openapi.test.ts (15.2 KB)
+apps/api/src/openapi.ts (65.0 KB)
 apps/api/src/prepare-purchasing.test.ts (19.1 KB)
 apps/api/src/production-startup.test.ts (8.5 KB)
 apps/api/src/programs-billing.test.ts (12.8 KB)
+apps/api/src/quota-guardrails.test.ts (5.8 KB)
 apps/api/src/quota.test.ts (4.5 KB)
+apps/api/src/rate-limit-integration.test.ts (3.2 KB)
 apps/api/src/rate-limiter.test.ts (13.8 KB)
 apps/api/src/rate-limiter.ts (6.5 KB)
 apps/api/src/request-limits.test.ts (3.9 KB)
 apps/api/src/router-branches.test.ts (12.5 KB)
 apps/api/src/router.test.ts (15.0 KB)
-apps/api/src/router.ts (13.5 KB)
+apps/api/src/router.ts (14.9 KB)
 apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
-apps/api/src/server-routes.test.ts (5.2 KB)
-apps/api/src/server.ts (11.9 KB)
-apps/api/src/snapshot-auth.test.ts (12.4 KB)
+apps/api/src/server-routes.test.ts (5.3 KB)
+apps/api/src/server.ts (12.5 KB)
+apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
 apps/api/src/stripe.ts (15.8 KB)
@@ -640,6 +662,7 @@ apps/api/src/versions.ts (2.5 KB)
 apps/api/src/webhook-branches.test.ts (16.3 KB)
 apps/api/src/webhooks.test.ts (13.6 KB)
 apps/api/src/webhooks.ts (5.4 KB)
+apps/api/src/well-known-handlers.test.ts (12.5 KB)
 apps/api/tsconfig.json (0.2 KB)
 apps/cli/package.json (0.5 KB)
 apps/cli/src/cli-auth.test.ts (7.6 KB)
@@ -660,7 +683,7 @@ apps/web/index.html (6.9 KB)
 apps/web/package.json (0.5 KB)
 apps/web/public/robots.txt (0.8 KB)
 apps/web/src/api.test.ts (23.7 KB)
-apps/web/src/api.ts (16.1 KB)
+apps/web/src/api.ts (18.5 KB)
 apps/web/src/App.tsx (16.1 KB)
 apps/web/src/components/AxisIcons.tsx (8.9 KB)
 apps/web/src/components/CommandPalette.tsx (6.6 KB)
@@ -673,28 +696,30 @@ apps/web/src/components/SearchTab.tsx (11.1 KB)
 apps/web/src/components/SignUpModal.tsx (3.9 KB)
 apps/web/src/components/StatusBar.tsx (2.3 KB)
 apps/web/src/components/Toast.tsx (3.8 KB)
+apps/web/src/components/UpsellModal.tsx (5.2 KB)
 apps/web/src/index.css (18.5 KB)
 apps/web/src/main.tsx (0.2 KB)
+apps/web/src/pages.test.tsx (4.4 KB)
 apps/web/src/pages/AccountPage.tsx (23.8 KB)
 apps/web/src/pages/DashboardPage.tsx (7.5 KB)
 apps/web/src/pages/DocsPage.tsx (71.2 KB)
 apps/web/src/pages/ExamplesPage.tsx (24.1 KB)
-apps/web/src/pages/ForAgentsPage.tsx (49.8 KB)
+apps/web/src/pages/ForAgentsPage.tsx (50.0 KB)
 apps/web/src/pages/HelpPage.tsx (41.9 KB)
 apps/web/src/pages/InstallPage.tsx (8.4 KB)
 apps/web/src/pages/PlansPage.tsx (9.3 KB)
 apps/web/src/pages/ProgramsPage.tsx (13.9 KB)
 apps/web/src/pages/QAPage.tsx (23.7 KB)
 apps/web/src/pages/TermsPage.tsx (19.4 KB)
-apps/web/src/pages/UploadPage.tsx (23.6 KB)
+apps/web/src/pages/UploadPage.tsx (28.8 KB)
 apps/web/src/upload-utils-zip.test.ts (9.0 KB)
 apps/web/src/upload-utils.test.ts (5.7 KB)
 apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (69.1 KB)
-artifact-spec.md (7.4 KB)
+architecture-summary.md (72.0 KB)
+artifact-spec.md (7.8 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
 artifacts/MEMORY.yaml (3.1 KB)
@@ -716,7 +741,7 @@ brand/MEMORY.yaml (3.0 KB)
 brand/schemas/output-contract.schema.json (1.8 KB)
 campaign-brief.md (2.5 KB)
 canvas-pack.md (9.7 KB)
-canvas-spec.json (4.2 KB)
+canvas-spec.json (4.0 KB)
 canvas/begin.yaml (1.8 KB)
 canvas/continuation.yaml (2.4 KB)
 canvas/MEMORY.yaml (2.8 KB)
@@ -733,26 +758,29 @@ collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
-component-theme-map.json (9.2 KB)
-connector-map.yaml (6.7 KB)
+component-theme-map.json (9.5 KB)
+connector-map.yaml (6.6 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
-cost-estimate.json (5.9 KB)
+cost-estimate.json (5.7 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
-cro-playbook.md (33.2 KB)
+cro-playbook.md (34.2 KB)
+daily-maintenance-runbook.yaml (5.2 KB)
 dark-mode-tokens.json (3.3 KB)
-dashboard-widget.tsx (3.3 KB)
+dashboard-widget.tsx (3.4 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
-dependency-hotspots.md (7.9 KB)
+dependency-hotspots.md (8.2 KB)
 docker-compose.yml (2.0 KB)
 Dockerfile (4.1 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
+e2e_wiring_audit.mjs (46.9 KB)
+e2e_wiring_audit.yaml (31.5 KB)
 embed-snippet.ts (2.2 KB)
 examples/01-paid-platform/generated/AGENTS.md (1.9 KB)
 examples/01-paid-platform/generated/CLAUDE.md (0.9 KB)
@@ -780,12 +808,12 @@ funnel-map.md (2.9 KB)
 generated-component.tsx (1.6 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
-graph-prompt-map.json (44.7 KB)
+graph-prompt-map.json (47.4 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
-incident-template.md (19.2 KB)
+incident-template.md (19.9 KB)
 layout-patterns.md (2.5 KB)
-linking-policy.md (3.6 KB)
+linking-policy.md (3.7 KB)
 marketing-pack.md (9.7 KB)
 marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
@@ -816,7 +844,7 @@ optimization/begin.yaml (2.5 KB)
 optimization/continuation.yaml (2.4 KB)
 optimization/MEMORY.yaml (3.7 KB)
 optimization/schemas/output-contract.schema.json (1.8 KB)
-package.json (0.6 KB)
+package.json (0.8 KB)
 packages/context-engine/package.json (0.4 KB)
 packages/context-engine/src/engine-branches.test.ts (27.5 KB)
 packages/context-engine/src/engine-branches2.test.ts (7.6 KB)
@@ -832,9 +860,9 @@ packages/generator-core/src/file-excerpt-utils.ts (5.4 KB)
 packages/generator-core/src/fw-helpers.ts (0.5 KB)
 packages/generator-core/src/generate-programs.test.ts (11.8 KB)
 packages/generator-core/src/generate-symbol-index.test.ts (10.0 KB)
-packages/generator-core/src/generate-validation.test.ts (10.9 KB)
+packages/generator-core/src/generate-validation.test.ts (8.8 KB)
 packages/generator-core/src/generate.test.ts (42.2 KB)
-packages/generator-core/src/generate.ts (17.2 KB)
+packages/generator-core/src/generate.ts (17.0 KB)
 packages/generator-core/src/generator-alt-profiles.test.ts (17.0 KB)
 packages/generator-core/src/generator-branches.test.ts (217.7 KB)
 packages/generator-core/src/generator-sourcefile-branches.test.ts (20.9 KB)
@@ -858,7 +886,7 @@ packages/generator-core/src/generator-sourcefile-branches7.test.ts (36.7 KB)
 packages/generator-core/src/generator-sourcefile-branches8.test.ts (49.1 KB)
 packages/generator-core/src/generator-sourcefile-branches9.test.ts (33.5 KB)
 packages/generator-core/src/generators-agentic-purchasing.test.ts (52.9 KB)
-packages/generator-core/src/generators-agentic-purchasing.ts (59.8 KB)
+packages/generator-core/src/generators-agentic-purchasing.ts (60.0 KB)
 packages/generator-core/src/generators-algorithmic.ts (26.2 KB)
 packages/generator-core/src/generators-artifacts.ts (28.2 KB)
 packages/generator-core/src/generators-brand.ts (32.2 KB)
@@ -874,7 +902,7 @@ packages/generator-core/src/generators-remotion.ts (32.1 KB)
 packages/generator-core/src/generators-search-funcs.test.ts (11.8 KB)
 packages/generator-core/src/generators-search.ts (17.9 KB)
 packages/generator-core/src/generators-seo.ts (35.8 KB)
-packages/generator-core/src/generators-skills.ts (42.6 KB)
+packages/generator-core/src/generators-skills.ts (42.8 KB)
 packages/generator-core/src/generators-superpowers.ts (37.4 KB)
 packages/generator-core/src/generators-theme.ts (45.9 KB)
 packages/generator-core/src/index.ts (2.9 KB)
@@ -901,6 +929,10 @@ packages/repo-parser/src/sql-extractor.test.ts (8.9 KB)
 packages/repo-parser/src/sql-extractor.ts (4.3 KB)
 packages/repo-parser/src/types.ts (2.0 KB)
 packages/repo-parser/tsconfig.json (0.2 KB)
+packages/sdk/package.json (0.4 KB)
+packages/sdk/src/index.test.ts (11.3 KB)
+packages/sdk/src/index.ts (7.4 KB)
+packages/sdk/tsconfig.json (0.2 KB)
 packages/snapshots/package.json (0.4 KB)
 packages/snapshots/src/b-grade-upgrade.test.ts (8.4 KB)
 packages/snapshots/src/billing-edge-cases.test.ts (14.5 KB)
@@ -910,7 +942,7 @@ packages/snapshots/src/billing.test.ts (12.2 KB)
 packages/snapshots/src/coverage-gaps.test.ts (22.8 KB)
 packages/snapshots/src/db-maintenance.test.ts (6.7 KB)
 packages/snapshots/src/db.test.ts (15.8 KB)
-packages/snapshots/src/db.ts (20.9 KB)
+packages/snapshots/src/db.ts (21.1 KB)
 packages/snapshots/src/email-store.test.ts (10.7 KB)
 packages/snapshots/src/email-store.ts (9.0 KB)
 packages/snapshots/src/funnel-edge-cases.test.ts (10.7 KB)
@@ -929,9 +961,9 @@ packages/snapshots/src/oauth-store.ts (4.6 KB)
 packages/snapshots/src/perf.bench.ts (6.9 KB)
 packages/snapshots/src/persistence-metering.test.ts (9.9 KB)
 packages/snapshots/src/persistence-metering.ts (4.9 KB)
-packages/snapshots/src/referral-e2e.test.ts (10.4 KB)
-packages/snapshots/src/referral-store.test.ts (10.2 KB)
-packages/snapshots/src/referral-store.ts (9.6 KB)
+packages/snapshots/src/referral-e2e.test.ts (10.5 KB)
+packages/snapshots/src/referral-store.test.ts (10.5 KB)
+packages/snapshots/src/referral-store.ts (9.9 KB)
 packages/snapshots/src/search-store.test.ts (6.8 KB)
 packages/snapshots/src/search-store.ts (9.7 KB)
 packages/snapshots/src/search-symbols.test.ts (9.3 KB)
@@ -1027,7 +1059,7 @@ policy-pack.md (2.6 KB)
 poster-layouts.md (3.1 KB)
 product-schema.json (7.7 KB)
 ProgramPipeline.js (11.3 KB)
-prompt-diff-report.md (2.3 KB)
+prompt-diff-report.md (2.4 KB)
 README.md (9.2 KB)
 refactor-checklist.md (4.0 KB)
 remotion-pack.md (9.2 KB)
@@ -1036,26 +1068,10 @@ remotion/begin.yaml (1.8 KB)
 remotion/continuation.yaml (2.4 KB)
 remotion/MEMORY.yaml (2.8 KB)
 remotion/schemas/output-contract.schema.json (1.8 KB)
-render-config.json (8.4 KB)
+render-config.json (8.5 KB)
 render.yaml (1.2 KB)
 repo_snapshot.yaml (80.7 KB)
 research-threads.md (3.7 KB)
-root-cause-checklist.md (22.2 KB)
-route-priority-map.md (28.1 KB)
-rules to compile snapshot.yaml (19.4 KB)
-scene-plan.md (2.8 KB)
-schema-recommendations.json (6.7 KB)
-scripts/regenerate.ps1 (1.4 KB)
-scripts/regenerate.sh (0.8 KB)
-search/begin.yaml (3.7 KB)
-search/continuation.yaml (2.4 KB)
-search/MEMORY.yaml (5.9 KB)
-search/schemas/context-map.schema.json (10.9 KB)
-search/schemas/output-contract.schema.json (1.8 KB)
-search/schemas/repo-profile.schema.yaml (6.7 KB)
-seo/begin.yaml (3.6 KB)
-seo/continuation.yaml (2.4 KB)
-seo/MEMORY.yaml (5.8 KB)
 ```
 
 ## Entry Points (Source)
@@ -1093,7 +1109,7 @@ import {
   handlePreparePurchasing,
   handleWellKnown,
   handleCapabilities,
-... (293 more lines)
+... (308 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -1197,6 +1213,42 @@ export type { DomainModel } from "./domain-extractor.js";
 
 ```
 
+### `packages/sdk/src/index.ts`
+
+```typescript
+/**
+ * @axis/sdk — Typed TypeScript client for the AXIS Toolbox API.
+ *
+ * Usage:
+ *   import { AxisClient } from "@axis/sdk";
+ *   const axis = new AxisClient({ apiKey: "ax_..." });
+ *   const snap = await axis.analyzeFiles({ ... });
+ *   const artifact = await axis.getArtifact(snap.snapshot_id, "AGENTS.md");
+ */
+
+// ─── Types ──────────────────────────────────────────────────────
+
+export interface AxisClientOptions {
+  /** API base URL. Defaults to production. */
+  baseUrl?: string;
+  /** API key (ax_...). Required for authenticated endpoints. */
+  apiKey?: string;
+  /** Request timeout in ms. Default 30000. */
+  timeout?: number;
+}
+
+export interface FileEntry {
+  path: string;
+  content: string;
+}
+
+export interface AnalyzeFilesInput {
+  project_name: string;
+  project_type: string;
+  frameworks: string[];
+... (199 more lines)
+```
+
 ### `packages/snapshots/src/index.ts`
 
 ```typescript
@@ -1240,7 +1292,7 @@ export {
 ```json
 {
   "name": "@axis/api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -1286,7 +1338,7 @@ export {
 ```json
 {
   "name": "@axis/cli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "bin": {
@@ -1338,7 +1390,7 @@ export {
 {
   "name": "@axis/web",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -1380,7 +1432,8 @@ export {
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
 }
 
 ```
@@ -1408,13 +1461,14 @@ export default defineConfig({
 ```json
 {
   "name": "axis-toolbox",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "private": true,
   "description": "Axis — The operating system for AI-native development",
   "scripts": {
     "dev": "pnpm --filter @axis/api dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
+    "test:coverage": "npx vitest run --coverage",
     "lint": "pnpm -r lint",
     "regenerate": "pwsh scripts/regenerate.ps1",
     "regenerate:sh": "bash scripts/regenerate.sh"
@@ -1423,15 +1477,14 @@ export default defineConfig({
     "node": ">=20"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@vitest/coverage-v8": "^4.1.4",
+    "happy-dom": "^20.9.0",
     "vite": "^8.0.8",
     "vitest": "^4.1.4"
   },
-  "pnpm": {
-    "overrides": {
-      "vite@^8": "^8.0.8"
-    }
-... (3 more lines)
+... (7 more lines)
 ```
 
 ### `packages/context-engine/package.json`
@@ -1439,7 +1492,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/context-engine",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -1481,7 +1534,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/generator-core",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
@@ -1521,7 +1574,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/repo-parser",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -1557,12 +1610,54 @@ export default defineConfig({
 
 ```
 
+### `packages/sdk/package.json`
+
+```json
+{
+  "name": "@axis/sdk",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}
+
+```
+
+### `packages/sdk/tsconfig.json`
+
+```json
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}
+
+```
+
 ### `packages/snapshots/package.json`
 
 ```json
 {
   "name": "@axis/snapshots",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -1601,4 +1696,4 @@ export default defineConfig({
 ```
 
 ---
-*Generated by Axis Search — 2026-04-14*
+*Generated by Axis Search — 2026-04-15*

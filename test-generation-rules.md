@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -69,7 +69,7 @@ These models were detected in the codebase. Each should have factory helpers and
 | `CacheKey` | type_alias | 2 | `apps/api/src/mpp.ts` |
 | `ChargeOptions` | type_alias | 5 | `apps/api/src/mpp.ts` |
 | `MppResult` | type_alias | 1 | `apps/api/src/mpp.ts` |
-| *... and 137 more* | | | |
+| *... and 147 more* | | | |
 
 ### Factory Helper Pattern
 
@@ -159,6 +159,7 @@ export function makeValidationError(overrides: Partial<ValidationError> = {}): V
 |------|-------|
 | `apps/api/src/admin.test.ts` | 265 |
 | `apps/api/src/agent-discovery.test.ts` | 559 |
+| `apps/api/src/analyze-repo-success.test.ts` | 137 |
 | `apps/api/src/analyze.test.ts` | 456 |
 | `apps/api/src/api-branches.test.ts` | 606 |
 | `apps/api/src/api-layer5.test.ts` | 284 |
@@ -168,52 +169,57 @@ export function makeValidationError(overrides: Partial<ValidationError> = {}): V
 | `apps/api/src/budget-probe.test.ts` | 809 |
 | `apps/api/src/checkout-email.test.ts` | 308 |
 | `apps/api/src/crash-resilience.test.ts` | 158 |
-| `apps/api/src/credits-api.test.ts` | 262 |
 
 ## Reference Test
 
-### `apps/api/src/logger.test.ts`
+### `apps/api/src/handler-shutdown.test.ts`
 
 ```typescript
-import { describe, it, expect, vi, afterEach } from "vitest";
-import { log } from "./logger.js";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
-describe("LOG_LEVEL filtering", () => {
-  afterEach(() => {
-    delete process.env.LOG_LEVEL;
-    vi.restoreAllMocks();
-  });
+// ─── Mock router.js to control isShuttingDown ───────────────────
+vi.mock("./router.js", async (importOriginal) => {
+  const orig = await importOriginal<typeof import("./router.js")>();
+  return { ...orig, isShuttingDown: vi.fn(() => false) };
+});
 
-  it("writes info by default (LOG_LEVEL unset)", () => {
-    const spy = vi.spyOn(process.stdout, "write").mockReturnValue(true);
-    log("info", "test_msg");
-    expect(spy).toHaveBeenCalledOnce();
-    const parsed = JSON.parse(spy.mock.calls[0][0] as string);
-    expect(parsed.level).toBe("info");
-    expect(parsed.msg).toBe("test_msg");
-  });
+// ─── Mock @axis/snapshots to prevent real DB access on import ───
+vi.mock("@axis/snapshots", async (importOriginal) => {
+  const orig = await importOriginal<typeof import("@axis/snapshots")>();
+  return { ...orig, openMemoryDb: vi.fn(), closeDb: vi.fn() };
+});
 
-  it("writes error to stderr", () => {
-    const spy = vi.spyOn(process.stderr, "write").mockReturnValue(true);
-    log("error", "err_msg");
-    expect(spy).toHaveBeenCalledOnce();
-    const parsed = JSON.parse(spy.mock.calls[0][0] as string);
-    expect(parsed.level).toBe("error");
-  });
+import { handleHealthCheck } from "./handlers.js";
+import { isShuttingDown } from "./router.js";
 
-  it("writes warn to stdout", () => {
-    const spy = vi.spyOn(process.stdout, "write").mockReturnValue(true);
-    log("warn", "warn_msg");
-    expect(spy).toHaveBeenCalledOnce();
-    const parsed = JSON.parse(spy.mock.calls[0][0] as string);
-    expect(parsed.level).toBe("warn");
-  });
+// ─── Minimal res/req stubs ──────────────────────────────────────
+function stubReq(): IncomingMessage {
+  return { headers: {} } as unknown as IncomingMessage;
+}
 
-  it("writes debug when LOG_LEVEL=debug", () => {
-    process.env.LOG_LEVEL = "debug";
-    const spy = vi.spyOn(process.stdout, "write").mockReturnValue(true);
-    log("debug", "debug_msg");
-    expect(spy).toHaveBeenCalledOnce();
-    const parsed = JSON.parse(spy.mock.calls[0][0] as string);
-... (54 more lines)
+function stubRes(): ServerResponse & { _status: number; _body: string } {
+  const res: Record<string, unknown> = {
+    _status: 0,
+    _body: "",
+    _headers: {} as Record<string, string>,
+    writeHead(status: number) { res._status = status; return res; },
+    setHeader(k: string, v: string) { (res._headers as Record<string, string>)[k] = v; },
+    end(body?: string) { res._body = body ?? ""; },
+    getHeader() { return undefined; },
+  };
+  return res as unknown as ServerResponse & { _status: number; _body: string };
+}
+
+// ─── Tests ──────────────────────────────────────────────────────
+describe("handleHealthCheck shutdown path", () => {
+  beforeEach(() => {
+    vi.mocked(isShuttingDown).mockReturnValue(false);
+... (27 more lines)
 ```
+
+## Untested Exports
+
+These source files export functions without matching test files:
+
+- `apps/api/src/counts.ts` — export const ARTIFACT_COUNT = ..., export const PROGRAM_COUNT = ..., export const MCP_TOOL_COUNT = ..., export const ENDPOINT_COUNT = ...

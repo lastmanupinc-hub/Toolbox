@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T13:38:18.699Z",
+  "generated_at": "2026-04-15T19:53:55.555Z",
   "detected_stack": [
     {
       "name": "React",
@@ -10,11 +10,11 @@
   ],
   "primary_language": "TypeScript",
   "summary": {
-    "total_components": 29,
+    "total_components": 30,
     "by_type": {
       "custom": 15,
       "decorative": 1,
-      "overlay": 1,
+      "overlay": 2,
       "page": 12
     }
   },
@@ -140,6 +140,19 @@
       "token_categories": [
         "colors",
         "typography"
+      ]
+    },
+    {
+      "name": "UpsellModal",
+      "path": "apps/web/src/components/UpsellModal.tsx",
+      "directory": "apps/web/src/components",
+      "component_type": "overlay",
+      "token_categories": [
+        "colors",
+        "typography",
+        "z_index",
+        "shadows",
+        "border_radius"
       ]
     },
     {
@@ -337,13 +350,13 @@
     "apps/web/src/components/SignUpModal.tsx",
     "apps/web/src/components/StatusBar.tsx",
     "apps/web/src/components/Toast.tsx",
+    "apps/web/src/components/UpsellModal.tsx",
     "apps/web/src/main.tsx",
     "apps/web/src/pages/AccountPage.tsx",
     "apps/web/src/pages/DashboardPage.tsx",
     "apps/web/src/pages/DocsPage.tsx",
     "apps/web/src/pages/ExamplesPage.tsx",
     "apps/web/src/pages/ForAgentsPage.tsx",
-    "apps/web/src/pages/HelpPage.tsx",
-    "apps/web/src/pages/InstallPage.tsx"
+    "apps/web/src/pages/HelpPage.tsx"
   ]
 }

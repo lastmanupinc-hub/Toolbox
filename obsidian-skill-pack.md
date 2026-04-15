@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -98,7 +98,7 @@ I'm working with the following domain models in axis-toolbox:
 - IntentCapture (interface, 5 fields) — defined in apps/api/src/mcp-server.ts
 - JsonRpcRequest (interface, 4 fields) — defined in apps/api/src/mcp-server.ts
 - McpCallCounters (interface, 5 fields) — defined in apps/api/src/mcp-server.ts
-  ... and 144 more
+  ... and 154 more
 
 When generating code that uses these types, import from their source files and
 do not redefine them.

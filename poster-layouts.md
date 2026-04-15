@@ -1,6 +1,6 @@
 # Poster Layouts — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.753Z
+Generated: 2026-04-15T19:53:55.591Z
 
 ## Layout A: Tech Overview (A4 Portrait)
 
@@ -31,21 +31,19 @@ Generated: 2026-04-14T13:38:18.753Z
 
 **Stats Grid**
 - Entry Points: 0
-- Hotspots: 6
-- Architecture Score: 0.64/100
-- Dependencies: 20
+- Hotspots: 7
+- Architecture Score: 0.65/100
+- Dependencies: 23
 
 **Language Breakdown**
-- TypeScript: 69.6% (78863 LOC)
-- JSON: 11.2% (12643 LOC)
-- YAML: 9.6% (10876 LOC)
-- Markdown: 8.1% (9235 LOC)
+- TypeScript: 70.9% (81263 LOC)
+- JSON: 10.5% (12048 LOC)
+- YAML: 9.1% (10479 LOC)
+- Markdown: 7.3% (8406 LOC)
+- JavaScript: 1.3% (1456 LOC)
 - CSS: 0.7% (849 LOC)
-- JavaScript: 0.6% (673 LOC)
 - HTML: 0.1% (120 LOC)
 - Dockerfile: 0% (49 LOC)
-- PowerShell: 0% (21 LOC)
-- Shell: 0% (14 LOC)
 
 **Architecture Diagram**
 - Patterns: monorepo, containerized
@@ -74,7 +72,7 @@ Generated: 2026-04-14T13:38:18.753Z
 
 - Name: axis-toolbox
 - Type: monorepo
-- Score: 0.64/100
+- Score: 0.65/100
 - Badges: React
 
 ## Layout C: Data Dashboard

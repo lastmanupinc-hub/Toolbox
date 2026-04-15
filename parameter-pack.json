@@ -1,11 +1,11 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T13:38:18.756Z",
+  "generated_at": "2026-04-15T19:53:55.593Z",
   "description": "Parameter sets for generative visualizations derived from project metrics",
   "parameters": {
     "structure": {
-      "node_count": 12,
-      "edge_density": 0.0064,
+      "node_count": 14,
+      "edge_density": 0.006500000000000001,
       "cluster_count": 1,
       "symmetry": "organic"
     },
@@ -14,37 +14,37 @@
         {
           "name": "TypeScript",
           "hue": 220,
-          "saturation": 73.92,
-          "lightness": 60.44,
-          "weight": 69.6
+          "saturation": 74.18,
+          "lightness": 60.635000000000005,
+          "weight": 70.9
         },
         {
           "name": "JSON",
           "hue": 280,
-          "saturation": 62.24,
-          "lightness": 51.68,
-          "weight": 11.2
+          "saturation": 62.1,
+          "lightness": 51.575,
+          "weight": 10.5
         },
         {
           "name": "YAML",
           "hue": 340,
-          "saturation": 61.92,
-          "lightness": 51.44,
-          "weight": 9.6
+          "saturation": 61.82,
+          "lightness": 51.365,
+          "weight": 9.1
         },
         {
           "name": "Markdown",
           "hue": 160,
-          "saturation": 61.62,
-          "lightness": 51.215,
-          "weight": 8.1
+          "saturation": 61.46,
+          "lightness": 51.095,
+          "weight": 7.3
         },
         {
-          "name": "CSS",
+          "name": "JavaScript",
           "hue": 40,
-          "saturation": 60.14,
-          "lightness": 50.105,
-          "weight": 0.7
+          "saturation": 60.26,
+          "lightness": 50.195,
+          "weight": 1.3
         }
       ],
       "background": {

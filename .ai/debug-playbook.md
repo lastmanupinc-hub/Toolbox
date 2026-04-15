@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Quick Reference
 
@@ -19,23 +19,21 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | pnpm |
-| Files | 500 files, 114,770 LOC |
-| Separation Score | 0.64/1.0 |
+| Files | 500 files, 116,097 LOC |
+| Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 250 | 78,863 | 69.6% |
-| JSON | 63 | 12,643 | 11.2% |
-| YAML | 68 | 10,876 | 9.6% |
-| Markdown | 106 | 9,235 | 8.1% |
+| TypeScript | 261 | 81,263 | 70.9% |
+| JSON | 62 | 12,048 | 10.5% |
+| YAML | 62 | 10,479 | 9.1% |
+| Markdown | 103 | 8,406 | 7.3% |
+| JavaScript | 4 | 1,456 | 1.3% |
 | CSS | 2 | 849 | 0.7% |
-| JavaScript | 3 | 673 | 0.6% |
 | HTML | 1 | 120 | 0.1% |
 | Dockerfile | 1 | 49 | 0% |
-| PowerShell | 1 | 21 | 0% |
-| Shell | 1 | 14 | 0% |
 
 ## Detected Stack (with evidence)
 
@@ -45,14 +43,14 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Project Structure
 
-- packages/ (monorepo_packages)
 - apps/ (monorepo_apps)
+- packages/ (monorepo_packages)
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
-- search/ (project_directory)
 - algorithmic/ (project_directory)
 - artifacts/ (project_directory)
 - brand/ (project_directory)
+- canvas/ (project_directory)
 
 ## Triage Steps
 
@@ -76,10 +74,11 @@ These files have many inbound or outbound imports — changes here cascade:
 | File | Inbound | Outbound | Risk |
 |------|---------|----------|------|
 | `apps/web/src/App.tsx` | 1 | 17 | 90% |
-| `apps/web/src/api.ts` | 16 | 0 | 80% |
+| `apps/web/src/api.ts` | 17 | 0 | 85% |
+| `apps/web/src/pages.test.tsx` | 0 | 15 | 75% |
 | `apps/web/src/pages/DashboardPage.tsx` | 1 | 9 | 50% |
-| `apps/web/src/components/Toast.tsx` | 3 | 0 | 15% |
-| `apps/web/src/components/AxisIcons.tsx` | 3 | 0 | 15% |
+| `apps/web/src/components/Toast.tsx` | 4 | 0 | 20% |
+| `apps/web/src/components/AxisIcons.tsx` | 4 | 0 | 20% |
 | `apps/web/src/upload-utils.ts` | 3 | 0 | 15% |
 
 ### 3. Framework-Specific Debugging
@@ -154,6 +153,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | Props | interface | TypeScript | 2 | `apps/web/src/components/StatusBar.tsx` |
 | Toast | interface | TypeScript | 4 | `apps/web/src/components/Toast.tsx` |
 | ToastContextValue | interface | TypeScript | 1 | `apps/web/src/components/Toast.tsx` |
+| Props | interface | TypeScript | 4 | `apps/web/src/components/UpsellModal.tsx` |
 | Props | interface | TypeScript | 2 | `apps/web/src/pages/DashboardPage.tsx` |
 | ProgramDoc | interface | TypeScript | 13 | `apps/web/src/pages/DocsPage.tsx` |
 | Example | interface | TypeScript | 7 | `apps/web/src/pages/ExamplesPage.tsx` |
@@ -195,6 +195,15 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | ImportEdge | interface | TypeScript | 2 | `packages/repo-parser/src/types.ts` |
 | LanguageStats | interface | TypeScript | 4 | `packages/repo-parser/src/types.ts` |
 | ParseResult | interface | TypeScript | 13 | `packages/repo-parser/src/types.ts` |
+| AnalyzeFilesInput | interface | TypeScript | 5 | `packages/sdk/src/index.ts` |
+| AnalyzeRepoInput | interface | TypeScript | 1 | `packages/sdk/src/index.ts` |
+| ArtifactEntry | interface | TypeScript | 3 | `packages/sdk/src/index.ts` |
+| AxisClientOptions | interface | TypeScript | 3 | `packages/sdk/src/index.ts` |
+| FileEntry | interface | TypeScript | 2 | `packages/sdk/src/index.ts` |
+| HealthResponse | interface | TypeScript | 4 | `packages/sdk/src/index.ts` |
+| McpToolCallResult | interface | TypeScript | 5 | `packages/sdk/src/index.ts` |
+| OpenApiSpec | interface | TypeScript | 4 | `packages/sdk/src/index.ts` |
+| SnapshotResult | interface | TypeScript | 7 | `packages/sdk/src/index.ts` |
 | AccountSummary | interface | TypeScript | 7 | `packages/snapshots/src/billing-store.ts` |
 | QuotaCheck | interface | TypeScript | 6 | `packages/snapshots/src/billing-store.ts` |
 | RecentActivity | interface | TypeScript | 5 | `packages/snapshots/src/billing-store.ts` |
@@ -224,7 +233,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GitHubUser | interface | TypeScript | 4 | `packages/snapshots/src/oauth-store.ts` |
 | ReferralCode | interface | TypeScript | 3 | `packages/snapshots/src/referral-store.ts` |
 | ReferralConversion | interface | TypeScript | 4 | `packages/snapshots/src/referral-store.ts` |
-| ReferralCredits | interface | TypeScript | 7 | `packages/snapshots/src/referral-store.ts` |
+| ReferralCredits | interface | TypeScript | 8 | `packages/snapshots/src/referral-store.ts` |
 | CodeSymbol | interface | TypeScript | 6 | `packages/snapshots/src/search-store.ts` |
 | SearchIndexEntry | interface | TypeScript | 3 | `packages/snapshots/src/search-store.ts` |
 | SearchResult | interface | TypeScript | 4 | `packages/snapshots/src/search-store.ts` |
@@ -267,6 +276,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/install` | apps/api/src/agent-discovery.test.ts |
 | GET | `/v1/install/:platform` | apps/api/src/agent-discovery.test.ts |
 | POST | `/probe-intent` | apps/api/src/agent-discovery.test.ts |
+| POST | `/mcp` | apps/api/src/analyze-repo-success.test.ts |
 | POST | `/v1/analyze` | apps/api/src/analyze.test.ts |
 | GET | `/.well-known/axis.json` | apps/api/src/analyze.test.ts |
 | POST | `/v1/snapshots` | apps/api/src/api-branches.test.ts |
@@ -462,6 +472,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | POST | `/v1/account/keys` | apps/api/src/mcp-server.test.ts |
 | GET | `/v1/stats` | apps/api/src/mcp-server.test.ts |
 | GET | `/ping` | apps/api/src/mcp-server.test.ts |
+| GET | `/` | apps/api/src/mcp-server.test.ts |
 | GET | `/v1/health` | apps/api/src/metrics.test.ts |
 | GET | `/v1/health/live` | apps/api/src/metrics.test.ts |
 | GET | `/v1/health/ready` | apps/api/src/metrics.test.ts |
@@ -503,9 +514,11 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/account/usage` | apps/api/src/programs-billing.test.ts |
 | POST | `/v1/account/tier` | apps/api/src/programs-billing.test.ts |
 | POST | `/v1/account/programs` | apps/api/src/programs-billing.test.ts |
+| POST | `/mcp` | apps/api/src/quota-guardrails.test.ts |
 | GET | `/v1/health` | apps/api/src/quota.test.ts |
 | POST | `/v1/accounts` | apps/api/src/quota.test.ts |
 | GET | `/v1/account/quota` | apps/api/src/quota.test.ts |
+| GET | `/v1/health` | apps/api/src/rate-limit-integration.test.ts |
 | GET | `/v1/test/fast` | apps/api/src/request-limits.test.ts |
 | GET | `/v1/test/slow` | apps/api/src/request-limits.test.ts |
 | GET | `/slow` | apps/api/src/router-branches.test.ts |
@@ -573,7 +586,13 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/.well-known/axis.json` | apps/api/src/server.ts |
 | GET | `/.well-known/capabilities.json` | apps/api/src/server.ts |
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts |
+| GET | `/.well-known/security.txt` | apps/api/src/server.ts |
+| GET | `/.well-known/agent.json` | apps/api/src/server.ts |
 | GET | `/robots.txt` | apps/api/src/server.ts |
+| GET | `/sitemap.xml` | apps/api/src/server.ts |
+| GET | `/health` | apps/api/src/server.ts |
+| GET | `/docs` | apps/api/src/server.ts |
+| GET | `/openapi.json` | apps/api/src/server.ts |
 | GET | `/llms.txt` | apps/api/src/server.ts |
 | GET | `/.well-known/skills/index.json` | apps/api/src/server.ts |
 | GET | `/v1/docs.md` | apps/api/src/server.ts |
@@ -668,6 +687,14 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | DELETE | `/v1/account/webhooks/:webhook_id` | apps/api/src/webhooks.test.ts |
 | POST | `/v1/account/webhooks/:webhook_id/toggle` | apps/api/src/webhooks.test.ts |
 | GET | `/v1/account/webhooks/:webhook_id/deliveries` | apps/api/src/webhooks.test.ts |
+| GET | `/.well-known/agent.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/.well-known/security.txt` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/.well-known/capabilities.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/robots.txt` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/sitemap.xml` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/health` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/docs` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/openapi.json` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/health` | e2e_ui_audit.yaml |
 | GET | `/v1/health` | e2e_ui_audit.yaml |
 | GET | `/api/health` | packages/context-engine/src/engine-branches.test.ts |
@@ -687,7 +714,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 
 ## Architecture Layer Boundaries
 
-> ⚡ **Moderate separation (0.64)** — some coupling exists between layers.
+> ⚡ **Moderate separation (0.65)** — some coupling exists between layers.
 
 Bugs often occur at layer boundaries. Verify data flow between:
 
@@ -754,7 +781,7 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
-... (298 more lines)
+... (313 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

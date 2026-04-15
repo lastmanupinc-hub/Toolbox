@@ -1,10 +1,10 @@
 # Social Pack — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.752Z
+Generated: 2026-04-15T19:53:55.590Z
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -40,11 +40,11 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 | Stat | Value |
 |------|-------|
-| TypeScript | 69.6% |
-| JSON | 11.2% |
-| YAML | 9.6% |
+| TypeScript | 70.9% |
+| JSON | 10.5% |
+| YAML | 9.1% |
 | Frameworks | 1 |
-| Architecture Score | 0.64/100 |
+| Architecture Score | 0.65/100 |
 
 ## Twitter/X Card
 
@@ -53,9 +53,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 🧵 1/ Just analyzed axis-toolbox with @AxisToolbox
 
 📊 2/ Tech stack: React
-Architecture score: 0.64/100
+Architecture score: 0.65/100
 
-🔍 3/ Found 0 entry points and 6 hotspots
+🔍 3/ Found 0 entry points and 7 hotspots
 
 🎯 4/ Key patterns: monorepo, containerized
 
@@ -68,4 +68,4 @@ I ran axis-toolbox through AXIS Toolbox and here's what it found:
 • Type: monorepo
 • Primary Language: TypeScript
 • Frameworks: React
-• Architecture Score: 0.64/100
+• Architecture Score: 0.65/100

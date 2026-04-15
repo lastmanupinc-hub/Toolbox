@@ -1,6 +1,6 @@
 # Storyboard — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.969Z
+Generated: 2026-04-15T19:53:55.718Z
 
 Frame-by-frame storyboard for a 60-second project showcase video.
 
@@ -28,9 +28,9 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 │  └──────┘ └──────┘ └──────┘       │
 │                                    │
 │  Languages:                        │
-│    TypeScript   ██████████████ 70%     │
+│    TypeScript   ██████████████ 71%     │
 │    JSON         ██ 11%     │
-│    YAML         ██ 10%     │
+│    YAML         ██ 9%     │
 └────────────────────────────────────┘
 ```
 
@@ -57,7 +57,7 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 
 - **Animation**: Layers build from bottom up, connections animate between them
 - **Narration**: "A clean [separation_score]-point architecture with clear boundaries"
-- **Labels**: packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory), examples/ (project_directory)
+- **Labels**: apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory), examples/ (project_directory)
 
 ## Scene 4: Code Health (0:30–0:45)
 
@@ -69,7 +69,7 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 │  Hotspots:                         │
 │  🟢 apps/web/src/App.tsx      1/10  │
 │  🟢 apps/web/src/api.ts       1/10  │
-│  🟢 c/pages/DashboardPage.tsx 1/10  │
+│  🟢 ps/web/src/pages.test.tsx 1/10  │
 └────────────────────────────────────┘
 ```
 

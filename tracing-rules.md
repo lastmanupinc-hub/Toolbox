@@ -30,6 +30,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/v1/install` | apps/api/src/agent-discovery.test.ts | NORMAL |
 | GET | `/v1/install/:platform` | apps/api/src/agent-discovery.test.ts | NORMAL |
 | POST | `/probe-intent` | apps/api/src/agent-discovery.test.ts | NORMAL |
+| POST | `/mcp` | apps/api/src/analyze-repo-success.test.ts | NORMAL |
 | POST | `/v1/analyze` | apps/api/src/analyze.test.ts | NORMAL |
 | GET | `/.well-known/axis.json` | apps/api/src/analyze.test.ts | NORMAL |
 | POST | `/v1/snapshots` | apps/api/src/api-branches.test.ts | NORMAL |
@@ -225,6 +226,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | POST | `/v1/account/keys` | apps/api/src/mcp-server.test.ts | NORMAL |
 | GET | `/v1/stats` | apps/api/src/mcp-server.test.ts | NORMAL |
 | GET | `/ping` | apps/api/src/mcp-server.test.ts | NORMAL |
+| GET | `/` | apps/api/src/mcp-server.test.ts | NORMAL |
 | GET | `/v1/health` | apps/api/src/metrics.test.ts | NORMAL |
 | GET | `/v1/health/live` | apps/api/src/metrics.test.ts | NORMAL |
 | GET | `/v1/health/ready` | apps/api/src/metrics.test.ts | NORMAL |
@@ -266,9 +268,11 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/v1/account/usage` | apps/api/src/programs-billing.test.ts | NORMAL |
 | POST | `/v1/account/tier` | apps/api/src/programs-billing.test.ts | NORMAL |
 | POST | `/v1/account/programs` | apps/api/src/programs-billing.test.ts | NORMAL |
+| POST | `/mcp` | apps/api/src/quota-guardrails.test.ts | NORMAL |
 | GET | `/v1/health` | apps/api/src/quota.test.ts | NORMAL |
 | POST | `/v1/accounts` | apps/api/src/quota.test.ts | NORMAL |
 | GET | `/v1/account/quota` | apps/api/src/quota.test.ts | NORMAL |
+| GET | `/v1/health` | apps/api/src/rate-limit-integration.test.ts | NORMAL |
 | GET | `/v1/test/fast` | apps/api/src/request-limits.test.ts | NORMAL |
 | GET | `/v1/test/slow` | apps/api/src/request-limits.test.ts | NORMAL |
 | GET | `/slow` | apps/api/src/router-branches.test.ts | NORMAL |
@@ -336,7 +340,13 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/.well-known/axis.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/capabilities.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts | NORMAL |
+| GET | `/.well-known/security.txt` | apps/api/src/server.ts | NORMAL |
+| GET | `/.well-known/agent.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/robots.txt` | apps/api/src/server.ts | NORMAL |
+| GET | `/sitemap.xml` | apps/api/src/server.ts | NORMAL |
+| GET | `/health` | apps/api/src/server.ts | NORMAL |
+| GET | `/docs` | apps/api/src/server.ts | NORMAL |
+| GET | `/openapi.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/llms.txt` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/skills/index.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/docs.md` | apps/api/src/server.ts | NORMAL |
@@ -431,6 +441,14 @@ All API routes should log: request method, path, status code, duration (ms).
 | DELETE | `/v1/account/webhooks/:webhook_id` | apps/api/src/webhooks.test.ts | NORMAL |
 | POST | `/v1/account/webhooks/:webhook_id/toggle` | apps/api/src/webhooks.test.ts | NORMAL |
 | GET | `/v1/account/webhooks/:webhook_id/deliveries` | apps/api/src/webhooks.test.ts | NORMAL |
+| GET | `/.well-known/agent.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/.well-known/security.txt` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/.well-known/capabilities.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/robots.txt` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/sitemap.xml` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/health` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/docs` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/openapi.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/health` | e2e_ui_audit.yaml | NORMAL |
 | GET | `/v1/health` | e2e_ui_audit.yaml | NORMAL |
 | GET | `/api/health` | packages/context-engine/src/engine-branches.test.ts | NORMAL |
@@ -510,6 +528,7 @@ State transitions on these entities should be logged:
 - `Props` (interface, 2 fields) — `apps/web/src/components/StatusBar.tsx`
 - `Toast` (interface, 4 fields) — `apps/web/src/components/Toast.tsx`
 - `ToastContextValue` (interface, 1 fields) — `apps/web/src/components/Toast.tsx`
+- `Props` (interface, 4 fields) — `apps/web/src/components/UpsellModal.tsx`
 - `Props` (interface, 2 fields) — `apps/web/src/pages/DashboardPage.tsx`
 - `ProgramDoc` (interface, 13 fields) — `apps/web/src/pages/DocsPage.tsx`
 - `Example` (interface, 7 fields) — `apps/web/src/pages/ExamplesPage.tsx`
@@ -551,6 +570,15 @@ State transitions on these entities should be logged:
 - `ImportEdge` (interface, 2 fields) — `packages/repo-parser/src/types.ts`
 - `LanguageStats` (interface, 4 fields) — `packages/repo-parser/src/types.ts`
 - `ParseResult` (interface, 13 fields) — `packages/repo-parser/src/types.ts`
+- `AnalyzeFilesInput` (interface, 5 fields) — `packages/sdk/src/index.ts`
+- `AnalyzeRepoInput` (interface, 1 fields) — `packages/sdk/src/index.ts`
+- `ArtifactEntry` (interface, 3 fields) — `packages/sdk/src/index.ts`
+- `AxisClientOptions` (interface, 3 fields) — `packages/sdk/src/index.ts`
+- `FileEntry` (interface, 2 fields) — `packages/sdk/src/index.ts`
+- `HealthResponse` (interface, 4 fields) — `packages/sdk/src/index.ts`
+- `McpToolCallResult` (interface, 5 fields) — `packages/sdk/src/index.ts`
+- `OpenApiSpec` (interface, 4 fields) — `packages/sdk/src/index.ts`
+- `SnapshotResult` (interface, 7 fields) — `packages/sdk/src/index.ts`
 - `AccountSummary` (interface, 7 fields) — `packages/snapshots/src/billing-store.ts`
 - `QuotaCheck` (interface, 6 fields) — `packages/snapshots/src/billing-store.ts`
 - `RecentActivity` (interface, 5 fields) — `packages/snapshots/src/billing-store.ts`
@@ -580,7 +608,7 @@ State transitions on these entities should be logged:
 - `GitHubUser` (interface, 4 fields) — `packages/snapshots/src/oauth-store.ts`
 - `ReferralCode` (interface, 3 fields) — `packages/snapshots/src/referral-store.ts`
 - `ReferralConversion` (interface, 4 fields) — `packages/snapshots/src/referral-store.ts`
-- `ReferralCredits` (interface, 7 fields) — `packages/snapshots/src/referral-store.ts`
+- `ReferralCredits` (interface, 8 fields) — `packages/snapshots/src/referral-store.ts`
 - `CodeSymbol` (interface, 6 fields) — `packages/snapshots/src/search-store.ts`
 - `SearchIndexEntry` (interface, 3 fields) — `packages/snapshots/src/search-store.ts`
 - `SearchResult` (interface, 4 fields) — `packages/snapshots/src/search-store.ts`
@@ -610,15 +638,16 @@ State transitions on these entities should be logged:
 These high-connectivity files should be monitored for regressions:
 
 - `apps/web/src/App.tsx` — 1 inbound, 17 outbound — watch for: import changes, export signature changes
-- `apps/web/src/api.ts` — 16 inbound, 0 outbound — watch for: import changes, export signature changes
+- `apps/web/src/api.ts` — 17 inbound, 0 outbound — watch for: import changes, export signature changes
+- `apps/web/src/pages.test.tsx` — 0 inbound, 15 outbound — watch for: import changes, export signature changes
 - `apps/web/src/pages/DashboardPage.tsx` — 1 inbound, 9 outbound — watch for: import changes, export signature changes
-- `apps/web/src/components/Toast.tsx` — 3 inbound, 0 outbound — watch for: import changes, export signature changes
-- `apps/web/src/components/AxisIcons.tsx` — 3 inbound, 0 outbound — watch for: import changes, export signature changes
+- `apps/web/src/components/Toast.tsx` — 4 inbound, 0 outbound — watch for: import changes, export signature changes
+- `apps/web/src/components/AxisIcons.tsx` — 4 inbound, 0 outbound — watch for: import changes, export signature changes
 - `apps/web/src/upload-utils.ts` — 3 inbound, 0 outbound — watch for: import changes, export signature changes
 
 ### Layer Boundary Rules
 
-Separation score: **0.64**/1.0
+Separation score: **0.65**/1.0
 
 Monitor for layer violations:
 
@@ -681,7 +710,7 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
-... (298 more lines)
+... (313 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -740,7 +769,7 @@ export interface SnapshotResponse {
   snapshot_id: string;
   project_id: string;
   status: string;
-... (466 more lines)
+... (518 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -769,28 +798,28 @@ import type { SnapshotResponse } from "./api.ts";
 ... (306 more lines)
 ```
 
-### `apps/web/src/pages/DashboardPage.tsx`
+### `apps/web/src/pages.test.tsx`
 
 ```tsx
-import { useState, useEffect } from "react";
-import type { SnapshotResponse, GeneratedFile } from "../api.ts";
-import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
-import { OverviewTab } from "../components/OverviewTab.tsx";
-import { FilesTab } from "../components/FilesTab.tsx";
-import { GraphTab } from "../components/GraphTab.tsx";
-import { GeneratedTab } from "../components/GeneratedTab.tsx";
-import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
-import { SearchTab } from "../components/SearchTab.tsx";
-import { useToast } from "../components/Toast.tsx";
+// @vitest-environment happy-dom
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
 
-interface Props {
-  result: SnapshotResponse;
-  onGeneratedCountChange?: (count: number) => void;
-}
+// ─── Zero-prop page smoke tests ─────────────────────────────────
+// Each test renders the page and verifies it mounts without throwing.
 
-const TABS = ["Overview", "Structure", "Dependencies", "Generated Files", "Programs", "Search"] as const;
-type Tab = (typeof TABS)[number];
+import { DocsPage } from "./pages/DocsPage";
+import { ExamplesPage } from "./pages/ExamplesPage";
+import { ForAgentsPage } from "./pages/ForAgentsPage";
+import { HelpPage } from "./pages/HelpPage";
+import { InstallPage } from "./pages/InstallPage";
+import { QAPage } from "./pages/QAPage";
+import { TermsPage } from "./pages/TermsPage";
 
-function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: number; onDownload: () => void; downloading: boolean }) {
-... (160 more lines)
+describe("Page smoke tests — zero-prop pages", () => {
+  it("DocsPage renders without crashing", () => {
+    const { container } = render(<DocsPage />);
+    expect(container.innerHTML.length).toBeGreaterThan(0);
+  });
+... (94 more lines)
 ```

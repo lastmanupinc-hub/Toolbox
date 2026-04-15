@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -14,7 +14,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Architecture Context
 
-Separation score: **0.64**/1.0
+Separation score: **0.65**/1.0
 
 Theme tokens should be applied consistently across these layers:
 
@@ -61,7 +61,7 @@ Theme tokens should be applied consistently across these layers:
 
 ## Component Patterns
 
-Detected 23 component file(s). Apply these patterns:
+Detected 24 component file(s). Apply these patterns:
 
 - Buttons: `radius-md`, `primary-500` bg, `space-2` horizontal padding, `space-1` vertical
 - Cards: `radius-lg`, `shadow-base`, `space-4` padding, `neutral-50` bg
@@ -178,7 +178,7 @@ Routes detected — consider zone-based theming:
 - `/.well-known/axis.json` (GET) → apps/api/src/agent-discovery.test.ts
 - `/for-agents` (GET) → apps/api/src/agent-discovery.test.ts
 - `/v1/install` (GET) → apps/api/src/agent-discovery.test.ts
-- … and 419 more routes
+- … and 437 more routes
 
 ## Domain-Specific Tokens
 
@@ -196,7 +196,7 @@ Consider extending the token system for domain entity states:
 ## Detected Style Files
 
 - `apps/web/src/index.css` (770 lines)
-- `component-theme-map.json` (349 lines)
+- `component-theme-map.json` (362 lines)
 - `dark-mode-tokens.json` (134 lines)
 - `packages/generator-core/src/generators-theme.ts` (1027 lines)
 - `packages/snapshots/src/github-token-branches.test.ts` (89 lines)
@@ -239,7 +239,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T13:11:11.938Z",
+  "generated_at": "2026-04-15T19:50:19.076Z",
   "detected_stack": [
     {
       "name": "React",
@@ -249,15 +249,15 @@ Consider extending the token system for domain entity states:
   ],
   "primary_language": "TypeScript",
   "summary": {
-    "total_components": 29,
+    "total_components": 30,
     "by_type": {
       "custom": 15,
       "decorative": 1,
-      "overlay": 1,
+      "overlay": 2,
       "page": 12
     }
   },
-... (329 more lines)
+... (342 more lines)
 ```
 
 ### `dark-mode-tokens.json`
@@ -265,7 +265,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-14T13:11:12.108Z",
+  "generated_at": "2026-04-15T19:50:19.241Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [

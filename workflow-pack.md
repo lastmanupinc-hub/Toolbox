@@ -85,9 +85,9 @@ steps:
 - `apps/cli/package.json` (23 lines)
 - `apps/cli/tsconfig.json` (18 lines)
 - `apps/web/package.json` (24 lines)
-- `apps/web/tsconfig.json` (19 lines)
+- `apps/web/tsconfig.json` (20 lines)
 - `apps/web/vite.config.ts` (13 lines)
-- `package.json` (28 lines)
+- `package.json` (32 lines)
 - `packages/context-engine/package.json` (22 lines)
 - `packages/context-engine/tsconfig.json` (10 lines)
 
@@ -116,7 +116,7 @@ import {
   handleNotebookGenerate,
   handleObsidianAnalyze,
   handleMcpProvision,
-... (303 more lines)
+... (318 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

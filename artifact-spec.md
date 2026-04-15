@@ -1,10 +1,10 @@
 # Artifact Specification — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.742Z
+Generated: 2026-04-15T19:53:55.584Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -23,16 +23,14 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Language Distribution
 
-- **TypeScript**: 69.6% ██████████████ (250 files, 78863 LOC)
-- **JSON**: 11.2% ██ (63 files, 12643 LOC)
-- **YAML**: 9.6% ██ (68 files, 10876 LOC)
-- **Markdown**: 8.1% ██ (106 files, 9235 LOC)
+- **TypeScript**: 70.9% ██████████████ (261 files, 81263 LOC)
+- **JSON**: 10.5% ██ (62 files, 12048 LOC)
+- **YAML**: 9.1% ██ (62 files, 10479 LOC)
+- **Markdown**: 7.3% █ (103 files, 8406 LOC)
+- **JavaScript**: 1.3% █ (4 files, 1456 LOC)
 - **CSS**: 0.7% █ (2 files, 849 LOC)
-- **JavaScript**: 0.6% █ (3 files, 673 LOC)
 - **HTML**: 0.1% █ (1 files, 120 LOC)
 - **Dockerfile**: 0% █ (1 files, 49 LOC)
-- **PowerShell**: 0% █ (1 files, 21 LOC)
-- **Shell**: 0% █ (1 files, 14 LOC)
 
 ## Architecture
 
@@ -52,10 +50,11 @@ No entry points detected.
 | Path | Inbound | Outbound | Risk |
 |------|---------|----------|------|
 | `apps/web/src/App.tsx` | 1 | 17 | 0.9 |
-| `apps/web/src/api.ts` | 16 | 0 | 0.8 |
+| `apps/web/src/api.ts` | 17 | 0 | 0.8 |
+| `apps/web/src/pages.test.tsx` | 0 | 15 | 0.8 |
 | `apps/web/src/pages/DashboardPage.tsx` | 1 | 9 | 0.5 |
-| `apps/web/src/components/Toast.tsx` | 3 | 0 | 0.1 |
-| `apps/web/src/components/AxisIcons.tsx` | 3 | 0 | 0.1 |
+| `apps/web/src/components/Toast.tsx` | 4 | 0 | 0.2 |
+| `apps/web/src/components/AxisIcons.tsx` | 4 | 0 | 0.2 |
 | `apps/web/src/upload-utils.ts` | 3 | 0 | 0.1 |
 
 ## Artifact Generation Rules
@@ -66,7 +65,7 @@ When generating artifacts for this project:
 2. **Widget artifacts** should render project metrics from real data
 3. **Embed snippets** should include all conventions and warnings
 4. **File naming** should follow TypeScript conventions
-5. **Architecture score**: 0.64/100
+5. **Architecture score**: 0.65/100
 
 ## Dependencies (Top 10)
 
@@ -91,6 +90,7 @@ When generating artifacts for this project:
 | `packages/context-engine/src/index.ts` | export type { ... }, export { ... } |
 | `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... } |
 | `packages/repo-parser/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
+| `packages/sdk/src/index.ts` | export interface AxisClientOptions { ... }, export interface FileEntry { ... }, export interface AnalyzeFilesInput { ... }, export interface AnalyzeRepoInput { ... }, export interface ArtifactEntry { ... }, export interface SnapshotResult { ... }, export interface HealthResponse { ... }, export interface McpToolCallResult { ... }, export interface OpenApiSpec { ... }, export class AxisClient { ... } |
 | `packages/snapshots/src/index.ts` | export type { ... }, export { ... }, export { ... }, export type { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export type { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
 
 ## Reference Entry Point

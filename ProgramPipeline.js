@@ -1,6 +1,6 @@
 /**
  * AXIS Toolbox — Program Pipeline Dashboard
- * Vanilla JS component: interactive visualization of the 17-program × 80-generator pipeline.
+ * Vanilla JS component: interactive visualization of the 18-program × 86-generator pipeline.
  * No framework dependencies. Attach to any DOM element.
  *
  * Usage:

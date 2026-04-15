@@ -1,10 +1,10 @@
 # Template Pack — axis-toolbox
 
-Generated: 2026-04-14T13:38:18.965Z
+Generated: 2026-04-15T19:53:55.715Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 20 top-level directories. It defines 152 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -102,7 +102,7 @@ What was changed and why.
 ---
 type: concept
 project: axis-toolbox
-tags: ["packages/ (monorepo_packages)", "apps/ (monorepo_apps)", "payment-processing-output/ (project_directory)"]
+tags: ["apps/ (monorepo_apps)", "packages/ (monorepo_packages)", "payment-processing-output/ (project_directory)"]
 ---
 # {{title}}
 
@@ -150,4 +150,4 @@ sprint:
 ## Source File Summary
 
 Total source files: 500
-Config files: apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json
+Config files: apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json

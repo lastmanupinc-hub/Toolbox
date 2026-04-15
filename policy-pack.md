@@ -82,7 +82,7 @@ rules:
 ```json
 {
   "name": "@axis/api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -118,7 +118,7 @@ rules:
 ```json
 {
   "name": "@axis/cli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "bin": {

@@ -17,14 +17,14 @@ Before diving into this codebase, you should be comfortable with:
 1. Read the project README and any CONTRIBUTING.md
 2. Understand the top-level directory structure:
 
-   - `packages` — monorepo_packages (131 files)
-   - `apps` — monorepo_apps (127 files)
+   - `apps` — monorepo_apps (136 files)
+   - `packages` — monorepo_packages (135 files)
    - `payment-processing-output` — project_directory (72 files)
    - `examples` — project_directory (17 files)
-   - `search` — project_directory (6 files)
    - `algorithmic` — project_directory (4 files)
    - `artifacts` — project_directory (4 files)
    - `brand` — project_directory (4 files)
+   - `canvas` — project_directory (4 files)
 
 ### Phase 2: Entry Points
 
@@ -46,7 +46,7 @@ These are the core data structures that define what the system works with:
 | `McpCallCounters` | interface | 5 | `apps/api/src/mcp-server.ts` |
 | `RpcError` | interface | 5 | `apps/api/src/mcp-server.ts` |
 | `RpcSuccess` | interface | 3 | `apps/api/src/mcp-server.ts` |
-| *(+142 more)* | | | |
+| *(+152 more)* | | | |
 
 ### Phase 4: Data Flow
 
@@ -107,7 +107,7 @@ import {
   handleNotebookGenerate,
   handleObsidianAnalyze,
   handleMcpProvision,
-... (303 more lines)
+... (318 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -159,7 +159,7 @@ createRoot(document.getElementById("root")!).render(
 ```json
 {
   "name": "@axis/api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {

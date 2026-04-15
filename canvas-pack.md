@@ -47,7 +47,7 @@
 │  └──────────────────────────────┘  │  └────┘ └────┘ └────┘ └──────┘     │   │
 │                                     └──────────────────────────────────────┘   │
 │                                                                               │
-│  FOOTER: Last Man Up Inc. · v0.4.0 · "The OS for AI-native dev" (cols 1-12)  │
+│  FOOTER: Last Man Up Inc. · v0.5.0 · "The OS for AI-native dev" (cols 1-12)  │
 └────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -198,7 +198,7 @@ Each card: surface background, large bold number (3xl), small label below (xs, m
 
 ### Footer (Row 4)
 - Left: "Last Man Up Inc." in --ax-text-muted, font-sm
-- Center: "v0.4.0" badge (elevated bg, border, sm text)
+- Center: "v0.5.0" badge (elevated bg, border, sm text)
 - Right: "The OS for AI-native development" in italic, --ax-text-muted, font-sm
 
 ---
