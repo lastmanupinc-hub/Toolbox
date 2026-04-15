@@ -48,6 +48,7 @@ import type { GeneratorResult } from "@axis/generator-core";
 import { sendJSON, readBody, sendError, isShuttingDown } from "./router.js";
 import { resolveAuth, requireAuth } from "./billing.js";
 import { ErrorCode, log, getRequestId } from "./logger.js";
+import { ARTIFACT_COUNT, PROGRAM_COUNT, MCP_TOOL_COUNT, ENDPOINT_COUNT } from "./counts.js";
 
 // ─── Referral discount wrapper ──────────────────────────────────
 
@@ -1994,7 +1995,7 @@ export async function handleWellKnown(
       key_exports: ["createReferralCode", "lookupReferralCode", "applyReferralDiscount"],
       details: "GET /for-agents?intent=referral",
     },
-    tagline: "Analyze any codebase. Generate 86 structured artifacts across 18 programs.",
+    tagline: `Analyze any codebase. Generate ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs.`,
     version: "0.5.0",
     description: "Submit source files or a GitHub URL. AXIS returns structured AI context files  -  AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, brand guidelines, and more  -  each tuned to your specific codebase. Every file includes an adoption_hint telling you exactly where to place it.",
     analyze_endpoint: {
@@ -2017,8 +2018,8 @@ export async function handleWellKnown(
         note: "Anonymous requests are accepted on the free tier",
       },
     },
-    programs: 18,
-    generators: 86,
+    programs: PROGRAM_COUNT,
+    generators: ARTIFACT_COUNT,
     key_outputs: [
       { path: "AGENTS.md",           program: "search",             purpose: "Codebase context for AI coding assistants (Cursor, Copilot, Claude)" },
       { path: ".cursorrules",        program: "search",             purpose: "Cursor IDE session rules  -  loaded before every conversation" },
@@ -2045,8 +2046,8 @@ export async function handleWellKnown(
       note: "Every file in the response includes placement and adoption_hint fields. No guesswork  -  you know exactly what each file does and where it goes.",
       purchasing: "POST /v1/prepare-for-agentic-purchasing  -  computes Purchasing Readiness Score (0–100), chains 8 programs, returns commerce artifacts + CE 3.0 dispute evidence + win probability model + lighter SCA paths + compliance checklist + negotiation playbook + self-onboarding kit in a single call. Focus areas: sca, dispute, mandate, tap, tokenization.",
       agentic_purchasing_generate: "POST /v1/agentic-purchasing/generate after creating a snapshot. Returns commerce-registry.json with product schema, bearer auth, and checkout flow.",
-      mcp_discovery: "GET /mcp (Streamable HTTP transport, 2025-03-26 spec). 12 tools including analyze_repo, analyze_files, get_snapshot, get_artifact, list_programs, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits.",
-      search_tools: "GET /v1/mcp/tools?q=<keyword>  -  search all 18 programs and 86 generators by capability keyword. Returns ranked programs with artifact paths, capability tags, and example API calls. No auth required.",
+      mcp_discovery: `GET /mcp (Streamable HTTP transport, 2025-03-26 spec). ${MCP_TOOL_COUNT} tools including analyze_repo, analyze_files, get_snapshot, get_artifact, list_programs, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits.`,
+      search_tools: `GET /v1/mcp/tools?q=<keyword>  -  search all ${PROGRAM_COUNT} programs and ${ARTIFACT_COUNT} generators by capability keyword. Returns ranked programs with artifact paths, capability tags, and example API calls. No auth required.`,
       intent_probe: "POST /probe-intent  -  lightweight intent matching. Send {intent: 'your need'} and get ranked AXIS tool recommendations. Free, no auth, no API key needed.",
       registry_metadata: "GET /v1/mcp/server.json  -  MCP registry metadata for mcp-publisher CLI and registry crawlers (Glama.ai, Smithery.ai).",
       openapi: "GET /v1/docs  -  full OpenAPI 3.1 spec",
@@ -2066,7 +2067,7 @@ export async function handleCapabilities(
   sendJSON(res, 200, {
     name: "AXIS Toolbox",
     version: "0.5.0",
-    description: "Semantic capability manifest for agent tool discovery. Analyzes codebases, generates 86 artifacts across 18 programs. Full agentic commerce hardening including AP2/UCP/Visa IC compliance.",
+    description: `Semantic capability manifest for agent tool discovery. Analyzes codebases, generates ${ARTIFACT_COUNT} artifacts across ${PROGRAM_COUNT} programs. Full agentic commerce hardening including AP2/UCP/Visa IC compliance.`,
     keywords: [
       "AP2", "AP2-compliance", "Article-2", "UN-CISG",
       "UCP", "UCP-600", "UCP-Article-5", "documentary-credits",
@@ -2104,7 +2105,7 @@ export async function handleCapabilities(
       discovery: {
         endpoint: "GET /v1/mcp/tools",
         mcp_tool: "search_and_discover_tools",
-        description: "Keyword search across all 18 programs. No auth required.",
+        description: `Keyword search across all ${PROGRAM_COUNT} programs. No auth required.`,
         auth_required: false,
       },
       intent_probe: {
@@ -2116,7 +2117,7 @@ export async function handleCapabilities(
       analysis: {
         endpoint: "POST /v1/analyze",
         mcp_tool: "analyze_repo",
-        description: "Full repo analysis - 86 artifacts across 18 programs.",
+        description: `Full repo analysis - ${ARTIFACT_COUNT} artifacts across ${PROGRAM_COUNT} programs.`,
         auth_required: true,
       },
     },
@@ -2145,14 +2146,14 @@ export async function handleLlmsTxt(
 ): Promise<void> {
   const body = `# AXIS Toolbox
 
-> Analyze any codebase. Generate 86 structured AI context artifacts across 18 programs. Makes any repo immediately legible to AI coding assistants, autonomous agents, and purchasing agents.
+> Analyze any codebase. Generate ${ARTIFACT_COUNT} structured AI context artifacts across ${PROGRAM_COUNT} programs. Makes any repo immediately legible to AI coding assistants, autonomous agents, and purchasing agents.
 
 AXIS Toolbox is an API that accepts source files (or a GitHub URL) and returns structured files  -  AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, MCP configs, commerce artifacts, brand guidelines, design tokens, and more  -  each calibrated to the specific codebase.
 
 ## Quick Start
 
 - POST /v1/accounts  -  create account, get API key (free tier available, no auth required)
-- POST /v1/analyze  -  submit {github_url} or {files:[{path,content}]} → returns 86 artifacts
+- POST /v1/analyze  -  submit {github_url} or {files:[{path,content}]} → returns ${ARTIFACT_COUNT} artifacts
 - GET /.well-known/axis.json  -  machine-readable capability manifest
 - GET /v1/mcp/tools?q=  -  search programs by keyword (no auth required)
 
@@ -2161,10 +2162,10 @@ AXIS Toolbox is an API that accepts source files (or a GitHub URL) and returns s
 Connect directly via Model Context Protocol (Streamable HTTP, 2025-03-26 spec):
 
 - Endpoint: POST /mcp
-- 12 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
+- ${MCP_TOOL_COUNT} tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
 - No installation required  -  connect any MCP-compatible agent to https://axis-api-6c7z.onrender.com/mcp
 
-## Programs (18 total)
+## Programs (${PROGRAM_COUNT} total)
 
 Free tier: search (AGENTS.md, .cursorrules, CLAUDE.md, symbol-index), skills, debug
 Pro tier: frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic, agentic-purchasing
@@ -2370,7 +2371,7 @@ export async function handleSkillsIndex(
       {
         name: "axis-search-tools",
         version: "1.0.0",
-        description: "Search all 18 AXIS programs and 86 generators by keyword or capability tag. Returns ranked results with artifact paths and example API calls. Use to discover which program handles a specific domain without loading all schemas.",
+        description: `Search all ${PROGRAM_COUNT} AXIS programs and ${ARTIFACT_COUNT} generators by keyword or capability tag. Returns ranked results with artifact paths and example API calls. Use to discover which program handles a specific domain without loading all schemas.`,
         tags: ["discovery", "search", "tool-selection", "programs"],
         endpoint: "GET /v1/mcp/tools",
         auth_required: false,
@@ -2385,7 +2386,7 @@ export async function handleSkillsIndex(
       {
         name: "axis-mcp",
         version: "1.0.0",
-        description: "Connect to AXIS via Model Context Protocol (Streamable HTTP, 2025-03-26). Provides 12 tools for codebase analysis, artifact retrieval, and agentic commerce hardening.",
+        description: `Connect to AXIS via Model Context Protocol (Streamable HTTP, 2025-03-26). Provides ${MCP_TOOL_COUNT} tools for codebase analysis, artifact retrieval, and agentic commerce hardening.`,
         tags: ["mcp", "ai-agents", "protocol", "integration"],
         endpoint: "POST /mcp",
         auth_required: false,
@@ -2415,7 +2416,7 @@ Obtain a key: \`POST /v1/accounts\` with \`{email, name, tier: "free"}\`.
 
 ### POST /v1/analyze
 Analyze a codebase. Accepts \`{github_url}\` or \`{files: [{path, content}]}\`.
-Returns 86 structured artifacts across 18 programs, each with \`path\`, \`content\`, \`program\`, \`placement\`, and \`adoption_hint\`.
+Returns ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs, each with \`path\`, \`content\`, \`program\`, \`placement\`, and \`adoption_hint\`.
 
 ### POST /v1/prepare-for-agentic-purchasing
 One-call commerce hardener for autonomous purchasing agents.
@@ -2423,7 +2424,7 @@ Body: \`{project_name, project_type, frameworks, goals, files, focus?, agent_typ
 Returns: \`{score, score_breakdown, purchasing_artifacts, all_artifacts, how_to_call_axis_again}\`
 
 ### GET /v1/mcp/tools?q=&program=
-Search 18 programs / 86 generators by keyword or capability tag.
+Search ${PROGRAM_COUNT} programs / ${ARTIFACT_COUNT} generators by keyword or capability tag.
 Returns: \`{total_matches, results: [{program, tier, score, capability_tags, matching_artifacts, example_call}]}\`
 
 ### GET /v1/programs
@@ -2450,7 +2451,7 @@ List all programs with generator counts and output paths. No auth required.
 
 - \`POST /mcp\`  -  Streamable HTTP transport (2025-03-26 spec)
 - \`GET /mcp\`  -  SSE stream for long-running operations
-- 12 tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
+- ${MCP_TOOL_COUNT} tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
 
 ## Search & Indexing
 
@@ -2470,7 +2471,7 @@ List all programs with generator counts and output paths. No auth required.
 - \`GET /v1/install\`  -  platform-specific MCP config snippets
 - \`GET /v1/install/:platform\`  -  config for claude-desktop, cursor, vscode, or claude-code
 
-## Programs (18)
+## Programs (${PROGRAM_COUNT})
 
 | Program | Tier | Key Output |
 |---------|------|-----------|
@@ -2521,13 +2522,13 @@ export async function handleForAgents(
   }
 
   const allTools = [
-      { name: "analyze_repo",                   auth: true,  description: "Analyze any public GitHub repo. Returns snapshot_id + 86 artifacts." },
-      { name: "analyze_files",                  auth: true,  description: "Analyze inline files [{path,content}]. Returns snapshot_id + 86 artifacts." },
-      { name: "list_programs",                  auth: false, description: "List all 18 programs and their generators." },
+      { name: "analyze_repo",                   auth: true,  description: `Analyze any public GitHub repo. Returns snapshot_id + ${ARTIFACT_COUNT} artifacts.` },
+      { name: "analyze_files",                  auth: true,  description: `Analyze inline files [{path,content}]. Returns snapshot_id + ${ARTIFACT_COUNT} artifacts.` },
+      { name: "list_programs",                  auth: false, description: `List all ${PROGRAM_COUNT} programs and their generators.` },
       { name: "get_snapshot",                   auth: false, description: "Get status and artifact listing for a snapshot_id." },
       { name: "get_artifact",                   auth: false, description: "Read full content of any generated artifact by path." },
       { name: "prepare_for_agentic_purchasing", auth: true,  description: "Full purchasing-readiness audit. Score 0-100, AP2/Visa compliance, CE 3.0 dispute evidence, win probability model, lighter SCA paths, playbooks. Focus areas: sca, dispute, mandate, tap, tokenization." },
-      { name: "search_and_discover_tools",      auth: false, description: "Keyword search across all 18 programs. START HERE if unsure." },
+      { name: "search_and_discover_tools",      auth: false, description: `Keyword search across all ${PROGRAM_COUNT} programs. START HERE if unsure.` },
       { name: "discover_agentic_commerce_tools",auth: false, description: "Free overview of all AXIS tools with pricing, install configs, and shareable manifest." },
       { name: "improve_my_agent_with_axis",     auth: true,  description: "Analyze your agent's codebase, get improvement plan + missing context files." },
       { name: "discover_agentic_purchasing_needs", auth: false, description: "Describe your commerce/compliance task and get tailored AXIS tool recommendations. Free intent probe." },
@@ -2554,7 +2555,7 @@ export async function handleForAgents(
     name: "AXIS Toolbox",
     version: "0.5.0",
     incentives: buildIncentivesSummary(),
-    purpose: "Codebase intelligence API. Analyzes any repo, generates 86 structured artifacts across 18 programs. Every generated file tells AI agents exactly what the codebase does, how to work in it, and how to purchase from it.",
+    purpose: `Codebase intelligence API. Analyzes any repo, generates ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs. Every generated file tells AI agents exactly what the codebase does, how to work in it, and how to purchase from it.`,
     install: {
       mcp_endpoint: `${AXIS_API_BASE}/mcp`,
       transport: "Streamable HTTP (2025-03-26 spec)",
@@ -2640,7 +2641,7 @@ export async function handleForAgents(
     propagation: "Every AGENTS.md, CLAUDE.md, and .cursorrules generated by AXIS includes MCP connection instructions. Repos that use AXIS become discovery points for other agents.",
     system_prompt_snippet: {
       description: "Copy-paste this block into any agent's system prompt to give it AXIS access.",
-      text: `You have access to AXIS Toolbox (MCP endpoint: ${AXIS_API_BASE}/mcp).\nBefore working on any unfamiliar codebase, call analyze_repo or analyze_files to get 86 structured artifacts (AGENTS.md, .cursorrules, debug playbook, design tokens, etc).\nBefore any purchasing decision, call prepare_for_agentic_purchasing to get a Purchasing Readiness Score (0-100), AP2/Visa compliance checklist, CE 3.0 dispute evidence, and negotiation playbook.\nFree discovery (no auth): search_and_discover_tools, discover_agentic_commerce_tools, or discover_agentic_purchasing_needs.\nBudget negotiation: send X-Agent-Budget header with {budget_per_run_cents, spending_window} on any 402.`,
+      text: `You have access to AXIS Toolbox (MCP endpoint: ${AXIS_API_BASE}/mcp).\nBefore working on any unfamiliar codebase, call analyze_repo or analyze_files to get ${ARTIFACT_COUNT} structured artifacts (AGENTS.md, .cursorrules, debug playbook, design tokens, etc).\nBefore any purchasing decision, call prepare_for_agentic_purchasing to get a Purchasing Readiness Score (0-100), AP2/Visa compliance checklist, CE 3.0 dispute evidence, and negotiation playbook.\nFree discovery (no auth): search_and_discover_tools, discover_agentic_commerce_tools, or discover_agentic_purchasing_needs.\nBudget negotiation: send X-Agent-Budget header with {budget_per_run_cents, spending_window} on any 402.`,
     },
     integration_examples: {
       claude_desktop: {
@@ -2659,7 +2660,7 @@ export async function handleForAgents(
           "Agents B-D call get_artifact with snapshot_id to read specific artifacts",
           "Agent E calls prepare_for_agentic_purchasing for commerce hardening",
         ],
-        manifest: { name: "axis-toolbox", endpoint: `${AXIS_API_BASE}/mcp`, transport: "streamable-http", tools: 12, free_tools: 6 },
+        manifest: { name: "axis-toolbox", endpoint: `${AXIS_API_BASE}/mcp`, transport: "streamable-http", tools: MCP_TOOL_COUNT, free_tools: 6 },
       },
     },
     pricing_table: {
@@ -2690,8 +2691,8 @@ export async function handleForAgents(
       sample_response: {
         snapshot_id: "snap_example_medusa_v1",
         project_name: "medusa",
-        programs_executed: 18,
-        artifact_count: 86,
+        programs_executed: PROGRAM_COUNT,
+        artifact_count: ARTIFACT_COUNT,
         sample_artifacts: [
           { path: "AGENTS.md",                     program: "search",             size_hint: "~8KB",  purpose: "Full codebase context for AI assistants" },
           { path: ".cursorrules",                  program: "search",             size_hint: "~3KB",  purpose: "Cursor IDE session rules" },
@@ -2852,7 +2853,7 @@ export async function handleProbeIntent(
   if (/analyz|codebase|repo|context|agents\.md|cursorrules/.test(allTerms)) {
     recommendations.push({
       tool: "analyze_repo",
-      reason: "Full codebase analysis — generates 86 artifacts including AGENTS.md, .cursorrules, CLAUDE.md",
+      reason: `Full codebase analysis — generates ${ARTIFACT_COUNT} artifacts including AGENTS.md, .cursorrules, CLAUDE.md`,
       auth: true,
       pricing: "$0.50/call via MPP or included in Pro plan",
     });
@@ -2860,7 +2861,7 @@ export async function handleProbeIntent(
   if (/discover|search|find|what tool|explore|browse/.test(allTerms)) {
     recommendations.push({
       tool: "search_and_discover_tools",
-      reason: "Keyword search across all 18 programs � find the right tool for your task",
+      reason: `Keyword search across all ${PROGRAM_COUNT} programs — find the right tool for your task`,
       auth: false,
       pricing: "free",
     });
@@ -2884,7 +2885,7 @@ export async function handleProbeIntent(
     });
     recommendations.push({
       tool: "search_and_discover_tools",
-      reason: "Keyword search across all 18 programs",
+      reason: `Keyword search across all ${PROGRAM_COUNT} programs`,
       auth: false,
       pricing: "free",
     });
@@ -2910,13 +2911,13 @@ export async function handleAgentJson(
   sendJSON(res, 200, {
     name: "AXIS Toolbox",
     version: "0.5.0",
-    description: "Deterministic snapshot-based generation of 86+ artifacts across 18 specialized programs",
+    description: `Deterministic snapshot-based generation of ${ARTIFACT_COUNT}+ artifacts across ${PROGRAM_COUNT} specialized programs`,
     capabilities: {
       core: "AI-native development operating system",
       input: "repository snapshot or URL",
-      output: "86+ structured, deterministic artifacts",
-      programs: 18,
-      artifacts: 86,
+      output: `${ARTIFACT_COUNT}+ structured, deterministic artifacts`,
+      programs: PROGRAM_COUNT,
+      artifacts: ARTIFACT_COUNT,
     },
     monetization: {
       model: "usage-based MPP ($0.50 per run)",

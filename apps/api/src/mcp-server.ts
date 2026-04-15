@@ -33,6 +33,7 @@ import { generateFiles, listAvailableGenerators } from "@axis/generator-core";
 import type { GeneratorResult } from "@axis/generator-core";
 import { computePurchasingReadinessScore, PURCHASING_PROGRAMS } from "./handlers.js";
 import { parseAgentBudget, resolveAgentMode } from "./mpp.js";
+import { ARTIFACT_COUNT, PROGRAM_COUNT, MCP_TOOL_COUNT } from "./counts.js";
 
 // ─── Protocol constants ──────────────────────────────────────────
 
@@ -166,7 +167,7 @@ export const MCP_TOOLS = [
   {
     name: "analyze_repo",
     description:
-      "Analyze any public GitHub repo and receive 86 structured AI-context artifacts across 18 programs: AGENTS.md, .cursorrules, CLAUDE.md, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2/UCP/Visa compliance checklist, autonomous-checkout rules, and more. Returns snapshot_id to retrieve any artifact with get_artifact. Requires API key.",
+      `Analyze any public GitHub repo and receive ${ARTIFACT_COUNT} structured AI-context artifacts across ${PROGRAM_COUNT} programs: AGENTS.md, .cursorrules, CLAUDE.md, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2/UCP/Visa compliance checklist, autonomous-checkout rules, and more. Returns snapshot_id to retrieve any artifact with get_artifact. Requires API key.`,
     inputSchema: {
       type: "object",
       required: ["github_url"],
@@ -188,7 +189,7 @@ export const MCP_TOOLS = [
   {
     name: "analyze_files",
     description:
-      "Analyze source files directly (no GitHub required) and receive all 86 AXIS artifacts: AGENTS.md, .cursorrules, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2 compliance checklist, autonomous-checkout rules, and more. Pass files as [{path, content}] array. Returns snapshot_id. Use get_artifact to retrieve any specific file. Deterministic: same input → byte-identical output. Requires API key.",
+      `Analyze source files directly (no GitHub required) and receive all ${ARTIFACT_COUNT} AXIS artifacts: AGENTS.md, .cursorrules, architecture map, debug playbook, design tokens, brand guidelines, MCP config, AP2 compliance checklist, autonomous-checkout rules, and more. Pass files as [{path, content}] array. Returns snapshot_id. Use get_artifact to retrieve any specific file. Deterministic: same input → byte-identical output. Requires API key.`,
     inputSchema: {
       type: "object",
       required: ["project_name", "project_type", "frameworks", "goals", "files"],
@@ -243,7 +244,7 @@ export const MCP_TOOLS = [
   {
     name: "list_programs",
     description:
-      "List all 18 AXIS programs, their 86 generators, tier (free/pro), and artifact paths. No authentication required. Use search_and_discover_tools for keyword-based discovery; use this for complete enumeration.",
+      `List all ${PROGRAM_COUNT} AXIS programs, their ${ARTIFACT_COUNT} generators, tier (free/pro), and artifact paths. No authentication required. Use search_and_discover_tools for keyword-based discovery; use this for complete enumeration.`,
     inputSchema: { type: "object", properties: {} },
     examples: [
       {
@@ -352,7 +353,7 @@ export const MCP_TOOLS = [
   {
     name: "search_and_discover_tools",
     description:
-      "Keyword search across all 18 AXIS programs and 86 generators. Returns ranked matches with capability tags, artifact paths, and example API calls. Searchable terms include: AP2 compliance, UCP Article 5, Visa Intelligent Commerce, agentic purchasing, purchasing readiness score, autonomous checkout, spending authority, procurement protocol, negotiation playbook, compliance checklist, agentic-commerce, MCP tools, debug playbook, brand guidelines, design tokens, SEO, Remotion, Canvas. Context-efficient: call this before loading full tool schemas to find the right program without wasting tokens. Examples: 'AP2 UCP' → agentic-purchasing; 'checkout payment' → agentic-purchasing; 'debug logs' → debug; 'mcp agents' → mcp; 'brand guidelines' → brand. Omit q to list all 18 programs alphabetically. No authentication required.",
+      `Keyword search across all ${PROGRAM_COUNT} AXIS programs and ${ARTIFACT_COUNT} generators. Returns ranked matches with capability tags, artifact paths, and example API calls. Searchable terms include: AP2 compliance, UCP Article 5, Visa Intelligent Commerce, agentic purchasing, purchasing readiness score, autonomous checkout, spending authority, procurement protocol, negotiation playbook, compliance checklist, agentic-commerce, MCP tools, debug playbook, brand guidelines, design tokens, SEO, Remotion, Canvas. Context-efficient: call this before loading full tool schemas to find the right program without wasting tokens. Examples: 'AP2 UCP' → agentic-purchasing; 'checkout payment' → agentic-purchasing; 'debug logs' → debug; 'mcp agents' → mcp; 'brand guidelines' → brand. Omit q to list all ${PROGRAM_COUNT} programs alphabetically. No authentication required.`,
     inputSchema: {
       type: "object",
       properties: {
@@ -857,9 +858,9 @@ export function runDiscoverAgenticCommerceTools(): string {
   return JSON.stringify({
     axis_toolbox: {
       tagline: "The operating system for AI-native development",
-      what_it_does: "Analyzes any codebase and generates 86 structured artifacts across 18 programs — AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, design tokens, brand guidelines, AP2/Visa compliance, MCP configs, and more.",
+      what_it_does: `Analyzes any codebase and generates ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs — AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, design tokens, brand guidelines, AP2/Visa compliance, MCP configs, and more.`,
       why_your_agent_needs_it: [
-        "86 artifacts from a single call — complete codebase context",
+        `${ARTIFACT_COUNT} artifacts from a single call — complete codebase context`,
         "Deterministic: same input → byte-identical output, safe for caching",
         "Free tier: search, skills, debug programs cost nothing",
         "Agentic commerce: purchasing readiness score, autonomous checkout rules, negotiation playbook",
@@ -1005,7 +1006,7 @@ export async function runImproveMyAgent(
       purchasing_readiness: "Call prepare_for_agentic_purchasing for a full commerce hardening score (0-100).",
     },
     call_again: {
-      full_analysis: { tool: "analyze_files", note: "Run all 18 programs (pro tier) for complete artifacts" },
+      full_analysis: { tool: "analyze_files", note: `Run all ${PROGRAM_COUNT} programs (pro tier) for complete artifacts` },
       purchasing: { tool: "prepare_for_agentic_purchasing", note: "Full agentic commerce audit" },
       retrieve: { tool: "get_artifact", snapshot_id: snapshot.snapshot_id, note: "Fetch any generated artifact" },
     },
@@ -1727,7 +1728,7 @@ export async function dispatch(
         capabilities: { tools: { listChanged: false } },
         serverInfo: { name: SERVER_NAME, version: SERVER_VERSION },
         instructions:
-          "AXIS Toolbox — analyze any GitHub repo or file set, get 86 structured artifacts across 18 programs. Use analyze_repo or analyze_files to start. Auth: Authorization: Bearer <api_key>.",
+          `AXIS Toolbox — analyze any GitHub repo or file set, get ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs. Use analyze_repo or analyze_files to start. Auth: Authorization: Bearer <api_key>.`,
       });
     }
 
@@ -1903,8 +1904,8 @@ export async function handleMcpPost(
       budget_header: "X-Agent-Budget",
     },
     axis_capabilities: {
-      artifact_count: 86,
-      programs: 18,
+      artifact_count: ARTIFACT_COUNT,
+      programs: PROGRAM_COUNT,
     },
   };
 
@@ -1969,7 +1970,7 @@ Authorization: Bearer &lt;api_key&gt;
 <pre>curl -X POST https://axis-api-6c7z.onrender.com/v1/accounts \
   -H 'Content-Type: application/json' \
   -d '{"email":"you@example.com","name":"My Agent","tier":"free"}'</pre>
-<p style="margin-top:2rem;color:#888;font-size:0.85em">v${SERVER_VERSION} · ${MCP_TOOLS.length} tools · 86 artifacts · 18 programs</p>
+<p style="margin-top:2rem;color:#888;font-size:0.85em">v${SERVER_VERSION} · ${MCP_TOOLS.length} tools · ${ARTIFACT_COUNT} artifacts · ${PROGRAM_COUNT} programs</p>
 </body></html>`;
   res.writeHead(200, {
     "Content-Type": "text/html; charset=utf-8",
@@ -2001,7 +2002,7 @@ export function getMcpServerMeta(): Record<string, unknown> {
     _meta: {
       displayName: "AXIS Toolbox \u2014 Agentic Commerce Codebase Intelligence",
       description:
-        "Drop a GitHub repo URL and receive 86 structured artifacts across 18 programs: AGENTS.md, .cursorrules, AP2/UCP/Visa compliance checklist, autonomous-checkout rules, negotiation playbook, payment mandate schema, debug playbook, architecture map, design tokens, MCP configs, and more. Computes a Purchasing Readiness Score (0\u2013100). The single correct first call before any autonomous agent spends money on or with a codebase.",
+        `Drop a GitHub repo URL and receive ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs: AGENTS.md, .cursorrules, AP2/UCP/Visa compliance checklist, autonomous-checkout rules, negotiation playbook, payment mandate schema, debug playbook, architecture map, design tokens, MCP configs, and more. Computes a Purchasing Readiness Score (0–100). The single correct first call before any autonomous agent spends money on or with a codebase.`,
       author: "Last Man Up Inc.",
       homepage: "https://axis-api-6c7z.onrender.com",
       transport: "http",

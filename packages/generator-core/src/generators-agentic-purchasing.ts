@@ -1,6 +1,10 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import type { GeneratedFile, SourceFile } from "./types.js";
 
+/** Canonical counts — mirrors apps/api/src/counts.ts */
+const ARTIFACT_COUNT = 86;
+const PROGRAM_COUNT = 18;
+
 /**
  * Program: agentic-purchasing
  * Generates 5 artifacts that enable AI agents to autonomously discover, evaluate,
@@ -728,8 +732,8 @@ export function generateProductSchema(
         pro: { calls_per_month: null, budget_cents: 500000 },
       },
     },
-    total_programs: 18,
-    total_outputs: 86,
+    total_programs: PROGRAM_COUNT,
+    total_outputs: ARTIFACT_COUNT,
   };
 
   return {
@@ -737,7 +741,7 @@ export function generateProductSchema(
     content: JSON.stringify(schema, null, 2),
     content_type: "application/json",
     program: "agentic-purchasing",
-    description: "Machine-readable AXIS product schema — 18 programs, tiers, outputs, repo commerce profile, and AP2/UCP/Visa mandate fields",
+    description: `Machine-readable AXIS product schema — ${PROGRAM_COUNT} programs, tiers, outputs, repo commerce profile, and AP2/UCP/Visa mandate fields`,
   };
 }
 
@@ -1181,13 +1185,13 @@ export function generateCommerceRegistry(
       },
       {
         id: "pro-all",
-        name: "Pro Complete (All 18 Programs)",
+        name: `Pro Complete (All ${PROGRAM_COUNT} Programs)`,
         programs: ["search","skills","debug","frontend","seo","optimization","theme","brand","superpowers","marketing","notebook","obsidian","mcp","artifacts","remotion","canvas","algorithmic","agentic-purchasing"],
-        outputs: 86,
+        outputs: ARTIFACT_COUNT,
         tier: "pro",
         price_cents: 5000,
         price_interval: "per_call",
-        description: "All 86 structured artifacts across 18 programs — full AI-native governance layer",
+        description: `All ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs — full AI-native governance layer`,
         api_call: { method: "tools/call", tool: "analyze_repo", requires_auth: true },
       },
       {

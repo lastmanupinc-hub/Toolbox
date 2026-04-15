@@ -1,0 +1,114 @@
+# AXIS TOOLBOX - DAILY MAINTENANCE RUNBOOK v3 (Opus Edition)
+# Designed for a large monorepo. Run 3 cycles daily.
+# Opus Instructions: Execute each task in order. Report status, findings, and remediation steps.
+
+version: "2026-04-15"
+name: "AXIS Daily Maintenance Runbook - Level 3 (Opus)"
+author: "Grok + User"
+target: "Large monorepo (packages/, apps/, .ai/, generators, handlers.ts, router.ts, etc.)"
+
+cycles:
+  - name: "Cycle 1 - Debug & Critical Health Pulse (Morning)"
+    purpose: "Catch breaking issues fast"
+    tasks:
+      - task: "Scan recent logs for errors"
+        action: "grep last 60 minutes of Render logs for 4xx, 5xx, 503, 429, or 'error'"
+        success: "No critical errors"
+        remediation_if_fail: "List exact request_id, path, and status. Suggest root cause."
+
+      - task: "Validate health endpoints"
+        commands:
+          - "curl -I -s https://axis-api-6c7z.onrender.com/v1/health/ready"
+          - "curl -I -s https://axis-api-6c7z.onrender.com/health"
+        success: "Both return HTTP 200"
+        remediation_if_fail: "Implement or fix the handler immediately and re-test."
+
+      - task: "Test free-tier generation path"
+        action: "Use UI or curl with 2-3 programs selected. Confirm no 'Failed to fetch' or generic error."
+        success: "Generation succeeds cleanly"
+
+      - task: "Run full test suite"
+        command: "pnpm test --run"
+        success: "0 failures, all tests passing"
+
+  - name: "Cycle 2 - Discovery Surface & Scanner Hygiene (Midday)"
+    purpose: "Make sure external scanners (Chiark, AgentSEO, etc.) see a clean surface"
+    tasks:
+      - task: "Verify all discovery endpoints"
+        endpoints_to_check:
+          - "/.well-known/agent.json"
+          - "/.well-known/mcp.json"
+          - "/.well-known/axis.json"
+          - "/.well-known/security.txt"
+          - "/health"
+          - "/docs"
+          - "/openapi.json"
+          - "/llms.txt"
+          - "/robots.txt"
+        action: "curl -I each endpoint and note status + content-type"
+        success: "All critical ones return 200 with correct content-type"
+        remediation_if_fail: "Create missing file or handler and re-test"
+
+      - task: "Check for noisy 404 patterns"
+        action: "Search last 24h logs for repeated 404 paths (DELETE /mcp, /health, /docs, /.well-known/*)"
+        success: "No new frequent noisy 404s"
+        remediation_if_fail: "Add explicit router rule to return 405 or suppress logging"
+
+      - task: "Validate /mcp quality"
+        action: "curl https://axis-api-6c7z.onrender.com/mcp | head -c 800"
+        success: "Response starts with clean structured data or clear core value statement"
+        remediation_if_fail: "Improve the manifest"
+
+      - task: "Confirm version consistency"
+        action: "Search repo for version string in package.json, UI files, .ai/ folder, /mcp response, well-known files"
+        success: "All locations show the same current version"
+
+  - name: "Cycle 3 - Deep Maintenance & Preventive Hardening (Evening)"
+    purpose: "Long-term health, hygiene, and prevention"
+    tasks:
+      - task: "Full test suite + coverage"
+        command: "pnpm test && pnpm coverage"
+        success: "0 failures + coverage meets or exceeds thresholds"
+
+      - task: "Review log noise & anomalies"
+        action: "Identify top 10 most common warn/error messages in last 24h"
+        success: "Known harmless probes are downgraded or suppressed"
+        remediation_if_fail: "Add to noise filter in router"
+
+      - task: "Run full regeneration"
+        command: "Execute your full artifact regeneration script"
+        success: "All .ai/ files and descriptive artifacts are up-to-date"
+
+      - task: "Verify conversion & monetization flow"
+        action: "Test free-tier limit path and paid path (should trigger clean 402 → conversion UI)"
+        success: "No generic errors; conversion modal appears on 402"
+
+      - task: "Preventive router hardening"
+        action: "Confirm router explicitly rejects non-GET/POST methods on /mcp with 405"
+        success: "DELETE /mcp, PUT /mcp, etc. return 405 (not 404)"
+
+      - task: "Update changelog and documentation"
+        action: "Add today's changes, fixes, and observations to CHANGELOG.md"
+        success: "Changelog is current"
+
+      - task: "Final repo hygiene scan"
+        action: "Search for stale .ai/.ai/ duplicates, outdated version strings, or broken imports"
+        success: "No stale files or obvious drift found"
+
+# Daily Scorecard (Opus: fill this at the end of the run)
+daily_scorecard:
+  date: "2026-04-15"
+  cycle_1_status: "✅ / ❌"
+  cycle_2_status: "✅ / ❌"
+  cycle_3_status: "✅ / ❌"
+  critical_issues_found: 0
+  404s_remaining: []
+  notes_and_observations: ""
+
+# Preventive Rules (apply every day)
+preventive_rules:
+  - "Only GET + POST allowed on /mcp → return 405 for all other methods"
+  - "Downgrade known scanner noise (DELETE /mcp, security probes, long A-strings) to debug level"
+  - "Single source of truth for version = package.json"
+  - "Frontend must convert 402 into clean upgrade modal (never generic error)"
+  - "Run full regeneration after any change to core description or program list"

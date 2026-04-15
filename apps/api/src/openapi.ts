@@ -1,4 +1,5 @@
 // ─── OpenAPI 3.1 Specification for AXIS Toolbox API ─────────────
+import { ARTIFACT_COUNT, PROGRAM_COUNT } from "./counts.js";
 
 export interface OpenApiSpec {
   openapi: string;
@@ -24,7 +25,7 @@ export function buildOpenApiSpec(): OpenApiSpec {
       version: "0.5.0",
       description:
         "AXIS Toolbox provides AI-powered code analysis, context mapping, and multi-program file generation. " +
-        "Submit a codebase snapshot and AXIS produces tailored configuration files, analysis reports, and generator outputs across 18 programs (86 artifacts).",
+        `Submit a codebase snapshot and AXIS produces tailored configuration files, analysis reports, and generator outputs across ${PROGRAM_COUNT} programs (${ARTIFACT_COUNT} artifacts).`,
       contact: {
         name: "AXIS Platform",
         url: "https://github.com/no-fate-platform/axis-toolbox",

@@ -93,6 +93,7 @@ import { handleGitHubOAuthStart, handleGitHubOAuthCallback } from "./oauth.js";
 import { handleStripeWebhook, handleCreateCheckout, handleGetSubscription, handleCancelSubscription } from "./stripe.js";
 import { validateEnv } from "./env.js";
 import { log } from "./logger.js";
+import { ARTIFACT_COUNT, PROGRAM_COUNT, ENDPOINT_COUNT } from "./counts.js";
 
 // ─── Startup env validation (fail-fast) ─────────────────────────
 /* v8 ignore start — server.ts startup block not imported by tests */
@@ -117,9 +118,9 @@ router.get("/", async (_req, res) => {
     health: "/v1/health",
     llms: "/llms.txt",
     mcp: "/mcp",
-    endpoints: 107,
-    programs: 18,
-    generators: 86,
+    endpoints: ENDPOINT_COUNT,
+    programs: PROGRAM_COUNT,
+    generators: ARTIFACT_COUNT,
   });
 });
 
