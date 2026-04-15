@@ -417,7 +417,7 @@ describe("GET /.well-known/axis.json", () => {
 
   it("returns name and version", () => {
     expect(manifest.name).toBe("AXIS Toolbox");
-    expect(manifest.version).toBe("0.4.0");
+    expect(manifest.version).toBe("0.5.0");
   });
 
   it("describes the analyze_endpoint", () => {

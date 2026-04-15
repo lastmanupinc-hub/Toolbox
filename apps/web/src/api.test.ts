@@ -562,7 +562,7 @@ describe("fetch timeout handling", () => {
   it("re-throws non-AbortError errors", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
 
-    await expect(healthCheck()).rejects.toThrow("Failed to fetch");
+    await expect(healthCheck()).rejects.toThrow("Request failed");
   });
 });
 

@@ -1,0 +1,978 @@
+# ═══════════════════════════════════════════════════════════════
+# AXIS Toolbox — E2E Wiring Audit Results
+# Generated: 2026-04-14T23:04:11.090Z
+# Target: http://localhost:4000
+# ═══════════════════════════════════════════════════════════════
+
+meta:
+  generated_at: "2026-04-14T23:04:11.090Z"
+  target: "http://localhost:4000"
+  version: "0.5.0"
+  node_version: "v22.21.0"
+
+summary:
+  total: 132
+  pass: 69
+  expected_refusal: 63
+  fail: 0
+  skip: 0
+  pass_rate: "100.0%"
+  grade: "A"
+
+programs:
+  free: [search, skills, debug]
+  pro: [frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic, agentic-purchasing]
+
+tests:
+  health:
+    - id: 1
+      name: "GET /v1/health"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 64
+      version: "0.5.0"
+    - id: 2
+      name: "GET /v1/health/ready"
+      outcome: EXPECTED_REFUSAL
+      http_status: 503
+      latency_ms: 4
+      status_field: "not_ready"
+  accounts:
+    - id: 3
+      name: "create_free_account"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 27
+      account_id: "ee0b5037-ee8c-42d7-873a-654372193e0e"
+      tier: "free"
+    - id: 4
+      name: "create_pro_account_base"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 3
+      account_id: "da30faa1-9093-4cab-979e-3e76dffacfb9"
+    - id: 5
+      name: "upgrade_to_suite"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 6
+      new_tier: "suite"
+  ingestion:
+    - id: 6
+      name: "upload_files_free_tier"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 66
+      snapshot_id: "71751b05"
+      project_id: "94a45c4c"
+      generated_files: "10"
+    - id: 7
+      name: "upload_files_pro_tier"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 37
+      snapshot_id: "7b4a31ac"
+      project_id: "31a8b716"
+      generated_files: "37"
+    - id: 8
+      name: "upload_files_anonymous"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 7
+      snapshot_id: "36602960"
+      generated_files: "10"
+    - id: 9
+      name: "anonymous_pro_request_blocked"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 5
+      error_code: "TIER_REQUIRED"
+      blocked_programs: ["frontend"]
+      error: "Free tier includes 3 programs (search, skills, debug). Sign up or upgrade to Pro to unlock: frontend."
+    - id: 10
+      name: "free_tier_pro_request_blocked"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 5
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 11
+      name: "zip_upload_free_tier"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 6
+    - id: 12
+      name: "github_url_free_tier"
+      outcome: EXPECTED_REFUSAL
+      http_status: 404
+      latency_ms: 267
+      error: "GitHub repository not found"
+  program_free:
+    - id: 13
+      name: "search_endpoint_free_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "search"
+      files_returned: "4"
+      file_paths: [".ai/context-map.json", "architecture-summary.md", "dependency-hotspots.md", ".ai/repo-profile.yaml"]
+    - id: 14
+      name: "skills_endpoint_free_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "skills"
+      files_returned: "5"
+      file_paths: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"]
+    - id: 15
+      name: "debug_endpoint_free_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "debug"
+      files_returned: "4"
+      file_paths: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md", "root-cause-checklist.md"]
+    - id: 16
+      name: "frontend_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "frontend requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 17
+      name: "seo_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 3
+      error_code: "TIER_REQUIRED"
+      error: "seo requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 18
+      name: "optimization_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "optimization requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 19
+      name: "theme_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "theme requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 20
+      name: "brand_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "brand requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 21
+      name: "superpowers_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 3
+      error_code: "TIER_REQUIRED"
+      error: "superpowers requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 22
+      name: "marketing_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "marketing requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 23
+      name: "notebook_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 3
+      error_code: "TIER_REQUIRED"
+      error: "notebook requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 24
+      name: "obsidian_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "obsidian requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 25
+      name: "mcp_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "mcp requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 26
+      name: "artifacts_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 3
+      error_code: "TIER_REQUIRED"
+      error: "artifacts requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 27
+      name: "remotion_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "remotion requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 28
+      name: "canvas_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "canvas requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 29
+      name: "algorithmic_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "algorithmic requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+    - id: 30
+      name: "agentic-purchasing_endpoint_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "agentic-purchasing requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+  program_pro:
+    - id: 31
+      name: "search_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "search"
+      files_returned: "4"
+      file_paths: [".ai/context-map.json", "architecture-summary.md", "dependency-hotspots.md", ".ai/repo-profile.yaml"]
+    - id: 32
+      name: "skills_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "skills"
+      files_returned: "5"
+      file_paths: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"]
+    - id: 33
+      name: "debug_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "debug"
+      files_returned: "4"
+      file_paths: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md", "root-cause-checklist.md"]
+    - id: 34
+      name: "frontend_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 5
+      program: "frontend"
+      files_returned: "4"
+      file_paths: [".ai/frontend-rules.md", "component-guidelines.md", "layout-patterns.md", "ui-audit.md"]
+    - id: 35
+      name: "seo_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 5
+      program: "seo"
+      files_returned: "5"
+      file_paths: [".ai/seo-rules.md", "schema-recommendations.json", "route-priority-map.md", "content-audit.md", "meta-tag-audit.json"]
+    - id: 36
+      name: "optimization_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "optimization"
+      files_returned: "4"
+      file_paths: [".ai/optimization-rules.md", "prompt-diff-report.md", "cost-estimate.json", "token-budget-plan.md"]
+    - id: 37
+      name: "theme_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "theme"
+      files_returned: "5"
+      file_paths: [".ai/design-tokens.json", "theme.css", "theme-guidelines.md", "component-theme-map.json", "dark-mode-tokens.json"]
+    - id: 38
+      name: "brand_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "brand"
+      files_returned: "5"
+      file_paths: ["brand-guidelines.md", "voice-and-tone.md", "content-constraints.md", "messaging-system.yaml", "channel-rulebook.md"]
+    - id: 39
+      name: "superpowers_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "superpowers"
+      files_returned: "5"
+      file_paths: ["superpower-pack.md", "workflow-registry.json", "test-generation-rules.md", "refactor-checklist.md", "automation-pipeline.yaml"]
+    - id: 40
+      name: "marketing_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "marketing"
+      files_returned: "5"
+      file_paths: ["campaign-brief.md", "funnel-map.md", "sequence-pack.md", "cro-playbook.md", "ab-test-plan.md"]
+    - id: 41
+      name: "notebook_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 6
+      program: "notebook"
+      files_returned: "5"
+      file_paths: ["notebook-summary.md", "source-map.json", "study-brief.md", "research-threads.md", "citation-index.json"]
+    - id: 42
+      name: "obsidian_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "obsidian"
+      files_returned: "5"
+      file_paths: ["obsidian-skill-pack.md", "vault-rules.md", "graph-prompt-map.json", "linking-policy.md", "template-pack.md"]
+    - id: 43
+      name: "mcp_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "mcp"
+      files_returned: "4"
+      file_paths: ["mcp-config.json", "connector-map.yaml", "capability-registry.json", "server-manifest.yaml"]
+    - id: 44
+      name: "artifacts_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "artifacts"
+      files_returned: "5"
+      file_paths: ["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md", "component-library.json"]
+    - id: 45
+      name: "remotion_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "remotion"
+      files_returned: "5"
+      file_paths: ["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md", "storyboard.md"]
+    - id: 46
+      name: "canvas_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "canvas"
+      files_returned: "5"
+      file_paths: ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md", "brand-board.md"]
+    - id: 47
+      name: "algorithmic_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 7
+      program: "algorithmic"
+      files_returned: "5"
+      file_paths: ["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml", "variation-matrix.json"]
+    - id: 48
+      name: "agentic-purchasing_endpoint_pro_acct"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 11
+      program: "agentic-purchasing"
+      files_returned: "5"
+      file_paths: ["agent-purchasing-playbook.md", "product-schema.json", "checkout-flow.md", "negotiation-rules.md", "commerce-registry.json"]
+  program_anon:
+    - id: 49
+      name: "search_endpoint_anon"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+      program: "search"
+      files_returned: "4"
+    - id: 50
+      name: "skills_endpoint_anon"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      program: "skills"
+      files_returned: "5"
+    - id: 51
+      name: "debug_endpoint_anon"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      program: "debug"
+      files_returned: "4"
+    - id: 52
+      name: "frontend_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "frontend requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 53
+      name: "seo_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "seo requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 54
+      name: "optimization_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "optimization requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 55
+      name: "theme_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "theme requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 56
+      name: "brand_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "brand requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 57
+      name: "superpowers_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 2
+      error_code: "AUTH_REQUIRED"
+      error: "superpowers requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 58
+      name: "marketing_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "marketing requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 59
+      name: "notebook_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "notebook requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 60
+      name: "obsidian_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error_code: "AUTH_REQUIRED"
+      error: "obsidian requires authentication. Include Authorization: Bearer <api_key>"
+    - id: 61
+      name: "mcp_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "RATE_LIMITED"
+      error: "Too many requests"
+    - id: 62
+      name: "artifacts_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 1
+      error_code: "RATE_LIMITED"
+      error: "Too many requests"
+    - id: 63
+      name: "remotion_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 1
+      error_code: "RATE_LIMITED"
+      error: "Too many requests"
+    - id: 64
+      name: "canvas_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 1
+      error_code: "RATE_LIMITED"
+      error: "Too many requests"
+    - id: 65
+      name: "algorithmic_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "RATE_LIMITED"
+      error: "Too many requests"
+    - id: 66
+      name: "agentic-purchasing_endpoint_anon"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "RATE_LIMITED"
+      error: "Too many requests"
+  snapshot_per_program_free:
+    - id: 67
+      name: "snapshot_search_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error: "Project limit reached (1)"
+    - id: 68
+      name: "snapshot_skills_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error: "Project limit reached (1)"
+    - id: 69
+      name: "snapshot_debug_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error: "Project limit reached (1)"
+    - id: 70
+      name: "snapshot_frontend_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 71
+      name: "snapshot_seo_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 4
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 72
+      name: "snapshot_optimization_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 73
+      name: "snapshot_theme_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 74
+      name: "snapshot_brand_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 75
+      name: "snapshot_superpowers_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 4
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 76
+      name: "snapshot_marketing_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 77
+      name: "snapshot_notebook_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 78
+      name: "snapshot_obsidian_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 79
+      name: "snapshot_mcp_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 80
+      name: "snapshot_artifacts_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 81
+      name: "snapshot_remotion_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 82
+      name: "snapshot_canvas_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 83
+      name: "snapshot_algorithmic_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 4
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 84
+      name: "snapshot_agentic-purchasing_free"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 4
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+  snapshot_per_program_pro:
+    - id: 85
+      name: "snapshot_search_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 4
+      snapshot_id: "e768f159"
+      generated_files: "6"
+      generated_file_list: [".ai/context-map.json", "AGENTS.md", "CLAUDE.md", ".cursorrules", "architecture-summary.md", ".ai/repo-profile.yaml"]
+    - id: 86
+      name: "snapshot_skills_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "465c719d"
+      generated_files: "3"
+      generated_file_list: [".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 87
+      name: "snapshot_debug_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 4
+      snapshot_id: "97c978a9"
+      generated_files: "7"
+      generated_file_list: [".ai/debug-playbook.md", "incident-template.md", "tracing-rules.md", "dependency-hotspots.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 88
+      name: "snapshot_frontend_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 4
+      snapshot_id: "9fc03907"
+      generated_files: "5"
+      generated_file_list: [".ai/frontend-rules.md", "component-guidelines.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 89
+      name: "snapshot_seo_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 6
+      snapshot_id: "f1cff099"
+      generated_files: "4"
+      generated_file_list: [".ai/seo-rules.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 90
+      name: "snapshot_optimization_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 7
+      snapshot_id: "f0ad1a1e"
+      generated_files: "6"
+      generated_file_list: [".ai/optimization-rules.md", "prompt-diff-report.md", "token-budget-plan.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 91
+      name: "snapshot_theme_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "b0da4868"
+      generated_files: "5"
+      generated_file_list: ["theme.css", ".ai/design-tokens.json", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 92
+      name: "snapshot_brand_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 6
+      snapshot_id: "b7e8acd4"
+      generated_files: "5"
+      generated_file_list: ["brand-guidelines.md", "channel-rulebook.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 93
+      name: "snapshot_superpowers_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "a087a442"
+      generated_files: "6"
+      generated_file_list: ["superpower-pack.md", "test-generation-rules.md", "refactor-checklist.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 94
+      name: "snapshot_marketing_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "35bb9bc8"
+      generated_files: "6"
+      generated_file_list: ["campaign-brief.md", "funnel-map.md", "cro-playbook.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 95
+      name: "snapshot_notebook_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "143da4b2"
+      generated_files: "6"
+      generated_file_list: ["notebook-summary.md", "study-brief.md", "research-threads.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 96
+      name: "snapshot_obsidian_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 4
+      snapshot_id: "6c0c81c8"
+      generated_files: "5"
+      generated_file_list: ["obsidian-skill-pack.md", "vault-rules.md", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 97
+      name: "snapshot_mcp_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "a04fb18e"
+      generated_files: "4"
+      generated_file_list: ["mcp-config.json", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 98
+      name: "snapshot_artifacts_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 16
+      snapshot_id: "71e36975"
+      generated_files: "4"
+      generated_file_list: ["dashboard-widget.tsx", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 99
+      name: "snapshot_remotion_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "65128ac8"
+      generated_files: "6"
+      generated_file_list: ["remotion-script.ts", "scene-plan.md", "render-config.json", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 100
+      name: "snapshot_canvas_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 5
+      snapshot_id: "e26cb5be"
+      generated_files: "3"
+      generated_file_list: [".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 101
+      name: "snapshot_algorithmic_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 4
+      snapshot_id: "07fd582e"
+      generated_files: "4"
+      generated_file_list: ["parameter-pack.json", ".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+    - id: 102
+      name: "snapshot_agentic-purchasing_pro"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 3
+      snapshot_id: "ed1f707d"
+      generated_files: "3"
+      generated_file_list: [".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md"]
+  download:
+    - id: 103
+      name: "list_generated_files_free"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      file_count: "10"
+      programs: ["search", "skills", "debug"]
+      skipped_count: "3"
+    - id: 104
+      name: "list_generated_files_pro"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 6
+      file_count: "37"
+      programs: ["search", "skills", "debug", "frontend", "seo", "optimization", "theme", "brand", "marketing", "mcp", "superpowers", "notebook", "obsidian", "remotion", "artifacts", "algorithmic"]
+      skipped_count: "11"
+    - id: 105
+      name: "fetch_individual_files_free"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 0
+      fetched: "10"
+      attempted: "10"
+    - id: 106
+      name: "export_zip_free"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 8
+      content_type: "application/zip"
+      size: "14450"
+    - id: 107
+      name: "export_zip_pro"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 6
+      content_type: "application/zip"
+      size: "46771"
+    - id: 108
+      name: "export_zip_program_search"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 3
+      content_type: "application/zip"
+    - id: 109
+      name: "export_zip_program_debug"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      content_type: "application/zip"
+    - id: 110
+      name: "export_zip_program_frontend"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      content_type: "application/zip"
+    - id: 111
+      name: "export_zip_program_brand"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 4
+      content_type: "application/zip"
+  edge_cases:
+    - id: 112
+      name: "empty_files_rejected"
+      outcome: EXPECTED_REFUSAL
+      http_status: 400
+      latency_ms: 2
+      error: "files array is required and must not be empty"
+    - id: 113
+      name: "empty_outputs"
+      outcome: PASS
+      http_status: 201
+      latency_ms: 4
+      generated_files: "3"
+    - id: 114
+      name: "invalid_snapshot_id"
+      outcome: EXPECTED_REFUSAL
+      http_status: 404
+      latency_ms: 1
+      error: "No results for this snapshot  -  run POST /v1/snapshots first"
+    - id: 115
+      name: "missing_snapshot_id"
+      outcome: EXPECTED_REFUSAL
+      http_status: 400
+      latency_ms: 2
+      error: "snapshot_id is required"
+    - id: 116
+      name: "invalid_json_body"
+      outcome: EXPECTED_REFUSAL
+      http_status: 400
+      latency_ms: 2
+      error: "Invalid JSON body"
+    - id: 117
+      name: "free_all_18_programs_blocked"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 2
+      error_code: "QUOTA_EXCEEDED"
+      error: "Project limit reached (1)"
+    - id: 118
+      name: "anon_all_18_programs_blocked"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      blocked_count: "13"
+      error: "Free tier includes 3 programs (search, skills, debug). Sign up or upgrade to Pro to unlock: algorithmic, artifacts, brand, frontend, marketing, mcp, notebook, obsidian, optimization, remotion, seo, superpowers, theme."
+    - id: 119
+      name: "path_traversal_blocked"
+      outcome: EXPECTED_REFUSAL
+      http_status: 400
+      latency_ms: 2
+      error: "Invalid file path"
+    - id: 120
+      name: "revoked_key_rejected"
+      outcome: EXPECTED_REFUSAL
+      http_status: 401
+      latency_ms: 1
+      error: "Authentication required. Include Authorization: Bearer <api_key>"
+  discovery:
+    - id: 121
+      name: "well_known_axis"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+      version: "0.5.0"
+    - id: 122
+      name: "well_known_capabilities"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+      version: "0.5.0"
+    - id: 123
+      name: "well_known_mcp"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+    - id: 124
+      name: "robots_txt"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 1
+    - id: 125
+      name: "llms_txt"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+    - id: 126
+      name: "skills_index"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+      version: "1.0"
+    - id: 127
+      name: "for_agents"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+      version: "0.5.0"
+    - id: 128
+      name: "v1_docs"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 5
+      version: "0.5.0"
+    - id: 129
+      name: "v1_docs_md"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 1
+    - id: 130
+      name: "root_landing"
+      outcome: PASS
+      http_status: 200
+      latency_ms: 2
+      version: "0.5.0"
+  analyze:
+    - id: 131
+      name: "analyze_files_free_programs"
+      outcome: EXPECTED_REFUSAL
+      http_status: 429
+      latency_ms: 3
+      error: "Project limit reached (1)"
+    - id: 132
+      name: "analyze_files_pro_programs_free_acct"
+      outcome: EXPECTED_REFUSAL
+      http_status: 402
+      latency_ms: 2
+      error_code: "TIER_REQUIRED"
+      error: "Pro programs require a paid plan or per-call payment: frontend, seo. Upgrade at toolbox.jonathanarvay.com/billing."
+
+# ─── Verification Notes ─────────────────────────────────────
+# PASS = endpoint responded correctly with expected data
+# EXPECTED_REFUSAL = endpoint correctly refused (402/401/403/400)
+# FAIL = unexpected response — wiring broken or gate missing
+# SKIP = test not applicable (no frontend outputs for program)
+# A refusal IS a correct outcome for pro programs on free/anon tier

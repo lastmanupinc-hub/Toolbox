@@ -218,7 +218,7 @@ export function App() {
           <h1 style={{ margin: 0, cursor: "pointer" }} onClick={handleReset}>
             Axis Toolbox
           </h1>
-          <span className="badge badge-accent">v0.3.1</span>
+          <span className="badge badge-accent">v0.5.0</span>
         </div>
 
         {/* Desktop nav — hidden on mobile */}

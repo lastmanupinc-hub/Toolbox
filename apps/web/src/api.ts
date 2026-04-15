@@ -177,6 +177,20 @@ export interface UpgradePrompt {
 
 // ─── Fetch helpers ──────────────────────────────────────────────
 
+export class ApiError extends Error {
+  status: number;
+  errorCode: string;
+  extra: Record<string, unknown>;
+
+  constructor(message: string, status: number, errorCode: string, extra: Record<string, unknown> = {}) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+    this.errorCode = errorCode;
+    this.extra = extra;
+  }
+}
+
 function authHeaders(): Record<string, string> {
   const key = localStorage.getItem("axis_api_key");
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -184,10 +198,11 @@ function authHeaders(): Record<string, string> {
   return headers;
 }
 
-async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
+async function fetchJSON<T>(url: string, init?: RequestInit & { timeoutMs?: number }): Promise<T> {
   const controller = new AbortController();
+  const timeoutMs = init?.timeoutMs ?? 30_000;
   // v8 ignore next
-  const timeout = setTimeout(() => controller.abort(), 30_000);
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const res = await fetch(`${API_BASE}${url}`, {
       ...init,
@@ -196,24 +211,40 @@ async function fetchJSON<T>(url: string, init?: RequestInit): Promise<T> {
     });
     if (!res.ok) {
       let msg = `${res.status}`;
+      let errorCode = "";
+      let extra: Record<string, unknown> = {};
       try {
         const body = await res.text();
         try {
           const json = JSON.parse(body);
           /* v8 ignore next */
           msg = json.error || msg;
+          errorCode = json.error_code || "";
+          const { error: _e, error_code: _c, ...rest } = json;
+          extra = rest;
         } catch {
           /* v8 ignore next */
           if (body) msg = body.slice(0, 200);
         }
       } catch { /* empty body */ }
-      throw new Error(msg);
+      throw new ApiError(msg, res.status, errorCode, extra);
     }
     return res.json() as Promise<T>;
   } catch (err) {
     /* v8 ignore next 2 — V8 quirk: AbortError tested but V8 won't credit */
     if (err instanceof DOMException && err.name === "AbortError") {
-      throw new Error("Request timed out");
+      throw new ApiError("Request timed out", 0, "TIMEOUT");
+    }
+    if (err instanceof ApiError) throw err;
+    // Network-level failure (server unreachable, CORS, DNS, SSL, connection reset, or
+    // AbortController fired during body upload — Chrome throws TypeError instead of AbortError)
+    if (err instanceof TypeError || (err instanceof DOMException && err.name !== "AbortError")) {
+      throw new ApiError(
+        "Request failed — the server may have timed out processing a large upload. " +
+        "Try uploading fewer files or a smaller project.",
+        0,
+        "NETWORK_ERROR",
+      );
     }
     throw err;
   } finally {
@@ -227,6 +258,7 @@ export async function createSnapshot(payload: SnapshotPayload): Promise<Snapshot
   return fetchJSON<SnapshotResponse>("/v1/snapshots", {
     method: "POST",
     body: JSON.stringify(payload),
+    timeoutMs: 120_000,  // 2 min — large zip payloads need time to upload + process
   });
 }
 
@@ -256,6 +288,7 @@ export async function analyzeGitHubUrl(githubUrl: string): Promise<SnapshotRespo
   return fetchJSON<SnapshotResponse>("/v1/github/analyze", {
     method: "POST",
     body: JSON.stringify({ github_url: githubUrl }),
+    timeoutMs: 120_000,  // 2 min — GitHub clone + analysis takes time
   });
 }
 

@@ -20,6 +20,7 @@ import {
   trackEvent,
   resolveStage,
   TIER_LIMITS,
+  ALL_PROGRAMS,
   isProgramEnabled,
   indexSnapshotContent,
   searchSnapshotContent,
@@ -364,6 +365,55 @@ export async function handleCreateSnapshot(
         return;
       }
     }
+
+    // Enforce program entitlements — reject if free-tier user requests pro outputs
+    const allowedPrograms = new Set(limits.programs.length > 0 ? limits.programs : ALL_PROGRAMS as unknown as string[]);
+    const requestedPro = new Set<string>();
+    for (const output of manifest.requested_outputs) {
+      for (const [program, outputs] of Object.entries(PROGRAM_OUTPUTS)) {
+        if (outputs.includes(output) && !allowedPrograms.has(program)) {
+          requestedPro.add(program);
+        }
+      }
+    }
+    if (requestedPro.size > 0) {
+      const proList = [...requestedPro].sort();
+      sendError(res, 402, ErrorCode.TIER_REQUIRED,
+        `Free tier includes 3 programs (search, skills, debug). Upgrade to Pro to unlock: ${proList.join(", ")}.`,
+        {
+          blocked_programs: proList,
+          allowed_programs: [...allowedPrograms].sort(),
+          upgrade_url: "https://toolbox.jonathanarvay.com/#plans",
+          tier: auth.account.tier,
+        },
+      );
+      return;
+    }
+  } else if (auth.anonymous) {
+    // Anonymous users get free-tier program limits
+    const freeLimits = TIER_LIMITS.free;
+    const anonAllowed = new Set(freeLimits.programs);
+    const anonPro = new Set<string>();
+    for (const output of manifest.requested_outputs) {
+      for (const [program, outputs] of Object.entries(PROGRAM_OUTPUTS)) {
+        if (outputs.includes(output) && !anonAllowed.has(program)) {
+          anonPro.add(program);
+        }
+      }
+    }
+    if (anonPro.size > 0) {
+      const proList = [...anonPro].sort();
+      sendError(res, 402, ErrorCode.TIER_REQUIRED,
+        `Free tier includes 3 programs (search, skills, debug). Sign up or upgrade to Pro to unlock: ${proList.join(", ")}.`,
+        {
+          blocked_programs: proList,
+          allowed_programs: [...anonAllowed].sort(),
+          upgrade_url: "https://toolbox.jonathanarvay.com/#plans",
+          tier: "anonymous",
+        },
+      );
+      return;
+    }
   }
 
   const snapshot = createSnapshot(input, auth.account?.account_id);
@@ -578,7 +628,7 @@ export async function handleHealthCheck(
   sendJSON(res, ready ? 200 : 503, {
     status: ready ? "ok" : "shutting_down",
     service: "axis-api",
-    version: "0.4.0",
+    version: "0.5.0",
     timestamp: new Date().toISOString(),
   });
 }
@@ -1904,7 +1954,7 @@ export async function handleWellKnown(
       details: "GET /for-agents?intent=referral",
     },
     tagline: "Analyze any codebase. Generate 86 structured artifacts across 18 programs.",
-    version: "0.4.0",
+    version: "0.5.0",
     description: "Submit source files or a GitHub URL. AXIS returns structured AI context files  -  AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, brand guidelines, and more  -  each tuned to your specific codebase. Every file includes an adoption_hint telling you exactly where to place it.",
     analyze_endpoint: {
       method: "POST",
@@ -1971,7 +2021,7 @@ export async function handleCapabilities(
 ): Promise<void> {
   sendJSON(res, 200, {
     name: "AXIS Toolbox",
-    version: "0.4.1",
+    version: "0.5.0",
     description: "Semantic capability manifest for agent tool discovery. Analyzes codebases, generates 86 artifacts across 18 programs. Full agentic commerce hardening including AP2/UCP/Visa IC compliance.",
     keywords: [
       "AP2", "AP2-compliance", "Article-2", "UN-CISG",
@@ -2363,7 +2413,7 @@ export async function handleForAgents(
   }
   sendJSON(res, 200, {
     name: "AXIS Toolbox",
-    version: "0.4.0",
+    version: "0.5.0",
     incentives: buildIncentivesSummary(),
     purpose: "Codebase intelligence API. Analyzes any repo, generates 86 structured artifacts across 18 programs. Every generated file tells AI agents exactly what the codebase does, how to work in it, and how to purchase from it.",
     install: {

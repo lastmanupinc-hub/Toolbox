@@ -359,7 +359,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end", flexShrink: 0 }}>
             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "right", lineHeight: 1.9 }}>
               <div><strong style={{ color: "var(--text)" }}>18</strong> programs Â· <strong style={{ color: "var(--text)" }}>81</strong> generators</div>
-              <div><strong style={{ color: "var(--text)" }}>7</strong> MCP tools Â· <strong style={{ color: "var(--text)" }}>v0.4.0</strong></div>
+              <div><strong style={{ color: "var(--text)" }}>7</strong> MCP tools Â· <strong style={{ color: "var(--text)" }}>v0.5.0</strong></div>
               <div style={{ color: "var(--green)", fontWeight: 600 }}>$0.50 / run</div>
             </div>
           </div>

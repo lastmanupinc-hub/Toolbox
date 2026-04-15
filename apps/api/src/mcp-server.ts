@@ -38,7 +38,7 @@ import { parseAgentBudget, resolveAgentMode } from "./mpp.js";
 
 export const MCP_PROTOCOL_VERSION = "2025-03-26";
 const SERVER_NAME = "axis-toolbox";
-const SERVER_VERSION = "0.4.1";
+const SERVER_VERSION = "0.5.0";
 
 // ─── In-memory call counters (reset on process restart) ──────────
 

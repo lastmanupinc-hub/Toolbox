@@ -1,5 +1,5 @@
 import { useState, useRef, type FormEvent, type DragEvent } from "react";
-import { createSnapshot, analyzeGitHubUrl, type SnapshotPayload, type SnapshotResponse } from "../api.ts";
+import { createSnapshot, analyzeGitHubUrl, ApiError, type SnapshotPayload, type SnapshotResponse } from "../api.ts";
 import { useToast } from "../components/Toast.tsx";
 import { shouldIgnore, detectFrameworks, extractZip } from "../upload-utils.ts";
 
@@ -100,6 +100,7 @@ export function UploadPage({ onComplete }: Props) {
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [tierBlock, setTierBlock] = useState<{ blocked: string[]; allowed: string[] } | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const zipInputRef = useRef<HTMLInputElement>(null);
@@ -199,6 +200,7 @@ export function UploadPage({ onComplete }: Props) {
       }
       setLoading(true);
       setError(null);
+
       setLoadingStep("Cloning repository...");
       try {
         const stepTimer = setTimeout(() => setLoadingStep("Analyzing & generating artifacts..."), 4000);
@@ -209,9 +211,16 @@ export function UploadPage({ onComplete }: Props) {
         onComplete(result);
       } catch (err) {
         setLoadingStep("");
-        const msg = err instanceof Error ? err.message : "GitHub analysis failed";
-        setError(msg);
-        toast("error", msg);
+        if (err instanceof ApiError && err.errorCode === "TIER_REQUIRED") {
+          setTierBlock({ blocked: err.extra.blocked_programs as string[] ?? [], allowed: err.extra.allowed_programs as string[] ?? [] });
+          setError(err.message);
+          toast("error", "Upgrade to Pro to unlock those programs");
+        } else {
+          setTierBlock(null);
+          const msg = err instanceof Error ? err.message : "GitHub analysis failed";
+          setError(msg);
+          toast("error", msg);
+        }
       } finally {
         setLoading(false);
       }
@@ -229,6 +238,7 @@ export function UploadPage({ onComplete }: Props) {
 
     setLoading(true);
     setError(null);
+
     setLoadingStep("Detecting languages & frameworks...");
 
     const detectedFrameworks = detectFrameworks(files);
@@ -258,9 +268,16 @@ export function UploadPage({ onComplete }: Props) {
       onComplete(result);
     } catch (err) {
       setLoadingStep("");
-      const msg = err instanceof Error ? err.message : "Upload failed";
-      setError(msg);
-      toast("error", msg);
+      if (err instanceof ApiError && err.errorCode === "TIER_REQUIRED") {
+        setTierBlock({ blocked: err.extra.blocked_programs as string[] ?? [], allowed: err.extra.allowed_programs as string[] ?? [] });
+        setError(err.message);
+        toast("error", "Upgrade to Pro to unlock those programs");
+      } else {
+        setTierBlock(null);
+        const msg = err instanceof Error ? err.message : "Upload failed";
+        setError(msg);
+        toast("error", msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -502,11 +519,37 @@ export function UploadPage({ onComplete }: Props) {
           </>
         )}
 
-        {error && (
+        {error && tierBlock ? (
+          <div className="card" style={{ borderColor: "var(--accent)", marginBottom: 16, textAlign: "center", padding: "24px 16px" }}>
+            <p style={{ fontWeight: 600, marginBottom: 8 }}>🔒 Pro Programs Required</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginBottom: 12 }}>
+              Your selection includes programs that require a Pro plan:
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 4, justifyContent: "center", marginBottom: 16 }}>
+              {tierBlock.blocked.map((p) => (
+                <span key={p} className="badge badge-accent" style={{ fontSize: "0.78rem" }}>{p}</span>
+              ))}
+            </div>
+            <button type="button" className="btn btn-primary" style={{ marginRight: 8 }} onClick={() => { window.location.hash = "plans"; }}>
+              Go Pro — Unlock All 18 Programs
+            </button>
+            <button type="button" className="btn" onClick={() => {
+              const freeOutputs = selectedOutputs.filter((o) => {
+                const freeProgs = new Set(tierBlock.allowed);
+                return OUTPUT_OPTIONS.some((opt) => opt.value === o && freeProgs.has(opt.group.toLowerCase()));
+              });
+              setSelectedOutputs(freeOutputs.length > 0 ? freeOutputs : ESSENTIALS);
+              setError(null);
+              setTierBlock(null);
+            }}>
+              Use Free Programs Only
+            </button>
+          </div>
+        ) : error ? (
           <div className="card" style={{ borderColor: "var(--red)", marginBottom: 16 }}>
             <p style={{ color: "var(--red)" }}>{error}</p>
           </div>
-        )}
+        ) : null}
 
         <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: "100%", justifyContent: "center", padding: 12 }}>
           {loading ? (

@@ -106,7 +106,7 @@ router.get("/", async (_req, res) => {
   const { sendJSON } = await import("./router.js");
   sendJSON(res, 200, {
     name: "AXIS Toolbox API",
-    version: "0.4.0",
+    version: "0.5.0",
     docs: "/v1/docs",
     health: "/v1/health",
     llms: "/llms.txt",

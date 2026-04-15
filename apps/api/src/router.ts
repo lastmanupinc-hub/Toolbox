@@ -176,7 +176,7 @@ export function isShuttingDown(): boolean { return _shuttingDown; }
 export function createApp(router: Router, port: number): Server {
   const connections = new Set<Socket>();
   _shuttingDown = false;
-  const requestTimeoutMs = parseInt(process.env.REQUEST_TIMEOUT_MS ?? "30000", 10);
+  const requestTimeoutMs = parseInt(process.env.REQUEST_TIMEOUT_MS ?? "120000", 10);
 
   const server = createServer((req, res) => {
     // Store request ref for gzip negotiation in sendJSON

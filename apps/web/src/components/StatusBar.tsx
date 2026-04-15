@@ -68,7 +68,7 @@ export function StatusBar({ snapshot, fileCount }: Props) {
 
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         <span title="Ctrl+K for command palette">⌘K commands</span>
-        <span>Axis Toolbox v0.3.1</span>
+        <span>Axis Toolbox v0.5.0</span>
       </div>
     </footer>
   );
