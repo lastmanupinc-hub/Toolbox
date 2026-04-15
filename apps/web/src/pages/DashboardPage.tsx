@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import type { SnapshotResponse, GeneratedFile } from "../api.ts";
-import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
+import { getGeneratedFiles, runProgram, downloadExport, ApiError } from "../api.ts";
 import { OverviewTab } from "../components/OverviewTab.tsx";
 import { FilesTab } from "../components/FilesTab.tsx";
 import { GraphTab } from "../components/GraphTab.tsx";
 import { GeneratedTab } from "../components/GeneratedTab.tsx";
 import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
 import { SearchTab } from "../components/SearchTab.tsx";
+import { UpsellModal } from "../components/UpsellModal.tsx";
 import { useToast } from "../components/Toast.tsx";
 
 interface Props {
@@ -41,6 +42,7 @@ export function DashboardPage({ result, onGeneratedCountChange }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("Overview");
   const [generatedFiles, setGeneratedFiles] = useState<GeneratedFile[]>([]);
   const [downloading, setDownloading] = useState(false);
+  const [tierBlock, setTierBlock] = useState<{ blocked: string[]; allowed: string[] } | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -83,7 +85,13 @@ export function DashboardPage({ result, onGeneratedCountChange }: Props) {
       setActiveTab("Generated Files");
       toast("success", `Generated ${res.files.length} files from ${endpoint.split("/")[0]}`);
     } catch (err) {
-      toast("error", err instanceof Error ? err.message : "Program failed");
+      if (err instanceof ApiError && (err.errorCode === "TIER_REQUIRED" || err.status === 402)) {
+        const blocked = (err.extra.blocked_programs as string[] | undefined) ?? [endpoint.split("/")[0]];
+        const allowed = (err.extra.allowed_programs as string[] | undefined) ?? ["search", "skills", "debug"];
+        setTierBlock({ blocked, allowed });
+      } else {
+        toast("error", err instanceof Error ? err.message : "Program failed");
+      }
       throw err;
     }
   }
@@ -174,6 +182,15 @@ export function DashboardPage({ result, onGeneratedCountChange }: Props) {
           <SearchTab snapshotId={result.snapshot_id} />
         )}
       </div>
+
+      {tierBlock && (
+        <UpsellModal
+          blocked={tierBlock.blocked}
+          allowed={tierBlock.allowed}
+          onGoFree={() => setTierBlock(null)}
+          onClose={() => setTierBlock(null)}
+        />
+      )}
     </div>
   );
 }

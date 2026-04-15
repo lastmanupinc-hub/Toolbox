@@ -1,6 +1,6 @@
 # Scene Plan — axis-toolbox
 
-Generated: 2026-04-15T19:53:55.586Z
+Generated: 2026-04-15T20:25:19.988Z
 
 ## Video Overview
 
@@ -14,7 +14,7 @@ Generated: 2026-04-15T19:53:55.586Z
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 550+ files across 17 top-level directories. It defines 128 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 

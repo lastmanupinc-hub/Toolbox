@@ -77,7 +77,7 @@ These facts should be established once and never re-verified mid-session:
 
 ```
 CACHE_ONCE:
-  - Project: axis-toolbox v0.4.0
+  - Project: axis-toolbox v0.5.0
   - Runtime: Node.js >=20, TypeScript 5.7 strict, pnpm
   - Test framework: Vitest 4.1
   - Database: SQLite WAL via better-sqlite3

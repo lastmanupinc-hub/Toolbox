@@ -1,6 +1,6 @@
 {
   "project": "axis-toolbox",
-  "generated_at": "2026-04-15T19:53:55.587Z",
+  "generated_at": "2026-04-15T20:25:19.989Z",
   "composition": {
     "id": "axistoolboxVideo",
     "width": 1920,
@@ -96,12 +96,12 @@
         },
         {
           "name": "YAML",
-          "loc": 10479,
+          "loc": 10492,
           "percent": 9.1
         },
         {
           "name": "Markdown",
-          "loc": 8406,
+          "loc": 8415,
           "percent": 7.3
         },
         {
@@ -378,7 +378,7 @@
   "detected_stack": {
     "primary_language": "TypeScript",
     "total_files": 500,
-    "total_loc": 116097
+    "total_loc": 116119
   },
   "source_media_files": null
 }

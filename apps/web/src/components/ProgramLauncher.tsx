@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { GeneratedFile, BillingTier } from "../api.ts";
-import { downloadExport, getAccount } from "../api.ts";
+import { downloadExport, getAccount, ApiError } from "../api.ts";
 
 interface Props {
   snapshotId: string;
@@ -56,7 +56,11 @@ export function ProgramLauncher({ snapshotId, generatedFiles, onRun }: Props) {
     try {
       await onRun(program.endpoint);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed");
+      if (err instanceof ApiError && (err.errorCode === "TIER_REQUIRED" || err.status === 402)) {
+        setError("This program requires a Pro plan. Upgrade to unlock all 18 programs.");
+      } else {
+        setError(err instanceof Error ? err.message : "Failed");
+      }
     } finally {
       setRunning(null);
     }

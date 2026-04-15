@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 550+ files across 17 top-level directories. It defines 128 domain models.
+axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -16,7 +16,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 550+ f
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (116097 LOC)
+- **Files:** 500 (116119 LOC)
 - **Directories:** 59
 
 ## Frameworks & Libraries
@@ -748,11 +748,11 @@ canvas/MEMORY.yaml (2.8 KB)
 canvas/schemas/output-contract.schema.json (1.8 KB)
 capability_inventory.yaml (31.7 KB)
 capability-registry.json (2.5 KB)
-CHANGELOG.md (6.6 KB)
+CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.9 KB)
+CLAUDE.md (9.8 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
@@ -767,7 +767,7 @@ cost-estimate.json (5.7 KB)
 cov3.txt (19.3 KB)
 cov5.txt (218.4 KB)
 cro-playbook.md (34.2 KB)
-daily-maintenance-runbook.yaml (5.2 KB)
+daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.4 KB)
 debug/begin.yaml (3.6 KB)
@@ -825,7 +825,7 @@ mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
 mcp/schemas/output-contract.schema.json (1.8 KB)
 memory generator.yaml (7.6 KB)
-messaging-system.yaml (2.5 KB)
+messaging-system.yaml (2.6 KB)
 meta-tag-audit.json (26.5 KB)
 negotiation-rules.md (7.6 KB)
 notebook-summary.md (3.6 KB)

@@ -3,7 +3,7 @@
   "name": "io.github.lastmanupinc-hub/axis-toolbox",
   "title": "AXIS Toolbox — Agentic Commerce Hardener",
   "description": "Upload code, get 86 AI artifacts — AGENTS.md, .cursorrules, AP2 compliance, commerce hardening.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "websiteUrl": "https://axis-api-6c7z.onrender.com/for-agents",
   "repository": {
     "url": "https://github.com/lastmanupinc-hub/Toolbox",
@@ -26,7 +26,7 @@
   "_meta": {
     "io.modelcontextprotocol.registry/publisher-provided": {
       "tool": "axis-skills",
-      "version": "0.4.0"
+      "version": "0.5.0"
     },
     "io.github.lastmanupinc-hub/axis-toolbox": {
       "programs": 18,

@@ -569,6 +569,43 @@ describe("POST /mcp — tools/call analyze_files", () => {
   });
 });
 
+describe("POST /mcp — _error categorization", () => {
+  it("returns _error.code=auth for missing API key", async () => {
+    const r = await post("/mcp", {
+      jsonrpc: "2.0", id: 900,
+      method: "tools/call",
+      params: { name: "analyze_files", arguments: { project_name: "t", project_type: "web", frameworks: [], goals: [], files: [{ path: "a.ts", content: "x" }] } },
+    });
+    const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
+    const err = result._error as Record<string, unknown>;
+    expect(err.code).toBe("auth");
+    expect(err.retryable).toBe(false);
+  });
+
+  it("returns _error.code=validation for missing project_name", async () => {
+    const r = await post("/mcp", {
+      jsonrpc: "2.0", id: 901,
+      method: "tools/call",
+      params: { name: "analyze_files", arguments: { project_type: "web", frameworks: [], goals: [], files: [{ path: "a.ts", content: "x" }] } },
+    }, apiKey);
+    const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
+    const err = result._error as Record<string, unknown>;
+    expect(err.code).toBe("validation");
+    expect(err.retryable).toBe(false);
+  });
+
+  it("returns _error.code=validation for path traversal", async () => {
+    const r = await post("/mcp", {
+      jsonrpc: "2.0", id: 902,
+      method: "tools/call",
+      params: { name: "analyze_files", arguments: { project_name: "t", project_type: "web", frameworks: [], goals: [], files: [{ path: "../../etc/passwd", content: "x" }] } },
+    }, apiKey);
+    const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
+    const err = result._error as Record<string, unknown>;
+    expect(err.code).toBe("validation");
+  });
+});
+
 describe("POST /mcp — tools/call get_snapshot", () => {
   it("returns snapshot data for a valid snapshot_id", async () => {
     expect(snapshotId).not.toBe(""); // depends on analyze_files success test

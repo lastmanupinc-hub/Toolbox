@@ -479,6 +479,22 @@ function toolErr(text: string) {
   return { content: [{ type: "text", text }], isError: true };
 }
 
+type ErrorCategory = "auth" | "validation" | "quota" | "tier_limit" | "external" | "internal";
+
+function categorizeError(msg: string): { code: ErrorCategory; retryable: boolean } {
+  if (/authentication required|invalid.*api.key|revoked/i.test(msg))
+    return { code: "auth", retryable: false };
+  if (/quota exceeded/i.test(msg))
+    return { code: "quota", retryable: true };
+  if (/file limit.*exceeds.*tier|exceeds max.*tier/i.test(msg))
+    return { code: "tier_limit", retryable: false };
+  if (/is required|must be|invalid.*path|invalid.*url|must have/i.test(msg))
+    return { code: "validation", retryable: false };
+  if (/fetch failed|github.*failed/i.test(msg))
+    return { code: "external", retryable: true };
+  return { code: "internal", retryable: false };
+}
+
 const MCP_FREE_PROGRAMS = new Set(TIER_LIMITS.free.programs);
 
 /** Filter generators to only include programs the account has access to. */
@@ -1805,10 +1821,14 @@ export async function dispatch(
           },
         });
       } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        const { code, retryable } = categorizeError(msg);
         return rpcOk(
           id,
-          /* v8 ignore next — err is always a thrown Error instance; String(err) path is dead code */
-          toolErr(`Error: ${err instanceof Error ? err.message : String(err)}`),
+          {
+            ...toolErr(`Error: ${msg}`),
+            _error: { code, retryable },
+          },
         );
       }
     }

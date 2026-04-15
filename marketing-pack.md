@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-**Product**: AXIS Toolbox v0.4.0
+**Product**: AXIS Toolbox v0.5.0
 **Category**: AI Development Intelligence Platform
 **Tagline**: The operating system for AI-native development
 **Owner**: Last Man Up Inc.

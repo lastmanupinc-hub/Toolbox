@@ -73,7 +73,7 @@ Total external dependencies: **19**
 ```json
 {
   "name": "@axis/api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -109,7 +109,7 @@ Total external dependencies: **19**
 ```json
 {
   "name": "@axis/cli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "bin": {

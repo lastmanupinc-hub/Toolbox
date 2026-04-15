@@ -1131,7 +1131,7 @@ export {
 ```json
 {
   "name": "@axis/api",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -1176,7 +1176,7 @@ export {
 ```json
 {
   "name": "@axis/cli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "bin": {
@@ -1228,7 +1228,7 @@ export {
 {
   "name": "@axis/web",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -1298,7 +1298,7 @@ export default defineConfig({
 ```json
 {
   "name": "axis-toolbox",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "Axis — The operating system for AI-native development",
   "scripts": {
@@ -1323,7 +1323,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/context-engine",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -1365,7 +1365,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/generator-core",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
@@ -1405,7 +1405,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/repo-parser",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -1446,7 +1446,7 @@ export default defineConfig({
 ```json
 {
   "name": "@axis/snapshots",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "exports": {
