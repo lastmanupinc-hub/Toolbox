@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { getDbStats, integrityCheck } from "@axis/snapshots";
+import { getDb, getDbStats, integrityCheck } from "@axis/snapshots";
 import { isShuttingDown } from "./router.js";
 
 const startTime = Date.now();
@@ -84,7 +84,8 @@ export async function handleReadiness(
 ): Promise<void> {
   // Readiness: is the service ready to accept traffic?
   const shutting = isShuttingDown();
-  const dbCheck = integrityCheck();
+  const database = getDb(); // ensure lazy init before integrity check
+  const dbCheck = integrityCheck(database);
   const ready = !shutting && dbCheck.success;
 
   res.writeHead(ready ? 200 : 503, { "Content-Type": "application/json" });

@@ -2273,9 +2273,54 @@ export async function handleRobotsTxt(
     "# Security: https://axis-api-6c7z.onrender.com/.well-known/security.txt",
     "",
     "# Discovery endpoints: GET /.well-known/axis.json, GET /.well-known/agent.json, GET /openapi.json",
+    "",
+    "Sitemap: https://axis-api-6c7z.onrender.com/sitemap.xml",
   ];
   res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
   res.end(lines.join("\n"));
+}
+
+export async function handleSitemapXml(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): Promise<void> {
+  const base = "https://axis-api-6c7z.onrender.com";
+  const now = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+
+  const urls: Array<{ loc: string; changefreq: string; priority: string }> = [
+    { loc: "/",                               changefreq: "weekly",  priority: "1.0" },
+    { loc: "/for-agents",                     changefreq: "weekly",  priority: "0.9" },
+    { loc: "/llms.txt",                       changefreq: "monthly", priority: "0.8" },
+    { loc: "/robots.txt",                     changefreq: "monthly", priority: "0.5" },
+    { loc: "/v1/docs",                        changefreq: "weekly",  priority: "0.9" },
+    { loc: "/v1/docs.md",                     changefreq: "weekly",  priority: "0.8" },
+    { loc: "/openapi.json",                   changefreq: "weekly",  priority: "0.8" },
+    { loc: "/health",                         changefreq: "daily",   priority: "0.3" },
+    { loc: "/docs",                           changefreq: "weekly",  priority: "0.7" },
+    { loc: "/.well-known/axis.json",          changefreq: "monthly", priority: "0.7" },
+    { loc: "/.well-known/capabilities.json",  changefreq: "monthly", priority: "0.7" },
+    { loc: "/.well-known/mcp.json",           changefreq: "monthly", priority: "0.7" },
+    { loc: "/.well-known/agent.json",         changefreq: "monthly", priority: "0.7" },
+    { loc: "/.well-known/security.txt",       changefreq: "yearly",  priority: "0.5" },
+    { loc: "/.well-known/skills/index.json",  changefreq: "monthly", priority: "0.6" },
+  ];
+
+  const entries = urls
+    .map(
+      (u) =>
+        `  <url>\n    <loc>${base}${u.loc}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`,
+    )
+    .join("\n");
+
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    entries,
+    "</urlset>",
+  ].join("\n");
+
+  res.writeHead(200, { "Content-Type": "application/xml; charset=utf-8" });
+  res.end(xml);
 }
 
 export async function handleSkillsIndex(

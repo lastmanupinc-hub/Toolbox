@@ -51,6 +51,7 @@ import {
   handleHealthRedirect,
   handleDocsRedirect,
   handleOpenApiJson,
+  handleSitemapXml,
 } from "./handlers.js";
 import {
   handleCreateAccount,
@@ -190,6 +191,7 @@ router.get("/.well-known/agent.json", handleAgentJson);
 
 // Crawler + agent probe directives
 router.get("/robots.txt", handleRobotsTxt);
+router.get("/sitemap.xml", handleSitemapXml);
 
 // Scanner-friendly root-level aliases
 router.get("/health", handleHealthRedirect);

@@ -5,6 +5,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 vi.mock("@axis/snapshots", () => ({
   integrityCheck: vi.fn(),
   getDbStats: vi.fn(),
+  getDb: vi.fn(() => ({})),
   openMemoryDb: vi.fn(),
   closeDb: vi.fn(),
 }));
