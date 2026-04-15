@@ -306,6 +306,86 @@ export function buildOpenApiSpec(): OpenApiSpec {
           },
         },
       },
+      "/.well-known/capabilities.json": {
+        get: {
+          summary: "Machine-readable capability manifest with program list and MCP info",
+          operationId: "getCapabilities",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "Capabilities manifest" },
+          },
+        },
+      },
+      "/.well-known/security.txt": {
+        get: {
+          summary: "Security vulnerability disclosure policy (RFC 9116)",
+          operationId: "getSecurityTxt",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "RFC 9116 security.txt", content: { "text/plain": { schema: { type: "string" } } } },
+          },
+        },
+      },
+      "/.well-known/agent.json": {
+        get: {
+          summary: "Agent/scanner manifest with capabilities, monetization, and endpoints",
+          operationId: "getAgentJson",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "AgentSEO/MCP scanner manifest" },
+          },
+        },
+      },
+      "/robots.txt": {
+        get: {
+          summary: "Robots exclusion protocol with AI/MCP crawler directives",
+          operationId: "getRobotsTxt",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "Robots.txt with per-agent directives", content: { "text/plain": { schema: { type: "string" } } } },
+          },
+        },
+      },
+      "/sitemap.xml": {
+        get: {
+          summary: "XML sitemap listing all public discovery endpoints",
+          operationId: "getSitemapXml",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "XML sitemap", content: { "application/xml": { schema: { type: "string" } } } },
+          },
+        },
+      },
+      "/health": {
+        get: {
+          summary: "Root-level health alias (redirects to /v1/health detail)",
+          operationId: "getHealthAlias",
+          tags: ["Health"],
+          responses: {
+            200: { description: "Basic health status with version and uptime" },
+          },
+        },
+      },
+      "/docs": {
+        get: {
+          summary: "Root-level docs alias with links to full documentation",
+          operationId: "getDocsAlias",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "Docs navigation links" },
+          },
+        },
+      },
+      "/openapi.json": {
+        get: {
+          summary: "OpenAPI 3.1 specification (root-level alias for /v1/docs)",
+          operationId: "getOpenApiJson",
+          tags: ["Discovery"],
+          responses: {
+            200: { description: "Full OpenAPI specification" },
+          },
+        },
+      },
 
       // ── MCP tool discovery ──
       "/v1/mcp/tools": {

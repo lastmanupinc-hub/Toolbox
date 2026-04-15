@@ -76,7 +76,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "programs",
     question: "What does the Axis Skills program generate?",
-    answer: "Axis Skills produces AI governance files: AGENTS.md (agent capabilities and routing), CLAUDE.md (Anthropic-specific instructions), CURSOR.md (Cursor IDE rules), .cursorrules (cursor configuration), and .ai/workflows/ and .ai/policies/ directories. All files are framework-aware — TypeScript projects get different rules than Python projects.",
+    answer: "Axis Skills produces AI governance files: AGENTS.md (agent capabilities and routing), CLAUDE.md (Anthropic-specific instructions), .cursorrules (Cursor IDE rules), workflow-pack.md (automation workflows), and policy-pack.md (governance policies). All files are framework-aware — TypeScript projects get different rules than Python projects.",
   },
   {
     category: "programs",
@@ -88,17 +88,17 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "api",
     question: "What is the API base URL?",
-    answer: "The production API runs at https://axis-api-6c7z.onrender.com with all endpoints prefixed under /v1. For example: POST /v1/snapshots to create a snapshot, GET /v1/health for status checks. There are 100+ endpoints covering snapshots, programs, generated files, search, accounts, API keys, team seats, billing, webhooks, and agentic commerce.",
+    answer: "The production API runs at https://axis-api-6c7z.onrender.com with all endpoints prefixed under /v1. For example: POST /v1/snapshots to create a snapshot, GET /v1/health for status checks. There are 107 endpoints covering snapshots, programs, generated files, search, accounts, API keys, team seats, billing, webhooks, and agentic commerce.",
   },
   {
     category: "api",
     question: "How do I authenticate API requests?",
-    answer: "Include your API key as a Bearer token in the Authorization header: `Authorization: Bearer axis_your_key_here`. API keys always start with the axis_ prefix and are 64 characters long. Unauthenticated endpoints (health, plans, account creation) don't require a key.",
+    answer: "Include your API key as a Bearer token in the Authorization header: `Authorization: Bearer axis_your_key_here`. API keys always start with the axis_ prefix and are 37 characters long. Unauthenticated endpoints (health, plans, account creation) don't require a key.",
   },
   {
     category: "api",
     question: "What's the rate limit?",
-    answer: "Free tier: 10 snapshots/month, 60 requests/minute. Pro tier: 200 snapshots/month, 300 requests/minute. Enterprise: unlimited with custom rate limits. Rate-limited requests receive a 429 response with a Retry-After header indicating when to retry.",
+    answer: "Free tier: 10 snapshots/month, 60 requests/minute. Pro tier: 200 snapshots/month, 120 requests/minute. Enterprise: unlimited with custom rate limits. Rate-limited requests receive a 429 response with a Retry-After header indicating when to retry.",
   },
   {
     category: "api",
@@ -125,7 +125,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "billing",
     question: "How much does Pro cost?",
-    answer: "Pro is $29/month or $279/year (save 20% with annual billing). It includes all 18 programs, 200 snapshots/month, 20 projects, 5 team seats, and 300 requests/minute API rate limit. Each program can be purchased individually if you only need specific capabilities.",
+    answer: "Pro is $29/month or $279/year (save 20% with annual billing). It includes all 18 programs, 200 snapshots/month, 20 projects, 5 team seats, and 120 requests/minute API rate limit. Each program can be purchased individually if you only need specific capabilities.",
   },
   {
     category: "billing",
@@ -157,7 +157,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "technical",
     question: "What's the maximum upload size?",
-    answer: "The recommended maximum is 50MB for ZIP uploads and ~5,000 files for folder uploads. For very large repos, use the GitHub URL method which handles cloning more efficiently and respects .gitignore automatically. The API rejects individual requests over 100MB.",
+    answer: "Upload limits vary by tier: Free allows up to 5MB per file and 1,000 files per snapshot, Pro allows 50MB per file and 2,000 files, and Enterprise allows 100MB per file and 5,000 files. For very large repos, use the GitHub URL method which handles cloning more efficiently and respects .gitignore automatically.",
   },
   {
     category: "technical",
