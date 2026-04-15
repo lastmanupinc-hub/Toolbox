@@ -331,6 +331,27 @@ export async function handleCreateSnapshot(
     const quota = checkQuota(auth.account.account_id);
     /* v8 ignore start  -  quota exceeded path tested but V8 won't credit compound ternary */
     if (!quota.allowed) {
+      // Determine if the user is requesting ONLY free programs.
+      // If so, skip the MPP charge — return a clear 429 without payment flow.
+      const requestedProgramsFromOutputs = new Set<string>();
+      for (const output of manifest.requested_outputs) {
+        for (const [program, outputs] of Object.entries(PROGRAM_OUTPUTS)) {
+          if (outputs.includes(output)) requestedProgramsFromOutputs.add(program);
+        }
+      }
+      const onlyFreePrograms = requestedProgramsFromOutputs.size === 0 ||
+        [...requestedProgramsFromOutputs].every(p => FREE_PROGRAMS.has(p));
+
+      if (onlyFreePrograms) {
+        // Free-program-only requests: enforce quota limit but don't invoke MPP
+        sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", {
+          tier: quota.tier,
+          usage: quota.usage,
+          upgrade_url: "https://toolbox.jonathanarvay.com/#plans",
+        });
+        return;
+      }
+
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", { reason: quota.reason });
       const budget = parseAgentBudget(req);
       const mode = resolveAgentMode(req);

@@ -1,6 +1,7 @@
 import { useState, useRef, type FormEvent, type DragEvent } from "react";
 import { createSnapshot, analyzeGitHubUrl, ApiError, type SnapshotPayload, type SnapshotResponse } from "../api.ts";
 import { useToast } from "../components/Toast.tsx";
+import { UpsellModal } from "../components/UpsellModal.tsx";
 import { shouldIgnore, detectFrameworks, extractZip } from "../upload-utils.ts";
 
 interface Props {
@@ -230,10 +231,14 @@ export function UploadPage({ onComplete }: Props) {
         onComplete(result);
       } catch (err) {
         setLoadingStep("");
-        if (err instanceof ApiError && err.errorCode === "TIER_REQUIRED") {
-          setTierBlock({ blocked: err.extra.blocked_programs as string[] ?? [], allowed: err.extra.allowed_programs as string[] ?? [] });
+        if (err instanceof ApiError && (err.errorCode === "TIER_REQUIRED" || err.status === 402)) {
+          const blocked = (err.extra.blocked_programs as string[] | undefined) ?? [];
+          const allowed = (err.extra.allowed_programs as string[] | undefined) ?? ["search", "skills", "debug"];
+          setTierBlock({ blocked, allowed });
           setError(err.message);
-          toast("error", "Upgrade to Pro to unlock those programs");
+        } else if (err instanceof ApiError && (err.errorCode === "QUOTA_EXCEEDED" || err.status === 429)) {
+          setTierBlock({ blocked: [], allowed: ["search", "skills", "debug"] });
+          setError(err.message);
         } else {
           setTierBlock(null);
           const msg = err instanceof Error ? err.message : "GitHub analysis failed";
@@ -298,10 +303,14 @@ export function UploadPage({ onComplete }: Props) {
       onComplete(result);
     } catch (err) {
       setLoadingStep("");
-      if (err instanceof ApiError && err.errorCode === "TIER_REQUIRED") {
-        setTierBlock({ blocked: err.extra.blocked_programs as string[] ?? [], allowed: err.extra.allowed_programs as string[] ?? [] });
+      if (err instanceof ApiError && (err.errorCode === "TIER_REQUIRED" || err.status === 402)) {
+        const blocked = (err.extra.blocked_programs as string[] | undefined) ?? [];
+        const allowed = (err.extra.allowed_programs as string[] | undefined) ?? ["search", "skills", "debug"];
+        setTierBlock({ blocked, allowed });
         setError(err.message);
-        toast("error", "Upgrade to Pro to unlock those programs");
+      } else if (err instanceof ApiError && (err.errorCode === "QUOTA_EXCEEDED" || err.status === 429)) {
+        setTierBlock({ blocked: [], allowed: ["search", "skills", "debug"] });
+        setError(err.message);
       } else {
         setTierBlock(null);
         const msg = err instanceof Error ? err.message : "Upload failed";
@@ -604,6 +613,27 @@ export function UploadPage({ onComplete }: Props) {
           </button>
         </div>
       </form>
+
+      {/* ── Upsell modal (full-screen overlay) ────────────────────── */}
+      {tierBlock && (
+        <UpsellModal
+          blocked={tierBlock.blocked}
+          allowed={tierBlock.allowed}
+          onGoFree={() => {
+            const freeOutputs = selectedOutputs.filter((o) => {
+              const freeProgs = new Set(tierBlock.allowed);
+              return OUTPUT_OPTIONS.some((opt) => opt.value === o && freeProgs.has(opt.group.toLowerCase()));
+            });
+            setSelectedOutputs(freeOutputs.length > 0 ? freeOutputs : ESSENTIALS);
+            setError(null);
+            setTierBlock(null);
+          }}
+          onClose={() => {
+            setError(null);
+            setTierBlock(null);
+          }}
+        />
+      )}
     </div>
   );
 }
