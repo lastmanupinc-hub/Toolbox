@@ -117,7 +117,7 @@ router.get("/", async (_req, res) => {
     health: "/v1/health",
     llms: "/llms.txt",
     mcp: "/mcp",
-    endpoints: 76,
+    endpoints: 107,
     programs: 18,
     generators: 86,
   });
