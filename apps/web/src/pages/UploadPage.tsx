@@ -33,25 +33,25 @@ const OUTPUT_OPTIONS = [
   { value: ".ai/debug-playbook.md", label: "Debug Playbook", group: "Debug" },
   { value: "incident-template.md", label: "Incident Template", group: "Debug" },
   { value: "tracing-rules.md", label: "Tracing Rules", group: "Debug" },
-  { value: "dependency-hotspots.md", label: "Dependency Hotspots", group: "Debug" },
+  { value: "root-cause-checklist.md", label: "Root Cause Checklist", group: "Debug" },
   // Frontend (pro)
   { value: ".ai/frontend-rules.md", label: "Frontend Rules", group: "Frontend" },
   { value: "component-guidelines.md", label: "Component Guidelines", group: "Frontend" },
-  { value: "accessibility-checklist.md", label: "Accessibility Checklist", group: "Frontend" },
+  { value: "layout-patterns.md", label: "Layout Patterns", group: "Frontend" },
   // SEO (pro)
   { value: ".ai/seo-rules.md", label: "SEO Rules", group: "SEO" },
-  { value: "schema-recommendations.md", label: "Schema Recommendations", group: "SEO" },
-  { value: "sitemap-strategy.md", label: "Sitemap Strategy", group: "SEO" },
+  { value: "schema-recommendations.json", label: "Schema Recommendations", group: "SEO" },
+  { value: "route-priority-map.md", label: "Route Priority Map", group: "SEO" },
   // Optimization (pro)
   { value: ".ai/optimization-rules.md", label: "Optimization Rules", group: "Optimization" },
   { value: "prompt-diff-report.md", label: "Prompt Diff Report", group: "Optimization" },
   { value: "token-budget-plan.md", label: "Token Budget Plan", group: "Optimization" },
   // Theme (pro)
   { value: "theme.css", label: "Theme CSS", group: "Theme" },
-  { value: "design-tokens.json", label: "Design Tokens", group: "Theme" },
+  { value: ".ai/design-tokens.json", label: "Design Tokens", group: "Theme" },
   // Brand (pro)
   { value: "brand-guidelines.md", label: "Brand Guidelines", group: "Brand" },
-  { value: "messaging-system.md", label: "Messaging System", group: "Brand" },
+  { value: "messaging-system.yaml", label: "Messaging System", group: "Brand" },
   { value: "channel-rulebook.md", label: "Channel Rulebook", group: "Brand" },
   // Marketing (pro)
   { value: "campaign-brief.md", label: "Campaign Brief", group: "Marketing" },
@@ -59,7 +59,7 @@ const OUTPUT_OPTIONS = [
   { value: "cro-playbook.md", label: "CRO Playbook", group: "Marketing" },
   // MCP (pro)
   { value: "mcp-config.json", label: "MCP Config", group: "MCP" },
-  { value: "connector-map.md", label: "Connector Map", group: "MCP" },
+  { value: "connector-map.yaml", label: "Connector Map", group: "MCP" },
   // Superpowers (pro)
   { value: "superpower-pack.md", label: "Superpower Pack", group: "Superpowers" },
   { value: "test-generation-rules.md", label: "Test Generation Rules", group: "Superpowers" },
@@ -76,12 +76,12 @@ const OUTPUT_OPTIONS = [
   { value: "scene-plan.md", label: "Scene Plan", group: "Remotion" },
   { value: "render-config.json", label: "Render Config", group: "Remotion" },
   // Artifacts (pro)
-  { value: "component.tsx", label: "Component", group: "Artifacts" },
+  { value: "generated-component.tsx", label: "Component", group: "Artifacts" },
   { value: "dashboard-widget.tsx", label: "Dashboard Widget", group: "Artifacts" },
   // Canvas (pro)
-  { value: "canvas-pack.md", label: "Canvas Pack", group: "Canvas" },
+  { value: "canvas-spec.json", label: "Canvas Spec", group: "Canvas" },
   // Algorithmic (pro)
-  { value: "generative-sketch.js", label: "Generative Sketch", group: "Algorithmic" },
+  { value: "generative-sketch.ts", label: "Generative Sketch", group: "Algorithmic" },
   { value: "parameter-pack.json", label: "Parameter Pack", group: "Algorithmic" },
 ];
 
@@ -192,6 +192,25 @@ export function UploadPage({ onComplete }: Props) {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
+    // Client-side pre-check: catch pro program selection before the network round-trip
+    const FREE_GROUPS = new Set(["Search", "Skills", "Debug"]);
+    const proSelected = selectedOutputs
+      .map((v) => OUTPUT_OPTIONS.find((o) => o.value === v))
+      .filter((o) => o && !FREE_GROUPS.has(o.group))
+      .map((o) => o!.group.toLowerCase());
+    const uniqueProPrograms = [...new Set(proSelected)].sort();
+
+    if (uniqueProPrograms.length > 0 && !localStorage.getItem("axis_api_key")) {
+      // Anonymous user trying pro programs — show upsell immediately
+      setTierBlock({
+        blocked: uniqueProPrograms,
+        allowed: ["search", "skills", "debug"],
+      });
+      setError(`Free tier includes 3 programs (search, skills, debug). Sign up or upgrade to Pro to unlock: ${uniqueProPrograms.join(", ")}.`);
+      toast("error", "Upgrade to Pro to unlock those programs");
+      return;
+    }
 
     if (mode === "github") {
       if (!githubUrl.trim()) {
