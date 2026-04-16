@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-16T14:25:25.196Z",
-  "total_symbols": 1771,
+  "generated_at": "2026-04-16T18:58:44.952Z",
+  "total_symbols": 1772,
   "file_count": 233,
   "symbols": {
     "apps/api/src/admin.test.ts": [
@@ -1138,14 +1138,19 @@
         "line": 91
       },
       {
-        "name": "log",
+        "name": "shouldEmitRuntimeLogs",
         "type": "function",
         "line": 95
       },
       {
+        "name": "log",
+        "type": "function",
+        "line": 99
+      },
+      {
         "name": "entry",
         "type": "const",
-        "line": 102
+        "line": 107
       }
     ],
     "apps/api/src/logging.test.ts": [
@@ -1626,187 +1631,187 @@
       {
         "name": "getMcpCallCounters",
         "type": "function",
-        "line": 129
+        "line": 131
       },
       {
         "name": "JsonRpcRequest",
         "type": "interface",
-        "line": 143
+        "line": 145
       },
       {
         "name": "RpcSuccess",
         "type": "interface",
-        "line": 150
+        "line": 152
       },
       {
         "name": "RpcError",
         "type": "interface",
-        "line": 156
+        "line": 158
       },
       {
         "name": "RpcResponse",
         "type": "type",
-        "line": 162
+        "line": 164
       },
       {
         "name": "rpcOk",
         "type": "function",
-        "line": 513
+        "line": 515
       },
       {
         "name": "rpcErr",
         "type": "function",
-        "line": 517
+        "line": 519
       },
       {
         "name": "toolOk",
         "type": "function",
-        "line": 525
+        "line": 527
       },
       {
         "name": "toolErr",
         "type": "function",
-        "line": 529
+        "line": 531
       },
       {
         "name": "ErrorCategory",
         "type": "type",
-        "line": 533
+        "line": 535
       },
       {
         "name": "categorizeError",
         "type": "function",
-        "line": 535
+        "line": 537
       },
       {
         "name": "filterGeneratorsByEntitlement",
         "type": "function",
-        "line": 557
+        "line": 559
       },
       {
         "name": "runAnalyzeFiles",
         "type": "function",
-        "line": 573
+        "line": 575
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 632
+        "line": 634
       },
       {
         "name": "runAnalyzeRepo",
         "type": "function",
-        "line": 702
+        "line": 704
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 756
+        "line": 758
       },
       {
         "name": "runSearchTools",
         "type": "function",
-        "line": 849
+        "line": 851
       },
       {
         "name": "runDiscoverAgenticCommerceTools",
         "type": "function",
-        "line": 933
+        "line": 935
       },
       {
         "name": "runImproveMyAgent",
         "type": "function",
-        "line": 984
+        "line": 986
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1030
+        "line": 1032
       },
       {
         "name": "runDiscoverAgenticPurchasingNeeds",
         "type": "function",
-        "line": 1197
+        "line": 1199
       },
       {
         "name": "runGetReferralCode",
         "type": "function",
-        "line": 1328
+        "line": 1330
       },
       {
         "name": "runCheckReferralCredits",
         "type": "function",
-        "line": 1357
+        "line": 1359
       },
       {
         "name": "runListPrograms",
         "type": "function",
-        "line": 1387
+        "line": 1389
       },
       {
         "name": "runGetSnapshot",
         "type": "function",
-        "line": 1425
+        "line": 1427
       },
       {
         "name": "runGetArtifact",
         "type": "function",
-        "line": 1468
+        "line": 1470
       },
       {
         "name": "runPreparePurchasing",
         "type": "function",
-        "line": 1504
+        "line": 1506
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1583
+        "line": 1585
       },
       {
         "name": "dispatch",
         "type": "function",
-        "line": 1812
+        "line": 1814
       },
       {
         "name": "toolArgs",
         "type": "function",
-        "line": 1843
+        "line": 1845
       },
       {
         "name": "ip",
         "type": "function",
-        "line": 1849
+        "line": 1851
       },
       {
         "name": "handleMcpPost",
         "type": "function",
-        "line": 1922
+        "line": 1924
       },
       {
         "name": "INCENTIVES_BLOCK",
         "type": "const",
-        "line": 1999
+        "line": 2001
       },
       {
         "name": "handleMcpGet",
         "type": "function",
-        "line": 2035
+        "line": 2037
       },
       {
         "name": "handleMcpDocs",
         "type": "function",
-        "line": 2044
+        "line": 2046
       },
       {
         "name": "getMcpServerMeta",
         "type": "function",
-        "line": 2091
+        "line": 2093
       },
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 2156
+        "line": 2158
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [
@@ -1966,82 +1971,82 @@
       {
         "name": "AnyMppx",
         "type": "type",
-        "line": 33
+        "line": 34
       },
       {
         "name": "CacheKey",
         "type": "type",
-        "line": 35
+        "line": 36
       },
       {
         "name": "getMppx",
         "type": "function",
-        "line": 38
+        "line": 39
       },
       {
         "name": "ChargeOptions",
         "type": "type",
-        "line": 77
+        "line": 78
       },
       {
         "name": "MppResult",
         "type": "type",
-        "line": 91
+        "line": 92
       },
       {
         "name": "AgentBudget",
         "type": "interface",
-        "line": 95
+        "line": 96
       },
       {
         "name": "PricingTier",
         "type": "interface",
-        "line": 103
+        "line": 104
       },
       {
         "name": "getPricingTier",
         "type": "function",
-        "line": 143
+        "line": 144
       },
       {
         "name": "negotiatePrice",
         "type": "function",
-        "line": 147
+        "line": 148
       },
       {
         "name": "build402NegotiationBody",
         "type": "function",
-        "line": 173
+        "line": 174
       },
       {
         "name": "parseAgentBudget",
         "type": "function",
-        "line": 231
+        "line": 232
       },
       {
         "name": "budget",
         "type": "const",
-        "line": 236
+        "line": 237
       },
       {
         "name": "resolveAgentMode",
         "type": "function",
-        "line": 259
+        "line": 260
       },
       {
         "name": "toAscii",
         "type": "function",
-        "line": 275
+        "line": 276
       },
       {
         "name": "chargeMpp",
         "type": "function",
-        "line": 279
+        "line": 280
       },
       {
         "name": "resetMppxCache",
         "type": "function",
-        "line": 346
+        "line": 353
       }
     ],
     "apps/api/src/multi-tenancy.test.ts": [
@@ -3109,57 +3114,57 @@
       {
         "name": "CliArgs",
         "type": "interface",
-        "line": 9
+        "line": 10
       },
       {
         "name": "parseArgs",
         "type": "function",
-        "line": 17
+        "line": 18
       },
       {
         "name": "result",
         "type": "const",
-        "line": 19
+        "line": 20
       },
       {
         "name": "printHelp",
         "type": "function",
-        "line": 58
+        "line": 59
       },
       {
         "name": "printVersion",
         "type": "function",
-        "line": 87
+        "line": 88
       },
       {
         "name": "printPrograms",
         "type": "function",
-        "line": 91
+        "line": 92
       },
       {
         "name": "handleAuth",
         "type": "function",
-        "line": 114
+        "line": 115
       },
       {
         "name": "main",
         "type": "function",
-        "line": 151
+        "line": 152
       },
       {
         "name": "formatBytes",
         "type": "function",
-        "line": 240
+        "line": 241
       },
       {
         "name": "runGitHub",
         "type": "function",
-        "line": 246
+        "line": 247
       },
       {
         "name": "scan",
         "type": "const",
-        "line": 283
+        "line": 284
       }
     ],
     "apps/cli/src/credential-store.ts": [
@@ -3313,97 +3318,97 @@
       {
         "name": "storageMock",
         "type": "const",
-        "line": 41
+        "line": 42
       },
       {
         "name": "mockFetch",
         "type": "function",
-        "line": 50
+        "line": 51
       },
       {
         "name": "response",
         "type": "const",
-        "line": 154
+        "line": 157
       },
       {
         "name": "payload",
         "type": "const",
-        "line": 158
+        "line": 161
       },
       {
         "name": "response",
         "type": "const",
-        "line": 176
+        "line": 179
       },
       {
         "name": "response",
         "type": "const",
-        "line": 188
+        "line": 191
       },
       {
         "name": "response",
         "type": "const",
-        "line": 204
+        "line": 207
       },
       {
         "name": "response",
         "type": "const",
-        "line": 220
+        "line": 223
       },
       {
         "name": "response",
         "type": "const",
-        "line": 406
+        "line": 409
       },
       {
         "name": "response",
         "type": "const",
-        "line": 430
+        "line": 433
       },
       {
         "name": "fakeAnchor",
         "type": "const",
-        "line": 447
+        "line": 450
       },
       {
         "name": "fakeAnchor",
         "type": "const",
-        "line": 478
+        "line": 481
       },
       {
         "name": "response",
         "type": "const",
-        "line": 510
+        "line": 513
       },
       {
         "name": "response",
         "type": "const",
-        "line": 545
+        "line": 548
       },
       {
         "name": "response",
         "type": "const",
-        "line": 577
+        "line": 580
       },
       {
         "name": "response",
         "type": "const",
-        "line": 587
+        "line": 590
       },
       {
         "name": "response",
         "type": "const",
-        "line": 603
+        "line": 606
       },
       {
         "name": "response",
         "type": "const",
-        "line": 622
+        "line": 625
       },
       {
         "name": "response",
         "type": "const",
-        "line": 654
+        "line": 657
       }
     ],
     "apps/web/src/api.ts": [

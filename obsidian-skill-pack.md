@@ -66,7 +66,7 @@ Reusable AI prompt fragments for this project context:
 ```
 I'm working on axis-iliad, a monorepo built with TypeScript.
 Stack: React.
-Conventions: TypeScript strict mode; pnpm workspaces.
+Conventions: TypeScript strict mode.
 ```
 
 ### Code Review Prompt

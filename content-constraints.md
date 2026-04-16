@@ -46,7 +46,6 @@ When using AI to generate content for this project:
 Detected from codebase analysis — enforce in all generated content:
 
 - TypeScript strict mode
-- pnpm workspaces
 
 ## Controlled Terminology
 

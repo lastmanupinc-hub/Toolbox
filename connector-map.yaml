@@ -1,6 +1,6 @@
 # Connector Map
 # Project: axis-iliad
-# Generated: 2026-04-16T14:25:25.077Z
+# Generated: 2026-04-16T18:58:44.847Z
 # Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 connectors:
@@ -32,15 +32,6 @@ connectors:
       - build_trigger
       - test_execution
       - deployment
-  - id: npm_registry
-    name: npm Registry
-    type: package_registry
-    protocol: https
-    status: available
-    capabilities:
-      - package_publish
-      - version_check
-      - audit
   - id: sqlite
     name: SQLite
     type: database
@@ -274,6 +265,6 @@ detected_configs:
   - path: ".github/workflows/ci.yml"
     size: 4583
   - path: "docker-compose.yml"
-    size: 2048
+    size: 2051
   - path: "Dockerfile"
     size: 4418

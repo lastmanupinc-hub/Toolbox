@@ -16,7 +16,6 @@ This is a **monorepo** built with **TypeScript**.
 ### Conventions
 
 - TypeScript strict mode
-- pnpm workspaces
 
 ### Key Directories
 
@@ -118,7 +117,10 @@ When working in this codebase:
 - Use strict TypeScript. Avoid `any` types.
 - Prefer functional components with hooks over class components.
 - Run tests with vitest before committing.
-- Use `pnpm` for dependency management. Do not mix package managers.
+
+## Known Issues
+
+- No lockfile found — dependency versions may be inconsistent
 
 ## Architecture Boundaries
 

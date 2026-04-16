@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-iliad
 
-> monorepo | TypeScript | 500 files | 123,123 LOC
+> monorepo | TypeScript | 500 files | 123,223 LOC
 
 **Stack:** React ^19.1.0
 
@@ -16,7 +16,7 @@
 - [ ] What is the minimum input/state to trigger it?
 - [ ] Does it reproduce in all environments (dev, staging, prod)?
 - [ ] Is it timing-dependent (race condition, timeout)?
-- [ ] `pnpm test` — do existing tests pass? (vitest)
+- [ ] `npm test` — do existing tests pass? (vitest)
 
 ## Step 2: Isolation
 
@@ -234,7 +234,7 @@ High-coupling files are more likely to be involved in cross-cutting bugs:
 ## Step 6: Verification
 
 - [ ] Does the fix resolve the original reproduction case?
-- [ ] Do all existing tests still pass? (`pnpm test`)
+- [ ] Do all existing tests still pass? (`npm test`)
 - [ ] Is a new test added for this specific failure mode?
 - [ ] Has the fix been reviewed for side effects on 7 coupled hotspot files?
 - [ ] Does CI pass? (github_actions)
@@ -416,8 +416,8 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
  * @vitest-environment happy-dom
  */
 
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
 
 // ─── Zero-prop page smoke tests ─────────────────────────────────
 // Each test renders the page and verifies it mounts without throwing.
@@ -430,12 +430,12 @@ import { InstallPage } from "./pages/InstallPage";
 import { QAPage } from "./pages/QAPage";
 import { TermsPage } from "./pages/TermsPage";
 
-describe("Page smoke tests — zero-prop pages", () => {
-  it("DocsPage renders without crashing", () => {
-    const { container } = render(<DocsPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
+beforeEach(() => {
+  vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+    const url = String(input);
 
-  it("ExamplesPage renders without crashing", () => {
-... (92 more lines)
+    if (url.endsWith("/v1/plans")) {
+      return {
+        ok: true,
+... (125 more lines)
 ```

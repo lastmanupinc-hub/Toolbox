@@ -7,9 +7,9 @@
 | Metric | Value |
 |--------|-------|
 | Total files | 500 |
-| Total LOC | 123,123 |
+| Total LOC | 123,223 |
 | Average LOC / file | 246 |
-| Estimated token count | ~554,054 |
+| Estimated token count | ~554,504 |
 
 **Warning:** This project exceeds most context windows. Use selective context loading.
 
@@ -55,7 +55,6 @@ These file types add noise without architectural value:
 Include these as system-level constraints when generating code:
 
 - TypeScript strict mode
-- pnpm workspaces
 
 ## Architecture Patterns
 
@@ -63,6 +62,10 @@ Reference these patterns in prompts for architectural consistency:
 
 - monorepo
 - containerized
+
+## Optimization Warnings
+
+- ⚠️ No lockfile found — dependency versions may be inconsistent
 
 ## Configuration Files (Include in Prompts)
 
@@ -161,10 +164,12 @@ Reference these patterns in prompts for architectural consistency:
 ```
 .github/workflows/ci.yml (4.5 KB)
 .gitignore (0.2 KB)
+.tmp_changed_count.txt (0.0 KB)
+.tmp_toolbox_grouped.txt (0.0 KB)
 .vitest-e2e.json (13.0 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
-AGENTS.md (14.2 KB)
+AGENTS.md (14.1 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
@@ -211,16 +216,16 @@ apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
 apps/api/src/handlers.ts (145.3 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
-apps/api/src/logger.test.ts (3.5 KB)
-apps/api/src/logger.ts (2.9 KB)
+apps/api/src/logger.test.ts (3.7 KB)
+apps/api/src/logger.ts (3.1 KB)
 apps/api/src/logging.test.ts (8.5 KB)
 apps/api/src/mcp-server.test.ts (77.8 KB)
-apps/api/src/mcp-server.ts (94.9 KB)
+apps/api/src/mcp-server.ts (95.0 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
-apps/api/src/mpp.ts (13.6 KB)
+apps/api/src/mpp.ts (13.8 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
 apps/api/src/oauth-server-simple.ts (5.7 KB)
 apps/api/src/oauth-server.ts (8.1 KB)
@@ -263,7 +268,7 @@ apps/cli/src/cli-commands.test.ts (8.7 KB)
 apps/cli/src/cli-edge-cases.test.ts (14.4 KB)
 apps/cli/src/cli-pipeline.test.ts (9.3 KB)
 apps/cli/src/cli.test.ts (13.9 KB)
-apps/cli/src/cli.ts (9.7 KB)
+apps/cli/src/cli.ts (9.9 KB)
 apps/cli/src/credential-store.test.ts (8.4 KB)
 apps/cli/src/credential-store.ts (3.2 KB)
 apps/cli/src/determinism.test.ts (6.9 KB)
@@ -275,7 +280,7 @@ apps/cli/tsconfig.json (0.4 KB)
 apps/web/index.html (6.9 KB)
 apps/web/package.json (0.5 KB)
 apps/web/public/robots.txt (0.8 KB)
-apps/web/src/api.test.ts (23.8 KB)
+apps/web/src/api.test.ts (23.9 KB)
 apps/web/src/api.ts (18.5 KB)
 apps/web/src/App.tsx (16.1 KB)
 apps/web/src/components/AxisIcons.tsx (8.9 KB)
@@ -292,7 +297,7 @@ apps/web/src/components/Toast.tsx (3.8 KB)
 apps/web/src/components/UpsellModal.tsx (5.2 KB)
 apps/web/src/index.css (18.5 KB)
 apps/web/src/main.tsx (0.2 KB)
-apps/web/src/pages.test.tsx (4.4 KB)
+apps/web/src/pages.test.tsx (5.1 KB)
 apps/web/src/pages/AccountPage.tsx (23.8 KB)
 apps/web/src/pages/DashboardPage.tsx (8.2 KB)
 apps/web/src/pages/DocsPage.tsx (71.1 KB)
@@ -311,7 +316,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (72.0 KB)
+architecture-summary.md (73.3 KB)
 artifact-spec.md (7.8 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -327,14 +332,14 @@ AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 begin.yaml (14.7 KB)
 brand-board.md (5.0 KB)
-brand-guidelines.md (3.3 KB)
+brand-guidelines.md (3.0 KB)
 brand/begin.yaml (1.8 KB)
 brand/continuation.yaml (2.4 KB)
 brand/MEMORY.yaml (3.0 KB)
 brand/schemas/output-contract.schema.json (1.8 KB)
-campaign-brief.md (2.5 KB)
+campaign-brief.md (2.3 KB)
 canvas-pack.md (9.7 KB)
-canvas-spec.json (4.0 KB)
+canvas-spec.json (3.8 KB)
 canvas/begin.yaml (1.8 KB)
 canvas/continuation.yaml (2.4 KB)
 canvas/MEMORY.yaml (2.8 KB)
@@ -345,7 +350,7 @@ CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.8 KB)
+CLAUDE.md (10.0 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
@@ -365,7 +370,7 @@ cov6.txt (218.4 KB)
 cov7.txt (219.0 KB)
 cov8.txt (219.5 KB)
 coverage-full.txt (249.9 KB)
-cro-playbook.md (34.2 KB)
+cro-playbook.md (35.7 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.4 KB)
@@ -373,14 +378,14 @@ debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
-dependency-hotspots.md (8.2 KB)
+dependency-hotspots.md (8.1 KB)
 docker-compose.yml (2.0 KB)
 Dockerfile (4.3 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
 e2e_wiring_audit.mjs (46.9 KB)
 e2e_wiring_audit.yaml (31.5 KB)
-embed-snippet.ts (2.2 KB)
+embed-snippet.ts (2.0 KB)
 examples/01-paid-platform/generated/AGENTS.md (1.9 KB)
 examples/01-paid-platform/generated/CLAUDE.md (0.9 KB)
 examples/01-paid-platform/README.md (0.9 KB)
@@ -412,7 +417,7 @@ generative-sketch.ts (4.1 KB)
 graph-prompt-map.json (47.0 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
-incident-template.md (19.9 KB)
+incident-template.md (19.8 KB)
 launch-checklist.md (3.9 KB)
 launch-content.md (6.0 KB)
 layout-patterns.md (2.5 KB)
@@ -423,14 +428,14 @@ marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (11.7 KB)
+mcp-config.json (12.7 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
 mcp/schemas/output-contract.schema.json (1.8 KB)
 memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
-meta-tag-audit.json (26.5 KB)
+meta-tag-audit.json (24.5 KB)
 negotiation-rules.md (7.6 KB)
 notebook-summary.md (3.6 KB)
 notebook/begin.yaml (1.8 KB)
@@ -657,8 +662,6 @@ payment-processing-output/vault-rules.md (2.1 KB)
 payment-processing-output/voice-and-tone.md (2.5 KB)
 payment-processing-output/workflow-pack.md (2.0 KB)
 payment-processing-output/workflow-registry.json (1.8 KB)
-pnpm-lock.yaml (0.0 KB)
-pnpm-workspace.yaml (0.1 KB)
 ```
 
 ## Hotspot File Excerpts
@@ -732,8 +735,8 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
  * @vitest-environment happy-dom
  */
 
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
 
 // ─── Zero-prop page smoke tests ─────────────────────────────────
 // Each test renders the page and verifies it mounts without throwing.
@@ -746,12 +749,12 @@ import { InstallPage } from "./pages/InstallPage";
 import { QAPage } from "./pages/QAPage";
 import { TermsPage } from "./pages/TermsPage";
 
-describe("Page smoke tests — zero-prop pages", () => {
-  it("DocsPage renders without crashing", () => {
-    const { container } = render(<DocsPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
+beforeEach(() => {
+  vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+    const url = String(input);
 
-  it("ExamplesPage renders without crashing", () => {
-... (92 more lines)
+    if (url.endsWith("/v1/plans")) {
+      return {
+        ok: true,
+... (125 more lines)
 ```

@@ -20,13 +20,13 @@ Copy-paste-ready commands for common high-value operations:
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Build
-pnpm run build
+npm run build
 
 # Dev server
-pnpm run dev
+npm run dev
 ```
 
 ### Testing
@@ -69,7 +69,6 @@ npx vitest run --coverage
 - [ ] Import graph doesn't create new circular dependencies
 - [ ] Changes follow detected conventions:
   - TypeScript strict mode
-  - pnpm workspaces
 
 ## Planning Template
 
@@ -155,8 +154,8 @@ import type { SnapshotResponse } from "./api.ts";
  * @vitest-environment happy-dom
  */
 
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
 
 // ─── Zero-prop page smoke tests ─────────────────────────────────
 // Each test renders the page and verifies it mounts without throwing.
@@ -169,7 +168,7 @@ import { InstallPage } from "./pages/InstallPage";
 import { QAPage } from "./pages/QAPage";
 import { TermsPage } from "./pages/TermsPage";
 
-describe("Page smoke tests — zero-prop pages", () => {
-  it("DocsPage renders without crashing", () => {
-... (97 more lines)
+beforeEach(() => {
+  vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+... (130 more lines)
 ```

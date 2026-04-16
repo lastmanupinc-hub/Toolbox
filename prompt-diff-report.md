@@ -21,7 +21,7 @@ Use dependency hotspot analysis to select the 7 highest-signal files instead of 
 
 ### Convention Compliance
 
-Embed 2 detected conventions as system-level constraints in every code generation prompt.
+Embed 1 detected conventions as system-level constraints in every code generation prompt.
 
 ### Dependency Awareness
 
@@ -37,7 +37,7 @@ Include route map (473 routes) in prompts when working on API or page code to pr
 
 ## Token Budget Guidance
 
-Estimated full-project tokens: ~554,054
+Estimated full-project tokens: ~554,504
 
 **Selective context required.** Use this priority order:
 1. Active file being modified

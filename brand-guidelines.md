@@ -85,7 +85,7 @@ This project uses: React
 
 ## Existing Brand Assets
 
-- `CONTRIBUTING.md` (3185 bytes)
+- `CONTRIBUTING.md` (3191 bytes)
 - `examples/01-paid-platform/README.md` (947 bytes)
 - `examples/02-axis-scalpel/README.md` (724 bytes)
 - `examples/03-spacey/README.md` (748 bytes)

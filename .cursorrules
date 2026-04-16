@@ -17,10 +17,6 @@ class_components = false
 test_framework = "vitest"
 test_before_commit = true
 
-# === Tooling ===
-package_manager = "pnpm"
-ci = "github_actions"
-
 # === Architecture Boundaries ===
 # presentation: apps, frontend
 
@@ -49,11 +45,12 @@ ci = "github_actions"
 
 # === Detected Conventions ===
 # - TypeScript strict mode
-# - pnpm workspaces
 
 # === Project File Tree ===
 # .github/workflows/ci.yml
 # .gitignore
+# .tmp_changed_count.txt
+# .tmp_toolbox_grouped.txt
 # .vitest-e2e.json
 # ab-test-plan.md
 # agent-purchasing-playbook.md
@@ -100,8 +97,6 @@ ci = "github_actions"
 # apps/api/src/github.ts
 # apps/api/src/handler-edge-cases.test.ts
 # apps/api/src/handler-shutdown.test.ts
-# apps/api/src/handler-validation.test.ts
-# apps/api/src/handlers-deep.test.ts
 # ... and 450 more files
 
 # === Key Entry Points ===

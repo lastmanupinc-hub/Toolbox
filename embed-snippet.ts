@@ -13,10 +13,10 @@ export const PROJECT_CONTEXT = {
 
 export const CONVENTIONS = [
   "TypeScript strict mode",
-  "pnpm workspaces",
 ] as const;
 
 export const WARNINGS = [
+  "No lockfile found — dependency versions may be inconsistent",
 ] as const;
 
 export const KEY_ABSTRACTIONS = [

@@ -1,6 +1,6 @@
 # Dependency Hotspots — axis-iliad
 
-Generated: 2026-04-16T14:25:25.097Z
+Generated: 2026-04-16T18:58:44.864Z
 
 ## Project Overview
 
@@ -221,8 +221,8 @@ function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: numb
  * @vitest-environment happy-dom
  */
 
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
 
 // ─── Zero-prop page smoke tests ─────────────────────────────────
 // Each test renders the page and verifies it mounts without throwing.
@@ -235,12 +235,12 @@ import { InstallPage } from "./pages/InstallPage";
 import { QAPage } from "./pages/QAPage";
 import { TermsPage } from "./pages/TermsPage";
 
-describe("Page smoke tests — zero-prop pages", () => {
-  it("DocsPage renders without crashing", () => {
-    const { container } = render(<DocsPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
+beforeEach(() => {
+  vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+    const url = String(input);
 
-  it("ExamplesPage renders without crashing", () => {
-... (92 more lines)
+    if (url.endsWith("/v1/plans")) {
+      return {
+        ok: true,
+... (125 more lines)
 ```

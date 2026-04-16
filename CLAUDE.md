@@ -6,10 +6,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Commands
 
-- **Install:** `pnpm install`
-- **Build:** `pnpm run build`
-- **Test:** `pnpm test`
-- **Dev:** `pnpm run dev`
+- **Install:** `npm install`
+- **Build:** `npm run build`
+- **Test:** `npm test`
+- **Dev:** `npm run dev`
 
 ## Stack
 
@@ -31,7 +31,6 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ## Conventions
 
 - TypeScript strict mode
-- pnpm workspaces
 
 ## Do NOT
 
@@ -67,6 +66,10 @@ Detected domain model contracts:
 | `AppHandle` | interface | 3 | apps/api/src/router.ts |
 | `Route` | interface | 4 | apps/api/src/router.ts |
 | *… 142 more* | | | |
+
+## Warnings
+
+- No lockfile found — dependency versions may be inconsistent
 
 ## Key Source Files
 

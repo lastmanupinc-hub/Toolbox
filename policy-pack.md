@@ -14,7 +14,6 @@ rules:
   - no_stub_implementations: true
   - no_placeholder_data: true
   - convention: "TypeScript strict mode"
-  - convention: "pnpm workspaces"
 ```
 
 ## Policy: Boundary Enforcement
@@ -55,6 +54,12 @@ rules:
   - no_skipped_tests_in_ci: true
   - test_frameworks: [vitest]
 ```
+
+## Policy: Known Warnings
+
+These project-specific warnings must be addressed in all AI-generated code:
+
+- ⚠️ No lockfile found — dependency versions may be inconsistent
 
 ## Policy: Framework-Specific Rules
 

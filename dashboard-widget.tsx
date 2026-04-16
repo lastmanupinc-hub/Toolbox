@@ -84,6 +84,9 @@ export default DashboardWidget;
 // Layer boundaries: 1
 //   presentation (2 dirs)
 
+// ─── Warnings ───
+// ⚠ No lockfile found — dependency versions may be inconsistent
+
 // Source file metrics
 // Total source files scanned: 500
 // Config files: apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json
