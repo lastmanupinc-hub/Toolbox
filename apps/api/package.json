@@ -7,7 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/context-engine": "workspace:*",
