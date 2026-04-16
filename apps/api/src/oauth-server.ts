@@ -44,7 +44,7 @@ try {
 } catch (error) {
   // Fallback for test environments and containers without keys - generate temporary keys
   if (process.env.NODE_ENV === "test" || process.env.DOCKER_CONTAINER === "true" || !process.env.JWT_PRIVATE_KEY) {
-    const { privateKey, publicKey } = require("crypto").generateKeyPairSync("rsa", {
+    const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
       modulusLength: 2048,
       publicKeyEncoding: { type: "spki", format: "pem" },
       privateKeyEncoding: { type: "pkcs8", format: "pem" },
