@@ -10,6 +10,7 @@
 [![API](https://img.shields.io/badge/API-live-blue)](https://axis-api-6c7z.onrender.com/v1/health)
 [![Version](https://img.shields.io/badge/version-0.5.0-blue)](https://github.com/lastmanupinc-hub/axis-iliad/releases)
 [![License](https://img.shields.io/badge/license-private-lightgrey)](#license)
+[![AXIS-iliad MCP server](https://glama.ai/mcp/servers/lastmanupinc-hub/AXIS-iliad/badges/card.svg)](https://glama.ai/mcp/servers/lastmanupinc-hub/AXIS-iliad)
 
 ---
 
