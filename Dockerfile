@@ -57,7 +57,9 @@ RUN echo "node-linker=hoisted" > .npmrc
 
 # Copy built artifacts and production dependencies
 COPY --from=builder /app/package.json /app/pnpm-workspace.yaml /app/pnpm-lock.yaml ./
-COPY --from=builder /app/private-key.pem /app/public-key.pem ./
+# Copy OAuth keys if they exist (OAuth server handles missing keys gracefully)
+RUN if [ -f /app/private-key.pem ]; then cp /app/private-key.pem ./; fi && \
+    if [ -f /app/public-key.pem ]; then cp /app/public-key.pem ./; fi
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/api/package.json apps/api/package.json
 COPY --from=builder /app/apps/api/dist apps/api/dist
