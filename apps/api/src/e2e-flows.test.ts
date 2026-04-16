@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import type { Server } from "node:http";
+import { once } from "node:events";
 import { openMemoryDb, closeDb, saveGenerationVersion } from "@axis/snapshots";
 import { Router, createApp } from "./router.js";
 import {
@@ -64,8 +65,8 @@ async function req(
 }
 
 // ── Server setup ────────────────────────────────────────────────
-const PORT = 44450;
-let server: Server;
+let PORT = 0;
+let server: Server | undefined;
 
 const testPayload = {
   input_method: "api_submission" as const,
@@ -139,12 +140,23 @@ beforeAll(async () => {
   router.post("/v1/account/webhooks/:webhook_id/toggle", handleToggleWebhook);
   router.get("/v1/account/webhooks/:webhook_id/deliveries", handleWebhookDeliveries);
 
-  server = createApp(router, PORT);
-  await new Promise<void>((r) => setTimeout(r, 100));
+  server = createApp(router, 0);
+  if (!server.listening) {
+    await once(server, "listening");
+  }
+  const addr = server.address();
+  if (!addr || typeof addr === "string") {
+    throw new Error("Failed to resolve test server address");
+  }
+  PORT = addr.port;
 });
 
 afterAll(async () => {
-  await new Promise<void>((resolve, reject) => server.close((err) => err ? reject(err) : resolve()));
+  if (server?.listening) {
+    await new Promise<void>((resolve, reject) =>
+      server!.close((err) => (err ? reject(err) : resolve())),
+    );
+  }
   closeDb();
 });
 
@@ -221,6 +233,7 @@ describe("Flow 2: version history (generate → re-generate → list → diff)",
   });
 
   it("seeds generation versions for testing", () => {
+    expect(snapshotId).toBeTruthy();
     saveGenerationVersion(snapshotId, [
       { path: "AGENTS.md", content: "# Agents v1" },
       { path: "CLAUDE.md", content: "# Claude v1" },
