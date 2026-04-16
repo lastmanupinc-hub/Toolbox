@@ -8,17 +8,42 @@ import { sendJSON, sendError } from "./router.js";
 import { ErrorCode } from "./logger.js";
 import type { Account } from "@axis/snapshots";
 
-// JWT configuration - read from .pem files in project root, with fallback for tests
+// JWT configuration - read from .pem files in project root, with fallback for tests and containers
 let JWT_PRIVATE_KEY: string;
 let JWT_PUBLIC_KEY: string;
 const JWT_ALGORITHM = "RS256";
 
 try {
-  JWT_PRIVATE_KEY = fs.readFileSync(path.join(process.cwd(), "..", "..", "private-key.pem"), "utf8");
-  JWT_PUBLIC_KEY = fs.readFileSync(path.join(process.cwd(), "..", "..", "public-key.pem"), "utf8");
+  // Try multiple possible locations for key files
+  const possiblePaths = [
+    path.join(process.cwd(), "..", "..", "private-key.pem"), // From apps/api/src
+    path.join(process.cwd(), "..", "private-key.pem"),       // From apps/api
+    path.join(process.cwd(), "private-key.pem"),             // From project root
+    "/app/private-key.pem",                                   // Docker absolute path
+  ];
+
+  let privateKeyPath: string | null = null;
+  let publicKeyPath: string | null = null;
+
+  for (const keyPath of possiblePaths) {
+    if (fs.existsSync(keyPath)) {
+      privateKeyPath = keyPath;
+      publicKeyPath = keyPath.replace("private-key.pem", "public-key.pem");
+      if (fs.existsSync(publicKeyPath)) {
+        break;
+      }
+    }
+  }
+
+  if (!privateKeyPath || !publicKeyPath) {
+    throw new Error("JWT key files not found");
+  }
+
+  JWT_PRIVATE_KEY = fs.readFileSync(privateKeyPath, "utf8");
+  JWT_PUBLIC_KEY = fs.readFileSync(publicKeyPath, "utf8");
 } catch (error) {
-  // Fallback for test environments - generate temporary keys
-  if (process.env.NODE_ENV === "test") {
+  // Fallback for test environments and containers without keys - generate temporary keys
+  if (process.env.NODE_ENV === "test" || process.env.DOCKER_CONTAINER === "true" || !process.env.JWT_PRIVATE_KEY) {
     const { privateKey, publicKey } = require("crypto").generateKeyPairSync("rsa", {
       modulusLength: 2048,
       publicKeyEncoding: { type: "spki", format: "pem" },
