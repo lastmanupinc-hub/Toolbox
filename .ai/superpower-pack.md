@@ -1,10 +1,10 @@
-# Superpower Pack — axis-toolbox
+# Superpower Pack — axis-iliad
 
 > High-leverage development workflows for a monorepo (TypeScript)
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 

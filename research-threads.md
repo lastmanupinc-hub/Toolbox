@@ -1,4 +1,4 @@
-# Research Threads — axis-toolbox
+# Research Threads — axis-iliad
 
 > Open research questions and investigation threads for the codebase
 
@@ -22,7 +22,7 @@ High-risk files that warrant investigation:
   - Question: Is this file doing too many things? Can responsibilities be split?
 - **`apps/web/src/pages.test.tsx`** — risk 0.8
   - Question: Is this file doing too many things? Can responsibilities be split?
-- **`apps/web/src/pages/DashboardPage.tsx`** — risk 0.5
+- **`apps/web/src/pages/DashboardPage.tsx`** — risk 0.6
   - Question: Is this file doing too many things? Can responsibilities be split?
 - **`apps/web/src/components/Toast.tsx`** — risk 0.2
   - Question: Is this file doing too many things? Can responsibilities be split?
@@ -33,15 +33,15 @@ Open questions about the current technology stack:
 
 - Are the chosen frameworks (React) still the best fit for the project's direction?
 - Are there dependencies that could be removed or replaced with lighter alternatives?
-- External dependency count: 23 — is this sustainable?
+- External dependency count: 26 — is this sustainable?
 
 ### Thread 4: Performance
 
 Investigation areas:
 
-- What is the baseline performance metric for axis-toolbox?
+- What is the baseline performance metric for axis-iliad?
 - Are there obvious bottlenecks in the critical path?
-- Which of the 449 routes are most latency-sensitive?
+- Which of the 473 routes are most latency-sensitive?
 - What caching strategies would have the highest impact?
 
 ### Thread 5: Test Coverage
@@ -82,7 +82,7 @@ Questions to answer:
 
 Entry points to investigate for complexity and coupling:
 
-- **`apps/api/src/server.ts`** — 338 lines, exports: export const app = ...
+- **`apps/api/src/server.ts`** — 432 lines, exports: export const app = ...
 - **`apps/web/src/App.tsx`** — 326 lines, exports: export function App() { ... }
 - **`apps/web/src/main.tsx`** — 11 lines, exports: default
 - **`packages/context-engine/src/index.ts`** — 3 lines, exports: export type { ... }, export { ... }

@@ -1,6 +1,6 @@
 {
-  "title": "AXIS Toolbox — Example Repos",
-  "summary": "5 real codebases analyzed by AXIS Toolbox. Each example shows the 3 free-tier artifacts (AGENTS.md, CLAUDE.md, .cursorrules) that every project receives. The full AXIS analysis generates 86 artifacts across 18 programs — upgrade to Pro to unlock all of them.",
+  "title": "Axis' Iliad — Example Repos",
+  "summary": "5 real codebases analyzed by Axis' Iliad. Each example shows the 3 free-tier artifacts (AGENTS.md, CLAUDE.md, .cursorrules) that every project receives. The full AXIS analysis generates 86 artifacts across 18 programs — upgrade to Pro to unlock all of them.",
   "examples": [
     {
       "id": "01",
@@ -158,7 +158,7 @@
     ]
   },
   "try_it": {
-    "web": "https://toolbox.jonathanarvay.com",
+    "web": "https://axis-iliad.jonathanarvay.com",
     "cli": "axis analyze ./your-project",
     "github": "axis github https://github.com/you/your-repo"
   }

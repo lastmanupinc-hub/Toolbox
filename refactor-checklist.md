@@ -1,10 +1,10 @@
-# Refactor Checklist — axis-toolbox
+# Refactor Checklist — axis-iliad
 
 > Systematic refactoring guide based on codebase analysis
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 

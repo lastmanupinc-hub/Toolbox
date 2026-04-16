@@ -24,7 +24,7 @@ const I: Record<string, ReactNode> = {
 
   /* ── Tab & Navigation Icons (18-27) ─────────────────── */
   "docs-overview": <><path d="M2 2.5h5l1 1.5 1-1.5h5v11.5H9l-1-1.5-1 1.5H2V2.5Z" /><path d="M8 4v10.5" /></>,
-  toolbox:       <><rect x="2" y="6" width="12" height="8" rx="1.5" /><path d="M5.5 6V4a2.5 2.5 0 0 1 5 0v2M2 9.5h12" /></>,
+  programs:      <><rect x="2" y="6" width="12" height="8" rx="1.5" /><path d="M5.5 6V4a2.5 2.5 0 0 1 5 0v2M2 9.5h12" /></>,
   "api-link":    <><path d="M6.5 9.5a2.5 2.5 0 0 1 0-3.5l1-1a2.5 2.5 0 0 1 3.5 3.5" /><path d="M9.5 6.5a2.5 2.5 0 0 1 0 3.5l-1 1A2.5 2.5 0 0 1 5 7.5" /></>,
   "file-doc":    <><path d="M4 1.5h5l3.5 3.5v9.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2.5a1 1 0 0 1 1-1Z" /><path d="M9 1.5V5h3.5M6 8.5h4M6 11h3" /></>,
   terminal:      <><rect x="1.5" y="2.5" width="13" height="11" rx="1.5" /><path d="M4.5 7l2.5 2-2.5 2M9 11h3" /></>,

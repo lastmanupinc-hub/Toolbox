@@ -1,15 +1,15 @@
-# Collection Map — axis-toolbox
+# Collection Map — axis-iliad
 
 Generated: 2026-04-11T22:24:47.574Z
 
 ## Collection Overview
 
 A curated set of generative art pieces derived from the structure,
-metrics, and architecture of axis-toolbox.
+metrics, and architecture of axis-iliad.
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -70,7 +70,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 | Property | Value |
 |----------|-------|
 | Total Pieces | 4 |
-| Source Project | axis-toolbox |
+| Source Project | axis-iliad |
 | Data Points | 16 |
 | Domain Models | 131 |
 | Routes | 387 |

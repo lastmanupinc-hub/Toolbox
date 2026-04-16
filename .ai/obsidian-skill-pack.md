@@ -1,10 +1,10 @@
-# Obsidian Skill Pack — axis-toolbox
+# Obsidian Skill Pack — axis-iliad
 
 > Vault workflows, templates, and prompt snippets for a monorepo project
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -30,7 +30,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 ## Notes
 - 
 
-## axis-toolbox Changes
+## axis-iliad Changes
 - Files modified:
 - Tests added/changed:
 - Commit:
@@ -54,7 +54,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 [What becomes easier or harder as a result?]
 
 ## References
-- Project: [[axis-toolbox]]
+- Project: [[axis-iliad]]
 - Related ADRs:
 ```
 
@@ -64,7 +64,7 @@ Reusable AI prompt fragments for this project context:
 
 ### Project Context Preamble
 ```
-I'm working on axis-toolbox, a monorepo built with TypeScript.
+I'm working on axis-iliad, a monorepo built with TypeScript.
 Stack: React.
 Conventions: TypeScript strict mode; pnpm workspaces.
 ```
@@ -80,7 +80,7 @@ Review this code change for:
 
 ### Bug Investigation Prompt
 ```
-In axis-toolbox (TypeScript), I'm seeing [describe bug].
+In axis-iliad (TypeScript), I'm seeing [describe bug].
 Steps to reproduce: [steps]
 Expected: [expected behavior]
 Actual: [actual behavior]
@@ -89,7 +89,7 @@ Help me trace this from the entry point to the failure.
 
 ### Domain Model Prompt
 ```
-I'm working with the following domain models in axis-toolbox:
+I'm working with the following domain models in axis-iliad:
 - AuthContext (interface, 3 fields) — defined in apps/api/src/billing.ts
 - EnvSpec (interface, 5 fields) — defined in apps/api/src/env.ts
 - ValidationError (interface, 2 fields) — defined in apps/api/src/env.ts
@@ -109,7 +109,7 @@ do not redefine them.
 ```
 vault/
 ├── Projects/
-│   └── axis-toolbox/
+│   └── axis-iliad/
 │       ├── Overview.md
 │       ├── Architecture.md
 │       ├── ADRs/

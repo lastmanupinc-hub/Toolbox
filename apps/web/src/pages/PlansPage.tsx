@@ -29,7 +29,7 @@ export function PlansPage({ onSelectPlan, onRequireLogin }: Props) {
     }
     if (planId === "suite") {
       // Enterprise is contact-sales
-      window.location.href = "mailto:sales@lastmanup.com?subject=AXIS%20Toolbox%20Enterprise";
+      window.location.href = "mailto:sales@lastmanup.com?subject=Axis%27%20Iliad%20Enterprise";
       return;
     }
     if (!isLoggedIn) {

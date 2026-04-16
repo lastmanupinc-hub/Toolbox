@@ -1,12 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.lastmanupinc-hub/axis-toolbox",
-  "title": "AXIS Toolbox — Agentic Commerce Hardener",
+  "name": "io.github.lastmanupinc-hub/axis-iliad",
+  "title": "Axis' Iliad — Agentic Commerce Hardener",
   "description": "Upload code, get 86 AI artifacts — AGENTS.md, .cursorrules, AP2 compliance, commerce hardening.",
   "version": "0.5.0",
   "websiteUrl": "https://axis-api-6c7z.onrender.com/for-agents",
   "repository": {
-    "url": "https://github.com/lastmanupinc-hub/Toolbox",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad",
     "source": "github"
   },
   "remotes": [
@@ -28,7 +28,7 @@
       "tool": "axis-skills",
       "version": "0.5.0"
     },
-    "io.github.lastmanupinc-hub/axis-toolbox": {
+    "io.github.lastmanupinc-hub/axis-iliad": {
       "programs": 18,
       "generators": 86,
       "tools": 12,

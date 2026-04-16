@@ -13,13 +13,13 @@ const QA_ITEMS: QAItem[] = [
   // General
   {
     category: "general",
-    question: "What is Axis Toolbox?",
-    answer: "Axis Toolbox is a codebase analysis platform with 18 specialized programs organized into 7 categories: Repo Intelligence, Governance, Engineering Delivery, Growth & Content, Knowledge & Context, Creative Generation, and Agentic Commerce. Upload your source code and it generates tailored documentation, rules, configurations, and other artifacts specific to your project's architecture, frameworks, and patterns. Each program has 4–5 generators that produce distinct output files.",
+    question: "What is Axis' Iliad?",
+    answer: "Axis' Iliad is a codebase analysis platform with 18 specialized programs organized into 7 categories: Repo Intelligence, Governance, Engineering Delivery, Growth & Content, Knowledge & Context, Creative Generation, and Agentic Commerce. Upload your source code and it generates tailored documentation, rules, configurations, and other artifacts specific to your project's architecture, frameworks, and patterns. Each program has 4–5 generators that produce distinct output files.",
   },
   {
     category: "general",
     question: "What kind of projects does it work with?",
-    answer: "Axis Toolbox works with any source code project — web apps, APIs, CLI tools, libraries, monorepos, and more. It supports TypeScript, JavaScript, Python, Go, Rust, Java, C#, Ruby, PHP, Swift, Kotlin, and 10+ other languages. The snapshot engine detects 50+ frameworks and libraries automatically from your dependencies, imports, and code patterns.",
+    answer: "Axis' Iliad works with any source code project — web apps, APIs, CLI tools, libraries, monorepos, and more. It supports TypeScript, JavaScript, Python, Go, Rust, Java, C#, Ruby, PHP, Swift, Kotlin, and 10+ other languages. The snapshot engine detects 50+ frameworks and libraries automatically from your dependencies, imports, and code patterns.",
   },
   {
     category: "general",
@@ -29,7 +29,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "general",
     question: "How is this different from other analysis tools?",
-    answer: "Unlike linters or static analyzers, Axis Toolbox generates actionable output files — AGENTS.md, .cursorrules, debug playbooks, brand guidelines, design tokens, and more. It's not just finding issues; it's creating ready-to-use artifacts for your workflow. The 86 generators across 18 programs produce files you can drop directly into your project.",
+    answer: "Unlike linters or static analyzers, Axis' Iliad generates actionable output files — AGENTS.md, .cursorrules, debug playbooks, brand guidelines, design tokens, and more. It's not just finding issues; it's creating ready-to-use artifacts for your workflow. The 86 generators across 18 programs produce files you can drop directly into your project.",
   },
   {
     category: "general",
@@ -38,7 +38,7 @@ const QA_ITEMS: QAItem[] = [
   },
   {
     category: "general",
-    question: "Can I use Axis Toolbox for a monorepo?",
+    question: "Can I use Axis' Iliad for a monorepo?",
     answer: "Yes. Upload your monorepo root and Axis detects sub-packages, workspace configurations (pnpm, npm, yarn workspaces), and cross-package dependencies. The analysis covers all packages. For very large monorepos, consider uploading only the relevant subdirectory to improve speed.",
   },
 
@@ -56,7 +56,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "programs",
     question: "Can I run multiple programs at once?",
-    answer: "In the web UI, run programs one at a time by clicking their cards — each takes 2–30 seconds. Via CLI, use the --programs flag with comma-separated names: `npx axis-toolbox analyze . --programs search,skills,debug`. Via API, send separate POST requests per program endpoint.",
+    answer: "In the web UI, run programs one at a time by clicking their cards — each takes 2–30 seconds. Via CLI, use the --programs flag with comma-separated names: `npx axis-iliad analyze . --programs search,skills,debug`. Via API, send separate POST requests per program endpoint.",
   },
   {
     category: "programs",
@@ -177,7 +177,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "technical",
     question: "Which browsers are supported?",
-    answer: "Axis Toolbox works in all modern browsers — Chrome, Firefox, Safari, and Edge. The dark theme renders best with system-level dark mode enabled. The UI is built with React 19, uses CSS custom properties for theming, and requires JavaScript to be enabled.",
+    answer: "Axis' Iliad works in all modern browsers — Chrome, Firefox, Safari, and Edge. The dark theme renders best with system-level dark mode enabled. The UI is built with React 19, uses CSS custom properties for theming, and requires JavaScript to be enabled.",
   },
   {
     category: "technical",
@@ -194,12 +194,12 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "integration",
     question: "Can I use Axis in a CI/CD pipeline?",
-    answer: "Yes. Install the CLI (`npm install -g axis-toolbox`) and run it in your pipeline. Set AXIS_API_KEY as a secret environment variable. Example GitHub Action: `npx axis-toolbox analyze . --programs search,skills,debug --output ./axis-output`. Then upload the output as a build artifact.",
+    answer: "Yes. Install the CLI (`npm install -g axis-iliad`) and run it in your pipeline. Set AXIS_API_KEY as a secret environment variable. Example GitHub Action: `npx axis-iliad analyze . --programs search,skills,debug --output ./axis-output`. Then upload the output as a build artifact.",
   },
   {
     category: "integration",
     question: "Does Axis support GitHub Actions?",
-    answer: "Yes. Add a workflow step that runs `npx axis-toolbox analyze .` with your desired programs. Use `actions/upload-artifact` to save the output. See the CLI tab in the Docs page for a complete .github/workflows/axis.yml example with environment variables and artifact uploads.",
+    answer: "Yes. Add a workflow step that runs `npx axis-iliad analyze .` with your desired programs. Use `actions/upload-artifact` to save the output. See the CLI tab in the Docs page for a complete .github/workflows/axis.yml example with environment variables and artifact uploads.",
   },
   {
     category: "integration",
@@ -253,7 +253,7 @@ const QA_ITEMS: QAItem[] = [
 const CATEGORY_LABELS: Record<QACategory, { label: string; icon: string }> = {
   all: { label: "All", icon: "clipboard" },
   general: { label: "General", icon: "lightbulb" },
-  programs: { label: "Programs", icon: "toolbox" },
+  programs: { label: "Programs", icon: "programs" },
   api: { label: "API", icon: "api-link" },
   billing: { label: "Billing", icon: "credit-card" },
   technical: { label: "Technical", icon: "gear" },
@@ -285,7 +285,7 @@ export function QAPage() {
       <div className="card" style={{ textAlign: "center", marginBottom: 24 }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: 8 }}>Questions & Answers</h2>
         <p style={{ color: "var(--text-muted)", maxWidth: 520, margin: "0 auto 16px" }}>
-          Find answers to common questions about Axis Toolbox.
+          Find answers to common questions about Axis' Iliad.
         </p>
         <div style={{ maxWidth: 400, margin: "0 auto" }}>
           <input

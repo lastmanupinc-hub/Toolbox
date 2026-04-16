@@ -1,4 +1,4 @@
-# AXIS Toolbox — Superpowers Pack
+# Axis' Iliad — Superpowers Pack
 
 ## Superpower Index
 
@@ -189,11 +189,11 @@ generator-core uses a built-in template engine — no Handlebars, EJS, or Mustac
 ---
 
 ### 15. Full-Stack Self-Analysis
-**Rarity**: ★★★★★ (Running AXIS Toolbox on itself demonstrates every capability recursively)
+**Rarity**: ★★★★★ (Running Axis' Iliad on itself demonstrates every capability recursively)
 
-This document exists because AXIS Toolbox can analyze its own codebase and generate all 17 programs worth of artifacts. The self-referential demo proves the system works at every layer.
+This document exists because Axis' Iliad can analyze its own codebase and generate all 17 programs worth of artifacts. The self-referential demo proves the system works at every layer.
 
-**Evidence**: This file. All 17 program outputs generated for the Toolbox itself.
+**Evidence**: This file. All 17 program outputs generated for Axis' Iliad itself.
 
 ---
 

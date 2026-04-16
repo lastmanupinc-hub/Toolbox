@@ -1,7 +1,7 @@
 {
-  "analysis": "AXIS Toolbox Pipeline Topology",
+  "analysis": "Axis' Iliad Pipeline Topology",
   "version": "0.5.0",
-  "description": "Graph-based analysis of the AXIS Toolbox execution pipeline: packages, programs, generators, and governance files as a directed acyclic graph (DAG).",
+  "description": "Graph-based analysis of the Axis' Iliad execution pipeline: packages, programs, generators, and governance files as a directed acyclic graph (DAG).",
   "nodeTypes": ["package", "app", "program", "generator", "governance", "output"],
   "topology": {
     "nodes": [

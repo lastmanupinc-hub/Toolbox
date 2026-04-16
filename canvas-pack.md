@@ -1,4 +1,4 @@
-# AXIS Toolbox — Canvas Brand Board
+# Axis' Iliad — Canvas Brand Board
 
 ## Board Specification
 
@@ -16,7 +16,7 @@
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────┐
-│  HEADER: AXIS Toolbox Wordmark + Tagline                        (cols 1-12)   │
+│  HEADER: Axis' Iliad Wordmark + Tagline                        (cols 1-12)   │
 │  ─────────────────────────────────────────────────────────────────────────     │
 │                                                                               │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
@@ -136,7 +136,7 @@
 ## Board Sections Detail
 
 ### Header (Row 1)
-- **Wordmark**: "AXIS" (semibold, 4xl) + "Toolbox" (normal, 4xl) in --ax-text
+- **Wordmark**: "Axis'" (semibold, 4xl) + "Iliad" (normal, 4xl) in --ax-text
 - **Tagline**: "The operating system for AI-native development" in --ax-text-muted, font-xl
 - **Subtle cyan glow** behind wordmark: box-shadow: var(--shadow-glow-cyan)
 

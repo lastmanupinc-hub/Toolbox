@@ -3,10 +3,10 @@ project_begin:
   role: session_gate_and_move_selector
 
   project_identity:
-    name: "AXIS Toolbox"
+    name: "Axis' Iliad"
     category: "AI-native codebase intelligence platform"
     boundary: >
-      AXIS Toolbox accepts any repository (GitHub URL, ZIP upload, CLI, API) and
+      Axis' Iliad accepts any repository (GitHub URL, ZIP upload, CLI, API) and
       generates 86 structured artifacts across 18 specialized programs — covering
       codebase understanding, debugging, skills governance, frontend rules, SEO,
       optimization, theme/brand/marketing systems, MCP connectors, Obsidian skill

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ═══════════════════════════════════════════════════════════════
-// AXIS Toolbox — Full E2E Wiring Audit
+// Axis' Iliad — Full E2E Wiring Audit
 // Tests every program, every ingestion method, every tier gate,
 // and every download path. Refusal is a first-class outcome.
 // ═══════════════════════════════════════════════════════════════
@@ -49,7 +49,7 @@ const SAMPLE_FILES = [
   { path: "package.json", content: JSON.stringify({ name: "e2e-audit", version: "1.0.0", dependencies: { react: "^19.0.0", vite: "^6.0.0", typescript: "^5.0.0" } }), size: 120 },
   { path: "tsconfig.json", content: JSON.stringify({ compilerOptions: { strict: true, jsx: "react-jsx", target: "ES2022", module: "ESNext" } }), size: 90 },
   { path: "vite.config.ts", content: "import { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\nexport default defineConfig({ plugins: [react()] });\n", size: 120 },
-  { path: "README.md", content: "# E2E Audit Project\nA test project for AXIS Toolbox wiring audit.\n## Getting Started\n```bash\npnpm install\npnpm dev\n```\n", size: 120 },
+  { path: "README.md", content: "# E2E Audit Project\nA test project for Axis' Iliad wiring audit.\n## Getting Started\n```bash\npnpm install\npnpm dev\n```\n", size: 120 },
   { path: ".gitignore", content: "node_modules\ndist\n.env\n", size: 30 },
 ];
 
@@ -132,7 +132,7 @@ const PROGRAM_OUTPUTS_BACKEND = {
 // ═════════════════════════════════════════════════════════════════
 async function main() {
   console.log("═══════════════════════════════════════════════════════════════");
-  console.log(" AXIS Toolbox — E2E Wiring Audit");
+  console.log(" Axis' Iliad — E2E Wiring Audit");
   console.log(` Target: ${BASE}`);
   console.log(` Date:   ${new Date().toISOString()}`);
   console.log("═══════════════════════════════════════════════════════════════\n");
@@ -371,7 +371,7 @@ async function main() {
   // 2g. GitHub URL ingestion — free tier
   {
     const { status, data, ms } = await go("POST", "/v1/github/analyze", {
-      github_url: "https://github.com/lastmanupinc-hub/Toolbox",
+      github_url: "https://github.com/lastmanupinc-hub/axis-iliad",
     }, freeAuth);
     const pass = (status === 201 && !!data.snapshot_id) || status === 422 || status === 504 || status === 502;
     const outcome = status === 201 ? "PASS" : (status >= 400 ? "EXPECTED_REFUSAL" : "FAIL");
@@ -888,7 +888,7 @@ async function main() {
 function buildYaml(results, summary) {
   const lines = [];
   lines.push("# ═══════════════════════════════════════════════════════════════");
-  lines.push("# AXIS Toolbox — E2E Wiring Audit Results");
+  lines.push("# Axis' Iliad — E2E Wiring Audit Results");
   lines.push(`# Generated: ${new Date().toISOString()}`);
   lines.push(`# Target: ${BASE}`);
   lines.push("# ═══════════════════════════════════════════════════════════════");

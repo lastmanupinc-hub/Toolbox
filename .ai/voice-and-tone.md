@@ -1,10 +1,10 @@
-# Voice & Tone — axis-toolbox
+# Voice & Tone — axis-iliad
 
 > Context-sensitive tone guidance for every communication surface
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 

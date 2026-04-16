@@ -1,10 +1,10 @@
-# Incident Report — axis-toolbox
+# Incident Report — axis-iliad
 
 ## Environment
 
 | Item | Value |
 |------|-------|
-| Project | axis-toolbox (monorepo) |
+| Project | axis-iliad (monorepo) |
 | Language | TypeScript |
 | Stack | React ^19.1.0 |
 | CI | github_actions |
@@ -46,7 +46,7 @@
 - [ ] `apps/web/src/App.tsx` — 1 inbound, 17 outbound (risk 90%)
 - [ ] `apps/web/src/api.ts` — 17 inbound, 0 outbound (risk 85%)
 - [ ] `apps/web/src/pages.test.tsx` — 0 inbound, 15 outbound (risk 75%)
-- [ ] `apps/web/src/pages/DashboardPage.tsx` — 1 inbound, 9 outbound (risk 50%)
+- [ ] `apps/web/src/pages/DashboardPage.tsx` — 1 inbound, 10 outbound (risk 55%)
 - [ ] `apps/web/src/components/Toast.tsx` — 4 inbound, 0 outbound (risk 20%)
 - [ ] `apps/web/src/components/AxisIcons.tsx` — 4 inbound, 0 outbound (risk 20%)
 - [ ] `apps/web/src/upload-utils.ts` — 3 inbound, 0 outbound (risk 15%)
@@ -126,7 +126,7 @@
 - [ ] `ImportMeta` (interface, 1 fields) — apps/web/src/vite-env.d.ts
 - [ ] `ImportMetaEnv` (interface, 1 fields) — apps/web/src/vite-env.d.ts
 - [ ] `DashboardData` (interface, 6 fields) — dashboard-widget.tsx
-- [ ] `axistoolboxProps` (interface, 3 fields) — generated-component.tsx
+- [ ] `axisiliadProps` (interface, 3 fields) — generated-component.tsx
 - [ ] `PaletteAction` (interface, 0 fields) — generated-component.tsx
 - [ ] `Edge` (interface, 3 fields) — generative-sketch.ts
 - [ ] `Node` (interface, 7 fields) — generative-sketch.ts
@@ -309,7 +309,10 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ### `apps/web/src/pages.test.tsx`
 
 ```tsx
-// @vitest-environment happy-dom
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 
@@ -331,10 +334,7 @@ describe("Page smoke tests — zero-prop pages", () => {
   });
 
   it("ExamplesPage renders without crashing", () => {
-    const { container } = render(<ExamplesPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
-... (89 more lines)
+... (92 more lines)
 ```
 
 ## Entry Point Excerpts
@@ -342,6 +342,7 @@ describe("Page smoke tests — zero-prop pages", () => {
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -361,8 +362,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-  handleMcpProvision,
-... (318 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

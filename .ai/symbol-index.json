@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-15T20:25:20.083Z",
-  "total_symbols": 1743,
-  "file_count": 232,
+  "generated_at": "2026-04-16T14:25:25.196Z",
+  "total_symbols": 1771,
+  "file_count": 233,
   "symbols": {
     "apps/api/src/admin.test.ts": [
       {
@@ -423,22 +423,22 @@
       {
         "name": "req",
         "type": "function",
-        "line": 35
+        "line": 36
       },
       {
         "name": "testPayload",
         "type": "const",
-        "line": 70
+        "line": 71
       },
       {
         "name": "files",
         "type": "function",
-        "line": 188
+        "line": 200
       },
       {
         "name": "uniquePayload",
         "type": "const",
-        "line": 486
+        "line": 499
       }
     ],
     "apps/api/src/e2e-smoke.test.ts": [
@@ -1026,47 +1026,62 @@
       {
         "name": "handleSkillsIndex",
         "type": "function",
-        "line": 2327
+        "line": 2328
       },
       {
-        "name": "handleDocsMd",
+        "name": "handleOAuthAuthorizationServer",
         "type": "function",
         "line": 2401
       },
       {
+        "name": "handleDocsMd",
+        "type": "function",
+        "line": 2422
+      },
+      {
         "name": "handleForAgents",
         "type": "function",
-        "line": 2505
+        "line": 2526
       },
       {
         "name": "handleInstall",
         "type": "function",
-        "line": 2760
+        "line": 2781
       },
       {
         "name": "handleProbeIntent",
         "type": "function",
-        "line": 2796
+        "line": 2817
       },
       {
         "name": "handleAgentJson",
         "type": "function",
-        "line": 2907
+        "line": 2928
       },
       {
         "name": "handleHealthRedirect",
         "type": "function",
-        "line": 2945
+        "line": 2966
       },
       {
         "name": "handleDocsRedirect",
         "type": "function",
-        "line": 2960
+        "line": 2981
       },
       {
         "name": "handleOpenApiJson",
         "type": "function",
-        "line": 2974
+        "line": 2995
+      },
+      {
+        "name": "handlePerformance",
+        "type": "function",
+        "line": 3005
+      },
+      {
+        "name": "handlePerformanceReputation",
+        "type": "function",
+        "line": 3067
       }
     ],
     "apps/api/src/latency-histogram.test.ts": [
@@ -1219,312 +1234,347 @@
       {
         "name": "result",
         "type": "function",
-        "line": 319
+        "line": 332
       },
       {
         "name": "result",
         "type": "function",
-        "line": 336
+        "line": 349
       },
       {
         "name": "result",
         "type": "function",
-        "line": 368
+        "line": 381
       },
       {
         "name": "result",
         "type": "function",
-        "line": 395
+        "line": 408
       },
       {
         "name": "result",
         "type": "function",
-        "line": 422
+        "line": 435
       },
       {
         "name": "result",
         "type": "function",
-        "line": 447
+        "line": 460
       },
       {
         "name": "result",
         "type": "function",
-        "line": 467
+        "line": 480
       },
       {
         "name": "result",
         "type": "function",
-        "line": 493
+        "line": 506
       },
       {
         "name": "result",
         "type": "function",
-        "line": 517
+        "line": 530
       },
       {
         "name": "result",
         "type": "function",
-        "line": 541
+        "line": 554
       },
       {
         "name": "result",
         "type": "function",
-        "line": 567
+        "line": 580
       },
       {
         "name": "result",
         "type": "function",
-        "line": 586
+        "line": 592
       },
       {
         "name": "result",
         "type": "function",
-        "line": 602
+        "line": 604
       },
       {
         "name": "result",
         "type": "function",
-        "line": 613
+        "line": 616
       },
       {
         "name": "result",
         "type": "function",
-        "line": 627
+        "line": 636
       },
       {
         "name": "result",
         "type": "function",
-        "line": 648
+        "line": 652
       },
       {
         "name": "result",
         "type": "function",
-        "line": 668
+        "line": 663
       },
       {
         "name": "result",
         "type": "function",
-        "line": 682
+        "line": 677
       },
       {
         "name": "result",
         "type": "function",
-        "line": 693
+        "line": 698
       },
       {
         "name": "result",
         "type": "function",
-        "line": 706
+        "line": 718
       },
       {
         "name": "result",
         "type": "function",
-        "line": 717
+        "line": 732
       },
       {
         "name": "result",
         "type": "function",
-        "line": 730
+        "line": 743
       },
       {
         "name": "result",
         "type": "function",
-        "line": 747
+        "line": 756
       },
       {
         "name": "result",
         "type": "function",
-        "line": 764
+        "line": 767
       },
       {
         "name": "result",
         "type": "function",
-        "line": 782
+        "line": 780
       },
       {
         "name": "result",
         "type": "function",
-        "line": 943
+        "line": 794
       },
       {
         "name": "result",
         "type": "function",
-        "line": 962
+        "line": 808
       },
       {
         "name": "result",
         "type": "function",
-        "line": 991
+        "line": 821
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1046
+        "line": 835
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1064
+        "line": 852
       },
       {
-        "name": "top",
+        "name": "result",
         "type": "function",
-        "line": 1122
+        "line": 869
       },
       {
-        "name": "scores",
+        "name": "result",
+        "type": "function",
+        "line": 887
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1048
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1067
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1096
+      },
+      {
+        "name": "result",
         "type": "function",
         "line": 1151
       },
       {
+        "name": "result",
+        "type": "function",
+        "line": 1169
+      },
+      {
+        "name": "top",
+        "type": "function",
+        "line": 1227
+      },
+      {
+        "name": "scores",
+        "type": "function",
+        "line": 1256
+      },
+      {
         "name": "programs",
         "type": "function",
-        "line": 1178
+        "line": 1283
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1185
+        "line": 1290
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1191
+        "line": 1296
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1245
+        "line": 1350
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1260
+        "line": 1365
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1396
+        "line": 1501
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1413
+        "line": 1518
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1427
+        "line": 1532
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1443
+        "line": 1548
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1474
+        "line": 1579
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1502
+        "line": 1607
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1526
+        "line": 1631
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1546
+        "line": 1651
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1571
+        "line": 1676
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1585
+        "line": 1692
       },
       {
         "name": "c1",
         "type": "function",
-        "line": 1609
+        "line": 1716
       },
       {
         "name": "c2",
         "type": "function",
-        "line": 1610
+        "line": 1717
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1633
+        "line": 1740
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1647
+        "line": 1756
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1670
+        "line": 1779
       },
       {
         "name": "key",
         "type": "function",
-        "line": 1690
+        "line": 1799
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1712
+        "line": 1821
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1748
+        "line": 1857
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1764
+        "line": 1873
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1791
+        "line": 1900
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1814
+        "line": 1923
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1836
+        "line": 1945
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1854
+        "line": 1963
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1870
+        "line": 1979
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1886
+        "line": 1995
       }
     ],
     "apps/api/src/mcp-server.ts": [
@@ -1601,152 +1651,162 @@
       {
         "name": "rpcOk",
         "type": "function",
-        "line": 462
+        "line": 513
       },
       {
         "name": "rpcErr",
         "type": "function",
-        "line": 466
+        "line": 517
       },
       {
         "name": "toolOk",
         "type": "function",
-        "line": 474
+        "line": 525
       },
       {
         "name": "toolErr",
         "type": "function",
-        "line": 478
+        "line": 529
+      },
+      {
+        "name": "ErrorCategory",
+        "type": "type",
+        "line": 533
+      },
+      {
+        "name": "categorizeError",
+        "type": "function",
+        "line": 535
       },
       {
         "name": "filterGeneratorsByEntitlement",
         "type": "function",
-        "line": 485
+        "line": 557
       },
       {
         "name": "runAnalyzeFiles",
         "type": "function",
-        "line": 501
+        "line": 573
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 553
+        "line": 632
       },
       {
         "name": "runAnalyzeRepo",
         "type": "function",
-        "line": 623
+        "line": 702
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 677
+        "line": 756
       },
       {
         "name": "runSearchTools",
         "type": "function",
-        "line": 770
+        "line": 849
       },
       {
         "name": "runDiscoverAgenticCommerceTools",
         "type": "function",
-        "line": 848
+        "line": 933
       },
       {
         "name": "runImproveMyAgent",
         "type": "function",
-        "line": 899
+        "line": 984
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 940
+        "line": 1030
       },
       {
         "name": "runDiscoverAgenticPurchasingNeeds",
         "type": "function",
-        "line": 1107
+        "line": 1197
       },
       {
         "name": "runGetReferralCode",
         "type": "function",
-        "line": 1236
+        "line": 1328
       },
       {
         "name": "runCheckReferralCredits",
         "type": "function",
-        "line": 1268
+        "line": 1357
       },
       {
         "name": "runListPrograms",
         "type": "function",
-        "line": 1301
+        "line": 1387
       },
       {
         "name": "runGetSnapshot",
         "type": "function",
-        "line": 1339
+        "line": 1425
       },
       {
         "name": "runGetArtifact",
         "type": "function",
-        "line": 1382
+        "line": 1468
       },
       {
         "name": "runPreparePurchasing",
         "type": "function",
-        "line": 1417
+        "line": 1504
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1489
+        "line": 1583
       },
       {
         "name": "dispatch",
         "type": "function",
-        "line": 1718
+        "line": 1812
       },
       {
         "name": "toolArgs",
         "type": "function",
-        "line": 1749
+        "line": 1843
       },
       {
         "name": "ip",
         "type": "function",
-        "line": 1755
+        "line": 1849
       },
       {
         "name": "handleMcpPost",
         "type": "function",
-        "line": 1824
+        "line": 1922
       },
       {
         "name": "INCENTIVES_BLOCK",
         "type": "const",
-        "line": 1893
+        "line": 1999
       },
       {
         "name": "handleMcpGet",
         "type": "function",
-        "line": 1929
+        "line": 2035
       },
       {
         "name": "handleMcpDocs",
         "type": "function",
-        "line": 1938
+        "line": 2044
       },
       {
         "name": "getMcpServerMeta",
         "type": "function",
-        "line": 1985
+        "line": 2091
       },
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 2050
+        "line": 2156
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [
@@ -2006,6 +2066,105 @@
         "line": 123
       }
     ],
+    "apps/api/src/oauth-server-simple.ts": [
+      {
+        "name": "handleOAuthAuthorize",
+        "type": "function",
+        "line": 16
+      },
+      {
+        "name": "handleOAuthToken",
+        "type": "function",
+        "line": 41
+      },
+      {
+        "name": "handleOAuthJwks",
+        "type": "function",
+        "line": 84
+      },
+      {
+        "name": "handleOAuthIntrospect",
+        "type": "function",
+        "line": 90
+      },
+      {
+        "name": "generateAuthCode",
+        "type": "function",
+        "line": 116
+      },
+      {
+        "name": "getJWKS",
+        "type": "function",
+        "line": 120
+      },
+      {
+        "name": "readBody",
+        "type": "function",
+        "line": 135
+      },
+      {
+        "name": "requireBearerToken",
+        "type": "function",
+        "line": 151
+      },
+      {
+        "name": "createOAuthClient",
+        "type": "function",
+        "line": 170
+      }
+    ],
+    "apps/api/src/oauth-server.ts": [
+      {
+        "name": "handleOAuthAuthorize",
+        "type": "function",
+        "line": 62
+      },
+      {
+        "name": "handleOAuthToken",
+        "type": "function",
+        "line": 87
+      },
+      {
+        "name": "handleOAuthJwks",
+        "type": "function",
+        "line": 130
+      },
+      {
+        "name": "handleOAuthIntrospect",
+        "type": "function",
+        "line": 136
+      },
+      {
+        "name": "generateAuthCode",
+        "type": "function",
+        "line": 162
+      },
+      {
+        "name": "getJWKS",
+        "type": "function",
+        "line": 166
+      },
+      {
+        "name": "readBody",
+        "type": "function",
+        "line": 187
+      },
+      {
+        "name": "readFormBody",
+        "type": "function",
+        "line": 202
+      },
+      {
+        "name": "requireBearerToken",
+        "type": "function",
+        "line": 223
+      },
+      {
+        "name": "createOAuthClient",
+        "type": "function",
+        "line": 242
+      }
+    ],
     "apps/api/src/oauth.test.ts": [
       {
         "name": "Res",
@@ -2049,32 +2208,32 @@
       {
         "name": "ref",
         "type": "function",
-        "line": 1512
+        "line": 1521
       },
       {
         "name": "jsonContent",
         "type": "function",
-        "line": 1516
+        "line": 1525
       },
       {
         "name": "jsonBody",
         "type": "function",
-        "line": 1520
+        "line": 1529
       },
       {
         "name": "pathParam",
         "type": "function",
-        "line": 1524
+        "line": 1533
       },
       {
         "name": "queryParam",
         "type": "function",
-        "line": 1528
+        "line": 1537
       },
       {
         "name": "programEndpoints",
         "type": "function",
-        "line": 1532
+        "line": 1541
       }
     ],
     "apps/api/src/prepare-purchasing.test.ts": [
@@ -2363,27 +2522,27 @@
       {
         "name": "isShuttingDown",
         "type": "function",
-        "line": 204
+        "line": 209
       },
       {
         "name": "createApp",
         "type": "function",
-        "line": 206
+        "line": 211
       },
       {
         "name": "path",
         "type": "function",
-        "line": 303
+        "line": 308
       },
       {
         "name": "shutdown",
         "type": "function",
-        "line": 336
+        "line": 341
       },
       {
         "name": "onSignal",
         "type": "function",
-        "line": 379
+        "line": 384
       }
     ],
     "apps/api/src/search-api.test.ts": [
@@ -2457,6 +2616,13 @@
         "name": "req",
         "type": "function",
         "line": 18
+      }
+    ],
+    "apps/api/src/server.ts": [
+      {
+        "name": "handleMcpEntrypoint",
+        "type": "function",
+        "line": 259
       }
     ],
     "apps/api/src/snapshot-auth.test.ts": [
@@ -2783,7 +2949,7 @@
       {
         "name": "req",
         "type": "function",
-        "line": 29
+        "line": 31
       }
     ],
     "apps/cli/src/cli-commands.test.ts": [
@@ -3047,12 +3213,22 @@
       {
         "name": "makeSnapshot",
         "type": "function",
-        "line": 16
+        "line": 17
       },
       {
         "name": "Routes",
         "type": "function",
-        "line": 50
+        "line": 51
+      },
+      {
+        "name": "stripTimestamps",
+        "type": "function",
+        "line": 136
+      },
+      {
+        "name": "runFullPipeline",
+        "type": "function",
+        "line": 140
       }
     ],
     "apps/cli/src/runner.test.ts": [
@@ -3137,97 +3313,97 @@
       {
         "name": "storageMock",
         "type": "const",
-        "line": 37
+        "line": 41
       },
       {
         "name": "mockFetch",
         "type": "function",
-        "line": 46
+        "line": 50
       },
       {
         "name": "response",
-        "type": "const",
-        "line": 150
-      },
-      {
-        "name": "payload",
         "type": "const",
         "line": 154
       },
       {
-        "name": "response",
+        "name": "payload",
         "type": "const",
-        "line": 172
+        "line": 158
       },
       {
         "name": "response",
         "type": "const",
-        "line": 184
+        "line": 176
       },
       {
         "name": "response",
         "type": "const",
-        "line": 200
+        "line": 188
       },
       {
         "name": "response",
         "type": "const",
-        "line": 216
+        "line": 204
       },
       {
         "name": "response",
         "type": "const",
-        "line": 402
+        "line": 220
       },
       {
         "name": "response",
         "type": "const",
-        "line": 426
+        "line": 406
+      },
+      {
+        "name": "response",
+        "type": "const",
+        "line": 430
       },
       {
         "name": "fakeAnchor",
         "type": "const",
-        "line": 443
+        "line": 447
       },
       {
         "name": "fakeAnchor",
         "type": "const",
-        "line": 474
+        "line": 478
       },
       {
         "name": "response",
         "type": "const",
-        "line": 506
+        "line": 510
       },
       {
         "name": "response",
         "type": "const",
-        "line": 541
+        "line": 545
       },
       {
         "name": "response",
         "type": "const",
-        "line": 573
+        "line": 577
       },
       {
         "name": "response",
         "type": "const",
-        "line": 583
+        "line": 587
       },
       {
         "name": "response",
         "type": "const",
-        "line": 599
+        "line": 603
       },
       {
         "name": "response",
         "type": "const",
-        "line": 618
+        "line": 622
       },
       {
         "name": "response",
         "type": "const",
-        "line": 650
+        "line": 654
       }
     ],
     "apps/web/src/api.ts": [
@@ -3660,7 +3836,7 @@
       {
         "name": "ProgramCard",
         "type": "function",
-        "line": 116
+        "line": 120
       }
     ],
     "apps/web/src/components/SearchTab.tsx": [
@@ -3814,37 +3990,47 @@
       {
         "name": "Props",
         "type": "interface",
-        "line": 12
+        "line": 13
       },
       {
         "name": "Tab",
         "type": "type",
-        "line": 18
+        "line": 19
       },
       {
         "name": "NextStepsCard",
         "type": "function",
-        "line": 20
+        "line": 21
       },
       {
         "name": "DashboardPage",
         "type": "function",
-        "line": 40
+        "line": 41
       },
       {
         "name": "handler",
         "type": "function",
-        "line": 61
+        "line": 63
       },
       {
         "name": "handleRunProgram",
         "type": "function",
-        "line": 74
+        "line": 76
+      },
+      {
+        "name": "blocked",
+        "type": "function",
+        "line": 89
+      },
+      {
+        "name": "allowed",
+        "type": "function",
+        "line": 90
       },
       {
         "name": "handleDownloadAll",
         "type": "function",
-        "line": 91
+        "line": 99
       }
     ],
     "apps/web/src/pages/DocsPage.tsx": [
@@ -4129,84 +4315,84 @@
       {
         "name": "readFiles",
         "type": "function",
-        "line": 111
+        "line": 109
       },
       {
         "name": "handleZipFile",
         "type": "function",
-        "line": 130
+        "line": 128
       },
       {
         "name": "handleFolderSelect",
         "type": "function",
-        "line": 149
+        "line": 147
       },
       {
         "name": "handleZipSelect",
         "type": "function",
-        "line": 153
+        "line": 151
       },
       {
         "name": "handleFileInputChange",
         "type": "function",
-        "line": 157
+        "line": 155
       },
       {
         "name": "handleZipInputChange",
         "type": "function",
-        "line": 168
+        "line": 166
       },
       {
         "name": "handleDrop",
         "type": "function",
-        "line": 174
+        "line": 172
       },
       {
         "name": "toggleOutput",
         "type": "function",
-        "line": 188
+        "line": 186
       },
       {
         "name": "handleSubmit",
         "type": "function",
-        "line": 194
+        "line": 192
       },
       {
         "name": "blocked",
         "type": "function",
-        "line": 235
+        "line": 233
       },
       {
         "name": "allowed",
         "type": "function",
-        "line": 236
+        "line": 234
       },
       {
         "name": "payload",
         "type": "const",
-        "line": 270
+        "line": 268
       },
       {
         "name": "payloadMB",
         "type": "function",
-        "line": 287
+        "line": 285
       },
       {
         "name": "blocked",
         "type": "function",
-        "line": 307
+        "line": 305
       },
       {
         "name": "allowed",
         "type": "function",
-        "line": 308
+        "line": 306
       }
     ],
     "apps/web/src/upload-utils-zip.test.ts": [
       {
         "name": "buildZip",
         "type": "function",
-        "line": 7
+        "line": 11
       }
     ],
     "apps/web/src/upload-utils.ts": [
@@ -4518,12 +4704,12 @@
     ],
     "generated-component.tsx": [
       {
-        "name": "axistoolboxProps",
+        "name": "axisiliadProps",
         "type": "interface",
         "line": 3
       },
       {
-        "name": "axistoolbox",
+        "name": "axisiliad",
         "type": "function",
         "line": 9
       }
@@ -7789,67 +7975,67 @@
       {
         "name": "ensureMigrationsTable",
         "type": "function",
-        "line": 438
+        "line": 498
       },
       {
         "name": "runMigrations",
         "type": "function",
-        "line": 448
+        "line": 508
       },
       {
         "name": "getSchemaVersion",
         "type": "function",
-        "line": 472
+        "line": 532
       },
       {
         "name": "getDb",
         "type": "function",
-        "line": 479
+        "line": 539
       },
       {
         "name": "openMemoryDb",
         "type": "function",
-        "line": 493
+        "line": 553
       },
       {
         "name": "closeDb",
         "type": "function",
-        "line": 502
+        "line": 562
       },
       {
         "name": "DbMaintenanceResult",
         "type": "interface",
-        "line": 511
+        "line": 571
       },
       {
         "name": "walCheckpoint",
         "type": "function",
-        "line": 518
+        "line": 578
       },
       {
         "name": "vacuum",
         "type": "function",
-        "line": 532
+        "line": 592
       },
       {
         "name": "integrityCheck",
         "type": "function",
-        "line": 540
+        "line": 600
       },
       {
         "name": "getDbStats",
         "type": "function",
-        "line": 553
+        "line": 613
       },
       {
         "name": "purgeStaleData",
         "type": "function",
-        "line": 594
+        "line": 654
       },
       {
         "name": "runMaintenance",
         "type": "function",
-        "line": 622
+        "line": 682
       }
     ],
     "packages/snapshots/src/email-store.test.ts": [
@@ -8159,37 +8345,37 @@
       {
         "name": "buildTarEntry",
         "type": "function",
-        "line": 17
+        "line": 18
       },
       {
         "name": "buildTar",
         "type": "function",
-        "line": 37
+        "line": 38
       },
       {
         "name": "makeGzippedTarball",
         "type": "function",
-        "line": 43
+        "line": 44
       },
       {
         "name": "MockRes",
         "type": "interface",
-        "line": 53
+        "line": 54
       },
       {
         "name": "makeRes",
         "type": "function",
-        "line": 59
+        "line": 60
       },
       {
         "name": "makeReq",
         "type": "function",
-        "line": 67
+        "line": 68
       },
       {
         "name": "msg",
         "type": "function",
-        "line": 316
+        "line": 317
       }
     ],
     "packages/snapshots/src/github-tarball.test.ts": [
@@ -9134,50 +9320,6 @@
       },
       {
         "name": "averypayplatformVideo",
-        "type": "function",
-        "line": 79
-      }
-    ],
-    "ProgramPipeline.js": [
-      {
-        "name": "ProgramPipeline",
-        "type": "class",
-        "line": 11
-      },
-      {
-        "name": "colors",
-        "type": "const",
-        "line": 47
-      }
-    ],
-    "remotion-script.ts": [
-      {
-        "name": "THEME",
-        "type": "const",
-        "line": 6
-      },
-      {
-        "name": "IntroScene",
-        "type": "function",
-        "line": 13
-      },
-      {
-        "name": "TechStackScene",
-        "type": "function",
-        "line": 24
-      },
-      {
-        "name": "ArchitectureScene",
-        "type": "function",
-        "line": 45
-      },
-      {
-        "name": "AbstractionsScene",
-        "type": "function",
-        "line": 62
-      },
-      {
-        "name": "axistoolboxVideo",
         "type": "function",
         "line": 79
       }

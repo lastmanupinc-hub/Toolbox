@@ -1,11 +1,11 @@
-# AXIS Toolbox Launch Content
+# Axis' Iliad Launch Content
 
 ## Reddit Post (r/coding, r/programming, r/artificial)
 
 **Title:** I built an AI that analyzes codebases and generates 86 different artifacts - now open source
 
 **Body:**
-After 97 development sessions and 4,000+ tests, AXIS Toolbox is now public! 🚀
+After 97 development sessions and 4,000+ tests, Axis' Iliad is now public! 🚀
 
 It analyzes any codebase and generates everything from:
 - Context maps & architecture summaries
@@ -19,7 +19,7 @@ It analyzes any codebase and generates everything from:
 
 **Try it:**
 - Web UI: https://axis-api-6c7z.onrender.com
-- GitHub: https://github.com/lastmanupinc-hub/Toolbox
+- GitHub: https://github.com/lastmanupinc-hub/axis-iliad
 - MCP Server: Already published to Smithery.ai, Glama.ai
 
 **What it does:** Upload/clone any repo, get 86 organized artifacts that would take days to create manually.
@@ -30,7 +30,7 @@ Built for AI-native development - the operating system AI assistants need.
 
 ## Twitter/X Thread
 
-**Tweet 1/3:** 🎉 AXIS Toolbox is now PUBLIC!
+**Tweet 1/3:** 🎉 Axis' Iliad is now PUBLIC!
 
 After 97 sessions building, I open-sourced the AI development OS that generates 86 artifacts from any codebase.
 
@@ -47,7 +47,7 @@ From context maps to brand systems, debug playbooks to SEO audits - it creates e
 Free tier: Search, Skills, Debug
 Pro: All programs + advanced features
 
-Try it: https://github.com/lastmanupinc-hub/Toolbox
+Try it: https://github.com/lastmanupinc-hub/axis-iliad
 
 **Tweet 3/3:** Built for the AI-native development era.
 
@@ -64,7 +64,7 @@ What would you generate first? 🤔
 ## LinkedIn Post
 
 **Content:**
-I'm excited to announce that AXIS Toolbox is now open source! 🚀
+I'm excited to announce that Axis' Iliad is now open source! 🚀
 
 After 6 months of development and 97 coding sessions, this AI-native development operating system can analyze any codebase and generate 86 different artifacts automatically.
 
@@ -85,7 +85,7 @@ After 6 months of development and 97 coding sessions, this AI-native development
 • Free: 3 core programs
 • Pro: $29/month for all 18 programs
 
-Check it out: https://github.com/lastmanupinc-hub/Toolbox
+Check it out: https://github.com/lastmanupinc-hub/axis-iliad
 
 #AI #DeveloperTools #OpenSource #SoftwareEngineering #DevOps
 
@@ -94,20 +94,20 @@ Check it out: https://github.com/lastmanupinc-hub/Toolbox
 ## Discord Messages (Cursor Discord, AI Coding servers)
 
 **Cursor Discord:**
-"Hey @everyone - just open-sourced AXIS Toolbox, the AI development OS that Cursor has been missing!
+"Hey @everyone - just open-sourced Axis' Iliad, the AI development OS that Cursor has been missing!
 
 It analyzes repos and generates 86 artifacts that would take days to create manually. Perfect companion for Cursor's AI coding.
 
 Already has MCP integration - works seamlessly with Cursor.
 
-Free tier available: https://github.com/lastmanupinc-hub/Toolbox"
+Free tier available: https://github.com/lastmanupinc-hub/axis-iliad"
 
 **AI Coding Discord:**
 "Built an AI that turns codebases into 86 organized artifacts. From architecture docs to brand systems, debug playbooks to SEO audits.
 
 Now open source with MCP server support.
 
-Free to try: https://github.com/lastmanupinc-hub/Toolbox
+Free to try: https://github.com/lastmanupinc-hub/axis-iliad
 
 What would you generate for your project?"
 
@@ -115,10 +115,10 @@ What would you generate for your project?"
 
 ## Hacker News Submission
 
-**Title:** Show HN: AXIS Toolbox - AI that generates 86 artifacts from any codebase
+**Title:** Show HN: Axis' Iliad - AI that generates 86 artifacts from any codebase
 
 **Text:**
-I've been building AXIS Toolbox for the past 6 months - an AI-native development operating system that analyzes codebases and generates comprehensive artifacts automatically.
+I've been building Axis' Iliad for the past 6 months - an AI-native development operating system that analyzes codebases and generates comprehensive artifacts automatically.
 
 **What it does:**
 Takes any repository (GitHub URL or uploaded) and generates 86 different outputs across 18 specialized programs:
@@ -142,7 +142,7 @@ Takes any repository (GitHub URL or uploaded) and generates 86 different outputs
 - 102 API endpoints
 
 **Try it:** https://axis-api-6c7z.onrender.com
-**Source:** https://github.com/lastmanupinc-hub/Toolbox
+**Source:** https://github.com/lastmanupinc-hub/axis-iliad
 
 Built for the AI-native development era where AI assistants need comprehensive context to be effective.
 
@@ -153,7 +153,7 @@ Built for the AI-native development era where AI assistants need comprehensive c
 **Tagline:** The operating system AI coding assistants need
 
 **Description:**
-AXIS Toolbox analyzes any codebase and generates 86 comprehensive artifacts automatically - from context maps and architecture summaries to AI assistant instructions, design systems, brand guidelines, SEO strategies, and debug playbooks.
+Axis' Iliad analyzes any codebase and generates 86 comprehensive artifacts automatically - from context maps and architecture summaries to AI assistant instructions, design systems, brand guidelines, SEO strategies, and debug playbooks.
 
 **What makes it special:**
 • Built specifically for AI-native development workflows
@@ -170,7 +170,7 @@ AXIS Toolbox analyzes any codebase and generates 86 comprehensive artifacts auto
 
 **Links:**
 • Website: https://axis-api-6c7z.onrender.com
-• GitHub: https://github.com/lastmanupinc-hub/Toolbox
-• MCP Registry: https://smithery.ai/server/@lastmanupinc/axis-toolbox
+• GitHub: https://github.com/lastmanupinc-hub/axis-iliad
+• MCP Registry: https://smithery.ai/server/@lastmanupinc/axis-iliad
 
 #AI #DeveloperTools #Productivity #OpenSource

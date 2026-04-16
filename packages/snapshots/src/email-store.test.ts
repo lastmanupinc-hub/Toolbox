@@ -35,7 +35,7 @@ describe("renderTemplate", () => {
       role: "member",
       accept_url: "http://localhost:3000/account?accept_seat=abc",
     });
-    expect(result.subject).toBe("You've been invited to Acme Inc on AXIS Toolbox");
+    expect(result.subject).toBe("You've been invited to Acme Inc on Axis' Iliad");
     expect(result.body).toContain("Alice has invited you");
     expect(result.body).toContain("bob@co.com");
     expect(result.body).toContain("member");
@@ -44,7 +44,7 @@ describe("renderTemplate", () => {
 
   it("renders welcome template", () => {
     const result = renderTemplate("welcome", { name: "Alice", tier: "free", web_url: "http://test" });
-    expect(result.subject).toBe("Welcome to AXIS Toolbox, Alice!");
+    expect(result.subject).toBe("Welcome to Axis' Iliad, Alice!");
     expect(result.body).toContain("free plan");
     expect(result.body).toContain("http://test");
   });
@@ -61,7 +61,7 @@ describe("renderTemplate", () => {
     const result = renderTemplate("usage_alert", {
       name: "Carol", used: "8", limit: "10", percent: "80", upgrade_url: "http://upgrade",
     });
-    expect(result.subject).toBe("AXIS Toolbox: You've used 80% of your monthly snapshots");
+    expect(result.subject).toBe("Axis' Iliad: You've used 80% of your monthly snapshots");
     expect(result.body).toContain("8 of 10");
   });
 
@@ -69,7 +69,7 @@ describe("renderTemplate", () => {
     const result = renderTemplate("api_key_created", {
       name: "Dave", label: "production", account_url: "http://acct",
     });
-    expect(result.subject).toBe("New API key created on your AXIS Toolbox account");
+    expect(result.subject).toBe("New API key created on your Axis' Iliad account");
     expect(result.body).toContain("production");
   });
 

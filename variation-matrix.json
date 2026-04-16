@@ -1,6 +1,6 @@
 {
-  "project": "axis-toolbox",
-  "generated": "2026-04-15T20:25:20.116Z",
+  "project": "axis-iliad",
+  "generated": "2026-04-16T14:25:25.234Z",
   "parameters": [
     {
       "name": "primary_hue",
@@ -39,7 +39,7 @@
         200,
         400
       ],
-      "description": "Element density based on project scale (496 files)"
+      "description": "Element density based on project scale (488 files)"
     },
     {
       "name": "layout",
@@ -57,14 +57,14 @@
       "name": "seed",
       "type": "integer",
       "values": [
-        1299,
-        2556,
-        3813,
-        5070,
-        6327,
-        7584
+        1039,
+        2036,
+        3033,
+        4030,
+        5027,
+        6024
       ],
-      "description": "Deterministic seeds derived from project name \"axis-toolbox\""
+      "description": "Deterministic seeds derived from project name \"axis-iliad\""
     }
   ],
   "variation_count": 12,
@@ -76,7 +76,7 @@
         "complexity": 0.3,
         "element_count": 200,
         "layout": "grid",
-        "seed": 2556
+        "seed": 2036
       },
       "thumbnail": "thumbnails/var_001.png",
       "tags": [
@@ -91,7 +91,7 @@
         "complexity": 0.3,
         "element_count": 200,
         "layout": "radial",
-        "seed": 3813
+        "seed": 3033
       },
       "thumbnail": "thumbnails/var_002.png",
       "tags": [
@@ -106,7 +106,7 @@
         "complexity": 0.3,
         "element_count": 200,
         "layout": "force-directed",
-        "seed": 5070
+        "seed": 4030
       },
       "thumbnail": "thumbnails/var_003.png",
       "tags": [
@@ -121,7 +121,7 @@
         "complexity": 0.7,
         "element_count": 200,
         "layout": "grid",
-        "seed": 6327
+        "seed": 5027
       },
       "thumbnail": "thumbnails/var_004.png",
       "tags": [
@@ -136,7 +136,7 @@
         "complexity": 0.7,
         "element_count": 200,
         "layout": "radial",
-        "seed": 7584
+        "seed": 6024
       },
       "thumbnail": "thumbnails/var_005.png",
       "tags": [
@@ -151,7 +151,7 @@
         "complexity": 0.7,
         "element_count": 200,
         "layout": "force-directed",
-        "seed": 1299
+        "seed": 1039
       },
       "thumbnail": "thumbnails/var_006.png",
       "tags": [
@@ -166,7 +166,7 @@
         "complexity": 0.3,
         "element_count": 200,
         "layout": "grid",
-        "seed": 2556
+        "seed": 2036
       },
       "thumbnail": "thumbnails/var_007.png",
       "tags": [
@@ -181,7 +181,7 @@
         "complexity": 0.3,
         "element_count": 200,
         "layout": "radial",
-        "seed": 3813
+        "seed": 3033
       },
       "thumbnail": "thumbnails/var_008.png",
       "tags": [
@@ -196,7 +196,7 @@
         "complexity": 0.3,
         "element_count": 200,
         "layout": "force-directed",
-        "seed": 5070
+        "seed": 4030
       },
       "thumbnail": "thumbnails/var_009.png",
       "tags": [
@@ -211,7 +211,7 @@
         "complexity": 0.7,
         "element_count": 200,
         "layout": "grid",
-        "seed": 6327
+        "seed": 5027
       },
       "thumbnail": "thumbnails/var_010.png",
       "tags": [
@@ -226,7 +226,7 @@
         "complexity": 0.7,
         "element_count": 200,
         "layout": "radial",
-        "seed": 7584
+        "seed": 6024
       },
       "thumbnail": "thumbnails/var_011.png",
       "tags": [
@@ -241,7 +241,7 @@
         "complexity": 0.7,
         "element_count": 200,
         "layout": "force-directed",
-        "seed": 1299
+        "seed": 1039
       },
       "thumbnail": "thumbnails/var_012.png",
       "tags": [
@@ -271,8 +271,8 @@
     },
     {
       "source_file": "apps/web/src/pages/DashboardPage.tsx",
-      "risk_score": 0.5,
-      "visual_weight": 0.05,
+      "risk_score": 0.55,
+      "visual_weight": 0.05500000000000001,
       "suggested_emphasis": "subtle"
     },
     {

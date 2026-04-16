@@ -1,6 +1,6 @@
 {
-  "project": "axis-toolbox",
-  "generated_at": "2026-04-15T20:25:19.991Z",
+  "project": "axis-iliad",
+  "generated_at": "2026-04-16T14:25:25.090Z",
   "design_system": {
     "colors": {
       "primary": "#6366f1",
@@ -118,11 +118,11 @@
     }
   ],
   "data_bindings": {
-    "title": "axis-toolbox",
-    "subtitle": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.",
+    "title": "axis-iliad",
+    "subtitle": null,
     "type": "monorepo",
     "language": "TypeScript",
-    "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.",
+    "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.",
     "frameworks": [
       {
         "name": "React",
@@ -136,32 +136,32 @@
     "language_stats": [
       {
         "name": "TypeScript",
-        "percent": 70.9,
-        "loc": 81263
+        "percent": 73.1,
+        "loc": 82162
       },
       {
         "name": "JSON",
-        "percent": 10.5,
-        "loc": 12048
+        "percent": 10.1,
+        "loc": 11394
       },
       {
         "name": "YAML",
-        "percent": 9.1,
-        "loc": 10492
+        "percent": 7.6,
+        "loc": 8564
       },
       {
         "name": "Markdown",
-        "percent": 7.3,
-        "loc": 8415
+        "percent": 7.1,
+        "loc": 7981
       },
       {
         "name": "JavaScript",
-        "percent": 1.3,
-        "loc": 1456
+        "percent": 1.2,
+        "loc": 1302
       },
       {
         "name": "CSS",
-        "percent": 0.7,
+        "percent": 0.8,
         "loc": 849
       },
       {
@@ -172,7 +172,7 @@
       {
         "name": "Dockerfile",
         "percent": 0,
-        "loc": 49
+        "loc": 51
       }
     ],
     "architecture_score": 0.65,
@@ -192,9 +192,9 @@
     "entry_point_count": 0,
     "hotspot_count": 7,
     "domain_model_count": 162,
-    "route_count": 449,
+    "route_count": 473,
     "total_files": 500,
-    "total_loc": 116119
+    "total_loc": 123123
   },
   "source_asset_files": null
 }

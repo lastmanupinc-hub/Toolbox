@@ -1,5 +1,5 @@
 ﻿
-[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/AXIS Toolbox[39m
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/Axis' Iliad[39m
       [2mCoverage enabled with [22m[33mv8[39m
 
  [32mΓ£ô[39m packages/snapshots/src/coverage-gaps.test.ts [2m([22m[2m46 tests[22m[2m)[22m[33m 1056[2mms[22m[39m
@@ -1519,7 +1519,7 @@ thub/callback?code=abc&state=xyz","status":503,"duration_ms":2}
  [32mΓ£ô[39m packages/snapshots/src/github-token-branches.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 198[2mms[22m[39m
  [32mΓ£ô[39m apps/cli/src/runner.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 31[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-pipeline.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-pipeline.test.ts
 [22m[39mNo source files found in target directory.
@@ -1534,7 +1534,7 @@ thub/callback?code=abc&state=xyz","status":503,"duration_ms":2}
  [32mΓ£ô[39m packages/repo-parser/src/parser-branches.test.ts [2m([22m[2m49 tests[22m[2m)[22m[32m 124[2mms[22m[39m
  [32mΓ£ô[39m packages/generator-core/src/generator-sourcefile-branches14.test.ts [2m([22m[2m29 tests[22m[2m)[22m[32m 114[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-auth.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-auth.test.ts
 [22m[39mNo source files found in target directory.
@@ -1543,7 +1543,7 @@ thub/callback?code=abc&state=xyz","status":503,"duration_ms":2}
  [32mΓ£ô[39m apps/cli/src/cli-auth.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 51[2mms[22m[39m
  [32mΓ£ô[39m packages/repo-parser/src/parser-branches3.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 93[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-commands.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-commands.test.ts
 [22m[39mNo source files found in target directory.

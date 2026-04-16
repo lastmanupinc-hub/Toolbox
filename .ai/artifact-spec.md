@@ -1,10 +1,10 @@
-# Artifact Specification — axis-toolbox
+# Artifact Specification — axis-iliad
 
 Generated: 2026-04-11T22:24:47.534Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -16,7 +16,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 
 | Field | Value |
 |-------|-------|
-| Name | axis-toolbox |
+| Name | axis-iliad |
 | Type | monorepo |
 | Language | TypeScript |
 | Frameworks | React |

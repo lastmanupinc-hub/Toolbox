@@ -1,4 +1,4 @@
-# Tracing Rules — axis-toolbox
+# Tracing Rules — axis-iliad
 
 ## Purpose
 
@@ -303,6 +303,8 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/v1/health/live` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/health/ready` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/metrics` | apps/api/src/server.ts | NORMAL |
+| GET | `/performance` | apps/api/src/server.ts | NORMAL |
+| GET | `/performance/reputation` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/db/stats` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/db/maintenance` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/docs` | apps/api/src/server.ts | NORMAL |
@@ -342,6 +344,9 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/security.txt` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/agent.json` | apps/api/src/server.ts | NORMAL |
+| GET | `/.well-known/oauth-authorization-server` | apps/api/src/server.ts | HIGH |
+| GET | `/mcp/.well-known/mcp.json` | apps/api/src/server.ts | NORMAL |
+| GET | `/mcp/.well-known/agent.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/robots.txt` | apps/api/src/server.ts | NORMAL |
 | GET | `/sitemap.xml` | apps/api/src/server.ts | NORMAL |
 | GET | `/health` | apps/api/src/server.ts | NORMAL |
@@ -361,12 +366,25 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/v1/projects/:project_id/export` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/programs` | apps/api/src/server.ts | NORMAL |
 | POST | `/mcp` | apps/api/src/server.ts | NORMAL |
+| POST | `/mcp/` | apps/api/src/server.ts | NORMAL |
+| POST | `/v1/mcp` | apps/api/src/server.ts | NORMAL |
+| POST | `/v1/mcp/` | apps/api/src/server.ts | NORMAL |
 | GET | `/mcp` | apps/api/src/server.ts | NORMAL |
+| GET | `/mcp/` | apps/api/src/server.ts | NORMAL |
+| GET | `/v1/mcp` | apps/api/src/server.ts | NORMAL |
+| GET | `/v1/mcp/` | apps/api/src/server.ts | NORMAL |
 | GET | `/mcp/docs` | apps/api/src/server.ts | NORMAL |
+| GET | `/favicon.ico` | apps/api/src/server.ts | NORMAL |
+| GET | `/mcp/sse` | apps/api/src/server.ts | NORMAL |
+| POST | `/mcp/sse` | apps/api/src/server.ts | NORMAL |
+| GET | `/mcp/mcp/*` | apps/api/src/server.ts | NORMAL |
+| POST | `/mcp/mcp/*` | apps/api/src/server.ts | NORMAL |
+| DELETE | `/mcp/mcp/*` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/stats` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/mcp/server.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/accounts` | apps/api/src/server.ts | NORMAL |
+| POST | `/accounts` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/account` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/account/keys` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/account/keys` | apps/api/src/server.ts | NORMAL |
@@ -396,6 +414,10 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/v1/admin/activity` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/auth/github` | apps/api/src/server.ts | HIGH |
 | GET | `/v1/auth/github/callback` | apps/api/src/server.ts | HIGH |
+| GET | `/oauth/authorize` | apps/api/src/server.ts | HIGH |
+| POST | `/oauth/token` | apps/api/src/server.ts | HIGH |
+| GET | `/oauth/jwks` | apps/api/src/server.ts | HIGH |
+| POST | `/oauth/introspect` | apps/api/src/server.ts | HIGH |
 | POST | `/v1/account/webhooks` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/account/webhooks` | apps/api/src/server.ts | NORMAL |
 | DELETE | `/v1/account/webhooks/:webhook_id` | apps/api/src/server.ts | NORMAL |
@@ -449,6 +471,8 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/health` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/docs` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/openapi.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/performance` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/performance/reputation` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/health` | e2e_ui_audit.yaml | NORMAL |
 | GET | `/v1/health` | e2e_ui_audit.yaml | NORMAL |
 | GET | `/api/health` | packages/context-engine/src/engine-branches.test.ts | NORMAL |
@@ -543,7 +567,7 @@ State transitions on these entities should be logged:
 - `ImportMeta` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - `ImportMetaEnv` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - `DashboardData` (interface, 6 fields) — `dashboard-widget.tsx`
-- `axistoolboxProps` (interface, 3 fields) — `generated-component.tsx`
+- `axisiliadProps` (interface, 3 fields) — `generated-component.tsx`
 - `PaletteAction` (interface, 0 fields) — `generated-component.tsx`
 - `Edge` (interface, 3 fields) — `generative-sketch.ts`
 - `Node` (interface, 7 fields) — `generative-sketch.ts`
@@ -640,7 +664,7 @@ These high-connectivity files should be monitored for regressions:
 - `apps/web/src/App.tsx` — 1 inbound, 17 outbound — watch for: import changes, export signature changes
 - `apps/web/src/api.ts` — 17 inbound, 0 outbound — watch for: import changes, export signature changes
 - `apps/web/src/pages.test.tsx` — 0 inbound, 15 outbound — watch for: import changes, export signature changes
-- `apps/web/src/pages/DashboardPage.tsx` — 1 inbound, 9 outbound — watch for: import changes, export signature changes
+- `apps/web/src/pages/DashboardPage.tsx` — 1 inbound, 10 outbound — watch for: import changes, export signature changes
 - `apps/web/src/components/Toast.tsx` — 4 inbound, 0 outbound — watch for: import changes, export signature changes
 - `apps/web/src/components/AxisIcons.tsx` — 4 inbound, 0 outbound — watch for: import changes, export signature changes
 - `apps/web/src/upload-utils.ts` — 3 inbound, 0 outbound — watch for: import changes, export signature changes
@@ -685,6 +709,7 @@ Monitor for layer violations:
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -709,8 +734,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-  handleAgenticPurchasingGenerate,
-... (313 more lines)
+... (407 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -801,7 +825,10 @@ import type { SnapshotResponse } from "./api.ts";
 ### `apps/web/src/pages.test.tsx`
 
 ```tsx
-// @vitest-environment happy-dom
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 
@@ -818,8 +845,5 @@ import { TermsPage } from "./pages/TermsPage";
 
 describe("Page smoke tests — zero-prop pages", () => {
   it("DocsPage renders without crashing", () => {
-    const { container } = render(<DocsPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
-... (94 more lines)
+... (97 more lines)
 ```

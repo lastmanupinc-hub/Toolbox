@@ -1,15 +1,15 @@
-# Collection Map — axis-toolbox
+# Collection Map — axis-iliad
 
-Generated: 2026-04-15T20:25:19.995Z
+Generated: 2026-04-16T14:25:25.095Z
 
 ## Collection Overview
 
 A curated set of generative art pieces derived from the structure,
-metrics, and architecture of axis-toolbox.
+metrics, and architecture of axis-iliad.
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -32,12 +32,12 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 - **Type**: Concentric ring visualization
 - **Rings**: One per language, radius ∝ LOC percentage
-  - TypeScript: 70.9% → radius 213px
-  - JSON: 10.5% → radius 32px
-  - YAML: 9.1% → radius 27px
-  - Markdown: 7.3% → radius 22px
-  - JavaScript: 1.3% → radius 4px
-  - CSS: 0.7% → radius 2px
+  - TypeScript: 73.1% → radius 219px
+  - JSON: 10.1% → radius 30px
+  - YAML: 7.6% → radius 23px
+  - Markdown: 7.1% → radius 21px
+  - JavaScript: 1.2% → radius 4px
+  - CSS: 0.8% → radius 2px
   - HTML: 0.1% → radius 0px
   - Dockerfile: 0% → radius 0px
 - **Animation**: Slow rotation, pulse on interaction
@@ -59,7 +59,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
   - `apps/web/src/App.tsx` (risk: 0.9, connections: 18)
   - `apps/web/src/api.ts` (risk: 0.8, connections: 17)
   - `apps/web/src/pages.test.tsx` (risk: 0.8, connections: 15)
-  - `apps/web/src/pages/DashboardPage.tsx` (risk: 0.5, connections: 10)
+  - `apps/web/src/pages/DashboardPage.tsx` (risk: 0.6, connections: 11)
   - `apps/web/src/components/Toast.tsx` (risk: 0.2, connections: 4)
 - **Brightness**: risk_score mapped to luminosity
 - **Size**: inbound + outbound connections
@@ -70,12 +70,12 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Property | Value |
 |----------|-------|
 | Total Pieces | 4 |
-| Source Project | axis-toolbox |
+| Source Project | axis-iliad |
 | Data Points | 17 |
 | Domain Models | 162 |
-| Routes | 449 |
+| Routes | 473 |
 | Total Files | 500 |
-| Total LOC | 116119 |
+| Total LOC | 123123 |
 | Render Target | Canvas 2D / WebGL |
 | Parameter Pack | parameter-pack.json |
 

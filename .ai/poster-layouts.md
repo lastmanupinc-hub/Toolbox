@@ -1,4 +1,4 @@
-# Poster Layouts — axis-toolbox
+# Poster Layouts — axis-iliad
 
 Generated: 2026-04-11T22:24:47.567Z
 
@@ -25,7 +25,7 @@ Generated: 2026-04-11T22:24:47.567Z
 ### Data for Zones
 
 **Hero Zone**
-- Title: axis-toolbox
+- Title: axis-iliad
 - Subtitle: AI-native development operating system. Upload or point at any codebase — get 80 generated artifacts across 17 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
 - Type Badge: monorepo
 
@@ -70,7 +70,7 @@ Generated: 2026-04-11T22:24:47.567Z
 └──────────────────────────────────────────┘
 ```
 
-- Name: axis-toolbox
+- Name: axis-iliad
 - Type: monorepo
 - Score: 0.64/100
 - Badges: React

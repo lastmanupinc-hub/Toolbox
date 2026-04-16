@@ -1,10 +1,10 @@
-# Contributing to AXIS Toolbox
+# Contributing to Axis' Iliad
 
 ## Dev Setup
 
 ```bash
-git clone https://github.com/lastmanupinc-hub/Toolbox.git
-cd Toolbox
+git clone https://github.com/lastmanupinc-hub/axis-iliad.git
+cd axis-iliad
 pnpm install
 
 # Build all packages (order matters — packages before apps)

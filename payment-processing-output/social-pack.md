@@ -14,7 +14,7 @@ Generated: 2026-04-05T07:37:21.797Z
 │                                           │
 │     [Svelte]    │
 │                                           │
-│     Powered by AXIS Toolbox               │
+│     Powered by Axis' Iliad               │
 └──────────────────────────────────────────┘
 ```
 
@@ -40,7 +40,7 @@ Generated: 2026-04-05T07:37:21.797Z
 
 ### Thread Template
 
-🧵 1/ Just analyzed avery-pay-platform with @AxisToolbox
+🧵 1/ Just analyzed avery-pay-platform with @AxisIliad
 
 📊 2/ Tech stack: Svelte
 Architecture score: 0/100
@@ -53,7 +53,7 @@ Architecture score: 0/100
 
 📋 Project Analysis: avery-pay-platform
 
-I ran avery-pay-platform through AXIS Toolbox and here's what it found:
+I ran avery-pay-platform through Axis' Iliad and here's what it found:
 
 • Type: static_site
 • Primary Language: Go

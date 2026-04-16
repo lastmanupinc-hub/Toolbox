@@ -1,10 +1,10 @@
-# Layout Patterns — axis-toolbox
+# Layout Patterns — axis-iliad
 
 Generated: 2026-04-11T22:24:48.025Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 

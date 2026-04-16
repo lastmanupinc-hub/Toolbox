@@ -19,7 +19,7 @@ const GETTING_STARTED_STEPS: Step[] = [
   { number: 1, title: "Create an Account", description: "Go to the Account page and sign up with your name and email. You'll receive an API key with the axis_ prefix — save it somewhere safe.", icon: "user" },
   { number: 2, title: "Upload Your Project", description: "Head to the Analyze page. Drag and drop a folder, upload a ZIP file, or paste a GitHub repository URL. Axis will scan all source files.", icon: "upload" },
   { number: 3, title: "Review the Snapshot", description: "Once analysis completes, you'll land on the Dashboard. Explore the Overview, Structure, Dependencies, and other tabs to understand your codebase.", icon: "dashboard" },
-  { number: 4, title: "Run Programs", description: "Switch to the Programs tab and click any program card to generate tailored output files. Free-tier users get 3 programs; upgrade for all 17.", icon: "toolbox" },
+  { number: 4, title: "Run Programs", description: "Switch to the Programs tab and click any program card to generate tailored output files. Free-tier users get 3 programs; upgrade for all 17.", icon: "programs" },
   { number: 5, title: "Download or Search", description: "Use the Generated Files tab to view and copy output, or export everything as a ZIP. The Search tab lets you query your indexed snapshot.", icon: "download" },
 ];
 
@@ -52,7 +52,7 @@ export function HelpPage() {
   const sections: { id: HelpSection; label: string; icon: string }[] = [
     { id: "getting-started", label: "Getting Started", icon: "rocket" },
     { id: "upload", label: "Upload Guide", icon: "upload" },
-    { id: "programs", label: "Using Programs", icon: "toolbox" },
+    { id: "programs", label: "Using Programs", icon: "programs" },
     { id: "dashboard", label: "Dashboard Guide", icon: "dashboard" },
     { id: "account", label: "Account & Billing", icon: "credit-card" },
     { id: "troubleshooting", label: "Troubleshooting", icon: "wrench" },
@@ -63,7 +63,7 @@ export function HelpPage() {
       <div className="card" style={{ textAlign: "center", marginBottom: 24 }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: 8 }}>Help Center</h2>
         <p style={{ color: "var(--text-muted)", maxWidth: 520, margin: "0 auto" }}>
-          Step-by-step guides, tips, and troubleshooting for Axis Toolbox.
+          Step-by-step guides, tips, and troubleshooting for Axis' Iliad.
         </p>
       </div>
 
@@ -95,7 +95,7 @@ function GettingStartedSection() {
       <div className="card">
         <h3 style={{ marginBottom: 16 }}>Quick Start Guide</h3>
         <p style={{ color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 20 }}>
-          Get up and running with Axis Toolbox in 5 steps.
+          Get up and running with Axis' Iliad in 5 steps.
         </p>
         {GETTING_STARTED_STEPS.map((step) => (
           <div
@@ -162,7 +162,7 @@ function GettingStartedSection() {
       <div className="card">
         <h3 style={{ marginBottom: 12 }}>Navigation Overview</h3>
         <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem", lineHeight: 1.7, marginBottom: 12 }}>
-          Axis Toolbox has 7 main pages, each accessible via the header navigation or keyboard shortcuts.
+          Axis' Iliad has 7 main pages, each accessible via the header navigation or keyboard shortcuts.
         </p>
         <div className="grid grid-2" style={{ gap: 10 }}>
           {[
@@ -407,7 +407,7 @@ function DashboardGuideSection() {
             { tab: "Structure", key: "Alt+2", icon: "folder", desc: "File tree visualization showing directory layout, file sizes, and language distribution. Identifies large files and deep nesting." },
             { tab: "Dependencies", key: "Alt+3", icon: "api-link", desc: "Dependency graph with package counts, version ranges, and outdated/vulnerable package warnings from your manifest files." },
             { tab: "Generated Files", key: "Alt+4", icon: "file-doc", desc: "Browse all output files from programs you've run. Click any file to preview, copy to clipboard, or download individually." },
-            { tab: "Programs", key: "Alt+5", icon: "toolbox", desc: "Program launcher — 17 cards organized by tier (Free / Pro). Click a card to generate output. Shows which programs have already been run." },
+            { tab: "Programs", key: "Alt+5", icon: "programs", desc: "Program launcher — 17 cards organized by tier (Free / Pro). Click a card to generate output. Shows which programs have already been run." },
             { tab: "Search", key: "Alt+6", icon: "search", desc: "Full-text search across your snapshot. Build the index first, then search by keyword, function name, or content pattern." },
           ].map((t) => (
             <div key={t.tab} className="card" style={{ padding: 14, marginBottom: 0 }}>
@@ -524,7 +524,7 @@ function AccountGuideSection() {
       <div className="card">
         <h3 style={{ marginBottom: 12 }}>Account Management</h3>
         <p style={{ color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 16 }}>
-          Your Axis Toolbox account is managed through API keys. There are no passwords — your
+          Your Axis' Iliad account is managed through API keys. There are no passwords — your
           API key is your identity.
         </p>
         <div className="grid grid-2">

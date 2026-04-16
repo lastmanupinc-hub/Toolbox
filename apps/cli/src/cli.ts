@@ -57,7 +57,7 @@ function parseArgs(argv: string[]): CliArgs {
 
 function printHelp(): void {
   console.log(`
-axis — AXIS Toolbox CLI
+axis — Axis' Iliad CLI
 
 Usage:
   axis analyze [path] [options]
@@ -97,7 +97,7 @@ function printPrograms(): void {
     byProgram.set(g.program, list);
   }
 
-  console.log(`\nAXIS Toolbox — ${generators.length} generators across ${byProgram.size} programs\n`);
+  console.log(`\nAxis' Iliad — ${generators.length} generators across ${byProgram.size} programs\n`);
 
   const FREE_PROGRAMS = new Set(["search", "skills", "debug"]);
 

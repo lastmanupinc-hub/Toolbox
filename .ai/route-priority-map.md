@@ -1,10 +1,10 @@
-# Route Priority Map — axis-toolbox
+# Route Priority Map — axis-iliad
 
 > Route-level SEO prioritization for crawl budget and sitemap configuration
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -517,7 +517,7 @@ Sitemap: https://yoursite.com/sitemap.xml
 # Cloudflare Pages serves the static SPA from apps/web/dist/.
 # Configure in the Cloudflare dashboard:
 #
-#   1. Connect GitHub repo: lastmanupinc-hub/Toolbox
+#   1. Connect GitHub repo: lastmanupinc-hub/axis-iliad
 #   2. Build settings:
 #        Framework preset: None
 #        Build command: pnpm install --frozen-lockfile && pnpm -r build

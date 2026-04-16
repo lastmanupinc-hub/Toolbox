@@ -203,7 +203,7 @@ export function ProgramsPage({ onAnalyze }: Props) {
             Every AI artifact your codebase needs. Generated in seconds.
           </h1>
           <p className="programs-hero-sub">
-            AXIS Toolbox analyzes your repo across 60+ languages and generates structured governance files
+            Axis' Iliad analyzes your repo across 60+ languages and generates structured governance files
             for every AI coding tool — GitHub Copilot, Claude Code, Cursor, Windsurf, Aider, and more.
             One scan. 86 outputs. Zero manual work.
           </p>
@@ -261,7 +261,7 @@ export function ProgramsPage({ onAnalyze }: Props) {
       <section className="programs-cta">
         <h2>Ready to monopolize your AI development workflow?</h2>
         <p>
-          Upload a ZIP, paste a GitHub URL, or use the CLI. AXIS Toolbox scans your entire
+          Upload a ZIP, paste a GitHub URL, or use the CLI. Axis' Iliad scans your entire
           codebase and generates structured artifacts that make every AI coding tool more
           accurate, consistent, and effective.
         </p>
@@ -269,7 +269,7 @@ export function ProgramsPage({ onAnalyze }: Props) {
           <button className="btn btn-primary btn-lg" onClick={onAnalyze}>
             Analyze your repo — it&apos;s free
           </button>
-          <a className="btn btn-lg" href="mailto:jonathan@jonathanarvay.com?subject=AXIS%20Toolbox%20Demo">
+          <a className="btn btn-lg" href="mailto:jonathan@jonathanarvay.com?subject=Axis%27%20Iliad%20Demo">
             Request a demo
           </a>
         </div>

@@ -1,5 +1,5 @@
 /**
- * AXIS Toolbox — Generative Topology Visualization
+ * Axis' Iliad — Generative Topology Visualization
  * Canvas-based particle system that visualizes the package → program → generator DAG.
  * Nodes orbit by type (packages inner, programs mid, generators outer).
  * Edges rendered as flowing particles along connection paths.
@@ -221,7 +221,7 @@
     ctx.fillStyle = COLORS.text;
     ctx.font = '12px system-ui';
     ctx.textAlign = 'left';
-    ctx.fillText('AXIS Toolbox Topology', 22, 32);
+    ctx.fillText('Axis' Iliad Topology', 22, 32);
     ctx.fillStyle = COLORS.textMuted;
     ctx.font = '11px system-ui';
     ctx.fillText(`Packages: ${packages.length}  Programs: ${programs.length}`, 22, 50);

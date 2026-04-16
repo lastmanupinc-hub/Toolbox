@@ -1,10 +1,10 @@
-# Channel Rulebook — axis-toolbox
+# Channel Rulebook — axis-iliad
 
 Generated: 2026-04-11T22:24:48.157Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -44,7 +44,7 @@ Channel-specific brand and content rules for consistent communication.
 | Tone | Confident, concise, technical-but-approachable |
 | Max length | 280 chars (aim for < 200) |
 | Hashtags | Max 2 per post |
-| Branded hashtags | #axistoolbox, #BuiltWithaxistoolbox |
+| Branded hashtags | #axisiliad, #BuiltWithaxisiliad |
 | Thread style | Numbered, each tweet self-contained |
 | Media | Screenshot or GIF with every thread |
 

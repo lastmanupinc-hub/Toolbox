@@ -1,10 +1,10 @@
-# CRO Playbook — axis-toolbox
+# CRO Playbook — axis-iliad
 
 > Conversion Rate Optimization playbook based on detected routes and architecture
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -316,6 +316,8 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/health/live` | GET | Track API adoption rate per endpoint |
 | `/v1/health/ready` | GET | Track API adoption rate per endpoint |
 | `/v1/metrics` | GET | Track API adoption rate per endpoint |
+| `/performance` | GET | Monitor usage metrics |
+| `/performance/reputation` | GET | Monitor usage metrics |
 | `/v1/db/stats` | GET | Track API adoption rate per endpoint |
 | `/v1/db/maintenance` | POST | Track API adoption rate per endpoint |
 | `/v1/docs` | GET | Track API adoption rate per endpoint |
@@ -355,6 +357,9 @@ Detected routes that are candidates for conversion optimization:
 | `/.well-known/mcp.json` | GET | Monitor usage metrics |
 | `/.well-known/security.txt` | GET | Monitor usage metrics |
 | `/.well-known/agent.json` | GET | Monitor usage metrics |
+| `/.well-known/oauth-authorization-server` | GET | Reduce friction — minimize required fields |
+| `/mcp/.well-known/mcp.json` | GET | Monitor usage metrics |
+| `/mcp/.well-known/agent.json` | GET | Monitor usage metrics |
 | `/robots.txt` | GET | Monitor usage metrics |
 | `/sitemap.xml` | GET | Monitor usage metrics |
 | `/health` | GET | Monitor usage metrics |
@@ -374,12 +379,25 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/projects/:project_id/export` | GET | Track API adoption rate per endpoint |
 | `/v1/programs` | GET | Track API adoption rate per endpoint |
 | `/mcp` | POST | Monitor usage metrics |
+| `/mcp/` | POST | Monitor usage metrics |
+| `/v1/mcp` | POST | Track API adoption rate per endpoint |
+| `/v1/mcp/` | POST | Track API adoption rate per endpoint |
 | `/mcp` | GET | Monitor usage metrics |
+| `/mcp/` | GET | Monitor usage metrics |
+| `/v1/mcp` | GET | Track API adoption rate per endpoint |
+| `/v1/mcp/` | GET | Track API adoption rate per endpoint |
 | `/mcp/docs` | GET | Track documentation coverage and bounce rate |
+| `/favicon.ico` | GET | Monitor usage metrics |
+| `/mcp/sse` | GET | Monitor usage metrics |
+| `/mcp/sse` | POST | Monitor usage metrics |
+| `/mcp/mcp/*` | GET | Monitor usage metrics |
+| `/mcp/mcp/*` | POST | Monitor usage metrics |
+| `/mcp/mcp/*` | DELETE | Monitor usage metrics |
 | `/v1/stats` | GET | Track API adoption rate per endpoint |
 | `/v1/mcp/server.json` | GET | Track API adoption rate per endpoint |
 | `/v1/mcp/tools` | GET | Track API adoption rate per endpoint |
 | `/v1/accounts` | POST | Track API adoption rate per endpoint |
+| `/accounts` | POST | Monitor usage metrics |
 | `/v1/account` | GET | Track API adoption rate per endpoint |
 | `/v1/account/keys` | POST | Track API adoption rate per endpoint |
 | `/v1/account/keys` | GET | Track API adoption rate per endpoint |
@@ -409,6 +427,10 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/admin/activity` | GET | Track API adoption rate per endpoint |
 | `/v1/auth/github` | GET | Reduce friction — minimize required fields |
 | `/v1/auth/github/callback` | GET | Reduce friction — minimize required fields |
+| `/oauth/authorize` | GET | Reduce friction — minimize required fields |
+| `/oauth/token` | POST | Reduce friction — minimize required fields |
+| `/oauth/jwks` | GET | Reduce friction — minimize required fields |
+| `/oauth/introspect` | POST | Reduce friction — minimize required fields |
 | `/v1/account/webhooks` | POST | Track API adoption rate per endpoint |
 | `/v1/account/webhooks` | GET | Track API adoption rate per endpoint |
 | `/v1/account/webhooks/:webhook_id` | DELETE | Track API adoption rate per endpoint |
@@ -462,6 +484,8 @@ Detected routes that are candidates for conversion optimization:
 | `/health` | GET | Monitor usage metrics |
 | `/docs` | GET | Track documentation coverage and bounce rate |
 | `/openapi.json` | GET | Track API adoption rate per endpoint |
+| `/performance` | GET | Monitor usage metrics |
+| `/performance/reputation` | GET | Monitor usage metrics |
 | `/health` | GET | Monitor usage metrics |
 | `/v1/health` | GET | Track API adoption rate per endpoint |
 | `/api/health` | GET | Track API adoption rate per endpoint |
@@ -483,7 +507,7 @@ Detected routes that are candidates for conversion optimization:
 
 ### Experiment 1: Authentication Flow
 
-- **Route**: `GET /v1/auth/github`, `GET /v1/auth/github/callback`, `GET /v1/auth/github`, `GET /v1/auth/github/callback`
+- **Route**: `GET /v1/auth/github`, `GET /v1/auth/github/callback`, `GET /.well-known/oauth-authorization-server`, `GET /v1/auth/github`, `GET /v1/auth/github/callback`, `GET /oauth/authorize`, `POST /oauth/token`, `GET /oauth/jwks`, `POST /oauth/introspect`
 - **Hypothesis**: Social OAuth login will increase conversion by 30%
 - **Metric**: Login success rate, abandonment rate
 - **Variants**: A: Email/password only | B: OAuth (GitHub, Google) as primary
@@ -517,7 +541,7 @@ Detected routes that are candidates for conversion optimization:
 
 - **Hypothesis**: A guided first-run wizard will increase first-value moment by 35%
 - **Metric**: Features used in first session, time to first successful output
-- **Context**: 449 API endpoints — users need a path through the complexity
+- **Context**: 473 API endpoints — users need a path through the complexity
 - **Variants**: A: Self-discovery | B: Step-by-step first-run guide with progress indicator
 - **Duration**: 3 weeks
 

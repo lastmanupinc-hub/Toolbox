@@ -354,7 +354,7 @@ function ExampleCard({ ex, expanded, onToggle }: { ex: Example; expanded: boolea
 
           <div style={{ display: "flex", gap: 10 }}>
             <a
-              href={`https://github.com/lastmanupinc-hub/Toolbox/tree/main/examples/${ex.id}-${ex.slug}`}
+              href={`https://github.com/lastmanupinc-hub/axis-iliad/tree/main/examples/${ex.id}-${ex.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -413,7 +413,7 @@ export function ExamplesPage() {
 
         <div style={{ display: "flex", gap: 10 }}>
           <a
-            href="https://github.com/lastmanupinc-hub/Toolbox/tree/main/examples"
+            href="https://github.com/lastmanupinc-hub/axis-iliad/tree/main/examples"
             target="_blank"
             rel="noopener noreferrer"
             style={{

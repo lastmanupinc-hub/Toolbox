@@ -652,7 +652,7 @@ export function generateStoryboard(ctx: ContextMap, files?: SourceFile[]): Gener
   lines.push("│                                    │");
   lines.push(`│          ${id.name.toUpperCase().padStart(Math.floor((20 + id.name.length) / 2)).padEnd(20)}              │`);
   lines.push("│                                    │");
-  lines.push("│     Analyzed by Axis Toolbox       │");
+  lines.push("│     Analyzed by Axis' Iliad       │");
   lines.push("│                                    │");
   lines.push("│     [ Get Started ]                │");
   lines.push("│                                    │");

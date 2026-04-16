@@ -1,4 +1,4 @@
-# Autonomous Checkout Flow — axis-toolbox
+# Autonomous Checkout Flow — axis-iliad
 
 > Specification for how AI agents complete AXIS program purchases without human intervention.
 
@@ -63,7 +63,7 @@ Every autonomous purchase MUST include these AP2 Article 2 mandate fields:
       "token_service_provider": "VISA_TSP | MASTERCARD_MDES"
     },
     "amount": { "value": 50, "currency": "USD", "minor_units": 2 },
-    "creditor": { "name": "Last Man Up Inc.", "identifier": "AXIS_TOOLBOX" },
+    "creditor": { "name": "Last Man Up Inc.", "identifier": "AXIS_ILIAD" },
     "sca_exemption": "low_value | trusted_beneficiary | recurring",
     "ucp_settlement": {
       "clearing_system": "VISA_NET | MASTERCARD_CLEARING | ACH",
@@ -198,7 +198,7 @@ Transaction arrives:
 
 ### AXIS Advantage Over Visa IC
 
-| Metric | Visa IC Pilot (April 2026) | AXIS Toolbox |
+| Metric | Visa IC Pilot (April 2026) | Axis' Iliad |
 |--------|---------------------------|--------------|
 | Integration calls | 3-5 API calls per decision | 0 calls — pre-computed in artifact |
 | Time to decision | 200-800ms (network round-trips) | 0ms — decision tree is local |

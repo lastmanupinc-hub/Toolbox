@@ -118,7 +118,7 @@ const router = new Router();
 router.get("/", async (_req, res) => {
   const { sendJSON } = await import("./router.js");
   sendJSON(res, 200, {
-    name: "AXIS Toolbox API",
+    name: "Axis' Iliad API",
     version: "0.5.0",
     docs: "/v1/docs",
     health: "/v1/health",

@@ -1,4 +1,4 @@
-# .cursorrules — axis-toolbox
+# .cursorrules — axis-iliad
 #
 # monorepo | TypeScript
 #
@@ -54,6 +54,7 @@ ci = "github_actions"
 # === Project File Tree ===
 # .github/workflows/ci.yml
 # .gitignore
+# .vitest-e2e.json
 # ab-test-plan.md
 # agent-purchasing-playbook.md
 # AGENTS.md
@@ -62,6 +63,9 @@ ci = "github_actions"
 # algorithmic/MEMORY.yaml
 # algorithmic/schemas/output-contract.schema.json
 # algorithmic-pack.json
+# apps/api/check-table.js
+# apps/api/gen-keys.js
+# apps/api/keys.env
 # apps/api/mcp-server.json
 # apps/api/package.json
 # apps/api/src/admin.test.ts
@@ -98,10 +102,6 @@ ci = "github_actions"
 # apps/api/src/handler-shutdown.test.ts
 # apps/api/src/handler-validation.test.ts
 # apps/api/src/handlers-deep.test.ts
-# apps/api/src/handlers.ts
-# apps/api/src/latency-histogram.test.ts
-# apps/api/src/logger.test.ts
-# apps/api/src/logger.ts
 # ... and 450 more files
 
 # === Key Entry Points ===
@@ -120,11 +120,11 @@ ci = "github_actions"
 #   export { ... }
 #   export { ... }
 
-# === AXIS Toolbox MCP ===
+# === Axis' Iliad MCP ===
 # Add AXIS as MCP server for codebase intelligence:
-# Cursor (.cursor/mcp.json): { "mcpServers": { "axis-toolbox": { "url": "https://axis-api-6c7z.onrender.com/mcp" } } }
-# VS Code (.vscode/mcp.json): { "servers": { "axis-toolbox": { "type": "http", "url": "https://axis-api-6c7z.onrender.com/mcp" } } }
-# Claude Code: claude mcp add axis-toolbox --transport http --url https://axis-api-6c7z.onrender.com/mcp
+# Cursor (.cursor/mcp.json): { "mcpServers": { "axis-iliad": { "url": "https://axis-api-6c7z.onrender.com/mcp" } } }
+# VS Code (.vscode/mcp.json): { "servers": { "axis-iliad": { "type": "http", "url": "https://axis-api-6c7z.onrender.com/mcp" } } }
+# Claude Code: claude mcp add axis-iliad --transport http --url https://axis-api-6c7z.onrender.com/mcp
 # Free API key: POST https://axis-api-6c7z.onrender.com/v1/accounts
 #
 # Call me again after code changes: analyze_repo or analyze_files via MCP tools/call.

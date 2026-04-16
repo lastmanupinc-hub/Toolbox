@@ -1,4 +1,4 @@
-# AXIS Toolbox — Board & Investor Pitch
+# Axis' Iliad — Board & Investor Pitch
 
 > **The AI-Powered Developer Intelligence Platform**
 > 18 programs. 86 generators. One snapshot. Every output a developer needs — before they write a single line of code.
@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-AXIS Toolbox transforms any codebase into a comprehensive intelligence layer. Upload a repository (or paste a GitHub URL), and AXIS produces structured, AI-ready outputs across 18 specialized programs — from architecture maps and debugging playbooks to brand guidelines and marketing funnels.
+Axis' Iliad transforms any codebase into a comprehensive intelligence layer. Upload a repository (or paste a GitHub URL), and AXIS produces structured, AI-ready outputs across 18 specialized programs — from architecture maps and debugging playbooks to brand guidelines and marketing funnels.
 
 Unlike tools that write code *for* developers, AXIS produces the **context, governance, strategy, and creative assets** that surround code. Every AI coding tool (Cursor, Claude, Copilot, Windsurf) performs better when given structured project context. AXIS is the factory that produces that context at scale.
 
@@ -36,7 +36,7 @@ The AI developer tools market has bifurcated:
 | **Code Writers** | Cursor, GitHub Copilot, Windsurf | Write code from prompts | No project-wide context governance |
 | **Deployment Platforms** | Vercel, Netlify, Railway | Ship code to production | No pre-build intelligence layer |
 | **Documentation** | Mintlify, ReadMe | Format existing docs | Don't generate docs from code analysis |
-| **AXIS Toolbox** | — | **Generates the intelligence layer that makes everything else work better** | — |
+| **Axis' Iliad** | — | **Generates the intelligence layer that makes everything else work better** | — |
 
 Every AI code editor becomes measurably more effective when given structured `.ai/` context files, governance rules, and architecture maps. AXIS is the only platform that produces these artifacts automatically from any codebase.
 
@@ -332,7 +332,7 @@ These programs are permanently free. They solve universal developer problems and
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    AXIS TOOLBOX                          │
+│                    AXIS' ILIAD                          │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌─────────┐    ┌──────────────┐    ┌───────────────┐  │
@@ -491,7 +491,7 @@ These programs are permanently free. They solve universal developer problems and
 
 ## The Ask
 
-AXIS Toolbox is the intelligence layer between code and every AI tool developers use. The platform is built, tested (3,906 tests), and deployed. What remains is market execution.
+Axis' Iliad is the intelligence layer between code and every AI tool developers use. The platform is built, tested (3,906 tests), and deployed. What remains is market execution.
 
 **We are the context factory that makes AI work better.**
 
@@ -499,5 +499,5 @@ Every AI coding tool writes code. None of them understand the project first. AXI
 
 ---
 
-*Prepared April 2026 · AXIS Toolbox v2.0.0 · 83/83 capabilities at Grade A*
-*Contact: No Fate Platform · [github.com/lastmanupinc-hub/Toolbox](https://github.com/lastmanupinc-hub/Toolbox)*
+*Prepared April 2026 · Axis' Iliad v2.0.0 · 83/83 capabilities at Grade A*
+*Contact: No Fate Platform · [github.com/lastmanupinc-hub/axis-iliad](https://github.com/lastmanupinc-hub/axis-iliad)*

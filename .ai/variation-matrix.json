@@ -1,5 +1,5 @@
 {
-  "project": "axis-toolbox",
+  "project": "axis-iliad",
   "generated": "2026-04-11T22:24:48.243Z",
   "parameters": [
     {
@@ -64,7 +64,7 @@
         6327,
         7584
       ],
-      "description": "Deterministic seeds derived from project name \"axis-toolbox\""
+      "description": "Deterministic seeds derived from project name \"axis-iliad\""
     }
   ],
   "variation_count": 12,

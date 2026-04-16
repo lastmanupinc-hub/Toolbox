@@ -1,9 +1,9 @@
-# AXIS Toolbox — Obsidian Vault Pack
+# Axis' Iliad — Obsidian Vault Pack
 
 ## Vault Structure
 
 ```
-AXIS-Toolbox-Vault/
+AXIS-Iliad-Vault/
 ├── 00-MOCs/
 │   ├── Architecture MOC.md
 │   ├── Programs MOC.md

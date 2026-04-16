@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════
-# AXIS Toolbox — E2E Wiring Audit Results
+# Axis' Iliad — E2E Wiring Audit Results
 # Generated: 2026-04-14T23:04:11.090Z
 # Target: http://localhost:4000
 # ═══════════════════════════════════════════════════════════════
@@ -138,105 +138,105 @@ tests:
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "frontend requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "frontend requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 17
       name: "seo_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 3
       error_code: "TIER_REQUIRED"
-      error: "seo requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "seo requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 18
       name: "optimization_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "optimization requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "optimization requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 19
       name: "theme_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "theme requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "theme requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 20
       name: "brand_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "brand requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "brand requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 21
       name: "superpowers_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 3
       error_code: "TIER_REQUIRED"
-      error: "superpowers requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "superpowers requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 22
       name: "marketing_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "marketing requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "marketing requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 23
       name: "notebook_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 3
       error_code: "TIER_REQUIRED"
-      error: "notebook requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "notebook requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 24
       name: "obsidian_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "obsidian requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "obsidian requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 25
       name: "mcp_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "mcp requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "mcp requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 26
       name: "artifacts_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 3
       error_code: "TIER_REQUIRED"
-      error: "artifacts requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "artifacts requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 27
       name: "remotion_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "remotion requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "remotion requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 28
       name: "canvas_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "canvas requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "canvas requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 29
       name: "algorithmic_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "algorithmic requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "algorithmic requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
     - id: 30
       name: "agentic-purchasing_endpoint_free_acct"
       outcome: EXPECTED_REFUSAL
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "agentic-purchasing requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "agentic-purchasing requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing."
   program_pro:
     - id: 31
       name: "search_endpoint_pro_acct"
@@ -968,7 +968,7 @@ tests:
       http_status: 402
       latency_ms: 2
       error_code: "TIER_REQUIRED"
-      error: "Pro programs require a paid plan or per-call payment: frontend, seo. Upgrade at toolbox.jonathanarvay.com/billing."
+      error: "Pro programs require a paid plan or per-call payment: frontend, seo. Upgrade at axis-iliad.jonathanarvay.com/billing."
 
 # ─── Verification Notes ─────────────────────────────────────
 # PASS = endpoint responded correctly with expected data

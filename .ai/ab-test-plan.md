@@ -1,10 +1,10 @@
-# A/B Test Plan — axis-toolbox
+# A/B Test Plan — axis-iliad
 
 Generated: 2026-04-11T22:24:48.175Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -35,7 +35,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 | Variant | Description |
 |---------|-------------|
 | Control | Current hero copy |
-| A | Feature-focused: "axis-toolbox analyzes your codebase in seconds" |
+| A | Feature-focused: "axis-iliad analyzes your codebase in seconds" |
 | B | Outcome-focused: "Ship faster with AI that understands your code" |
 
 ### Test 2: Primary CTA
@@ -52,7 +52,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 |---------|----------|-------|
 | Control | "Get Started" | Primary |
 | A | "Analyze My Repo" | Primary |
-| B | "Try axis-toolbox Free" | Accent |
+| B | "Try axis-iliad Free" | Accent |
 
 ### Test 3: Pricing Page Layout
 

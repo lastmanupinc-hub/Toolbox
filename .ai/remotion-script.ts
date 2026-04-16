@@ -1,6 +1,6 @@
 import { AbsoluteFill, Sequence, useCurrentFrame, interpolate } from "remotion";
 
-// Auto-generated Remotion composition for axis-toolbox
+// Auto-generated Remotion composition for axis-iliad
 // Scenes: Intro → Tech Stack → Architecture → Key Abstractions → Outro
 
 const THEME = {
@@ -15,7 +15,7 @@ function IntroScene() {
   const opacity = interpolate(frame, [0, 30], [0, 1], { extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ backgroundColor: THEME.bg, justifyContent: "center", alignItems: "center" }}>
-      <h1 style={{ color: THEME.fg, fontSize: 72, opacity }}>axis-toolbox</h1>
+      <h1 style={{ color: THEME.fg, fontSize: 72, opacity }}>axis-iliad</h1>
       <p style={{ color: THEME.muted, fontSize: 28, opacity }}>AI-native development operating system. Upload or point at any codebase — get 80 generated artifacts across 17 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.</p>
     </AbsoluteFill>
   );
@@ -76,7 +76,7 @@ function AbstractionsScene() {
   );
 }
 
-export function axistoolboxVideo() {
+export function axisiliadVideo() {
   return (
     <AbsoluteFill>
       <Sequence from={0} durationInFrames={90}><IntroScene /></Sequence>

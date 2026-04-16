@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schema_version": "1.0",
-  "product": "AXIS Toolbox",
-  "generated_for": "axis-toolbox",
-  "generated_at": "2026-04-15",
+  "product": "Axis' Iliad",
+  "generated_for": "axis-iliad",
+  "generated_at": "2026-04-16",
   "mcp_endpoint": "POST /mcp",
   "repo_commerce_profile": {
     "detected_payment_providers": [

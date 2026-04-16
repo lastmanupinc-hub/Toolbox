@@ -320,7 +320,7 @@ function buildLighterScaSection(signals: CommerceSignals): string {
     ``,
     `### AXIS Advantage Over Visa IC`,
     ``,
-    `| Metric | Visa IC Pilot (April 2026) | AXIS Toolbox |`,
+    `| Metric | Visa IC Pilot (April 2026) | Axis' Iliad |`,
     `|--------|---------------------------|--------------|`,
     `| Integration calls | 3-5 API calls per decision | 0 calls — pre-computed in artifact |`,
     `| Time to decision | 200-800ms (network round-trips) | 0ms — decision tree is local |`,
@@ -519,7 +519,7 @@ ${ap2ProviderRows}
 
 ## What Is AXIS?
 
-AXIS Toolbox analyzes codebases and generates 81 structured artifacts across 17 programs.
+Axis' Iliad analyzes codebases and generates 81 structured artifacts across 17 programs.
 Each program is a separate SKU that produces AI-consumable governance files — AGENTS.md,
 .cursorrules, architecture maps, debug playbooks, brand guidelines, design tokens, and more.
 
@@ -641,7 +641,7 @@ export function generateProductSchema(
   const schema = {
     $schema: "https://json-schema.org/draft/2020-12/schema",
     schema_version: "1.0",
-    product: "AXIS Toolbox",
+    product: "Axis' Iliad",
     generated_for: ctx.project_identity.name,
     generated_at: new Date().toISOString().split("T")[0],
     mcp_endpoint: "POST /mcp",
@@ -823,7 +823,7 @@ Every autonomous purchase MUST include these AP2 Article 2 mandate fields:
       "token_service_provider": "VISA_TSP | MASTERCARD_MDES"
     },
     "amount": { "value": 50, "currency": "USD", "minor_units": 2 },
-    "creditor": { "name": "Last Man Up Inc.", "identifier": "AXIS_TOOLBOX" },
+    "creditor": { "name": "Last Man Up Inc.", "identifier": "AXIS_ILIAD" },
     "sca_exemption": "low_value | trusted_beneficiary | recurring",
     "ucp_settlement": {
       "clearing_system": "VISA_NET | MASTERCARD_CLEARING | ACH",
@@ -1100,10 +1100,10 @@ export function generateCommerceRegistry(
 
   const registry = {
     registry_version: "1.0",
-    product: "AXIS Toolbox",
+    product: "Axis' Iliad",
     project: ctx.project_identity.name,
     generated_at: new Date().toISOString().split("T")[0],
-    axis_base_url: "https://api.axis-toolbox.com",
+    axis_base_url: "https://api.axis-iliad.com",
     mcp_endpoint: "POST /mcp",
     repo_commerce_signals: {
       detected_providers: signals.detected_providers,

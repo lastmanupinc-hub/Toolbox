@@ -1,10 +1,10 @@
-# UI Audit — axis-toolbox
+# UI Audit — axis-iliad
 
-Generated: 2026-04-15T20:25:20.089Z
+Generated: 2026-04-16T14:25:25.203Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -20,7 +20,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Styling | CSS/SCSS |
 | TypeScript | Yes |
 | UI Libraries | uuid |
-| Total Routes | 449 |
+| Total Routes | 473 |
 | Entry Points | 0 |
 
 ## Accessibility Checklist
@@ -84,7 +84,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `apps/web/src/components/GeneratedTab.tsx` | export function GeneratedTab({ ... } | 118 |
 | `apps/web/src/components/GraphTab.tsx` | export function GraphTab({ ... } | 128 |
 | `apps/web/src/components/OverviewTab.tsx` | export function OverviewTab({ ... } | 223 |
-| `apps/web/src/components/ProgramLauncher.tsx` | export function ProgramLauncher({ ... } | 165 |
+| `apps/web/src/components/ProgramLauncher.tsx` | export function ProgramLauncher({ ... } | 169 |
 | `apps/web/src/components/SearchTab.tsx` | export function SearchTab({ ... } | 307 |
 | `apps/web/src/components/SignUpModal.tsx` | export function SignUpModal({ ... } | 122 |
 | `apps/web/src/components/StatusBar.tsx` | export function StatusBar({ ... } | 76 |

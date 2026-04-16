@@ -10,7 +10,7 @@ interface DashboardData {
 }
 
 const data: DashboardData = {
-  project: "axis-toolbox",
+  project: "axis-iliad",
   type: "monorepo",
   language: "TypeScript",
   entryPoints: 0,
@@ -36,9 +36,9 @@ export function DashboardWidget() {
         <StatCard label="Language" value={data.language} />
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
-        <StatCard label="TypeScript" value={`${70.9}%`} />
-        <StatCard label="JSON" value={`${10.5}%`} />
-        <StatCard label="YAML" value={`${9.1}%`} />
+        <StatCard label="TypeScript" value={`${73.1}%`} />
+        <StatCard label="JSON" value={`${10.1}%`} />
+        <StatCard label="YAML" value={`${7.6}%`} />
       </div>
       <div className="framework-tags">
         {data.frameworks.map(f => (
@@ -56,15 +56,15 @@ export default DashboardWidget;
 // apps/web/src/App.tsx | 1 in | 17 out | risk 0.90
 // apps/web/src/api.ts | 17 in | 0 out | risk 0.85
 // apps/web/src/pages.test.tsx | 0 in | 15 out | risk 0.75
-// apps/web/src/pages/DashboardPage.tsx | 1 in | 9 out | risk 0.50
+// apps/web/src/pages/DashboardPage.tsx | 1 in | 10 out | risk 0.55
 // apps/web/src/components/Toast.tsx | 4 in | 0 out | risk 0.20
 // apps/web/src/components/AxisIcons.tsx | 4 in | 0 out | risk 0.20
 // apps/web/src/upload-utils.ts | 3 in | 0 out | risk 0.15
 
-// ─── API Surface: 449 routes ───
-// GET: 248 endpoints
-// POST: 181 endpoints
-// DELETE: 20 endpoints
+// ─── API Surface: 473 routes ───
+// GET: 263 endpoints
+// POST: 189 endpoints
+// DELETE: 21 endpoints
 
 // ─── Domain Models: 162 entities ───
 // AuthContext (interface, 3 fields) — apps/api/src/billing.ts

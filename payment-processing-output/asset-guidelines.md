@@ -36,7 +36,7 @@ Generated: 2026-04-05T07:37:21.797Z
 
 ### Logos & Icons
 - [ ] avery-pay-platform logo (SVG, light + dark variants)
-- [ ] AXIS Toolbox watermark (SVG, low opacity)
+- [ ] Axis' Iliad watermark (SVG, low opacity)
 - [ ] Svelte icon (SVG or PNG)
 
 ### Backgrounds

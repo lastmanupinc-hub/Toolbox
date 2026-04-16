@@ -1,4 +1,4 @@
-# Study Brief — axis-toolbox
+# Study Brief — axis-iliad
 
 > Structured learning guide for understanding this codebase
 
@@ -72,7 +72,7 @@ Test framework: **vitest**
 
 Answer these to confirm understanding:
 
-1. What is the primary purpose of axis-toolbox?
+1. What is the primary purpose of axis-iliad?
 2. What happens when a request enters the system?
 3. Where is state stored and how is it managed?
 4. What are the key boundaries between modules?

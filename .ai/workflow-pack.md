@@ -1,4 +1,4 @@
-# Workflow Pack — axis-toolbox
+# Workflow Pack — axis-iliad
 
 Reusable AI-assisted workflows for common development tasks.
 

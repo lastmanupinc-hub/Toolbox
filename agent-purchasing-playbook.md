@@ -1,4 +1,4 @@
-# AXIS Agent Purchasing Playbook — axis-toolbox
+# AXIS Agent Purchasing Playbook — axis-iliad
 
 > How an AI agent can autonomously discover, evaluate, and purchase AXIS analysis programs for this codebase.
 
@@ -6,7 +6,7 @@
 
 | Field | Value |
 |-------|-------|
-| Project | axis-toolbox |
+| Project | axis-iliad |
 | Type | monorepo |
 | Language | TypeScript |
 | Frameworks | React |
@@ -16,17 +16,17 @@
 
 Detection results from `500` source files:
 
-- **adyen** detected in 82 file(s)
-- **affirm** detected in 82 file(s)
-- **afterpay** detected in 82 file(s)
-- **amazon_pay** detected in 82 file(s)
-- **apple_pay** detected in 82 file(s)
-- **braintree** detected in 82 file(s)
-- **google_pay** detected in 82 file(s)
-- **klarna** detected in 82 file(s)
-- **paypal** detected in 82 file(s)
-- **square** detected in 82 file(s)
-- **stripe** detected in 82 file(s)
+- **adyen** detected in 77 file(s)
+- **affirm** detected in 77 file(s)
+- **afterpay** detected in 77 file(s)
+- **amazon_pay** detected in 77 file(s)
+- **apple_pay** detected in 77 file(s)
+- **braintree** detected in 77 file(s)
+- **google_pay** detected in 77 file(s)
+- **klarna** detected in 77 file(s)
+- **paypal** detected in 77 file(s)
+- **square** detected in 77 file(s)
+- **stripe** detected in 77 file(s)
 - Checkout flow code: ✅ Detected
 - Recurring/mandate billing: ✅ Detected
 - SCA/3DS2 handling: ✅ Detected
@@ -54,7 +54,7 @@ Detection results from `500` source files:
 
 ## What Is AXIS?
 
-AXIS Toolbox analyzes codebases and generates 81 structured artifacts across 17 programs.
+Axis' Iliad analyzes codebases and generates 81 structured artifacts across 17 programs.
 Each program is a separate SKU that produces AI-consumable governance files — AGENTS.md,
 .cursorrules, architecture maps, debug playbooks, brand guidelines, design tokens, and more.
 
@@ -401,7 +401,7 @@ Transaction arrives:
 
 ### AXIS Advantage Over Visa IC
 
-| Metric | Visa IC Pilot (April 2026) | AXIS Toolbox |
+| Metric | Visa IC Pilot (April 2026) | Axis' Iliad |
 |--------|---------------------------|--------------|
 | Integration calls | 3-5 API calls per decision | 0 calls — pre-computed in artifact |
 | Time to decision | 200-800ms (network round-trips) | 0ms — decision tree is local |

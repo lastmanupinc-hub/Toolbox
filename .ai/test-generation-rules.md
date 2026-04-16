@@ -1,10 +1,10 @@
-# Test Generation Rules — axis-toolbox
+# Test Generation Rules — axis-iliad
 
 > Testing conventions and generation rules for a monorepo
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 

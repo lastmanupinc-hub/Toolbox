@@ -1,10 +1,10 @@
-# Theme Guidelines — axis-toolbox
+# Theme Guidelines — axis-iliad
 
 > Design system rules for a monorepo built with TypeScript
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -178,7 +178,7 @@ Routes detected — consider zone-based theming:
 - `/.well-known/axis.json` (GET) → apps/api/src/agent-discovery.test.ts
 - `/for-agents` (GET) → apps/api/src/agent-discovery.test.ts
 - `/v1/install` (GET) → apps/api/src/agent-discovery.test.ts
-- … and 437 more routes
+- … and 461 more routes
 
 ## Domain-Specific Tokens
 
@@ -238,8 +238,8 @@ Consider extending the token system for domain entity states:
 
 ```json
 {
-  "project": "axis-toolbox",
-  "generated_at": "2026-04-15T19:53:55.555Z",
+  "project": "axis-iliad",
+  "generated_at": "2026-04-15T20:25:19.951Z",
   "detected_stack": [
     {
       "name": "React",
@@ -264,8 +264,8 @@ Consider extending the token system for domain entity states:
 
 ```json
 {
-  "project": "axis-toolbox",
-  "generated_at": "2026-04-15T19:53:55.709Z",
+  "project": "axis-iliad",
+  "generated_at": "2026-04-15T20:25:20.105Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [
@@ -297,7 +297,7 @@ Consider extending the token system for domain entity states:
 | `apps/web/src/components/GeneratedTab.tsx` | export function GeneratedTab({ ... } | 118 |
 | `apps/web/src/components/GraphTab.tsx` | export function GraphTab({ ... } | 128 |
 | `apps/web/src/components/OverviewTab.tsx` | export function OverviewTab({ ... } | 223 |
-| `apps/web/src/components/ProgramLauncher.tsx` | export function ProgramLauncher({ ... } | 165 |
+| `apps/web/src/components/ProgramLauncher.tsx` | export function ProgramLauncher({ ... } | 169 |
 | `apps/web/src/components/SearchTab.tsx` | export function SearchTab({ ... } | 307 |
 | `apps/web/src/components/SignUpModal.tsx` | export function SignUpModal({ ... } | 122 |
 | `apps/web/src/components/StatusBar.tsx` | export function StatusBar({ ... } | 76 |

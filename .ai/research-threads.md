@@ -1,4 +1,4 @@
-# Research Threads — axis-toolbox
+# Research Threads — axis-iliad
 
 > Open research questions and investigation threads for the codebase
 
@@ -39,7 +39,7 @@ Open questions about the current technology stack:
 
 Investigation areas:
 
-- What is the baseline performance metric for axis-toolbox?
+- What is the baseline performance metric for axis-iliad?
 - Are there obvious bottlenecks in the critical path?
 - Which of the 387 routes are most latency-sensitive?
 - What caching strategies would have the highest impact?

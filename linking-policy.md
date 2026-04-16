@@ -1,10 +1,10 @@
-# Linking Policy — axis-toolbox
+# Linking Policy — axis-iliad
 
 > Rules for how notes should be interconnected in the knowledge graph
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -26,7 +26,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 These links are required to maintain graph integrity:
 
-1. Every code note → `[[axis-toolbox]]` (project hub)
+1. Every code note → `[[axis-iliad]]` (project hub)
 2. Every ADR → the triggering note or issue
 3. Every daily note → notes created or modified that day
 4. Every bug report → the affected module or file note
@@ -38,7 +38,7 @@ Maintain these high-connectivity notes as navigation anchors:
 
 | Hub | Purpose | Minimum Links |
 |-----|---------|--------------|
-| `[[axis-toolbox]]` | Project overview | 10+ |
+| `[[axis-iliad]]` | Project overview | 10+ |
 | `[[Architecture]]` | System design | 5+ |
 | `[[ADR Index]]` | Decision log | All ADRs |
 | `[[Tech Stack]]` | Technology choices | All framework notes |
@@ -52,7 +52,7 @@ Map high-importance code files to vault notes for traceability:
 | `apps/web/src/App.tsx` | 0.9 | `[[Code/apps-web-src-App]]` |
 | `apps/web/src/api.ts` | 0.8 | `[[Code/apps-web-src-api]]` |
 | `apps/web/src/pages.test.tsx` | 0.8 | `[[Code/apps-web-src-pages.test]]` |
-| `apps/web/src/pages/DashboardPage.tsx` | 0.5 | `[[Code/apps-web-src-pages-DashboardPage]]` |
+| `apps/web/src/pages/DashboardPage.tsx` | 0.6 | `[[Code/apps-web-src-pages-DashboardPage]]` |
 | `apps/web/src/components/Toast.tsx` | 0.2 | `[[Code/apps-web-src-components-Toast]]` |
 | `apps/web/src/components/AxisIcons.tsx` | 0.2 | `[[Code/apps-web-src-components-AxisIcons]]` |
 | `apps/web/src/upload-utils.ts` | 0.1 | `[[Code/apps-web-src-upload-utils]]` |

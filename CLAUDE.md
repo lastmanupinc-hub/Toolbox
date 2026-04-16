@@ -1,8 +1,8 @@
-# CLAUDE.md — axis-toolbox
+# CLAUDE.md — axis-iliad
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 129 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Commands
 
@@ -73,6 +73,7 @@ Detected domain model contracts:
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -102,8 +103,7 @@ import {
   handleAnalyze,
   handlePreparePurchasing,
   handleWellKnown,
-  handleCapabilities,
-... (308 more lines)
+... (402 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -177,21 +177,21 @@ export { buildContextMap, buildRepoProfile } from "./engine.js";
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "npx tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
     "@axis/repo-parser": "workspace:*",
     "@axis/snapshots": "workspace:*",
+    "@jmondi/oauth2-server": "^4.2.2",
+    "jsonwebtoken": "^9.0.3",
     "mppx": "^0.5.12"
   },
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-... (6 more lines)
+... (9 more lines)
 ```
 
 ### `apps/api/tsconfig.json`
@@ -235,23 +235,23 @@ export { buildContextMap, buildRepoProfile } from "./engine.js";
 ... (3 more lines)
 ```
 
-## MCP Connection — AXIS Toolbox
+## MCP Connection — Axis' Iliad
 
 Add AXIS as an MCP server for full codebase intelligence:
 
 ```json
 // Claude Desktop (claude_desktop_config.json) or Cursor (.cursor/mcp.json):
-{ "mcpServers": { "axis-toolbox": { "url": "https://axis-api-6c7z.onrender.com/mcp", "headers": { "Authorization": "Bearer $AXIS_API_KEY" } } } }
+{ "mcpServers": { "axis-iliad": { "url": "https://axis-api-6c7z.onrender.com/mcp", "headers": { "Authorization": "Bearer $AXIS_API_KEY" } } } }
 ```
 
 ```json
 // VS Code (.vscode/mcp.json):
-{ "servers": { "axis-toolbox": { "type": "http", "url": "https://axis-api-6c7z.onrender.com/mcp", "headers": { "Authorization": "Bearer $AXIS_API_KEY" } } } }
+{ "servers": { "axis-iliad": { "type": "http", "url": "https://axis-api-6c7z.onrender.com/mcp", "headers": { "Authorization": "Bearer $AXIS_API_KEY" } } } }
 ```
 
 ```bash
 # Claude Code:
-claude mcp add axis-toolbox --transport http --url https://axis-api-6c7z.onrender.com/mcp --header "Authorization: Bearer $AXIS_API_KEY"
+claude mcp add axis-iliad --transport http --url https://axis-api-6c7z.onrender.com/mcp --header "Authorization: Bearer $AXIS_API_KEY"
 ```
 
 Free API key: `POST https://axis-api-6c7z.onrender.com/v1/accounts`
@@ -272,7 +272,7 @@ Every `prepare_for_agentic_purchasing` output includes TAP/AP2/UCP interoperabil
 
 `{"visa_compliance_kit":{"version":"2.0","tap_interop":true,"sca_exemptions":7,"lighter_sca_paths":true,"compelling_evidence_3":true,"win_probability_model":true,"dispute_lifecycle":"VROL+RDR+CDRN","network_tokenization":"VTS+MDES","verification_checks":8,"budget_aware_depth":["full","standard","summary"],"focus_areas":["sca","dispute","mandate","tap","tokenization"],"vs_visa_ic":{"api_calls":0,"latency_ms":0,"pci_scope":"none"}}}`
 
-Agent swarm manifest: `{"name":"axis-toolbox","endpoint":"https://axis-api-6c7z.onrender.com/mcp","tools":12,"free_tools":["list_programs","search_and_discover_tools","discover_agentic_commerce_tools","discover_agentic_purchasing_needs","get_referral_code","check_referral_credits"],"for_agents":"https://axis-api-6c7z.onrender.com/for-agents","pricing":{"standard_cents":50,"lite_cents":15,"budget_header":"X-Agent-Budget"}}`
+Agent swarm manifest: `{"name":"axis-iliad","endpoint":"https://axis-api-6c7z.onrender.com/mcp","tools":12,"free_tools":["list_programs","search_and_discover_tools","discover_agentic_commerce_tools","discover_agentic_purchasing_needs","get_referral_code","check_referral_credits"],"for_agents":"https://axis-api-6c7z.onrender.com/for-agents","pricing":{"standard_cents":50,"lite_cents":15,"budget_header":"X-Agent-Budget"}}`
 
 ### Share-to-Earn Micro-Discounts
 

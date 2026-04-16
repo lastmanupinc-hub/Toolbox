@@ -1,8 +1,8 @@
-# ─── Axis Toolbox — Multi-stage Production Dockerfile ────────────
+# ─── Axis' Iliad — Multi-stage Production Dockerfile ────────────
 #
-# Build:   docker build -t axis-toolbox .
-# Run:     docker run -p 4000:4000 -p 5173:5173 axis-toolbox
-# API only: docker run -p 4000:4000 axis-toolbox node apps/api/dist/server.js
+# Build:   docker build -t axis-iliad .
+# Run:     docker run -p 4000:4000 -p 5173:5173 axis-iliad
+# API only: docker run -p 4000:4000 axis-iliad node apps/api/dist/server.js
 #
 # Stages:
 #   1. deps     — install all dependencies (cached layer)

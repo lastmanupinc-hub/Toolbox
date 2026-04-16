@@ -1,5 +1,5 @@
 ﻿
-[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/AXIS Toolbox[39m
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/Axis' Iliad[39m
       [2mCoverage enabled with [22m[33mv8[39m
 
 {"timestamp":"2026-04-10T23:07:33.296Z","level":"info","msg":"server_start","port":44410,"service":"axis-api"}
@@ -1375,7 +1375,7 @@ ut","status":503,"duration_ms":1}
 {"timestamp":"2026-04-10T23:08:31.641Z","level":"warn","msg":"request","request_id":"ce8167bb-5dba-4297-a629-a58774e1c452","method":"GET","path":"/v1/admin/activity","status":401,"duration_ms":1}
 {"timestamp":"2026-04-10T23:08:31.646Z","level":"info","msg":"request","request_id":"e3a1ccd6-a823-40ee-9094-8e7ebe2988b7","method":"GET","path":"/v1/admin/accounts?limit=0","status":200,"duration_ms":1}
 [90mstdout[2m | apps/cli/src/cli-pipeline.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 {"timestamp":"2026-04-10T23:08:31.653Z","level":"info","msg":"request","request_id":"4923b205-c5e2-4b69-9a93-2e209516507d","method":"GET","path":"/v1/admin/accounts?limit=-10","status":200,"duration_ms":1}
 {"timestamp":"2026-04-10T23:08:31.657Z","level":"info","msg":"request","request_id":"d150593e-2df5-45c5-8626-e132e5123621","method":"GET","path":"/v1/admin/accounts?limit=999","status":200,"duration_ms":2}
@@ -1481,7 +1481,7 @@ ut","status":503,"duration_ms":1}
  [32mΓ£ô[39m packages/repo-parser/src/parser-branches2.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 90[2mms[22m[39m
  [32mΓ£ô[39m packages/snapshots/src/db-maintenance.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 600[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-auth.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-auth.test.ts
 [22m[39mNo source files found in target directory.
@@ -1566,7 +1566,7 @@ ut","status":503,"duration_ms":1}
  [32mΓ£ô[39m packages/generator-core/src/generator-sourcefile-branches15.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 399[2mms[22m[39m
      [33m[2mΓ£ô[22m[39m includes Domain Models section when models exist [33m 313[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-commands.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-commands.test.ts
 [22m[39mNo source files found in target directory.

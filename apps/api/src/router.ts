@@ -243,7 +243,7 @@ export function createApp(router: Router, port: number): Server {
 
     // CORS — restrict in production, allow * in development
     const corsOrigin = process.env.CORS_ORIGIN
-      ?? (process.env.NODE_ENV === "production" ? "https://toolbox.jonathanarvay.com" : "*");
+      ?? (process.env.NODE_ENV === "production" ? "https://axis-iliad.jonathanarvay.com" : "*");
     res.setHeader("Access-Control-Allow-Origin", corsOrigin);
     res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Content-Encoding, Authorization");

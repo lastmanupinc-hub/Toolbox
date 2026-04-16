@@ -1,12 +1,12 @@
-# Brand Board — axis-toolbox
+# Brand Board — axis-iliad
 
-Generated: 2026-04-15T20:25:20.115Z
+Generated: 2026-04-16T14:25:25.233Z
 
 Comprehensive visual identity reference for all project-branded outputs.
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Color Palette
 
@@ -54,7 +54,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Logo & Mark
 
-### Project: axis-toolbox
+### Project: axis-iliad
 
 | Variant | Usage | Min Size | Clear Space |
 |---------|-------|----------|-------------|
@@ -85,9 +85,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 ### Stack Badge Bar
 
 - `React`
-- `TypeScript` — 71% of codebase
-- `JSON` — 11% of codebase
-- `YAML` — 9% of codebase
+- `TypeScript` — 73% of codebase
+- `JSON` — 10% of codebase
+- `YAML` — 8% of codebase
 
 ### Key Abstractions for Branding
 
@@ -127,7 +127,7 @@ Consider domain-specific iconography for:
 
 | Template | Size | Elements |
 |----------|------|----------|
-| OG Image | 1200×630 | Brand bg, "axis-toolbox" heading, description, stack badges |
+| OG Image | 1200×630 | Brand bg, "axis-iliad" heading, description, stack badges |
 | Twitter Card | 1200×600 | Brand gradient, project mark, tagline |
 | GitHub Social | 1280×640 | Minimal, mark + wordmark centered |
 | LinkedIn Banner | 1584×396 | Brand gradient, wordmark left-aligned |

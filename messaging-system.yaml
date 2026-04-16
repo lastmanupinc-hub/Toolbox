@@ -1,17 +1,17 @@
 # Messaging System
-# Project: axis-toolbox
-# Generated: 2026-04-15T20:25:19.955Z
-# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+# Project: axis-iliad
+# Generated: 2026-04-16T14:25:25.050Z
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 product:
-  name: "axis-toolbox"
+  name: "axis-iliad"
   type: "monorepo"
   primary_language: "TypeScript"
   stack: "React"
 
 taglines:
-  primary: "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models."
-  technical: "React monorepo — 500 files, 116,119 lines of TypeScript"
+  primary: "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models."
+  technical: "React monorepo — 500 files, 123,123 lines of TypeScript"
   conceptual: "Built around apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory)"
 
 value_propositions:
@@ -19,8 +19,8 @@ value_propositions:
     headline: "React Expertise"
     detail: "Built with React ^19.1.0 — stack-native patterns throughout."
   - id: api_surface
-    headline: "449 API Endpoints"
-    detail: "Complete API with 248 GET, 181 POST, 20 DELETE — ready for integration."
+    headline: "473 API Endpoints"
+    detail: "Complete API with 263 GET, 189 POST, 21 DELETE — ready for integration."
   - id: domain_model
     headline: "162 Domain Entities"
     detail: "Rich domain model with AuthContext, EnvSpec, ValidationError, ValidationResult, ZipEntry and 157 more."
@@ -33,8 +33,8 @@ value_propositions:
 
 feature_messages:
   api_surface:
-    count: 449
-    message: "449 API endpoints ready for integration"
+    count: 473
+    message: "473 API endpoints ready for integration"
     routes:
       - "GET /v1/health"
       - "POST /v1/accounts"
@@ -50,11 +50,11 @@ feature_messages:
     count: 8
     message: "8 languages detected and analyzed"
     breakdown:
-      - "TypeScript: 81,263 lines (70.9%)"
-      - "JSON: 12,048 lines (10.5%)"
-      - "YAML: 10,492 lines (9.1%)"
-      - "Markdown: 8,415 lines (7.3%)"
-      - "JavaScript: 1,456 lines (1.3%)"
+      - "TypeScript: 82,162 lines (73.1%)"
+      - "JSON: 11,394 lines (10.1%)"
+      - "YAML: 8,564 lines (7.6%)"
+      - "Markdown: 7,981 lines (7.1%)"
+      - "JavaScript: 1,302 lines (1.2%)"
   framework_detection:
     count: 1
     message: "1 frameworks detected with stack-aware output"

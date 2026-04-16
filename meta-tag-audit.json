@@ -1,7 +1,7 @@
 {
-  "project": "axis-toolbox",
-  "generated_at": "2026-04-15T20:25:20.092Z",
-  "project_summary": "axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.",
+  "project": "axis-iliad",
+  "generated_at": "2026-04-16T14:25:25.205Z",
+  "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.",
   "detected_stack": [
     {
       "name": "React",
@@ -43,12 +43,12 @@
       "source_file": "apps/api/src/admin.test.ts",
       "required_tags": {
         "title": {
-          "template": "health | axis-toolbox",
+          "template": "health | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -76,7 +76,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -99,12 +99,12 @@
       "source_file": "apps/api/src/admin.test.ts",
       "required_tags": {
         "title": {
-          "template": "stats | axis-toolbox",
+          "template": "stats | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -132,7 +132,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -155,12 +155,12 @@
       "source_file": "apps/api/src/admin.test.ts",
       "required_tags": {
         "title": {
-          "template": "accounts | axis-toolbox",
+          "template": "accounts | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -188,7 +188,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -211,12 +211,12 @@
       "source_file": "apps/api/src/admin.test.ts",
       "required_tags": {
         "title": {
-          "template": "activity | axis-toolbox",
+          "template": "activity | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -244,7 +244,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -267,12 +267,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": "llms.txt | axis-toolbox",
+          "template": "llms.txt | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -300,7 +300,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -323,12 +323,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": "index.json | axis-toolbox",
+          "template": "index.json | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -356,7 +356,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -379,12 +379,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": "docs.md | axis-toolbox",
+          "template": "docs.md | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -412,7 +412,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -435,12 +435,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": "axis.json | axis-toolbox",
+          "template": "axis.json | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -468,7 +468,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -491,12 +491,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": "for agents | axis-toolbox",
+          "template": "for agents | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -524,7 +524,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -547,12 +547,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": "install | axis-toolbox",
+          "template": "install | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -580,7 +580,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -603,12 +603,12 @@
       "source_file": "apps/api/src/agent-discovery.test.ts",
       "required_tags": {
         "title": {
-          "template": ":platform | axis-toolbox",
+          "template": ":platform | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -636,7 +636,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -659,12 +659,12 @@
       "source_file": "apps/api/src/analyze.test.ts",
       "required_tags": {
         "title": {
-          "template": "axis.json | axis-toolbox",
+          "template": "axis.json | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -692,7 +692,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -715,12 +715,12 @@
       "source_file": "apps/api/src/api-branches.test.ts",
       "required_tags": {
         "title": {
-          "template": ":snapshot id | axis-toolbox",
+          "template": ":snapshot id | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -748,7 +748,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -771,12 +771,12 @@
       "source_file": "apps/api/src/api-branches.test.ts",
       "required_tags": {
         "title": {
-          "template": "context | axis-toolbox",
+          "template": "context | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -804,7 +804,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {
@@ -827,12 +827,12 @@
       "source_file": "apps/api/src/api-branches.test.ts",
       "required_tags": {
         "title": {
-          "template": "generated files | axis-toolbox",
+          "template": "generated files | axis-iliad",
           "max_length": 60,
           "status": "verify"
         },
         "description": {
-          "template": "AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context",
+          "template": "axis-iliad",
           "max_length": 160,
           "status": "verify"
         },
@@ -860,7 +860,7 @@
           "status": "verify"
         },
         "og:site_name": {
-          "value": "axis-toolbox"
+          "value": "axis-iliad"
         }
       },
       "twitter": {

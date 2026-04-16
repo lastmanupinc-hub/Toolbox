@@ -223,7 +223,7 @@ export function DocsPage() {
 
   const sections: { id: DocSection; label: string; icon: string }[] = [
     { id: "overview", label: "Overview", icon: "docs-overview" },
-    { id: "programs", label: "Programs", icon: "toolbox" },
+    { id: "programs", label: "Programs", icon: "programs" },
     { id: "api", label: "API Reference", icon: "api-link" },
     { id: "outputs", label: "Output Formats", icon: "file-doc" },
     { id: "cli", label: "CLI Usage", icon: "terminal" },
@@ -234,7 +234,7 @@ export function DocsPage() {
       <div className="card" style={{ textAlign: "center", marginBottom: 24 }}>
         <h2 style={{ fontSize: "1.5rem", marginBottom: 8 }}>Documentation</h2>
         <p style={{ color: "var(--text-muted)", maxWidth: 520, margin: "0 auto" }}>
-          Everything you need to know about Axis Toolbox — programs, API, outputs, and CLI.
+          Everything you need to know about Axis' Iliad — programs, API, outputs, and CLI.
         </p>
       </div>
 
@@ -265,7 +265,7 @@ function OverviewSection() {
   return (
     <div className="stagger">
       <div className="card">
-        <h3 style={{ marginBottom: 12 }}>What is Axis Toolbox?</h3>
+        <h3 style={{ marginBottom: 12 }}>What is Axis' Iliad?</h3>
         <p style={{ color: "var(--text-muted)", lineHeight: 1.7 }}>
           Axis is the umbrella platform for AI-native development — a multi-program system
           that turns project snapshots into diagnostics, governed outputs, and build-integrated
@@ -299,7 +299,7 @@ function OverviewSection() {
             </p>
           </div>
           <div style={{ textAlign: "center", padding: 16 }}>
-            <div style={{ fontSize: "2rem", marginBottom: 8 }}><Icon name="toolbox" /></div>
+            <div style={{ fontSize: "2rem", marginBottom: 8 }}><Icon name="programs" /></div>
             <h4 style={{ marginBottom: 4 }}>3. Generate</h4>
             <p style={{ color: "var(--text-muted)", fontSize: "0.8125rem" }}>
               Run any of 18 programs to produce specialized output files — rules, configs, docs, and more.
@@ -359,7 +359,7 @@ function OverviewSection() {
       <div className="card">
         <h3 style={{ marginBottom: 12 }}>Architecture &amp; Tech Stack</h3>
         <p style={{ color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 16 }}>
-          Axis Toolbox is a monorepo with three packages — a React frontend, a Node.js API
+          Axis' Iliad is a monorepo with three packages — a React frontend, a Node.js API
           server, and a shared types/utils package.
         </p>
         <div className="grid grid-2" style={{ gap: 12 }}>
@@ -1071,15 +1071,15 @@ function CliSection() {
       <div className="card">
         <h3 style={{ marginBottom: 12 }}>CLI Overview</h3>
         <p style={{ color: "var(--text-muted)", lineHeight: 1.7, marginBottom: 12 }}>
-          Axis Toolbox includes a CLI for running analysis directly from your terminal.
+          Axis' Iliad includes a CLI for running analysis directly from your terminal.
           Point it at any directory to generate a snapshot and run programs. Install globally
           or run via <code className="mono">npx</code>.
         </p>
         <div style={{ background: "var(--bg)", padding: 12, borderRadius: "var(--radius)", fontFamily: "var(--mono)", fontSize: "0.8125rem", lineHeight: 1.6 }}>
           <div><span style={{ color: "var(--text-muted)" }}># Install globally</span></div>
-          <div>npm install -g axis-toolbox</div>
+          <div>npm install -g axis-iliad</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Or run without installing</span></div>
-          <div>npx axis-toolbox --help</div>
+          <div>npx axis-iliad --help</div>
         </div>
       </div>
 
@@ -1134,23 +1134,23 @@ function CliSection() {
           }}
         >
           <div><span style={{ color: "var(--text-muted)" }}># Analyze the current directory</span></div>
-          <div>npx axis-toolbox analyze .</div>
+          <div>npx axis-iliad analyze .</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Analyze and run specific programs</span></div>
-          <div>npx axis-toolbox analyze ./my-project --programs search,skills,debug</div>
+          <div>npx axis-iliad analyze ./my-project --programs search,skills,debug</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Run all free programs with verbose logging</span></div>
-          <div>npx axis-toolbox analyze . --programs search,skills,debug -v</div>
+          <div>npx axis-iliad analyze . --programs search,skills,debug -v</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Analyze a GitHub repo</span></div>
-          <div>npx axis-toolbox github https://github.com/user/repo --programs search</div>
+          <div>npx axis-iliad github https://github.com/user/repo --programs search</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Export generated files to disk</span></div>
-          <div>npx axis-toolbox export ./my-project --output ./output</div>
+          <div>npx axis-iliad export ./my-project --output ./output</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Export as ZIP</span></div>
-          <div>npx axis-toolbox export ./my-project --format zip -o ./my-project-output.zip</div>
+          <div>npx axis-iliad export ./my-project --format zip -o ./my-project-output.zip</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Check account status and usage</span></div>
-          <div>npx axis-toolbox status</div>
+          <div>npx axis-iliad status</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># Store your API key locally</span></div>
-          <div>npx axis-toolbox auth --key axis_your_key_here</div>
+          <div>npx axis-iliad auth --key axis_your_key_here</div>
           <div style={{ marginTop: 8 }}><span style={{ color: "var(--text-muted)" }}># List all available programs</span></div>
-          <div>npx axis-toolbox list-programs</div>
+          <div>npx axis-iliad list-programs</div>
         </div>
       </div>
 
@@ -1264,7 +1264,7 @@ function CliSection() {
           }}
         >
           <div style={{ color: "var(--text-muted)" }}># .github/workflows/axis.yml</div>
-          <div><span style={{ color: "var(--accent)" }}>name:</span> Axis Toolbox</div>
+          <div><span style={{ color: "var(--accent)" }}>name:</span> Axis' Iliad</div>
           <div><span style={{ color: "var(--accent)" }}>on:</span> [push]</div>
           <div><span style={{ color: "var(--accent)" }}>jobs:</span></div>
           <div>&nbsp; <span style={{ color: "var(--accent)" }}>analyze:</span></div>
@@ -1275,7 +1275,7 @@ function CliSection() {
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style={{ color: "var(--accent)" }}>with:</span></div>
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style={{ color: "var(--accent)" }}>node-version:</span> 22</div>
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span style={{ color: "var(--accent)" }}>run:</span> |</div>
-          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; npx axis-toolbox analyze . \</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; npx axis-iliad analyze . \</div>
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --programs search,skills,debug \</div>
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --output ./axis-output</div>
           <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style={{ color: "var(--accent)" }}>env:</span></div>

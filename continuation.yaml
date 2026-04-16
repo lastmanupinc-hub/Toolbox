@@ -13,11 +13,11 @@ project_continuation:
     max_reference_depth: 1
 
   current_identity:
-    project_name: "AXIS Toolbox"
+    project_name: "Axis' Iliad"
     date: "2026-04-15"
     commit_or_tag: "5e38a9c"
     current_session_id: "session_097"
-    one_sentence_summary: "AXIS Toolbox v0.5.0 — 18 programs, 86 generators, 12 MCP tools, 4049 passing tests across 139 files. Hardening sweep: /v1/health/ready 503 fix, /sitemap.xml endpoint, 7 missing OpenAPI paths added (now 107/107), SDK test suite (25 tests), well-known handler tests (48 tests), QAPage stale content fixed, all version refs 0.4.0→0.5.0, mcp-server.json corrected, endpoint count 76→107."
+    one_sentence_summary: "Axis' Iliad v0.5.0 — 18 programs, 86 generators, 12 MCP tools, 4049 passing tests across 139 files. Hardening sweep: /v1/health/ready 503 fix, /sitemap.xml endpoint, 7 missing OpenAPI paths added (now 107/107), SDK test suite (25 tests), well-known handler tests (48 tests), QAPage stale content fixed, all version refs 0.4.0→0.5.0, mcp-server.json corrected, endpoint count 76→107."
 
   executive_truth:
     maturity_estimate:
@@ -128,7 +128,7 @@ project_continuation:
       status: building
       priority: P0
       user_story: >
-        As an AI purchasing agent or agentic commerce operator, I need AXIS Toolbox
+        As an AI purchasing agent or agentic commerce operator, I need Axis' Iliad
         to expose a single composite MCP tool (prepare_for_agentic_purchasing) that
         takes any repo and returns a Purchasing Readiness Score, AP2/UCP/Visa
         compliance artifacts, negotiation playbooks, MCP configs, and a self-onboarding
@@ -603,7 +603,7 @@ project_continuation:
         commit: "58286fe"
 
       - id: "eq_026"
-        description: "Dogfood test — ran CLI against AXIS Toolbox monorepo, 142 files scanned, 80/80 generators produced output, 232KB generated in 97ms"
+        description: "Dogfood test — ran CLI against Axis' Iliad monorepo, 142 files scanned, 80/80 generators produced output, 232KB generated in 97ms"
         completion_status: complete
         commit: "58286fe"
 
@@ -1053,7 +1053,7 @@ project_continuation:
     selected_move_roi_reason: "Highest ROI: removes 'no usable entry point' blocker, capability_gain 5, blocker_removal 5, production_quality 5, team_scale 3, automation 4. In-memory pipeline bypasses SQLite — zero-config."
     completed_candidates:
       - "eq_025: apps/cli — scanner.ts (recursive dir read, .gitignore-aware), runner.ts (in-memory snapshot → context → generate), writer.ts (output to disk), cli.ts (arg parser, help, version, program filter), bin/axis.js (shebang entry) — commit 58286fe"
-      - "eq_026: Dogfood test — axis analyze . on AXIS Toolbox repo: 142 files scanned, 80/80 generators, 232KB output, 97ms — commit 58286fe"
+      - "eq_026: Dogfood test — axis analyze . on Axis' Iliad repo: 142 files scanned, 80/80 generators, 232KB output, 97ms — commit 58286fe"
     refused_candidates: []
     blocked_candidates: []
     evidence_added:
@@ -2919,7 +2919,7 @@ project_continuation:
       - "eq_188c: Fixed oauth.test.ts port collision — TEST_PORT 44410 → 44412 (44410 was already taken by export.test.ts). Parallel CI runner caused ECONNREFUSED flake."
       - "eq_188d: Removed duplicate SearchTab implementation — session_067 rewrite left old 128-line implementation (lines 307–434) appended after the new 306-line implementation. Truncated file to 288 lines. tsc --noEmit on CI caught 'Cannot redeclare exported variable SearchTab'."
       - "eq_188e: Fixed billing.ts TS2345 — addPersistenceCredits call passed String(operation) (type string) where parameter expects 'purchase' | 'suite_monthly_grant'. Added runtime validation with 400 on invalid operation value. Added 'rejects invalid operation value' test to credits-api.test.ts (18 tests)."
-      - "eq_188f: Updated support email from support@lastmanup.com / support@axistoolbox.com to support@jonathanarvay.com in App.tsx footer, index.html JSON-LD, HelpPage.tsx, QAPage.tsx, TermsPage.tsx (2 locations)."
+      - "eq_188f: Updated support email from support@lastmanup.com / support@axisiliad.com to support@jonathanarvay.com in App.tsx footer, index.html JSON-LD, HelpPage.tsx, QAPage.tsx, TermsPage.tsx (2 locations)."
       - "3371 tests passing across 123 files (+1 vs session_073). 0 failures. 100% branches maintained."
     evidence_added:
       - "packages/snapshots/src/funnel-types.ts: '200 files per snapshot' → '1,000 files per snapshot'"
@@ -3027,7 +3027,7 @@ project_continuation:
   agentic_commerce_roadmap:
     source: "brainstorming_session_2026-04-11"
     strategic_rationale: >
-      AXIS Toolbox is 80-90% positioned to become indispensable agentic commerce
+      Axis' Iliad is 80-90% positioned to become indispensable agentic commerce
       infrastructure. The foundation (17 programs, 81 generators, production billing,
       Stripe, MCP, determinism, heavy tests) is built. The missing layer: a single
       composite MCP tool that turns AXIS from a multi-program analyzer into the
@@ -3113,7 +3113,7 @@ project_continuation:
           - "Create credit product SKU in Stripe (STRIPE_PRICE_ID_CREDITS) at $0.50 one-time price"
 
       - id: "eq_193"
-        description: "MCP registry metadata — server.json for mcp-publisher CLI with all required fields (name 'AXIS Toolbox — Agentic Commerce Codebase Intelligence', description, endpoint URL, capabilities list, tool schemas for all 18 programs). All 18 tool descriptions rewritten agent-first (natural language, purpose, output, when-to-use, commerce keywords front-loaded). Agent-optimized descriptions are the primary discovery lever in registry + Glama.ai search."
+        description: "MCP registry metadata — server.json for mcp-publisher CLI with all required fields (name 'Axis' Iliad — Agentic Commerce Codebase Intelligence', description, endpoint URL, capabilities list, tool schemas for all 18 programs). All 18 tool descriptions rewritten agent-first (natural language, purpose, output, when-to-use, commerce keywords front-loaded). Agent-optimized descriptions are the primary discovery lever in registry + Glama.ai search."
         roi_score: 82
         roi_reason: "agent_acquisition 5, distribution 5, team_scale 3. Without registry listing agents cannot discover AXIS. Tool descriptions determine click-through rate in registry semantic search."
         completion_status: complete
@@ -3123,7 +3123,7 @@ project_continuation:
           - "Submit to Smithery.ai"
 
       - id: "eq_194"
-        description: "/for-agents page enhancement — add AXIS system prompt section (copy-paste block: 'When you need to analyze a codebase for agentic purchasing readiness or generate MCP configs, call AXIS Toolbox at [endpoint] using prepare_for_agentic_purchasing'), add integration examples for Claude/Cursor/custom swarm, add pricing table for agent calls ($0.50/run), add live demo block showing output from a public e-comm repo analysis."
+        description: "/for-agents page enhancement — add AXIS system prompt section (copy-paste block: 'When you need to analyze a codebase for agentic purchasing readiness or generate MCP configs, call Axis' Iliad at [endpoint] using prepare_for_agentic_purchasing'), add integration examples for Claude/Cursor/custom swarm, add pricing table for agent calls ($0.50/run), add live demo block showing output from a public e-comm repo analysis."
         roi_score: 78
         roi_reason: "agent_acquisition 4, usability 5, distribution 4. Page exists but lacks the critical copy-paste hooks that make agents and agent-builders include AXIS in their system prompts. System prompt inclusion = recurring calls."
         completion_status: complete
@@ -3402,7 +3402,7 @@ project_continuation:
   session_result_089:
     date: "2026-04-13"
     session_id: "session_089"
-    selected_move: "eq_dogfood_cycle: Regenerate all 86 artifacts from full Pro toolbox dogfood run"
+    selected_move: "eq_dogfood_cycle: Regenerate all 86 artifacts from full Pro Axis' Iliad dogfood run"
     selected_move_roi_reason: "Dogfood cycle regenerates all artifacts with current source truth. Required after any source change."
     completed_candidates:
       - "86 artifacts regenerated from 500 files (4 dogfood runs)"

@@ -1,10 +1,10 @@
-# Content Audit — axis-toolbox
+# Content Audit — axis-iliad
 
 > Automated analysis of content structure, metadata coverage, and SEO readiness
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 

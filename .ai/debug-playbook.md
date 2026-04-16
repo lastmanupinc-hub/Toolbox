@@ -1,12 +1,10 @@
-# Debug Playbook — axis-toolbox
+# Debug Playbook — axis-iliad
 
 > Structured debugging guide for a monorepo built with TypeScript
 
-> AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
-
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Quick Reference
 
@@ -19,21 +17,21 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | pnpm |
-| Files | 500 files, 116,119 LOC |
+| Files | 500 files, 123,123 LOC |
 | Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 261 | 81,263 | 70.9% |
-| JSON | 62 | 12,048 | 10.5% |
-| YAML | 62 | 10,492 | 9.1% |
-| Markdown | 103 | 8,415 | 7.3% |
-| JavaScript | 4 | 1,456 | 1.3% |
-| CSS | 2 | 849 | 0.7% |
+| TypeScript | 262 | 82,162 | 73.1% |
+| JSON | 61 | 11,394 | 10.1% |
+| YAML | 57 | 8,564 | 7.6% |
+| Markdown | 98 | 7,981 | 7.1% |
+| JavaScript | 6 | 1,302 | 1.2% |
+| CSS | 2 | 849 | 0.8% |
 | HTML | 1 | 120 | 0.1% |
-| Dockerfile | 1 | 49 | 0% |
+| Dockerfile | 1 | 51 | 0% |
 
 ## Detected Stack (with evidence)
 
@@ -76,7 +74,7 @@ These files have many inbound or outbound imports — changes here cascade:
 | `apps/web/src/App.tsx` | 1 | 17 | 90% |
 | `apps/web/src/api.ts` | 17 | 0 | 85% |
 | `apps/web/src/pages.test.tsx` | 0 | 15 | 75% |
-| `apps/web/src/pages/DashboardPage.tsx` | 1 | 9 | 50% |
+| `apps/web/src/pages/DashboardPage.tsx` | 1 | 10 | 55% |
 | `apps/web/src/components/Toast.tsx` | 4 | 0 | 20% |
 | `apps/web/src/components/AxisIcons.tsx` | 4 | 0 | 20% |
 | `apps/web/src/upload-utils.ts` | 3 | 0 | 15% |
@@ -168,7 +166,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | ImportMeta | interface | TypeScript | 1 | `apps/web/src/vite-env.d.ts` |
 | ImportMetaEnv | interface | TypeScript | 1 | `apps/web/src/vite-env.d.ts` |
 | DashboardData | interface | TypeScript | 6 | `dashboard-widget.tsx` |
-| axistoolboxProps | interface | TypeScript | 3 | `generated-component.tsx` |
+| axisiliadProps | interface | TypeScript | 3 | `generated-component.tsx` |
 | PaletteAction | interface | TypeScript | 0 | `generated-component.tsx` |
 | Edge | interface | TypeScript | 3 | `generative-sketch.ts` |
 | Node | interface | TypeScript | 7 | `generative-sketch.ts` |
@@ -549,6 +547,8 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/health/live` | apps/api/src/server.ts |
 | GET | `/v1/health/ready` | apps/api/src/server.ts |
 | GET | `/v1/metrics` | apps/api/src/server.ts |
+| GET | `/performance` | apps/api/src/server.ts |
+| GET | `/performance/reputation` | apps/api/src/server.ts |
 | GET | `/v1/db/stats` | apps/api/src/server.ts |
 | POST | `/v1/db/maintenance` | apps/api/src/server.ts |
 | GET | `/v1/docs` | apps/api/src/server.ts |
@@ -588,6 +588,9 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts |
 | GET | `/.well-known/security.txt` | apps/api/src/server.ts |
 | GET | `/.well-known/agent.json` | apps/api/src/server.ts |
+| GET | `/.well-known/oauth-authorization-server` | apps/api/src/server.ts |
+| GET | `/mcp/.well-known/mcp.json` | apps/api/src/server.ts |
+| GET | `/mcp/.well-known/agent.json` | apps/api/src/server.ts |
 | GET | `/robots.txt` | apps/api/src/server.ts |
 | GET | `/sitemap.xml` | apps/api/src/server.ts |
 | GET | `/health` | apps/api/src/server.ts |
@@ -607,12 +610,25 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/projects/:project_id/export` | apps/api/src/server.ts |
 | GET | `/v1/programs` | apps/api/src/server.ts |
 | POST | `/mcp` | apps/api/src/server.ts |
+| POST | `/mcp/` | apps/api/src/server.ts |
+| POST | `/v1/mcp` | apps/api/src/server.ts |
+| POST | `/v1/mcp/` | apps/api/src/server.ts |
 | GET | `/mcp` | apps/api/src/server.ts |
+| GET | `/mcp/` | apps/api/src/server.ts |
+| GET | `/v1/mcp` | apps/api/src/server.ts |
+| GET | `/v1/mcp/` | apps/api/src/server.ts |
 | GET | `/mcp/docs` | apps/api/src/server.ts |
+| GET | `/favicon.ico` | apps/api/src/server.ts |
+| GET | `/mcp/sse` | apps/api/src/server.ts |
+| POST | `/mcp/sse` | apps/api/src/server.ts |
+| GET | `/mcp/mcp/*` | apps/api/src/server.ts |
+| POST | `/mcp/mcp/*` | apps/api/src/server.ts |
+| DELETE | `/mcp/mcp/*` | apps/api/src/server.ts |
 | GET | `/v1/stats` | apps/api/src/server.ts |
 | GET | `/v1/mcp/server.json` | apps/api/src/server.ts |
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts |
 | POST | `/v1/accounts` | apps/api/src/server.ts |
+| POST | `/accounts` | apps/api/src/server.ts |
 | GET | `/v1/account` | apps/api/src/server.ts |
 | POST | `/v1/account/keys` | apps/api/src/server.ts |
 | GET | `/v1/account/keys` | apps/api/src/server.ts |
@@ -642,6 +658,10 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/admin/activity` | apps/api/src/server.ts |
 | GET | `/v1/auth/github` | apps/api/src/server.ts |
 | GET | `/v1/auth/github/callback` | apps/api/src/server.ts |
+| GET | `/oauth/authorize` | apps/api/src/server.ts |
+| POST | `/oauth/token` | apps/api/src/server.ts |
+| GET | `/oauth/jwks` | apps/api/src/server.ts |
+| POST | `/oauth/introspect` | apps/api/src/server.ts |
 | POST | `/v1/account/webhooks` | apps/api/src/server.ts |
 | GET | `/v1/account/webhooks` | apps/api/src/server.ts |
 | DELETE | `/v1/account/webhooks/:webhook_id` | apps/api/src/server.ts |
@@ -695,6 +715,8 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/health` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/docs` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/openapi.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/performance` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/performance/reputation` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/health` | e2e_ui_audit.yaml |
 | GET | `/v1/health` | e2e_ui_audit.yaml |
 | GET | `/api/health` | packages/context-engine/src/engine-branches.test.ts |
@@ -738,12 +760,14 @@ Bugs often occur at layer boundaries. Verify data flow between:
 
 ## Production Dependencies
 
-10 production dependencies. Key packages:
+12 production dependencies. Key packages:
 
 - `@axis/context-engine` @ workspace:*
 - `@axis/generator-core` @ workspace:*
 - `@axis/repo-parser` @ workspace:*
 - `@axis/snapshots` @ workspace:*
+- `@jmondi/oauth2-server` @ ^4.2.2
+- `jsonwebtoken` @ ^9.0.3
 - `mppx` @ ^0.5.12
 - `jszip` @ ^3.10.1
 - `react` @ ^19.1.0
@@ -756,6 +780,7 @@ Bugs often occur at layer boundaries. Verify data flow between:
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -780,8 +805,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-  handleAgenticPurchasingGenerate,
-... (313 more lines)
+... (407 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

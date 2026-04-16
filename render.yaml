@@ -1,4 +1,4 @@
-# ─── Axis Toolbox — Render Blueprint ─────────────────────────────
+# ─── Axis' Iliad — Render Blueprint ─────────────────────────────
 #
 # Deploy:  Connect this repo on Render → auto-detects render.yaml
 # Docs:    https://docs.render.com/blueprint-spec
@@ -24,7 +24,7 @@ services:
       - key: LOG_LEVEL
         value: info
       - key: CORS_ORIGIN
-        value: https://toolbox.jonathanarvay.com
+        value: https://axis-iliad.jonathanarvay.com
       - key: GITHUB_CLIENT_ID
         sync: false
       - key: GITHUB_CLIENT_SECRET
@@ -32,7 +32,7 @@ services:
       - key: GITHUB_CALLBACK_URL
         sync: false
       - key: AXIS_WEB_URL
-        value: https://toolbox.jonathanarvay.com
+        value: https://axis-iliad.jonathanarvay.com
       - key: STRIPE_SECRET_KEY
         sync: false
       - key: MPP_SECRET_KEY

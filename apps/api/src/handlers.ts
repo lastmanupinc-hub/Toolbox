@@ -168,7 +168,7 @@ export function makeProgramHandler(program: string, defaultOutputs: string[]) {
 
         if (mppResult === null) {
           // MPP not configured � return 402 with negotiation data
-          sendError(res, 402, ErrorCode.TIER_REQUIRED, `${program} requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing.`, {
+          sendError(res, 402, ErrorCode.TIER_REQUIRED, `${program} requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing.`, {
             program,
             tier: auth.account.tier,
             price_per_call: `$${(amountCents / 100).toFixed(2)}`,
@@ -414,7 +414,7 @@ export async function handleCreateSnapshot(
           {
             blocked_programs: proList,
             allowed_programs: [...allowedPrograms].sort(),
-            upgrade_url: "https://toolbox.jonathanarvay.com/#plans",
+            upgrade_url: "https://axis-iliad.jonathanarvay.com/#plans",
             tier: auth.account.tier,
             price_per_call: `$${(amountCents / 100).toFixed(2)}`,
             ...build402NegotiationBody("analyze_repo", budget),
@@ -447,7 +447,7 @@ export async function handleCreateSnapshot(
         {
           blocked_programs: proList,
           allowed_programs: [...anonAllowed].sort(),
-          upgrade_url: "https://toolbox.jonathanarvay.com/#plans",
+          upgrade_url: "https://axis-iliad.jonathanarvay.com/#plans",
           tier: "anonymous",
           price_per_call: `$${(amountCents / 100).toFixed(2)}`,
           create_account_url: "https://axis-api-6c7z.onrender.com/v1/accounts",
@@ -1400,7 +1400,7 @@ export async function handleAnalyze(
           meta: { account_id: auth.account.account_id, tier: auth.account.tier, programs: blockedPrograms.join(","), mode },
         });
         if (mppResult === null) {
-          sendError(res, 402, ErrorCode.TIER_REQUIRED, `Pro programs require a paid plan or per-call payment: ${blockedPrograms.join(", ")}. Upgrade at toolbox.jonathanarvay.com/billing.`, {
+          sendError(res, 402, ErrorCode.TIER_REQUIRED, `Pro programs require a paid plan or per-call payment: ${blockedPrograms.join(", ")}. Upgrade at axis-iliad.jonathanarvay.com/billing.`, {
             blocked_programs: blockedPrograms,
             tier: auth.account.tier,
             price_per_call: `$${(amountCents / 100).toFixed(2)}`,
@@ -1748,12 +1748,12 @@ export async function handlePreparePurchasing(
       const mppResult = await chargeWithDiscounts(req, res, auth.account.account_id, amountCents, {
         currency: "usd",
         decimals: 2,
-        description: `AXIS Toolbox - prepare_for_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
+        description: `Axis' Iliad - prepare_for_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
         meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_for_agentic_purchasing", mode },
       });
 
       if (mppResult === null) {
-        sendError(res, 402, ErrorCode.TIER_REQUIRED, `prepare_for_agentic_purchasing requires a paid plan or per-call payment. Upgrade at toolbox.jonathanarvay.com/billing.`, {
+        sendError(res, 402, ErrorCode.TIER_REQUIRED, `prepare_for_agentic_purchasing requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing.`, {
           blocked_programs: blockedPrograms,
           tier: auth.account.tier,
           price_per_call: `$${(amountCents / 100).toFixed(2)}`,
@@ -1776,7 +1776,7 @@ export async function handlePreparePurchasing(
       const mppResult = await chargeWithDiscounts(req, res, auth.account.account_id, amountCents, {
         currency: "usd",
         decimals: 2,
-        description: `AXIS Toolbox - prepare_for_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
+        description: `Axis' Iliad - prepare_for_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
         meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_for_agentic_purchasing", mode },
       });
       if (mppResult === null) {
@@ -1987,7 +1987,7 @@ export async function handleWellKnown(
   res: ServerResponse,
 ): Promise<void> {
   sendJSON(res, 200, {
-    name: "AXIS Toolbox",
+    name: "Axis' Iliad",
     incentives: {
       program_name: "Share-to-Earn Micro-Discounts",
       description: "Agent referral system: Every paid call returns a referral_token. Pass it to other agents → referrer earns $0.001 per unique conversion (cap $0.20 per call, 30-day rolling reset). New agents get their 5th paid call free.",
@@ -2051,7 +2051,7 @@ export async function handleWellKnown(
       intent_probe: "POST /probe-intent  -  lightweight intent matching. Send {intent: 'your need'} and get ranked AXIS tool recommendations. Free, no auth, no API key needed.",
       registry_metadata: "GET /v1/mcp/server.json  -  MCP registry metadata for mcp-publisher CLI and registry crawlers (Glama.ai, Smithery.ai).",
       openapi: "GET /v1/docs  -  full OpenAPI 3.1 spec",
-      examples: "https://github.com/lastmanupinc-hub/axis-toolbox-examples  -  5 real repos hardened 0/100 to 100/100. Live before/after artifacts.",
+      examples: "https://github.com/lastmanupinc-hub/axis-iliad-examples  -  5 real repos hardened 0/100 to 100/100. Live before/after artifacts.",
     },
   });
 }
@@ -2065,7 +2065,7 @@ export async function handleCapabilities(
   res: ServerResponse,
 ): Promise<void> {
   sendJSON(res, 200, {
-    name: "AXIS Toolbox",
+    name: "Axis' Iliad",
     version: "0.5.0",
     description: `Semantic capability manifest for agent tool discovery. Analyzes codebases, generates ${ARTIFACT_COUNT} artifacts across ${PROGRAM_COUNT} programs. Full agentic commerce hardening including AP2/UCP/Visa IC compliance.`,
     keywords: [
@@ -2132,7 +2132,7 @@ export async function handleCapabilities(
       ],
     },
     security_txt: "https://axis-api-6c7z.onrender.com/.well-known/security.txt",
-    examples_repo: "https://github.com/lastmanupinc-hub/axis-toolbox-examples",
+    examples_repo: "https://github.com/lastmanupinc-hub/axis-iliad-examples",
     for_agents: "https://axis-api-6c7z.onrender.com/for-agents",
     openapi: "https://axis-api-6c7z.onrender.com/v1/docs",
   });
@@ -2144,11 +2144,11 @@ export async function handleLlmsTxt(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const body = `# AXIS Toolbox
+  const body = `# Axis' Iliad
 
 > Analyze any codebase. Generate ${ARTIFACT_COUNT} structured AI context artifacts across ${PROGRAM_COUNT} programs. Makes any repo immediately legible to AI coding assistants, autonomous agents, and purchasing agents.
 
-AXIS Toolbox is an API that accepts source files (or a GitHub URL) and returns structured files  -  AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, MCP configs, commerce artifacts, brand guidelines, design tokens, and more  -  each calibrated to the specific codebase.
+Axis' Iliad is an API that accepts source files (or a GitHub URL) and returns structured files  -  AGENTS.md, .cursorrules, CLAUDE.md, debug playbooks, MCP configs, commerce artifacts, brand guidelines, design tokens, and more  -  each calibrated to the specific codebase.
 
 ## Quick Start
 
@@ -2185,7 +2185,7 @@ For autonomous purchasing agents:
 
 ## Instructions for LLM Agents
 
-When integrating with AXIS Toolbox as an LLM agent:
+When integrating with Axis' Iliad as an LLM agent:
 
 - Always use POST /v1/analyze as the primary entry point for codebase analysis.
 - Prefer MCP transport (POST /mcp) over REST when your runtime supports Model Context Protocol.
@@ -2219,11 +2219,11 @@ export async function handleSecurityTxt(
 ): Promise<void> {
   const lines = [
     "Contact: mailto:security@jonathanarvay.com",
-    "Contact: https://github.com/lastmanupinc-hub/Toolbox/security/advisories",
+    "Contact: https://github.com/lastmanupinc-hub/axis-iliad/security/advisories",
     "Expires: 2027-04-15T00:00:00.000Z",
     "Preferred-Languages: en",
-    "Canonical: https://toolbox.jonathanarvay.com/.well-known/security.txt",
-    "Policy: https://github.com/lastmanupinc-hub/Toolbox/security/policy",
+    "Canonical: https://axis-iliad.jonathanarvay.com/.well-known/security.txt",
+    "Policy: https://github.com/lastmanupinc-hub/axis-iliad/security/policy",
     "Hiring: https://github.com/lastmanupinc-hub",
   ];
   res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
@@ -2237,7 +2237,7 @@ export async function handleRobotsTxt(
   res: ServerResponse,
 ): Promise<void> {
   const lines = [
-    "# robots.txt for AXIS Toolbox",
+    "# robots.txt for Axis' Iliad",
     "# Built specifically for agentic commerce and autonomous purchasing agents",
     "",
     "User-agent: *",
@@ -2266,16 +2266,16 @@ export async function handleRobotsTxt(
     "User-agent: Amazonbot",
     "Allow: /",
     "",
-    "# AXIS Toolbox MCP server (io.github.lastmanupinc-hub/axis-toolbox)",
+    "# Axis' Iliad MCP server (io.github.lastmanupinc-hub/axis-iliad)",
     "# Primary tool: prepare_for_agentic_purchasing",
     "# Use case: Hardens codebases for autonomous purchasing (readiness score, AP2/UCP/Visa compliance, negotiation playbooks, checkout rules)",
     "# Pay-per-run: $0.50 via Stripe MPP",
-    "# Full documentation: https://toolbox.jonathanarvay.com/for-agents",
-    "# Security: https://toolbox.jonathanarvay.com/.well-known/security.txt",
+    "# Full documentation: https://axis-iliad.jonathanarvay.com/for-agents",
+    "# Security: https://axis-iliad.jonathanarvay.com/.well-known/security.txt",
     "",
     "# Discovery endpoints: GET /.well-known/axis.json, GET /.well-known/agent.json, GET /openapi.json",
     "",
-    "Sitemap: https://toolbox.jonathanarvay.com/sitemap.xml",
+    "Sitemap: https://axis-iliad.jonathanarvay.com/sitemap.xml",
   ];
   res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
   res.end(lines.join("\n"));
@@ -2285,7 +2285,7 @@ export async function handleSitemapXml(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const base = "https://toolbox.jonathanarvay.com";
+  const base = "https://axis-iliad.jonathanarvay.com";
   const now = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
   const urls: Array<{ loc: string; changefreq: string; priority: string }> = [
@@ -2331,7 +2331,7 @@ export async function handleSkillsIndex(
 ): Promise<void> {
   sendJSON(res, 200, {
     version: "1.0",
-    publisher: "AXIS Toolbox / Last Man Up Inc.",
+    publisher: "Axis' Iliad / Last Man Up Inc.",
     updated: "2026-04-15",
     skills: [
       {
@@ -2403,16 +2403,16 @@ export async function handleOAuthAuthorizationServer(
   res: ServerResponse,
 ): Promise<void> {
   sendJSON(res, 200, {
-    issuer: "https://toolbox.jonathanarvay.com",
-    authorization_endpoint: "https://toolbox.jonathanarvay.com/oauth/authorize",
-    token_endpoint: "https://toolbox.jonathanarvay.com/oauth/token",
-    jwks_uri: "https://toolbox.jonathanarvay.com/oauth/jwks",
-    introspection_endpoint: "https://toolbox.jonathanarvay.com/oauth/introspect",
+    issuer: "https://axis-iliad.jonathanarvay.com",
+    authorization_endpoint: "https://axis-iliad.jonathanarvay.com/oauth/authorize",
+    token_endpoint: "https://axis-iliad.jonathanarvay.com/oauth/token",
+    jwks_uri: "https://axis-iliad.jonathanarvay.com/oauth/jwks",
+    introspection_endpoint: "https://axis-iliad.jonathanarvay.com/oauth/introspect",
     scopes_supported: ["mcp:read", "mcp:write", "mcp:admin"],
     response_types_supported: ["code"],
     grant_types_supported: ["authorization_code", "refresh_token"],
     token_endpoint_auth_methods_supported: ["client_secret_basic", "client_secret_post"],
-    service_documentation: "https://toolbox.jonathanarvay.com/for-agents",
+    service_documentation: "https://axis-iliad.jonathanarvay.com/for-agents",
     ui_locales_supported: ["en"],
   });
 }
@@ -2423,7 +2423,7 @@ export async function handleDocsMd(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const body = `# AXIS Toolbox API  -  Plain Text Reference
+  const body = `# Axis' Iliad API  -  Plain Text Reference
 
 Version: 0.5.0 | Base URL: https://axis-api-6c7z.onrender.com
 
@@ -2573,7 +2573,7 @@ export async function handleForAgents(
     tools = scored.map(({ relevance: _r, ...rest }) => rest);
   }
   sendJSON(res, 200, {
-    name: "AXIS Toolbox",
+    name: "Axis' Iliad",
     version: "0.5.0",
     incentives: buildIncentivesSummary(),
     purpose: `Codebase intelligence API. Analyzes any repo, generates ${ARTIFACT_COUNT} structured artifacts across ${PROGRAM_COUNT} programs. Every generated file tells AI agents exactly what the codebase does, how to work in it, and how to purchase from it.`,
@@ -2592,7 +2592,7 @@ export async function handleForAgents(
           path: "%APPDATA%/Claude/claude_desktop_config.json (Windows) or ~/Library/Application Support/Claude/claude_desktop_config.json (macOS)",
           config: {
             mcpServers: {
-              "axis-toolbox": {
+              "axis-iliad": {
                 url: `${AXIS_API_BASE}/mcp`,
                 headers: { Authorization: "Bearer ${AXIS_API_KEY}" },
               },
@@ -2600,13 +2600,13 @@ export async function handleForAgents(
           },
         },
         "claude-code": {
-          command: `claude mcp add axis-toolbox --transport http --url ${AXIS_API_BASE}/mcp --header "Authorization: Bearer \${AXIS_API_KEY}"`,
+          command: `claude mcp add axis-iliad --transport http --url ${AXIS_API_BASE}/mcp --header "Authorization: Bearer \${AXIS_API_KEY}"`,
         },
         cursor: {
           file: ".cursor/mcp.json",
           config: {
             mcpServers: {
-              "axis-toolbox": {
+              "axis-iliad": {
                 url: `${AXIS_API_BASE}/mcp`,
                 headers: { Authorization: "Bearer ${AXIS_API_KEY}" },
               },
@@ -2617,7 +2617,7 @@ export async function handleForAgents(
           file: ".vscode/mcp.json",
           config: {
             servers: {
-              "axis-toolbox": {
+              "axis-iliad": {
                 type: "http",
                 url: `${AXIS_API_BASE}/mcp`,
                 headers: { Authorization: "Bearer ${AXIS_API_KEY}" },
@@ -2662,16 +2662,16 @@ export async function handleForAgents(
     propagation: "Every AGENTS.md, CLAUDE.md, and .cursorrules generated by AXIS includes MCP connection instructions. Repos that use AXIS become discovery points for other agents.",
     system_prompt_snippet: {
       description: "Copy-paste this block into any agent's system prompt to give it AXIS access.",
-      text: `You have access to AXIS Toolbox (MCP endpoint: ${AXIS_API_BASE}/mcp).\nBefore working on any unfamiliar codebase, call analyze_repo or analyze_files to get ${ARTIFACT_COUNT} structured artifacts (AGENTS.md, .cursorrules, debug playbook, design tokens, etc).\nBefore any purchasing decision, call prepare_for_agentic_purchasing to get a Purchasing Readiness Score (0-100), AP2/Visa compliance checklist, CE 3.0 dispute evidence, and negotiation playbook.\nFree discovery (no auth): search_and_discover_tools, discover_agentic_commerce_tools, or discover_agentic_purchasing_needs.\nBudget negotiation: send X-Agent-Budget header with {budget_per_run_cents, spending_window} on any 402.`,
+      text: `You have access to Axis' Iliad (MCP endpoint: ${AXIS_API_BASE}/mcp).\nBefore working on any unfamiliar codebase, call analyze_repo or analyze_files to get ${ARTIFACT_COUNT} structured artifacts (AGENTS.md, .cursorrules, debug playbook, design tokens, etc).\nBefore any purchasing decision, call prepare_for_agentic_purchasing to get a Purchasing Readiness Score (0-100), AP2/Visa compliance checklist, CE 3.0 dispute evidence, and negotiation playbook.\nFree discovery (no auth): search_and_discover_tools, discover_agentic_commerce_tools, or discover_agentic_purchasing_needs.\nBudget negotiation: send X-Agent-Budget header with {budget_per_run_cents, spending_window} on any 402.`,
     },
     integration_examples: {
       claude_desktop: {
         description: "Add to claude_desktop_config.json, then any Claude Desktop conversation can call AXIS tools.",
-        config: { mcpServers: { "axis-toolbox": { url: `${AXIS_API_BASE}/mcp`, headers: { Authorization: "Bearer ${AXIS_API_KEY}" } } } },
+        config: { mcpServers: { "axis-iliad": { url: `${AXIS_API_BASE}/mcp`, headers: { Authorization: "Bearer ${AXIS_API_KEY}" } } } },
       },
       cursor: {
         description: "Add to .cursor/mcp.json at project root. Cursor agent auto-discovers AXIS tools.",
-        config: { mcpServers: { "axis-toolbox": { url: `${AXIS_API_BASE}/mcp`, headers: { Authorization: "Bearer ${AXIS_API_KEY}" } } } },
+        config: { mcpServers: { "axis-iliad": { url: `${AXIS_API_BASE}/mcp`, headers: { Authorization: "Bearer ${AXIS_API_KEY}" } } } },
       },
       custom_swarm: {
         description: "For multi-agent swarms: each sub-agent calls AXIS independently. Share snapshot_id to avoid duplicate analysis costs.",
@@ -2681,7 +2681,7 @@ export async function handleForAgents(
           "Agents B-D call get_artifact with snapshot_id to read specific artifacts",
           "Agent E calls prepare_for_agentic_purchasing for commerce hardening",
         ],
-        manifest: { name: "axis-toolbox", endpoint: `${AXIS_API_BASE}/mcp`, transport: "streamable-http", tools: MCP_TOOL_COUNT, free_tools: 6 },
+        manifest: { name: "axis-iliad", endpoint: `${AXIS_API_BASE}/mcp`, transport: "streamable-http", tools: MCP_TOOL_COUNT, free_tools: 6 },
       },
     },
     pricing_table: {
@@ -2737,7 +2737,7 @@ const INSTALL_CONFIGS: Record<string, { file: string; description: string; confi
     description: "Add to Claude Desktop config. Path: %APPDATA%/Claude/claude_desktop_config.json (Windows) or ~/Library/Application Support/Claude/claude_desktop_config.json (macOS).",
     config: {
       mcpServers: {
-        "axis-toolbox": {
+        "axis-iliad": {
           url: `${AXIS_API_BASE}/mcp`,
           headers: { Authorization: "Bearer ${AXIS_API_KEY}" },
         },
@@ -2748,7 +2748,7 @@ const INSTALL_CONFIGS: Record<string, { file: string; description: string; confi
     file: "claude-code CLI",
     description: "Run this command to add AXIS as an MCP server in Claude Code.",
     config: {
-      command: `claude mcp add axis-toolbox --transport http --url ${AXIS_API_BASE}/mcp --header "Authorization: Bearer \${AXIS_API_KEY}"`,
+      command: `claude mcp add axis-iliad --transport http --url ${AXIS_API_BASE}/mcp --header "Authorization: Bearer \${AXIS_API_KEY}"`,
     },
   },
   cursor: {
@@ -2756,7 +2756,7 @@ const INSTALL_CONFIGS: Record<string, { file: string; description: string; confi
     description: "Place in your project root or user home under .cursor/mcp.json.",
     config: {
       mcpServers: {
-        "axis-toolbox": {
+        "axis-iliad": {
           url: `${AXIS_API_BASE}/mcp`,
           headers: { Authorization: "Bearer ${AXIS_API_KEY}" },
         },
@@ -2768,7 +2768,7 @@ const INSTALL_CONFIGS: Record<string, { file: string; description: string; confi
     description: "Place in your project root under .vscode/mcp.json. Requires VS Code 1.99+ with GitHub Copilot.",
     config: {
       servers: {
-        "axis-toolbox": {
+        "axis-iliad": {
           type: "http",
           url: `${AXIS_API_BASE}/mcp`,
           headers: { Authorization: "Bearer ${AXIS_API_KEY}" },
@@ -2804,7 +2804,7 @@ export async function handleInstall(
 
   // No platform specified � return all
   sendJSON(res, 200, {
-    name: "AXIS Toolbox � MCP Install Configs",
+    name: "Axis' Iliad � MCP Install Configs",
     mcp_endpoint: `${AXIS_API_BASE}/mcp`,
     get_api_key: `POST ${AXIS_API_BASE}/v1/accounts with {email, name, tier: 'free'}`,
     platforms: INSTALL_CONFIGS,
@@ -2930,7 +2930,7 @@ export async function handleAgentJson(
   res: ServerResponse,
 ): Promise<void> {
   sendJSON(res, 200, {
-    name: "AXIS Toolbox",
+    name: "Axis' Iliad",
     version: "0.5.0",
     description: `Deterministic snapshot-based generation of ${ARTIFACT_COUNT}+ artifacts across ${PROGRAM_COUNT} specialized programs`,
     capabilities: {
@@ -2944,7 +2944,7 @@ export async function handleAgentJson(
       model: "usage-based MPP ($0.50 per run)",
       pro: "$29/month — unlimited + all features",
     },
-    homepage: "https://toolbox.jonathanarvay.com",
+    homepage: "https://axis-iliad.jonathanarvay.com",
     mcp_endpoint: "/mcp",
     endpoints: {
       analyze: "POST /v1/analyze",
@@ -2983,10 +2983,10 @@ export async function handleDocsRedirect(
   res: ServerResponse,
 ): Promise<void> {
   sendJSON(res, 200, {
-    docs: "https://toolbox.jonathanarvay.com/docs",
+    docs: "https://axis-iliad.jonathanarvay.com/docs",
     openapi: "/v1/docs",
     markdown: "/v1/docs.md",
-    description: "AXIS Toolbox documentation and API reference",
+    description: "Axis' Iliad documentation and API reference",
   });
 }
 

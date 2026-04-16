@@ -1,12 +1,12 @@
 # MCP Server Manifest
-# Project: axis-toolbox
-# Generated: 2026-04-15T20:25:20.109Z
-# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+# Project: axis-iliad
+# Generated: 2026-04-16T14:25:25.227Z
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 server:
-  name: "axis-toolbox-mcp-server"
+  name: "axis-iliad-mcp-server"
   version: "1.0.0"
-  description: "MCP server for axis-toolbox project integration"
+  description: "MCP server for axis-iliad project integration"
   protocol: "mcp"
   transport: "stdio"
 
@@ -48,7 +48,7 @@ server:
             enum: [search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic]
 
     - name: list_routes
-      description: List all 449 detected routes
+      description: List all 473 detected routes
       input_schema:
         type: object
         properties:
@@ -293,7 +293,7 @@ server:
 
   prompts:
     - name: review_code
-      description: Review code following axis-toolbox conventions
+      description: Review code following axis-iliad conventions
       arguments:
         - name: file_path
           type: string
@@ -326,14 +326,14 @@ server:
       version: "workspace:*"
     - name: @axis/snapshots
       version: "workspace:*"
+    - name: @jmondi/oauth2-server
+      version: "^4.2.2"
+    - name: jsonwebtoken
+      version: "^9.0.3"
     - name: mppx
       version: "^0.5.12"
     - name: jszip
       version: "^3.10.1"
-    - name: react
-      version: "^19.1.0"
-    - name: react-dom
-      version: "^19.1.0"
 
   # Detected Server/Tool Files
   source_files:
@@ -343,6 +343,8 @@ server:
       exports: []
     - path: "apps/api/src/mcp-server.ts"
       exports: ["export const MCP_PROTOCOL_VERSION = ...", "export type ProbeClass = ...", "export function classifyProbe(userAgent: string): ProbeClass { ... }", "export function captureIntent(tool: string, intent: string | null, userAgent: string): void { ... }", "export function getIntentLog(): IntentCapture[] { ... }"]
+    - path: "apps/api/src/oauth-server.ts"
+      exports: ["export async function handleOAuthAuthorize(req: IncomingMessage, res: ServerResponse): Promise<void> { ... }", "export async function handleOAuthToken(req: IncomingMessage, res: ServerResponse): Promise<void> { ... }", "export async function handleOAuthJwks(_req: IncomingMessage, res: ServerResponse): Promise<void> { ... }", "export async function handleOAuthIntrospect(req: IncomingMessage, res: ServerResponse): Promise<void> { ... }", "export async function requireBearerToken(req: IncomingMessage, res: ServerResponse): Promise<boolean> { ... }"]
     - path: "apps/api/src/server.ts"
       exports: ["export const app = ..."]
     - path: "mcp/begin.yaml"
@@ -350,6 +352,4 @@ server:
     - path: "mcp/continuation.yaml"
       exports: []
     - path: "mcp/MEMORY.yaml"
-      exports: []
-    - path: "mcp/schemas/output-contract.schema.json"
       exports: []

@@ -1,4 +1,4 @@
-# Optimization Rules — axis-toolbox
+# Optimization Rules — axis-iliad
 
 > Prompt and context efficiency guidelines for a monorepo (TypeScript)
 
@@ -7,9 +7,9 @@
 | Metric | Value |
 |--------|-------|
 | Total files | 500 |
-| Total LOC | 116,119 |
-| Average LOC / file | 232 |
-| Estimated token count | ~522,536 |
+| Total LOC | 123,123 |
+| Average LOC / file | 246 |
+| Estimated token count | ~554,054 |
 
 **Warning:** This project exceeds most context windows. Use selective context loading.
 
@@ -24,7 +24,7 @@ Include these files first when constructing prompts — they carry the most arch
 | `apps/web/src/App.tsx` | 1 | 17 | 0.9 |
 | `apps/web/src/api.ts` | 17 | 0 | 0.8 |
 | `apps/web/src/pages.test.tsx` | 0 | 15 | 0.8 |
-| `apps/web/src/pages/DashboardPage.tsx` | 1 | 9 | 0.5 |
+| `apps/web/src/pages/DashboardPage.tsx` | 1 | 10 | 0.6 |
 | `apps/web/src/components/Toast.tsx` | 4 | 0 | 0.2 |
 | `apps/web/src/components/AxisIcons.tsx` | 4 | 0 | 0.2 |
 | `apps/web/src/upload-utils.ts` | 3 | 0 | 0.1 |
@@ -75,21 +75,21 @@ Reference these patterns in prompts for architectural consistency:
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "npx tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
     "@axis/repo-parser": "workspace:*",
     "@axis/snapshots": "workspace:*",
+    "@jmondi/oauth2-server": "^4.2.2",
+    "jsonwebtoken": "^9.0.3",
     "mppx": "^0.5.12"
   },
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-... (6 more lines)
+... (9 more lines)
 ```
 
 ### `apps/api/tsconfig.json`
@@ -161,6 +161,7 @@ Reference these patterns in prompts for architectural consistency:
 ```
 .github/workflows/ci.yml (4.5 KB)
 .gitignore (0.2 KB)
+.vitest-e2e.json (13.0 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
 AGENTS.md (14.2 KB)
@@ -169,8 +170,11 @@ algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
 algorithmic/MEMORY.yaml (2.9 KB)
 algorithmic/schemas/output-contract.schema.json (1.8 KB)
+apps/api/check-table.js (0.3 KB)
+apps/api/gen-keys.js (0.3 KB)
+apps/api/keys.env (4.3 KB)
 apps/api/mcp-server.json (10.1 KB)
-apps/api/package.json (0.6 KB)
+apps/api/package.json (0.7 KB)
 apps/api/src/admin.test.ts (10.0 KB)
 apps/api/src/admin.ts (2.8 KB)
 apps/api/src/agent-discovery.test.ts (18.6 KB)
@@ -190,7 +194,7 @@ apps/api/src/credits-api.test.ts (10.9 KB)
 apps/api/src/db-endpoints.test.ts (4.1 KB)
 apps/api/src/deletion.test.ts (5.6 KB)
 apps/api/src/deployment.test.ts (6.9 KB)
-apps/api/src/e2e-flows.test.ts (22.5 KB)
+apps/api/src/e2e-flows.test.ts (22.8 KB)
 apps/api/src/e2e-smoke.test.ts (4.5 KB)
 apps/api/src/env.test.ts (8.3 KB)
 apps/api/src/env.ts (5.7 KB)
@@ -205,23 +209,25 @@ apps/api/src/handler-edge-cases.test.ts (11.8 KB)
 apps/api/src/handler-shutdown.test.ts (2.8 KB)
 apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
-apps/api/src/handlers.ts (140.2 KB)
+apps/api/src/handlers.ts (145.3 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.5 KB)
 apps/api/src/logger.ts (2.9 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (72.8 KB)
-apps/api/src/mcp-server.ts (90.8 KB)
+apps/api/src/mcp-server.test.ts (77.8 KB)
+apps/api/src/mcp-server.ts (94.9 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
 apps/api/src/mpp.ts (13.6 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
+apps/api/src/oauth-server-simple.ts (5.7 KB)
+apps/api/src/oauth-server.ts (8.1 KB)
 apps/api/src/oauth.test.ts (8.0 KB)
 apps/api/src/oauth.ts (3.4 KB)
 apps/api/src/openapi.test.ts (15.2 KB)
-apps/api/src/openapi.ts (65.0 KB)
+apps/api/src/openapi.ts (65.3 KB)
 apps/api/src/prepare-purchasing.test.ts (19.1 KB)
 apps/api/src/production-startup.test.ts (8.5 KB)
 apps/api/src/programs-billing.test.ts (12.8 KB)
@@ -233,12 +239,12 @@ apps/api/src/rate-limiter.ts (6.5 KB)
 apps/api/src/request-limits.test.ts (3.9 KB)
 apps/api/src/router-branches.test.ts (12.5 KB)
 apps/api/src/router.test.ts (15.0 KB)
-apps/api/src/router.ts (14.9 KB)
+apps/api/src/router.ts (15.2 KB)
 apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.3 KB)
-apps/api/src/server.ts (12.5 KB)
+apps/api/src/server.ts (16.3 KB)
 apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -249,7 +255,7 @@ apps/api/src/versions.ts (2.5 KB)
 apps/api/src/webhook-branches.test.ts (16.3 KB)
 apps/api/src/webhooks.test.ts (13.6 KB)
 apps/api/src/webhooks.ts (5.4 KB)
-apps/api/src/well-known-handlers.test.ts (12.5 KB)
+apps/api/src/well-known-handlers.test.ts (15.6 KB)
 apps/api/tsconfig.json (0.2 KB)
 apps/cli/package.json (0.5 KB)
 apps/cli/src/cli-auth.test.ts (7.6 KB)
@@ -258,9 +264,9 @@ apps/cli/src/cli-edge-cases.test.ts (14.4 KB)
 apps/cli/src/cli-pipeline.test.ts (9.3 KB)
 apps/cli/src/cli.test.ts (13.9 KB)
 apps/cli/src/cli.ts (9.7 KB)
-apps/cli/src/credential-store.test.ts (8.2 KB)
+apps/cli/src/credential-store.test.ts (8.4 KB)
 apps/cli/src/credential-store.ts (3.2 KB)
-apps/cli/src/determinism.test.ts (5.0 KB)
+apps/cli/src/determinism.test.ts (6.9 KB)
 apps/cli/src/runner.test.ts (6.5 KB)
 apps/cli/src/runner.ts (11.2 KB)
 apps/cli/src/scanner.ts (4.3 KB)
@@ -269,7 +275,7 @@ apps/cli/tsconfig.json (0.4 KB)
 apps/web/index.html (6.9 KB)
 apps/web/package.json (0.5 KB)
 apps/web/public/robots.txt (0.8 KB)
-apps/web/src/api.test.ts (23.7 KB)
+apps/web/src/api.test.ts (23.8 KB)
 apps/web/src/api.ts (18.5 KB)
 apps/web/src/App.tsx (16.1 KB)
 apps/web/src/components/AxisIcons.tsx (8.9 KB)
@@ -278,7 +284,7 @@ apps/web/src/components/FilesTab.tsx (4.7 KB)
 apps/web/src/components/GeneratedTab.tsx (4.1 KB)
 apps/web/src/components/GraphTab.tsx (4.8 KB)
 apps/web/src/components/OverviewTab.tsx (8.8 KB)
-apps/web/src/components/ProgramLauncher.tsx (7.2 KB)
+apps/web/src/components/ProgramLauncher.tsx (7.4 KB)
 apps/web/src/components/SearchTab.tsx (11.1 KB)
 apps/web/src/components/SignUpModal.tsx (3.9 KB)
 apps/web/src/components/StatusBar.tsx (2.3 KB)
@@ -288,8 +294,8 @@ apps/web/src/index.css (18.5 KB)
 apps/web/src/main.tsx (0.2 KB)
 apps/web/src/pages.test.tsx (4.4 KB)
 apps/web/src/pages/AccountPage.tsx (23.8 KB)
-apps/web/src/pages/DashboardPage.tsx (7.5 KB)
-apps/web/src/pages/DocsPage.tsx (71.2 KB)
+apps/web/src/pages/DashboardPage.tsx (8.2 KB)
+apps/web/src/pages/DocsPage.tsx (71.1 KB)
 apps/web/src/pages/ExamplesPage.tsx (24.1 KB)
 apps/web/src/pages/ForAgentsPage.tsx (50.0 KB)
 apps/web/src/pages/HelpPage.tsx (41.9 KB)
@@ -298,9 +304,9 @@ apps/web/src/pages/PlansPage.tsx (9.3 KB)
 apps/web/src/pages/ProgramsPage.tsx (13.9 KB)
 apps/web/src/pages/QAPage.tsx (23.7 KB)
 apps/web/src/pages/TermsPage.tsx (19.4 KB)
-apps/web/src/pages/UploadPage.tsx (28.8 KB)
+apps/web/src/pages/UploadPage.tsx (29.2 KB)
 apps/web/src/upload-utils-zip.test.ts (9.0 KB)
-apps/web/src/upload-utils.test.ts (5.7 KB)
+apps/web/src/upload-utils.test.ts (5.8 KB)
 apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
@@ -314,12 +320,12 @@ artifacts/schemas/output-contract.schema.json (1.8 KB)
 asset-checklist.md (1.3 KB)
 asset-guidelines.md (1.7 KB)
 automated remedial action.yaml (7.5 KB)
-automation-pipeline.yaml (3.1 KB)
+automation-pipeline.yaml (3.0 KB)
 axis_all_tools.yaml (22.6 KB)
 AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
-begin.yaml (12.9 KB)
+begin.yaml (14.7 KB)
 brand-board.md (5.0 KB)
 brand-guidelines.md (3.3 KB)
 brand/begin.yaml (1.8 KB)
@@ -351,8 +357,14 @@ content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
 cost-estimate.json (5.7 KB)
-cov3.txt (19.3 KB)
+cov.txt (210.1 KB)
+cov2.txt (212.0 KB)
+cov3.txt (9.6 KB)
 cov5.txt (218.4 KB)
+cov6.txt (218.4 KB)
+cov7.txt (219.0 KB)
+cov8.txt (219.5 KB)
+coverage-full.txt (249.9 KB)
 cro-playbook.md (34.2 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
@@ -363,7 +375,7 @@ debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
 dependency-hotspots.md (8.2 KB)
 docker-compose.yml (2.0 KB)
-Dockerfile (4.1 KB)
+Dockerfile (4.3 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
 e2e_wiring_audit.mjs (46.9 KB)
@@ -392,27 +404,32 @@ frontend/continuation.yaml (2.4 KB)
 frontend/MEMORY.yaml (5.8 KB)
 frontend/schemas/output-contract.schema.json (1.8 KB)
 funnel-map.md (2.9 KB)
+generate-keys.js (0.6 KB)
 generated-component.tsx (1.6 KB)
+generated-posts.json (2.3 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
-graph-prompt-map.json (47.4 KB)
+graph-prompt-map.json (47.0 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
 incident-template.md (19.9 KB)
+launch-checklist.md (3.9 KB)
+launch-content.md (6.0 KB)
 layout-patterns.md (2.5 KB)
 linking-policy.md (3.7 KB)
+ls-coverage.txt (250.3 KB)
 marketing-pack.md (9.7 KB)
 marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (11.8 KB)
+mcp-config.json (11.7 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
 mcp/schemas/output-contract.schema.json (1.8 KB)
 memory generator.yaml (7.6 KB)
-messaging-system.yaml (2.6 KB)
+messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (26.5 KB)
 negotiation-rules.md (7.6 KB)
 notebook-summary.md (3.6 KB)
@@ -431,7 +448,7 @@ optimization/begin.yaml (2.5 KB)
 optimization/continuation.yaml (2.4 KB)
 optimization/MEMORY.yaml (3.7 KB)
 optimization/schemas/output-contract.schema.json (1.8 KB)
-package.json (0.8 KB)
+package.json (1.0 KB)
 packages/context-engine/package.json (0.4 KB)
 packages/context-engine/src/engine-branches.test.ts (27.5 KB)
 packages/context-engine/src/engine-branches2.test.ts (7.6 KB)
@@ -528,8 +545,8 @@ packages/snapshots/src/billing-types.ts (3.9 KB)
 packages/snapshots/src/billing.test.ts (12.2 KB)
 packages/snapshots/src/coverage-gaps.test.ts (22.8 KB)
 packages/snapshots/src/db-maintenance.test.ts (6.7 KB)
-packages/snapshots/src/db.test.ts (15.8 KB)
-packages/snapshots/src/db.ts (21.1 KB)
+packages/snapshots/src/db.test.ts (15.9 KB)
+packages/snapshots/src/db.ts (23.5 KB)
 packages/snapshots/src/email-store.test.ts (10.7 KB)
 packages/snapshots/src/email-store.ts (9.0 KB)
 packages/snapshots/src/funnel-edge-cases.test.ts (10.7 KB)
@@ -642,23 +659,6 @@ payment-processing-output/workflow-pack.md (2.0 KB)
 payment-processing-output/workflow-registry.json (1.8 KB)
 pnpm-lock.yaml (0.0 KB)
 pnpm-workspace.yaml (0.1 KB)
-policy-pack.md (2.6 KB)
-poster-layouts.md (3.1 KB)
-product-schema.json (7.7 KB)
-ProgramPipeline.js (11.3 KB)
-prompt-diff-report.md (2.4 KB)
-README.md (9.2 KB)
-refactor-checklist.md (4.0 KB)
-remotion-pack.md (9.2 KB)
-remotion-script.ts (3.7 KB)
-remotion/begin.yaml (1.8 KB)
-remotion/continuation.yaml (2.4 KB)
-remotion/MEMORY.yaml (2.8 KB)
-remotion/schemas/output-contract.schema.json (1.8 KB)
-render-config.json (8.5 KB)
-render.yaml (1.2 KB)
-repo_snapshot.yaml (80.7 KB)
-research-threads.md (3.7 KB)
 ```
 
 ## Hotspot File Excerpts
@@ -728,7 +728,10 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ### `apps/web/src/pages.test.tsx`
 
 ```tsx
-// @vitest-environment happy-dom
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 
@@ -750,8 +753,5 @@ describe("Page smoke tests — zero-prop pages", () => {
   });
 
   it("ExamplesPage renders without crashing", () => {
-    const { container } = render(<ExamplesPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
-... (89 more lines)
+... (92 more lines)
 ```

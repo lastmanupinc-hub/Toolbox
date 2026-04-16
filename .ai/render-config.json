@@ -1,8 +1,8 @@
 {
-  "project": "axis-toolbox",
+  "project": "axis-iliad",
   "generated_at": "2026-04-11T22:24:47.554Z",
   "composition": {
-    "id": "axistoolboxVideo",
+    "id": "axisiliadVideo",
     "width": 1920,
     "height": 1080,
     "fps": 30,
@@ -63,7 +63,7 @@
     "codec": "h264",
     "imageFormat": "jpeg",
     "quality": 80,
-    "outputLocation": "out/axistoolbox.mp4",
+    "outputLocation": "out/axisiliad.mp4",
     "concurrency": 4,
     "overwrite": true
   },

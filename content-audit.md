@@ -1,10 +1,10 @@
-# Content Audit — axis-toolbox
+# Content Audit — axis-iliad
 
 > Automated analysis of content structure, metadata coverage, and SEO readiness
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -20,11 +20,11 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Primary Language | TypeScript |
 | Frameworks | React |
 | Total Files | 500 |
-| Total LOC | 116119 |
+| Total LOC | 123123 |
 
 ## SEO Readiness Score
 
-**70/100**
+**60/100**
 
 | Check | Status | Weight |
 |-------|--------|--------|
@@ -32,13 +32,13 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | Route Detection | PASS | 2 |
 | Has TypeScript | PASS | 1 |
 | Has CI/CD | PASS | 1 |
-| Has README | PASS | 1 |
+| Has README | FAIL | 1 |
 | Has Tests | PASS | 1 |
 | Architecture Layers | PASS | 1 |
 
 ## Content Files Analysis
 
-- **Content files (md/mdx/html):** 169
+- **Content files (md/mdx/html):** 170
 - **Template files (tsx/jsx/vue/svelte):** 31
 - **Total source files:** 500
 
@@ -49,7 +49,7 @@ These files likely render as individual pages:
 | File | Language | LOC | SEO Action |
 |------|----------|-----|------------|
 | `apps/web/src/pages/AccountPage.tsx` | TypeScript | 591 | Needs meta tags |
-| `apps/web/src/pages/DashboardPage.tsx` | TypeScript | 160 | Needs meta tags |
+| `apps/web/src/pages/DashboardPage.tsx` | TypeScript | 176 | Needs meta tags |
 | `apps/web/src/pages/DocsPage.tsx` | TypeScript | 1248 | Needs meta tags |
 | `apps/web/src/pages/ExamplesPage.tsx` | TypeScript | 479 | Needs meta tags |
 | `apps/web/src/pages/ForAgentsPage.tsx` | TypeScript | 700 | Needs meta tags |
@@ -59,7 +59,7 @@ These files likely render as individual pages:
 | `apps/web/src/pages/ProgramsPage.tsx` | TypeScript | 282 | Needs meta tags |
 | `apps/web/src/pages/QAPage.tsx` | TypeScript | 367 | Needs meta tags |
 | `apps/web/src/pages/TermsPage.tsx` | TypeScript | 318 | Needs meta tags |
-| `apps/web/src/pages/UploadPage.tsx` | TypeScript | 579 | Needs meta tags |
+| `apps/web/src/pages/UploadPage.tsx` | TypeScript | 582 | Needs meta tags |
 
 ## Recommendations
 
@@ -96,7 +96,7 @@ These files likely render as individual pages:
 | Component | Has Meta | Lines |
 |-----------|----------|-------|
 | `apps/web/src/pages/AccountPage.tsx` | **Missing** | 623 |
-| `apps/web/src/pages/DashboardPage.tsx` | **Missing** | 180 |
+| `apps/web/src/pages/DashboardPage.tsx` | **Missing** | 197 |
 | `apps/web/src/pages/DocsPage.tsx` | **Missing** | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | Yes | 505 |
 | `apps/web/src/pages/ForAgentsPage.tsx` | Yes | 898 |
@@ -106,4 +106,4 @@ These files likely render as individual pages:
 | `apps/web/src/pages/ProgramsPage.tsx` | **Missing** | 313 |
 | `apps/web/src/pages/QAPage.tsx` | Yes | 392 |
 | `apps/web/src/pages/TermsPage.tsx` | Yes | 357 |
-| `apps/web/src/pages/UploadPage.tsx` | **Missing** | 640 |
+| `apps/web/src/pages/UploadPage.tsx` | **Missing** | 655 |

@@ -1,10 +1,10 @@
-# AXIS Toolbox — Optimization Rules
+# Axis' Iliad — Optimization Rules
 
 ## Context Budget
 
 ### Token Allocation Model
 
-The AXIS Toolbox codebase has the following context profile when loaded into an AI coding assistant:
+The Axis' Iliad codebase has the following context profile when loaded into an AI coding assistant:
 
 | Component | Estimated Tokens | Priority | Load Strategy |
 |-----------|-----------------|----------|---------------|
@@ -77,7 +77,7 @@ These facts should be established once and never re-verified mid-session:
 
 ```
 CACHE_ONCE:
-  - Project: axis-toolbox v0.5.0
+  - Project: axis-iliad v0.5.0
   - Runtime: Node.js >=20, TypeScript 5.7 strict, pnpm
   - Test framework: Vitest 4.1
   - Database: SQLite WAL via better-sqlite3
@@ -128,7 +128,7 @@ CACHE_ONCE:
 
 ### For 200K Context Models (Claude Opus/Sonnet)
 
-The entire AXIS Toolbox codebase (~115K tokens) fits within a single context window. This means:
+The entire Axis' Iliad codebase (~115K tokens) fits within a single context window. This means:
 - Full snapshot compilation is feasible in one pass
 - Cross-package refactoring can reference all affected files simultaneously
 - Test verification can include both implementation and test file

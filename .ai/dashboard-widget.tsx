@@ -10,7 +10,7 @@ interface DashboardData {
 }
 
 const data: DashboardData = {
-  project: "axis-toolbox",
+  project: "axis-iliad",
   type: "monorepo",
   language: "TypeScript",
   entryPoints: 0,

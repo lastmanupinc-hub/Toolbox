@@ -1,6 +1,6 @@
-# Storyboard — axis-toolbox
+# Storyboard — axis-iliad
 
-Generated: 2026-04-15T20:25:20.114Z
+Generated: 2026-04-16T14:25:25.232Z
 
 Frame-by-frame storyboard for a 60-second project showcase video.
 
@@ -9,8 +9,8 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 ```
 ┌────────────────────────────────────┐
 │                                    │
-│              AXIS-TOOLBOX                  │
-│                                                                                                           AI-native development operatin     │
+│               AXIS-ILIAD                   │
+│                monorepo                │
 │                                    │
 └────────────────────────────────────┘
 ```
@@ -28,9 +28,9 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 │  └──────┘ └──────┘ └──────┘       │
 │                                    │
 │  Languages:                        │
-│    TypeScript   ██████████████ 71%     │
-│    JSON         ██ 11%     │
-│    YAML         ██ 9%     │
+│    TypeScript   ███████████████ 73%     │
+│    JSON         ██ 10%     │
+│    YAML         ██ 8%     │
 └────────────────────────────────────┘
 ```
 
@@ -81,9 +81,9 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 ```
 ┌────────────────────────────────────┐
 │                                    │
-│              AXIS-TOOLBOX                  │
+│               AXIS-ILIAD                   │
 │                                    │
-│     Analyzed by Axis Toolbox       │
+│     Analyzed by Axis' Iliad       │
 │                                    │
 │     [ Get Started ]                │
 │                                    │

@@ -1,8 +1,8 @@
-# AXIS Toolbox — Marketing Pack
+# Axis' Iliad — Marketing Pack
 
 ## Executive Summary
 
-**Product**: AXIS Toolbox v0.5.0
+**Product**: Axis' Iliad v0.5.0
 **Category**: AI Development Intelligence Platform
 **Tagline**: The operating system for AI-native development
 **Owner**: Last Man Up Inc.
@@ -36,7 +36,7 @@
 
 ### Competitor Feature Matrix
 
-| Feature | AXIS Toolbox | Sourcegraph | SonarQube | Devin |
+| Feature | Axis' Iliad | Sourcegraph | SonarQube | Devin |
 |---------|-------------|-------------|-----------|-------|
 | Repo analysis | ✅ 86 artifacts | ✅ Search + navigation | ✅ Quality gates | ✅ Task completion |
 | Agent instructions gen | ✅ AGENTS.md, CLAUDE.md | ❌ | ❌ | ❌ |
@@ -87,7 +87,7 @@ The free tier is the product's moat. It delivers genuine value (Search + Debug +
 | # | Title | Format | Channel | Goal |
 |---|-------|--------|---------|------|
 | 1 | "Why Your AI Coding Assistant Needs Better Context" | Blog post (2,000 words) | Blog, HN, Dev.to | Problem awareness |
-| 2 | "86 Artifacts From One Upload: How AXIS Toolbox Works" | Technical deep-dive | Blog, YouTube | Product understanding |
+| 2 | "86 Artifacts From One Upload: How Axis' Iliad Works" | Technical deep-dive | Blog, YouTube | Product understanding |
 | 3 | "The YAML Constitution: How We Built a Self-Governing AI System" | Architecture blog | Blog, HN | Technical credibility |
 | 4 | "From 0 to 99.99% Coverage: Testing an 18-Program Generator" | Engineering blog | Blog, Dev.to | Developer respect |
 | 5 | "Zero Dependencies: Why We Built Our Own HTTP Router" | Opinion piece | Blog, HN, Reddit | Philosophy alignment |
@@ -151,7 +151,7 @@ The free tier is the product's moat. It delivers genuine value (Search + Debug +
 
 ### Hero Section
 **Headline**: 87 generators. 18 programs. One upload.
-**Subhead**: AXIS Toolbox analyzes your codebase and generates structured intelligence — from agent instructions to brand guidelines to video storyboards.
+**Subhead**: Axis' Iliad analyzes your codebase and generates structured intelligence — from agent instructions to brand guidelines to video storyboards.
 **CTA**: Analyze your repo free →
 
 ### Value Props (3 columns)

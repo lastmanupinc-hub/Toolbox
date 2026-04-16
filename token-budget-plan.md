@@ -1,28 +1,28 @@
-# Token Budget Plan — axis-toolbox
+# Token Budget Plan — axis-iliad
 
-Generated: 2026-04-15T20:25:20.095Z
+Generated: 2026-04-16T14:25:25.208Z
 
 ## Project Token Profile
 
 | Metric | Value |
 |--------|-------|
-| Total LOC | 114,692 |
-| Total Files | 496 |
-| Est. Total Tokens | 516,114 |
-| Avg Tokens/File | 1,041 |
+| Total LOC | 112,423 |
+| Total Files | 488 |
+| Est. Total Tokens | 505,904 |
+| Avg Tokens/File | 1,037 |
 
 ## Token Budget by Language
 
 | Language | LOC | Tokens | % of Budget |
 |----------|-----|--------|-------------|
-| TypeScript | 81,263 | 365,684 | 70.9% |
-| JSON | 12,048 | 54,216 | 10.5% |
-| YAML | 10,492 | 47,214 | 9.1% |
-| Markdown | 8,415 | 37,868 | 7.3% |
-| JavaScript | 1,456 | 6,552 | 1.3% |
-| CSS | 849 | 3,821 | 0.7% |
+| TypeScript | 82,162 | 369,729 | 73.1% |
+| JSON | 11,394 | 51,273 | 10.1% |
+| YAML | 8,564 | 38,538 | 7.6% |
+| Markdown | 7,981 | 35,915 | 7.1% |
+| JavaScript | 1,302 | 5,859 | 1.2% |
+| CSS | 849 | 3,821 | 0.8% |
 | HTML | 120 | 540 | 0.1% |
-| Dockerfile | 49 | 221 | 0.0% |
+| Dockerfile | 51 | 230 | 0.0% |
 
 ## Context Window Allocation
 
@@ -57,15 +57,15 @@ Generated: 2026-04-15T20:25:20.095Z
 | Operation | Input | Output | Daily | Monthly Cost (GPT-4o) |
 |-----------|-------|--------|-------|----------------------|
 | Code review (1 file) | 1,500 | 500 | 10 | $1.93 |
-| API endpoint work (449 routes detected) | 8,000 | 2,000 | 5 | $4.40 |
-| Hotspot refactor (7 hotspots, avg 968 tok each) | 12,000 | 1,500 | 3 | $2.97 |
+| API endpoint work (473 routes detected) | 8,000 | 2,000 | 5 | $4.40 |
+| Hotspot refactor (7 hotspots, avg 981 tok each) | 12,000 | 1,500 | 3 | $2.97 |
 | Domain model change (162 models) | 8,000 | 2,500 | 2 | $1.98 |
-| Documentation | 25,806 | 1,500 | 2 | $3.50 |
+| Documentation | 25,295 | 1,500 | 2 | $3.44 |
 
 > Token estimates derived from detected project signals: routes, hotspots, domain models, and average file size.
 
 ## Source-Verified Token Estimate
 
 - Source files scanned: 500
-- Total source lines: 137,673
-- Estimated tokens: ~619,529
+- Total source lines: 144,722
+- Estimated tokens: ~651,249

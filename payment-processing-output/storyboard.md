@@ -83,7 +83,7 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 │                                    │
 │           AVERY-PAY-PLATFORM               │
 │                                    │
-│     Analyzed by Axis Toolbox       │
+│     Analyzed by Axis' Iliad       │
 │                                    │
 │     [ Get Started ]                │
 │                                    │

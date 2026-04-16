@@ -1,6 +1,6 @@
-# Poster Layouts — axis-toolbox
+# Poster Layouts — axis-iliad
 
-Generated: 2026-04-15T20:25:19.993Z
+Generated: 2026-04-16T14:25:25.092Z
 
 ## Layout A: Tech Overview (A4 Portrait)
 
@@ -25,25 +25,25 @@ Generated: 2026-04-15T20:25:19.993Z
 ### Data for Zones
 
 **Hero Zone**
-- Title: axis-toolbox
-- Subtitle: AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
+- Title: axis-iliad
+- Subtitle: null
 - Type Badge: monorepo
 
 **Stats Grid**
 - Entry Points: 0
 - Hotspots: 7
 - Architecture Score: 0.65/100
-- Dependencies: 23
+- Dependencies: 26
 
 **Language Breakdown**
-- TypeScript: 70.9% (81263 LOC)
-- JSON: 10.5% (12048 LOC)
-- YAML: 9.1% (10492 LOC)
-- Markdown: 7.3% (8415 LOC)
-- JavaScript: 1.3% (1456 LOC)
-- CSS: 0.7% (849 LOC)
+- TypeScript: 73.1% (82162 LOC)
+- JSON: 10.1% (11394 LOC)
+- YAML: 7.6% (8564 LOC)
+- Markdown: 7.1% (7981 LOC)
+- JavaScript: 1.2% (1302 LOC)
+- CSS: 0.8% (849 LOC)
 - HTML: 0.1% (120 LOC)
-- Dockerfile: 0% (49 LOC)
+- Dockerfile: 0% (51 LOC)
 
 **Architecture Diagram**
 - Patterns: monorepo, containerized
@@ -70,7 +70,7 @@ Generated: 2026-04-15T20:25:19.993Z
 └──────────────────────────────────────────┘
 ```
 
-- Name: axis-toolbox
+- Name: axis-iliad
 - Type: monorepo
 - Score: 0.65/100
 - Badges: React

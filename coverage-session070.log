@@ -1,5 +1,5 @@
 ﻿
-[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/AXIS Toolbox[39m
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/Axis' Iliad[39m
       [2mCoverage enabled with [22m[33mv8[39m
 
 {"timestamp":"2026-04-11T04:54:33.549Z","level":"info","msg":"server_start","port":44475,"service":"axis-api"}
@@ -1477,7 +1477,7 @@ tatus":500,"duration_ms":1}
  [32mΓ£ô[39m apps/api/src/api-layer5.test.ts [2m([22m[2m19 tests[22m[2m)[22m[33m 367[2mms[22m[39m
  [32mΓ£ô[39m packages/generator-core/src/generator-sourcefile-branches9.test.ts [2m([22m[2m53 tests[22m[2m)[22m[33m 411[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-pipeline.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-pipeline.test.ts
 [22m[39mNo source files found in target directory.
@@ -1494,7 +1494,7 @@ tatus":500,"duration_ms":1}
  [32mΓ£ô[39m packages/generator-core/src/generate-symbol-index.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 86[2mms[22m[39m
  [32mΓ£ô[39m packages/snapshots/src/store-layer5.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 317[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-commands.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-commands.test.ts
 [22m[39mNo source files found in target directory.
@@ -1535,7 +1535,7 @@ tatus":500,"duration_ms":1}
  [32mΓ£ô[39m packages/generator-core/src/generator-sourcefile-branches15.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 103[2mms[22m[39m
  [32mΓ£ô[39m apps/api/src/env.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 70[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-auth.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-auth.test.ts
 [22m[39mNo source files found in target directory.

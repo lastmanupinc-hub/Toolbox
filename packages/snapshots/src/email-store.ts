@@ -36,24 +36,24 @@ export type EmailProvider = (msg: EmailMessage) => Promise<{ provider_id: string
 
 const TEMPLATES: Record<EmailTemplate, { subject: string; body: string }> = {
   seat_invitation: {
-    subject: "You've been invited to {{org_name}} on AXIS Toolbox",
+    subject: "You've been invited to {{org_name}} on Axis' Iliad",
     body: [
       "Hi {{invitee_email}},",
       "",
-      "{{inviter_name}} has invited you to join {{org_name}} as a {{role}} on AXIS Toolbox.",
+      "{{inviter_name}} has invited you to join {{org_name}} as a {{role}} on Axis' Iliad.",
       "",
       "To accept, create an account with this email address or sign in at:",
       "{{accept_url}}",
       "",
-      "— The AXIS Toolbox Team",
+      "— The Axis' Iliad Team",
     ].join("\n"),
   },
   welcome: {
-    subject: "Welcome to AXIS Toolbox, {{name}}!",
+    subject: "Welcome to Axis' Iliad, {{name}}!",
     body: [
       "Hi {{name}},",
       "",
-      "Your AXIS Toolbox account is ready. You're on the {{tier}} plan.",
+      "Your Axis' Iliad account is ready. You're on the {{tier}} plan.",
       "",
       "Get started:",
       "1. Upload a project or paste a GitHub URL at {{web_url}}",
@@ -62,7 +62,7 @@ const TEMPLATES: Record<EmailTemplate, { subject: string; body: string }> = {
       "",
       "Your API key has been created — find it in your account dashboard.",
       "",
-      "— The AXIS Toolbox Team",
+      "— The Axis' Iliad Team",
     ].join("\n"),
   },
   upgrade_confirmation: {
@@ -70,18 +70,18 @@ const TEMPLATES: Record<EmailTemplate, { subject: string; body: string }> = {
     body: [
       "Hi {{name}},",
       "",
-      "Your AXIS Toolbox account has been upgraded to {{tier_name}}.",
+      "Your Axis' Iliad account has been upgraded to {{tier_name}}.",
       "",
       "What's new:",
       "- {{snapshots_limit}} snapshots per month",
       "- {{projects_limit}} projects",
       "- All {{programs_count}} programs unlocked",
       "",
-      "— The AXIS Toolbox Team",
+      "— The Axis' Iliad Team",
     ].join("\n"),
   },
   usage_alert: {
-    subject: "AXIS Toolbox: You've used {{percent}}% of your monthly snapshots",
+    subject: "Axis' Iliad: You've used {{percent}}% of your monthly snapshots",
     body: [
       "Hi {{name}},",
       "",
@@ -90,11 +90,11 @@ const TEMPLATES: Record<EmailTemplate, { subject: string; body: string }> = {
       "Consider upgrading to Pro for 200 snapshots/month:",
       "{{upgrade_url}}",
       "",
-      "— The AXIS Toolbox Team",
+      "— The Axis' Iliad Team",
     ].join("\n"),
   },
   api_key_created: {
-    subject: "New API key created on your AXIS Toolbox account",
+    subject: "New API key created on your Axis' Iliad account",
     body: [
       "Hi {{name}},",
       "",
@@ -103,7 +103,7 @@ const TEMPLATES: Record<EmailTemplate, { subject: string; body: string }> = {
       "If you didn't do this, revoke it immediately in your account dashboard:",
       "{{account_url}}",
       "",
-      "— The AXIS Toolbox Team",
+      "— The Axis' Iliad Team",
     ].join("\n"),
   },
 };

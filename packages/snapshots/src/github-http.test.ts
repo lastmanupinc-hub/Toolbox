@@ -336,7 +336,7 @@ describe("fetchGitHubRepo HTTP resilience", () => {
 
     await fetchGitHubRepo("https://github.com/owner/repo");
     const headers = capturedOpts.headers as Record<string, string>;
-    expect(headers["User-Agent"]).toBe("axis-toolbox/0.2.0");
+    expect(headers["User-Agent"]).toBe("axis-iliad/0.2.0");
     expect(headers["Accept"]).toBe("application/vnd.github+json");
   });
 

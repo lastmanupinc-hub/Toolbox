@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-# Full AXIS Toolbox regeneration pipeline
+# Full Axis' Iliad regeneration pipeline
 # Usage: pwsh scripts/regenerate.ps1
 #   or:  pnpm regenerate
 

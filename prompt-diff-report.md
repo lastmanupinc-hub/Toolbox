@@ -1,4 +1,4 @@
-# Prompt Diff Report — axis-toolbox
+# Prompt Diff Report — axis-iliad
 
 > Before/after recommendations for prompt quality improvement
 
@@ -25,7 +25,7 @@ Embed 2 detected conventions as system-level constraints in every code generatio
 
 ### Dependency Awareness
 
-Reference package.json in prompts to constrain imports to the 23 actual dependencies. Prevents hallucinated package references.
+Reference package.json in prompts to constrain imports to the 26 actual dependencies. Prevents hallucinated package references.
 
 ### Architecture Alignment
 
@@ -33,11 +33,11 @@ Reference 2 detected patterns (separation score: 0.65/100) in architectural prom
 
 ### Route Awareness
 
-Include route map (449 routes) in prompts when working on API or page code to prevent duplicate endpoints.
+Include route map (473 routes) in prompts when working on API or page code to prevent duplicate endpoints.
 
 ## Token Budget Guidance
 
-Estimated full-project tokens: ~522,536
+Estimated full-project tokens: ~554,054
 
 **Selective context required.** Use this priority order:
 1. Active file being modified
@@ -50,7 +50,7 @@ Estimated full-project tokens: ~522,536
 
 | File | Lines | Exports |
 |------|-------|---------|
-| `apps/api/src/server.ts` | 338 | export const app = ... |
+| `apps/api/src/server.ts` | 432 | export const app = ... |
 | `apps/web/src/App.tsx` | 326 | export function App() { ... } |
 | `apps/web/src/main.tsx` | 11 | default |
 | `packages/context-engine/src/index.ts` | 3 | export type { ... }, export { ... } |

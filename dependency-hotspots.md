@@ -1,10 +1,10 @@
-# Dependency Hotspots — axis-toolbox
+# Dependency Hotspots — axis-iliad
 
-Generated: 2026-04-15T20:25:19.996Z
+Generated: 2026-04-16T14:25:25.097Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -28,7 +28,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `apps/web/src/App.tsx` | 🟢 0.9 | 1 | 17 | 18 |
 | `apps/web/src/api.ts` | 🟢 0.8 | 17 | 0 | 17 |
 | `apps/web/src/pages.test.tsx` | 🟢 0.8 | 0 | 15 | 15 |
-| `apps/web/src/pages/DashboardPage.tsx` | 🟢 0.5 | 1 | 9 | 10 |
+| `apps/web/src/pages/DashboardPage.tsx` | 🟢 0.6 | 1 | 10 | 11 |
 | `apps/web/src/components/Toast.tsx` | 🟢 0.2 | 4 | 0 | 4 |
 | `apps/web/src/components/AxisIcons.tsx` | 🟢 0.2 | 4 | 0 | 4 |
 | `apps/web/src/upload-utils.ts` | 🟢 0.1 | 3 | 0 | 3 |
@@ -58,9 +58,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ### `apps/web/src/pages/DashboardPage.tsx`
 
-- **Risk Score**: 0.5/10
+- **Risk Score**: 0.6/10
 - **Inbound**: 1 files depend on this
-- **Outbound**: 9 dependencies
+- **Outbound**: 10 dependencies
 - **Refactor Priority**: LOW — acceptable coupling
 
 ### `apps/web/src/components/Toast.tsx`
@@ -78,6 +78,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | @axis/generator-core | workspace:* | Stable |
 | @axis/repo-parser | workspace:* | Stable |
 | @axis/snapshots | workspace:* | Stable |
+| @jmondi/oauth2-server | ^4.2.2 | Stable |
+| jsonwebtoken | ^9.0.3 | Stable |
 | mppx | ^0.5.12 | Pre-1.0 — unstable API |
 | jszip | ^3.10.1 | Stable |
 | react | ^19.1.0 | Stable |
@@ -85,10 +87,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | better-sqlite3 | ^12.8.0 | Stable |
 | uuid | ^11.1.0 | Stable |
 | @types/better-sqlite3 | ^7.6.13 | Stable |
+| @types/jsonwebtoken | ^9.0.10 | Stable |
 | @types/node | ^22.0.0 | Stable |
-| ts-node | ^10.9.2 | Stable |
-| typescript | ^5.7.0 | Stable |
-| @types/react | ^19.1.2 | Stable |
 
 ## Recommendations
 
@@ -188,13 +188,14 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ```tsx
 import { useState, useEffect } from "react";
 import type { SnapshotResponse, GeneratedFile } from "../api.ts";
-import { getGeneratedFiles, runProgram, downloadExport } from "../api.ts";
+import { getGeneratedFiles, runProgram, downloadExport, ApiError } from "../api.ts";
 import { OverviewTab } from "../components/OverviewTab.tsx";
 import { FilesTab } from "../components/FilesTab.tsx";
 import { GraphTab } from "../components/GraphTab.tsx";
 import { GeneratedTab } from "../components/GeneratedTab.tsx";
 import { ProgramLauncher } from "../components/ProgramLauncher.tsx";
 import { SearchTab } from "../components/SearchTab.tsx";
+import { UpsellModal } from "../components/UpsellModal.tsx";
 import { useToast } from "../components/Toast.tsx";
 
 interface Props {
@@ -210,14 +211,16 @@ function NextStepsCard({ fileCount, onDownload, downloading }: { fileCount: numb
   if (dismissed || fileCount === 0) return null;
 
   return (
-    <div className="card" style={{ marginBottom: 16, borderLeft: "3px solid var(--accent)", padding: "16px 20px" }}>
-... (155 more lines)
+... (172 more lines)
 ```
 
 ### `apps/web/src/pages.test.tsx`
 
 ```tsx
-// @vitest-environment happy-dom
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 
@@ -239,8 +242,5 @@ describe("Page smoke tests — zero-prop pages", () => {
   });
 
   it("ExamplesPage renders without crashing", () => {
-    const { container } = render(<ExamplesPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
-... (89 more lines)
+... (92 more lines)
 ```

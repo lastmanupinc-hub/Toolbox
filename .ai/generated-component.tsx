@@ -1,23 +1,23 @@
 import React from "react";
 
-interface axistoolboxProps {
+interface axisiliadProps {
   title?: string;
   className?: string;
   children?: React.ReactNode;
 }
 
-export function axistoolbox({ title, className, children }: axistoolboxProps) {
+export function axisiliad({ title, className, children }: axisiliadProps) {
   return (
-    <div className={`axistoolbox-container ${className ?? ""}`}>
-      {title && <h2 className="axistoolbox-title">{title}</h2>}
-      <div className="axistoolbox-content">
+    <div className={`axisiliad-container ${className ?? ""}`}>
+      {title && <h2 className="axisiliad-title">{title}</h2>}
+      <div className="axisiliad-content">
         {children}
       </div>
     </div>
   );
 }
 
-export default axistoolbox;
+export default axisiliad;
 
 // ─── Domain Model Types (from project analysis) ───
 // AuthContext (interface, 3 fields) — apps/api/src/billing.ts

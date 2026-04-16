@@ -60,7 +60,7 @@ const PLATFORMS = [
     path: "%APPDATA%/Claude/claude_desktop_config.json (Windows)\n~/Library/Application Support/Claude/claude_desktop_config.json (macOS)",
     config: JSON.stringify({
       mcpServers: {
-        "axis-toolbox": {
+        "axis-iliad": {
           url: `${API_BASE}/mcp`,
           headers: { Authorization: "Bearer $AXIS_API_KEY" },
         },
@@ -72,7 +72,7 @@ const PLATFORMS = [
     name: "Claude Code",
     file: "Terminal command",
     path: "Run in your terminal:",
-    config: `claude mcp add axis-toolbox --transport http --url ${API_BASE}/mcp --header "Authorization: Bearer $AXIS_API_KEY"`,
+    config: `claude mcp add axis-iliad --transport http --url ${API_BASE}/mcp --header "Authorization: Bearer $AXIS_API_KEY"`,
   },
   {
     id: "cursor",
@@ -81,7 +81,7 @@ const PLATFORMS = [
     path: "Place in your project root or ~/.cursor/mcp.json",
     config: JSON.stringify({
       mcpServers: {
-        "axis-toolbox": {
+        "axis-iliad": {
           url: `${API_BASE}/mcp`,
           headers: { Authorization: "Bearer $AXIS_API_KEY" },
         },
@@ -95,7 +95,7 @@ const PLATFORMS = [
     path: "Place in your project root. Requires VS Code 1.99+ with GitHub Copilot.",
     config: JSON.stringify({
       servers: {
-        "axis-toolbox": {
+        "axis-iliad": {
           type: "http",
           url: `${API_BASE}/mcp`,
           headers: { Authorization: "Bearer $AXIS_API_KEY" },
@@ -113,7 +113,7 @@ export function InstallPage() {
     <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 4px" }}>
       <div className="card" style={{ marginBottom: 24, padding: "28px 28px 24px" }}>
         <h1 style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 8 }}>
-          Install AXIS Toolbox
+          Install Axis' Iliad
         </h1>
         <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: 20 }}>
           Add AXIS as an MCP server in your AI tool. One config block — your assistant gets 12 tools, 18 programs, and 86 generators for any codebase.

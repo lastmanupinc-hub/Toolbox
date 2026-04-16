@@ -1,10 +1,10 @@
-# Superpower Pack — axis-toolbox
+# Superpower Pack — axis-iliad
 
 > High-leverage development workflows for a monorepo (TypeScript)
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -53,7 +53,7 @@ npx vitest run --coverage
    - `apps/web/src/App.tsx` (risk: 0.9, 1 inbound, 17 outbound)
    - `apps/web/src/api.ts` (risk: 0.8, 17 inbound, 0 outbound)
    - `apps/web/src/pages.test.tsx` (risk: 0.8, 0 inbound, 15 outbound)
-   - `apps/web/src/pages/DashboardPage.tsx` (risk: 0.5, 1 inbound, 9 outbound)
+   - `apps/web/src/pages/DashboardPage.tsx` (risk: 0.6, 1 inbound, 10 outbound)
    - `apps/web/src/components/Toast.tsx` (risk: 0.2, 4 inbound, 0 outbound)
 
 3. **Trace** — Follow the import chain from entry point to failure
@@ -151,7 +151,10 @@ import type { SnapshotResponse } from "./api.ts";
 ### `apps/web/src/pages.test.tsx`
 
 ```tsx
-// @vitest-environment happy-dom
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 
@@ -168,8 +171,5 @@ import { TermsPage } from "./pages/TermsPage";
 
 describe("Page smoke tests — zero-prop pages", () => {
   it("DocsPage renders without crashing", () => {
-    const { container } = render(<DocsPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
-... (94 more lines)
+... (97 more lines)
 ```

@@ -1,4 +1,4 @@
-# robots.txt for AXIS Toolbox
+# robots.txt for Axis' Iliad
 # Built specifically for agentic commerce and autonomous purchasing agents
 
 User-agent: *
@@ -16,10 +16,10 @@ Allow: /for-agents
 Allow: /v1/
 
 # Helpful message for agents
-# This is the AXIS Toolbox MCP server (io.github.lastmanupinc-hub/axis-toolbox)
+# This is the Axis' Iliad MCP server (io.github.lastmanupinc-hub/axis-iliad)
 # Primary tool: prepare_for_agentic_purchasing
 # Use case: Hardens codebases for autonomous purchasing (readiness score, AP2/UCP/Visa compliance, negotiation playbooks, checkout rules)
 # Pay-per-run: $0.50 via Stripe MPP
-# Full documentation: https://toolbox.jonathanarvay.com/for-agents
+# Full documentation: https://axis-iliad.jonathanarvay.com/for-agents
 
-Sitemap: https://toolbox.jonathanarvay.com/sitemap.xml
+Sitemap: https://axis-iliad.jonathanarvay.com/sitemap.xml

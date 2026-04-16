@@ -216,7 +216,7 @@ export function App() {
       <header className="header">
         <div className="header-brand">
           <h1 style={{ margin: 0, cursor: "pointer" }} onClick={handleReset}>
-            Axis Toolbox
+            Axis' Iliad
           </h1>
           <span className="badge badge-accent">v0.5.0</span>
         </div>

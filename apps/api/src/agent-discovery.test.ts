@@ -131,8 +131,8 @@ describe("GET /llms.txt", () => {
     expect(String(headers["content-type"])).toContain("text/plain");
   });
 
-  it("contains AXIS Toolbox name", () => {
-    expect(body).toContain("AXIS Toolbox");
+  it("contains Axis' Iliad name", () => {
+    expect(body).toContain("Axis' Iliad");
   });
 
   it("contains POST /v1/analyze", () => {
@@ -196,7 +196,7 @@ describe("GET /.well-known/skills/index.json", () => {
 
   it("has publisher field", () => {
     expect(typeof data.publisher).toBe("string");
-    expect(String(data.publisher)).toContain("AXIS");
+    expect(String(data.publisher)).toContain("Axis' Iliad");
   });
 
   it("has skills array", () => {
@@ -271,8 +271,8 @@ describe("GET /v1/docs.md", () => {
     expect(String(headers["content-type"])).toContain("text/plain");
   });
 
-  it("contains AXIS Toolbox header", () => {
-    expect(body).toContain("AXIS Toolbox");
+  it("contains Axis' Iliad header", () => {
+    expect(body).toContain("Axis' Iliad");
   });
 
   it("contains POST /v1/analyze", () => {
@@ -346,7 +346,7 @@ describe("GET /for-agents", () => {
   });
 
   it("returns name and version", () => {
-    expect(data.name).toBe("AXIS Toolbox");
+    expect(data.name).toBe("Axis' Iliad");
     expect(data.version).toBe("0.5.0");
   });
 
@@ -432,7 +432,7 @@ describe("GET /v1/install/:platform", () => {
     expect(r.status).toBe(200);
     const data = JSON.parse(r.body);
     expect(data.platform).toBe("claude-desktop");
-    expect(data.config.mcpServers["axis-toolbox"]).toBeDefined();
+    expect(data.config.mcpServers["axis-iliad"]).toBeDefined();
   });
 
   it("returns cursor config", async () => {
@@ -440,7 +440,7 @@ describe("GET /v1/install/:platform", () => {
     expect(r.status).toBe(200);
     const data = JSON.parse(r.body);
     expect(data.platform).toBe("cursor");
-    expect(data.config.mcpServers["axis-toolbox"]).toBeDefined();
+    expect(data.config.mcpServers["axis-iliad"]).toBeDefined();
   });
 
   it("returns vscode config", async () => {
@@ -448,7 +448,7 @@ describe("GET /v1/install/:platform", () => {
     expect(r.status).toBe(200);
     const data = JSON.parse(r.body);
     expect(data.platform).toBe("vscode");
-    expect(data.config.servers["axis-toolbox"]).toBeDefined();
+    expect(data.config.servers["axis-iliad"]).toBeDefined();
   });
 
   it("returns claude-code config", async () => {

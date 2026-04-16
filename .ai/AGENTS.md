@@ -1,4 +1,4 @@
-# AGENTS.md — axis-toolbox
+# AGENTS.md — axis-iliad
 
 ## Project Context
 

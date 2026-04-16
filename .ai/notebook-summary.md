@@ -1,10 +1,10 @@
-# Notebook Summary — axis-toolbox
+# Notebook Summary — axis-iliad
 
 > Research and knowledge notebook for a monorepo (TypeScript)
 
 ## Project Synopsis
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Architecture Overview
 

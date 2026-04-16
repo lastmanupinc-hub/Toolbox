@@ -60,7 +60,7 @@ describe("CORS origin configuration", () => {
 
   it("uses CORS_ORIGIN env var when set", async () => {
     openMemoryDb();
-    process.env.CORS_ORIGIN = "https://app.axistoolbox.com";
+    process.env.CORS_ORIGIN = "https://app.axisiliad.com";
     const router = new Router();
     router.get("/v1/health", handleHealthCheck);
     server = createApp(router, TEST_PORT);
@@ -68,13 +68,13 @@ describe("CORS origin configuration", () => {
 
     const res = await rawReq("GET", "/v1/health");
     expect(res.status).toBe(200);
-    expect(res.headers["access-control-allow-origin"]).toBe("https://app.axistoolbox.com");
+    expect(res.headers["access-control-allow-origin"]).toBe("https://app.axisiliad.com");
     closeDb();
   });
 
   it("sets Vary: Origin header when CORS origin is not wildcard", async () => {
     openMemoryDb();
-    process.env.CORS_ORIGIN = "https://app.axistoolbox.com";
+    process.env.CORS_ORIGIN = "https://app.axisiliad.com";
     const router = new Router();
     router.get("/v1/health", handleHealthCheck);
     server = createApp(router, TEST_PORT);

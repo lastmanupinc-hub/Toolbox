@@ -1,10 +1,10 @@
-# Template Pack — axis-toolbox
+# Template Pack — axis-iliad
 
 Generated: 2026-04-11T22:24:48.214Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -19,7 +19,7 @@ Obsidian note templates for consistent knowledge capture.
 ```markdown
 ---
 type: decision
-project: axis-toolbox
+project: axis-iliad
 date: {{date}}
 status: proposed | accepted | deprecated
 ---
@@ -48,7 +48,7 @@ What changes as a result of this decision.
 ```markdown
 ---
 type: meeting
-project: axis-toolbox
+project: axis-iliad
 date: {{date}}
 attendees: 
 ---
@@ -72,7 +72,7 @@ attendees:
 ```markdown
 ---
 type: investigation
-project: axis-toolbox
+project: axis-iliad
 date: {{date}}
 severity: low | medium | high | critical
 status: investigating | root-caused | resolved
@@ -101,7 +101,7 @@ What was changed and why.
 ```markdown
 ---
 type: concept
-project: axis-toolbox
+project: axis-iliad
 tags: ["packages/ (monorepo_packages)", "apps/ (monorepo_apps)", "payment-processing-output/ (project_directory)"]
 ---
 # {{title}}
@@ -110,7 +110,7 @@ tags: ["packages/ (monorepo_packages)", "apps/ (monorepo_apps)", "payment-proces
 One-paragraph explanation of this concept.
 
 ## In This Project
-How this concept applies specifically to axis-toolbox.
+How this concept applies specifically to axis-iliad.
 
 ## Related Concepts
 - [[]]
@@ -124,7 +124,7 @@ How this concept applies specifically to axis-toolbox.
 ```markdown
 ---
 type: retrospective
-project: axis-toolbox
+project: axis-iliad
 date: {{date}}
 sprint: 
 ---

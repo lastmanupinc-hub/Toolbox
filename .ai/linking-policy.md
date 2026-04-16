@@ -1,10 +1,10 @@
-# Linking Policy — axis-toolbox
+# Linking Policy — axis-iliad
 
 > Rules for how notes should be interconnected in the knowledge graph
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -26,7 +26,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 432 fi
 
 These links are required to maintain graph integrity:
 
-1. Every code note → `[[axis-toolbox]]` (project hub)
+1. Every code note → `[[axis-iliad]]` (project hub)
 2. Every ADR → the triggering note or issue
 3. Every daily note → notes created or modified that day
 4. Every bug report → the affected module or file note
@@ -38,7 +38,7 @@ Maintain these high-connectivity notes as navigation anchors:
 
 | Hub | Purpose | Minimum Links |
 |-----|---------|--------------|
-| `[[axis-toolbox]]` | Project overview | 10+ |
+| `[[axis-iliad]]` | Project overview | 10+ |
 | `[[Architecture]]` | System design | 5+ |
 | `[[ADR Index]]` | Decision log | All ADRs |
 | `[[Tech Stack]]` | Technology choices | All framework notes |

@@ -188,7 +188,7 @@ describe("POST /mcp — initialize", () => {
     const caps = result.capabilities as Record<string, unknown>;
     expect(caps.tools).toBeDefined();
     const info = result.serverInfo as Record<string, unknown>;
-    expect(info.name).toBe("axis-toolbox");
+    expect(info.name).toBe("axis-iliad");
     expect(result.instructions).toContain("analyze");
     // incentives + monetization + axis_capabilities injected by serialization layer into every success result
     const incentives = result.incentives as Record<string, unknown>;
@@ -995,7 +995,7 @@ describe("GET /mcp — JSON manifest with incentives-first", () => {
     expect(data.tools).toBeDefined();
     expect(data._meta).toBeDefined();
     const server = data.server as Record<string, unknown>;
-    expect(server.name).toBe("axis-toolbox");
+    expect(server.name).toBe("axis-iliad");
     expect(server.endpoint).toBeDefined();
     const inc = data.incentives as Record<string, unknown>;
     expect(inc.program_name).toBe("Share-to-Earn Micro-Discounts");
@@ -1013,10 +1013,10 @@ describe("GET /mcp/docs — human-readable HTML docs", () => {
     expect(ct).toContain("text/html");
   });
 
-  it("body contains AXIS Toolbox heading and incentives", async () => {
+  it("body contains Axis' Iliad heading and incentives", async () => {
     const r = await get("/mcp/docs");
     const body = String(r.data);
-    expect(body).toContain("AXIS Toolbox");
+    expect(body).toContain("Axis' Iliad");
     expect(body).toContain("Incentives");
     expect(body).toContain("referral_token");
   });
@@ -1386,9 +1386,9 @@ describe("getMcpServerMeta — shape and content", () => {
     expect(typeof server.endpoint).toBe("string");
   });
 
-  it("server.name is axis-toolbox", () => {
+  it("server.name is axis-iliad", () => {
     const server = getMcpServerMeta().server as Record<string, unknown>;
-    expect(server.name).toBe("axis-toolbox");
+    expect(server.name).toBe("axis-iliad");
   });
 
   it("server.endpoint points to production MCP HTTP endpoint", () => {
@@ -1452,11 +1452,11 @@ describe("GET /v1/mcp/server.json", () => {
     expect(ct).toContain("application/json");
   });
 
-  it("body contains server.name=axis-toolbox", async () => {
+  it("body contains server.name=axis-iliad", async () => {
     const r = await get("/v1/mcp/server.json");
     const data = r.data as Record<string, unknown>;
     const server = data.server as Record<string, unknown>;
-    expect(server.name).toBe("axis-toolbox");
+    expect(server.name).toBe("axis-iliad");
   });
 
   it("body contains server.endpoint", async () => {
@@ -1502,7 +1502,7 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
     expect(result.isError).toBe(false);
     const content = result.content as Array<{ type: string; text: string }>;
     const parsed = JSON.parse(content[0].text);
-    expect(parsed.axis_toolbox).toBeDefined();
+    expect(parsed.axis_iliad).toBeDefined();
     expect(parsed.tools).toBeDefined();
     expect(Array.isArray(parsed.tools)).toBe(true);
     expect(parsed.tools.length).toBe(12);

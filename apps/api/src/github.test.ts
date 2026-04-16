@@ -139,7 +139,7 @@ describe("GitHub analyze endpoint validation", () => {
       { url: "https://github.com/vercel/next.js", owner: "vercel", repo: "next.js" },
       { url: "https://github.com/facebook/react", owner: "facebook", repo: "react" },
       { url: "https://github.com/lastmanupinc-hub/AXIS-Scalpel", owner: "lastmanupinc-hub", repo: "AXIS-Scalpel" },
-      { url: "https://github.com/lastmanupinc-hub/Toolbox/tree/main", owner: "lastmanupinc-hub", repo: "Toolbox", ref: "main" },
+      { url: "https://github.com/lastmanupinc-hub/axis-iliad/tree/main", owner: "lastmanupinc-hub", repo: "axis-iliad", ref: "main" },
     ];
 
     for (const { url, owner, repo, ref } of urls) {

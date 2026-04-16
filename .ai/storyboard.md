@@ -1,4 +1,4 @@
-# Storyboard — axis-toolbox
+# Storyboard — axis-iliad
 
 Generated: 2026-04-11T22:24:48.235Z
 
@@ -9,7 +9,7 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 ```
 ┌────────────────────────────────────┐
 │                                    │
-│              AXIS-TOOLBOX                  │
+│              AXIS-ILIAD                  │
 │                                                                                                           AI-native development operatin     │
 │                                    │
 └────────────────────────────────────┘
@@ -81,9 +81,9 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 ```
 ┌────────────────────────────────────┐
 │                                    │
-│              AXIS-TOOLBOX                  │
+│              AXIS-ILIAD                  │
 │                                    │
-│     Analyzed by Axis Toolbox       │
+│     Analyzed by Axis' Iliad       │
 │                                    │
 │     [ Get Started ]                │
 │                                    │

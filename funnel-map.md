@@ -1,10 +1,10 @@
-# Funnel Map — axis-toolbox
+# Funnel Map — axis-iliad
 
 > User acquisition funnel from awareness to advocacy
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 

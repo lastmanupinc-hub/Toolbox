@@ -1,10 +1,10 @@
-# Campaign Brief — axis-toolbox
+# Campaign Brief — axis-iliad
 
 > Marketing campaign foundation for a monorepo built with TypeScript
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -14,12 +14,12 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Product Overview
 
-**Product**: axis-toolbox
+**Product**: axis-iliad
 **Type**: monorepo
 **Primary Language**: TypeScript
 **Framework Stack**: React
 
-**Description**: AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
+**Description**: A monorepo that leverages TypeScript and modern tooling.
 
 ## Target Audience
 
@@ -36,7 +36,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 ### Value Propositions
 
 1. **React Stack** — Built on React ^19.1.0 with stack-native patterns throughout
-2. **449 API Endpoints** — 248 GET, 181 POST, 20 DELETE across 56 source files
+2. **473 API Endpoints** — 263 GET, 189 POST, 21 DELETE across 56 source files
 3. **162 Domain Entities** — AuthContext, EnvSpec, ValidationError, ValidationResult, ZipEntry and 157 more
 4. **Test-Driven Quality** — Verified with vitest across 140 test files
 5. **Clean Architecture** — monorepo, containerized (0.65 separation score)

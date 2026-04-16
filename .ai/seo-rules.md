@@ -1,10 +1,10 @@
-# SEO Rules — axis-toolbox
+# SEO Rules — axis-iliad
 
 > SEO guidelines for a monorepo built with TypeScript
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -328,6 +328,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/health/live` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/health/ready` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/metrics` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/performance` | GET | Add WebPage schema · unique title + description required |
+| `/performance/reputation` | GET | Add WebPage schema · unique title + description required |
 | `/v1/db/stats` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/db/maintenance` | POST | API route — exclude from sitemap |
 | `/v1/docs` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -367,6 +369,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/.well-known/mcp.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/security.txt` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/agent.json` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/oauth-authorization-server` | GET | Mark `noindex` — auth gate, no crawl value |
+| `/mcp/.well-known/mcp.json` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/.well-known/agent.json` | GET | Add WebPage schema · unique title + description required |
 | `/robots.txt` | GET | Add WebPage schema · unique title + description required |
 | `/sitemap.xml` | GET | Add WebPage schema · unique title + description required |
 | `/health` | GET | Add WebPage schema · unique title + description required |
@@ -386,12 +391,25 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/projects/:project_id/export` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/programs` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/mcp` | POST | API route — exclude from sitemap |
+| `/mcp/` | POST | API route — exclude from sitemap |
+| `/v1/mcp` | POST | API route — exclude from sitemap |
+| `/v1/mcp/` | POST | API route — exclude from sitemap |
 | `/mcp` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/` | GET | Add WebPage schema · unique title + description required |
+| `/v1/mcp` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/v1/mcp/` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/mcp/docs` | GET | Add TechArticle schema · high crawl priority |
+| `/favicon.ico` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/sse` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/sse` | POST | API route — exclude from sitemap |
+| `/mcp/mcp/*` | GET | Add WebPage schema · unique title + description required |
+| `/mcp/mcp/*` | POST | API route — exclude from sitemap |
+| `/mcp/mcp/*` | DELETE | API route — exclude from sitemap |
 | `/v1/stats` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/mcp/server.json` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/mcp/tools` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/accounts` | POST | API route — exclude from sitemap |
+| `/accounts` | POST | API route — exclude from sitemap |
 | `/v1/account` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/account/keys` | POST | API route — exclude from sitemap |
 | `/v1/account/keys` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -421,6 +439,10 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/admin/activity` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/auth/github` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/auth/github/callback` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/oauth/authorize` | GET | Mark `noindex` — auth gate, no crawl value |
+| `/oauth/token` | POST | API route — exclude from sitemap |
+| `/oauth/jwks` | GET | Mark `noindex` — auth gate, no crawl value |
+| `/oauth/introspect` | POST | API route — exclude from sitemap |
 | `/v1/account/webhooks` | POST | API route — exclude from sitemap |
 | `/v1/account/webhooks` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/account/webhooks/:webhook_id` | DELETE | API route — exclude from sitemap |
@@ -474,6 +496,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/health` | GET | Add WebPage schema · unique title + description required |
 | `/docs` | GET | Add TechArticle schema · high crawl priority |
 | `/openapi.json` | GET | Add WebPage schema · unique title + description required |
+| `/performance` | GET | Add WebPage schema · unique title + description required |
+| `/performance/reputation` | GET | Add WebPage schema · unique title + description required |
 | `/health` | GET | Add WebPage schema · unique title + description required |
 | `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/api/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -551,7 +575,7 @@ These domain models represent structured content — mapping them to schema type
 ### `apps/web/public/robots.txt`
 
 ```
-# robots.txt for AXIS Toolbox
+# robots.txt for Axis' Iliad
 # Built specifically for agentic commerce and autonomous purchasing agents
 
 User-agent: *
@@ -569,7 +593,7 @@ Allow: /for-agents
 Allow: /v1/
 
 # Helpful message for agents
-# This is the AXIS Toolbox MCP server (io.github.lastmanupinc-hub/axis-toolbox)
+# This is the Axis' Iliad MCP server (io.github.lastmanupinc-hub/axis-iliad)
 # Primary tool: prepare_for_agentic_purchasing
 ... (6 more lines)
 ```
@@ -578,11 +602,11 @@ Allow: /v1/
 
 ```yaml
 # Export Manifest
-# Project: axis-toolbox
-# Generated: 2026-04-15T19:53:55.594Z
+# Project: axis-iliad
+# Generated: 2026-04-15T20:25:19.995Z
 
 manifest:
-  project: "axis-toolbox"
+  project: "axis-iliad"
   version: "1.0"
   total_artifacts: 4
 
@@ -632,7 +656,7 @@ manifest:
 |------|---------|-------|
 | `apps/web/index.html` | default | 128 |
 | `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 623 |
-| `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 180 |
+| `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 197 |
 | `apps/web/src/pages/DocsPage.tsx` | export function DocsPage() { ... } | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | export function ExamplesPage() { ... } | 505 |
 | `apps/web/src/pages/ForAgentsPage.tsx` | export function ForAgentsPage() { ... } | 898 |

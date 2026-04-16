@@ -111,7 +111,7 @@ describe("GET /.well-known/agent.json", () => {
   });
 
   it("contains name field", () => {
-    expect(json.name).toBe("AXIS Toolbox");
+    expect(json.name).toBe("Axis' Iliad");
   });
 
   it("contains version field", () => {
@@ -201,7 +201,7 @@ describe("GET /.well-known/capabilities.json", () => {
   });
 
   it("contains name field", () => {
-    expect(json.name).toBe("AXIS Toolbox");
+    expect(json.name).toBe("Axis' Iliad");
   });
 
   it("contains capabilities object with purchasing_readiness", () => {
@@ -304,7 +304,7 @@ describe("GET /sitemap.xml", () => {
   });
 
   it("includes the base URL", () => {
-    expect(body).toContain("https://toolbox.jonathanarvay.com");
+    expect(body).toContain("https://axis-iliad.jonathanarvay.com");
   });
 });
 

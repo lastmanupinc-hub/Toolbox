@@ -1,15 +1,15 @@
-# Notebook Summary — axis-toolbox
+# Notebook Summary — axis-iliad
 
 > Research and knowledge notebook for a monorepo (TypeScript)
 
 ## Project Synopsis
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Architecture Overview
 
-- **Files**: 500 files across 59 directories
-- **Lines of Code**: 116,119
+- **Files**: 500 files across 57 directories
+- **Lines of Code**: 123,123
 - **Primary Language**: TypeScript
 - **Frameworks**: React
 - **Patterns**: monorepo, containerized
@@ -35,7 +35,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Dependency Snapshot
 
-Total external dependencies: **23**
+Total external dependencies: **26**
 
 | Package | Version |
 |---------|---------|
@@ -43,13 +43,13 @@ Total external dependencies: **23**
 | @axis/generator-core | workspace:* |
 | @axis/repo-parser | workspace:* |
 | @axis/snapshots | workspace:* |
+| @jmondi/oauth2-server | ^4.2.2 |
+| jsonwebtoken | ^9.0.3 |
 | mppx | ^0.5.12 |
 | jszip | ^3.10.1 |
 | react | ^19.1.0 |
 | react-dom | ^19.1.0 |
-| better-sqlite3 | ^12.8.0 |
-| uuid | ^11.1.0 |
-| ... | +13 more |
+| ... | +16 more |
 
 ## Entry Point Source
 
@@ -73,16 +73,16 @@ Total external dependencies: **23**
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "npx tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
     "@axis/repo-parser": "workspace:*",
-... (11 more lines)
+... (14 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

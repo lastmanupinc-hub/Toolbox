@@ -1,5 +1,5 @@
 /**
- * @axis/sdk — Typed TypeScript client for the AXIS Toolbox API.
+ * @axis/sdk — Typed TypeScript client for the Axis' Iliad API.
  *
  * Usage:
  *   import { AxisClient } from "@axis/sdk";

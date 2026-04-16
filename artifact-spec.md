@@ -1,10 +1,10 @@
-# Artifact Specification — axis-toolbox
+# Artifact Specification — axis-iliad
 
-Generated: 2026-04-15T20:25:19.986Z
+Generated: 2026-04-16T14:25:25.083Z
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -16,21 +16,21 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 | Field | Value |
 |-------|-------|
-| Name | axis-toolbox |
+| Name | axis-iliad |
 | Type | monorepo |
 | Language | TypeScript |
 | Frameworks | React |
 
 ## Language Distribution
 
-- **TypeScript**: 70.9% ██████████████ (261 files, 81263 LOC)
-- **JSON**: 10.5% ██ (62 files, 12048 LOC)
-- **YAML**: 9.1% ██ (62 files, 10492 LOC)
-- **Markdown**: 7.3% █ (103 files, 8415 LOC)
-- **JavaScript**: 1.3% █ (4 files, 1456 LOC)
-- **CSS**: 0.7% █ (2 files, 849 LOC)
+- **TypeScript**: 73.1% ███████████████ (262 files, 82162 LOC)
+- **JSON**: 10.1% ██ (61 files, 11394 LOC)
+- **YAML**: 7.6% ██ (57 files, 8564 LOC)
+- **Markdown**: 7.1% █ (98 files, 7981 LOC)
+- **JavaScript**: 1.2% █ (6 files, 1302 LOC)
+- **CSS**: 0.8% █ (2 files, 849 LOC)
 - **HTML**: 0.1% █ (1 files, 120 LOC)
-- **Dockerfile**: 0% █ (1 files, 49 LOC)
+- **Dockerfile**: 0% █ (1 files, 51 LOC)
 
 ## Architecture
 
@@ -52,7 +52,7 @@ No entry points detected.
 | `apps/web/src/App.tsx` | 1 | 17 | 0.9 |
 | `apps/web/src/api.ts` | 17 | 0 | 0.8 |
 | `apps/web/src/pages.test.tsx` | 0 | 15 | 0.8 |
-| `apps/web/src/pages/DashboardPage.tsx` | 1 | 9 | 0.5 |
+| `apps/web/src/pages/DashboardPage.tsx` | 1 | 10 | 0.6 |
 | `apps/web/src/components/Toast.tsx` | 4 | 0 | 0.2 |
 | `apps/web/src/components/AxisIcons.tsx` | 4 | 0 | 0.2 |
 | `apps/web/src/upload-utils.ts` | 3 | 0 | 0.1 |
@@ -73,12 +73,12 @@ When generating artifacts for this project:
 - `@axis/generator-core` @ workspace:*
 - `@axis/repo-parser` @ workspace:*
 - `@axis/snapshots` @ workspace:*
+- `@jmondi/oauth2-server` @ ^4.2.2
+- `jsonwebtoken` @ ^9.0.3
 - `mppx` @ ^0.5.12
 - `jszip` @ ^3.10.1
 - `react` @ ^19.1.0
 - `react-dom` @ ^19.1.0
-- `better-sqlite3` @ ^12.8.0
-- `uuid` @ ^11.1.0
 
 ## Source Entry Points
 

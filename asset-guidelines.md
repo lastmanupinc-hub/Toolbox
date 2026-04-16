@@ -1,6 +1,6 @@
-# Asset Guidelines — axis-toolbox
+# Asset Guidelines — axis-iliad
 
-Generated: 2026-04-15T20:25:19.993Z
+Generated: 2026-04-16T14:25:25.093Z
 
 ## Color System
 
@@ -35,8 +35,8 @@ Generated: 2026-04-15T20:25:19.993Z
 ## Required Assets
 
 ### Logos & Icons
-- [ ] axis-toolbox logo (SVG, light + dark variants)
-- [ ] AXIS Toolbox watermark (SVG, low opacity)
+- [ ] axis-iliad logo (SVG, light + dark variants)
+- [ ] Axis' Iliad watermark (SVG, low opacity)
 - [ ] React icon (SVG or PNG)
 
 ### Backgrounds

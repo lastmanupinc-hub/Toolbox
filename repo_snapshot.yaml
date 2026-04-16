@@ -173,7 +173,7 @@ repo_snapshot:
     - path: "axis_master_blueprint.yaml"
       item_type: file
       classification: control_system
-      role_one_sentence: "Master blueprint YAML (9.8KB) defining the overall AXIS Toolbox architecture and strategy."
+      role_one_sentence: "Master blueprint YAML (9.8KB) defining the overall Axis' Iliad architecture and strategy."
       materially_affects_product_assessment: true
     - path: "begin.yaml"
       item_type: file
@@ -273,7 +273,7 @@ repo_snapshot:
     - path: "package.json"
       item_type: file
       classification: canonical_runtime
-      role_one_sentence: "Root monorepo manifest: axis-toolbox v0.4.0, private, devDeps vitest 4.1.2, engines node>=20."
+      role_one_sentence: "Root monorepo manifest: axis-iliad v0.4.0, private, devDeps vitest 4.1.2, engines node>=20."
       materially_affects_product_assessment: true
     - path: "pnpm-lock.yaml"
       item_type: file
@@ -323,7 +323,7 @@ repo_snapshot:
 
   section_2_canonical_product_map:
     product_identity_as_evidenced_by_repo_truth: >
-      AXIS Toolbox is a developer-tools SaaS platform that ingests source code repositories
+      Axis' Iliad is a developer-tools SaaS platform that ingests source code repositories
       (via local filesystem scan or GitHub URL), parses them into structured representations
       (ContextMap, RepoProfile), and runs 80 AI-ready generators across 17 specialized programs
       to produce configuration files, audits, design tokens, documentation, and tooling artifacts.
@@ -792,7 +792,7 @@ repo_snapshot:
 
     # Mandatory detection targets from schema — these subsystems do NOT exist in this repo:
     - subsystem_name: "buyer-facing-payment-checkout-surfaces"
-      purpose: "N/A — AXIS Toolbox is not a payment product."
+      purpose: "N/A — Axis' Iliad is not a payment product."
       canonical_paths: []
       primary_entrypoints: []
       key_files: []
@@ -1252,7 +1252,7 @@ repo_snapshot:
       participating_subsystems: []
       flow_reality: unclear
       key_blockers:
-        - "Not applicable — AXIS Toolbox is a developer tools product, not a payment platform"
+        - "Not applicable — Axis' Iliad is a developer tools product, not a payment platform"
       operator_can_observe_flow: false
       flow_is_reconciliable: false
       evidence_files: []
@@ -1526,7 +1526,7 @@ repo_snapshot:
     build_systems:
       package_managers_manifests:
         - "pnpm (v10.33.0) — pnpm-workspace.yaml, pnpm-lock.yaml"
-        - "root package.json (axis-toolbox 0.4.0)"
+        - "root package.json (axis-iliad 0.4.0)"
         - "apps/api/package.json (@axis/api)"
         - "apps/cli/package.json (@axis/cli)"
         - "apps/web/package.json (@axis/web)"

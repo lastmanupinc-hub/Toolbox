@@ -1,10 +1,10 @@
-# Architecture Summary: axis-toolbox
+# Architecture Summary: axis-iliad
 
 > AI-native development operating system. Upload or point at any codebase — get 87 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -1297,7 +1297,7 @@ export default defineConfig({
 
 ```json
 {
-  "name": "axis-toolbox",
+  "name": "axis-iliad",
   "version": "0.5.0",
   "private": true,
   "description": "Axis — The operating system for AI-native development",

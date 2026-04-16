@@ -1,16 +1,16 @@
 # Messaging System
-# Project: axis-toolbox
+# Project: axis-iliad
 # Generated: 2026-04-11T22:24:47.441Z
-# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 product:
-  name: "axis-toolbox"
+  name: "axis-iliad"
   type: "monorepo"
   primary_language: "TypeScript"
   stack: "React"
 
 taglines:
-  primary: "axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models."
+  primary: "axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models."
   technical: "React monorepo — 432 files, 95,217 lines of TypeScript"
   conceptual: "Built around packages/ (monorepo_packages), apps/ (monorepo_apps), payment-processing-output/ (project_directory)"
 

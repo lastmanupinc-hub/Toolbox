@@ -635,7 +635,7 @@ export async function handleAddCredits(
 
   const tier = ctx.account!.tier;
   if (tier === "free") {
-    sendError(res, 403, ErrorCode.FORBIDDEN, "Persistence credits require a paid plan. Upgrade at toolbox.jonathanarvay.com/billing.");
+    sendError(res, 403, ErrorCode.FORBIDDEN, "Persistence credits require a paid plan. Upgrade at axis-iliad.jonathanarvay.com/billing.");
     return;
   }
 

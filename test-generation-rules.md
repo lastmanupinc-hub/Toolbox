@@ -1,10 +1,10 @@
-# Test Generation Rules — axis-toolbox
+# Test Generation Rules — axis-iliad
 
 > Testing conventions and generation rules for a monorepo
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -223,3 +223,4 @@ describe("handleHealthCheck shutdown path", () => {
 These source files export functions without matching test files:
 
 - `apps/api/src/counts.ts` — export const ARTIFACT_COUNT = ..., export const PROGRAM_COUNT = ..., export const MCP_TOOL_COUNT = ..., export const ENDPOINT_COUNT = ...
+- `apps/api/src/oauth-server-simple.ts` — export async function handleOAuthAuthorize(req: IncomingMessage, res: ServerResponse): Promise<void> { ... }, export async function handleOAuthToken(req: IncomingMessage, res: ServerResponse): Promise<void> { ... }, export async function handleOAuthJwks(_req: IncomingMessage, res: ServerResponse): Promise<void> { ... }, export async function handleOAuthIntrospect(req: IncomingMessage, res: ServerResponse): Promise<void> { ... }, export async function requireBearerToken(req: IncomingMessage, res: ServerResponse): Promise<boolean> { ... }, export function createOAuthClient(name: string, redirectUris: string[], scopes: string[] = ...

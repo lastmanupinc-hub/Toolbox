@@ -1,10 +1,10 @@
-# Vault Rules — axis-toolbox
+# Vault Rules — axis-iliad
 
 > Governance rules for maintaining a clean, linked knowledge vault
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 ## Detected Stack
 
@@ -31,7 +31,7 @@ Every note must have at least one of:
 
 | Tag | When to Use |
 |-----|-----------|
-| `#project/axis-toolbox` | Anything related to this project |
+| `#project/axis-iliad` | Anything related to this project |
 | `#decision` | Architecture or design decisions |
 | `#bug` | Bug reports and investigations |
 | `#feature` | Feature specifications |
@@ -42,7 +42,7 @@ Every note must have at least one of:
 
 ## Linking Rules
 
-1. **Always link to the project note** — Every project-related note must include `[[axis-toolbox]]`
+1. **Always link to the project note** — Every project-related note must include `[[axis-iliad]]`
 2. **Link decisions to context** — ADRs must link to the notes that prompted them
 3. **Link bugs to code areas** — Bug notes should reference the affected module or file
 4. **Cross-link related notes** — If two notes discuss the same topic, link them
@@ -57,7 +57,7 @@ All notes should include YAML frontmatter:
 created: {{date:YYYY-MM-DD}}
 updated: {{date:YYYY-MM-DD}}
 tags:
-  - project/axis-toolbox
+  - project/axis-iliad
   - [additional tags]
 status: [draft | active | archived]
 ---

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Full AXIS Toolbox regeneration pipeline
+# Full Axis' Iliad regeneration pipeline
 # Usage: bash scripts/regenerate.sh
 #   or:  pnpm regenerate
 

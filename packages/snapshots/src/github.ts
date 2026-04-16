@@ -87,7 +87,7 @@ export async function fetchGitHubRepo(
 function httpGetBuffer(url: string, token?: string): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const headers: Record<string, string> = {
-      "User-Agent": "axis-toolbox/0.2.0",
+      "User-Agent": "axis-iliad/0.2.0",
       Accept: "application/vnd.github+json",
     };
     if (token) {

@@ -39,7 +39,7 @@ export function TermsPage() {
           Last Man Up Inc. · Effective {EFFECTIVE_DATE}
         </p>
         <p style={{ color: "var(--text-muted)", maxWidth: 560, margin: "12px auto 0" }}>
-          Please read these terms carefully before using AXIS Toolbox. By creating an account or using
+          Please read these terms carefully before using Axis' Iliad. By creating an account or using
           the service you agree to be bound by them.
         </p>
       </div>
@@ -72,7 +72,7 @@ export function TermsPage() {
           <div className="card" id="terms-acceptance">
             <h3 style={{ marginBottom: 12 }}>1. Acceptance of Terms</h3>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.7 }}>
-              These Terms of Service ("Terms") govern your access to and use of AXIS Toolbox (the
+              These Terms of Service ("Terms") govern your access to and use of Axis' Iliad (the
               "Service"), operated by Last Man Up Inc. ("we", "us", or "our"). By accessing or using
               the Service you agree to these Terms. If you do not agree, do not use the Service.
             </p>
@@ -86,7 +86,7 @@ export function TermsPage() {
           <div className="card" id="terms-service">
             <h3 style={{ marginBottom: 12 }}>2. Description of Service</h3>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.7 }}>
-              AXIS Toolbox is a software analysis platform that accepts source-code repositories (via
+              Axis' Iliad is a software analysis platform that accepts source-code repositories (via
               file upload, ZIP archive, GitHub URL, or API submission), performs automated analysis,
               and generates structured governance artifacts — including but not limited to context
               maps, skills files, debug playbooks, SEO rules, design tokens, brand guidelines, and AI
@@ -120,7 +120,7 @@ export function TermsPage() {
 
             <h4 style={{ marginBottom: 8, marginTop: 16 }}>4.1 Plans</h4>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.7 }}>
-              AXIS Toolbox offers three tiers: Free ($0/month), Pro ($29/month), and Enterprise Suite
+              Axis' Iliad offers three tiers: Free ($0/month), Pro ($29/month), and Enterprise Suite
               (custom pricing, contact sales). Plan features, snapshot limits, and program entitlements
               are described on the Plans page and are subject to change with reasonable notice.
             </p>
@@ -226,7 +226,7 @@ export function TermsPage() {
 
             <h4 style={{ marginBottom: 8, marginTop: 16 }}>6.3 Our Platform</h4>
             <p style={{ color: "var(--text-muted)", lineHeight: 1.7 }}>
-              AXIS Toolbox — including the software, algorithms, UI, branding, and documentation —
+              Axis' Iliad — including the software, algorithms, UI, branding, and documentation —
               is proprietary to Last Man Up Inc. and protected by copyright and other intellectual
               property laws. You may not copy, reverse-engineer, or create derivative works of the
               platform itself.

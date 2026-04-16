@@ -144,7 +144,7 @@ describe("generateEnvExample", () => {
   it("starts with header comment", () => {
     const example = generateEnvExample();
     expect(example.startsWith("#")).toBe(true);
-    expect(example).toContain("Axis Toolbox");
+    expect(example).toContain("Axis' Iliad");
   });
 });
 

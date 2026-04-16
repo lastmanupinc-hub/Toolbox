@@ -1,10 +1,10 @@
-# Route Priority Map — axis-toolbox
+# Route Priority Map — axis-iliad
 
 > Route-level SEO prioritization for crawl budget and sitemap configuration
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -150,6 +150,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/health/live` | 0.5 | monthly | Yes | Standard page |
 | `/v1/health/ready` | 0.5 | monthly | Yes | Standard page |
 | `/v1/metrics` | 0.5 | monthly | Yes | Standard page |
+| `/performance` | 0.5 | monthly | Yes | Standard page |
+| `/performance/reputation` | 0.5 | monthly | Yes | Standard page |
 | `/v1/db/stats` | 0.5 | monthly | Yes | Standard page |
 | `/v1/snapshots/:snapshot_id` | 0.5 | monthly | Yes | Standard page |
 | `/v1/snapshots/:snapshot_id/versions` | 0.5 | monthly | Yes | Standard page |
@@ -163,6 +165,8 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/.well-known/mcp.json` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/security.txt` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/agent.json` | 0.5 | monthly | Yes | Standard page |
+| `/mcp/.well-known/mcp.json` | 0.5 | monthly | Yes | Standard page |
+| `/mcp/.well-known/agent.json` | 0.5 | monthly | Yes | Standard page |
 | `/robots.txt` | 0.5 | monthly | Yes | Standard page |
 | `/sitemap.xml` | 0.5 | monthly | Yes | Standard page |
 | `/health` | 0.5 | monthly | Yes | Standard page |
@@ -177,6 +181,12 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/v1/projects/:project_id/export` | 0.5 | monthly | Yes | Standard page |
 | `/v1/programs` | 0.5 | monthly | Yes | Standard page |
 | `/mcp` | 0.5 | monthly | Yes | Standard page |
+| `/mcp/` | 0.5 | monthly | Yes | Standard page |
+| `/v1/mcp` | 0.5 | monthly | Yes | Standard page |
+| `/v1/mcp/` | 0.5 | monthly | Yes | Standard page |
+| `/favicon.ico` | 0.5 | monthly | Yes | Standard page |
+| `/mcp/sse` | 0.5 | monthly | Yes | Standard page |
+| `/mcp/mcp/*` | 0.5 | monthly | Yes | Standard page |
 | `/v1/stats` | 0.5 | monthly | Yes | Standard page |
 | `/v1/mcp/server.json` | 0.5 | monthly | Yes | Standard page |
 | `/v1/mcp/tools` | 0.5 | monthly | Yes | Standard page |
@@ -198,14 +208,19 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 | `/sitemap.xml` | 0.5 | monthly | Yes | Standard page |
 | `/health` | 0.5 | monthly | Yes | Standard page |
 | `/openapi.json` | 0.5 | monthly | Yes | Standard page |
+| `/performance` | 0.5 | monthly | Yes | Standard page |
+| `/performance/reputation` | 0.5 | monthly | Yes | Standard page |
 | `/health` | 0.5 | monthly | Yes | Standard page |
 | `/v1/health` | 0.5 | monthly | Yes | Standard page |
 | `/health` | 0.5 | monthly | Yes | Standard page |
 | `/users/:id` | 0.5 | monthly | Yes | Standard page |
 | `/v1/auth/github` | 0.3 | yearly | No | Auth page — minimal SEO value |
 | `/v1/auth/github/callback` | 0.3 | yearly | No | Auth page — minimal SEO value |
+| `/.well-known/oauth-authorization-server` | 0.3 | yearly | No | Auth page — minimal SEO value |
 | `/v1/auth/github` | 0.3 | yearly | No | Auth page — minimal SEO value |
 | `/v1/auth/github/callback` | 0.3 | yearly | No | Auth page — minimal SEO value |
+| `/oauth/authorize` | 0.3 | yearly | No | Auth page — minimal SEO value |
+| `/oauth/jwks` | 0.3 | yearly | No | Auth page — minimal SEO value |
 | `/v1/admin/accounts` | 0.1 | never | No | User-specific page — noindex |
 | `/v1/account/seats` | 0.1 | never | No | User-specific page — noindex |
 | `/v1/account/upgrade-prompt` | 0.1 | never | No | User-specific page — noindex |
@@ -267,9 +282,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Summary
 
-- **Total routes:** 248
-- **Indexable:** 186
-- **Noindex:** 62
+- **Total routes:** 263
+- **Indexable:** 198
+- **Noindex:** 65
 
 ## API Routes (Excluded)
 
@@ -428,7 +443,14 @@ These routes should NOT appear in sitemap or be indexed:
 - `POST /v1/search/index`
 - `POST /v1/search/query`
 - `POST /mcp`
+- `POST /mcp/`
+- `POST /v1/mcp`
+- `POST /v1/mcp/`
+- `POST /mcp/sse`
+- `POST /mcp/mcp/*`
+- `DELETE /mcp/mcp/*`
 - `POST /v1/accounts`
+- `POST /accounts`
 - `POST /v1/account/keys`
 - `POST /v1/account/keys/:key_id/revoke`
 - `POST /v1/account/tier`
@@ -440,6 +462,8 @@ These routes should NOT appear in sitemap or be indexed:
 - `POST /v1/account/seats/:seat_id/accept`
 - `POST /v1/account/seats/:seat_id/revoke`
 - `POST /v1/account/upgrade-prompt/dismiss`
+- `POST /oauth/token`
+- `POST /oauth/introspect`
 - `POST /v1/account/webhooks`
 - `DELETE /v1/account/webhooks/:webhook_id`
 - `POST /v1/account/webhooks/:webhook_id/toggle`
@@ -489,8 +513,11 @@ User-agent: *
 Allow: /
 Disallow: /v1/auth/github
 Disallow: /v1/auth/github/callback
+Disallow: /.well-known/oauth-authorization-server
 Disallow: /v1/auth/github
 Disallow: /v1/auth/github/callback
+Disallow: /oauth/authorize
+Disallow: /oauth/jwks
 Disallow: /v1/admin/accounts
 Disallow: /v1/account/seats
 Disallow: /v1/account/upgrade-prompt
@@ -558,10 +585,10 @@ Sitemap: https://yoursite.com/sitemap.xml
 
 | File | Exports | Lines |
 |------|---------|-------|
-| `apps/api/src/handlers.ts` | export const PROGRAM_OUTPUTS: Record<string, string[]> = ..., export function makeProgramHandler(program: string, defaultOutputs: string[]) { ... }, export const handleDebugAnalyze        = ..., export const handleFrontendAudit       = ..., export const handleSeoAnalyze          = ..., export const handleOptimizationAnalyze = ..., export const handleThemeGenerate       = ..., export const handleBrandGenerate       = ..., export const handleSuperpowersGenerate = ..., export const handleMarketingGenerate   = ..., export const handleNotebookGenerate    = ..., export const handleObsidianAnalyze     = ..., export const handleMcpProvision        = ..., export const handleArtifactsGenerate   = ..., export const handleRemotionGenerate    = ..., export const handleCanvasGenerate      = ..., export const handleAlgorithmicGenerate = ..., export const handleAgenticPurchasingGenerate = ..., export async function handleCreateSnapshot(, export async function handleGetSnapshot(, export async function handleDeleteSnapshot(, export async function handleDeleteProject(, export async function handleGetContext(, export async function handleGetGeneratedFiles(, export async function handleHealthCheck(, export async function handleDbStats(, export async function handleDbMaintenance(, export async function handleGetGeneratedFile(, export async function handleSearchExport(, export async function handleSkillsGenerate( | 2981 |
-| `apps/api/src/router.ts` | export class Router { ... }, export function sendJSON(res: ServerResponse, status: number, data: unknown) { ... }, export function sendError(, export async function readBody(req: IncomingMessage): Promise<string> { ... }, export interface AppHandle { ... }, export function isShuttingDown(): boolean { ... }, export function createApp(router: Router, port: number): Server { ... } | 402 |
+| `apps/api/src/handlers.ts` | export const PROGRAM_OUTPUTS: Record<string, string[]> = ..., export function makeProgramHandler(program: string, defaultOutputs: string[]) { ... }, export const handleDebugAnalyze        = ..., export const handleFrontendAudit       = ..., export const handleSeoAnalyze          = ..., export const handleOptimizationAnalyze = ..., export const handleThemeGenerate       = ..., export const handleBrandGenerate       = ..., export const handleSuperpowersGenerate = ..., export const handleMarketingGenerate   = ..., export const handleNotebookGenerate    = ..., export const handleObsidianAnalyze     = ..., export const handleMcpProvision        = ..., export const handleArtifactsGenerate   = ..., export const handleRemotionGenerate    = ..., export const handleCanvasGenerate      = ..., export const handleAlgorithmicGenerate = ..., export const handleAgenticPurchasingGenerate = ..., export async function handleCreateSnapshot(, export async function handleGetSnapshot(, export async function handleDeleteSnapshot(, export async function handleDeleteProject(, export async function handleGetContext(, export async function handleGetGeneratedFiles(, export async function handleHealthCheck(, export async function handleDbStats(, export async function handleDbMaintenance(, export async function handleGetGeneratedFile(, export async function handleSearchExport(, export async function handleSkillsGenerate( | 3118 |
+| `apps/api/src/router.ts` | export class Router { ... }, export function sendJSON(res: ServerResponse, status: number, data: unknown) { ... }, export function sendError(, export async function readBody(req: IncomingMessage): Promise<string> { ... }, export interface AppHandle { ... }, export function isShuttingDown(): boolean { ... }, export function createApp(router: Router, port: number): Server { ... } | 407 |
 | `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 623 |
-| `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 180 |
+| `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 197 |
 | `apps/web/src/pages/DocsPage.tsx` | export function DocsPage() { ... } | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | export function ExamplesPage() { ... } | 505 |
 | `apps/web/src/pages/ForAgentsPage.tsx` | export function ForAgentsPage() { ... } | 898 |
@@ -579,7 +606,7 @@ Sitemap: https://yoursite.com/sitemap.xml
 # Cloudflare Pages serves the static SPA from apps/web/dist/.
 # Configure in the Cloudflare dashboard:
 #
-#   1. Connect GitHub repo: lastmanupinc-hub/Toolbox
+#   1. Connect GitHub repo: lastmanupinc-hub/axis-iliad
 #   2. Build settings:
 #        Framework preset: None
 #        Build command: pnpm install --frozen-lockfile && pnpm -r build

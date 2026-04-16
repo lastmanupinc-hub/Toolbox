@@ -1,6 +1,6 @@
-# Root Cause Checklist — axis-toolbox
+# Root Cause Checklist — axis-iliad
 
-> monorepo | TypeScript | 500 files | 116,119 LOC
+> monorepo | TypeScript | 500 files | 123,123 LOC
 
 **Stack:** React ^19.1.0
 
@@ -127,7 +127,7 @@ Check these entities for state corruption or relationship violations:
 - [ ] `ImportMeta` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - [ ] `ImportMetaEnv` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - [ ] `DashboardData` (interface, 6 fields) — `dashboard-widget.tsx`
-- [ ] `axistoolboxProps` (interface, 3 fields) — `generated-component.tsx`
+- [ ] `axisiliadProps` (interface, 3 fields) — `generated-component.tsx`
 - [ ] `PaletteAction` (interface, 0 fields) — `generated-component.tsx`
 - [ ] `Edge` (interface, 3 fields) — `generative-sketch.ts`
 - [ ] `Node` (interface, 7 fields) — `generative-sketch.ts`
@@ -226,7 +226,7 @@ High-coupling files are more likely to be involved in cross-cutting bugs:
 | `apps/web/src/App.tsx` | 90% | 1 | 17 |
 | `apps/web/src/api.ts` | 85% | 17 | 0 |
 | `apps/web/src/pages.test.tsx` | 75% | 0 | 15 |
-| `apps/web/src/pages/DashboardPage.tsx` | 50% | 1 | 9 |
+| `apps/web/src/pages/DashboardPage.tsx` | 55% | 1 | 10 |
 | `apps/web/src/components/Toast.tsx` | 20% | 4 | 0 |
 | `apps/web/src/components/AxisIcons.tsx` | 20% | 4 | 0 |
 | `apps/web/src/upload-utils.ts` | 15% | 3 | 0 |
@@ -251,6 +251,7 @@ High-coupling files are more likely to be involved in cross-cutting bugs:
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -275,8 +276,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-  handleAgenticPurchasingGenerate,
-... (313 more lines)
+... (407 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -412,7 +412,10 @@ class ErrorCatcher extends Component<{ children: ReactNode; fallback: (error: Er
 ### `apps/web/src/pages.test.tsx`
 
 ```tsx
-// @vitest-environment happy-dom
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/react";
 
@@ -434,8 +437,5 @@ describe("Page smoke tests — zero-prop pages", () => {
   });
 
   it("ExamplesPage renders without crashing", () => {
-    const { container } = render(<ExamplesPage />);
-    expect(container.innerHTML.length).toBeGreaterThan(0);
-  });
-... (89 more lines)
+... (92 more lines)
 ```

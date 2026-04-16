@@ -1,4 +1,4 @@
-# Policy Pack — axis-toolbox
+# Policy Pack — axis-iliad
 
 AI governance policies for code generation, review, and compliance.
 
@@ -86,16 +86,16 @@ rules:
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "npx tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
     "@axis/repo-parser": "workspace:*",
-... (11 more lines)
+... (14 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

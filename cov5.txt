@@ -1,5 +1,5 @@
 ﻿
-[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/AXIS Toolbox[39m
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/Axis' Iliad[39m
       [2mCoverage enabled with [22m[33mv8[39m
 
 {"timestamp":"2026-04-06T17:35:10.620Z","level":"info","msg":"server_start","port":44485,"service":"axis-api"}
@@ -1026,7 +1026,7 @@ tatus":500,"duration_ms":0}
 {"timestamp":"2026-04-06T17:35:26.763Z","level":"info","msg":"request","request_id":"59ff1496-f697-4a42-92a8-86323c7154d7","method":"GET","path":"/echo?foo=bar&baz=1","status":200,"duration_ms":2}
 {"timestamp":"2026-04-06T17:35:26.766Z","level":"info","msg":"request","request_id":"cb7d2150-0d73-416f-b5aa-b3df112fecf9","method":"GET","path":"/items/42?include=meta","status":200,"duration_ms":1}
 [90mstdout[2m | apps/cli/src/cli-pipeline.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-pipeline.test.ts
 [22m[39mNo source files found in target directory.
@@ -1173,7 +1173,7 @@ tatus":500,"duration_ms":0}
  [32mΓ£ô[39m apps/api/src/quota.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 304[2mms[22m[39m
  [32mΓ£ô[39m packages/generator-core/src/generator-alt-profiles.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 242[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-auth.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-auth.test.ts
 [22m[39mNo source files found in target directory.
@@ -1190,7 +1190,7 @@ tatus":500,"duration_ms":0}
  [32mΓ£ô[39m apps/cli/src/credential-store.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 196[2mms[22m[39m
  [32mΓ£ô[39m packages/snapshots/src/github-http.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 55[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-commands.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-commands.test.ts
 [22m[39mNo source files found in target directory.

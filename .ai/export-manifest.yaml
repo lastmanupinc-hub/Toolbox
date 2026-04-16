@@ -1,9 +1,9 @@
 # Export Manifest
-# Project: axis-toolbox
+# Project: axis-iliad
 # Generated: 2026-04-11T22:24:47.575Z
 
 manifest:
-  project: "axis-toolbox"
+  project: "axis-iliad"
   version: "1.0"
   total_artifacts: 4
 

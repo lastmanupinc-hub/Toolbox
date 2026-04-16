@@ -1,12 +1,14 @@
-# AXIS Toolbox
+# Axis' Iliad
 
-> **86 generated artifacts from a single codebase scan.** AI-native development OS for engineering teams and AI agents — context maps, debug playbooks, design tokens, brand systems, SEO analysis, and more, all in one pass.
+> **Axis' Iliad — The modern epic that shapes raw codebases into canonical, agent-ready artifacts. Axis' Iliad authors the definitive foundation for the next era of natural-language workspace development.**
 
-[![Tests](https://img.shields.io/badge/tests-4076%20passing-brightgreen)](https://github.com/lastmanupinc-hub/Toolbox/actions)
-[![Coverage](https://img.shields.io/badge/coverage-91.5%25-green)](https://github.com/lastmanupinc-hub/Toolbox/actions)
-[![Website](https://img.shields.io/badge/website-toolbox.jonathanarvay.com-0ea5e9)](https://toolbox.jonathanarvay.com)
+> **Evolution note:** Axis' Iliad is the new name for Axis' Iliad. The platform, APIs, and MCP endpoint remain active while docs and ecosystem references converge on the new brand.
+
+[![Tests](https://img.shields.io/badge/tests-4076%20passing-brightgreen)](https://github.com/lastmanupinc-hub/axis-iliad/actions)
+[![Coverage](https://img.shields.io/badge/coverage-91.5%25-green)](https://github.com/lastmanupinc-hub/axis-iliad/actions)
+[![Website](https://img.shields.io/badge/website-axis-iliad.jonathanarvay.com-0ea5e9)](https://axis-iliad.jonathanarvay.com)
 [![API](https://img.shields.io/badge/API-live-blue)](https://axis-api-6c7z.onrender.com/v1/health)
-[![Version](https://img.shields.io/badge/version-0.5.0-blue)](https://github.com/lastmanupinc-hub/Toolbox/releases)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue)](https://github.com/lastmanupinc-hub/axis-iliad/releases)
 [![License](https://img.shields.io/badge/license-private-lightgrey)](#license)
 
 ---
@@ -71,7 +73,7 @@ AXIS exposes a **Streamable HTTP MCP server** at `https://axis-api-6c7z.onrender
 ```json
 {
   "servers": {
-    "axis-toolbox": {
+    "axis-iliad": {
       "type": "http",
       "url": "https://axis-api-6c7z.onrender.com/mcp",
       "headers": { "Authorization": "Bearer YOUR_API_KEY" }
@@ -84,7 +86,7 @@ AXIS exposes a **Streamable HTTP MCP server** at `https://axis-api-6c7z.onrender
 ```json
 {
   "mcpServers": {
-    "axis-toolbox": {
+    "axis-iliad": {
       "url": "https://axis-api-6c7z.onrender.com/mcp",
       "headers": { "Authorization": "Bearer YOUR_API_KEY" }
     }
@@ -112,8 +114,8 @@ Budget negotiation: send `X-Agent-Budget: {"budget_per_run_cents": 25}` + `X-Age
 
 ```bash
 # Prerequisites: Node.js ≥ 20, pnpm ≥ 9
-git clone https://github.com/lastmanupinc-hub/Toolbox.git
-cd Toolbox
+git clone https://github.com/lastmanupinc-hub/axis-iliad.git
+cd axis-iliad
 pnpm install
 pnpm build
 
@@ -130,8 +132,8 @@ node apps/cli/dist/cli.js github https://github.com/owner/repo
 
 **Docker:**
 ```bash
-docker build -t axis-toolbox .
-docker run -p 4000:4000 axis-toolbox
+docker build -t axis-iliad .
+docker run -p 4000:4000 axis-iliad
 ```
 
 ---
@@ -139,7 +141,7 @@ docker run -p 4000:4000 axis-toolbox
 ## Architecture
 
 ```
-axis-toolbox/
+axis-iliad/
 ├── apps/
 │   ├── api/          → Zero-dependency HTTP server (port 4000, 102 endpoints)
 │   ├── cli/          → CLI tool: axis analyze <dir> | axis github <url>
@@ -320,7 +322,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for how to add a generator, endpoint, o
 
 ---
 
-**Website**: `https://toolbox.jonathanarvay.com` · **Live API**: `https://axis-api-6c7z.onrender.com` · **Docs**: `https://axis-api-6c7z.onrender.com/v1/docs` · **MCP**: `https://axis-api-6c7z.onrender.com/mcp`
+**Website**: `https://axis-iliad.jonathanarvay.com` · **Live API**: `https://axis-api-6c7z.onrender.com` · **Docs**: `https://axis-api-6c7z.onrender.com/v1/docs` · **MCP**: `https://axis-api-6c7z.onrender.com/mcp`
 
 ## License
 

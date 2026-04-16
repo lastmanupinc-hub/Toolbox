@@ -1,4 +1,4 @@
-# Workflow Pack — axis-toolbox
+# Workflow Pack — axis-iliad
 
 Reusable AI-assisted workflows for common development tasks.
 
@@ -80,14 +80,14 @@ steps:
 
 ## Detected Config Files
 
-- `apps/api/package.json` (26 lines)
+- `apps/api/package.json` (29 lines)
 - `apps/api/tsconfig.json` (10 lines)
 - `apps/cli/package.json` (23 lines)
 - `apps/cli/tsconfig.json` (18 lines)
 - `apps/web/package.json` (24 lines)
 - `apps/web/tsconfig.json` (20 lines)
 - `apps/web/vite.config.ts` (13 lines)
-- `package.json` (32 lines)
+- `package.json` (37 lines)
 - `packages/context-engine/package.json` (22 lines)
 - `packages/context-engine/tsconfig.json` (10 lines)
 
@@ -96,6 +96,7 @@ steps:
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -115,8 +116,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-  handleMcpProvision,
-... (318 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

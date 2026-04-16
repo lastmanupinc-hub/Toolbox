@@ -1,10 +1,10 @@
-# AXIS Toolbox — Remotion Video Pack
+# Axis' Iliad — Remotion Video Pack
 
 ## Video Specification
 
 | Property | Value |
 |----------|-------|
-| Title | "AXIS Toolbox: From Upload to 86 Artifacts" |
+| Title | "Axis' Iliad: From Upload to 86 Artifacts" |
 | Duration | 60 seconds |
 | Resolution | 1920 × 1080 (16:9) |
 | FPS | 30 |
@@ -36,7 +36,7 @@
 
 ### Scene 2: Upload (0:08 – 0:16)
 **Duration**: 8 seconds
-**Visual**: AXIS Toolbox dashboard (dark, midnight_command theme). A ZIP file drags into the upload zone. Progress bar fills with cyan glow. Upload complete toast appears.
+**Visual**: Axis' Iliad dashboard (dark, midnight_command theme). A ZIP file drags into the upload zone. Progress bar fills with cyan glow. Upload complete toast appears.
 **Text Overlay**: "Upload your repo. One file."
 **Motion**: File drag animation → progress fill (left to right) → success toast slides in from bottom-right.
 **Transition**: Morph the upload card into the analysis view.
@@ -152,7 +152,7 @@
 
 ### Scene 7: CTA (0:52 – 1:00)
 **Duration**: 8 seconds
-**Visual**: Dark background (#0d1117). AXIS Toolbox wordmark centered. Stats fade in below: "17 programs · 80 generators · 2,910 tests". CTA button: "Analyze your repo free →"
+**Visual**: Dark background (#0d1117). Axis' Iliad wordmark centered. Stats fade in below: "17 programs · 80 generators · 2,910 tests". CTA button: "Analyze your repo free →"
 **Text Overlay**: Product name and stats.
 **Motion**: Wordmark fades in (0.5s), stats type in (character by character, 2s), CTA button slides up (0.3s). Subtle cyan glow on the wordmark.
 **Transition**: Hold. End card.
@@ -162,7 +162,7 @@
 <Scene7_CTA>
   <CenteredLayout bg="#0d1117">
     <FadeIn duration={15}>
-      <Wordmark text="AXIS Toolbox" glow="#58a6ff" />
+      <Wordmark text="Axis' Iliad" glow="#58a6ff" />
     </FadeIn>
     <TypeWriter text="17 programs · 80 generators · 2,910 tests" delay={15} />
     <SlideUp delay={60}>
@@ -178,7 +178,7 @@
 
 | Asset | Type | Source | Notes |
 |-------|------|--------|-------|
-| AXIS Wordmark | SVG | Brand guidelines | Semibold "AXIS" + regular "Toolbox" |
+| AXIS Wordmark | SVG | Brand guidelines | Semibold "Axis'" + regular "Iliad" |
 | midnight_command palette | JSON | design-tokens.json | All color values |
 | Pipeline node icons | SVG | Custom | 5 stage icons |
 | Program card data | JSON | axis_all_tools.yaml | 17 programs with generators/grades |
@@ -193,7 +193,7 @@
 
 > Your AI assistant writes code — but it doesn't know your codebase.
 >
-> AXIS Toolbox changes that. Upload your repo. One file.
+> Axis' Iliad changes that. Upload your repo. One file.
 >
 > Five stages analyze your code: languages, frameworks, architecture, dependencies, patterns.
 >
@@ -205,7 +205,7 @@
 > Now your assistant knows your invariants, your patterns, your architecture.
 > Every suggestion is grounded in real project context.
 >
-> AXIS Toolbox. Analyze your repo free.
+> Axis' Iliad. Analyze your repo free.
 
 **Word count**: ~95 words. At 150 WPM narration pace = ~38 seconds. Leaves 22 seconds for visual-only sequences.
 

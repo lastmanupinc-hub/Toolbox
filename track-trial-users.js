@@ -4,14 +4,14 @@
 
 const https = require('https');
 
-const REPO = 'lastmanupinc-hub/Toolbox';
+const REPO = 'lastmanupinc-hub/axis-iliad';
 const API_BASE = 'https://api.github.com/repos/' + REPO;
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
     https.get(url, {
       headers: {
-        'User-Agent': 'AXIS-Toolbox-Monitor/1.0',
+        'User-Agent': "Axis-Iliad-Monitor/1.0",
         'Accept': 'application/vnd.github.v3+json'
       }
     }, (res) => {
@@ -29,7 +29,7 @@ function fetchJSON(url) {
 }
 
 async function checkEngagement() {
-  console.log('🚀 AXIS Toolbox - Trial User Tracker\n');
+  console.log("🚀 Axis' Iliad - Trial User Tracker\n");
 
   try {
     // Get repo stats
@@ -62,7 +62,7 @@ async function checkEngagement() {
 
     // Check MCP registry mentions
     console.log('🔗 MCP Registry Status:');
-    console.log('   ✅ Smithery.ai: https://smithery.ai/server/@lastmanupinc/axis-toolbox');
+    console.log('   ✅ Smithery.ai: https://smithery.ai/server/@lastmanupinc/axis-iliad');
     console.log('   ✅ Glama.ai: Published');
     console.log('   ⏳ Cursor Marketplace: Application pending');
     console.log('');

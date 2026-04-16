@@ -1,10 +1,10 @@
-# Social Pack — axis-toolbox
+# Social Pack — axis-iliad
 
-Generated: 2026-04-15T20:25:19.992Z
+Generated: 2026-04-16T14:25:25.091Z
 
 ## Project Summary
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -19,20 +19,20 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 ┌──────────────────────────────────────────┐
 │  [gradient background]                    │
 │                                           │
-│     axis-toolbox                            │
-│     AI-native development operating system. Upload or ...     │
+│     axis-iliad                            │
+│     ...     │
 │                                           │
 │     [React]    │
 │                                           │
-│     Powered by AXIS Toolbox               │
+│     Powered by Axis' Iliad               │
 └──────────────────────────────────────────┘
 ```
 
 ### Copy Variants
 
-1. **Technical**: "axis-toolbox — monorepo built with TypeScript"
-2. **Marketing**: "axis-toolbox: AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more."
-3. **Minimal**: "axis-toolbox"
+1. **Technical**: "axis-iliad — monorepo built with TypeScript"
+2. **Marketing**: "axis-iliad: null"
+3. **Minimal**: "axis-iliad"
 
 ## Square Post (1080×1080)
 
@@ -40,9 +40,9 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 | Stat | Value |
 |------|-------|
-| TypeScript | 70.9% |
-| JSON | 10.5% |
-| YAML | 9.1% |
+| TypeScript | 73.1% |
+| JSON | 10.1% |
+| YAML | 7.6% |
 | Frameworks | 1 |
 | Architecture Score | 0.65/100 |
 
@@ -50,7 +50,7 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ### Thread Template
 
-🧵 1/ Just analyzed axis-toolbox with @AxisToolbox
+🧵 1/ Just analyzed axis-iliad with @AxisIliad
 
 📊 2/ Tech stack: React
 Architecture score: 0.65/100
@@ -61,9 +61,9 @@ Architecture score: 0.65/100
 
 ## LinkedIn Post
 
-📋 Project Analysis: axis-toolbox
+📋 Project Analysis: axis-iliad
 
-I ran axis-toolbox through AXIS Toolbox and here's what it found:
+I ran axis-iliad through Axis' Iliad and here's what it found:
 
 • Type: monorepo
 • Primary Language: TypeScript

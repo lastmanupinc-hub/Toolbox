@@ -1,6 +1,6 @@
-# AXIS Toolbox — Example Repos
+# Axis' Iliad — Example Repos
 
-> 5 real codebases analyzed by AXIS Toolbox. Each example shows the **3 free-tier artifacts** (AGENTS.md, CLAUDE.md, .cursorrules) that every project receives. The full AXIS analysis generates **86 artifacts across 18 programs** — upgrade to Pro to unlock all of them.
+> 5 real codebases analyzed by Axis' Iliad. Each example shows the **3 free-tier artifacts** (AGENTS.md, CLAUDE.md, .cursorrules) that every project receives. The full AXIS analysis generates **86 artifacts across 18 programs** — upgrade to Pro to unlock all of them.
 
 ## The Examples
 
@@ -20,7 +20,7 @@ Each example includes the **free-tier Search program** output:
 - **CLAUDE.md** — 10-point condensed cheat sheet for fast onboarding
 - **.cursorrules** — Domain-specific coding conventions and constraints
 
-> **Want the full 86 artifacts?** The Pro tier generates design tokens, brand guidelines, debug playbooks, SEO analysis, generated components, Remotion scripts, and 70+ more files. [Try it →](https://toolbox.jonathanarvay.com)
+> **Want the full 86 artifacts?** The Pro tier generates design tokens, brand guidelines, debug playbooks, SEO analysis, generated components, Remotion scripts, and 70+ more files. [Try it →](https://axis-iliad.jonathanarvay.com)
 
 ## Full AXIS Output (86 artifacts across 18 programs)
 
@@ -50,13 +50,13 @@ Each example includes the **free-tier Search program** output:
 
 1. Browse any example's `generated/` folder to see the free-tier artifacts
 2. Compare `AGENTS.md` across projects to see how AXIS adapts to each stack
-3. Try it on your own repo: [toolbox.jonathanarvay.com](https://toolbox.jonathanarvay.com)
+3. Try it on your own repo: [axis-iliad.jonathanarvay.com](https://axis-iliad.jonathanarvay.com)
 
 ## Try It
 
 ```bash
 # Via web
-https://toolbox.jonathanarvay.com
+https://axis-iliad.jonathanarvay.com
 
 # Via CLI
 axis analyze ./your-project

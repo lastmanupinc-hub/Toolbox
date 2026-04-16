@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════
-# AXIS Toolbox — End-to-End UI Audit
+# Axis' Iliad — End-to-End UI Audit
 # Generated: 2026-04-04
 # Updated: 2026-04-04 (Round 2 — eq_036)
 # Server: http://localhost:4000  |  Web: http://localhost:5173
@@ -37,7 +37,7 @@ navigation:
   - id: header_logo
     page: App.tsx
     element_type: link
-    label: "⚡ Axis Toolbox"
+    label: "⚡ Axis' Iliad"
     path: "#"
     purpose: "Clears loaded project, resets to upload page"
     api_endpoint: null

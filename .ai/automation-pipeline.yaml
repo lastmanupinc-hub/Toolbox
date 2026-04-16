@@ -1,10 +1,10 @@
 # Automation Pipeline
-# Project: axis-toolbox
+# Project: axis-iliad
 # Generated: 2026-04-11T22:24:48.218Z
-# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 pipeline:
-  name: "axis-toolbox-automation"
+  name: "axis-iliad-automation"
   ci_platform: github-actions
   package_manager: pnpm
 

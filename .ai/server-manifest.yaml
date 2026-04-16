@@ -1,12 +1,12 @@
 # MCP Server Manifest
-# Project: axis-toolbox
+# Project: axis-iliad
 # Generated: 2026-04-11T22:24:48.193Z
-# Summary: axis-toolbox is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 432 files across 20 top-level directories. It defines 131 domain models.
 
 server:
-  name: "axis-toolbox-mcp-server"
+  name: "axis-iliad-mcp-server"
   version: "1.0.0"
-  description: "MCP server for axis-toolbox project integration"
+  description: "MCP server for axis-iliad project integration"
   protocol: "mcp"
   transport: "stdio"
 
@@ -293,7 +293,7 @@ server:
 
   prompts:
     - name: review_code
-      description: Review code following axis-toolbox conventions
+      description: Review code following axis-iliad conventions
       arguments:
         - name: file_path
           type: string

@@ -112,7 +112,7 @@ export function requireValidEnv(
  */
 export function generateEnvExample(): string {
   const lines: string[] = [
-    "# ─── Axis Toolbox API — Environment Variables ───────────────",
+    "# ─── Axis' Iliad API — Environment Variables ───────────────",
     "# Copy this file to .env and customize as needed.",
     "",
   ];

@@ -118,7 +118,7 @@ describe("generateProductSchema", () => {
     const file = generateProductSchema(ctx, profile);
     const schema = JSON.parse(file.content);
     expect(schema.schema_version).toBe("1.0");
-    expect(schema.product).toBe("AXIS Toolbox");
+    expect(schema.product).toBe("Axis' Iliad");
     expect(schema.mcp_endpoint).toBe("POST /mcp");
     expect(schema.auth).toBeTruthy();
     expect(schema.auth.type).toBe("bearer");
@@ -287,7 +287,7 @@ describe("generateCommerceRegistry", () => {
     const file = generateCommerceRegistry(ctx, profile);
     const registry = JSON.parse(file.content);
     expect(registry.registry_version).toBe("1.0");
-    expect(registry.product).toBe("AXIS Toolbox");
+    expect(registry.product).toBe("Axis' Iliad");
     expect(registry.mcp_endpoint).toBe("POST /mcp");
     expect(registry.auth).toBeTruthy();
     expect(registry.auth.type).toBe("bearer");

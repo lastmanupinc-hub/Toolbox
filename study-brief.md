@@ -1,4 +1,4 @@
-# Study Brief — axis-toolbox
+# Study Brief — axis-iliad
 
 > Structured learning guide for understanding this codebase
 
@@ -17,7 +17,7 @@ Before diving into this codebase, you should be comfortable with:
 1. Read the project README and any CONTRIBUTING.md
 2. Understand the top-level directory structure:
 
-   - `apps` — monorepo_apps (136 files)
+   - `apps` — monorepo_apps (141 files)
    - `packages` — monorepo_packages (135 files)
    - `payment-processing-output` — project_directory (72 files)
    - `examples` — project_directory (17 files)
@@ -72,7 +72,7 @@ Test framework: **vitest**
 
 Answer these to confirm understanding:
 
-1. What is the primary purpose of axis-toolbox?
+1. What is the primary purpose of axis-iliad?
 2. What happens when a request enters the system?
 3. Where is state stored and how is it managed?
 4. What are the key boundaries between modules?
@@ -87,6 +87,7 @@ Answer these to confirm understanding:
 ### `apps/api/src/server.ts`
 
 ```typescript
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -106,8 +107,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-  handleMcpProvision,
-... (318 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -163,16 +163,16 @@ createRoot(document.getElementById("root")!).render(
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "npx tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "node --test dist/**/*.test.js"
+    "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
     "@axis/repo-parser": "workspace:*",
-... (11 more lines)
+... (14 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

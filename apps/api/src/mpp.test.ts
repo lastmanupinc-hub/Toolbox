@@ -18,7 +18,7 @@ function startServer(): Promise<http.Server> {
         amount: "100",
         currency: "usd",
         decimals: 2,
-        description: "AXIS Toolbox - $1.00",
+        description: "Axis' Iliad - $1.00",
         meta: { test: "true" },
       }).then((result) => {
         if (!result || result.status === 402) return;

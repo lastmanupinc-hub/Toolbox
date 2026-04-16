@@ -155,7 +155,7 @@ export function generateSocialPack(ctx: ContextMap, files?: SourceFile[]): Gener
   lines.push("│                                           │");
   lines.push(`│     [${frameworks.slice(0, 4).join("] [")}]    │`);
   lines.push("│                                           │");
-  lines.push("│     Powered by AXIS Toolbox               │");
+  lines.push("│     Powered by Axis' Iliad               │");
   lines.push("└──────────────────────────────────────────┘");
   lines.push("```");
   lines.push("");
@@ -184,7 +184,7 @@ export function generateSocialPack(ctx: ContextMap, files?: SourceFile[]): Gener
   lines.push("");
   lines.push("### Thread Template");
   lines.push("");
-  lines.push(`🧵 1/ Just analyzed ${id.name} with @AxisToolbox`);
+  lines.push(`🧵 1/ Just analyzed ${id.name} with @AxisIliad`);
   lines.push("");
   lines.push(`📊 2/ Tech stack: ${frameworks.slice(0, 3).join(", ") || id.primary_language}`);
   lines.push(`Architecture score: ${ctx.architecture_signals.separation_score}/100`);
@@ -198,7 +198,7 @@ export function generateSocialPack(ctx: ContextMap, files?: SourceFile[]): Gener
   lines.push("");
   lines.push(`📋 Project Analysis: ${id.name}`);
   lines.push("");
-  lines.push(`I ran ${id.name} through AXIS Toolbox and here's what it found:`);
+  lines.push(`I ran ${id.name} through Axis' Iliad and here's what it found:`);
   lines.push("");
   lines.push(`• Type: ${id.type}`);
   lines.push(`• Primary Language: ${id.primary_language}`);
@@ -413,7 +413,7 @@ export function generateCanvasAssetGuidelines(ctx: ContextMap, files?: SourceFil
   lines.push("");
   lines.push("### Logos & Icons");
   lines.push(`- [ ] ${id.name} logo (SVG, light + dark variants)`);
-  lines.push("- [ ] AXIS Toolbox watermark (SVG, low opacity)");
+  lines.push("- [ ] Axis' Iliad watermark (SVG, low opacity)");
   for (const fw of frameworks.slice(0, 6)) {
     lines.push(`- [ ] ${fw} icon (SVG or PNG)`);
   }

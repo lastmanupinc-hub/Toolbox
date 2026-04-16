@@ -1,5 +1,5 @@
 /**
- * AXIS Toolbox — Program Pipeline Dashboard
+ * Axis' Iliad — Program Pipeline Dashboard
  * Vanilla JS component: interactive visualization of the 18-program × 86-generator pipeline.
  * No framework dependencies. Attach to any DOM element.
  *

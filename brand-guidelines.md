@@ -1,10 +1,10 @@
-# Brand Guidelines — axis-toolbox
+# Brand Guidelines — axis-iliad
 
-> Brand identity and communication standards for axis-toolbox
+> Brand identity and communication standards for axis-iliad
 
 ## Project Overview
 
-axis-toolbox is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 162 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 162 domain models.
 
 ## Detected Stack
 
@@ -14,14 +14,13 @@ axis-toolbox is a monorepo built with TypeScript using React. It contains 500 fi
 
 ## Brand Identity
 
-**Product Name:** axis-toolbox
+**Product Name:** axis-iliad
 **Category:** monorepo
 **Primary Technology:** TypeScript
-**Description:** AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
 
 ## Positioning
 
-axis-toolbox is a monorepo built with TypeScript.
+axis-iliad is a monorepo built with TypeScript.
 
 **Target Audience:** Technical users and developers.
 
@@ -77,7 +76,7 @@ This project uses: React
 
 | Element | Convention | Example |
 |---------|-----------|---------|
-| Product name | Capitalized | axis-toolbox |
+| Product name | Capitalized | axis-iliad |
 | Feature names | Sentence case | "Context analysis" |
 | CLI commands | kebab-case | `generate-report` |
 | API endpoints | kebab-case | `/v1/search/export` |
@@ -86,7 +85,7 @@ This project uses: React
 
 ## Existing Brand Assets
 
-- `CONTRIBUTING.md` (3217 bytes)
+- `CONTRIBUTING.md` (3185 bytes)
 - `examples/01-paid-platform/README.md` (947 bytes)
 - `examples/02-axis-scalpel/README.md` (724 bytes)
 - `examples/03-spacey/README.md` (748 bytes)

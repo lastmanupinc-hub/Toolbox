@@ -1,4 +1,4 @@
-# 🚀 AXIS Toolbox Launch Checklist
+# 🚀 Axis' Iliad Launch Checklist
 
 ## ✅ COMPLETED
 - [x] Repository made public
@@ -77,11 +77,11 @@
 - **Dev Teams** - Want consistency across projects
 
 ### Outreach Script
-"Hey [Name], I built AXIS Toolbox - an AI that analyzes codebases and generates 86 artifacts automatically. It creates everything from context maps to brand systems.
+"Hey [Name], I built Axis' Iliad - an AI that analyzes codebases and generates 86 artifacts automatically. It creates everything from context maps to brand systems.
 
 Since you're [working on AI tools/ maintaining open source/ building with Cursor], I thought you might find it useful.
 
-Free tier available: https://github.com/lastmanupinc-hub/Toolbox
+Free tier available: https://github.com/lastmanupinc-hub/axis-iliad
 
 What do you think?"
 

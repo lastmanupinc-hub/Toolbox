@@ -1,5 +1,5 @@
 ﻿
-[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/AXIS Toolbox[39m
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/Axis' Iliad[39m
 
 {"timestamp":"2026-04-11T21:06:26.882Z","level":"info","msg":"server_start","port":44410,"service":"axis-api"}
 node.exe : {"timestamp":"2026-04-11T21:06:26.896Z","level":"error","msg":"reque

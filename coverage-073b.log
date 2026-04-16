@@ -1,5 +1,5 @@
 ﻿
-[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/AXIS Toolbox[39m
+[1m[46m RUN [49m[22m [36mv4.1.2 [39m[90mC:/Users/lastm/No Fate Platform/Axis' Iliad[39m
       [2mCoverage enabled with [22m[33mv8[39m
 
 {"timestamp":"2026-04-11T19:49:53.302Z","level":"info","msg":"server_start","port":44475,"service":"axis-api"}
@@ -1214,7 +1214,7 @@ ut","status":503,"duration_ms":1}
 {"timestamp":"2026-04-11T19:50:11.037Z","level":"info","msg":"request","request_id":"077daade-546d-41c5-9984-376a8c25c058","method":"DELETE","path":"/v1/projects/empty-proj","status":200,"duration_ms":1}
  [32mΓ£ô[39m apps/api/src/deletion.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 544[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-pipeline.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-pipeline.test.ts
 [22m[39mNo source files found in target directory.
@@ -1518,7 +1518,7 @@ thub/callback?code=abc&state=xyz","status":503,"duration_ms":2}
  [32mΓ£ô[39m packages/context-engine/src/engine.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 51[2mms[22m[39m
  [32mΓ£ô[39m packages/context-engine/src/engine-edge.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 116[2mms[22m[39m
 [90mstdout[2m | apps/cli/src/cli-commands.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
 [90mstderr[2m | apps/cli/src/cli-commands.test.ts
 [22m[39mNo source files found in target directory.
@@ -1549,7 +1549,7 @@ thub/callback?code=abc&state=xyz","status":503,"duration_ms":2}
 [22m[39mNo source files found in target directory.
 
 [90mstdout[2m | apps/cli/src/cli-auth.test.ts
-[22m[39mScanning C:\Users\lastm\No Fate Platform\AXIS Toolbox ...
+[22m[39mScanning C:\Users\lastm\No Fate Platform\Axis' Iliad ...
 
  [32mΓ£ô[39m apps/api/src/env.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 94[2mms[22m[39m
  [32mΓ£ô[39m apps/web/src/upload-utils.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 87[2mms[22m[39m

@@ -1,6 +1,6 @@
-# Asset Checklist — axis-toolbox
+# Asset Checklist — axis-iliad
 
-Generated: 2026-04-15T20:25:19.990Z
+Generated: 2026-04-16T14:25:25.088Z
 
 ## Required Assets
 
@@ -15,7 +15,7 @@ Generated: 2026-04-15T20:25:19.990Z
 - [x] Muted: #30363d (derived from detected stack)
 
 ### Images
-- [ ] axis-toolbox logo (SVG, transparent background)
+- [ ] axis-iliad logo (SVG, transparent background)
 - [ ] Social media preview thumbnail (1200×630)
 - [ ] Video poster frame (1920×1080)
 
