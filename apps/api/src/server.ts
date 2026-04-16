@@ -1,3 +1,4 @@
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { Router, createApp } from "./router.js";
 import {
   handleCreateSnapshot,
@@ -255,7 +256,7 @@ router.get("/v1/programs", async (_req, res) => {
 });
 
 // MCP Server — Streamable HTTP transport (2025-03-26)
-router.post("/mcp", async (req, res) => {
+const handleMcpEntrypoint = async (req: IncomingMessage, res: ServerResponse) => {
   // Check if this is a free tool call that doesn't require authentication
   const { readBody } = await import("./router.js");
   let raw: string;
@@ -290,9 +291,23 @@ router.post("/mcp", async (req, res) => {
 
   // Pass route params placeholder and parsed body to avoid double-parsing
   return handleMcpPost(req, res, {}, msg);
-});
+};
+
+router.post("/mcp", handleMcpEntrypoint);
+router.post("/mcp/", handleMcpEntrypoint);
+router.post("/v1/mcp", handleMcpEntrypoint);
+router.post("/v1/mcp/", handleMcpEntrypoint);
 router.get("/mcp", handleMcpGet);
+router.get("/mcp/", handleMcpGet);
+router.get("/v1/mcp", handleMcpGet);
+router.get("/v1/mcp/", handleMcpGet);
 router.get("/mcp/docs", handleMcpDocs);
+
+// Keep browsers quiet: favicon requests hit API hosts too.
+router.get("/favicon.ico", async (_req, res) => {
+  res.writeHead(204, { "Cache-Control": "public, max-age=86400" });
+  res.end();
+});
 
 // Clean 404/405 handlers for SSE and sub-path noise
 router.get("/mcp/sse", async (_req, res) => {
