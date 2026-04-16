@@ -1,11 +1,118 @@
 # AXIS Toolbox
 
-AI-native development operating system. Upload or point at any codebase — get 86 generated artifacts across 18 specialized programs: context maps, debug playbooks, governance files, design tokens, SEO analysis, brand systems, and more.
+> **86 generated artifacts from a single codebase scan.** AI-native development OS for engineering teams and AI agents — context maps, debug playbooks, design tokens, brand systems, SEO analysis, and more, all in one pass.
 
-## Quickstart
+[![Tests](https://img.shields.io/badge/tests-4076%20passing-brightgreen)](https://github.com/lastmanupinc-hub/Toolbox/actions)
+[![Coverage](https://img.shields.io/badge/coverage-91.5%25-green)](https://github.com/lastmanupinc-hub/Toolbox/actions)
+[![API](https://img.shields.io/badge/API-live-blue)](https://axis-api-6c7z.onrender.com/v1/health)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue)](https://github.com/lastmanupinc-hub/Toolbox/releases)
+[![License](https://img.shields.io/badge/license-private-lightgrey)](#license)
+
+---
+
+## Try it in 30 seconds — no signup required
+
+Three programs are **completely free** with no API key:
+
+```bash
+# 1. Get an API key (free tier, instant)
+curl -X POST https://axis-api-6c7z.onrender.com/v1/accounts \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"you@example.com","name":"My Agent","tier":"free"}'
+
+# 2. Analyze any public GitHub repo
+curl -X POST https://axis-api-6c7z.onrender.com/v1/github/analyze \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -d '{"url":"https://github.com/owner/repo","programs":["search","skills","debug"]}'
+
+# 3. Download the generated artifacts as a ZIP
+curl https://axis-api-6c7z.onrender.com/v1/projects/PROJECT_ID/export \
+  -H 'Authorization: Bearer YOUR_API_KEY' -o artifacts.zip
+```
+
+**Free tier includes:** Search (context maps), Skills (AGENTS.md, CLAUDE.md, .cursorrules), Debug (playbooks, incident templates). Pro unlocks all 18 programs.
+
+---
+
+## What you get
+
+One scan → 86 artifacts across 18 programs, ready in seconds:
+
+| What you need | Program | Key outputs |
+|---------------|---------|-------------|
+| Orient a new AI agent | **Search** *(free)* | `context-map.json`, `repo-profile.yaml`, `architecture-summary.md` |
+| Give any LLM codebase context | **Skills** *(free)* | `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `workflow-pack.md` |
+| Debug a production incident | **Debug** *(free)* | `debug-playbook.md`, `tracing-rules.md`, `root-cause-checklist.md` |
+| Audit your UI | **Frontend** | `frontend-rules.md`, `ui-audit.md`, `component-guidelines.md` |
+| Fix search ranking | **SEO** | `seo-rules.md`, `meta-tag-audit.json`, `schema-recommendations.json` |
+| Cut LLM costs | **Optimization** | `optimization-rules.md`, `cost-estimate.json`, `token-budget-plan.md` |
+| Ship a design system | **Theme** | `design-tokens.json`, `theme.css`, `dark-mode-tokens.json` |
+| Unify your brand voice | **Brand** | `brand-guidelines.md`, `voice-and-tone.md`, `messaging-system.yaml` |
+| Automate dev workflows | **Superpowers** | `superpower-pack.md`, `workflow-registry.json`, `automation-pipeline.yaml` |
+| Launch a campaign | **Marketing** | `campaign-brief.md`, `funnel-map.md`, `ab-test-plan.md` |
+| Build data/research tools | **Notebook** | `notebook-summary.md`, `research-threads.md`, `source-map.json` |
+| Manage a knowledge vault | **Obsidian** | `obsidian-skill-pack.md`, `vault-rules.md`, `graph-prompt-map.json` |
+| Connect AI tools (MCP) | **MCP** | `mcp-config.json`, `capability-registry.json`, `server-manifest.yaml` |
+| Generate components | **Artifacts** | `generated-component.tsx`, `dashboard-widget.tsx`, `component-library.json` |
+| Create dev videos | **Remotion** | `remotion-script.ts`, `scene-plan.md`, `storyboard.md` |
+| Social & visual assets | **Canvas** | `canvas-spec.json`, `social-pack.md`, `poster-layouts.md` |
+| Generative art / NFT | **Algorithmic** | `generative-sketch.ts`, `variation-matrix.json`, `parameter-pack.json` |
+| Agentic commerce (Visa AP2) | **Agentic Purchasing** | `agent-purchasing-playbook.md`, `checkout-flow.md`, `negotiation-rules.md` |
+
+---
+
+## For AI agents — MCP integration
+
+AXIS exposes a **Streamable HTTP MCP server** at `https://axis-api-6c7z.onrender.com/mcp`. Add it to your agent and it can analyze any repo or prepare for agentic purchasing autonomously.
+
+**VS Code** (`.vscode/mcp.json`):
+```json
+{
+  "servers": {
+    "axis-toolbox": {
+      "type": "http",
+      "url": "https://axis-api-6c7z.onrender.com/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+    }
+  }
+}
+```
+
+**Claude Desktop** (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "axis-toolbox": {
+      "url": "https://axis-api-6c7z.onrender.com/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+    }
+  }
+}
+```
+
+**Free MCP tools** (no auth needed): `list_programs`, `search_and_discover_tools`, `discover_agentic_commerce_tools`, `discover_agentic_purchasing_needs`, `get_referral_code`, `check_referral_credits`
+
+---
+
+## Pricing
+
+| Tier | Price | Programs |
+|------|-------|----------|
+| **Free** | $0 | Search, Skills, Debug |
+| **Pro** | $0.50 / run | All 18 programs, 86 artifacts |
+| **Lite mode** | $0.15–$0.25 / run | Top-gap summary, reduced output |
+
+Budget negotiation: send `X-Agent-Budget: {"budget_per_run_cents": 25}` + `X-Agent-Mode: lite` on any paid call.
+
+---
+
+## Self-host
 
 ```bash
 # Prerequisites: Node.js ≥ 20, pnpm ≥ 9
+git clone https://github.com/lastmanupinc-hub/Toolbox.git
+cd Toolbox
 pnpm install
 pnpm build
 
@@ -20,6 +127,14 @@ node apps/cli/dist/cli.js analyze .
 node apps/cli/dist/cli.js github https://github.com/owner/repo
 ```
 
+**Docker:**
+```bash
+docker build -t axis-toolbox .
+docker run -p 4000:4000 axis-toolbox
+```
+
+---
+
 ## Architecture
 
 ```
@@ -32,7 +147,7 @@ axis-toolbox/
 │   ├── snapshots/    → Snapshot intake, SQLite persistence, billing, funnel
 │   ├── repo-parser/  → Language detection (60+), framework detection (10), import graph
 │   ├── context-engine/ → Context map builder, repo profile, route/architecture analysis
-    └── generator-core/ → 86 generators across 18 programs
+│   └── generator-core/ → 86 generators across 18 programs
 └── vitest.config.ts  → Shared test config
 ```
 
@@ -179,6 +294,32 @@ npx vitest run        # Run tests directly
 npx vitest bench      # Run performance benchmarks
 npx vitest --coverage # Run tests with coverage report
 ```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for how to add a generator, endpoint, or program.
+
+## Input methods
+
+| Method | How |
+|--------|-----|
+| GitHub URL | `POST /v1/github/analyze` with `{"url":"https://github.com/..."}` |
+| File upload | `POST /v1/snapshots` multipart body |
+| CLI (local) | `axis analyze <directory>` |
+| CLI (remote) | `axis github <url>` |
+| MCP | `tools/call` → `analyze_repo` or `analyze_files` |
+
+## Tech stack
+
+- **Runtime**: Node.js 20+, TypeScript 5.7 strict
+- **Backend**: Zero-dependency custom HTTP router, SQLite (better-sqlite3, WAL mode)
+- **Frontend**: Vite 6 + React 19, CSS design system (dark theme)
+- **Testing**: Vitest 4, 4076 tests across 140 files, 91.5% statement coverage
+- **Benchmarks**: `parseRepo` 200 files in 21ms · FTS5 search <0.2ms
+- **Build**: pnpm workspaces, tsc per package
+- **CI**: GitHub Actions (Node 20/22 matrix, coverage, dep audit, Docker build)
+
+---
+
+**Live API**: `https://axis-api-6c7z.onrender.com` · **Docs**: `https://axis-api-6c7z.onrender.com/v1/docs` · **MCP**: `https://axis-api-6c7z.onrender.com/mcp`
 
 ## License
 

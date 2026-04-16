@@ -3,9 +3,8 @@
 ## Dev Setup
 
 ```bash
-# Clone and install
-git clone https://github.com/lastmanupinc-hub/AXIS-Scalpel.git
-cd AXIS-Scalpel
+git clone https://github.com/lastmanupinc-hub/Toolbox.git
+cd Toolbox
 pnpm install
 
 # Build all packages (order matters — packages before apps)
