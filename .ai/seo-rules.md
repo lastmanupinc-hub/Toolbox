@@ -594,7 +594,7 @@ Allow: /v1/
 
 # Helpful message for agents
 # This is the Axis' Iliad MCP server (io.github.lastmanupinc-hub/axis-iliad)
-# Primary tool: prepare_for_agentic_purchasing
+# Primary tool: prepare_agentic_purchasing
 ... (6 more lines)
 ```
 
@@ -603,7 +603,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-iliad
-# Generated: 2026-04-17T13:25:42.770Z
+# Generated: 2026-04-17T15:47:48.267Z
 
 manifest:
   project: "axis-iliad"

@@ -31,7 +31,8 @@ export default axisiliad;
 
 // ─── Project Conventions ───
 // • TypeScript strict mode
-// • pnpm workspaces
+// • Linter configured
+// • Formatter configured
 
 // ─── Reference: existing components found in project ───
 // apps/web/src/App.tsx: export function App() { ... }

@@ -14,7 +14,8 @@ rules:
   - no_stub_implementations: true
   - no_placeholder_data: true
   - convention: "TypeScript strict mode"
-  - convention: "pnpm workspaces"
+  - convention: "Linter configured"
+  - convention: "Formatter configured"
 ```
 
 ## Policy: Boundary Enforcement
@@ -56,6 +57,12 @@ rules:
   - test_frameworks: [vitest]
 ```
 
+## Policy: Known Warnings
+
+These project-specific warnings must be addressed in all AI-generated code:
+
+- ⚠️ No lockfile found — dependency versions may be inconsistent
+
 ## Policy: Framework-Specific Rules
 
 ### React
@@ -66,6 +73,7 @@ rules:
 
 ## Detected Project Configs
 
+- `.prettierrc.json`
 - `apps/api/package.json`
 - `apps/api/tsconfig.json`
 - `apps/cli/package.json`
@@ -73,9 +81,20 @@ rules:
 - `apps/web/package.json`
 - `apps/web/tsconfig.json`
 - `apps/web/vite.config.ts`
-- `package.json`
 
 ## Config Contents
+
+### `.prettierrc.json`
+
+```json
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 100
+}
+
+```
 
 ### `apps/api/package.json`
 
@@ -111,25 +130,4 @@ rules:
   "exclude": ["src/**/*.test.ts"]
 }
 
-```
-
-### `apps/cli/package.json`
-
-```json
-{
-  "name": "@axis/cli",
-  "version": "0.5.2",
-  "private": true,
-  "type": "module",
-  "bin": {
-    "axis": "./bin/axis.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/cli.js"
-  },
-  "dependencies": {
-    "@axis/snapshots": "workspace:*",
-    "@axis/repo-parser": "workspace:*",
-... (8 more lines)
 ```

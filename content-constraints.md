@@ -46,7 +46,8 @@ When using AI to generate content for this project:
 Detected from codebase analysis — enforce in all generated content:
 
 - TypeScript strict mode
-- pnpm workspaces
+- Linter configured
+- Formatter configured
 
 ## Controlled Terminology
 
@@ -69,8 +70,8 @@ Detected from codebase analysis — enforce in all generated content:
 
 ## Detected Formatting Configs
 
+- `.prettierrc.json`
 - `apps/api/package.json`
 - `apps/api/tsconfig.json`
 - `apps/cli/package.json`
 - `apps/cli/tsconfig.json`
-- `apps/web/package.json`

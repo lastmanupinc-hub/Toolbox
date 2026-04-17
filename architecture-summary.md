@@ -16,7 +16,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (123557 LOC)
+- **Files:** 500 (123887 LOC)
 - **Directories:** 57
 
 ## Frameworks & Libraries
@@ -583,20 +583,25 @@ Detected 163 domain models:
 
 - **Build:** vite
 - **Test:** vitest
-- **Package Manager:** pnpm
 - **CI:** github_actions
 - **Deploy:** docker
 
 ## Conventions
 
 - TypeScript strict mode
-- pnpm workspaces
+- Linter configured
+- Formatter configured
+
+## Warnings
+
+- ⚠️ No lockfile found — dependency versions may be inconsistent
 
 ## File Tree
 
 ```
 .github/workflows/ci.yml (4.5 KB)
 .gitignore (0.3 KB)
+.prettierrc.json (0.1 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
 AGENTS.md (14.1 KB)
@@ -608,7 +613,7 @@ algorithmic/schemas/output-contract.schema.json (1.8 KB)
 apps/api/check-table.js (0.3 KB)
 apps/api/gen-keys.js (0.3 KB)
 apps/api/keys.env (4.3 KB)
-apps/api/mcp-server.json (9.9 KB)
+apps/api/mcp-server.json (10.3 KB)
 apps/api/package.json (0.7 KB)
 apps/api/src/admin.test.ts (10.0 KB)
 apps/api/src/admin.ts (2.8 KB)
@@ -621,7 +626,7 @@ apps/api/src/api.test.ts (20.7 KB)
 apps/api/src/b-grade-upgrade.test.ts (8.6 KB)
 apps/api/src/billing-flow.test.ts (24.6 KB)
 apps/api/src/billing.ts (21.2 KB)
-apps/api/src/budget-probe.test.ts (34.4 KB)
+apps/api/src/budget-probe.test.ts (34.3 KB)
 apps/api/src/checkout-email.test.ts (11.7 KB)
 apps/api/src/counts.ts (0.2 KB)
 apps/api/src/crash-resilience.test.ts (6.3 KB)
@@ -649,13 +654,13 @@ apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.7 KB)
 apps/api/src/logger.ts (3.1 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (79.4 KB)
-apps/api/src/mcp-server.ts (98.8 KB)
+apps/api/src/mcp-server.test.ts (81.8 KB)
+apps/api/src/mcp-server.ts (103.9 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
-apps/api/src/mpp.ts (15.7 KB)
+apps/api/src/mpp.ts (15.9 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
 apps/api/src/oauth-server-simple.ts (5.7 KB)
 apps/api/src/oauth-server.ts (8.1 KB)
@@ -761,7 +766,7 @@ AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 begin.yaml (14.7 KB)
-brand-board.md (5.1 KB)
+brand-board.md (5.0 KB)
 brand-guidelines.md (3.0 KB)
 brand/begin.yaml (1.8 KB)
 brand/continuation.yaml (2.4 KB)
@@ -787,9 +792,9 @@ commerce-registry.json (6.3 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
 component-theme-map.json (9.5 KB)
-connector-map.yaml (6.5 KB)
+connector-map.yaml (6.6 KB)
 content-audit.md (3.8 KB)
-content-constraints.md (2.8 KB)
+content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
 cost-estimate.json (5.7 KB)
 cov.txt (210.1 KB)
@@ -803,7 +808,7 @@ coverage-full.txt (249.9 KB)
 cro-playbook.md (35.7 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
-dashboard-widget.tsx (3.5 KB)
+dashboard-widget.tsx (3.4 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
@@ -816,6 +821,7 @@ e2e_ui_audit.yaml (39.3 KB)
 e2e_wiring_audit.mjs (46.9 KB)
 e2e_wiring_audit.yaml (31.5 KB)
 embed-snippet.ts (2.0 KB)
+eslint.config.js (0.2 KB)
 examples/01-paid-platform/generated/AGENTS.md (1.9 KB)
 examples/01-paid-platform/generated/CLAUDE.md (0.9 KB)
 examples/01-paid-platform/README.md (0.9 KB)
@@ -838,7 +844,7 @@ frontend/begin.yaml (3.6 KB)
 frontend/continuation.yaml (2.4 KB)
 frontend/MEMORY.yaml (5.8 KB)
 frontend/schemas/output-contract.schema.json (1.8 KB)
-funnel-map.md (3.0 KB)
+funnel-map.md (2.9 KB)
 generate-keys.js (0.6 KB)
 generated-component.tsx (1.6 KB)
 generated-posts.json (2.3 KB)
@@ -859,7 +865,7 @@ marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (12.8 KB)
+mcp-config.json (12.7 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
@@ -868,7 +874,7 @@ memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (24.5 KB)
 negotiation-rules.md (7.6 KB)
-notebook-summary.md (3.7 KB)
+notebook-summary.md (3.6 KB)
 notebook/begin.yaml (1.8 KB)
 notebook/continuation.yaml (2.4 KB)
 notebook/MEMORY.yaml (2.9 KB)
@@ -942,7 +948,7 @@ packages/generator-core/src/generators-remotion.ts (32.1 KB)
 packages/generator-core/src/generators-search-funcs.test.ts (11.8 KB)
 packages/generator-core/src/generators-search.ts (17.9 KB)
 packages/generator-core/src/generators-seo.ts (35.8 KB)
-packages/generator-core/src/generators-skills.ts (42.8 KB)
+packages/generator-core/src/generators-skills.ts (42.7 KB)
 packages/generator-core/src/generators-superpowers.ts (37.4 KB)
 packages/generator-core/src/generators-theme.ts (45.9 KB)
 packages/generator-core/src/index.ts (2.9 KB)
@@ -962,8 +968,8 @@ packages/repo-parser/src/language-detector.ts (1.7 KB)
 packages/repo-parser/src/parser-branches.test.ts (13.2 KB)
 packages/repo-parser/src/parser-branches2.test.ts (7.1 KB)
 packages/repo-parser/src/parser-branches3.test.ts (10.1 KB)
-packages/repo-parser/src/parser.test.ts (9.1 KB)
-packages/repo-parser/src/parser.ts (14.5 KB)
+packages/repo-parser/src/parser.test.ts (9.7 KB)
+packages/repo-parser/src/parser.ts (15.2 KB)
 packages/repo-parser/src/perf.bench.ts (6.1 KB)
 packages/repo-parser/src/sql-extractor.test.ts (8.9 KB)
 packages/repo-parser/src/sql-extractor.ts (4.3 KB)
@@ -991,10 +997,10 @@ packages/snapshots/src/funnel-store.ts (15.1 KB)
 packages/snapshots/src/funnel-types.ts (7.0 KB)
 packages/snapshots/src/funnel.test.ts (17.4 KB)
 packages/snapshots/src/github-http.test.ts (12.7 KB)
-packages/snapshots/src/github-tarball.test.ts (13.2 KB)
+packages/snapshots/src/github-tarball.test.ts (14.1 KB)
 packages/snapshots/src/github-token-branches.test.ts (3.8 KB)
 packages/snapshots/src/github-token-store.ts (5.1 KB)
-packages/snapshots/src/github.ts (7.7 KB)
+packages/snapshots/src/github.ts (8.9 KB)
 packages/snapshots/src/index.ts (5.8 KB)
 packages/snapshots/src/oauth-store.test.ts (8.5 KB)
 packages/snapshots/src/oauth-store.ts (4.6 KB)
@@ -1003,7 +1009,7 @@ packages/snapshots/src/persistence-metering.test.ts (9.9 KB)
 packages/snapshots/src/persistence-metering.ts (4.9 KB)
 packages/snapshots/src/referral-e2e.test.ts (10.5 KB)
 packages/snapshots/src/referral-store.test.ts (10.5 KB)
-packages/snapshots/src/referral-store.ts (9.9 KB)
+packages/snapshots/src/referral-store.ts (9.8 KB)
 packages/snapshots/src/search-store.test.ts (6.8 KB)
 packages/snapshots/src/search-store.ts (9.7 KB)
 packages/snapshots/src/search-symbols.test.ts (9.3 KB)
@@ -1093,8 +1099,6 @@ payment-processing-output/vault-rules.md (2.1 KB)
 payment-processing-output/voice-and-tone.md (2.5 KB)
 payment-processing-output/workflow-pack.md (2.0 KB)
 payment-processing-output/workflow-registry.json (1.8 KB)
-pnpm-lock.yaml (0.0 KB)
-pnpm-workspace.yaml (0.1 KB)
 ```
 
 ## Entry Points (Source)
@@ -1309,6 +1313,18 @@ export {
 ```
 
 ## Configuration Files
+
+### `.prettierrc.json`
+
+```json
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 100
+}
+
+```
 
 ### `apps/api/package.json`
 

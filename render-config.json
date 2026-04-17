@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-17T15:47:48.259Z",
+  "generated_at": "2026-04-17T20:18:38.471Z",
   "composition": {
     "id": "axisiliadVideo",
     "width": 1920,
@@ -86,17 +86,17 @@
       "languages": [
         {
           "name": "TypeScript",
-          "loc": 82527,
-          "percent": 73.1
+          "loc": 82842,
+          "percent": 73.2
         },
         {
           "name": "JSON",
-          "loc": 11429,
+          "loc": 11430,
           "percent": 10.1
         },
         {
           "name": "YAML",
-          "loc": 8555,
+          "loc": 8558,
           "percent": 7.6
         },
         {
@@ -106,7 +106,7 @@
         },
         {
           "name": "JavaScript",
-          "loc": 1302,
+          "loc": 1313,
           "percent": 1.2
         },
         {
@@ -378,7 +378,7 @@
   "detected_stack": {
     "primary_language": "TypeScript",
     "total_files": 500,
-    "total_loc": 123557
+    "total_loc": 123887
   },
   "source_media_files": null
 }

@@ -36,7 +36,7 @@ export function DashboardWidget() {
         <StatCard label="Language" value={data.language} />
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
-        <StatCard label="TypeScript" value={`${73.1}%`} />
+        <StatCard label="TypeScript" value={`${73.2}%`} />
         <StatCard label="JSON" value={`${10.1}%`} />
         <StatCard label="YAML" value={`${7.6}%`} />
       </div>
@@ -84,6 +84,9 @@ export default DashboardWidget;
 // Layer boundaries: 1
 //   presentation (2 dirs)
 
+// ─── Warnings ───
+// ⚠ No lockfile found — dependency versions may be inconsistent
+
 // Source file metrics
 // Total source files scanned: 500
-// Config files: apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json
+// Config files: .prettierrc.json, apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json

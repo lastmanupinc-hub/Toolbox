@@ -9,7 +9,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ## Architecture Overview
 
 - **Files**: 500 files across 57 directories
-- **Lines of Code**: 123,557
+- **Lines of Code**: 123,887
 - **Primary Language**: TypeScript
 - **Frameworks**: React
 - **Patterns**: monorepo, containerized
@@ -31,7 +31,12 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ## Conventions
 
 - TypeScript strict mode
-- pnpm workspaces
+- Linter configured
+- Formatter configured
+
+## Warnings & Notes
+
+- ⚠ No lockfile found — dependency versions may be inconsistent
 
 ## Dependency Snapshot
 
@@ -63,6 +68,18 @@ Total external dependencies: **26**
 | `packages/repo-parser/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
 
 ## Configuration Files
+
+### `.prettierrc.json`
+
+```json
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 100
+}
+
+```
 
 ### `apps/api/package.json`
 
@@ -98,25 +115,4 @@ Total external dependencies: **26**
   "exclude": ["src/**/*.test.ts"]
 }
 
-```
-
-### `apps/cli/package.json`
-
-```json
-{
-  "name": "@axis/cli",
-  "version": "0.5.2",
-  "private": true,
-  "type": "module",
-  "bin": {
-    "axis": "./bin/axis.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/cli.js"
-  },
-  "dependencies": {
-    "@axis/snapshots": "workspace:*",
-    "@axis/repo-parser": "workspace:*",
-... (8 more lines)
 ```

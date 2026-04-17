@@ -1,6 +1,6 @@
 # Brand Board — axis-iliad
 
-Generated: 2026-04-17T15:47:48.407Z
+Generated: 2026-04-17T20:18:38.631Z
 
 Comprehensive visual identity reference for all project-branded outputs.
 
@@ -107,6 +107,10 @@ Consider domain-specific iconography for:
 - **ValidationResult** (interface) — 3 fields, from apps/api/src/env.ts
 - **ZipEntry** (interface) — 4 fields, from apps/api/src/export.ts
 - **IntentCapture** (interface) — 5 fields, from apps/api/src/mcp-server.ts
+
+### Brand Warnings
+
+> ⚠ No lockfile found — dependency versions may be inconsistent
 
 ## Spacing & Layout Tokens
 

@@ -193,6 +193,10 @@ Consider extending the token system for domain entity states:
 - **JsonRpcRequest** (interface): 4 fields — apps/api/src/mcp-server.ts
 - **McpCallCounters** (interface): 5 fields — apps/api/src/mcp-server.ts
 
+## Warnings
+
+> ⚠ No lockfile found — dependency versions may be inconsistent
+
 ## Detected Style Files
 
 - `apps/web/src/index.css` (770 lines)
@@ -239,7 +243,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-17T13:25:42.601Z",
+  "generated_at": "2026-04-17T15:47:48.222Z",
   "detected_stack": [
     {
       "name": "React",
@@ -265,7 +269,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-17T13:25:43.219Z",
+  "generated_at": "2026-04-17T15:47:48.395Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [

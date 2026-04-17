@@ -20,13 +20,13 @@ Copy-paste-ready commands for common high-value operations:
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Build
-pnpm run build
+npm run build
 
 # Dev server
-pnpm run dev
+npm run dev
 ```
 
 ### Testing
@@ -69,7 +69,8 @@ npx vitest run --coverage
 - [ ] Import graph doesn't create new circular dependencies
 - [ ] Changes follow detected conventions:
   - TypeScript strict mode
-  - pnpm workspaces
+  - Linter configured
+  - Formatter configured
 
 ## Planning Template
 

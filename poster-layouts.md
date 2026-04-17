@@ -1,6 +1,6 @@
 # Poster Layouts — axis-iliad
 
-Generated: 2026-04-17T15:47:48.264Z
+Generated: 2026-04-17T20:18:38.477Z
 
 ## Layout A: Tech Overview (A4 Portrait)
 
@@ -36,11 +36,11 @@ Generated: 2026-04-17T15:47:48.264Z
 - Dependencies: 26
 
 **Language Breakdown**
-- TypeScript: 73.1% (82527 LOC)
-- JSON: 10.1% (11429 LOC)
-- YAML: 7.6% (8555 LOC)
+- TypeScript: 73.2% (82842 LOC)
+- JSON: 10.1% (11430 LOC)
+- YAML: 7.6% (8558 LOC)
 - Markdown: 7.1% (8021 LOC)
-- JavaScript: 1.2% (1302 LOC)
+- JavaScript: 1.2% (1313 LOC)
 - CSS: 0.8% (849 LOC)
 - HTML: 0.1% (120 LOC)
 - Dockerfile: 0% (53 LOC)

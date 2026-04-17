@@ -66,7 +66,7 @@ Reusable AI prompt fragments for this project context:
 ```
 I'm working on axis-iliad, a monorepo built with TypeScript.
 Stack: React.
-Conventions: TypeScript strict mode; pnpm workspaces.
+Conventions: TypeScript strict mode; Linter configured; Formatter configured.
 ```
 
 ### Code Review Prompt
@@ -129,9 +129,9 @@ vault/
 
 ## Detected Config Files for Vault Import
 
+- `.prettierrc.json`
 - `apps/api/package.json`
 - `apps/api/tsconfig.json`
 - `apps/cli/package.json`
 - `apps/cli/tsconfig.json`
 - `apps/web/package.json`
-- `apps/web/tsconfig.json`

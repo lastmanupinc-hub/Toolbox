@@ -80,6 +80,7 @@ steps:
 
 ## Detected Config Files
 
+- `.prettierrc.json` (7 lines)
 - `apps/api/package.json` (29 lines)
 - `apps/api/tsconfig.json` (10 lines)
 - `apps/cli/package.json` (23 lines)
@@ -89,7 +90,6 @@ steps:
 - `apps/web/vite.config.ts` (13 lines)
 - `package.json` (37 lines)
 - `packages/context-engine/package.json` (22 lines)
-- `packages/context-engine/tsconfig.json` (10 lines)
 
 ## Entry Points
 

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-17T15:47:48.364Z",
-  "total_symbols": 1775,
+  "generated_at": "2026-04-17T20:18:38.590Z",
+  "total_symbols": 1784,
   "file_count": 233,
   "symbols": {
     "apps/api/src/admin.test.ts": [
@@ -1234,97 +1234,92 @@
       {
         "name": "result",
         "type": "function",
-        "line": 301
+        "line": 303
       },
       {
         "name": "result",
         "type": "function",
-        "line": 332
+        "line": 317
       },
       {
         "name": "result",
         "type": "function",
-        "line": 350
+        "line": 357
       },
       {
         "name": "result",
         "type": "function",
-        "line": 382
+        "line": 375
       },
       {
         "name": "result",
         "type": "function",
-        "line": 409
+        "line": 407
       },
       {
         "name": "result",
         "type": "function",
-        "line": 436
+        "line": 434
       },
       {
         "name": "result",
         "type": "function",
-        "line": 466
+        "line": 461
       },
       {
         "name": "result",
         "type": "function",
-        "line": 492
+        "line": 491
       },
       {
         "name": "result",
         "type": "function",
-        "line": 512
+        "line": 517
       },
       {
         "name": "result",
         "type": "function",
-        "line": 538
+        "line": 537
       },
       {
         "name": "result",
         "type": "function",
-        "line": 562
+        "line": 563
       },
       {
         "name": "result",
         "type": "function",
-        "line": 586
+        "line": 587
       },
       {
         "name": "result",
         "type": "function",
-        "line": 612
+        "line": 611
       },
       {
         "name": "result",
         "type": "function",
-        "line": 624
+        "line": 637
       },
       {
         "name": "result",
         "type": "function",
-        "line": 636
+        "line": 649
       },
       {
         "name": "result",
         "type": "function",
-        "line": 648
+        "line": 661
       },
       {
         "name": "result",
         "type": "function",
-        "line": 668
+        "line": 673
       },
       {
         "name": "result",
         "type": "function",
-        "line": 684
-      },
-      {
-        "name": "result",
-        "type": "function",
-        "line": 695
+        "line": 693
       },
       {
         "name": "result",
@@ -1334,17 +1329,17 @@
       {
         "name": "result",
         "type": "function",
-        "line": 730
+        "line": 720
       },
       {
         "name": "result",
         "type": "function",
-        "line": 750
+        "line": 734
       },
       {
         "name": "result",
         "type": "function",
-        "line": 764
+        "line": 755
       },
       {
         "name": "result",
@@ -1354,152 +1349,157 @@
       {
         "name": "result",
         "type": "function",
-        "line": 788
+        "line": 789
       },
       {
         "name": "result",
         "type": "function",
-        "line": 799
+        "line": 800
       },
       {
         "name": "result",
         "type": "function",
-        "line": 812
+        "line": 813
       },
       {
         "name": "result",
         "type": "function",
-        "line": 826
+        "line": 824
       },
       {
         "name": "result",
         "type": "function",
-        "line": 840
+        "line": 837
       },
       {
         "name": "result",
         "type": "function",
-        "line": 853
+        "line": 851
       },
       {
         "name": "result",
         "type": "function",
-        "line": 867
+        "line": 865
       },
       {
         "name": "result",
         "type": "function",
-        "line": 884
+        "line": 878
       },
       {
         "name": "result",
         "type": "function",
-        "line": 901
+        "line": 892
       },
       {
         "name": "result",
         "type": "function",
-        "line": 919
+        "line": 909
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1080
+        "line": 926
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1099
+        "line": 944
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1128
+        "line": 1105
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1182
+        "line": 1124
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1200
+        "line": 1153
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1207
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1225
       },
       {
         "name": "top",
         "type": "function",
-        "line": 1258
+        "line": 1283
       },
       {
         "name": "scores",
         "type": "function",
-        "line": 1287
+        "line": 1312
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1314
+        "line": 1339
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1321
+        "line": 1346
       },
       {
         "name": "programs",
         "type": "function",
-        "line": 1327
+        "line": 1352
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1381
+        "line": 1406
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1396
+        "line": 1421
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1541
+        "line": 1566
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1558
+        "line": 1583
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1572
+        "line": 1597
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1588
+        "line": 1613
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1621
+        "line": 1646
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1649
+        "line": 1674
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1673
-      },
-      {
-        "name": "result",
-        "type": "function",
-        "line": 1693
+        "line": 1698
       },
       {
         "name": "result",
@@ -1509,319 +1509,354 @@
       {
         "name": "result",
         "type": "function",
-        "line": 1734
+        "line": 1743
       },
       {
-        "name": "c1",
-        "type": "function",
-        "line": 1758
-      },
-      {
-        "name": "c2",
+        "name": "result",
         "type": "function",
         "line": 1759
       },
       {
-        "name": "result",
+        "name": "c1",
         "type": "function",
-        "line": 1782
+        "line": 1783
+      },
+      {
+        "name": "c2",
+        "type": "function",
+        "line": 1784
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1798
+        "line": 1807
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1821
+        "line": 1823
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 1846
       },
       {
         "name": "key",
         "type": "function",
-        "line": 1841
+        "line": 1866
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1863
+        "line": 1888
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1899
+        "line": 1924
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1915
+        "line": 1940
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1942
+        "line": 1967
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1965
+        "line": 1990
       },
       {
         "name": "result",
         "type": "function",
-        "line": 1987
+        "line": 2013
       },
       {
         "name": "result",
         "type": "function",
-        "line": 2005
+        "line": 2035
       },
       {
         "name": "result",
         "type": "function",
-        "line": 2021
+        "line": 2053
       },
       {
         "name": "result",
         "type": "function",
-        "line": 2037
+        "line": 2069
+      },
+      {
+        "name": "result",
+        "type": "function",
+        "line": 2085
       }
     ],
     "apps/api/src/mcp-server.ts": [
       {
         "name": "McpCallCounters",
         "type": "interface",
-        "line": 49
+        "line": 45
       },
       {
         "name": "_counters",
         "type": "const",
-        "line": 57
+        "line": 53
       },
       {
         "name": "ProbeClass",
         "type": "type",
-        "line": 67
+        "line": 61
       },
       {
         "name": "classifyProbe",
         "type": "function",
-        "line": 77
+        "line": 71
       },
       {
         "name": "IntentCapture",
         "type": "interface",
-        "line": 86
+        "line": 78
       },
       {
         "name": "captureIntent",
         "type": "function",
-        "line": 97
+        "line": 89
       },
       {
         "name": "entry",
         "type": "const",
-        "line": 98
+        "line": 90
       },
       {
         "name": "getIntentLog",
         "type": "function",
-        "line": 109
+        "line": 101
       },
       {
         "name": "logMcpCall",
         "type": "function",
-        "line": 115
+        "line": 105
       },
       {
         "name": "getMcpCallCounters",
         "type": "function",
-        "line": 134
+        "line": 124
       },
       {
         "name": "JsonRpcRequest",
         "type": "interface",
-        "line": 148
+        "line": 134
       },
       {
         "name": "RpcSuccess",
         "type": "interface",
-        "line": 155
+        "line": 141
       },
       {
         "name": "RpcError",
         "type": "interface",
-        "line": 161
+        "line": 147
       },
       {
         "name": "RpcResponse",
         "type": "type",
-        "line": 167
+        "line": 153
+      },
+      {
+        "name": "normalizeToolName",
+        "type": "function",
+        "line": 161
+      },
+      {
+        "name": "toolAnnotations",
+        "type": "function",
+        "line": 165
+      },
+      {
+        "name": "ARTIFACT_ENTRY_SCHEMA",
+        "type": "const",
+        "line": 174
+      },
+      {
+        "name": "SNAPSHOT_RESULT_SCHEMA",
+        "type": "const",
+        "line": 184
+      },
+      {
+        "name": "TOOL_MATCH_SCHEMA",
+        "type": "const",
+        "line": 197
       },
       {
         "name": "rpcOk",
         "type": "function",
-        "line": 518
+        "line": 681
       },
       {
         "name": "rpcErr",
         "type": "function",
-        "line": 522
+        "line": 685
       },
       {
         "name": "toolOk",
         "type": "function",
-        "line": 530
+        "line": 693
       },
       {
         "name": "toolErr",
         "type": "function",
-        "line": 534
+        "line": 697
       },
       {
         "name": "ErrorCategory",
         "type": "type",
-        "line": 538
+        "line": 701
       },
       {
         "name": "categorizeError",
         "type": "function",
-        "line": 540
+        "line": 703
       },
       {
         "name": "buildMcpPaymentRequiredError",
         "type": "function",
-        "line": 563
+        "line": 726
       },
       {
         "name": "filterGeneratorsByEntitlement",
         "type": "function",
-        "line": 586
+        "line": 749
       },
       {
         "name": "runAnalyzeFiles",
         "type": "function",
-        "line": 602
+        "line": 765
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 676
+        "line": 839
       },
       {
         "name": "runAnalyzeRepo",
         "type": "function",
-        "line": 746
+        "line": 909
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 815
+        "line": 978
       },
       {
         "name": "runSearchTools",
         "type": "function",
-        "line": 916
+        "line": 1081
       },
       {
         "name": "runDiscoverAgenticCommerceTools",
         "type": "function",
-        "line": 1000
+        "line": 1165
       },
       {
         "name": "runImproveMyAgent",
         "type": "function",
-        "line": 1064
+        "line": 1229
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1110
+        "line": 1275
       },
       {
         "name": "runDiscoverAgenticPurchasingNeeds",
         "type": "function",
-        "line": 1277
+        "line": 1442
       },
       {
         "name": "runGetReferralCode",
         "type": "function",
-        "line": 1408
+        "line": 1573
       },
       {
         "name": "runCheckReferralCredits",
         "type": "function",
-        "line": 1437
+        "line": 1602
       },
       {
         "name": "runListPrograms",
         "type": "function",
-        "line": 1467
+        "line": 1632
       },
       {
         "name": "runGetSnapshot",
         "type": "function",
-        "line": 1511
+        "line": 1676
       },
       {
         "name": "runGetArtifact",
         "type": "function",
-        "line": 1554
+        "line": 1719
       },
       {
         "name": "runPreparePurchasing",
         "type": "function",
-        "line": 1590
+        "line": 1755
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1672
+        "line": 1837
       },
       {
         "name": "dispatch",
         "type": "function",
-        "line": 1907
+        "line": 2072
       },
       {
         "name": "toolArgs",
         "type": "function",
-        "line": 1938
+        "line": 2103
       },
       {
         "name": "ip",
         "type": "function",
-        "line": 1944
+        "line": 2110
       },
       {
         "name": "handleMcpPost",
         "type": "function",
-        "line": 2018
+        "line": 2184
       },
       {
         "name": "INCENTIVES_BLOCK",
         "type": "const",
-        "line": 2095
+        "line": 2261
       },
       {
         "name": "handleMcpGet",
         "type": "function",
-        "line": 2131
+        "line": 2297
       },
       {
         "name": "handleMcpDocs",
         "type": "function",
-        "line": 2149
+        "line": 2315
       },
       {
         "name": "getMcpServerMeta",
         "type": "function",
-        "line": 2196
+        "line": 2362
       },
       {
         "name": "handleMcpServerJson",
         "type": "function",
-        "line": 2264
+        "line": 2430
       }
     ],
     "apps/api/src/metrics-branches.test.ts": [
@@ -2021,47 +2056,47 @@
       {
         "name": "getPricingTier",
         "type": "function",
-        "line": 149
+        "line": 153
       },
       {
         "name": "negotiatePrice",
         "type": "function",
-        "line": 153
+        "line": 158
       },
       {
         "name": "build402NegotiationBody",
         "type": "function",
-        "line": 179
+        "line": 184
       },
       {
         "name": "parseAgentBudget",
         "type": "function",
-        "line": 273
+        "line": 278
       },
       {
         "name": "budget",
         "type": "const",
-        "line": 278
+        "line": 283
       },
       {
         "name": "resolveAgentMode",
         "type": "function",
-        "line": 301
+        "line": 306
       },
       {
         "name": "toAscii",
         "type": "function",
-        "line": 317
+        "line": 322
       },
       {
         "name": "chargeMpp",
         "type": "function",
-        "line": 321
+        "line": 326
       },
       {
         "name": "resetMppxCache",
         "type": "function",
-        "line": 394
+        "line": 399
       }
     ],
     "apps/api/src/multi-tenancy.test.ts": [
@@ -7426,112 +7461,112 @@
       {
         "name": "computeLanguageStats",
         "type": "function",
-        "line": 75
+        "line": 96
       },
       {
         "name": "annotateFiles",
         "type": "function",
-        "line": 100
+        "line": 121
       },
       {
         "name": "classifyRole",
         "type": "function",
-        "line": 110
+        "line": 131
       },
       {
         "name": "isTestFile",
         "type": "function",
-        "line": 121
+        "line": 142
       },
       {
         "name": "isConfigFile",
         "type": "function",
-        "line": 128
+        "line": 149
       },
       {
         "name": "isDocFile",
         "type": "function",
-        "line": 138
+        "line": 159
       },
       {
         "name": "isBuildFile",
         "type": "function",
-        "line": 142
+        "line": 163
       },
       {
         "name": "isAssetFile",
         "type": "function",
-        "line": 147
+        "line": 168
       },
       {
         "name": "isGeneratedFile",
         "type": "function",
-        "line": 151
+        "line": 172
       },
       {
         "name": "isSourceFile",
         "type": "function",
-        "line": 157
+        "line": 178
       },
       {
         "name": "DepGroups",
         "type": "interface",
-        "line": 161
+        "line": 182
       },
       {
         "name": "extractDependencies",
         "type": "function",
-        "line": 167
+        "line": 188
       },
       {
         "name": "result",
         "type": "const",
-        "line": 168
+        "line": 189
       },
       {
         "name": "flattenDeps",
         "type": "function",
-        "line": 185
+        "line": 206
       },
       {
         "name": "extractGoDependencies",
         "type": "function",
-        "line": 199
+        "line": 220
       },
       {
         "name": "detectBuildTools",
         "type": "function",
-        "line": 253
+        "line": 274
       },
       {
         "name": "detectTestFrameworks",
         "type": "function",
-        "line": 268
+        "line": 289
       },
       {
         "name": "detectPackageManagers",
         "type": "function",
-        "line": 280
+        "line": 301
       },
       {
         "name": "detectCI",
         "type": "function",
-        "line": 292
+        "line": 313
       },
       {
         "name": "detectDeployment",
         "type": "function",
-        "line": 300
+        "line": 321
       },
       {
         "name": "computeTopLevelDirs",
         "type": "function",
-        "line": 310
+        "line": 331
       },
       {
         "name": "guessDirPurpose",
         "type": "function",
-        "line": 329
+        "line": 350
       }
     ],
     "packages/repo-parser/src/perf.bench.ts": [
@@ -8476,52 +8511,62 @@
       {
         "name": "GitHubFetchResult",
         "type": "interface",
-        "line": 28
+        "line": 32
       },
       {
         "name": "ParsedGitHubUrl",
         "type": "interface",
-        "line": 37
+        "line": 41
       },
       {
         "name": "parseGitHubUrl",
         "type": "function",
-        "line": 50
+        "line": 54
       },
       {
         "name": "fetchGitHubRepo",
         "type": "function",
-        "line": 71
+        "line": 75
       },
       {
         "name": "httpGetBuffer",
         "type": "function",
-        "line": 87
+        "line": 91
       },
       {
         "name": "doRequest",
         "type": "function",
-        "line": 97
+        "line": 101
       },
       {
         "name": "TarParseResult",
         "type": "interface",
-        "line": 145
+        "line": 149
       },
       {
         "name": "parseTarball",
         "type": "function",
-        "line": 152
+        "line": 156
+      },
+      {
+        "name": "nextFile",
+        "type": "const",
+        "line": 190
+      },
+      {
+        "name": "isPriorityHealthFile",
+        "type": "function",
+        "line": 219
       },
       {
         "name": "shouldInclude",
         "type": "function",
-        "line": 201
+        "line": 231
       },
       {
         "name": "ext",
         "type": "function",
-        "line": 222
+        "line": 257
       }
     ],
     "packages/snapshots/src/oauth-store.ts": [

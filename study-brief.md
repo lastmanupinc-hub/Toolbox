@@ -154,6 +154,18 @@ createRoot(document.getElementById("root")!).render(
 
 ## Configuration Overview
 
+### `.prettierrc.json`
+
+```json
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 100
+}
+
+```
+
 ### `apps/api/package.json`
 
 ```json
@@ -173,19 +185,4 @@ createRoot(document.getElementById("root")!).render(
     "@axis/generator-core": "workspace:*",
     "@axis/repo-parser": "workspace:*",
 ... (14 more lines)
-```
-
-### `apps/api/tsconfig.json`
-
-```json
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src"
-  },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
-}
-
 ```
