@@ -108,6 +108,11 @@ export interface PricingTier {
   lite_description: string;
 }
 
+export interface Build402Options {
+  message?: string;
+  referral_token?: string | null;
+}
+
 const PRICING_TIERS: Record<string, PricingTier> = {
   prepare_for_agentic_purchasing: {
     tool: "prepare_for_agentic_purchasing",
@@ -171,11 +176,38 @@ export function negotiatePrice(
   };
 }
 
-export function build402NegotiationBody(tool: string, budget?: AgentBudget): Record<string, unknown> {
+export function build402NegotiationBody(
+  tool: string,
+  budget?: AgentBudget,
+  options: Build402Options = {},
+): Record<string, unknown> {
   const tier = getPricingTier(tool);
   const negotiation = budget ? negotiatePrice(budget, tool) : null;
+  const paymentRecipient = process.env.TEMPO_RECIPIENT_ADDRESS ?? null;
+  const paymentNetwork = process.env.TEMPO_TESTNET === "true" ? "base-sepolia" : "base";
+  const acceptedPaymentSchemes = [
+    "mppx/stripe",
+    ...(paymentRecipient ? ["mppx/tempo", `x402/usdc/${paymentNetwork}`] : []),
+  ];
+  const friendlyMessage = options.message ?? `${tool} requires $${(tier.standard_cents / 100).toFixed(2)} MPP credit (or Pro tier) to continue.`;
 
   return {
+    error: "Payment Required",
+    message: friendlyMessage,
+    price: (tier.standard_cents / 100).toFixed(2),
+    currency: "USD",
+    lite_price: (tier.lite_cents / 100).toFixed(2),
+    action: "Upgrade or add credits to continue",
+    accepted_payment_schemes: acceptedPaymentSchemes,
+    referral_token: options.referral_token ?? null,
+    go_pro_url: "https://axis-iliad.jonathanarvay.com/billing",
+    x402: {
+      amount: String(tier.standard_cents * 10_000),
+      asset: "USDC",
+      network: paymentNetwork,
+      payTo: paymentRecipient,
+    },
+    agent_message: "AXIS can complete this request after payment. Retry with an MPP credential, switch to lite mode, or stay on the free discovery tools first.",
     pricing: {
       standard: { amount_cents: tier.standard_cents, currency: "usd", description: `Full ${tool} run with all artifacts` },
       lite: { amount_cents: tier.lite_cents, currency: "usd", description: tier.lite_description },
@@ -191,6 +223,14 @@ export function build402NegotiationBody(tool: string, budget?: AgentBudget): Rec
       counter: "Re-send with X-Agent-Budget header: {budget_per_run_cents, spending_window}",
       switch_lite: `Re-send with X-Agent-Mode: lite to get reduced output at $${(tier.lite_cents / 100).toFixed(2)}`,
       get_free: "Call discover_agentic_commerce_tools or discover_agentic_purchasing_needs (no auth, no cost)",
+    },
+    next_step: {
+      immediate: `Pay $${(tier.standard_cents / 100).toFixed(2)} for the full ${tool} run, or switch to lite at $${(tier.lite_cents / 100).toFixed(2)} if the budget is tighter.`,
+      retry_headers: {
+        budget: 'X-Agent-Budget: {"budget_per_run_cents":25,"spending_window":"per_call"}',
+        lite: "X-Agent-Mode: lite",
+      },
+      upgrade_path: "Upgrade to Pro for unlimited full-bundle calls at $29/month.",
     },
     free_alternatives: [
       "list_programs — enumerate all 18 programs",
@@ -226,6 +266,7 @@ export function build402NegotiationBody(tool: string, budget?: AgentBudget): Rec
         fifth_paid_call_free: true,
       },
     },
+    conversion_hint: "Every paid AXIS response returns a referral_token. Share it with other agents to earn credits on future paid calls.",
   };
 }
 

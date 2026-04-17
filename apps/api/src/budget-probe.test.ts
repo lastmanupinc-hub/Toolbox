@@ -293,6 +293,30 @@ describe("build402NegotiationBody", () => {
     expect(free.some(f => f.includes("probe-intent"))).toBe(true);
   });
 
+  it("includes agent_message and actionable next_step guidance", () => {
+    const body = build402NegotiationBody("prepare_for_agentic_purchasing");
+    expect(String(body.agent_message)).toContain("Retry with an MPP credential");
+    const nextStep = body.next_step as Record<string, unknown>;
+    expect(String(nextStep.immediate)).toContain("Pay $0.50");
+    expect(String(nextStep.upgrade_path)).toContain("$29/month");
+  });
+
+  it("includes x402-compatible top-level payment fields", () => {
+    const body = build402NegotiationBody("analyze_repo", undefined, {
+      message: "Paid full-bundle analyze required",
+      referral_token: "ref_test_123",
+    });
+    expect(body.error).toBe("Payment Required");
+    expect(body.message).toBe("Paid full-bundle analyze required");
+    expect(body.price).toBe("0.50");
+    expect(body.currency).toBe("USD");
+    expect(Array.isArray(body.accepted_payment_schemes)).toBe(true);
+    expect(body.referral_token).toBe("ref_test_123");
+    const x402 = body.x402 as Record<string, unknown>;
+    expect(x402.asset).toBe("USDC");
+    expect(x402.amount).toBe("500000");
+  });
+
   it("switch_lite action contains dollar amount", () => {
     const body = build402NegotiationBody("prepare_for_agentic_purchasing");
     const actions = body.actions as Record<string, string>;

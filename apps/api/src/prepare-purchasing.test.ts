@@ -317,6 +317,12 @@ describe("POST /v1/prepare-for-agentic-purchasing — success", () => {
     expect(score).toBeLessThanOrEqual(100);
   });
 
+  it("returns upgrade_offer with readiness conversion messaging", () => {
+    const offer = result.upgrade_offer as Record<string, unknown>;
+    expect(String(offer.agent_conversion_message)).toContain("ready for autonomous spending");
+    expect(String(offer.plan)).toContain("$29/month");
+  });
+
   it("returns score_breakdown with strengths, gaps, max_score, interpretation", () => {
     const bd = result.score_breakdown as Record<string, unknown>;
     expect(Array.isArray(bd.strengths)).toBe(true);

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
-import { openMemoryDb, closeDb, createSnapshot } from "@axis/snapshots";
+import { openMemoryDb, closeDb, createSnapshot, createAccount, createApiKey } from "@axis/snapshots";
 import { Router, createApp, sendJSON } from "./router.js";
 import { handleMcpPost, handleMcpGet, handleMcpDocs, handleMcpServerJson, getMcpServerMeta, MCP_TOOLS, MCP_PROTOCOL_VERSION, runSearchTools, getMcpCallCounters, logMcpCall } from "./mcp-server.js";
 import {
@@ -12,6 +12,7 @@ import { resetRateLimits } from "./rate-limiter.js";
 const TEST_PORT = 44515;
 let server: Server;
 let apiKey = "";
+let freeApiKey = "";
 let snapshotId = "";
 
 // ─── HTTP helpers ─────────────────────────────────────────────────
@@ -113,11 +114,10 @@ beforeAll(async () => {
   });
   await new Promise<void>(resolve => server.listen(TEST_PORT, resolve));
 
-  // Create test account + API key
-  const create = await post("/v1/accounts", { name: "MCP Test", email: "mcp@test.com" });
-  expect((create.data as Record<string, unknown>).account).toBeDefined();
-  const key = (create.data as Record<string, unknown>).api_key as Record<string, string>;
-  apiKey = key.raw_key;
+  const suite = createAccount("MCP Suite", "mcp-suite@test.com", "suite");
+  apiKey = createApiKey(suite.account_id, "suite-key").rawKey;
+  const free = createAccount("MCP Free", "mcp-free@test.com", "free");
+  freeApiKey = createApiKey(free.account_id, "free-key").rawKey;
 });
 
 afterAll(async () => {
@@ -337,6 +337,7 @@ describe("POST /mcp — tools/call list_programs", () => {
     expect(parsed.total_generators).toBeGreaterThan(0);
     expect(Array.isArray(parsed.free_programs)).toBe(true);
     expect(Array.isArray(parsed.pro_programs)).toBe(true);
+    expect(parsed.discovery_to_paid_path.step_3).toContain("prepare_for_agentic_purchasing");
   });
 
   it("free programs include search, skills, debug", async () => {
@@ -411,6 +412,36 @@ describe("POST /mcp — tools/call analyze_files", () => {
     expect(content[0].text).toContain("Invalid or revoked API key");
   });
 
+  it("returns structured payment-required JSON for free-tier full analysis", async () => {
+    const r = await post(
+      "/mcp",
+      {
+        jsonrpc: "2.0",
+        id: 111,
+        method: "tools/call",
+        params: {
+          name: "analyze_files",
+          arguments: {
+            project_name: "test",
+            project_type: "web_application",
+            frameworks: ["react"],
+            goals: ["Generate full bundle"],
+            files: testFiles,
+          },
+        },
+      },
+      freeApiKey,
+    );
+    expect(r.status).toBe(200);
+    const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
+    expect(result.isError).toBe(true);
+    const content = result.content as Array<{ text: string }>;
+    const parsed = JSON.parse(content[0].text);
+    expect(parsed.error).toBe("Payment Required");
+    expect(parsed.price).toBe("0.50");
+    expect(parsed.referral_token).toBeTruthy();
+  });
+
   it("succeeds with valid API key and returns artifacts", async () => {
     const r = await post(
       "/mcp",
@@ -440,6 +471,7 @@ describe("POST /mcp — tools/call analyze_files", () => {
     expect(parsed.status).toBe("ready");
     expect(Array.isArray(parsed.artifacts)).toBe(true);
     expect(parsed.artifact_count).toBeGreaterThan(0);
+    expect(parsed.snapshot_summary.pro_unlock).toContain("15 more programs");
     snapshotId = parsed.snapshot_id; // save for subsequent tests
   });
 
@@ -1133,7 +1165,6 @@ describe("POST /mcp — branch coverage: anonymous snapshots", () => {
         },
         files: [],
       },
-      // @ts-expect-error — intentionally creating anonymous snapshot for branch coverage
       undefined,
     );
     anonSnapshotId = snap.snapshot_id;
@@ -1386,9 +1417,10 @@ describe("getMcpServerMeta — shape and content", () => {
     expect(typeof server.endpoint).toBe("string");
   });
 
-  it("server.name is axis-iliad", () => {
+  it("server.name is the branded registry name", () => {
     const server = getMcpServerMeta().server as Record<string, unknown>;
-    expect(server.name).toBe("axis-iliad");
+    expect(server.name).toBe("Axis' Iliad");
+    expect(server.slug).toBe("axis-iliad");
   });
 
   it("server.endpoint points to production MCP HTTP endpoint", () => {
@@ -1452,11 +1484,19 @@ describe("GET /v1/mcp/server.json", () => {
     expect(ct).toContain("application/json");
   });
 
-  it("body contains server.name=axis-iliad", async () => {
+  it("body contains branded server name and slug", async () => {
     const r = await get("/v1/mcp/server.json");
     const data = r.data as Record<string, unknown>;
     const server = data.server as Record<string, unknown>;
-    expect(server.name).toBe("axis-iliad");
+    expect(server.name).toBe("Axis' Iliad");
+    expect(server.slug).toBe("axis-iliad");
+  });
+
+  it("body contains registry version 0.5.0", async () => {
+    const r = await get("/v1/mcp/server.json");
+    const data = r.data as Record<string, unknown>;
+    const server = data.server as Record<string, unknown>;
+    expect(server.version).toBe("0.5.0");
   });
 
   it("body contains server.endpoint", async () => {
@@ -1551,6 +1591,8 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
     expect(parsed.shareable_manifest).toBeDefined();
     expect(typeof parsed.system_prompt_snippet).toBe("string");
     expect(parsed.shareable_manifest.tools).toBe(12);
+    expect(parsed.shareable_manifest.name).toBe("Axis' Iliad");
+    expect(parsed.shareable_manifest.version).toBe("0.5.0");
   });
 
   it("tool name appears in MCP_TOOLS", () => {

@@ -4,7 +4,7 @@
  */
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
-import { openMemoryDb, closeDb } from "@axis/snapshots";
+import { openMemoryDb, closeDb, createAccount, createApiKey } from "@axis/snapshots";
 import { Router, createApp } from "./router.js";
 import {
   handleAnalyze,
@@ -20,6 +20,7 @@ async function req(
   method: string,
   path: string,
   body?: unknown,
+  authKey?: string,
 ): Promise<{ status: number; data: unknown }> {
   return new Promise((resolve, reject) => {
     const payload = body !== undefined ? JSON.stringify(body) : undefined;
@@ -32,6 +33,7 @@ async function req(
         headers: {
           "Content-Type": "application/json",
           ...(payload ? { "Content-Length": Buffer.byteLength(payload) } : {}),
+          ...(authKey ? { "Authorization": `Bearer ${authKey}` } : {}),
         },
       },
       (res: import("node:http").IncomingMessage) => {
@@ -53,6 +55,8 @@ async function req(
 
 const TEST_PORT = 44510;
 let server: Server;
+let suiteApiKey = "";
+let freeApiKey = "";
 
 const minFiles = [
   { path: "package.json", content: '{"name":"test-project","dependencies":{"react":"18.0.0"}}' },
@@ -62,6 +66,10 @@ const minFiles = [
 
 beforeAll(async () => {
   openMemoryDb();
+  const suite = createAccount("analyze-suite", "analyze-suite@test.local", "suite");
+  suiteApiKey = createApiKey(suite.account_id).rawKey;
+  const free = createAccount("analyze-free", "analyze-free@test.local", "free");
+  freeApiKey = createApiKey(free.account_id).rawKey;
   const router = new Router();
   router.post("/v1/analyze", handleAnalyze);
   router.get("/.well-known/axis.json", handleWellKnown);
@@ -282,9 +290,24 @@ describe("POST /v1/analyze — validation", () => {
     const r = await req("POST", "/v1/analyze", {
       files: minFiles,
     });
-    // Anonymous (no auth header) is ok on free tier — 201 expected
-    // This tests that the handler doesn't crash; covered by auth unit tests
     expect([201, 401]).toContain(r.status);
+  });
+
+  it("gates full-bundle analysis for anonymous callers", async () => {
+    const r = await req("POST", "/v1/analyze", { files: minFiles });
+    expect(r.status).toBe(401);
+    const data = r.data as Record<string, unknown>;
+    expect(data.error_code).toBe("AUTH_REQUIRED");
+  });
+
+  it("returns 402 for free-tier callers requesting the full bundle", async () => {
+    const r = await req("POST", "/v1/analyze", { files: minFiles }, freeApiKey);
+    expect(r.status).toBe(402);
+    const data = r.data as Record<string, unknown>;
+    expect(data.error_code).toBe("TIER_REQUIRED");
+    expect(data.error).toBe("Payment Required");
+    expect(data.price).toBe("0.50");
+    expect(data.referral_token).toBeTruthy();
   });
 });
 
@@ -294,7 +317,7 @@ describe("POST /v1/analyze — files mode", () => {
   let result: Record<string, unknown>;
 
   beforeAll(async () => {
-    const r = await req("POST", "/v1/analyze", { files: minFiles });
+    const r = await req("POST", "/v1/analyze", { files: minFiles }, suiteApiKey);
     expect(r.status).toBe(201);
     result = r.data as Record<string, unknown>;
   });
@@ -379,6 +402,14 @@ describe("POST /v1/analyze — programs filter", () => {
     expect(r.status).toBe(201);
     const data = r.data as Record<string, unknown>;
     expect((data.files as unknown[]).length).toBe(0);
+  });
+
+  it("suite tier can request the full 86-artifact bundle", async () => {
+    const r = await req("POST", "/v1/analyze", { files: minFiles }, suiteApiKey);
+    expect(r.status).toBe(201);
+    const data = r.data as Record<string, unknown>;
+    expect((data.total_files as number)).toBeGreaterThan(20);
+    expect((data.snapshot_summary as Record<string, unknown>).pro_unlock).toContain("15 more programs");
   });
 });
 

@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { chargeMpp, parseAgentBudget, resolveAgentMode, negotiatePrice, build402NegotiationBody, getPricingTier } from "./mpp.js";
+import type { AgentBudget } from "./mpp.js";
 import { classifyProbe, captureIntent } from "./mcp-server.js";
 import {
   createSnapshot,
@@ -72,6 +73,19 @@ async function chargeWithDiscounts(
     recordPaidCall(accountId);
   }
   return result;
+}
+
+function buildPaymentRequiredPayload(
+  tool: string,
+  message: string,
+  budget?: AgentBudget,
+  accountId?: string,
+): Record<string, unknown> {
+  const referralToken = accountId ? createReferralCode(accountId).code : null;
+  return build402NegotiationBody(tool, budget, {
+    message,
+    referral_token: referralToken,
+  });
 }
 
 // ─── Ownership helpers ──────────────────────────────────────────
@@ -168,11 +182,12 @@ export function makeProgramHandler(program: string, defaultOutputs: string[]) {
 
         if (mppResult === null) {
           // MPP not configured � return 402 with negotiation data
-          sendError(res, 402, ErrorCode.TIER_REQUIRED, `${program} requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing.`, {
+          const paymentMessage = `${program} requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing.`;
+          sendError(res, 402, ErrorCode.TIER_REQUIRED, paymentMessage, {
             program,
             tier: auth.account.tier,
             price_per_call: `$${(amountCents / 100).toFixed(2)}`,
-            ...build402NegotiationBody(program, budget),
+            ...buildPaymentRequiredPayload(program, paymentMessage, budget, auth.account.account_id),
           });
         }
         // 402 challenge issued or payment failed � stop processing
@@ -358,10 +373,11 @@ export async function handleCreateSnapshot(
           meta: { account_id: auth.account.account_id, tier: auth.account.tier, mode },
         });
         if (mppResult === null) {
+          const paymentMessage = quota.reason ?? "Quota exceeded";
           sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", {
             tier: quota.tier,
             usage: quota.usage,
-            ...build402NegotiationBody("analyze_repo", budget),
+            ...buildPaymentRequiredPayload("analyze_repo", paymentMessage, budget, auth.account.account_id),
           });
         }
         if (mppResult === null || mppResult.status === 402) return;
@@ -408,16 +424,17 @@ export async function handleCreateSnapshot(
       });
 
       if (mppResult === null) {
+        const paymentMessage = `Free tier includes 3 programs (search, skills, debug). Upgrade to Pro to unlock: ${proList.join(", ")}.`;
         // MPP not configured — return 402 with negotiation data
         sendError(res, 402, ErrorCode.TIER_REQUIRED,
-          `Free tier includes 3 programs (search, skills, debug). Upgrade to Pro to unlock: ${proList.join(", ")}.`,
+          paymentMessage,
           {
             blocked_programs: proList,
             allowed_programs: [...allowedPrograms].sort(),
             upgrade_url: "https://axis-iliad.jonathanarvay.com/#plans",
             tier: auth.account.tier,
             price_per_call: `$${(amountCents / 100).toFixed(2)}`,
-            ...build402NegotiationBody("analyze_repo", budget),
+            ...buildPaymentRequiredPayload("analyze_repo", paymentMessage, budget, auth.account.account_id),
           },
         );
       }
@@ -442,8 +459,9 @@ export async function handleCreateSnapshot(
       const pricing = getPricingTier("analyze_repo");
       const mode = resolveAgentMode(req);
       const amountCents = mode === "lite" ? pricing.lite_cents : pricing.standard_cents;
+      const paymentMessage = `Free tier includes 3 programs (search, skills, debug). Sign up or upgrade to Pro to unlock: ${proList.join(", ")}.`;
       sendError(res, 402, ErrorCode.TIER_REQUIRED,
-        `Free tier includes 3 programs (search, skills, debug). Sign up or upgrade to Pro to unlock: ${proList.join(", ")}.`,
+        paymentMessage,
         {
           blocked_programs: proList,
           allowed_programs: [...anonAllowed].sort(),
@@ -451,7 +469,7 @@ export async function handleCreateSnapshot(
           tier: "anonymous",
           price_per_call: `$${(amountCents / 100).toFixed(2)}`,
           create_account_url: "https://axis-api-6c7z.onrender.com/v1/accounts",
-          ...build402NegotiationBody("analyze_repo", budget),
+          ...buildPaymentRequiredPayload("analyze_repo", paymentMessage, budget),
         },
       );
       return;
@@ -906,10 +924,11 @@ export async function handleGitHubAnalyze(
         meta: { account_id: auth.account.account_id, tier: auth.account.tier, mode },
       });
       if (mppResult === null) {
+        const paymentMessage = quota.reason ?? "Quota exceeded";
         sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", {
           tier: quota.tier,
           usage: quota.usage,
-          ...build402NegotiationBody("analyze_repo", budget),
+          ...buildPaymentRequiredPayload("analyze_repo", paymentMessage, budget, auth.account.account_id),
         });
       }
       if (mppResult === null || mppResult.status === 402) return;
@@ -1382,11 +1401,26 @@ export async function handleAnalyze(
     githubMeta = undefined;
   }
 
+  const requestedPaidPrograms = requestedPrograms === undefined
+    ? ALL_PROGRAMS.filter(program => !FREE_PROGRAMS.has(program))
+    : requestedPrograms.filter(program => !FREE_PROGRAMS.has(program));
+
+  if (requestedPaidPrograms.length > 0 && !auth.account) {
+    sendError(
+      res,
+      401,
+      ErrorCode.AUTH_REQUIRED,
+      "Full AXIS analysis requires authentication. Use list_programs, search_and_discover_tools, or request only free programs (search, skills, debug) to stay on the free path.",
+      { requested_paid_programs: requestedPaidPrograms },
+    );
+    return;
+  }
+
   if (auth.account) {
-    // Enforce program-level billing FIRST: check which pro programs the user lacks access to
-    if (requestedPrograms) {
-      const blockedPrograms = requestedPrograms.filter(
-        p => !FREE_PROGRAMS.has(p) && !isProgramEnabled(auth.account!.account_id, p),
+    // Enforce program-level billing FIRST: check which paid programs the user lacks access to.
+    if (requestedPaidPrograms.length > 0) {
+      const blockedPrograms = requestedPaidPrograms.filter(
+        p => !isProgramEnabled(auth.account!.account_id, p),
       );
       if (blockedPrograms.length > 0) {
         const budget = parseAgentBudget(req);
@@ -1400,11 +1434,12 @@ export async function handleAnalyze(
           meta: { account_id: auth.account.account_id, tier: auth.account.tier, programs: blockedPrograms.join(","), mode },
         });
         if (mppResult === null) {
-          sendError(res, 402, ErrorCode.TIER_REQUIRED, `Pro programs require a paid plan or per-call payment: ${blockedPrograms.join(", ")}. Upgrade at axis-iliad.jonathanarvay.com/billing.`, {
+          const paymentMessage = `analyze_repo requires $${(amountCents / 100).toFixed(2)} MPP credit (or Pro tier). This returns the full ${ARTIFACT_COUNT}-artifact AXIS bundle. Upgrade at axis-iliad.jonathanarvay.com/billing.`;
+          sendError(res, 402, ErrorCode.TIER_REQUIRED, paymentMessage, {
             blocked_programs: blockedPrograms,
             tier: auth.account.tier,
             price_per_call: `$${(amountCents / 100).toFixed(2)}`,
-            ...build402NegotiationBody("analyze_repo", budget),
+            ...buildPaymentRequiredPayload("analyze_repo", paymentMessage, budget, auth.account.account_id),
           });
         }
         if (mppResult === null || mppResult.status === 402) return;
@@ -1426,10 +1461,11 @@ export async function handleAnalyze(
         meta: { account_id: auth.account.account_id, tier: auth.account.tier, mode },
       });
       if (mppResult === null) {
+        const paymentMessage = quota.reason ?? "Quota exceeded";
         sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", {
           tier: quota.tier,
           usage: quota.usage,
-          ...build402NegotiationBody("analyze_repo", budget),
+          ...buildPaymentRequiredPayload("analyze_repo", paymentMessage, budget, auth.account.account_id),
         });
       }
       if (mppResult === null || mppResult.status === 402) return;
@@ -1527,6 +1563,9 @@ export async function handleAnalyze(
       snapshot_id: snapshot.snapshot_id,
       project_id: snapshot.project_id,
       status: "ready",
+      snapshot_summary: {
+        pro_unlock: "Pro unlock: 15 more programs + full compliance + purchasing readiness artifacts ($0.50/run or $29/mo).",
+      },
       analysis: {
         project_name: projectName,
         language: contextMap.project_identity.primary_language,
@@ -1753,11 +1792,12 @@ export async function handlePreparePurchasing(
       });
 
       if (mppResult === null) {
-        sendError(res, 402, ErrorCode.TIER_REQUIRED, `prepare_for_agentic_purchasing requires a paid plan or per-call payment. Upgrade at axis-iliad.jonathanarvay.com/billing.`, {
+        const paymentMessage = `prepare_for_agentic_purchasing requires $${(amountCents / 100).toFixed(2)} MPP credit (or Pro tier). This returns Purchasing Readiness Score + full hardening artifacts. Upgrade at axis-iliad.jonathanarvay.com/billing.`;
+        sendError(res, 402, ErrorCode.TIER_REQUIRED, paymentMessage, {
           blocked_programs: blockedPrograms,
           tier: auth.account.tier,
           price_per_call: `$${(amountCents / 100).toFixed(2)}`,
-          ...build402NegotiationBody("prepare_for_agentic_purchasing", budget),
+          ...buildPaymentRequiredPayload("prepare_for_agentic_purchasing", paymentMessage, budget, auth.account.account_id),
         });
       }
       if (mppResult === null || mppResult.status === 402) return;
@@ -1783,7 +1823,7 @@ export async function handlePreparePurchasing(
         sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", {
           tier: quota.tier,
           usage: quota.usage,
-          ...build402NegotiationBody("prepare_for_agentic_purchasing", budget),
+          ...buildPaymentRequiredPayload("prepare_for_agentic_purchasing", quota.reason ?? "Quota exceeded", budget, auth.account.account_id),
         });
       }
       if (mppResult === null || mppResult.status === 402) return;
@@ -1902,6 +1942,12 @@ export async function handlePreparePurchasing(
       snapshot_id: snapshot.snapshot_id,
       project_id: snapshot.project_id,
       status: "ready",
+      upgrade_offer: {
+        agent_conversion_message: `This codebase is ${score}% ready for autonomous spending. Upgrade to Pro for the full 86-artifact hardening bundle + $0.15 lite mode option.`,
+        plan: "$29/month",
+        standard_run: "$0.50/run",
+        lite_from: "$0.15/run",
+      },
       purchasing_readiness_score: score,
       score_breakdown: {
         strengths,
