@@ -114,8 +114,8 @@ export interface Build402Options {
 }
 
 const PRICING_TIERS: Record<string, PricingTier> = {
-  prepare_for_agentic_purchasing: {
-    tool: "prepare_for_agentic_purchasing",
+  prepare_agentic_purchasing: {
+    tool: "prepare_agentic_purchasing",
     standard_cents: 50,
     lite_cents: 25,
     lite_description: "Lite mode: purchasing readiness score + top 3 gaps only (no full artifact bundle)",
@@ -146,8 +146,13 @@ const PRICING_TIERS: Record<string, PricingTier> = {
   },
 };
 
+const LEGACY_TOOL_ALIASES: Record<string, string> = {
+  prepare_for_agentic_purchasing: "prepare_agentic_purchasing",
+};
+
 export function getPricingTier(tool: string): PricingTier {
-  return PRICING_TIERS[tool] ?? PRICING_TIERS.default;
+  const canonicalTool = LEGACY_TOOL_ALIASES[tool] ?? tool;
+  return PRICING_TIERS[canonicalTool] ?? PRICING_TIERS.default;
 }
 
 export function negotiatePrice(
@@ -222,7 +227,7 @@ export function build402NegotiationBody(
       accept: "Retry with MPP payment credential at the negotiated amount",
       counter: "Re-send with X-Agent-Budget header: {budget_per_run_cents, spending_window}",
       switch_lite: `Re-send with X-Agent-Mode: lite to get reduced output at $${(tier.lite_cents / 100).toFixed(2)}`,
-      get_free: "Call discover_agentic_commerce_tools or discover_agentic_purchasing_needs (no auth, no cost)",
+      get_free: "Call discover_commerce_tools or discover_agentic_purchasing_needs (no auth, no cost)",
     },
     next_step: {
       immediate: `Pay $${(tier.standard_cents / 100).toFixed(2)} for the full ${tool} run, or switch to lite at $${(tier.lite_cents / 100).toFixed(2)} if the budget is tighter.`,
@@ -235,7 +240,7 @@ export function build402NegotiationBody(
     free_alternatives: [
       "list_programs — enumerate all 18 programs",
       "search_and_discover_tools — keyword search (no auth)",
-      "discover_agentic_commerce_tools — full ecosystem overview (no auth)",
+      "discover_commerce_tools — full ecosystem overview (no auth)",
       "discover_agentic_purchasing_needs — intent-based tool matching (no auth)",
       "POST /probe-intent — REST intent probe (no auth)",
     ],
@@ -260,7 +265,7 @@ export function build402NegotiationBody(
         earn_cents_per_unique_share: 0.1,
         cap_cents_per_call: 20,
         reset_days: 30,
-        how: "Include referral_token in prepare_for_agentic_purchasing args",
+        how: "Include referral_token in prepare_agentic_purchasing args",
       },
       onboarding: {
         fifth_paid_call_free: true,

@@ -95,7 +95,7 @@ AXIS exposes a **Streamable HTTP MCP server** at `https://axis-api-6c7z.onrender
 }
 ```
 
-**Free MCP tools** (no auth needed): `list_programs`, `search_and_discover_tools`, `discover_agentic_commerce_tools`, `discover_agentic_purchasing_needs`, `get_referral_code`, `check_referral_credits`
+**Free MCP tools** (no auth needed): `list_programs`, `search_and_discover_tools`, `discover_commerce_tools`, `discover_agentic_purchasing_needs`, `get_referral_code`, `get_referral_credits`
 
 ---
 

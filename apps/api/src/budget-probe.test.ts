@@ -122,9 +122,9 @@ afterAll(async () => {
 // ═════════════════════════════════════════════════════════════════
 
 describe("getPricingTier", () => {
-  it("returns correct tier for prepare_for_agentic_purchasing", () => {
-    const tier = getPricingTier("prepare_for_agentic_purchasing");
-    expect(tier.tool).toBe("prepare_for_agentic_purchasing");
+  it("returns correct tier for prepare_agentic_purchasing", () => {
+    const tier = getPricingTier("prepare_agentic_purchasing");
+    expect(tier.tool).toBe("prepare_agentic_purchasing");
     expect(tier.standard_cents).toBe(50);
     expect(tier.lite_cents).toBe(25);
   });
@@ -155,14 +155,14 @@ describe("getPricingTier", () => {
   });
 
   it("all tiers have lite_cents <= standard_cents", () => {
-    for (const tool of ["prepare_for_agentic_purchasing", "analyze_repo", "analyze_files", "improve_my_agent_with_axis", "default"]) {
+    for (const tool of ["prepare_agentic_purchasing", "analyze_repo", "analyze_files", "improve_my_agent_with_axis", "default"]) {
       const tier = getPricingTier(tool);
       expect(tier.lite_cents).toBeLessThanOrEqual(tier.standard_cents);
     }
   });
 
   it("all tiers have non-empty lite_description", () => {
-    for (const tool of ["prepare_for_agentic_purchasing", "analyze_repo", "improve_my_agent_with_axis"]) {
+    for (const tool of ["prepare_agentic_purchasing", "analyze_repo", "improve_my_agent_with_axis"]) {
       const tier = getPricingTier(tool);
       expect(tier.lite_description.length).toBeGreaterThan(0);
     }
@@ -222,8 +222,8 @@ describe("negotiatePrice", () => {
     expect(result.accepted).toBe(false);
   });
 
-  it("uses tool-specific lite pricing for prepare_for_agentic_purchasing", () => {
-    const result = negotiatePrice({ budget_per_run_cents: 30 }, "prepare_for_agentic_purchasing");
+  it("uses tool-specific lite pricing for prepare_agentic_purchasing", () => {
+    const result = negotiatePrice({ budget_per_run_cents: 30 }, "prepare_agentic_purchasing");
     expect(result.amount_cents).toBe(25);
     expect(result.mode).toBe("lite");
     expect(result.accepted).toBe(true);
@@ -294,7 +294,7 @@ describe("build402NegotiationBody", () => {
   });
 
   it("includes agent_message and actionable next_step guidance", () => {
-    const body = build402NegotiationBody("prepare_for_agentic_purchasing");
+    const body = build402NegotiationBody("prepare_agentic_purchasing");
     expect(String(body.agent_message)).toContain("Retry with an MPP credential");
     const nextStep = body.next_step as Record<string, unknown>;
     expect(String(nextStep.immediate)).toContain("Pay $0.50");
@@ -318,13 +318,13 @@ describe("build402NegotiationBody", () => {
   });
 
   it("switch_lite action contains dollar amount", () => {
-    const body = build402NegotiationBody("prepare_for_agentic_purchasing");
+    const body = build402NegotiationBody("prepare_agentic_purchasing");
     const actions = body.actions as Record<string, string>;
     expect(actions.switch_lite).toContain("$0.25");
   });
 
   it("includes compliance_value with CE 3.0 and win probability", () => {
-    const body = build402NegotiationBody("prepare_for_agentic_purchasing");
+    const body = build402NegotiationBody("prepare_agentic_purchasing");
     const cv = body.compliance_value as Record<string, unknown>;
     expect(cv).toBeDefined();
     expect(cv.what_you_get).toContain("Visa-grade");

@@ -125,13 +125,13 @@ const MCP_TOOLS = [
   { tool: "list_programs",                 auth: false, desc: "List all 18 programs and their generators with tier info." },
   { tool: "get_snapshot",                  auth: false, desc: "Get status and full artifact listing for a prior snapshot_id." },
   { tool: "get_artifact",                  auth: false, desc: "Read full content of any artifact by path (AGENTS.md, .ai/debug-playbook.md, etc.)." },
-  { tool: "prepare_for_agentic_purchasing",auth: true,  desc: "Full purchasing-readiness audit. Returns score 0â€“100, AP2/Visa compliance, playbooks, checkout rules, MCP config." },
+  { tool: "prepare_agentic_purchasing",auth: true,  desc: "Full purchasing-readiness audit. Returns score 0â€“100, AP2/Visa compliance, playbooks, checkout rules, MCP config." },
   { tool: "search_and_discover_tools",     auth: false, desc: "Keyword search across all 18 programs. Use before loading full schemas." },
-  { tool: "discover_agentic_commerce_tools",auth: false, desc: "Free overview of all AXIS tools with pricing, install configs, and shareable manifest." },
+  { tool: "discover_commerce_tools",auth: false, desc: "Free overview of all AXIS tools with pricing, install configs, and shareable manifest." },
   { tool: "improve_my_agent_with_axis",     auth: true,  desc: "Analyze your agent's codebase, get improvement plan + missing context files + MCP config." },
   { tool: "discover_agentic_purchasing_needs", auth: false, desc: "Describe your commerce/compliance need — get tailored AXIS tool recommendations. Free intent probe." },
   { tool: "get_referral_code",              auth: true,  desc: "Get your referral token for share-to-earn micro-discounts." },
-  { tool: "check_referral_credits",         auth: true,  desc: "Check referral earnings, conversions, discount tier, and free calls remaining." },
+  { tool: "get_referral_credits",           auth: true,  desc: "Check referral earnings, conversions, discount tier, and free calls remaining." },
 ];
 
 // â”€â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -148,7 +148,7 @@ REST base:    ${API_BASE}
 API key env:  AXIS_API_KEY
 
 Available tools (via MCP or REST):
-- prepare_for_agentic_purchasing  â†’ full purchasing-readiness audit (score 0-100, AP2/Visa compliance, playbooks)
+- prepare_agentic_purchasing      â†’ full purchasing-readiness audit (score 0-100, AP2/Visa compliance, playbooks)
 - analyze_repo                    → generate 86 artifacts from any GitHub URL
 - analyze_files                   → generate 86 artifacts from inline [{path,content}] files
 - search_and_discover_tools       â†’ find the right program by keyword (no auth)
@@ -170,11 +170,11 @@ challenge, complete the Stripe payment for $0.50, and retry with the credential.
 
 # When to call Axis' Iliad:
 # - Before working on an unfamiliar codebase: call analyze_repo to get AGENTS.md + .cursorrules
-# - When asked about purchasing readiness or agentic commerce: call prepare_for_agentic_purchasing
+# - When asked about purchasing readiness or agentic commerce: call prepare_agentic_purchasing
 # - To discover programs: call search_and_discover_tools with a keyword (no auth required)
 # - To read generated files: call get_artifact with snapshot_id + path
 
-# Key tool: prepare_for_agentic_purchasing
+# Key tool: prepare_agentic_purchasing
 # Returns: Purchasing Readiness Score (0-100), AP2/UCP/Visa compliance checklist,
 #          negotiation playbook, autonomous checkout rules, MCP config
 # Auth required, $0.50/run via MPP if quota exceeded`;
@@ -186,7 +186,7 @@ challenge, complete the Stripe payment for $0.50, and retry with the credential.
   "transport": "mcp-http-2025-03-26",
   "auth": { "type": "bearer", "env_key": "AXIS_API_KEY" },
   "tools_no_auth": ["list_programs", "get_snapshot", "get_artifact", "search_and_discover_tools"],
-  "tools_auth": ["analyze_repo", "analyze_files", "prepare_for_agentic_purchasing"],
+  "tools_auth": ["analyze_repo", "analyze_files", "prepare_agentic_purchasing"],
   "payment": {
     "protocol": "mppx-0.5.12",
     "on_402": "parse WWW-Authenticate mppx challenge, pay $0.50 via Stripe, retry with credential"
@@ -280,7 +280,7 @@ Action: Add negotiation-rules.md + Visa IC fields to reach 86+`;
   "method": "tools/call",
   "id": 1,
   "params": {
-    "name": "prepare_for_agentic_purchasing",
+    "name": "prepare_agentic_purchasing",
     "arguments": {
       "project_name": "my-storefront",
       "project_type": "web_application",
@@ -353,7 +353,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
               <span style={{ fontSize: "0.65rem", fontWeight: 700, padding: "2px 7px", borderRadius: 99, background: "var(--accent)", color: "#fff", letterSpacing: "0.04em", textTransform: "uppercase" }}>For Agents</span>
             </div>
             <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", maxWidth: 580 }}>
-              The definitive MCP server for hardening any codebase for autonomous agentic purchasing. One call to <code style={{ fontFamily: "var(--mono)", fontSize: "0.9rem" }}>prepare_for_agentic_purchasing</code> returns a Purchasing Readiness Score, AP2/UCP/Visa compliance checklist, negotiation playbook, autonomous checkout rules, scoped product schemas, and self-onboarding MCP configs — from any repo.
+              The definitive MCP server for hardening any codebase for autonomous agentic purchasing. One call to <code style={{ fontFamily: "var(--mono)", fontSize: "0.9rem" }}>prepare_agentic_purchasing</code> returns a Purchasing Readiness Score, AP2/UCP/Visa compliance checklist, negotiation playbook, autonomous checkout rules, scoped product schemas, and self-onboarding MCP configs — from any repo.
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end", flexShrink: 0 }}>
@@ -388,7 +388,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
           <>
             <CodeBlock code={claudePrompt} lang="system prompt" />
             <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: 10 }}>
-              Paste into Claude â†’ Project â†’ Instructions. Claude will call <code style={{ fontFamily: "var(--mono)", fontSize: "0.78rem" }}>prepare_for_agentic_purchasing</code> or <code style={{ fontFamily: "var(--mono)", fontSize: "0.78rem" }}>analyze_repo</code> via MCP when you reference an unfamiliar codebase.
+              Paste into Claude â†’ Project â†’ Instructions. Claude will call <code style={{ fontFamily: "var(--mono)", fontSize: "0.78rem" }}>prepare_agentic_purchasing</code> or <code style={{ fontFamily: "var(--mono)", fontSize: "0.78rem" }}>analyze_repo</code> via MCP when you reference an unfamiliar codebase.
             </p>
           </>
         )}
@@ -489,10 +489,10 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
         </div>
       </div>
 
-      {/* â”€â”€ prepare_for_agentic_purchasing â”€â”€ */}
+      {/* â”€â”€ prepare_agentic_purchasing â”€â”€ */}
       <div className="card" style={{ marginBottom: 24 }}>
         <SectionHeader
-          title="prepare_for_agentic_purchasing"
+          title="prepare_agentic_purchasing"
           subtitle="The single correct first call before any autonomous agent spends money on or with a codebase. Chains 10 programs, returns score 0â€“100 + full commerce artifact bundle."
           tag="Pro"
         />
@@ -556,7 +556,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
       <div className="card" style={{ marginBottom: 24 }}>
         <SectionHeader
           title="Live Demo â€” Example Output"
-          subtitle="Representative output from prepare_for_agentic_purchasing on a Stripe-integrated storefront."
+          subtitle="Representative output from prepare_agentic_purchasing on a Stripe-integrated storefront."
           tag="Demo"
         />
         <TabBar tabs={["Score", "Checkout Rules", "AP2 Compliance"]} active={demoTab} onChange={setDemoTab} />
@@ -641,7 +641,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
 
         <div style={{ padding: "10px 14px", border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--bg)", fontSize: "0.73rem", color: "var(--text-muted)" }}>
 
-          <code style={{ fontFamily: "var(--mono)", color: "var(--accent)" }}>prepare_for_agentic_purchasing</code> checks AP2, UCP, and Visa IC compliance automatically and returns a per-provider checklist with exact missing fields and fix instructions.
+          <code style={{ fontFamily: "var(--mono)", color: "var(--accent)" }}>prepare_agentic_purchasing</code> checks AP2, UCP, and Visa IC compliance automatically and returns a per-provider checklist with exact missing fields and fix instructions.
 
         </div>
 
@@ -747,7 +747,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
 
             <div style={{ marginTop: 10, padding: "10px 12px", border: "1px solid var(--border)", borderRadius: "var(--radius)", fontSize: "0.72rem", color: "var(--text-muted)" }}>
 
-              <strong style={{ color: "var(--text)" }}>Re-score anytime: </strong>call <code style={{ fontFamily: "var(--mono)", color: "var(--accent)" }}>prepare_for_agentic_purchasing</code> again after adding artifacts. Score is deterministic â€” same input always yields same score.
+              <strong style={{ color: "var(--text)" }}>Re-score anytime: </strong>call <code style={{ fontFamily: "var(--mono)", color: "var(--accent)" }}>prepare_agentic_purchasing</code> again after adding artifacts. Score is deterministic â€” same input always yields same score.
 
             </div>
 

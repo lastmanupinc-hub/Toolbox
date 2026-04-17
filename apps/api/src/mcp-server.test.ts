@@ -362,7 +362,7 @@ describe("POST /mcp — tools/call list_programs", () => {
     expect(parsed.total_generators).toBeGreaterThan(0);
     expect(Array.isArray(parsed.free_programs)).toBe(true);
     expect(Array.isArray(parsed.pro_programs)).toBe(true);
-    expect(parsed.discovery_to_paid_path.step_3).toContain("prepare_for_agentic_purchasing");
+    expect(parsed.discovery_to_paid_path.step_3).toContain("prepare_agentic_purchasing");
   });
 
   it("free programs include search, skills, debug", async () => {
@@ -1552,15 +1552,15 @@ describe("GET /v1/mcp/server.json", () => {
   });
 });
 
-// ─── POST /mcp — tools/call discover_agentic_commerce_tools ─────
+// ─── POST /mcp — tools/call discover_commerce_tools ─────────────
 
-describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
+describe("POST /mcp — tools/call discover_commerce_tools", () => {
   it("returns tool overview with install configs (no auth required)", async () => {
     const r = await post("/mcp", {
       jsonrpc: "2.0",
       id: 60,
       method: "tools/call",
-      params: { name: "discover_agentic_commerce_tools", arguments: {} },
+      params: { name: "discover_commerce_tools", arguments: {} },
     });
     expect(r.status).toBe(200);
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
@@ -1578,13 +1578,13 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
       jsonrpc: "2.0",
       id: 61,
       method: "tools/call",
-      params: { name: "discover_agentic_commerce_tools", arguments: {} },
+      params: { name: "discover_commerce_tools", arguments: {} },
     });
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
     const content = result.content as Array<{ type: string; text: string }>;
     const parsed = JSON.parse(content[0].text);
     expect(Array.isArray(parsed.free_tools)).toBe(true);
-    expect(parsed.free_tools).toContain("discover_agentic_commerce_tools");
+    expect(parsed.free_tools).toContain("discover_commerce_tools");
   });
 
   it("includes install section with platform configs", async () => {
@@ -1592,7 +1592,7 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
       jsonrpc: "2.0",
       id: 62,
       method: "tools/call",
-      params: { name: "discover_agentic_commerce_tools", arguments: {} },
+      params: { name: "discover_commerce_tools", arguments: {} },
     });
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
     const content = result.content as Array<{ type: string; text: string }>;
@@ -1608,7 +1608,7 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
       jsonrpc: "2.0",
       id: 63,
       method: "tools/call",
-      params: { name: "discover_agentic_commerce_tools", arguments: {} },
+      params: { name: "discover_commerce_tools", arguments: {} },
     });
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
     const content = result.content as Array<{ type: string; text: string }>;
@@ -1622,7 +1622,7 @@ describe("POST /mcp — tools/call discover_agentic_commerce_tools", () => {
 
   it("tool name appears in MCP_TOOLS", () => {
     const names = MCP_TOOLS.map(t => t.name);
-    expect(names).toContain("discover_agentic_commerce_tools");
+    expect(names).toContain("discover_commerce_tools");
   });
 });
 
@@ -1793,15 +1793,15 @@ describe("POST /mcp — tools/call get_referral_code", () => {
   });
 });
 
-// ─── POST /mcp — tools/call check_referral_credits ──────────────
+// ─── POST /mcp — tools/call get_referral_credits ────────────────
 
-describe("POST /mcp — tools/call check_referral_credits", () => {
+describe("POST /mcp — tools/call get_referral_credits", () => {
   it("requires authentication", async () => {
     const r = await post("/mcp", {
       jsonrpc: "2.0",
       id: 100,
       method: "tools/call",
-      params: { name: "check_referral_credits", arguments: {} },
+      params: { name: "get_referral_credits", arguments: {} },
     });
     expect(r.status).toBe(200);
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
@@ -1817,7 +1817,7 @@ describe("POST /mcp — tools/call check_referral_credits", () => {
       jsonrpc: "2.0",
       id: 101,
       method: "tools/call",
-      params: { name: "check_referral_credits", arguments: {} },
+      params: { name: "get_referral_credits", arguments: {} },
     }, apiKey);
     expect(r.status).toBe(200);
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
@@ -1841,7 +1841,7 @@ describe("POST /mcp — tools/call check_referral_credits", () => {
       jsonrpc: "2.0",
       id: 102,
       method: "tools/call",
-      params: { name: "check_referral_credits", arguments: {} },
+      params: { name: "get_referral_credits", arguments: {} },
     }, apiKey);
     const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
     const content = result.content as Array<{ type: string; text: string }>;
@@ -1852,7 +1852,7 @@ describe("POST /mcp — tools/call check_referral_credits", () => {
 
   it("tool name appears in MCP_TOOLS", () => {
     const names = MCP_TOOLS.map(t => t.name);
-    expect(names).toContain("check_referral_credits");
+    expect(names).toContain("get_referral_credits");
   });
 });
 
@@ -1908,7 +1908,7 @@ describe("POST /mcp — tools/call improve_my_agent_with_axis (success path)", (
     // Call again section
     expect(parsed.call_again).toBeDefined();
     expect(parsed.call_again.full_analysis.tool).toBe("analyze_files");
-    expect(parsed.call_again.purchasing.tool).toBe("prepare_for_agentic_purchasing");
+    expect(parsed.call_again.purchasing.tool).toBe("prepare_agentic_purchasing");
   });
 
   it("validates project_name is required", async () => {
@@ -1944,13 +1944,36 @@ describe("POST /mcp — tools/call improve_my_agent_with_axis (success path)", (
   });
 });
 
-// ─── POST /mcp — tools/call prepare_for_agentic_purchasing (MCP) ─
+// ─── POST /mcp — tools/call prepare_agentic_purchasing (MCP) ─────
 
-describe("POST /mcp — tools/call prepare_for_agentic_purchasing (MCP transport)", () => {
+describe("POST /mcp — tools/call prepare_agentic_purchasing (MCP transport)", () => {
   it("returns isError=true without auth", async () => {
     const r = await post("/mcp", {
       jsonrpc: "2.0",
       id: 120,
+      method: "tools/call",
+      params: {
+        name: "prepare_agentic_purchasing",
+        arguments: {
+          project_name: "test-purchasing",
+          project_type: "web_application",
+          frameworks: ["express"],
+          goals: ["secure checkout"],
+          files: [{ path: "index.ts", content: "export const x = 1;" }],
+        },
+      },
+    });
+    expect(r.status).toBe(200);
+    const result = (r.data as Record<string, unknown>).result as Record<string, unknown>;
+    expect(result.isError).toBe(true);
+    const content = result.content as Array<{ type: string; text: string }>;
+    expect(content[0].text).toContain("Authentication required");
+  });
+
+  it("accepts the legacy purchasing alias", async () => {
+    const r = await post("/mcp", {
+      jsonrpc: "2.0",
+      id: 1201,
       method: "tools/call",
       params: {
         name: "prepare_for_agentic_purchasing",
@@ -1976,7 +1999,7 @@ describe("POST /mcp — tools/call prepare_for_agentic_purchasing (MCP transport
       id: 121,
       method: "tools/call",
       params: {
-        name: "prepare_for_agentic_purchasing",
+        name: "prepare_agentic_purchasing",
         arguments: {
           project_name: "",
           project_type: "web_application",
@@ -1999,7 +2022,7 @@ describe("POST /mcp — tools/call prepare_for_agentic_purchasing (MCP transport
       id: 122,
       method: "tools/call",
       params: {
-        name: "prepare_for_agentic_purchasing",
+        name: "prepare_agentic_purchasing",
         arguments: {
           project_name: "test",
           project_type: "web",

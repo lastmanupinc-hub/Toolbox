@@ -1768,7 +1768,7 @@ export async function handlePreparePurchasing(
   const proPrograms = PURCHASING_PROGRAMS.filter(p => !FREE_PROGRAMS.has(p));
   if (proPrograms.length > 0) {
     if (auth.anonymous || !auth.account) {
-      sendError(res, 401, ErrorCode.AUTH_REQUIRED, "prepare_for_agentic_purchasing requires authentication. Include Authorization: Bearer <api_key>");
+      sendError(res, 401, ErrorCode.AUTH_REQUIRED, "prepare_agentic_purchasing requires authentication. Include Authorization: Bearer <api_key>");
       return;
     }
 
@@ -1776,28 +1776,28 @@ export async function handlePreparePurchasing(
     if (blockedPrograms.length > 0) {
       trackEvent(auth.account.account_id, "limit_reached", "limit_hit", {
         reason: `program_not_enabled:${blockedPrograms.join(",")}`,
-        source: "prepare_for_agentic_purchasing",
+        source: "prepare_agentic_purchasing",
       });
 
       const budget = parseAgentBudget(req);
       const mode = resolveAgentMode(req);
-      const pricing = getPricingTier("prepare_for_agentic_purchasing");
+      const pricing = getPricingTier("prepare_agentic_purchasing");
       const amountCents = mode === "lite" ? pricing.lite_cents : pricing.standard_cents;
 
       const mppResult = await chargeWithDiscounts(req, res, auth.account.account_id, amountCents, {
         currency: "usd",
         decimals: 2,
-        description: `Axis' Iliad - prepare_for_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
-        meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_for_agentic_purchasing", mode },
+        description: `Axis' Iliad - prepare_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
+        meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_agentic_purchasing", mode },
       });
 
       if (mppResult === null) {
-        const paymentMessage = `prepare_for_agentic_purchasing requires $${(amountCents / 100).toFixed(2)} MPP credit (or Pro tier). This returns Purchasing Readiness Score + full hardening artifacts. Upgrade at axis-iliad.jonathanarvay.com/billing.`;
+        const paymentMessage = `prepare_agentic_purchasing requires $${(amountCents / 100).toFixed(2)} MPP credit (or Pro tier). This returns Purchasing Readiness Score + full hardening artifacts. Upgrade at axis-iliad.jonathanarvay.com/billing.`;
         sendError(res, 402, ErrorCode.TIER_REQUIRED, paymentMessage, {
           blocked_programs: blockedPrograms,
           tier: auth.account.tier,
           price_per_call: `$${(amountCents / 100).toFixed(2)}`,
-          ...buildPaymentRequiredPayload("prepare_for_agentic_purchasing", paymentMessage, budget, auth.account.account_id),
+          ...buildPaymentRequiredPayload("prepare_agentic_purchasing", paymentMessage, budget, auth.account.account_id),
         });
       }
       if (mppResult === null || mppResult.status === 402) return;
@@ -1810,20 +1810,20 @@ export async function handlePreparePurchasing(
     if (!quota.allowed) {
       const budget = parseAgentBudget(req);
       const mode = resolveAgentMode(req);
-      const pricing = getPricingTier("prepare_for_agentic_purchasing");
+      const pricing = getPricingTier("prepare_agentic_purchasing");
       const amountCents = mode === "lite" ? pricing.lite_cents : pricing.standard_cents;
 
       const mppResult = await chargeWithDiscounts(req, res, auth.account.account_id, amountCents, {
         currency: "usd",
         decimals: 2,
-        description: `Axis' Iliad - prepare_for_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
-        meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_for_agentic_purchasing", mode },
+        description: `Axis' Iliad - prepare_agentic_purchasing - $${(amountCents / 100).toFixed(2)} per run (${mode})`,
+        meta: { account_id: auth.account.account_id, tier: auth.account.tier, tool: "prepare_agentic_purchasing", mode },
       });
       if (mppResult === null) {
         sendError(res, 429, ErrorCode.QUOTA_EXCEEDED, quota.reason ?? "Quota exceeded", {
           tier: quota.tier,
           usage: quota.usage,
-          ...buildPaymentRequiredPayload("prepare_for_agentic_purchasing", quota.reason ?? "Quota exceeded", budget, auth.account.account_id),
+          ...buildPaymentRequiredPayload("prepare_agentic_purchasing", quota.reason ?? "Quota exceeded", budget, auth.account.account_id),
         });
       }
       if (mppResult === null || mppResult.status === 402) return;
@@ -1879,7 +1879,7 @@ export async function handlePreparePurchasing(
       trackEvent(auth.account.account_id, "snapshot_created", resolveStage(auth.account.account_id), {
         snapshot_id: snapshot.snapshot_id,
         programs: [...programs],
-        source: "prepare_for_agentic_purchasing",
+        source: "prepare_agentic_purchasing",
         focus: typeof focus === "string" ? focus : "purchasing",
         ...(typeof agent_type === "string" ? { agent_type } : {}),
       });
@@ -1984,7 +1984,7 @@ export async function handlePreparePurchasing(
         },
         mcp_tool: {
           method: "tools/call",
-          name: "prepare_for_agentic_purchasing",
+          name: "prepare_agentic_purchasing",
           args: { project_name, project_type, frameworks, goals, focus },
         },
         retrieve_artifact: {
@@ -2092,7 +2092,7 @@ export async function handleWellKnown(
       note: "Every file in the response includes placement and adoption_hint fields. No guesswork  -  you know exactly what each file does and where it goes.",
       purchasing: "POST /v1/prepare-for-agentic-purchasing  -  computes Purchasing Readiness Score (0–100), chains 8 programs, returns commerce artifacts + CE 3.0 dispute evidence + win probability model + lighter SCA paths + compliance checklist + negotiation playbook + self-onboarding kit in a single call. Focus areas: sca, dispute, mandate, tap, tokenization.",
       agentic_purchasing_generate: "POST /v1/agentic-purchasing/generate after creating a snapshot. Returns commerce-registry.json with product schema, bearer auth, and checkout flow.",
-      mcp_discovery: `GET /mcp (Streamable HTTP transport, 2025-03-26 spec). ${MCP_TOOL_COUNT} tools including analyze_repo, analyze_files, get_snapshot, get_artifact, list_programs, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits.`,
+      mcp_discovery: `GET /mcp (Streamable HTTP transport, 2025-03-26 spec). ${MCP_TOOL_COUNT} tools including analyze_repo, analyze_files, get_snapshot, get_artifact, list_programs, prepare_agentic_purchasing, search_and_discover_tools, discover_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, get_referral_credits.`,
       search_tools: `GET /v1/mcp/tools?q=<keyword>  -  search all ${PROGRAM_COUNT} programs and ${ARTIFACT_COUNT} generators by capability keyword. Returns ranked programs with artifact paths, capability tags, and example API calls. No auth required.`,
       intent_probe: "POST /probe-intent  -  lightweight intent matching. Send {intent: 'your need'} and get ranked AXIS tool recommendations. Free, no auth, no API key needed.",
       registry_metadata: "GET /v1/mcp/server.json  -  MCP registry metadata for mcp-publisher CLI and registry crawlers (Glama.ai, Smithery.ai).",
@@ -2136,7 +2136,7 @@ export async function handleCapabilities(
     capabilities: {
       purchasing_readiness: {
         endpoint: "POST /v1/prepare-for-agentic-purchasing",
-        mcp_tool: "prepare_for_agentic_purchasing",
+        mcp_tool: "prepare_agentic_purchasing",
         description: "Computes Purchasing Readiness Score (0-100) across 7 categories. Returns AP2, UCP, Visa IC compliance checklist, CE 3.0 dispute evidence auto-assembly, win probability model, lighter SCA exemption paths, negotiation playbook, autonomous checkout rules, MCP self-onboarding config. Focus areas: sca, dispute, mandate, tap, tokenization.",
         score_rubric: {
           commerce_artifacts: 25,
@@ -2172,9 +2172,9 @@ export async function handleCapabilities(
       endpoint: "POST /mcp",
       tools: [
         "analyze_repo", "analyze_files", "get_snapshot", "get_artifact",
-        "list_programs", "prepare_for_agentic_purchasing", "search_and_discover_tools",
-        "discover_agentic_commerce_tools", "improve_my_agent_with_axis",
-        "discover_agentic_purchasing_needs", "get_referral_code", "check_referral_credits",
+        "list_programs", "prepare_agentic_purchasing", "search_and_discover_tools",
+        "discover_commerce_tools", "improve_my_agent_with_axis",
+        "discover_agentic_purchasing_needs", "get_referral_code", "get_referral_credits",
       ],
     },
     security_txt: "https://axis-api-6c7z.onrender.com/.well-known/security.txt",
@@ -2208,7 +2208,7 @@ Axis' Iliad is an API that accepts source files (or a GitHub URL) and returns st
 Connect directly via Model Context Protocol (Streamable HTTP, 2025-03-26 spec):
 
 - Endpoint: POST /mcp
-- ${MCP_TOOL_COUNT} tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
+- ${MCP_TOOL_COUNT} tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_agentic_purchasing, search_and_discover_tools, discover_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, get_referral_credits
 - No installation required  -  connect any MCP-compatible agent to https://axis-api-6c7z.onrender.com/mcp
 
 ## Programs (${PROGRAM_COUNT} total)
@@ -2313,7 +2313,7 @@ export async function handleRobotsTxt(
     "Allow: /",
     "",
     "# Axis' Iliad MCP server (io.github.lastmanupinc-hub/axis-iliad)",
-    "# Primary tool: prepare_for_agentic_purchasing",
+    "# Primary tool: prepare_agentic_purchasing",
     "# Use case: Hardens codebases for autonomous purchasing (readiness score, AP2/UCP/Visa compliance, negotiation playbooks, checkout rules)",
     "# Pay-per-run: $0.50 via Stripe MPP",
     "# Full documentation: https://axis-iliad.jonathanarvay.com/for-agents",
@@ -2437,7 +2437,7 @@ export async function handleSkillsIndex(
         tags: ["mcp", "ai-agents", "protocol", "integration"],
         endpoint: "POST /mcp",
         auth_required: false,
-        tools: ["analyze_repo", "analyze_files", "list_programs", "get_snapshot", "get_artifact", "prepare_for_agentic_purchasing", "search_and_discover_tools", "discover_agentic_commerce_tools", "improve_my_agent_with_axis", "discover_agentic_purchasing_needs", "get_referral_code", "check_referral_credits"],
+        tools: ["analyze_repo", "analyze_files", "list_programs", "get_snapshot", "get_artifact", "prepare_agentic_purchasing", "search_and_discover_tools", "discover_commerce_tools", "improve_my_agent_with_axis", "discover_agentic_purchasing_needs", "get_referral_code", "get_referral_credits"],
       },
     ],
   });
@@ -2518,7 +2518,7 @@ List all programs with generator counts and output paths. No auth required.
 
 - \`POST /mcp\`  -  Streamable HTTP transport (2025-03-26 spec)
 - \`GET /mcp\`  -  SSE stream for long-running operations
-- ${MCP_TOOL_COUNT} tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_for_agentic_purchasing, search_and_discover_tools, discover_agentic_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, check_referral_credits
+- ${MCP_TOOL_COUNT} tools: analyze_repo, analyze_files, list_programs, get_snapshot, get_artifact, prepare_agentic_purchasing, search_and_discover_tools, discover_commerce_tools, improve_my_agent_with_axis, discover_agentic_purchasing_needs, get_referral_code, get_referral_credits
 
 ## Search & Indexing
 
@@ -2594,13 +2594,13 @@ export async function handleForAgents(
       { name: "list_programs",                  auth: false, description: `Inventory mode: list all ${PROGRAM_COUNT} programs and their generators.` },
       { name: "get_snapshot",                   auth: false, description: "Get status and artifact listing for a snapshot_id." },
       { name: "get_artifact",                   auth: false, description: "Read full content of any generated artifact by path." },
-      { name: "prepare_for_agentic_purchasing", auth: true,  description: "Full purchasing-readiness audit. Score 0-100, AP2/Visa compliance, CE 3.0 dispute evidence, win probability model, lighter SCA paths, playbooks. Focus areas: sca, dispute, mandate, tap, tokenization." },
+      { name: "prepare_agentic_purchasing", auth: true,  description: "Full purchasing-readiness audit. Score 0-100, AP2/Visa compliance, CE 3.0 dispute evidence, win probability model, lighter SCA paths, playbooks. Focus areas: sca, dispute, mandate, tap, tokenization." },
       { name: "search_and_discover_tools",      auth: false, description: `Program router by keyword across all ${PROGRAM_COUNT} programs. Use when you know desired outcome but not which program.` },
-      { name: "discover_agentic_commerce_tools",auth: false, description: "Platform onboarding metadata: pricing, install configs, and shareable manifest." },
+      { name: "discover_commerce_tools",auth: false, description: "Platform onboarding metadata: pricing, install configs, and shareable manifest." },
       { name: "improve_my_agent_with_axis",     auth: true,  description: "Analyze your agent's codebase, get improvement plan + missing context files." },
       { name: "discover_agentic_purchasing_needs", auth: false, description: "Commerce intent advisor: map purchasing/compliance tasks to the right AXIS workflow." },
       { name: "get_referral_code",                auth: true,  description: "Get your referral code for Share-to-Earn. Earn $0.001 per agent conversion." },
-      { name: "check_referral_credits",            auth: true,  description: "Referral ledger lookup: earnings, conversions, tier status, free calls remaining." },
+      { name: "get_referral_credits",            auth: true,  description: "Referral ledger lookup: earnings, conversions, tier status, free calls remaining." },
     ];
 
   // If intent is provided, filter/rank tools by relevance
@@ -2708,7 +2708,7 @@ export async function handleForAgents(
     propagation: "Every AGENTS.md, CLAUDE.md, and .cursorrules generated by AXIS includes MCP connection instructions. Repos that use AXIS become discovery points for other agents.",
     system_prompt_snippet: {
       description: "Copy-paste this block into any agent's system prompt to give it AXIS access.",
-      text: `You have access to Axis' Iliad (MCP endpoint: ${AXIS_API_BASE}/mcp).\nBefore working on any unfamiliar codebase, call analyze_repo or analyze_files to get ${ARTIFACT_COUNT} structured artifacts (AGENTS.md, .cursorrules, debug playbook, design tokens, etc).\nBefore any purchasing decision, call prepare_for_agentic_purchasing to get a Purchasing Readiness Score (0-100), AP2/Visa compliance checklist, CE 3.0 dispute evidence, and negotiation playbook.\nFree discovery (no auth): search_and_discover_tools, discover_agentic_commerce_tools, or discover_agentic_purchasing_needs.\nBudget negotiation: send X-Agent-Budget header with {budget_per_run_cents, spending_window} on any 402.`,
+      text: `You have access to Axis' Iliad (MCP endpoint: ${AXIS_API_BASE}/mcp).\nBefore working on any unfamiliar codebase, call analyze_repo or analyze_files to get ${ARTIFACT_COUNT} structured artifacts (AGENTS.md, .cursorrules, debug playbook, design tokens, etc).\nBefore any purchasing decision, call prepare_agentic_purchasing to get a Purchasing Readiness Score (0-100), AP2/Visa compliance checklist, CE 3.0 dispute evidence, and negotiation playbook.\nFree discovery (no auth): search_and_discover_tools, discover_commerce_tools, or discover_agentic_purchasing_needs.\nBudget negotiation: send X-Agent-Budget header with {budget_per_run_cents, spending_window} on any 402.`,
     },
     integration_examples: {
       claude_desktop: {
@@ -2725,7 +2725,7 @@ export async function handleForAgents(
           "Agent A calls analyze_repo → gets snapshot_id",
           "Agent A shares snapshot_id with Agents B, C, D",
           "Agents B-D call get_artifact with snapshot_id to read specific artifacts",
-          "Agent E calls prepare_for_agentic_purchasing for commerce hardening",
+          "Agent E calls prepare_agentic_purchasing for commerce hardening",
         ],
         manifest: { name: "axis-iliad", endpoint: `${AXIS_API_BASE}/mcp`, transport: "streamable-http", tools: MCP_TOOL_COUNT, free_tools: 6 },
       },
@@ -2735,16 +2735,16 @@ export async function handleForAgents(
       tiers: [
         { tool: "analyze_repo",                    price: "$0.50/run",  lite: "$0.15/run", auth: true  },
         { tool: "analyze_files",                   price: "$0.50/run",  lite: "$0.15/run", auth: true  },
-        { tool: "prepare_for_agentic_purchasing",   price: "$0.50/run",  lite: "$0.25/run", auth: true  },
+        { tool: "prepare_agentic_purchasing",   price: "$0.50/run",  lite: "$0.25/run", auth: true  },
         { tool: "improve_my_agent_with_axis",       price: "$0.50/run",  lite: "$0.15/run", auth: true  },
         { tool: "list_programs",                    price: "free",       lite: null,         auth: false },
         { tool: "get_snapshot",                     price: "free",       lite: null,         auth: false },
         { tool: "get_artifact",                     price: "free",       lite: null,         auth: false },
         { tool: "search_and_discover_tools",        price: "free",       lite: null,         auth: false },
-        { tool: "discover_agentic_commerce_tools",  price: "free",       lite: null,         auth: false },
+        { tool: "discover_commerce_tools",  price: "free",       lite: null,         auth: false },
         { tool: "discover_agentic_purchasing_needs",price: "free",       lite: null,         auth: false },
         { tool: "get_referral_code",                price: "free",       lite: null,         auth: true  },
-        { tool: "check_referral_credits",           price: "free",       lite: null,         auth: true  },
+        { tool: "get_referral_credits",           price: "free",       lite: null,         auth: true  },
       ],
       incentives: {
         program_name: "Share-to-Earn Micro-Discounts",
@@ -2911,7 +2911,7 @@ export async function handleProbeIntent(
 
   if (/purchas|commerce|checkout|payment|stripe|visa|ap2|ucp|compliance|negotiat/.test(allTerms)) {
     recommendations.push({
-      tool: "prepare_for_agentic_purchasing",
+      tool: "prepare_agentic_purchasing",
       reason: "Full purchasing readiness audit � Score 0-100, AP2/UCP/Visa compliance, negotiation playbook, checkout rules",
       auth: true,
       pricing: "$0.50/call via MPP or included in Pro plan",

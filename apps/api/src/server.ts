@@ -278,7 +278,7 @@ const handleMcpEntrypoint = async (req: IncomingMessage, res: ServerResponse) =>
   }
 
   // Free tools that don't require authentication
-  const FREE_TOOLS = ["list_programs", "search_and_discover_tools", "discover_agentic_commerce_tools", "discover_agentic_purchasing_needs", "get_referral_code", "check_referral_credits"];
+  const FREE_TOOLS = ["list_programs", "search_and_discover_tools", "discover_commerce_tools", "discover_agentic_commerce_tools", "discover_agentic_purchasing_needs", "get_referral_code", "get_referral_credits", "check_referral_credits"];
 
   const isFreeTool = msg.method === "tools/call" &&
                      msg.params?.name &&

@@ -227,7 +227,7 @@ describe("MCP-based methods", () => {
     const f = mockFetch(200, mockMcpResponse("commerce tools"));
     await client.discoverCommerceTools();
     const body = JSON.parse(f.mock.calls[0][1].body as string);
-    expect(body.params.name).toBe("discover_agentic_commerce_tools");
+    expect(body.params.name).toBe("discover_commerce_tools");
   });
 });
 

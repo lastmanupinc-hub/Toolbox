@@ -543,7 +543,7 @@ describe("GET /for-agents?intent=", () => {
     expect(data.tools.length).toBe(12);
     // purchasing-related tools should be ranked higher
     const names = data.tools.map((t: { name: string }) => t.name);
-    const purchasingIdx = names.indexOf("prepare_for_agentic_purchasing");
+    const purchasingIdx = names.indexOf("prepare_agentic_purchasing");
     const listIdx = names.indexOf("list_programs");
     expect(purchasingIdx).toBeLessThan(listIdx);
   });

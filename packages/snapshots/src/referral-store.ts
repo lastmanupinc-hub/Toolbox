@@ -199,7 +199,7 @@ export function buildIncentivesSummary(account_id?: string): Record<string, unkn
       description: "After 4 paid calls, the 5th is free — one-time onboarding reward.",
       mechanism: "Tracked by paid_call_count. Granted exactly once per account when count reaches 4.",
     },
-    referral_token_field: "Include referral_token in prepare_for_agentic_purchasing args to attribute referrals.",
+    referral_token_field: "Include referral_token in prepare_agentic_purchasing args to attribute referrals.",
   };
 
   if (!account_id) return base;

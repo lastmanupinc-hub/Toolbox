@@ -210,7 +210,7 @@ export class AxisClient {
   }
 
   async discoverCommerceTools(): Promise<string> {
-    const result = await this.mcpCall("discover_agentic_commerce_tools", {});
+    const result = await this.mcpCall("discover_commerce_tools", {});
     return result.text;
   }
 

@@ -1,7 +1,7 @@
 /**
  * Tests for POST /v1/prepare-for-agentic-purchasing,
  * computePurchasingReadinessScore, PURCHASING_PROGRAMS,
- * and the prepare_for_agentic_purchasing MCP tool dispatch.
+ * and the prepare_agentic_purchasing MCP tool dispatch.
  */
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, type Server } from "node:http";
@@ -377,7 +377,7 @@ describe("POST /v1/prepare-for-agentic-purchasing — success", () => {
   it("how_to_call_axis_again.mcp_tool has correct name", () => {
     const how = result.how_to_call_axis_again as Record<string, unknown>;
     const tool = how.mcp_tool as Record<string, unknown>;
-    expect(tool.name).toBe("prepare_for_agentic_purchasing");
+    expect(tool.name).toBe("prepare_agentic_purchasing");
   });
 
   it("how_to_call_axis_again.retrieve_artifact contains snapshot_id", () => {
@@ -396,10 +396,10 @@ describe("POST /v1/prepare-for-agentic-purchasing — success", () => {
   });
 });
 
-// ─── MCP_TOOLS — prepare_for_agentic_purchasing schema ──────────
+// ─── MCP_TOOLS — prepare_agentic_purchasing schema ──────────────
 
-describe("MCP_TOOLS — prepare_for_agentic_purchasing", () => {
-  const tool = MCP_TOOLS.find(t => t.name === "prepare_for_agentic_purchasing");
+describe("MCP_TOOLS — prepare_agentic_purchasing", () => {
+  const tool = MCP_TOOLS.find(t => t.name === "prepare_agentic_purchasing");
 
   it("is registered in MCP_TOOLS", () => {
     expect(tool).toBeDefined();
@@ -461,15 +461,15 @@ describe("MCP_TOOLS — prepare_for_agentic_purchasing", () => {
   });
 });
 
-// ─── dispatch — prepare_for_agentic_purchasing auth gate ────────
+// ─── dispatch — prepare_agentic_purchasing auth gate ────────────
 
-describe("dispatch — prepare_for_agentic_purchasing auth gate", () => {
+describe("dispatch — prepare_agentic_purchasing auth gate", () => {
   it("returns isError=true when no auth provided", async () => {
     const fakeReq = { headers: {} } as import("node:http").IncomingMessage;
     const result = await dispatch(
       "tools/call",
       {
-        name: "prepare_for_agentic_purchasing",
+        name: "prepare_agentic_purchasing",
         arguments: {
           project_name: "test",
           project_type: "web_application",
@@ -491,7 +491,7 @@ describe("dispatch — prepare_for_agentic_purchasing auth gate", () => {
     const result = await dispatch(
       "tools/call",
       {
-        name: "prepare_for_agentic_purchasing",
+        name: "prepare_agentic_purchasing",
         arguments: {
           project_name: "",
           project_type: "web_application",

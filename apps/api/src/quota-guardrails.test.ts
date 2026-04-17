@@ -171,14 +171,14 @@ describe("Quota-exceeded guardrails — file limit", () => {
   });
 });
 
-describe("Quota-exceeded guardrails — prepare_for_agentic_purchasing", () => {
+describe("Quota-exceeded guardrails — prepare_agentic_purchasing", () => {
   it("rejects free-tier account with payment-required error", async () => {
     // Free-tier: purchasing programs not enabled → payment gate fires
     const freeAcct = createAccount("PurchaseTest", "purchase-test@example.com", "free");
     const freeKey = createApiKey(freeAcct.account_id, "purchase-free-key");
     const r = await post(
       "/mcp",
-      rpcCall("prepare_for_agentic_purchasing", {
+      rpcCall("prepare_agentic_purchasing", {
         project_name: "purchase-test",
         project_type: "web_app",
         frameworks: ["stripe"],
