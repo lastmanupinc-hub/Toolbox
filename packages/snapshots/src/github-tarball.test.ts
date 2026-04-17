@@ -317,6 +317,20 @@ describe("parseTarball", () => {
     expect(result.files.length).toBeLessThanOrEqual(500);
   });
 
+  it("retains priority lockfile even when archive exceeds MAX_FILES", () => {
+    const entries = Array.from({ length: 510 }, (_, i) => ({
+      name: `root/src/file${String(i).padStart(3, "0")}.ts`,
+      content: `export const f${i} = ${i};`,
+    }));
+    entries.push({ name: "root/pnpm-lock.yaml", content: "lockfileVersion: 9" });
+
+    const tar = buildTar(entries);
+    const result = parseTarball(tar);
+
+    expect(result.files.length).toBeLessThanOrEqual(500);
+    expect(result.files.some((f) => f.path === "pnpm-lock.yaml")).toBe(true);
+  });
+
   it("handles file with zero size", () => {
     // Zero-size regular file should be skipped (fileSize > 0 check)
     const tar = buildTar([

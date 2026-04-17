@@ -159,7 +159,7 @@ export function parseTarball(data: Buffer): TarParseResult {
   let totalBytes = 0;
   let offset = 0;
 
-  while (offset + 512 <= data.length && files.length < MAX_FILES) {
+  while (offset + 512 <= data.length) {
     // Read 512-byte header
     const header = data.subarray(offset, offset + 512);
 
@@ -187,8 +187,23 @@ export function parseTarball(data: Buffer): TarParseResult {
       if (relativePath && shouldInclude(relativePath, fileSize)) {
         const content = data.subarray(offset, offset + fileSize).toString("utf-8");
         const size = Buffer.byteLength(content, "utf-8");
-        files.push({ path: relativePath, content, size });
-        totalBytes += size;
+        const nextFile = { path: relativePath, content, size };
+
+        if (files.length < MAX_FILES) {
+          files.push(nextFile);
+          totalBytes += size;
+        } else if (isPriorityHealthFile(relativePath)) {
+          const replaceIdx = files.findIndex((f) => !isPriorityHealthFile(f.path));
+          if (replaceIdx >= 0) {
+            totalBytes -= files[replaceIdx].size;
+            files[replaceIdx] = nextFile;
+            totalBytes += size;
+          } else {
+            skipped++;
+          }
+        } else {
+          skipped++;
+        }
       } else {
         skipped++;
       }
@@ -199,6 +214,17 @@ export function parseTarball(data: Buffer): TarParseResult {
   }
 
   return { files, skipped, totalBytes };
+}
+
+function isPriorityHealthFile(path: string): boolean {
+  const base = path.split("/").pop() ?? "";
+  if (KNOWN_LOCKFILES.has(base)) return true;
+  if (/^readme\.(md|txt|rst)?$/i.test(base)) return true;
+  if (path.startsWith(".github/workflows/")) return true;
+  if (path.includes(".eslintrc") || /^eslint\.config(\.(js|cjs|mjs|ts))?$/.test(base)) return true;
+  if (path.includes(".prettierrc") || /^prettier\.config(\.(js|cjs|mjs|ts|json|yaml|yml))?$/.test(base)) return true;
+  if (base === ".editorconfig" || base === "biome.json" || base === "biome.jsonc") return true;
+  return false;
 }
 
 /** @internal — exported for testing only */
