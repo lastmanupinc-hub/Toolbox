@@ -83,6 +83,8 @@ RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 # Environment
 ENV NODE_ENV=production
 ENV PORT=4000
+ENV DATABASE_PATH=/data/axis.db
+RUN mkdir -p /data && chown -R axis:axis /data
 EXPOSE 4000 5173
 
 # Health check — uses $PORT so Render's dynamic assignment works
