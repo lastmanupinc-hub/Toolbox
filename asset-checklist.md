@@ -1,6 +1,6 @@
 # Asset Checklist — axis-iliad
 
-Generated: 2026-04-17T13:25:42.748Z
+Generated: 2026-04-17T15:47:48.260Z
 
 ## Required Assets
 

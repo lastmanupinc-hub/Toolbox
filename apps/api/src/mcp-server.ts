@@ -42,7 +42,7 @@ const SERVER_NAME = "axis-iliad";
 const REGISTRY_DISPLAY_NAME = "Axis' Iliad";
 const SERVER_SLUG = "axis-iliad";
 const REGISTRY_VERSION = "0.5.0";
-const SERVER_VERSION = "0.5.1";
+const SERVER_VERSION = "0.5.2";
 
 // ─── In-memory call counters (reset on process restart) ──────────
 

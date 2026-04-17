@@ -16,18 +16,18 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | Build Tools | vite |
 | CI | github_actions |
 | Deploy Target | docker |
-| Package Manager | npm |
-| Files | 500 files, 123,671 LOC |
+| Package Manager | pnpm |
+| Files | 500 files, 123,557 LOC |
 | Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 262 | 82,527 | 73.3% |
-| JSON | 63 | 11,291 | 10% |
-| YAML | 55 | 8,549 | 7.6% |
-| Markdown | 95 | 7,878 | 7% |
+| TypeScript | 262 | 82,527 | 73.1% |
+| JSON | 61 | 11,429 | 10.1% |
+| YAML | 57 | 8,555 | 7.6% |
+| Markdown | 98 | 8,021 | 7.1% |
 | JavaScript | 6 | 1,302 | 1.2% |
 | CSS | 2 | 849 | 0.8% |
 | HTML | 1 | 120 | 0.1% |
@@ -55,9 +55,9 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ### 1. Reproduce
 
 ```bash
-npm install
-npm test           # run existing tests (vitest)
-npm run dev         # start dev server
+pnpm install
+pnpm test           # run existing tests (vitest)
+pnpm run dev         # start dev server
 ```
 
 ### 2. Isolate
@@ -754,8 +754,8 @@ Bugs often occur at layer boundaries. Verify data flow between:
 
 ## Common Traps
 
-- ⚠️ No lockfile found — dependency versions may be inconsistent
 - ✅ TypeScript strict mode
+- ✅ pnpm workspaces
 - ⚠️ No linter configured
 - ⚠️ No formatter configured
 

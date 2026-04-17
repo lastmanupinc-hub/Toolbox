@@ -55,10 +55,6 @@ Open questions:
 
 ## Future Direction Threads
 
-### Known Issues to Investigate
-
-- No lockfile found — dependency versions may be inconsistent
-
 ### Domain Model Complexity
 
 The project defines **163 domain models**. High field-count models may need documentation or decomposition:

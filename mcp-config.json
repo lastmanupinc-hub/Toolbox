@@ -1,7 +1,7 @@
 {
   "mcpVersion": "1.0",
   "project": "axis-iliad",
-  "generated_at": "2026-04-17T13:25:42.679Z",
+  "generated_at": "2026-04-17T15:47:48.249Z",
   "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.",
   "detected_stack": [
     {
@@ -41,7 +41,7 @@
     },
     {
       "name": "run_build",
-      "description": "Execute npm build",
+      "description": "Execute pnpm build",
       "category": "build",
       "enabled": true
     },
@@ -354,11 +354,6 @@
   ],
   "sql_schema": null,
   "detected_mcp_files": [
-    {
-      "path": ".vitest-mcp-server-verbose.txt",
-      "exports": [],
-      "size": 79882
-    },
     {
       "path": "apps/api/mcp-server.json",
       "exports": [],

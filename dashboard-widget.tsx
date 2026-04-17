@@ -36,8 +36,8 @@ export function DashboardWidget() {
         <StatCard label="Language" value={data.language} />
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
-        <StatCard label="TypeScript" value={`${73.3}%`} />
-        <StatCard label="JSON" value={`${10}%`} />
+        <StatCard label="TypeScript" value={`${73.1}%`} />
+        <StatCard label="JSON" value={`${10.1}%`} />
         <StatCard label="YAML" value={`${7.6}%`} />
       </div>
       <div className="framework-tags">
@@ -83,9 +83,6 @@ export default DashboardWidget;
 // Patterns: monorepo, containerized
 // Layer boundaries: 1
 //   presentation (2 dirs)
-
-// ─── Warnings ───
-// ⚠ No lockfile found — dependency versions may be inconsistent
 
 // Source file metrics
 // Total source files scanned: 500

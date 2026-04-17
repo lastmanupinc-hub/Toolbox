@@ -16,7 +16,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (123671 LOC)
+- **Files:** 500 (123557 LOC)
 - **Directories:** 57
 
 ## Frameworks & Libraries
@@ -517,7 +517,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - `apps/` — monorepo_apps (141 files)
 - `packages/` — monorepo_packages (135 files)
-- `payment-processing-output/` — project_directory (67 files)
+- `payment-processing-output/` — project_directory (72 files)
 - `examples/` — project_directory (17 files)
 - `algorithmic/` — project_directory (4 files)
 - `artifacts/` — project_directory (4 files)
@@ -583,29 +583,20 @@ Detected 163 domain models:
 
 - **Build:** vite
 - **Test:** vitest
+- **Package Manager:** pnpm
 - **CI:** github_actions
 - **Deploy:** docker
 
 ## Conventions
 
 - TypeScript strict mode
-
-## Warnings
-
-- ⚠️ No lockfile found — dependency versions may be inconsistent
+- pnpm workspaces
 
 ## File Tree
 
 ```
 .github/workflows/ci.yml (4.5 KB)
-.gitignore (0.2 KB)
-.tmp_changed_count.txt (0.0 KB)
-.tmp_toolbox_grouped.txt (0.0 KB)
-.tmp-glama-servers.json (20.9 KB)
-.vitest-e2e.json (13.0 KB)
-.vitest-mcp-server-verbose.txt (78.0 KB)
-.vitest-monetization.json (203.9 KB)
-.vitest-targeted.json (102.1 KB)
+.gitignore (0.3 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
 AGENTS.md (14.1 KB)
@@ -755,7 +746,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (73.3 KB)
+architecture-summary.md (73.2 KB)
 artifact-spec.md (7.8 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -789,7 +780,7 @@ CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.9 KB)
+CLAUDE.md (10.0 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
@@ -854,7 +845,7 @@ generated-posts.json (2.3 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
 glama.json (0.1 KB)
-graph-prompt-map.json (47.0 KB)
+graph-prompt-map.json (47.3 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
 incident-template.md (19.8 KB)
@@ -868,7 +859,7 @@ marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
-mcp-config.json (12.7 KB)
+mcp-config.json (12.8 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
@@ -1097,6 +1088,13 @@ payment-processing-output/theme.css (6.4 KB)
 payment-processing-output/token-budget-plan.md (2.3 KB)
 payment-processing-output/tracing-rules.md (1.4 KB)
 payment-processing-output/ui-audit.md (2.2 KB)
+payment-processing-output/variation-matrix.json (6.9 KB)
+payment-processing-output/vault-rules.md (2.1 KB)
+payment-processing-output/voice-and-tone.md (2.5 KB)
+payment-processing-output/workflow-pack.md (2.0 KB)
+payment-processing-output/workflow-registry.json (1.8 KB)
+pnpm-lock.yaml (0.0 KB)
+pnpm-workspace.yaml (0.1 KB)
 ```
 
 ## Entry Points (Source)

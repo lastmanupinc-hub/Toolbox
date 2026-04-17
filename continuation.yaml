@@ -14,10 +14,10 @@ project_continuation:
 
   current_identity:
     project_name: "Axis' Iliad"
-    date: "2026-04-15"
-    commit_or_tag: "5e38a9c"
-    current_session_id: "session_097"
-    one_sentence_summary: "Axis' Iliad v0.5.0 — 18 programs, 86 generators, 12 MCP tools, 4049 passing tests across 139 files. Hardening sweep: /v1/health/ready 503 fix, /sitemap.xml endpoint, 7 missing OpenAPI paths added (now 107/107), SDK test suite (25 tests), well-known handler tests (48 tests), QAPage stale content fixed, all version refs 0.4.0→0.5.0, mcp-server.json corrected, endpoint count 76→107."
+    date: "2026-04-17"
+    commit_or_tag: "36ac8ab"
+    current_session_id: "session_098"
+    one_sentence_summary: "Axis' Iliad v0.5.2 — 18 programs, 86 generators, 12 MCP tools, 4084 passing tests across 140 files (11 skipped). Version coherence sweep complete: source/test/registry/root manifest refs updated to 0.5.2, API dist rebuilt, full suite re-verified green."
 
   executive_truth:
     maturity_estimate:
@@ -31,7 +31,7 @@ project_continuation:
       pipeline_confidence: 99
       product_surface_confidence: 96
       integration_confidence: 98
-      notes: "4049 passing across 139 files (0 skipped). MCP integration LIVE (12 tools). All version refs updated to 0.5.0. OpenAPI spec now covers all 107 routes. SDK package has full test suite. 8 well-known/discovery handlers tested. QAPage content verified accurate. All endpoints returning 200 on production. Published at mcp-publisher, Glama.ai, Smithery.ai with real probe traffic confirmed."
+      notes: "4084 passing across 140 files (11 skipped). MCP integration LIVE (12 tools). Source, tests, registry manifest, root manifest, and rebuilt API dist all updated to 0.5.2. OpenAPI spec covers all 107 routes. SDK package has test coverage. Full suite re-verified green after the version coherence sweep."
 
   boundary_truth:
     accepted_input_modes:
@@ -3682,6 +3682,7 @@ project_continuation:
     commit_results: ["be1ae28"]
     push_results: ["pushed to main"]
 
+  session_result_097:
     session_id: "session_097"
     selected_move: "eq_195-197: Stale artifact refs 0.4.0→0.5.0, 7 missing OpenAPI paths, SDK test suite"
     selected_move_roi_reason: "Three highest-ROI candidates from fresh scan: (1) 8 stale version refs 0.4.0→0.5.0 across AGENTS.md/CLAUDE.md/.ai copies — every agent probe saw wrong version. (2) OpenAPI spec missing 7 routes — incomplete discovery surface. (3) SDK package had zero tests — 0% coverage on a published package."
@@ -3707,3 +3708,32 @@ project_continuation:
     blockers_added: []
     commit_results: ["84ec857", "5e38a9c"]
     push_results: ["pushed to main"]
+
+  session_result_098:
+    date: "2026-04-17"
+    session_id: "session_098"
+    selected_move: "eq_199: v0.5.2 version coherence sweep across source, tests, manifests, and built API output"
+    selected_move_roi_reason: "Canonical coherence and probe trust. Package versions were already 0.5.2, but agent-facing endpoints, root/server registry metadata, SDK fixtures, and API dist still exposed 0.5.1. Every external probe hitting those surfaces received contradictory release truth."
+    completed_candidates:
+      - "Updated API source version surfaces 0.5.1→0.5.2: handlers.ts (health, axis.json, capabilities, docs.md, for-agents, agent.json, /health, /performance), mcp-server.ts SERVER_VERSION, openapi.ts spec info, server.ts root landing."
+      - "Updated manifest and registry surfaces 0.5.1→0.5.2: apps/api/mcp-server.json and root server.json (including publisher-provided _meta version)."
+      - "Updated test fixtures/assertions 0.5.1→0.5.2: analyze.test.ts, agent-discovery.test.ts, openapi.test.ts, well-known-handlers.test.ts, packages/sdk/src/index.test.ts."
+      - "Resolved the only failing full-suite regressions (3 well-known handler version assertions), reran the affected file, then reran the full Vitest suite."
+      - "Rebuilt @axis/api so tracked dist output reflects 0.5.2 in handlers.js, mcp-server.js, openapi.js, and server.js."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "Full Vitest suite: 140 passed files, 4084 passed tests, 11 skipped, 0 failed (duration 126.29s)."
+      - "Targeted verification: well-known-handlers.test.ts 63/63 passing after assertion updates."
+      - "API build verification: pnpm --filter @axis/api build succeeded at @axis/api@0.5.2."
+      - "Dist verification: apps/api/dist/{handlers,mcp-server,openapi,server}.js refreshed to 0.5.2."
+    verticals_advanced:
+      - "v0_core_platform: release/version coherence hardened across source, registry, SDK fixtures, and built output"
+    blockers_removed:
+      - "Agent-facing endpoints and manifests advertised 0.5.1 while workspace packages were already 0.5.2"
+      - "API dist output lagged source version after the package bump"
+      - "3 stale version assertions in well-known-handlers.test.ts blocked the full suite"
+    blockers_added: []
+    local_only: true
+    commit_results: []
+    push_results: []

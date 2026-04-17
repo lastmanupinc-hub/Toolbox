@@ -55,8 +55,6 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - Clear installation instructions
 - Minimum viable example that proves value in < 5 minutes
 - Known limitations documented honestly
-- Current known issues:
-  - No lockfile found — dependency versions may be inconsistent
 
 ### Metrics
 - First install to first successful run time

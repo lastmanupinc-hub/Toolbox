@@ -7,7 +7,7 @@ describe("buildOpenApiSpec", () => {
   it("returns valid OpenAPI 3.1 spec", () => {
     expect(spec.openapi).toBe("3.1.0");
     expect(spec.info.title).toBe("Axis' Iliad API");
-    expect(spec.info.version).toBe("0.5.1");
+    expect(spec.info.version).toBe("0.5.2");
   });
 
   it("includes all major route groups", () => {

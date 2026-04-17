@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-iliad
 
-> monorepo | TypeScript | 500 files | 123,671 LOC
+> monorepo | TypeScript | 500 files | 123,557 LOC
 
 **Stack:** React ^19.1.0
 
@@ -16,7 +16,7 @@
 - [ ] What is the minimum input/state to trigger it?
 - [ ] Does it reproduce in all environments (dev, staging, prod)?
 - [ ] Is it timing-dependent (race condition, timeout)?
-- [ ] `npm test` — do existing tests pass? (vitest)
+- [ ] `pnpm test` — do existing tests pass? (vitest)
 
 ## Step 2: Isolation
 
@@ -235,7 +235,7 @@ High-coupling files are more likely to be involved in cross-cutting bugs:
 ## Step 6: Verification
 
 - [ ] Does the fix resolve the original reproduction case?
-- [ ] Do all existing tests still pass? (`npm test`)
+- [ ] Do all existing tests still pass? (`pnpm test`)
 - [ ] Is a new test added for this specific failure mode?
 - [ ] Has the fix been reviewed for side effects on 7 coupled hotspot files?
 - [ ] Does CI pass? (github_actions)

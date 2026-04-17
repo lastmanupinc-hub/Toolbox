@@ -1,7 +1,7 @@
 {
   "name": "axis-iliad",
   "displayName": "Axis Iliad — Codebase Intelligence For Agentic Commerce",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Analyze a GitHub repo or file set and receive 86 structured artifacts across 18 programs: AGENTS.md, .cursorrules, CLAUDE.md, architecture maps, debug playbooks, design tokens, MCP configs, AP2/UCP/Visa commerce hardening, negotiation rules, and purchasing-readiness guidance for autonomous agents.",
   "author": "Last Man Up Inc.",
   "license": "UNLICENSED",

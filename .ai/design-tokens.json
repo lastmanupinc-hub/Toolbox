@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "project": "axis-iliad",
-  "generated_at": "2026-04-17T13:25:42.583Z",
+  "generated_at": "2026-04-17T15:47:48.214Z",
   "styling_approach": "plain-css",
   "project_type": "monorepo",
   "primary_language": "TypeScript",
@@ -22,22 +22,22 @@
     {
       "name": "TypeScript",
       "file_count": 262,
-      "loc_percent": 73.3
+      "loc_percent": 73.1
     },
     {
       "name": "JSON",
-      "file_count": 63,
-      "loc_percent": 10
+      "file_count": 61,
+      "loc_percent": 10.1
     },
     {
       "name": "YAML",
-      "file_count": 55,
+      "file_count": 57,
       "loc_percent": 7.6
     },
     {
       "name": "Markdown",
-      "file_count": 95,
-      "loc_percent": 7
+      "file_count": 98,
+      "loc_percent": 7.1
     },
     {
       "name": "JavaScript",
@@ -67,7 +67,7 @@
       "containerized"
     ],
     "total_files": 500,
-    "total_loc": 123671
+    "total_loc": 123557
   },
   "colors": {
     "primary": {

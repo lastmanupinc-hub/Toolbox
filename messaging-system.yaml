@@ -1,6 +1,6 @@
 # Messaging System
 # Project: axis-iliad
-# Generated: 2026-04-17T13:25:42.610Z
+# Generated: 2026-04-17T15:47:48.225Z
 # Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
 
 product:
@@ -11,7 +11,7 @@ product:
 
 taglines:
   primary: "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models."
-  technical: "React monorepo — 500 files, 123,671 lines of TypeScript"
+  technical: "React monorepo — 500 files, 123,557 lines of TypeScript"
   conceptual: "Built around apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory)"
 
 value_propositions:
@@ -50,10 +50,10 @@ feature_messages:
     count: 8
     message: "8 languages detected and analyzed"
     breakdown:
-      - "TypeScript: 82,527 lines (73.3%)"
-      - "JSON: 11,291 lines (10%)"
-      - "YAML: 8,549 lines (7.6%)"
-      - "Markdown: 7,878 lines (7%)"
+      - "TypeScript: 82,527 lines (73.1%)"
+      - "JSON: 11,429 lines (10.1%)"
+      - "YAML: 8,555 lines (7.6%)"
+      - "Markdown: 8,021 lines (7.1%)"
       - "JavaScript: 1,302 lines (1.2%)"
   framework_detection:
     count: 1
