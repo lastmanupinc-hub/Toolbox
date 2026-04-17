@@ -17,13 +17,17 @@ const INCLUDE_EXTENSIONS = new Set([
   ".sql", ".graphql", ".gql", ".prisma",
 ]);
 
-const SKIP_LOCKFILES = new Set([
-  "package-lock.json", "pnpm-lock.yaml", "yarn.lock",
-  "Gemfile.lock", "poetry.lock", "Cargo.lock",
-]);
-
 const MAX_FILE_SIZE = 256 * 1024; // 256 KB
 const MAX_FILES = 500;
+const KNOWN_LOCKFILES = new Set([
+  "package-lock.json",
+  "pnpm-lock.yaml",
+  "yarn.lock",
+  "Gemfile.lock",
+  "poetry.lock",
+  "Cargo.lock",
+  "go.sum",
+]);
 
 export interface GitHubFetchResult {
   files: FileEntry[];
@@ -200,15 +204,18 @@ export function parseTarball(data: Buffer): TarParseResult {
 /** @internal — exported for testing only */
 export function shouldInclude(path: string, size: number): boolean {
   if (size > MAX_FILE_SIZE) return false;
-
-  /* v8 ignore next — V8 quirk: path.split always has segments */
   const fileName = path.split("/").pop() ?? "";
-  if (SKIP_LOCKFILES.has(fileName)) return false;
 
   // Skip hidden directories (but keep hidden files at root like .gitignore)
   const parts = path.split("/");
   for (let i = 0; i < parts.length - 1; i++) {
-    if (parts[i].startsWith(".")) return false;
+    if (parts[i].startsWith(".")) {
+      // Keep CI workflows for repo health scoring.
+      const isGithubWorkflows =
+        parts[0] === ".github" &&
+        parts[1] === "workflows";
+      if (!isGithubWorkflows) return false;
+    }
   }
 
   // Skip known junk dirs
@@ -219,6 +226,8 @@ export function shouldInclude(path: string, size: number): boolean {
   }
 
   /* v8 ignore start — V8 quirk: fileName.split always has segments */
+  if (KNOWN_LOCKFILES.has(fileName)) return true;
+
   const ext = ("." + (fileName.split(".").pop() ?? "")).toLowerCase();
 
   // Extensionless root config files

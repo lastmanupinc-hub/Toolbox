@@ -106,19 +106,24 @@ describe("shouldInclude", () => {
     expect(shouldInclude("exact.ts", 256 * 1024)).toBe(true);
   });
 
-  it("rejects lockfiles", () => {
-    expect(shouldInclude("package-lock.json", 100)).toBe(false);
-    expect(shouldInclude("pnpm-lock.yaml", 100)).toBe(false);
-    expect(shouldInclude("yarn.lock", 100)).toBe(false);
-    expect(shouldInclude("Cargo.lock", 100)).toBe(false);
-    expect(shouldInclude("poetry.lock", 100)).toBe(false);
-    expect(shouldInclude("Gemfile.lock", 100)).toBe(false);
+  it("includes lockfiles for health and package-manager detection", () => {
+    expect(shouldInclude("package-lock.json", 100)).toBe(true);
+    expect(shouldInclude("pnpm-lock.yaml", 100)).toBe(true);
+    expect(shouldInclude("yarn.lock", 100)).toBe(true);
+    expect(shouldInclude("Cargo.lock", 100)).toBe(true);
+    expect(shouldInclude("poetry.lock", 100)).toBe(true);
+    expect(shouldInclude("Gemfile.lock", 100)).toBe(true);
   });
 
   it("rejects hidden directories", () => {
     expect(shouldInclude(".git/config", 100)).toBe(false);
     expect(shouldInclude(".cache/data.json", 100)).toBe(false);
     expect(shouldInclude("src/.hidden/file.ts", 100)).toBe(false);
+  });
+
+  it("includes GitHub workflow files under .github/workflows", () => {
+    expect(shouldInclude(".github/workflows/ci.yml", 100)).toBe(true);
+    expect(shouldInclude(".github/workflows/release.yaml", 100)).toBe(true);
   });
 
   it("rejects node_modules", () => {
@@ -276,15 +281,19 @@ describe("parseTarball", () => {
     expect(result.files).toHaveLength(5);
   });
 
-  it("filters lockfiles from tar", () => {
+  it("keeps lockfiles in tar for health detection", () => {
     const tar = buildTar([
       { name: "root/package.json", content: "{}" },
       { name: "root/package-lock.json", content: "{}" },
       { name: "root/yarn.lock", content: "lock" },
     ]);
     const result = parseTarball(tar);
-    expect(result.files).toHaveLength(1);
-    expect(result.files[0].path).toBe("package.json");
+    expect(result.files).toHaveLength(3);
+    expect(result.files.map((f) => f.path).sort()).toEqual([
+      "package-lock.json",
+      "package.json",
+      "yarn.lock",
+    ]);
   });
 
   it("filters large files from tar", () => {

@@ -14,6 +14,8 @@ import { extractDomainModels } from "./domain-extractor.js";
 export function parseRepo(files: FileEntry[]): ParseResult {
   const deps = extractDependencies(files);
   const allDeps = { ...deps.production, ...deps.development, ...deps.peer };
+  const packageJson = files.find((f) => f.path === "package.json");
+  const packageJsonText = packageJson?.content ?? "";
   const languages = computeLanguageStats(files);
   const frameworks = detectFrameworks(files, allDeps);
   const annotations = annotateFiles(files);
@@ -55,13 +57,32 @@ export function parseRepo(files: FileEntry[]): ParseResult {
       }),
       has_typescript: files.some((f) => f.path === "tsconfig.json" || f.path.endsWith(".ts") || f.path.endsWith(".tsx")),
       has_linter: files.some((f) =>
-        f.path.includes(".eslintrc") || f.path === ".eslintrc.json" || f.path === "eslint.config" ||
-        f.path.includes("pylintrc") || f.path === ".flake8" || f.path === "ruff.toml",
-      ) || files.some((f) => f.path.endsWith(".go")),
+        f.path.includes(".eslintrc") ||
+        f.path === ".eslintrc.json" ||
+        /^eslint\.config(\.(js|cjs|mjs|ts))?$/.test(f.path) ||
+        f.path.includes("pylintrc") ||
+        f.path === ".flake8" ||
+        f.path === "ruff.toml" ||
+        f.path === "biome.json" ||
+        f.path === "biome.jsonc",
+      ) ||
+      /"lint"\s*:/.test(packageJsonText) ||
+      /"eslint"\s*:/.test(packageJsonText) ||
+      /"biome"\s*:/.test(packageJsonText) ||
+      files.some((f) => f.path.endsWith(".go")),
       has_formatter: files.some((f) =>
-        f.path.includes(".prettierrc") || f.path === ".prettierrc.json" ||
-        f.path === ".editorconfig" || f.path.includes("black"),
-      ) || files.some((f) => f.path.endsWith(".go")),
+        f.path.includes(".prettierrc") ||
+        f.path === ".prettierrc.json" ||
+        /^prettier\.config(\.(js|cjs|mjs|ts|json|yaml|yml))?$/.test(f.path) ||
+        f.path === ".editorconfig" ||
+        f.path.includes("black") ||
+        f.path === "biome.json" ||
+        f.path === "biome.jsonc",
+      ) ||
+      /"format"\s*:/.test(packageJsonText) ||
+      /"prettier"\s*:/.test(packageJsonText) ||
+      /"biome"\s*:/.test(packageJsonText) ||
+      files.some((f) => f.path.endsWith(".go")),
     },
     go_module: {
       module_path: goModule.module_path,

@@ -134,6 +134,24 @@ describe("parseRepo", () => {
     expect(result.health.has_lockfile).toBe(true);
   });
 
+  it("detects modern eslint flat config as linter", () => {
+    const result = parseRepo(makeFiles([
+      { path: "eslint.config.js", content: "export default [];" },
+    ]));
+    expect(result.health.has_linter).toBe(true);
+  });
+
+  it("detects lint and format scripts from package.json", () => {
+    const result = parseRepo(makeFiles([
+      {
+        path: "package.json",
+        content: '{"scripts":{"lint":"eslint .","format":"prettier --write ."}}',
+      },
+    ]));
+    expect(result.health.has_linter).toBe(true);
+    expect(result.health.has_formatter).toBe(true);
+  });
+
   it("detects Go files as having linter and formatter (go vet/gofmt)", () => {
     const result = parseRepo(makeFiles([
       { path: "main.go", content: "package main\nfunc main() {}" },
