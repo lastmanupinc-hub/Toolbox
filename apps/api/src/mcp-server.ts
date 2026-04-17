@@ -643,15 +643,16 @@ export async function runAnalyzeFiles(
     return { path, content: file.content, size };
   });
 
+  const account = auth.account;
   const blockedPrograms = listAvailableGenerators()
-    .filter(g => !MCP_FREE_PROGRAMS.has(g.program) && !isProgramEnabled(auth.account.account_id, g.program))
+    .filter(g => !MCP_FREE_PROGRAMS.has(g.program) && !isProgramEnabled(account.account_id, g.program))
     .map(g => g.program)
     .filter((program, index, all) => all.indexOf(program) === index)
     .sort();
   if (blockedPrograms.length > 0) {
     throw new Error(buildMcpPaymentRequiredError(
       "analyze_files",
-      auth.account.account_id,
+      account.account_id,
       `analyze_files requires $0.50 MPP credit (or Pro tier) when the full ${ARTIFACT_COUNT}-artifact bundle is requested. Use list_programs, search_and_discover_tools, or free programs only to stay on the free path.`,
       req,
       { blocked_programs: blockedPrograms },
@@ -659,11 +660,11 @@ export async function runAnalyzeFiles(
   }
 
   /* quota exceeded and file limit paths — tested in quota-guardrails.test.ts */
-  const quota = checkQuota(auth.account.account_id);
+  const quota = checkQuota(account.account_id);
   if (!quota.allowed) {
     throw new Error(`Quota exceeded: ${quota.reason ?? "Quota exceeded"}`);
   }
-  const limits = TIER_LIMITS[auth.account.tier];
+  const limits = TIER_LIMITS[account.tier];
   if (files.length > limits.max_files_per_snapshot) {
     throw new Error(
       `File limit: ${files.length} files exceeds max ${limits.max_files_per_snapshot} for ${auth.account.tier} tier`,
@@ -767,15 +768,16 @@ export async function runAnalyzeRepo(
     throw new Error("Invalid GitHub URL. Expected: https://github.com/owner/repo");
   }
 
+  const account = auth.account;
   const blockedPrograms = listAvailableGenerators()
-    .filter(g => !MCP_FREE_PROGRAMS.has(g.program) && !isProgramEnabled(auth.account.account_id, g.program))
+    .filter(g => !MCP_FREE_PROGRAMS.has(g.program) && !isProgramEnabled(account.account_id, g.program))
     .map(g => g.program)
     .filter((program, index, all) => all.indexOf(program) === index)
     .sort();
   if (blockedPrograms.length > 0) {
     throw new Error(buildMcpPaymentRequiredError(
       "analyze_repo",
-      auth.account.account_id,
+      account.account_id,
       `analyze_repo requires $0.50 MPP credit (or Pro tier) when the full ${ARTIFACT_COUNT}-artifact bundle is requested. This is the paid full-analysis path; discovery remains free on list_programs, search_and_discover_tools, and discover_agentic_commerce_tools.`,
       req,
       { blocked_programs: blockedPrograms },

@@ -70,8 +70,8 @@ beforeAll(async () => {
   server = createApp(router, TEST_PORT);
   await new Promise<void>((r) => setTimeout(r, 150));
 
-  // Create account + API key directly via DB
-  const acct = createAccount("RepoTest", "repo-test@example.com");
+  // Create suite-tier account so payment gate passes and full bundle is returned
+  const acct = createAccount("RepoTest", "repo-test@example.com", "suite");
   const key = createApiKey(acct.account_id, "repo-test-key");
   apiKey = key.rawKey;
 });
