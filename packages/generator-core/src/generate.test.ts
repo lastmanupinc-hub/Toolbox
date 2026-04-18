@@ -911,6 +911,13 @@ describe("depth generators content", () => {
     expect(file.content).toContain("## Extensibility (SEPs)");
     expect(file.content).toContain("Spec Extension Proposals");
     expect(file.content).toContain("semantic versioning");
+    expect(file.content).toContain("## Type Definitions / Core Types");
+    expect(file.content).toContain("### JsonRpcRequest");
+    expect(file.content).toContain("### JsonRpcSuccess | JsonRpcError");
+    expect(file.content).toContain("### InitializeRequest / InitializeResult");
+    expect(file.content).toContain("### ToolDefinition / ToolCall");
+    expect(file.content).toContain("### PaginationEnvelope");
+    expect(file.content).toContain("### CancelRequest / ProgressNotification");
   });
 
   it("template-pack.md has note templates", () => {
