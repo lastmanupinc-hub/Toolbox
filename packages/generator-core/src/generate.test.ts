@@ -1157,6 +1157,15 @@ describe("depth generators content", () => {
     expect(file.content).toContain("|- capabilities.md");
     expect(file.content).toContain("migration-notes.md");
     expect(file.content).toContain("compatibility-matrix.md");
+    expect(file.content).toContain("## 13. Examples Folder");
+    expect(file.content).toContain("Maintain an `examples/` folder with runnable reference projects");
+    expect(file.content).toContain("tool, resource, and prompt flows end-to-end");
+    expect(file.content).toContain("examples/");
+    expect(file.content).toContain("|- server-stdio/");
+    expect(file.content).toContain("|- server-http/");
+    expect(file.content).toContain("|- server-websocket/");
+    expect(file.content).toContain("|- client-basic/");
+    expect(file.content).toContain("`- tool-resource-prompt-e2e/");
     expect(file.content).toContain("import type { IncomingMessage, ServerResponse } from \"node:http\";");
     expect(file.content).toContain("function wrapIncomingMessage(req: IncomingMessage, res: ServerResponse)");
     expect(file.content).toContain("const httpCtx = wrapIncomingMessage(req, res);");
