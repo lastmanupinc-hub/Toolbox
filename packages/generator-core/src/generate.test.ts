@@ -783,7 +783,7 @@ describe("depth generators content", () => {
     "meta-tag-audit.json", "token-budget-plan.md",
     "dark-mode-tokens.json", "channel-rulebook.md",
     "ab-test-plan.md", "citation-index.json",
-    "server-manifest.yaml", "protocol-spec.md", "spec.types.ts", "mcp/README.md", "mcp/project-setup.md", "mcp/build-artifacts.md", "mcp/package-json.root.template.json", "mcp/package-json.package.template.json", "mcp/tsconfig.root.template.json", "mcp/tsconfig.package.template.json", "mcp/monorepo-structure.md", "mcp/core-implementation-artifacts.md", "template-pack.md",
+    "server-manifest.yaml", "protocol-spec.md", "spec.types.ts", "mcp/README.md", "mcp/project-setup.md", "mcp/build-artifacts.md", "mcp/package-json.root.template.json", "mcp/package-json.package.template.json", "mcp/tsconfig.root.template.json", "mcp/tsconfig.package.template.json", "mcp/monorepo-structure.md", "mcp/core-implementation-artifacts.md", "mcp/testing-documentation-polish-artifacts.md", "template-pack.md",
     "automation-pipeline.yaml", "component-library.json",
     "storyboard.md", "brand-board.md",
     "variation-matrix.json",
@@ -1141,6 +1141,19 @@ describe("depth generators content", () => {
     expect(file.content_type).toBe("text/markdown");
   });
 
+  it("mcp/testing-documentation-polish-artifacts.md covers phase 4 release hardening", () => {
+    const file = result.files.find(f => f.path === "mcp/testing-documentation-polish-artifacts.md")!;
+    expect(file.program).toBe("mcp");
+    expect(file.content).toContain("## Phase Goal");
+    expect(file.content).toContain("## 1. Testing Artifacts");
+    expect(file.content).toContain("## 2. Documentation Artifacts");
+    expect(file.content).toContain("## 3. Polish Artifacts");
+    expect(file.content).toContain("## 4. Release Readiness Checklist");
+    expect(file.content).toContain("mcp-server.test.ts");
+    expect(file.content).toContain("transport integration tests");
+    expect(file.content_type).toBe("text/markdown");
+  });
+
   it("template-pack.md has note templates", () => {
     const file = result.files.find(f => f.path === "template-pack.md")!;
     expect(file.program).toBe("obsidian");
@@ -1191,7 +1204,7 @@ describe("depth generators content", () => {
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(98);
+    expect(generators.length).toBe(99);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/symbol-index.json");
     expect(paths).toContain(".ai/context-map.json");
@@ -1216,6 +1229,7 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("mcp/tsconfig.package.template.json");
     expect(paths).toContain("mcp/monorepo-structure.md");
     expect(paths).toContain("mcp/core-implementation-artifacts.md");
+    expect(paths).toContain("mcp/testing-documentation-polish-artifacts.md");
     expect(paths).toContain("collection-map.md");
     expect(paths).toContain("export-manifest.yaml");
     // depth generators
