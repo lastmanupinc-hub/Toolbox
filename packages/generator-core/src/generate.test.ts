@@ -918,6 +918,9 @@ describe("depth generators content", () => {
     expect(file.content).toContain("### ToolDefinition / ToolCall");
     expect(file.content).toContain("### PaginationEnvelope");
     expect(file.content).toContain("### CancelRequest / ProgressNotification");
+    expect(file.content).toContain("## Validation Schema Strategy");
+    expect(file.content).toContain("Standard Schema-compatible");
+    expect(file.content).toContain("Zod-authored schemas");
   });
 
   it("spec.types.ts defines protocol interfaces and schemas", () => {
@@ -925,6 +928,8 @@ describe("depth generators content", () => {
     expect(file.program).toBe("mcp");
     expect(file.content).toContain("export interface JsonRpcRequest");
     expect(file.content).toContain("export interface ToolDefinition");
+    expect(file.content).toContain("export interface StandardSchemaV1");
+    expect(file.content).toContain("export type ZodCompatibleSchema");
     expect(file.content).toContain("export interface ResourceTemplate");
     expect(file.content).toContain("export interface PromptDefinition");
     expect(file.content).toContain("export interface PaginationEnvelope");
