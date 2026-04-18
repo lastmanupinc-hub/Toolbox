@@ -1101,6 +1101,11 @@ describe("depth generators content", () => {
     expect(file.content).toContain("Use streamable HTTP when clients need request/response plus incremental server events over HTTP.");
     expect(file.content).toContain("export class StreamableHttpServerTransport implements TransportAdapter");
     expect(file.content).toContain("// packages/server/src/transports/http.ts");
+    expect(file.content).toContain("### WebSocket support (extensible base)");
+    expect(file.content).toContain("Implement a shared base transport for connection/session handling, then extend it for WebSocket specifics.");
+    expect(file.content).toContain("abstract class BaseSocketTransport implements TransportAdapter");
+    expect(file.content).toContain("export class WebSocketServerTransport extends BaseSocketTransport");
+    expect(file.content).toContain("// packages/server/src/transports/websocket.ts");
     expect(file.content).toContain("## packages/server");
     expect(file.content).toContain("## packages/client");
     expect(file.content).toContain("## packages/sdk");
