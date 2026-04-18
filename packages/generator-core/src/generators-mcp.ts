@@ -1022,6 +1022,127 @@ export function generateMcpReadme(ctx: ContextMap, profile: RepoProfile): Genera
   };
 }
 
+// ─── mcp/project-setup.md ───────────────────────────────────
+
+export function generateProjectSetupGuide(ctx: ContextMap): GeneratedFile {
+  const projectName = ctx.project_identity.name;
+  const packageManagers = ctx.detection.package_managers;
+  const preferredPackageManager = packageManagers.includes("pnpm")
+    ? "pnpm"
+    : packageManagers.includes("yarn")
+      ? "yarn"
+      : "npm";
+
+  const lines: string[] = [];
+  lines.push(`# Project Setup Guide — ${projectName}`);
+  lines.push("");
+  lines.push("## Goal");
+  lines.push("");
+  lines.push("Establish a reproducible local setup for developing and validating this MCP server.");
+  lines.push("");
+  lines.push("## Environment Prerequisites");
+  lines.push("");
+  lines.push("- Git");
+  lines.push("- Node.js 20+");
+  lines.push("- One runtime adapter (Node.js, Bun, or Deno)");
+  lines.push(`- Preferred package manager: ${preferredPackageManager}`);
+  lines.push("");
+  lines.push("## Bootstrap");
+  lines.push("");
+  lines.push("```bash");
+  lines.push("git clone <repo-url>");
+  lines.push(`cd ${projectName}`);
+  if (preferredPackageManager === "pnpm") {
+    lines.push("pnpm install");
+    lines.push("pnpm build");
+  } else if (preferredPackageManager === "yarn") {
+    lines.push("yarn install");
+    lines.push("yarn build");
+  } else {
+    lines.push("npm install");
+    lines.push("npm run build");
+  }
+  lines.push("```");
+  lines.push("");
+  lines.push("## Local Verification");
+  lines.push("");
+  lines.push("```bash");
+  lines.push("node apps/api/dist/server.js");
+  lines.push("curl http://localhost:4000/v1/health");
+  lines.push("curl http://localhost:4000/.well-known/mcp.json");
+  lines.push("```");
+  lines.push("");
+  lines.push("## Recommended Workspace Structure");
+  lines.push("");
+  lines.push("- `apps/api`: transport and JSON-RPC handling");
+  lines.push("- `packages/generator-core`: artifact generation contracts");
+  lines.push("- `mcp/`: protocol-facing assets (`README.md`, schemas, setup guides)");
+  lines.push("");
+  lines.push("## Setup Checklist");
+  lines.push("");
+  lines.push("- [ ] Dependencies installed");
+  lines.push("- [ ] Build completes without type errors");
+  lines.push("- [ ] MCP discovery endpoint responds");
+  lines.push("- [ ] `tools/list` returns expected tool inventory");
+
+  return {
+    path: "mcp/project-setup.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "mcp",
+    description: "Project setup playbook for bootstrapping and validating the MCP server locally",
+  };
+}
+
+// ─── mcp/build-artifacts.md ─────────────────────────────────
+
+export function generateBuildArtifactsGuide(ctx: ContextMap): GeneratedFile {
+  const projectName = ctx.project_identity.name;
+  const lines: string[] = [];
+
+  lines.push(`# Build Artifacts Guide — ${projectName}`);
+  lines.push("");
+  lines.push("## Purpose");
+  lines.push("");
+  lines.push("Describe required build outputs and verification gates for MCP publishing and deployment.");
+  lines.push("");
+  lines.push("## Core Build Outputs");
+  lines.push("");
+  lines.push("- `apps/api/dist/**`: compiled API server output");
+  lines.push("- `mcp/README.md`: package-level setup and integration entrypoint");
+  lines.push("- `protocol-spec.md`: canonical protocol behavior document");
+  lines.push("- `spec.types.ts`: TypeScript contracts for protocol messages");
+  lines.push("- `mcp/schemas/output-contract.schema.json`: machine-readable output contract");
+  lines.push("");
+  lines.push("## Build Commands");
+  lines.push("");
+  lines.push("```bash");
+  lines.push("pnpm build");
+  lines.push("npx vitest run");
+  lines.push("```");
+  lines.push("");
+  lines.push("## Artifact Integrity Checks");
+  lines.push("");
+  lines.push("- Confirm generated MCP outputs are present in program registry.");
+  lines.push("- Confirm output counts are synchronized in API, tests, and docs.");
+  lines.push("- Confirm schema enum list matches available MCP files.");
+  lines.push("- Confirm protocol and type documents are updated when message formats change.");
+  lines.push("");
+  lines.push("## CI/CD Packaging Notes");
+  lines.push("");
+  lines.push("- Publish generated artifacts alongside server build outputs.");
+  lines.push("- Keep deterministic generation enabled to avoid drift between runs.");
+  lines.push("- Fail CI on missing or stale MCP artifacts.");
+
+  return {
+    path: "mcp/build-artifacts.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "mcp",
+    description: "Build artifact checklist and verification guidance for MCP packaging and release workflows",
+  };
+}
+
 // ─── connector-map.yaml ─────────────────────────────────────────
 
 export function generateConnectorMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {

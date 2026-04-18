@@ -219,7 +219,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "integration",
     question: "How do I use Axis with MCP servers?",
-    answer: "Run Axis MCP to generate mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, connector-map.yaml, capability-registry.json, and server-manifest.yaml. These files define your private MCP endpoint configuration, protocol spec and TypeScript message contracts, package-level setup docs, plus MCP Registry publishing metadata. Pro includes hosted private endpoints with persistent configs, auth management, and usage logs.",
+    answer: "Run Axis MCP to generate mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, mcp/project-setup.md, mcp/build-artifacts.md, connector-map.yaml, capability-registry.json, and server-manifest.yaml. These files define your private MCP endpoint configuration, protocol and type contracts, project setup/build guidance, plus MCP Registry publishing metadata. Pro includes hosted private endpoints with persistent configs, auth management, and usage logs.",
   },
 
   // Security
