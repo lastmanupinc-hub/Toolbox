@@ -891,6 +891,10 @@ describe("depth generators content", () => {
     expect(file.content).toContain("### Success Response");
     expect(file.content).toContain("### Notification (no id)");
     expect(file.content).toContain("### Batch Request");
+    expect(file.content).toContain("## Core Primitives");
+    expect(file.content).toContain("### Tools");
+    expect(file.content).toContain("### Resources");
+    expect(file.content).toContain("### Prompts");
   });
 
   it("template-pack.md has note templates", () => {

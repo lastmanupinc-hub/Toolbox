@@ -357,6 +357,58 @@ export function generateProtocolSpec(ctx: ContextMap): GeneratedFile {
   lines.push("Batch response must include one entry per request that has an `id`.");
   lines.push("");
 
+  lines.push("## Core Primitives");
+  lines.push("");
+  lines.push("### Tools");
+  lines.push("");
+  lines.push("Callable functions exposed by the server. Each tool MUST define an input schema so callers can validate arguments before execution.");
+  lines.push("");
+  lines.push("Example:");
+  lines.push("```json");
+  lines.push('{');
+  lines.push('  "name": "analyze_repo",');
+  lines.push('  "description": "Analyze a GitHub repository",');
+  lines.push('  "inputSchema": {');
+  lines.push('    "type": "object",');
+  lines.push('    "required": ["github_url"],');
+  lines.push('    "properties": {');
+  lines.push('      "github_url": { "type": "string" }');
+  lines.push('    }');
+  lines.push('  }');
+  lines.push('}');
+  lines.push("```");
+  lines.push("");
+
+  lines.push("### Resources");
+  lines.push("");
+  lines.push("Readable data endpoints identified by URIs. Resources are fetched (not executed) and return structured or text content.");
+  lines.push("");
+  lines.push("Example:");
+  lines.push("```json");
+  lines.push('{');
+  lines.push('  "uri": "project://context-map",');
+  lines.push('  "name": "Context Map",');
+  lines.push('  "mimeType": "application/json"');
+  lines.push('}');
+  lines.push("```");
+  lines.push("");
+
+  lines.push("### Prompts");
+  lines.push("");
+  lines.push("Reusable templates that guide client behavior and can accept typed arguments.");
+  lines.push("");
+  lines.push("Example:");
+  lines.push("```json");
+  lines.push('{');
+  lines.push('  "name": "code-review",');
+  lines.push('  "description": "Review code using project conventions",');
+  lines.push('  "arguments": [');
+  lines.push('    { "name": "file_path", "required": true }');
+  lines.push('  ]');
+  lines.push('}');
+  lines.push("```");
+  lines.push("");
+
   lines.push("## Authentication");
   lines.push("");
   lines.push("- Primary: `Authorization: Bearer <api_key>`");
