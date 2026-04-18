@@ -933,7 +933,7 @@ describe("depth generators content", () => {
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(87);
+    expect(generators.length).toBe(88);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/symbol-index.json");
     expect(paths).toContain(".ai/context-map.json");
@@ -947,6 +947,7 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("generative-sketch.ts");
     expect(paths).toContain("parameter-pack.json");
     expect(paths).toContain("mcp-registry-metadata.json");
+    expect(paths).toContain("protocol-spec.md");
     expect(paths).toContain("collection-map.md");
     expect(paths).toContain("export-manifest.yaml");
     // depth generators

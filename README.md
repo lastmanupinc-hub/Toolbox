@@ -57,7 +57,7 @@ One scan → 86 artifacts across 18 programs, ready in seconds:
 | Launch a campaign | **Marketing** | `campaign-brief.md`, `funnel-map.md`, `ab-test-plan.md` |
 | Build data/research tools | **Notebook** | `notebook-summary.md`, `research-threads.md`, `source-map.json` |
 | Manage a knowledge vault | **Obsidian** | `obsidian-skill-pack.md`, `vault-rules.md`, `graph-prompt-map.json` |
-| Connect AI tools (MCP) | **MCP** | `mcp-config.json`, `capability-registry.json`, `server-manifest.yaml` |
+| Connect AI tools (MCP) | **MCP** | `mcp-config.json`, `mcp-registry-metadata.json`, `protocol-spec.md`, `capability-registry.json`, `server-manifest.yaml` |
 | Generate components | **Artifacts** | `generated-component.tsx`, `dashboard-widget.tsx`, `component-library.json` |
 | Create dev videos | **Remotion** | `remotion-script.ts`, `scene-plan.md`, `storyboard.md` |
 | Social & visual assets | **Canvas** | `canvas-spec.json`, `social-pack.md`, `poster-layouts.md` |
@@ -104,7 +104,7 @@ AXIS exposes a **Streamable HTTP MCP server** at `https://axis-api-6c7z.onrender
 | Tier | Price | Programs |
 |------|-------|----------|
 | **Free** | $0 | Search, Skills, Debug |
-| **Pro** | $0.50 / run | All 18 programs, 86 artifacts |
+| **Pro** | $0.50 / run | All 18 programs, 88 artifacts |
 | **Lite mode** | $0.15–$0.25 / run | Top-gap summary, reduced output |
 
 Budget negotiation: send `X-Agent-Budget: {"budget_per_run_cents": 25}` + `X-Agent-Mode: lite` on any paid call.
@@ -151,7 +151,7 @@ axis-iliad/
 │   ├── snapshots/    → Snapshot intake, SQLite persistence, billing, funnel
 │   ├── repo-parser/  → Language detection (60+), framework detection (10), import graph
 │   ├── context-engine/ → Context map builder, repo profile, route/architecture analysis
-│   └── generator-core/ → 86 generators across 18 programs
+│   └── generator-core/ → 88 generators across 18 programs
 └── vitest.config.ts  → Shared test config
 ```
 
@@ -171,7 +171,7 @@ axis-iliad/
 | **Marketing** | campaign-brief.md, funnel-map.md, sequence-pack.md, cro-playbook.md, ab-test-plan.md | Pro |
 | **Notebook** | notebook-summary.md, source-map.json, study-brief.md, research-threads.md, citation-index.json | Pro |
 | **Obsidian** | obsidian-skill-pack.md, vault-rules.md, graph-prompt-map.json, linking-policy.md, template-pack.md | Pro |
-| **MCP** | mcp-config.json, connector-map.yaml, capability-registry.json, server-manifest.yaml | Pro |
+| **MCP** | mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, connector-map.yaml, capability-registry.json, server-manifest.yaml | Pro |
 | **Artifacts** | generated-component.tsx, dashboard-widget.tsx, embed-snippet.ts, artifact-spec.md, component-library.json | Pro |
 | **Remotion** | remotion-script.ts, scene-plan.md, render-config.json, asset-checklist.md, storyboard.md | Pro |
 | **Canvas** | canvas-spec.json, social-pack.md, poster-layouts.md, asset-guidelines.md, brand-board.md | Pro |

@@ -109,7 +109,7 @@ const PROGRAMS = [
   { name: "marketing",          tier: "pro",  outputs: 5,  key: "campaign-brief.md, funnel-map.md, sequence-pack.md, cro-playbook.md, ab-test-plan.md" },
   { name: "notebook",           tier: "pro",  outputs: 5,  key: "notebook-summary.md, source-map.json, study-brief.md, research-threads.md, citation-index.json" },
   { name: "obsidian",           tier: "pro",  outputs: 5,  key: "obsidian-skill-pack.md, vault-rules.md, graph-prompt-map.json, linking-policy.md, template-pack.md" },
-  { name: "mcp",                tier: "pro",  outputs: 5,  key: "mcp-config.json, mcp-registry-metadata.json, connector-map.yaml, capability-registry.json, server-manifest.yaml" },
+  { name: "mcp",                tier: "pro",  outputs: 6,  key: "mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, connector-map.yaml, capability-registry.json, server-manifest.yaml" },
   { name: "artifacts",          tier: "pro",  outputs: 5,  key: "generated-component.tsx, dashboard-widget.tsx, embed-snippet.ts, artifact-spec.md, component-library.json" },
   { name: "remotion",           tier: "pro",  outputs: 5,  key: "remotion-script.ts, scene-plan.md, render-config.json, asset-checklist.md, storyboard.md" },
   { name: "canvas",             tier: "pro",  outputs: 5,  key: "canvas-spec.json, social-pack.md, poster-layouts.md, asset-guidelines.md, brand-board.md" },

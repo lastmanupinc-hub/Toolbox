@@ -254,6 +254,87 @@ export function generateMcpRegistryMetadata(
   };
 }
 
+// ─── protocol-spec.md ─────────────────────────────────────────
+
+export function generateProtocolSpec(ctx: ContextMap): GeneratedFile {
+  const projectName = ctx.project_identity.name;
+  const lines: string[] = [];
+
+  lines.push(`# Protocol Specification — ${projectName}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("## Purpose");
+  lines.push("");
+  lines.push(
+    "Living specification for this MCP server protocol surface, covering transport, versioning, authentication, errors, and capability discovery.",
+  );
+  lines.push("");
+
+  lines.push("## Versioning");
+  lines.push("");
+  lines.push("- JSON-RPC: `2.0`");
+  lines.push("- MCP protocol target: `2025-03-26`");
+  lines.push("- Backward-compatibility policy: additive-first; avoid breaking existing tool names and required fields.");
+  lines.push("");
+
+  lines.push("## Transport");
+  lines.push("");
+  lines.push("- Primary endpoint: `POST /mcp`");
+  lines.push("- Discovery endpoints: `GET /.well-known/mcp.json`, `GET /v1/mcp/server.json`");
+  lines.push("- Content-Type: `application/json`");
+  lines.push("- Request envelope: JSON-RPC request object");
+  lines.push("- Response envelope: JSON-RPC success or error object");
+  lines.push("");
+
+  lines.push("## Authentication");
+  lines.push("");
+  lines.push("- Primary: `Authorization: Bearer <api_key>`");
+  lines.push("- Alternate: `x-axis-key: <api_key>`");
+  lines.push("- Free tools may be called anonymously; paid tools require auth.");
+  lines.push("");
+
+  lines.push("## Capability Discovery");
+  lines.push("");
+  lines.push("- `tools/list` is the authoritative runtime capability listing.");
+  lines.push("- `mcp-registry-metadata.json` describes publishing metadata for registries.");
+  lines.push("- `capability-registry.json` exposes project-scoped generated capabilities.");
+  lines.push("");
+
+  lines.push("## Error Model");
+  lines.push("");
+  lines.push("- Parse and invalid request failures return JSON-RPC errors.");
+  lines.push("- Tool execution failures return tool-level errors with actionable messages.");
+  lines.push("- Authentication failures return explicit guidance: `Authorization: Bearer <api_key>`.");
+  lines.push("");
+
+  lines.push("## Idempotency and Determinism");
+  lines.push("");
+  lines.push("- Read/list operations should be deterministic for the same inputs.");
+  lines.push("- Generation outputs are deterministic for the same snapshot and requested outputs.");
+  lines.push("");
+
+  lines.push("## Security and Operational Notes");
+  lines.push("");
+  lines.push("- Do not expose raw credentials in artifacts.");
+  lines.push("- Log request identifiers for traceability.");
+  lines.push("- Use least-privilege API keys for automation.");
+  lines.push("");
+
+  lines.push("## Change Log Policy");
+  lines.push("");
+  lines.push("- Update this document when transport/auth/error behavior changes.");
+  lines.push("- For breaking changes, bump version and provide migration notes.");
+
+  return {
+    path: "protocol-spec.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "mcp",
+    description: "Living protocol specification document for MCP transport, auth, errors, and capability discovery",
+  };
+}
+
 // ─── connector-map.yaml ─────────────────────────────────────────
 
 export function generateConnectorMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
