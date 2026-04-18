@@ -1799,6 +1799,7 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("- Define `.github/workflows/` automation for lint, test, and build so every merge candidate passes the same deterministic quality gates.");
   lines.push("- Add npm publish workflows that use OIDC trusted publishing (no long-lived npm tokens) with environment protections and provenance attestations.");
   lines.push("- Use `.changeset/` with the Changesets tool for versioning so release notes, semver bumps, and package publish intent are captured in-repo.");
+  lines.push("- Include release hygiene artifacts: `LICENSE`, `.gitignore`, and publish configuration (`publishConfig` in package manifests or equivalent) before any public publish.");
   lines.push("- Publish release artifacts for server/client/sdk/middleware packages with reproducible build metadata and checksums.");
   lines.push("- Generate protocol compatibility reports that compare current outputs against the previous stable release.");
   lines.push("- Enforce release gates for changelog completeness, migration notes, semantic version validation, and signed package provenance.");
@@ -1814,6 +1815,9 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("`- npm-publish.yml");
   lines.push(".changeset/");
   lines.push("`- <change>.md");
+  lines.push("package.json (publishConfig)");
+  lines.push("LICENSE");
+  lines.push(".gitignore");
   lines.push("artifacts/releases/");
   lines.push("|- checksums.txt");
   lines.push("|- compatibility-report.md");

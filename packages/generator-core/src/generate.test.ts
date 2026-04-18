@@ -1178,6 +1178,7 @@ describe("depth generators content", () => {
     expect(file.content).toContain("Define `.github/workflows/` automation for lint, test, and build");
     expect(file.content).toContain("npm publish workflows that use OIDC trusted publishing");
     expect(file.content).toContain("Use `.changeset/` with the Changesets tool for versioning");
+    expect(file.content).toContain("Include release hygiene artifacts: `LICENSE`, `.gitignore`, and publish configuration");
     expect(file.content).toContain("Publish release artifacts for server/client/sdk/middleware packages");
     expect(file.content).toContain("protocol compatibility reports");
     expect(file.content).toContain(".github/workflows/");
@@ -1189,6 +1190,9 @@ describe("depth generators content", () => {
     expect(file.content).toContain("`- npm-publish.yml");
     expect(file.content).toContain(".changeset/");
     expect(file.content).toContain("`- <change>.md");
+    expect(file.content).toContain("package.json (publishConfig)");
+    expect(file.content).toContain("LICENSE");
+    expect(file.content).toContain(".gitignore");
     expect(file.content).toContain("artifacts/releases/");
     expect(file.content).toContain("|- checksums.txt");
     expect(file.content).toContain("|- compatibility-report.md");
