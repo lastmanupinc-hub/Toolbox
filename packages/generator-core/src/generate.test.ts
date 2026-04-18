@@ -1046,10 +1046,16 @@ describe("depth generators content", () => {
     expect(file.content).toContain("## Recommended Folder Layout");
     expect(file.content).toContain("apps/");
     expect(file.content).toContain("packages/");
+    expect(file.content).toContain("packages/client/");
+    expect(file.content).toContain("discovery/");
+    expect(file.content).toContain("invocation/");
     expect(file.content).toContain("packages/server/");
     expect(file.content).toContain("McpServer.ts");
     expect(file.content).toContain("mcp/");
     expect(file.content).toContain("## Folder Roles");
+    expect(file.content).toContain("## packages/client Responsibilities");
+    expect(file.content).toContain("Discovery");
+    expect(file.content).toContain("Invocation");
     expect(file.content).toContain("## packages/server Responsibilities");
     expect(file.content).toContain("Tool registration");
     expect(file.content).toContain("Transports");
