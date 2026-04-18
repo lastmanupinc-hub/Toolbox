@@ -1148,7 +1148,9 @@ describe("depth generators content", () => {
     expect(file.content).toContain("Maintain `protocol-spec.md` as the canonical wire contract");
     expect(file.content).toContain("Keep `spec.types.ts` synchronized with runtime schemas");
     expect(file.content).toContain("Add `docs/server.md` as the detailed implementation guide");
+    expect(file.content).toContain("Add `docs/client.md` as the usage guide");
     expect(file.content).toContain("|- server.md");
+    expect(file.content).toContain("|- client.md");
     expect(file.content).toContain("migration-notes.md");
     expect(file.content).toContain("compatibility-matrix.md");
     expect(file.content).toContain("import type { IncomingMessage, ServerResponse } from \"node:http\";");
