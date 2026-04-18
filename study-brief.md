@@ -19,7 +19,7 @@ Before diving into this codebase, you should be comfortable with:
 
    - `apps` — monorepo_apps (141 files)
    - `packages` — monorepo_packages (135 files)
-   - `payment-processing-output` — project_directory (72 files)
+   - `payment-processing-output` — project_directory (71 files)
    - `examples` — project_directory (17 files)
    - `algorithmic` — project_directory (4 files)
    - `artifacts` — project_directory (4 files)
@@ -107,7 +107,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (412 more lines)
+... (414 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -343,6 +343,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | GET | `/.well-known/capabilities.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/security.txt` | apps/api/src/server.ts | NORMAL |
+| GET | `/.well-known/glama.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/agent.json` | apps/api/src/server.ts | NORMAL |
 | GET | `/.well-known/oauth-authorization-server` | apps/api/src/server.ts | HIGH |
 | GET | `/mcp/.well-known/mcp.json` | apps/api/src/server.ts | NORMAL |
@@ -464,6 +465,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | POST | `/v1/account/webhooks/:webhook_id/toggle` | apps/api/src/webhooks.test.ts | NORMAL |
 | GET | `/v1/account/webhooks/:webhook_id/deliveries` | apps/api/src/webhooks.test.ts | NORMAL |
 | GET | `/.well-known/agent.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
+| GET | `/.well-known/glama.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/.well-known/security.txt` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/.well-known/capabilities.json` | apps/api/src/well-known-handlers.test.ts | NORMAL |
 | GET | `/robots.txt` | apps/api/src/well-known-handlers.test.ts | NORMAL |
@@ -735,7 +737,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (407 more lines)
+... (409 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

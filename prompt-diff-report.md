@@ -33,11 +33,11 @@ Reference 2 detected patterns (separation score: 0.65/100) in architectural prom
 
 ### Route Awareness
 
-Include route map (473 routes) in prompts when working on API or page code to prevent duplicate endpoints.
+Include route map (475 routes) in prompts when working on API or page code to prevent duplicate endpoints.
 
 ## Token Budget Guidance
 
-Estimated full-project tokens: ~557,492
+Estimated full-project tokens: ~557,681
 
 **Selective context required.** Use this priority order:
 1. Active file being modified
@@ -50,7 +50,7 @@ Estimated full-project tokens: ~557,492
 
 | File | Lines | Exports |
 |------|-------|---------|
-| `apps/api/src/server.ts` | 432 | export const app = ... |
+| `apps/api/src/server.ts` | 434 | export const app = ... |
 | `apps/web/src/App.tsx` | 326 | export function App() { ... } |
 | `apps/web/src/main.tsx` | 11 | default |
 | `packages/context-engine/src/index.ts` | 3 | export type { ... }, export { ... } |

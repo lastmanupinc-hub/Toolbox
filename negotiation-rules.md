@@ -7,7 +7,7 @@
 | Signal | Value | Weight |
 |--------|-------|--------|
 | File count | 500 files | Medium |
-| Lines of code | 123887 LOC | High |
+| Lines of code | 123929 LOC | High |
 | Complexity estimate | medium | High |
 | Separation score | 0.65 / 1.0 | High |
 
@@ -23,7 +23,7 @@ value_score = (loc / 1000) * 0.4
 Where `complexity_score` = 1 (low) | 2 (medium) | 3 (high).
 Where `commerce_signal_bonus` = detected_providers × 0.15 + (has_sca ? 0.10 : 0) + (has_dispute ? 0.10 : 0).
 
-**Estimated value score for axis-iliad:** 67.00
+**Estimated value score for axis-iliad:** 67.02
 
 ## ROI Computation
 

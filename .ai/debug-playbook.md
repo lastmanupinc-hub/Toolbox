@@ -17,19 +17,19 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | npm |
-| Files | 500 files, 123,887 LOC |
+| Files | 500 files, 123,929 LOC |
 | Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 262 | 82,842 | 73.2% |
-| JSON | 62 | 11,430 | 10.1% |
-| YAML | 55 | 8,558 | 7.6% |
-| Markdown | 98 | 8,021 | 7.1% |
+| TypeScript | 262 | 82,947 | 73.3% |
+| JSON | 62 | 11,393 | 10.1% |
+| YAML | 55 | 8,549 | 7.6% |
+| Markdown | 98 | 8,004 | 7.1% |
 | JavaScript | 7 | 1,313 | 1.2% |
-| CSS | 2 | 849 | 0.8% |
+| CSS | 2 | 849 | 0.7% |
 | HTML | 1 | 120 | 0.1% |
 | Dockerfile | 1 | 53 | 0% |
 
@@ -588,6 +588,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/.well-known/capabilities.json` | apps/api/src/server.ts |
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts |
 | GET | `/.well-known/security.txt` | apps/api/src/server.ts |
+| GET | `/.well-known/glama.json` | apps/api/src/server.ts |
 | GET | `/.well-known/agent.json` | apps/api/src/server.ts |
 | GET | `/.well-known/oauth-authorization-server` | apps/api/src/server.ts |
 | GET | `/mcp/.well-known/mcp.json` | apps/api/src/server.ts |
@@ -709,6 +710,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | POST | `/v1/account/webhooks/:webhook_id/toggle` | apps/api/src/webhooks.test.ts |
 | GET | `/v1/account/webhooks/:webhook_id/deliveries` | apps/api/src/webhooks.test.ts |
 | GET | `/.well-known/agent.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/.well-known/glama.json` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/.well-known/security.txt` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/.well-known/capabilities.json` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/robots.txt` | apps/api/src/well-known-handlers.test.ts |
@@ -806,7 +808,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (407 more lines)
+... (409 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

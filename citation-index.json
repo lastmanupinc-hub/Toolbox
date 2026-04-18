@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-17T20:18:38.623Z",
+  "generated_at": "2026-04-18T01:42:33.107Z",
   "total_citations": 16,
   "by_type": {
     "documentation": 1,
@@ -197,7 +197,7 @@
       "exports": [
         "export const app = ..."
       ],
-      "lines": 432
+      "lines": 434
     },
     {
       "path": "apps/web/src/App.tsx",

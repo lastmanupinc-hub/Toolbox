@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-iliad
 
-> monorepo | TypeScript | 500 files | 123,887 LOC
+> monorepo | TypeScript | 500 files | 123,929 LOC
 
 **Stack:** React ^19.1.0
 
@@ -277,7 +277,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (407 more lines)
+... (409 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -158,7 +158,7 @@ export function makeValidationError(overrides: Partial<ValidationError> = {}): V
 | File | Lines |
 |------|-------|
 | `apps/api/src/admin.test.ts` | 265 |
-| `apps/api/src/agent-discovery.test.ts` | 559 |
+| `apps/api/src/agent-discovery.test.ts` | 568 |
 | `apps/api/src/analyze-repo-success.test.ts` | 137 |
 | `apps/api/src/analyze.test.ts` | 487 |
 | `apps/api/src/api-branches.test.ts` | 606 |

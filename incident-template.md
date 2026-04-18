@@ -363,7 +363,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (412 more lines)
+... (414 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -16,7 +16,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (123887 LOC)
+- **Files:** 500 (123929 LOC)
 - **Directories:** 57
 
 ## Frameworks & Libraries
@@ -366,6 +366,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | GET | `/.well-known/capabilities.json` | apps/api/src/server.ts |
 | GET | `/.well-known/mcp.json` | apps/api/src/server.ts |
 | GET | `/.well-known/security.txt` | apps/api/src/server.ts |
+| GET | `/.well-known/glama.json` | apps/api/src/server.ts |
 | GET | `/.well-known/agent.json` | apps/api/src/server.ts |
 | GET | `/.well-known/oauth-authorization-server` | apps/api/src/server.ts |
 | GET | `/mcp/.well-known/mcp.json` | apps/api/src/server.ts |
@@ -487,6 +488,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | POST | `/v1/account/webhooks/:webhook_id/toggle` | apps/api/src/webhooks.test.ts |
 | GET | `/v1/account/webhooks/:webhook_id/deliveries` | apps/api/src/webhooks.test.ts |
 | GET | `/.well-known/agent.json` | apps/api/src/well-known-handlers.test.ts |
+| GET | `/.well-known/glama.json` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/.well-known/security.txt` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/.well-known/capabilities.json` | apps/api/src/well-known-handlers.test.ts |
 | GET | `/robots.txt` | apps/api/src/well-known-handlers.test.ts |
@@ -517,7 +519,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - `apps/` — monorepo_apps (141 files)
 - `packages/` — monorepo_packages (135 files)
-- `payment-processing-output/` — project_directory (72 files)
+- `payment-processing-output/` — project_directory (71 files)
 - `examples/` — project_directory (17 files)
 - `algorithmic/` — project_directory (4 files)
 - `artifacts/` — project_directory (4 files)
@@ -604,7 +606,7 @@ Detected 163 domain models:
 .prettierrc.json (0.1 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
-AGENTS.md (14.1 KB)
+AGENTS.md (13.8 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
@@ -617,7 +619,7 @@ apps/api/mcp-server.json (10.3 KB)
 apps/api/package.json (0.7 KB)
 apps/api/src/admin.test.ts (10.0 KB)
 apps/api/src/admin.ts (2.8 KB)
-apps/api/src/agent-discovery.test.ts (18.6 KB)
+apps/api/src/agent-discovery.test.ts (19.0 KB)
 apps/api/src/analyze-repo-success.test.ts (5.0 KB)
 apps/api/src/analyze.test.ts (17.6 KB)
 apps/api/src/api-branches.test.ts (22.0 KB)
@@ -649,13 +651,13 @@ apps/api/src/handler-edge-cases.test.ts (11.8 KB)
 apps/api/src/handler-shutdown.test.ts (2.8 KB)
 apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
-apps/api/src/handlers.ts (147.8 KB)
+apps/api/src/handlers.ts (150.3 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.7 KB)
 apps/api/src/logger.ts (3.1 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (81.8 KB)
-apps/api/src/mcp-server.ts (103.9 KB)
+apps/api/src/mcp-server.test.ts (82.1 KB)
+apps/api/src/mcp-server.ts (104.0 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.5 KB)
@@ -684,7 +686,7 @@ apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.3 KB)
-apps/api/src/server.ts (16.3 KB)
+apps/api/src/server.ts (16.4 KB)
 apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -695,7 +697,7 @@ apps/api/src/versions.ts (2.5 KB)
 apps/api/src/webhook-branches.test.ts (16.3 KB)
 apps/api/src/webhooks.test.ts (13.6 KB)
 apps/api/src/webhooks.ts (5.4 KB)
-apps/api/src/well-known-handlers.test.ts (15.6 KB)
+apps/api/src/well-known-handlers.test.ts (16.6 KB)
 apps/api/tsconfig.json (0.2 KB)
 apps/cli/package.json (0.5 KB)
 apps/cli/src/cli-auth.test.ts (7.6 KB)
@@ -751,7 +753,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (73.2 KB)
+architecture-summary.md (73.5 KB)
 artifact-spec.md (7.8 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -765,8 +767,9 @@ axis_all_tools.yaml (22.6 KB)
 AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
+axis-analyze-results.json (1.1 KB)
 begin.yaml (14.7 KB)
-brand-board.md (5.0 KB)
+brand-board.md (5.1 KB)
 brand-guidelines.md (3.0 KB)
 brand/begin.yaml (1.8 KB)
 brand/continuation.yaml (2.4 KB)
@@ -785,14 +788,14 @@ CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (10.0 KB)
+CLAUDE.md (9.7 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
 component-theme-map.json (9.5 KB)
-connector-map.yaml (6.6 KB)
+connector-map.yaml (6.5 KB)
 content-audit.md (3.8 KB)
 content-constraints.md (2.9 KB)
 CONTRIBUTING.md (3.1 KB)
@@ -808,7 +811,7 @@ coverage-full.txt (249.9 KB)
 cro-playbook.md (35.7 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
-dashboard-widget.tsx (3.4 KB)
+dashboard-widget.tsx (3.5 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
@@ -820,7 +823,7 @@ e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
 e2e_wiring_audit.mjs (46.9 KB)
 e2e_wiring_audit.yaml (31.5 KB)
-embed-snippet.ts (2.0 KB)
+embed-snippet.ts (2.1 KB)
 eslint.config.js (0.2 KB)
 examples/01-paid-platform/generated/AGENTS.md (1.9 KB)
 examples/01-paid-platform/generated/CLAUDE.md (0.9 KB)
@@ -844,7 +847,7 @@ frontend/begin.yaml (3.6 KB)
 frontend/continuation.yaml (2.4 KB)
 frontend/MEMORY.yaml (5.8 KB)
 frontend/schemas/output-contract.schema.json (1.8 KB)
-funnel-map.md (2.9 KB)
+funnel-map.md (3.0 KB)
 generate-keys.js (0.6 KB)
 generated-component.tsx (1.6 KB)
 generated-posts.json (2.3 KB)
@@ -874,7 +877,7 @@ memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (24.5 KB)
 negotiation-rules.md (7.6 KB)
-notebook-summary.md (3.6 KB)
+notebook-summary.md (3.5 KB)
 notebook/begin.yaml (1.8 KB)
 notebook/continuation.yaml (2.4 KB)
 notebook/MEMORY.yaml (2.9 KB)
@@ -1098,7 +1101,6 @@ payment-processing-output/variation-matrix.json (6.9 KB)
 payment-processing-output/vault-rules.md (2.1 KB)
 payment-processing-output/voice-and-tone.md (2.5 KB)
 payment-processing-output/workflow-pack.md (2.0 KB)
-payment-processing-output/workflow-registry.json (1.8 KB)
 ```
 
 ## Entry Points (Source)
@@ -1136,7 +1138,7 @@ import {
   handleAnalyze,
   handlePreparePurchasing,
   handleWellKnown,
-... (402 more lines)
+... (404 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -1735,4 +1737,4 @@ export default defineConfig({
 ```
 
 ---
-*Generated by Axis Search — 2026-04-17*
+*Generated by Axis Search — 2026-04-18*

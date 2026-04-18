@@ -356,6 +356,7 @@ Detected routes that are candidates for conversion optimization:
 | `/.well-known/capabilities.json` | GET | Monitor usage metrics |
 | `/.well-known/mcp.json` | GET | Monitor usage metrics |
 | `/.well-known/security.txt` | GET | Monitor usage metrics |
+| `/.well-known/glama.json` | GET | Monitor usage metrics |
 | `/.well-known/agent.json` | GET | Monitor usage metrics |
 | `/.well-known/oauth-authorization-server` | GET | Reduce friction — minimize required fields |
 | `/mcp/.well-known/mcp.json` | GET | Monitor usage metrics |
@@ -477,6 +478,7 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/account/webhooks/:webhook_id/toggle` | POST | Track API adoption rate per endpoint |
 | `/v1/account/webhooks/:webhook_id/deliveries` | GET | Track API adoption rate per endpoint |
 | `/.well-known/agent.json` | GET | Monitor usage metrics |
+| `/.well-known/glama.json` | GET | Monitor usage metrics |
 | `/.well-known/security.txt` | GET | Monitor usage metrics |
 | `/.well-known/capabilities.json` | GET | Monitor usage metrics |
 | `/robots.txt` | GET | Monitor usage metrics |
@@ -541,7 +543,7 @@ Detected routes that are candidates for conversion optimization:
 
 - **Hypothesis**: A guided first-run wizard will increase first-value moment by 35%
 - **Metric**: Features used in first session, time to first successful output
-- **Context**: 473 API endpoints — users need a path through the complexity
+- **Context**: 475 API endpoints — users need a path through the complexity
 - **Variants**: A: Self-discovery | B: Step-by-step first-run guide with progress indicator
 - **Duration**: 3 weeks
 

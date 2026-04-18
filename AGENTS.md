@@ -77,12 +77,12 @@ This is a **monorepo** built with **TypeScript**.
 - `GET /.well-known/capabilities.json` → apps/api/src/server.ts
 - `GET /.well-known/mcp.json` → apps/api/src/server.ts
 - `GET /.well-known/security.txt` → apps/api/src/server.ts
+- `GET /.well-known/glama.json` → apps/api/src/server.ts
 - `GET /.well-known/agent.json` → apps/api/src/server.ts
 - `GET /.well-known/oauth-authorization-server` → apps/api/src/server.ts
 - `GET /mcp/.well-known/mcp.json` → apps/api/src/server.ts
 - `GET /mcp/.well-known/agent.json` → apps/api/src/server.ts
-- `GET /robots.txt` → apps/api/src/server.ts
-- *… 83 more (see OpenAPI spec or `/v1/docs`)*
+- *… 84 more (see OpenAPI spec or `/v1/docs`)*
 
 ### Domain Models
 

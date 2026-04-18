@@ -36,7 +36,7 @@ export function DashboardWidget() {
         <StatCard label="Language" value={data.language} />
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
-        <StatCard label="TypeScript" value={`${73.2}%`} />
+        <StatCard label="TypeScript" value={`${73.3}%`} />
         <StatCard label="JSON" value={`${10.1}%`} />
         <StatCard label="YAML" value={`${7.6}%`} />
       </div>
@@ -61,8 +61,8 @@ export default DashboardWidget;
 // apps/web/src/components/AxisIcons.tsx | 4 in | 0 out | risk 0.20
 // apps/web/src/upload-utils.ts | 3 in | 0 out | risk 0.15
 
-// ─── API Surface: 473 routes ───
-// GET: 263 endpoints
+// ─── API Surface: 475 routes ───
+// GET: 265 endpoints
 // POST: 189 endpoints
 // DELETE: 21 endpoints
 

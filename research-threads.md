@@ -41,7 +41,7 @@ Investigation areas:
 
 - What is the baseline performance metric for axis-iliad?
 - Are there obvious bottlenecks in the critical path?
-- Which of the 473 routes are most latency-sensitive?
+- Which of the 475 routes are most latency-sensitive?
 - What caching strategies would have the highest impact?
 
 ### Thread 5: Test Coverage
@@ -86,7 +86,7 @@ Questions to answer:
 
 Entry points to investigate for complexity and coupling:
 
-- **`apps/api/src/server.ts`** — 432 lines, exports: export const app = ...
+- **`apps/api/src/server.ts`** — 434 lines, exports: export const app = ...
 - **`apps/web/src/App.tsx`** — 326 lines, exports: export function App() { ... }
 - **`apps/web/src/main.tsx`** — 11 lines, exports: default
 - **`packages/context-engine/src/index.ts`** — 3 lines, exports: export type { ... }, export { ... }

@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "product": "Axis' Iliad",
   "generated_for": "axis-iliad",
-  "generated_at": "2026-04-17",
+  "generated_at": "2026-04-18",
   "mcp_endpoint": "POST /mcp",
   "repo_commerce_profile": {
     "detected_payment_providers": [

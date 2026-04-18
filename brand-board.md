@@ -1,6 +1,6 @@
 # Brand Board — axis-iliad
 
-Generated: 2026-04-17T20:18:38.631Z
+Generated: 2026-04-18T01:42:33.115Z
 
 Comprehensive visual identity reference for all project-branded outputs.
 

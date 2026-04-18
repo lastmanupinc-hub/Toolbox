@@ -1,6 +1,6 @@
 # UI Audit — axis-iliad
 
-Generated: 2026-04-17T20:18:38.598Z
+Generated: 2026-04-18T01:42:33.085Z
 
 ## Project Overview
 
@@ -20,7 +20,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | Styling | CSS/SCSS |
 | TypeScript | Yes |
 | UI Libraries | uuid |
-| Total Routes | 473 |
+| Total Routes | 475 |
 | Entry Points | 0 |
 
 ## Accessibility Checklist

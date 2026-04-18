@@ -368,6 +368,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/.well-known/capabilities.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/mcp.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/security.txt` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/glama.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/agent.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/oauth-authorization-server` | GET | Mark `noindex` — auth gate, no crawl value |
 | `/mcp/.well-known/mcp.json` | GET | Add WebPage schema · unique title + description required |
@@ -489,6 +490,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/v1/account/webhooks/:webhook_id/toggle` | POST | API route — exclude from sitemap |
 | `/v1/account/webhooks/:webhook_id/deliveries` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/.well-known/agent.json` | GET | Add WebPage schema · unique title + description required |
+| `/.well-known/glama.json` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/security.txt` | GET | Add WebPage schema · unique title + description required |
 | `/.well-known/capabilities.json` | GET | Add WebPage schema · unique title + description required |
 | `/robots.txt` | GET | Add WebPage schema · unique title + description required |
@@ -603,7 +605,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-iliad
-# Generated: 2026-04-17T15:47:48.267Z
+# Generated: 2026-04-17T20:18:38.480Z
 
 manifest:
   project: "axis-iliad"

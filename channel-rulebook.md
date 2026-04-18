@@ -1,6 +1,6 @@
 # Channel Rulebook — axis-iliad
 
-Generated: 2026-04-17T20:18:38.621Z
+Generated: 2026-04-18T01:42:33.105Z
 
 ## Project Overview
 

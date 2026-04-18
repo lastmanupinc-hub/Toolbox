@@ -164,6 +164,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/.well-known/capabilities.json` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/mcp.json` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/security.txt` | 0.5 | monthly | Yes | Standard page |
+| `/.well-known/glama.json` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/agent.json` | 0.5 | monthly | Yes | Standard page |
 | `/mcp/.well-known/mcp.json` | 0.5 | monthly | Yes | Standard page |
 | `/mcp/.well-known/agent.json` | 0.5 | monthly | Yes | Standard page |
@@ -202,6 +203,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/v1/snapshots/:snapshot_id/diff` | 0.5 | monthly | Yes | Standard page |
 | `/v1/health` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/agent.json` | 0.5 | monthly | Yes | Standard page |
+| `/.well-known/glama.json` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/security.txt` | 0.5 | monthly | Yes | Standard page |
 | `/.well-known/capabilities.json` | 0.5 | monthly | Yes | Standard page |
 | `/robots.txt` | 0.5 | monthly | Yes | Standard page |
@@ -282,8 +284,8 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Summary
 
-- **Total routes:** 263
-- **Indexable:** 198
+- **Total routes:** 265
+- **Indexable:** 200
 - **Noindex:** 65
 
 ## API Routes (Excluded)
@@ -585,8 +587,8 @@ Sitemap: https://yoursite.com/sitemap.xml
 
 | File | Exports | Lines |
 |------|---------|-------|
-| `apps/api/src/handlers.ts` | export const PROGRAM_OUTPUTS: Record<string, string[]> = ..., export function makeProgramHandler(program: string, defaultOutputs: string[]) { ... }, export const handleDebugAnalyze        = ..., export const handleFrontendAudit       = ..., export const handleSeoAnalyze          = ..., export const handleOptimizationAnalyze = ..., export const handleThemeGenerate       = ..., export const handleBrandGenerate       = ..., export const handleSuperpowersGenerate = ..., export const handleMarketingGenerate   = ..., export const handleNotebookGenerate    = ..., export const handleObsidianAnalyze     = ..., export const handleMcpProvision        = ..., export const handleArtifactsGenerate   = ..., export const handleRemotionGenerate    = ..., export const handleCanvasGenerate      = ..., export const handleAlgorithmicGenerate = ..., export const handleAgenticPurchasingGenerate = ..., export async function handleCreateSnapshot(, export async function handleGetSnapshot(, export async function handleDeleteSnapshot(, export async function handleDeleteProject(, export async function handleGetContext(, export async function handleGetGeneratedFiles(, export async function handleHealthCheck(, export async function handleDbStats(, export async function handleDbMaintenance(, export async function handleGetGeneratedFile(, export async function handleSearchExport(, export async function handleSkillsGenerate( | 3164 |
-| `apps/api/src/router.ts` | export class Router { ... }, export function sendJSON(res: ServerResponse, status: number, data: unknown) { ... }, export function sendError(, export async function readBody(req: IncomingMessage): Promise<string> { ... }, export interface AppHandle { ... }, export function isShuttingDown(): boolean { ... }, export function createApp(router: Router, port: number): Server { ... } | 407 |
+| `apps/api/src/handlers.ts` | export const PROGRAM_OUTPUTS: Record<string, string[]> = ..., export function makeProgramHandler(program: string, defaultOutputs: string[]) { ... }, export const handleDebugAnalyze        = ..., export const handleFrontendAudit       = ..., export const handleSeoAnalyze          = ..., export const handleOptimizationAnalyze = ..., export const handleThemeGenerate       = ..., export const handleBrandGenerate       = ..., export const handleSuperpowersGenerate = ..., export const handleMarketingGenerate   = ..., export const handleNotebookGenerate    = ..., export const handleObsidianAnalyze     = ..., export const handleMcpProvision        = ..., export const handleArtifactsGenerate   = ..., export const handleRemotionGenerate    = ..., export const handleCanvasGenerate      = ..., export const handleAlgorithmicGenerate = ..., export const handleAgenticPurchasingGenerate = ..., export async function handleCreateSnapshot(, export async function handleGetSnapshot(, export async function handleDeleteSnapshot(, export async function handleDeleteProject(, export async function handleGetContext(, export async function handleGetGeneratedFiles(, export async function handleHealthCheck(, export async function handleDbStats(, export async function handleDbMaintenance(, export async function handleGetGeneratedFile(, export async function handleSearchExport(, export async function handleSkillsGenerate( | 3222 |
+| `apps/api/src/router.ts` | export class Router { ... }, export function sendJSON(res: ServerResponse, status: number, data: unknown) { ... }, export function sendError(, export async function readBody(req: IncomingMessage): Promise<string> { ... }, export interface AppHandle { ... }, export function isShuttingDown(): boolean { ... }, export function createApp(router: Router, port: number): Server { ... } | 408 |
 | `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 623 |
 | `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 197 |
 | `apps/web/src/pages/DocsPage.tsx` | export function DocsPage() { ... } | 1292 |
