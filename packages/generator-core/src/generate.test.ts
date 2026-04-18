@@ -1150,9 +1150,11 @@ describe("depth generators content", () => {
     expect(file.content).toContain("Add `docs/server.md` as the detailed implementation guide");
     expect(file.content).toContain("Add `docs/client.md` as the usage guide");
     expect(file.content).toContain("Add `docs/protocol.md` for low-level protocol details");
+    expect(file.content).toContain("Add `docs/capabilities.md` for advanced features");
     expect(file.content).toContain("|- server.md");
     expect(file.content).toContain("|- client.md");
     expect(file.content).toContain("|- protocol.md");
+    expect(file.content).toContain("|- capabilities.md");
     expect(file.content).toContain("migration-notes.md");
     expect(file.content).toContain("compatibility-matrix.md");
     expect(file.content).toContain("import type { IncomingMessage, ServerResponse } from \"node:http\";");
