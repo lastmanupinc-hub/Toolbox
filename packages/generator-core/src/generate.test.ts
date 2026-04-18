@@ -1130,6 +1130,9 @@ describe("depth generators content", () => {
     expect(file.content).toContain("createMcpExpressHandler");
     expect(file.content).toContain("createMcpHonoHandler");
     expect(file.content).toContain("createMcpNodeHandler");
+    expect(file.content).toContain("## 11. Tests & Conformance Suite");
+    expect(file.content).toContain("protocol conformance suite");
+    expect(file.content).toContain("transport-parity.test.ts");
     expect(file.content).toContain("import type { IncomingMessage, ServerResponse } from \"node:http\";");
     expect(file.content).toContain("function wrapIncomingMessage(req: IncomingMessage, res: ServerResponse)");
     expect(file.content).toContain("const httpCtx = wrapIncomingMessage(req, res);");

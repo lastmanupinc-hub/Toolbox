@@ -1715,6 +1715,23 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("```");
   lines.push("");
 
+  lines.push("## 11. Tests & Conformance Suite");
+  lines.push("");
+  lines.push("- Build a protocol conformance suite that runs the same JSON-RPC vectors across `stdio`, streamable `http`, and `websocket` transports.");
+  lines.push("- Add contract tests for `initialize`, tool invocation, resource reads, prompt rendering, and `shutdown` semantics.");
+  lines.push("- Validate schema behavior for success and failure paths, including malformed envelopes and unsupported capabilities.");
+  lines.push("- Enforce deterministic responses: stable error codes, message shapes, and capability metadata across transports.");
+  lines.push("- Gate release on matrix CI (Node LTS versions + runtime adapters) with per-transport pass/fail reporting.");
+  lines.push("");
+  lines.push("```text");
+  lines.push("packages/server/test/conformance/");
+  lines.push("|- json-rpc-vectors.test.ts");
+  lines.push("|- lifecycle-contract.test.ts");
+  lines.push("|- tool-resource-prompt-contract.test.ts");
+  lines.push("`- transport-parity.test.ts");
+  lines.push("```");
+  lines.push("");
+
   lines.push("## packages/client");
   lines.push("");
   lines.push("- Discovery: resolve capabilities, tool lists, and schema metadata.");
