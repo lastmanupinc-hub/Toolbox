@@ -783,7 +783,7 @@ describe("depth generators content", () => {
     "meta-tag-audit.json", "token-budget-plan.md",
     "dark-mode-tokens.json", "channel-rulebook.md",
     "ab-test-plan.md", "citation-index.json",
-    "server-manifest.yaml", "protocol-spec.md", "spec.types.ts", "mcp/README.md", "mcp/project-setup.md", "mcp/build-artifacts.md", "template-pack.md",
+    "server-manifest.yaml", "protocol-spec.md", "spec.types.ts", "mcp/README.md", "mcp/project-setup.md", "mcp/build-artifacts.md", "mcp/package-json.root.template.json", "mcp/package-json.package.template.json", "template-pack.md",
     "automation-pipeline.yaml", "component-library.json",
     "storyboard.md", "brand-board.md",
     "variation-matrix.json",
@@ -975,6 +975,26 @@ describe("depth generators content", () => {
     expect(file.content.length).toBeGreaterThan(350);
   });
 
+  it("mcp/package-json.root.template.json is valid root package template", () => {
+    const file = result.files.find(f => f.path === "mcp/package-json.root.template.json")!;
+    expect(file.program).toBe("mcp");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.private).toBe(true);
+    expect(parsed.workspaces).toBeTruthy();
+    expect(parsed.scripts).toBeTruthy();
+    expect(file.content_type).toBe("application/json");
+  });
+
+  it("mcp/package-json.package.template.json is valid package template", () => {
+    const file = result.files.find(f => f.path === "mcp/package-json.package.template.json")!;
+    expect(file.program).toBe("mcp");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.main).toBe("dist/index.js");
+    expect(parsed.types).toBe("dist/index.d.ts");
+    expect(parsed.scripts).toBeTruthy();
+    expect(file.content_type).toBe("application/json");
+  });
+
   it("template-pack.md has note templates", () => {
     const file = result.files.find(f => f.path === "template-pack.md")!;
     expect(file.program).toBe("obsidian");
@@ -1025,7 +1045,7 @@ describe("depth generators content", () => {
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(92);
+    expect(generators.length).toBe(94);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/symbol-index.json");
     expect(paths).toContain(".ai/context-map.json");
@@ -1044,6 +1064,8 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("mcp/README.md");
     expect(paths).toContain("mcp/project-setup.md");
     expect(paths).toContain("mcp/build-artifacts.md");
+    expect(paths).toContain("mcp/package-json.root.template.json");
+    expect(paths).toContain("mcp/package-json.package.template.json");
     expect(paths).toContain("collection-map.md");
     expect(paths).toContain("export-manifest.yaml");
     // depth generators

@@ -1143,6 +1143,88 @@ export function generateBuildArtifactsGuide(ctx: ContextMap): GeneratedFile {
   };
 }
 
+// ─── mcp/package-json.root.template.json ─────────────────────
+
+export function generateRootPackageJsonTemplate(ctx: ContextMap): GeneratedFile {
+  const projectName = ctx.project_identity.name;
+  const packageManagers = ctx.detection.package_managers;
+  const packageManager = packageManagers.includes("pnpm")
+    ? "pnpm@9"
+    : packageManagers.includes("yarn")
+      ? "yarn@4"
+      : "npm@10";
+
+  const template = {
+    name: projectName.toLowerCase().replace(/\s+/g, "-"),
+    private: true,
+    version: "0.1.0",
+    type: "module",
+    packageManager,
+    workspaces: [
+      "apps/*",
+      "packages/*",
+    ],
+    scripts: {
+      build: "pnpm -r build",
+      dev: "pnpm --filter @axis/api dev",
+      test: "npx vitest run",
+      lint: "pnpm -r lint",
+      typecheck: "pnpm -r typecheck",
+    },
+    engines: {
+      node: ">=20",
+    },
+  };
+
+  return {
+    path: "mcp/package-json.root.template.json",
+    content: JSON.stringify(template, null, 2),
+    content_type: "application/json",
+    program: "mcp",
+    description: "Root package.json template for monorepo setup with workspace scripts and engine constraints",
+  };
+}
+
+// ─── mcp/package-json.package.template.json ──────────────────
+
+export function generatePackagePackageJsonTemplate(ctx: ContextMap): GeneratedFile {
+  const projectName = ctx.project_identity.name;
+  const scopedName = `@${projectName.toLowerCase().replace(/\s+/g, "-")}/sample-package`;
+
+  const template = {
+    name: scopedName,
+    private: true,
+    version: "0.1.0",
+    type: "module",
+    main: "dist/index.js",
+    types: "dist/index.d.ts",
+    files: [
+      "dist",
+    ],
+    scripts: {
+      build: "tsc -p tsconfig.json",
+      dev: "tsx watch src/index.ts",
+      test: "npx vitest run",
+      lint: "eslint .",
+      typecheck: "tsc --noEmit",
+    },
+    dependencies: {},
+    devDependencies: {
+      typescript: "^5.0.0",
+      vitest: "^2.0.0",
+      tsx: "^4.0.0",
+    },
+  };
+
+  return {
+    path: "mcp/package-json.package.template.json",
+    content: JSON.stringify(template, null, 2),
+    content_type: "application/json",
+    program: "mcp",
+    description: "Per-package package.json template for TypeScript workspace packages with build/test scripts",
+  };
+}
+
 // ─── connector-map.yaml ─────────────────────────────────────────
 
 export function generateConnectorMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {

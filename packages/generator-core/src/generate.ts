@@ -12,7 +12,7 @@ import { generateSuperpowerPack, generateWorkflowRegistry, generateTestGeneratio
 import { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook, generateAbTestPlan } from "./generators-marketing.js";
 import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads, generateCitationIndex } from "./generators-notebook.js";
 import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy, generateTemplatePack } from "./generators-obsidian.js";
-import { generateMcpConfig, generateMcpRegistryMetadata, generateProtocolSpec, generateSpecTypes, generateMcpReadme, generateProjectSetupGuide, generateBuildArtifactsGuide, generateConnectorMap, generateCapabilityRegistry, generateServerManifest } from "./generators-mcp.js";
+import { generateMcpConfig, generateMcpRegistryMetadata, generateProtocolSpec, generateSpecTypes, generateMcpReadme, generateProjectSetupGuide, generateBuildArtifactsGuide, generateRootPackageJsonTemplate, generatePackagePackageJsonTemplate, generateConnectorMap, generateCapabilityRegistry, generateServerManifest } from "./generators-mcp.js";
 import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec, generateComponentLibrary } from "./generators-artifacts.js";
 import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
 import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
@@ -71,6 +71,8 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "mcp/README.md": (ctx, profile, _files) => generateMcpReadme(ctx, profile),
   "mcp/project-setup.md": (ctx, _p, _files) => generateProjectSetupGuide(ctx),
   "mcp/build-artifacts.md": (ctx, _p, _files) => generateBuildArtifactsGuide(ctx),
+  "mcp/package-json.root.template.json": (ctx, _p, _files) => generateRootPackageJsonTemplate(ctx),
+  "mcp/package-json.package.template.json": (ctx, _p, _files) => generatePackagePackageJsonTemplate(ctx),
   "connector-map.yaml": (ctx, _p, files) => generateConnectorMap(ctx, files),
   "capability-registry.json": (ctx, _p, files) => generateCapabilityRegistry(ctx, files),
   "generated-component.tsx": (ctx, _p, files) => generateComponent(ctx, files),
@@ -261,6 +263,8 @@ const GENERATOR_PROGRAMS: Record<string, string> = {
   "mcp/README.md": "mcp",
   "mcp/project-setup.md": "mcp",
   "mcp/build-artifacts.md": "mcp",
+  "mcp/package-json.root.template.json": "mcp",
+  "mcp/package-json.package.template.json": "mcp",
   "connector-map.yaml": "mcp",
   "capability-registry.json": "mcp",
   "server-manifest.yaml": "mcp",
