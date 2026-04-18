@@ -1144,6 +1144,11 @@ describe("depth generators content", () => {
     expect(file.content).toContain("message-reconciliation.unit.test.ts");
     expect(file.content).toContain("error-cases.unit.test.ts");
     expect(file.content).toContain("transport-parity.test.ts");
+    expect(file.content).toContain("## 12. Documentation Files");
+    expect(file.content).toContain("Maintain `protocol-spec.md` as the canonical wire contract");
+    expect(file.content).toContain("Keep `spec.types.ts` synchronized with runtime schemas");
+    expect(file.content).toContain("migration-notes.md");
+    expect(file.content).toContain("compatibility-matrix.md");
     expect(file.content).toContain("import type { IncomingMessage, ServerResponse } from \"node:http\";");
     expect(file.content).toContain("function wrapIncomingMessage(req: IncomingMessage, res: ServerResponse)");
     expect(file.content).toContain("const httpCtx = wrapIncomingMessage(req, res);");

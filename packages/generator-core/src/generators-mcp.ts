@@ -1743,6 +1743,23 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("```");
   lines.push("");
 
+  lines.push("## 12. Documentation Files");
+  lines.push("");
+  lines.push("- Maintain `protocol-spec.md` as the canonical wire contract for request/response envelopes, lifecycle events, and error codes.");
+  lines.push("- Keep `spec.types.ts` synchronized with runtime schemas so generated and handwritten clients share one source of truth.");
+  lines.push("- Publish package-level READMEs (`packages/server`, `packages/client`, `packages/sdk`, `packages/middleware`) with quickstart, transport setup, and troubleshooting sections.");
+  lines.push("- Document versioning and compatibility policy for MCP protocol versions, transport support, and breaking changes.");
+  lines.push("- Include migration notes and change summaries for every release that alters tool/resource/prompt contracts.");
+  lines.push("");
+  lines.push("```text");
+  lines.push("docs/mcp/");
+  lines.push("|- protocol-spec.md");
+  lines.push("|- spec.types.ts");
+  lines.push("|- migration-notes.md");
+  lines.push("`- compatibility-matrix.md");
+  lines.push("```");
+  lines.push("");
+
   lines.push("## packages/client");
   lines.push("");
   lines.push("- Discovery: resolve capabilities, tool lists, and schema metadata.");
