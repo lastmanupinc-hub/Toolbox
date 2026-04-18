@@ -1049,10 +1049,14 @@ describe("depth generators content", () => {
     expect(file.content).toContain("packages/client/");
     expect(file.content).toContain("discovery/");
     expect(file.content).toContain("invocation/");
+    expect(file.content).toContain("packages/sdk/");
+    expect(file.content).toContain("index.ts");
     expect(file.content).toContain("packages/server/");
     expect(file.content).toContain("McpServer.ts");
     expect(file.content).toContain("mcp/");
     expect(file.content).toContain("## Folder Roles");
+    expect(file.content).toContain("## packages/sdk Responsibilities");
+    expect(file.content).toContain("Re-export stable APIs");
     expect(file.content).toContain("## packages/client Responsibilities");
     expect(file.content).toContain("Discovery");
     expect(file.content).toContain("Invocation");

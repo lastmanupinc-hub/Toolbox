@@ -1358,6 +1358,10 @@ export function generateMonorepoStructureGuide(ctx: ContextMap): GeneratedFile {
   lines.push("|  |  |  |- discovery/");
   lines.push("|  |  |  `- invocation/");
   lines.push("|  |  `- package.json");
+  lines.push("|  |- sdk/");
+  lines.push("|  |  |- src/");
+  lines.push("|  |  |  `- index.ts");
+  lines.push("|  |  `- package.json");
   lines.push("|  |- server/");
   lines.push("|  |  |- src/");
   lines.push("|  |  |  |- McpServer.ts");
@@ -1382,9 +1386,16 @@ export function generateMonorepoStructureGuide(ctx: ContextMap): GeneratedFile {
   lines.push("- `apps/`: deployable services and frontends.");
   lines.push("- `packages/`: shared libraries and buildable modules.");
   lines.push("- `packages/client/`: MCP client SDK for discovery and tool invocation.");
+  lines.push("- `packages/sdk/`: umbrella SDK package that re-exports client and server public APIs.");
   lines.push("- `packages/server/`: MCP server implementation package.");
   lines.push("- `mcp/`: MCP-specific specs, schema contracts, and integration templates.");
   lines.push("- `scripts/`: repository automation tasks for CI/CD and local workflows.");
+  lines.push("");
+  lines.push("## packages/sdk Responsibilities");
+  lines.push("");
+  lines.push("- Re-export stable APIs from `packages/client` and `packages/server`.");
+  lines.push("- Provide a single import surface for external integrators.");
+  lines.push("- Keep only composition and export wiring here  -  no transport-specific logic.");
   lines.push("");
   lines.push("## packages/client Responsibilities");
   lines.push("");
