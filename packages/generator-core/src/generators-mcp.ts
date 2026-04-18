@@ -1718,6 +1718,9 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("## 11. Tests & Conformance Suite");
   lines.push("");
   lines.push("- Build a protocol conformance suite that runs the same JSON-RPC vectors across `stdio`, streamable `http`, and `websocket` transports.");
+  lines.push("- Run conformance tests directly against the protocol spec so wire-level behavior stays interoperable across independent MCP clients/servers.");
+  lines.push("- Add spec-trace fixtures for initialize, capabilities negotiation, tool call envelopes, resource reads, prompt rendering, and shutdown sequencing.");
+  lines.push("- Verify interoperability by replaying canonical protocol transcripts and asserting identical outcomes across transport adapters.");
   lines.push("- Add unit tests for tool calling that verify argument validation, handler dispatch, and response envelope correctness.");
   lines.push("- Add message reconciliation tests that assert request/response IDs, ordering, and partial-event correlation remain consistent.");
   lines.push("- Add error-case unit tests for invalid params, unknown methods, transport disconnects, and timeout propagation.");

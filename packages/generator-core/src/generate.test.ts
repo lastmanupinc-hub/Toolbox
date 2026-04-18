@@ -1132,6 +1132,9 @@ describe("depth generators content", () => {
     expect(file.content).toContain("createMcpNodeHandler");
     expect(file.content).toContain("## 11. Tests & Conformance Suite");
     expect(file.content).toContain("protocol conformance suite");
+    expect(file.content).toContain("conformance tests directly against the protocol spec");
+    expect(file.content).toContain("spec-trace fixtures");
+    expect(file.content).toContain("replaying canonical protocol transcripts");
     expect(file.content).toContain("unit tests for tool calling");
     expect(file.content).toContain("message reconciliation tests");
     expect(file.content).toContain("error-case unit tests");
