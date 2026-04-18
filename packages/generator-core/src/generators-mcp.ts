@@ -1471,6 +1471,20 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("- Keep business logic in service modules, not transport handlers.");
   lines.push("");
 
+  lines.push("## 7. Server Implementation (packages/server/src/index.ts or McpServer.ts)");
+  lines.push("");
+  lines.push("- Export a stable `McpServer` entrypoint from `packages/server/src/index.ts`.");
+  lines.push("- Keep request validation, tool registration, and dispatch inside `McpServer.ts`.");
+  lines.push("- Wire transports via adapters and avoid transport-specific branches in core server logic.");
+  lines.push("- Surface typed registration APIs so downstream packages can add tools safely.");
+  lines.push("");
+  lines.push("```ts");
+  lines.push("// packages/server/src/index.ts");
+  lines.push("export { McpServer } from \"./McpServer.js\";");
+  lines.push("export type { ServerConfig, RegisteredTool } from \"./types.js\";");
+  lines.push("```");
+  lines.push("");
+
   lines.push("## packages/client");
   lines.push("");
   lines.push("- Discovery: resolve capabilities, tool lists, and schema metadata.");

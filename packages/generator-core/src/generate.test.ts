@@ -1077,6 +1077,9 @@ describe("depth generators content", () => {
   it("mcp/core-implementation-artifacts.md defines server/client/sdk/middleware contracts", () => {
     const file = result.files.find(f => f.path === "mcp/core-implementation-artifacts.md")!;
     expect(file.program).toBe("mcp");
+    expect(file.content).toContain("## 7. Server Implementation (packages/server/src/index.ts or McpServer.ts)");
+    expect(file.content).toContain("// packages/server/src/index.ts");
+    expect(file.content).toContain("export { McpServer } from \"./McpServer.js\";");
     expect(file.content).toContain("## packages/server");
     expect(file.content).toContain("## packages/client");
     expect(file.content).toContain("## packages/sdk");
