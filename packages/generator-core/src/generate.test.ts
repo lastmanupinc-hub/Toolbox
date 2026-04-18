@@ -1135,6 +1135,8 @@ describe("depth generators content", () => {
     expect(file.content).toContain("conformance tests directly against the protocol spec");
     expect(file.content).toContain("spec-trace fixtures");
     expect(file.content).toContain("replaying canonical protocol transcripts");
+    expect(file.content).toContain("Vitest (or equivalent) with colocated test files");
+    expect(file.content).toContain("tools/myTool.test.ts");
     expect(file.content).toContain("unit tests for tool calling");
     expect(file.content).toContain("message reconciliation tests");
     expect(file.content).toContain("error-case unit tests");

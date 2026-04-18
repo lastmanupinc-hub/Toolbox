@@ -1721,6 +1721,8 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("- Run conformance tests directly against the protocol spec so wire-level behavior stays interoperable across independent MCP clients/servers.");
   lines.push("- Add spec-trace fixtures for initialize, capabilities negotiation, tool call envelopes, resource reads, prompt rendering, and shutdown sequencing.");
   lines.push("- Verify interoperability by replaying canonical protocol transcripts and asserting identical outcomes across transport adapters.");
+  lines.push("- Standardize on Vitest (or equivalent) with colocated test files near implementation modules for faster navigation and ownership clarity.");
+  lines.push("- Follow colocated naming such as `tools/myTool.test.ts`, `transports/http.test.ts`, and `middleware/node-http.test.ts`.");
   lines.push("- Add unit tests for tool calling that verify argument validation, handler dispatch, and response envelope correctness.");
   lines.push("- Add message reconciliation tests that assert request/response IDs, ordering, and partial-event correlation remain consistent.");
   lines.push("- Add error-case unit tests for invalid params, unknown methods, transport disconnects, and timeout propagation.");
