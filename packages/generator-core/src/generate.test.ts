@@ -908,6 +908,9 @@ describe("depth generators content", () => {
     expect(file.content).toContain("### OAuth");
     expect(file.content).toContain("### Sandboxing");
     expect(file.content).toContain("### Consent");
+    expect(file.content).toContain("## Extensibility (SEPs)");
+    expect(file.content).toContain("Spec Extension Proposals");
+    expect(file.content).toContain("semantic versioning");
   });
 
   it("template-pack.md has note templates", () => {

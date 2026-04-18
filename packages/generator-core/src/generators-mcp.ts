@@ -275,6 +275,9 @@ export function generateProtocolSpec(ctx: ContextMap): GeneratedFile {
   lines.push("");
   lines.push("- JSON-RPC: `2.0`");
   lines.push("- MCP protocol target: `2025-03-26`");
+  lines.push("- Server implementation version: semantic versioning (`MAJOR.MINOR.PATCH`).");
+  lines.push("- Breaking changes require MAJOR increments and migration notes.");
+  lines.push("- Additive fields/capabilities should prefer MINOR increments.");
   lines.push("- Backward-compatibility policy: additive-first; avoid breaking existing tool names and required fields.");
   lines.push("");
 
@@ -421,6 +424,17 @@ export function generateProtocolSpec(ctx: ContextMap): GeneratedFile {
   lines.push("- `tools/list` is the authoritative runtime capability listing.");
   lines.push("- `mcp-registry-metadata.json` describes publishing metadata for registries.");
   lines.push("- `capability-registry.json` exposes project-scoped generated capabilities.");
+  lines.push("");
+
+  lines.push("## Extensibility (SEPs)");
+  lines.push("");
+  lines.push("SEPs (Spec Extension Proposals) define forward-compatible protocol extensions.");
+  lines.push("");
+  lines.push("- Each SEP should include: id, title, status, motivation, wire format changes, and compatibility impact.");
+  lines.push("- Capability negotiation should advertise supported SEP ids during handshake.");
+  lines.push("- Experimental extensions should be opt-in and safely ignorable by unaware clients.");
+  lines.push("- Accepted SEPs must include migration guidance and deprecation timelines.");
+  lines.push("- Rejected or superseded SEPs should remain documented for implementer traceability.");
   lines.push("");
 
   lines.push("## Capabilities Advertisement (Handshake)");
