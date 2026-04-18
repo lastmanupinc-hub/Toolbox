@@ -89,7 +89,6 @@ import {
 } from "./funnel.js";
 import { handleExportZip } from "./export.js";
 import { handleMcpPost, handleMcpGet, handleMcpDocs, handleMcpServerJson, runSearchTools, getMcpCallCounters } from "./mcp-server.js";
-import { requireAuth } from "./billing.js";
 import { buildOpenApiSpec } from "./openapi.js";
 import { handleLiveness, handleReadiness, handleMetrics } from "./metrics.js";
 import { handleAdminStats, handleAdminAccounts, handleAdminActivity } from "./admin.js";
@@ -259,7 +258,9 @@ router.get("/v1/programs", async (_req, res) => {
 
 // MCP Server — Streamable HTTP transport (2025-03-26)
 const handleMcpEntrypoint = async (req: IncomingMessage, res: ServerResponse) => {
-  // Check if this is a free tool call that doesn't require authentication
+  // Parse once here and pass pre-read JSON to handleMcpPost.
+  // Auth is enforced inside MCP tool handlers so clients get JSON-RPC/tool
+  // errors instead of a transport-level HTTP 401.
   const { readBody } = await import("./router.js");
   let raw: string;
   try {
@@ -277,18 +278,6 @@ const handleMcpEntrypoint = async (req: IncomingMessage, res: ServerResponse) =>
     const { sendJSON } = await import("./router.js");
     sendJSON(res, 400, { error: "Invalid JSON" });
     return;
-  }
-
-  // Free tools that don't require authentication
-  const FREE_TOOLS = ["list_programs", "search_and_discover_tools", "discover_commerce_tools", "discover_agentic_commerce_tools", "discover_agentic_purchasing_needs", "get_referral_code", "get_referral_credits", "check_referral_credits"];
-
-  const isFreeTool = msg.method === "tools/call" &&
-                     msg.params?.name &&
-                     FREE_TOOLS.includes(msg.params.name);
-
-  // Require authentication for paid tools only
-  if (msg.method === "tools/call" && !isFreeTool) {
-    if (!requireAuth(req, res)) return;
   }
 
   // Pass route params placeholder and parsed body to avoid double-parsing
