@@ -1547,6 +1547,24 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("}");
   lines.push("```");
   lines.push("");
+  lines.push("### Streamable HTTP transport");
+  lines.push("");
+  lines.push("- Use streamable HTTP when clients need request/response plus incremental server events over HTTP.");
+  lines.push("- Expose an endpoint that accepts JSON-RPC messages and streams chunked responses back to the client.");
+  lines.push("- Keep connection/session state in the transport layer and route protocol work to `McpServer`.");
+  lines.push("");
+  lines.push("```ts");
+  lines.push("// packages/server/src/transports/http.ts");
+  lines.push("export class StreamableHttpServerTransport implements TransportAdapter {");
+  lines.push("  async start(): Promise<void> {");
+  lines.push("    // Start HTTP listener and bind streaming JSON-RPC handlers.");
+  lines.push("  }");
+  lines.push("  async stop(): Promise<void> {");
+  lines.push("    // Drain active streams and close open HTTP connections.");
+  lines.push("  }");
+  lines.push("}");
+  lines.push("```");
+  lines.push("");
 
   lines.push("## packages/client");
   lines.push("");

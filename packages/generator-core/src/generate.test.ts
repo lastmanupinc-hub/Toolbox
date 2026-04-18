@@ -1097,6 +1097,10 @@ describe("depth generators content", () => {
     expect(file.content).toContain("Use `StdioServerTransport` for local IDE integrations and CLI-hosted MCP servers.");
     expect(file.content).toContain("export class StdioServerTransport implements TransportAdapter");
     expect(file.content).toContain("// packages/server/src/transports/stdio.ts");
+    expect(file.content).toContain("### Streamable HTTP transport");
+    expect(file.content).toContain("Use streamable HTTP when clients need request/response plus incremental server events over HTTP.");
+    expect(file.content).toContain("export class StreamableHttpServerTransport implements TransportAdapter");
+    expect(file.content).toContain("// packages/server/src/transports/http.ts");
     expect(file.content).toContain("## packages/server");
     expect(file.content).toContain("## packages/client");
     expect(file.content).toContain("## packages/sdk");
