@@ -895,6 +895,15 @@ describe("depth generators content", () => {
     expect(file.content).toContain("### Tools");
     expect(file.content).toContain("### Resources");
     expect(file.content).toContain("### Prompts");
+    expect(file.content).toContain("## Capabilities Advertisement (Handshake)");
+    expect(file.content).toContain("## Session Model");
+    expect(file.content).toContain("## Transports");
+    expect(file.content).toContain("Streamable HTTP");
+    expect(file.content).toContain("WebSockets");
+    expect(file.content).toContain("## Error Model");
+    expect(file.content).toContain("## Pagination");
+    expect(file.content).toContain("## Cancellation");
+    expect(file.content).toContain("## Progress Reporting");
   });
 
   it("template-pack.md has note templates", () => {

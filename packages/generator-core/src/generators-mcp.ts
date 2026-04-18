@@ -423,11 +423,57 @@ export function generateProtocolSpec(ctx: ContextMap): GeneratedFile {
   lines.push("- `capability-registry.json` exposes project-scoped generated capabilities.");
   lines.push("");
 
+  lines.push("## Capabilities Advertisement (Handshake)");
+  lines.push("");
+  lines.push("Clients SHOULD call `initialize` first. Server responses SHOULD advertise supported primitives and protocol compatibility.");
+  lines.push("");
+  lines.push("Expected advertised capabilities:");
+  lines.push("- `tools` (callable operations)");
+  lines.push("- `resources` (readable context)");
+  lines.push("- `prompts` (reusable templates)");
+  lines.push("");
+  lines.push("Server identity SHOULD include name and version for compatibility diagnostics.");
+  lines.push("");
+
+  lines.push("## Session Model");
+  lines.push("");
+  lines.push("- Session bootstraps at `initialize` and remains valid for subsequent calls.");
+  lines.push("- Session-scoped metadata MAY be returned via headers (for example, session id)." );
+  lines.push("- Notifications (`notifications/initialized`) mark client readiness and have no response body.");
+  lines.push("");
+
+  lines.push("## Transports");
+  lines.push("");
+  lines.push("- `stdio`: local process transport for CLI/desktop integrations.");
+  lines.push("- `Streamable HTTP`: primary deployed transport at `POST /mcp`.");
+  lines.push("- `WebSockets`: optional bidirectional transport when low-latency push/event streams are required.");
+  lines.push("");
+  lines.push("Transport behavior must preserve JSON-RPC 2.0 semantics regardless of channel.");
+  lines.push("");
+
   lines.push("## Error Model");
   lines.push("");
   lines.push("- Parse and invalid request failures return JSON-RPC errors.");
   lines.push("- Tool execution failures return tool-level errors with actionable messages.");
   lines.push("- Authentication failures return explicit guidance: `Authorization: Bearer <api_key>`.");
+  lines.push("");
+
+  lines.push("## Pagination");
+  lines.push("");
+  lines.push("List-style operations SHOULD support bounded page sizes and continuation tokens or cursor offsets.");
+  lines.push("Pagination state SHOULD be stable for a consistent snapshot of the underlying data.");
+  lines.push("");
+
+  lines.push("## Cancellation");
+  lines.push("");
+  lines.push("Long-running operations SHOULD support cancellation via client abort or protocol-level cancel requests where applicable.");
+  lines.push("Servers SHOULD release resources quickly after cancellation.");
+  lines.push("");
+
+  lines.push("## Progress Reporting");
+  lines.push("");
+  lines.push("For long-running tasks, servers SHOULD emit progress notifications (percent, stage, or milestone markers)." );
+  lines.push("Progress messages should be monotonic and end with a terminal success/failure outcome.");
   lines.push("");
 
   lines.push("## Idempotency and Determinism");
