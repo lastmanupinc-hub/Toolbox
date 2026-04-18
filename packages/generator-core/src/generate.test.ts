@@ -1197,6 +1197,18 @@ describe("depth generators content", () => {
     expect(file.content).toContain("|- checksums.txt");
     expect(file.content).toContain("|- compatibility-report.md");
     expect(file.content).toContain("`- provenance.json");
+    expect(file.content).toContain("## 15. Registry & Discovery Support (Optional Early)");
+    expect(file.content).toContain("Add early MCP registry metadata so clients can discover server identity");
+    expect(file.content).toContain("Provide a discovery endpoint and static manifest artifacts");
+    expect(file.content).toContain("discovery payloads deterministic and cache-friendly");
+    expect(file.content).toContain("Validate registry and discovery contracts in CI");
+    expect(file.content).toContain("|- mcp-registry-metadata.json");
+    expect(file.content).toContain("|- server-manifest.yaml");
+    expect(file.content).toContain("|- capability-registry.json");
+    expect(file.content).toContain("`- connector-map.yaml");
+    expect(file.content).toContain("discovery/");
+    expect(file.content).toContain("|- .well-known/mcp.json");
+    expect(file.content).toContain("`- .well-known/agent.json");
     expect(file.content).toContain("import type { IncomingMessage, ServerResponse } from \"node:http\";");
     expect(file.content).toContain("function wrapIncomingMessage(req: IncomingMessage, res: ServerResponse)");
     expect(file.content).toContain("const httpCtx = wrapIncomingMessage(req, res);");

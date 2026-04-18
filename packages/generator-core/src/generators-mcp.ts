@@ -1825,6 +1825,26 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("```");
   lines.push("");
 
+  lines.push("## 15. Registry & Discovery Support (Optional Early)");
+  lines.push("");
+  lines.push("- Add early MCP registry metadata so clients can discover server identity, version, capabilities, and transport endpoints before deep integration.");
+  lines.push("- Provide a discovery endpoint and static manifest artifacts that advertise tools/resources/prompts with stable schema references.");
+  lines.push("- Keep discovery payloads deterministic and cache-friendly so IDEs and agents can bootstrap quickly.");
+  lines.push("- Include optional public/private registry publication guidance with auth boundaries and rollout strategy.");
+  lines.push("- Validate registry and discovery contracts in CI to prevent drift between runtime behavior and published manifests.");
+  lines.push("");
+  lines.push("```text");
+  lines.push("mcp/");
+  lines.push("|- mcp-registry-metadata.json");
+  lines.push("|- server-manifest.yaml");
+  lines.push("|- capability-registry.json");
+  lines.push("`- connector-map.yaml");
+  lines.push("discovery/");
+  lines.push("|- .well-known/mcp.json");
+  lines.push("`- .well-known/agent.json");
+  lines.push("```");
+  lines.push("");
+
   lines.push("## packages/client");
   lines.push("");
   lines.push("- Discovery: resolve capabilities, tool lists, and schema metadata.");
