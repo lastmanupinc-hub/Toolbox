@@ -1718,6 +1718,9 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("## 11. Tests & Conformance Suite");
   lines.push("");
   lines.push("- Build a protocol conformance suite that runs the same JSON-RPC vectors across `stdio`, streamable `http`, and `websocket` transports.");
+  lines.push("- Add unit tests for tool calling that verify argument validation, handler dispatch, and response envelope correctness.");
+  lines.push("- Add message reconciliation tests that assert request/response IDs, ordering, and partial-event correlation remain consistent.");
+  lines.push("- Add error-case unit tests for invalid params, unknown methods, transport disconnects, and timeout propagation.");
   lines.push("- Add contract tests for `initialize`, tool invocation, resource reads, prompt rendering, and `shutdown` semantics.");
   lines.push("- Validate schema behavior for success and failure paths, including malformed envelopes and unsupported capabilities.");
   lines.push("- Enforce deterministic responses: stable error codes, message shapes, and capability metadata across transports.");
@@ -1726,6 +1729,9 @@ export function generateCoreImplementationArtifactsGuide(ctx: ContextMap): Gener
   lines.push("```text");
   lines.push("packages/server/test/conformance/");
   lines.push("|- json-rpc-vectors.test.ts");
+  lines.push("|- tool-calling.unit.test.ts");
+  lines.push("|- message-reconciliation.unit.test.ts");
+  lines.push("|- error-cases.unit.test.ts");
   lines.push("|- lifecycle-contract.test.ts");
   lines.push("|- tool-resource-prompt-contract.test.ts");
   lines.push("`- transport-parity.test.ts");
