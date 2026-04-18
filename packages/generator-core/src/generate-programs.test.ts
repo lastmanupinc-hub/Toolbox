@@ -49,7 +49,7 @@ function makeInput(requested: string[] = []): GeneratorInput {
   };
 }
 
-// All 86 generators organized by program
+// All 87 generators organized by program
 const PROGRAM_OUTPUTS: Record<string, string[]> = {
   search: [".ai/context-map.json", ".ai/repo-profile.yaml", "architecture-summary.md", "dependency-hotspots.md", ".ai/symbol-index.json"],
   skills: ["AGENTS.md", "CLAUDE.md", ".cursorrules", "workflow-pack.md", "policy-pack.md"],
@@ -63,7 +63,7 @@ const PROGRAM_OUTPUTS: Record<string, string[]> = {
   marketing: ["campaign-brief.md", "funnel-map.md", "sequence-pack.md", "cro-playbook.md", "ab-test-plan.md"],
   notebook: ["notebook-summary.md", "source-map.json", "study-brief.md", "research-threads.md", "citation-index.json"],
   obsidian: ["obsidian-skill-pack.md", "vault-rules.md", "graph-prompt-map.json", "linking-policy.md", "template-pack.md"],
-  mcp: ["mcp-config.json", "connector-map.yaml", "capability-registry.json", "server-manifest.yaml"],
+  mcp: ["mcp-config.json", "mcp-registry-metadata.json", "connector-map.yaml", "capability-registry.json", "server-manifest.yaml"],
   artifacts: ["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md", "component-library.json"],
   remotion: ["remotion-script.ts", "scene-plan.md", "render-config.json", "asset-checklist.md", "storyboard.md"],
   canvas: ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md", "brand-board.md"],
@@ -74,10 +74,10 @@ const PROGRAM_OUTPUTS: Record<string, string[]> = {
 describe("generateFiles — all 18 programs produce valid output", () => {
   const input = makeInput(Object.values(PROGRAM_OUTPUTS).flat());
 
-  it("generates 86 files with 0 skipped", () => {
+  it("generates 87 files with 0 skipped", () => {
     const result = generateFiles(input);
     expect(result.skipped).toEqual([]);
-    expect(result.files.length).toBe(86);
+    expect(result.files.length).toBe(87);
   });
 
   for (const [program, outputs] of Object.entries(PROGRAM_OUTPUTS)) {
@@ -191,9 +191,9 @@ describe("generateFiles — edge cases", () => {
 });
 
 describe("listAvailableGenerators", () => {
-  it("returns all 86 registered generators", () => {
+  it("returns all 87 registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(86);
+    expect(generators.length).toBe(87);
   });
 
   it("returns objects with path and program fields", () => {

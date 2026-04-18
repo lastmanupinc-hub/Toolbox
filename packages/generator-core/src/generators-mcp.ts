@@ -187,6 +187,73 @@ export function generateMcpConfig(ctx: ContextMap, profile: RepoProfile, files?:
   };
 }
 
+// ─── mcp-registry-metadata.json ───────────────────────────────
+
+export function generateMcpRegistryMetadata(
+  ctx: ContextMap,
+  _profile: RepoProfile,
+  files?: SourceFile[],
+): GeneratedFile {
+  const projectName = ctx.project_identity.name;
+  let packageName: string | null = null;
+  let packageVersion: string | null = null;
+  let packageDescription: string | null = null;
+
+  if (files && files.length > 0) {
+    const pkg = findFile(files, "package.json");
+    if (pkg) {
+      try {
+        const parsed = JSON.parse(pkg.content) as Record<string, unknown>;
+        packageName = typeof parsed.name === "string" ? parsed.name : null;
+        packageVersion = typeof parsed.version === "string" ? parsed.version : null;
+        packageDescription = typeof parsed.description === "string" ? parsed.description : null;
+      } catch {
+        // Ignore malformed package.json and fall back to context-derived values.
+      }
+    }
+  }
+
+  const capabilities = [
+    "tools",
+    "resources",
+    "prompts",
+    ...(ctx.routes.length > 0 ? ["http_routes"] : []),
+    ...(ctx.domain_models.length > 0 ? ["domain_models"] : []),
+  ];
+
+  const metadata = {
+    schema_version: "1.0",
+    generated_at: new Date().toISOString(),
+    registry: {
+      name: packageName ?? `${projectName.toLowerCase().replace(/\s+/g, "-")}-mcp-server`,
+      version: packageVersion ?? "0.1.0",
+      description:
+        packageDescription ??
+        `MCP server metadata for ${projectName} publishing and discovery.`,
+      capabilities,
+    },
+    mcp: {
+      protocol_version: "2025-03-26",
+      endpoint: "/mcp",
+      transport: "streamable_http",
+    },
+    project: {
+      name: projectName,
+      type: ctx.project_identity.type,
+      primary_language: ctx.project_identity.primary_language,
+    },
+  };
+
+  return {
+    path: "mcp-registry-metadata.json",
+    content: JSON.stringify(metadata, null, 2),
+    content_type: "application/json",
+    program: "mcp",
+    description:
+      "Metadata for publishing to the MCP Registry (name, version, description, capabilities)",
+  };
+}
+
 // ─── connector-map.yaml ─────────────────────────────────────────
 
 export function generateConnectorMap(ctx: ContextMap, files?: SourceFile[]): GeneratedFile {
