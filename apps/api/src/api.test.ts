@@ -341,7 +341,7 @@ describe("API integration", () => {
     expect(data.program).toBe("mcp");
     const files = data.files as Array<{ path: string; program: string }>;
     expect(files.every(f => f.program === "mcp")).toBe(true);
-    expect(files.length).toBe(4);
+    expect(files.length).toBe(17);
   });
 
   it("POST /v1/artifacts/generate returns artifacts files", async () => {

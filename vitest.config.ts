@@ -4,6 +4,12 @@ export default defineConfig({
   test: {
     include: ["packages/*/src/**/*.test.ts", "apps/*/src/**/*.test.{ts,tsx}"],
     environment: "node", // Default to node environment
+    pool: "forks",
+    poolOptions: {
+      forks: {
+        maxForks: process.env.CI ? 2 : undefined,
+      },
+    },
     environmentOptions: {
       happyDom: {
         // Settings for happy-dom environment
