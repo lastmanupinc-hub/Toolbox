@@ -22,6 +22,13 @@ import {
   type CreditsInfo,
 } from "../api.ts";
 
+const PROD_API_BASE = "https://axis-api-6c7z.onrender.com";
+const isLocalHost =
+  typeof window === "undefined" ||
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+const API_BASE = import.meta.env.VITE_API_URL ?? (isLocalHost ? "http://localhost:4000" : PROD_API_BASE);
+
 export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
   const [account, setAccount] = useState<Account | null>(null);
   const [keys, setKeys] = useState<ApiKeyInfo[]>([]);
@@ -200,7 +207,7 @@ export function AccountPage({ onAuthChange }: { onAuthChange?: () => void }) {
             — or —
           </div>
           <a
-            href={`${import.meta.env.VITE_API_URL ?? "http://localhost:4000"}/v1/auth/github`}
+            href={`${API_BASE}/v1/auth/github`}
             className="btn"
             style={{ width: "100%", justifyContent: "center", display: "flex", gap: 8, textDecoration: "none" }}
           >
