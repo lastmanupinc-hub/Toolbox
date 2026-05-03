@@ -112,7 +112,7 @@ daily_scorecard:
     - Version 0.5.0 consistent across all 8 package.json files, live API, source refs
     - Test suite: 139 files, 4049 tests, 0 failures
     - Coverage: lines 95.76%, statements 95.49%, functions 88.1%, branches 89.86%
-    - Regeneration: CLI dogfood ran successfully, 18 programs × 86 artifacts
+    - Regeneration: CLI dogfood ran successfully, 18 programs × 102 artifacts
     - Conversion: 401 auth gate works, 402 MPP path covered by 14 unit tests
     - Router hardening: DELETE/PUT/PATCH /mcp all return 405 ✅
     - Hygiene: no .ai/.ai/ duplicates, ProgramPipeline.js comment fixed (17→18 programs), canvas-pack.md version fixed 0.4.0→0.5.0

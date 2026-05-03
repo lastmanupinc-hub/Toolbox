@@ -327,11 +327,11 @@ export function UploadPage({ onComplete }: Props) {
       {/* ── Hero value prop ────────────────────────────────────── */}
       <section className="upload-hero">
         <h1 className="upload-hero-title">
-          Turn any codebase into 86 structured AI artifacts.
+          Turn any codebase into 102 structured AI artifacts.
         </h1>
         <p className="upload-hero-sub">
           Upload a repo and instantly generate AGENTS.md, CLAUDE.md, .cursorrules, MCP configs,
-          SEO rules, brand guidelines, debug playbooks, and 80 more files — one scan across 18 programs.
+          SEO rules, brand guidelines, debug playbooks, and 95 more files — one scan across 18 programs.
         </p>
         <div className="upload-hero-pills">
           {["AGENTS.md", "CLAUDE.md", ".cursorrules", "MCP Config", "SEO Rules", "Brand Guidelines", "Debug Playbook", "Design Tokens", "Obsidian Vault", "Remotion Script"].map((label) => (
@@ -369,7 +369,7 @@ export function UploadPage({ onComplete }: Props) {
 
 ## Project Context
 Web application built with TypeScript + React 19.
-Upload or point at any codebase — get 86 generated artifacts.
+Upload or point at any codebase — get 102 generated artifacts.
 
 ### Stack
 - React ^19.1.0

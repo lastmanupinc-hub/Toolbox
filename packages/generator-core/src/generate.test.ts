@@ -587,6 +587,31 @@ describe("mcp generators content", () => {
   });
 });
 
+describe("fintech mcp generators content", () => {
+  const result = generateFiles(makeInput(["mcp/fintech-mcp-surface-package.md", "mcp/fintech-domain-schema.yaml"]));
+
+  it("fintech-mcp-surface-package.md includes repair and compliance tool contracts", () => {
+    const file = result.files.find(f => f.path === "mcp/fintech-mcp-surface-package.md")!;
+    expect(file.program).toBe("mcp");
+    expect(file.content).toContain("harden_partial_repo");
+    expect(file.content).toContain("generate_regulatory_controls");
+    expect(file.content).toContain("compliance-aware");
+    expect(file.content).toContain("server/");
+    expect(file.content.length).toBeGreaterThan(400);
+  });
+
+  it("fintech-domain-schema.yaml includes ledger, mandates, disputes, and evidence packages", () => {
+    const file = result.files.find(f => f.path === "mcp/fintech-domain-schema.yaml")!;
+    expect(file.program).toBe("mcp");
+    expect(file.content).toContain("ledger_accounts:");
+    expect(file.content).toContain("settlement_events:");
+    expect(file.content).toContain("mandates:");
+    expect(file.content).toContain("dispute_evidence:");
+    expect(file.content).toContain("compliance_evidence_packages:");
+    expect(file.content.length).toBeGreaterThan(400);
+  });
+});
+
 describe("artifacts generators content", () => {
   const result = generateFiles(makeInput(["generated-component.tsx", "dashboard-widget.tsx", "embed-snippet.ts", "artifact-spec.md"]));
 
@@ -777,7 +802,7 @@ describe("algorithmic generators content", () => {
 
 describe("depth generators content", () => {
   const result = generateFiles(makeInput([
-    "dependency-hotspots.md", "root-cause-checklist.md",
+    "dependency-hotspots.md", "repo-run-stats.json", "root-cause-checklist.md",
     "workflow-pack.md", "policy-pack.md",
     "layout-patterns.md", "ui-audit.md",
     "meta-tag-audit.json", "token-budget-plan.md",
@@ -794,6 +819,17 @@ describe("depth generators content", () => {
     expect(file.program).toBe("search");
     expect(file.content).toContain("Dependency Hotspots");
     expect(file.content.length).toBeGreaterThan(200);
+  });
+
+  it("repo-run-stats.json has readiness signals and package summary", () => {
+    const file = result.files.find(f => f.path === "repo-run-stats.json")!;
+    expect(file.program).toBe("search");
+    const parsed = JSON.parse(file.content);
+    expect(parsed.schema_version).toBe("1.0");
+    expect(parsed.stats).toBeTruthy();
+    expect(parsed.fintech_mcp_readiness).toBeTruthy();
+    expect(typeof parsed.fintech_mcp_readiness.score_100).toBe("number");
+    expect(Array.isArray(parsed.stats.top_extensions)).toBe(true);
   });
 
   it("root-cause-checklist.md has triage workflow", () => {
@@ -1283,7 +1319,7 @@ describe("depth generators content", () => {
 describe("listAvailableGenerators", () => {
   it("returns all registered generators", () => {
     const generators = listAvailableGenerators();
-    expect(generators.length).toBe(99);
+    expect(generators.length).toBe(102);
     const paths = generators.map(g => g.path);
     expect(paths).toContain(".ai/symbol-index.json");
     expect(paths).toContain(".ai/context-map.json");
@@ -1309,10 +1345,13 @@ describe("listAvailableGenerators", () => {
     expect(paths).toContain("mcp/monorepo-structure.md");
     expect(paths).toContain("mcp/core-implementation-artifacts.md");
     expect(paths).toContain("mcp/testing-documentation-polish-artifacts.md");
+    expect(paths).toContain("mcp/fintech-mcp-surface-package.md");
+    expect(paths).toContain("mcp/fintech-domain-schema.yaml");
     expect(paths).toContain("collection-map.md");
     expect(paths).toContain("export-manifest.yaml");
     // depth generators
     expect(paths).toContain("dependency-hotspots.md");
+    expect(paths).toContain("repo-run-stats.json");
     expect(paths).toContain("root-cause-checklist.md");
     expect(paths).toContain("workflow-pack.md");
     expect(paths).toContain("policy-pack.md");

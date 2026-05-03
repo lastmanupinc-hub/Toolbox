@@ -1,6 +1,6 @@
 import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import type { GeneratedFile, GeneratorInput, GeneratorResult, SourceFile } from "./types.js";
-import { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots, generateSymbolIndex } from "./generators-search.js";
+import { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots, generateSymbolIndex, generateRepoRunStats } from "./generators-search.js";
 import { generateAgentsMD, generateClaudeMD, generateCursorRules, generateWorkflowPack, generatePolicyPack } from "./generators-skills.js";
 import { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules, generateRootCauseChecklist } from "./generators-debug.js";
 import { generateFrontendRules, generateComponentGuidelines, generateLayoutPatterns, generateUiAudit } from "./generators-frontend.js";
@@ -12,7 +12,7 @@ import { generateSuperpowerPack, generateWorkflowRegistry, generateTestGeneratio
 import { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook, generateAbTestPlan } from "./generators-marketing.js";
 import { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads, generateCitationIndex } from "./generators-notebook.js";
 import { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy, generateTemplatePack } from "./generators-obsidian.js";
-import { generateMcpConfig, generateMcpRegistryMetadata, generateProtocolSpec, generateSpecTypes, generateMcpReadme, generateProjectSetupGuide, generateBuildArtifactsGuide, generateRootPackageJsonTemplate, generatePackagePackageJsonTemplate, generateRootTsconfigTemplate, generatePackageTsconfigTemplate, generateMonorepoStructureGuide, generateCoreImplementationArtifactsGuide, generateTestingDocumentationPolishArtifactsGuide, generateConnectorMap, generateCapabilityRegistry, generateServerManifest } from "./generators-mcp.js";
+import { generateMcpConfig, generateMcpRegistryMetadata, generateProtocolSpec, generateSpecTypes, generateMcpReadme, generateProjectSetupGuide, generateBuildArtifactsGuide, generateRootPackageJsonTemplate, generatePackagePackageJsonTemplate, generateRootTsconfigTemplate, generatePackageTsconfigTemplate, generateMonorepoStructureGuide, generateCoreImplementationArtifactsGuide, generateTestingDocumentationPolishArtifactsGuide, generateConnectorMap, generateCapabilityRegistry, generateServerManifest, generateFintechMcpSurfacePackage, generateFintechDomainSchema } from "./generators-mcp.js";
 import { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec, generateComponentLibrary } from "./generators-artifacts.js";
 import { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
 import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
@@ -80,6 +80,8 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "mcp/testing-documentation-polish-artifacts.md": (ctx, _p, _files) => generateTestingDocumentationPolishArtifactsGuide(ctx),
   "connector-map.yaml": (ctx, _p, files) => generateConnectorMap(ctx, files),
   "capability-registry.json": (ctx, _p, files) => generateCapabilityRegistry(ctx, files),
+  "mcp/fintech-mcp-surface-package.md": (ctx, profile, files) => generateFintechMcpSurfacePackage(ctx, profile, files),
+  "mcp/fintech-domain-schema.yaml": (ctx, profile, files) => generateFintechDomainSchema(ctx, profile, files),
   "generated-component.tsx": (ctx, _p, files) => generateComponent(ctx, files),
   "dashboard-widget.tsx": (ctx, _p, files) => generateDashboardWidget(ctx, files),
   "embed-snippet.ts": (ctx, _p, files) => generateEmbedSnippet(ctx, files),
@@ -99,6 +101,7 @@ const REGISTRY: Record<string, GeneratorFn> = {
   // ─── depth generators ───────────────────────────────────────
   "dependency-hotspots.md": (ctx, _p, files) => generateDependencyHotspots(ctx, files),
   ".ai/symbol-index.json": (_ctx, _p, files) => generateSymbolIndex(files),
+  "repo-run-stats.json": (ctx, _p, files) => generateRepoRunStats(ctx, _p, files),
   "root-cause-checklist.md": (ctx, _p, files) => generateRootCauseChecklist(ctx, files),
   "workflow-pack.md": (ctx, _p, files) => generateWorkflowPack(ctx, files),
   "policy-pack.md": (ctx, _p, files) => generatePolicyPack(ctx, files),
@@ -209,6 +212,7 @@ const GENERATOR_PROGRAMS: Record<string, string> = {
   "architecture-summary.md": "search",
   "dependency-hotspots.md": "search",
   ".ai/symbol-index.json": "search",
+  "repo-run-stats.json": "search",
   "AGENTS.md": "skills",
   "CLAUDE.md": "skills",
   ".cursorrules": "skills",
@@ -277,6 +281,8 @@ const GENERATOR_PROGRAMS: Record<string, string> = {
   "mcp/testing-documentation-polish-artifacts.md": "mcp",
   "connector-map.yaml": "mcp",
   "capability-registry.json": "mcp",
+  "mcp/fintech-mcp-surface-package.md": "mcp",
+  "mcp/fintech-domain-schema.yaml": "mcp",
   "server-manifest.yaml": "mcp",
   "generated-component.tsx": "artifacts",
   "dashboard-widget.tsx": "artifacts",

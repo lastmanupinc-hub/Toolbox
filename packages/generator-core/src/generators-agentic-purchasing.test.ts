@@ -111,7 +111,7 @@ describe("generateProductSchema", () => {
     const schema = JSON.parse(file.content);
     expect(schema.programs).toHaveLength(18);
     expect(schema.total_programs).toBe(18);
-    expect(schema.total_outputs).toBe(99);
+    expect(schema.total_outputs).toBe(102);
   });
 
   it("schema includes required structural fields", () => {

@@ -142,6 +142,19 @@ describe("Server route wiring", () => {
     expect(res.status).toBe(200);
   });
 
+  it("GET account-creation endpoints return 405 with guidance", async () => {
+    const versioned = await req("GET", "/v1/accounts");
+    expect(versioned.status).toBe(405);
+    const versionedData = versioned.data as Record<string, unknown>;
+    expect(versionedData.error).toBe("Method not allowed");
+    expect(versionedData.message).toBe("Use POST /v1/accounts (or POST /accounts) to create an account.");
+
+    const unversioned = await req("GET", "/accounts");
+    expect(unversioned.status).toBe(405);
+    const unversionedData = unversioned.data as Record<string, unknown>;
+    expect(unversionedData.error).toBe("Method not allowed");
+  });
+
   it("unknown route returns 404", async () => {
     const res = await req("GET", "/v1/nonexistent");
     expect(res.status).toBe(404);

@@ -3,7 +3,7 @@ import { Icon } from "../components/AxisIcons";
 
 type QACategory = "all" | "general" | "programs" | "api" | "billing" | "technical" | "integration" | "security";
 
-    answer: "Run Axis MCP to generate mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, mcp/project-setup.md, mcp/build-artifacts.md, mcp/package-json.root.template.json, mcp/package-json.package.template.json, mcp/tsconfig.root.template.json, mcp/tsconfig.package.template.json, mcp/monorepo-structure.md, mcp/core-implementation-artifacts.md, mcp/testing-documentation-polish-artifacts.md, connector-map.yaml, capability-registry.json, and server-manifest.yaml. These files define your private MCP endpoint configuration, protocol and type contracts, project setup/build guidance, root/per-package package.json templates, root/per-package tsconfig templates, a monorepo folder blueprint, core implementation package contracts, and phase-4 testing/documentation/polish contracts, plus MCP Registry publishing metadata. Pro includes hosted private endpoints with persistent configs, auth management, and usage logs.",
+interface QAItem {
   question: string;
   answer: string;
   category: QACategory;
@@ -29,7 +29,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "general",
     question: "How is this different from other analysis tools?",
-    answer: "Unlike linters or static analyzers, Axis' Iliad generates actionable output files — AGENTS.md, .cursorrules, debug playbooks, brand guidelines, design tokens, and more. It's not just finding issues; it's creating ready-to-use artifacts for your workflow. The 86 generators across 18 programs produce files you can drop directly into your project.",
+    answer: "Unlike linters or static analyzers, Axis' Iliad generates actionable output files — AGENTS.md, .cursorrules, debug playbooks, brand guidelines, design tokens, and more. It's not just finding issues; it's creating ready-to-use artifacts for your workflow. The 102 generators across 18 programs produce files you can drop directly into your project.",
   },
   {
     category: "general",
@@ -219,7 +219,7 @@ const QA_ITEMS: QAItem[] = [
   {
     category: "integration",
     question: "How do I use Axis with MCP servers?",
-    answer: "Run Axis MCP to generate mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, mcp/project-setup.md, mcp/build-artifacts.md, mcp/package-json.root.template.json, mcp/package-json.package.template.json, mcp/tsconfig.root.template.json, mcp/tsconfig.package.template.json, mcp/monorepo-structure.md, mcp/core-implementation-artifacts.md, connector-map.yaml, capability-registry.json, and server-manifest.yaml. These files define your private MCP endpoint configuration, protocol and type contracts, project setup/build guidance, root/per-package package.json templates, root/per-package tsconfig templates, a monorepo folder blueprint, and core implementation package contracts, plus MCP Registry publishing metadata. Pro includes hosted private endpoints with persistent configs, auth management, and usage logs.",
+    answer: "Run Axis MCP to generate 19 MCP artifacts: mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, mcp/project-setup.md, mcp/build-artifacts.md, mcp/package-json.root.template.json, mcp/package-json.package.template.json, mcp/tsconfig.root.template.json, mcp/tsconfig.package.template.json, mcp/monorepo-structure.md, mcp/core-implementation-artifacts.md, mcp/testing-documentation-polish-artifacts.md, mcp/fintech-mcp-surface-package.md, mcp/fintech-domain-schema.yaml, connector-map.yaml, capability-registry.json, and server-manifest.yaml. These files define private MCP endpoint configuration, protocol/type contracts, build and monorepo setup, implementation/testing/polish guidance, fintech surface and schema contracts, and MCP Registry metadata. Pro includes hosted private endpoints with persistent configs, auth management, and usage logs.",
   },
 
   // Security

@@ -2,7 +2,7 @@ import type { ContextMap, RepoProfile } from "@axis/context-engine";
 import type { GeneratedFile, SourceFile } from "./types.js";
 
 /** Canonical counts — mirrors apps/api/src/counts.ts */
-const ARTIFACT_COUNT = 99;
+const ARTIFACT_COUNT = 102;
 const PROGRAM_COUNT = 18;
 
 /**
@@ -703,7 +703,7 @@ export function generateProductSchema(
       },
     },
     programs: [
-      { slug: "search",            tier: "free", outputs: 5,  description: "Context map, repo profile, architecture summary, dependency hotspots, symbol index" },
+      { slug: "search",            tier: "free", outputs: 6,  description: "Context map, repo profile, architecture summary, dependency hotspots, symbol index, and repo run stats" },
       { slug: "skills",            tier: "free", outputs: 5,  description: "AGENTS.md, CLAUDE.md, .cursorrules, workflow pack, policy pack" },
       { slug: "debug",             tier: "free", outputs: 4,  description: "Debug playbook, incident template, tracing rules, root cause checklist" },
       { slug: "frontend",          tier: "pro",  outputs: 4,  description: "Frontend rules, component guidelines, layout patterns, UI audit" },
@@ -715,7 +715,7 @@ export function generateProductSchema(
       { slug: "marketing",         tier: "pro",  outputs: 5,  description: "Campaign brief, funnel map, sequence pack, CRO playbook, A/B test plan" },
       { slug: "notebook",          tier: "pro",  outputs: 5,  description: "Notebook summary, source map, study brief, research threads, citation index" },
       { slug: "obsidian",          tier: "pro",  outputs: 5,  description: "Obsidian skill pack, vault rules, graph prompt map, linking policy, template pack" },
-      { slug: "mcp",               tier: "pro",  outputs: 4,  description: "MCP config, connector map, capability registry, server manifest" },
+      { slug: "mcp",               tier: "pro",  outputs: 19, description: "MCP config, registry metadata, protocol/types, implementation guides, connector/capability manifests, fintech surface package, and fintech domain schema" },
       { slug: "artifacts",         tier: "pro",  outputs: 5,  description: "Generated component, dashboard widget, embed snippet, artifact spec, component library" },
       { slug: "remotion",          tier: "pro",  outputs: 5,  description: "Remotion script, scene plan, render config, asset checklist, storyboard" },
       { slug: "canvas",            tier: "pro",  outputs: 5,  description: "Canvas spec, social pack, poster layouts, asset guidelines, brand board" },

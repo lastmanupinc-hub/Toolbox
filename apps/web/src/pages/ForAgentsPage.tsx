@@ -97,7 +97,7 @@ function TabBar({ tabs, active, onChange }: { tabs: string[]; active: string; on
 // â”€â”€â”€ Programs table â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const PROGRAMS = [
-  { name: "search",             tier: "free", outputs: 5,  key: "AGENTS.md, .cursorrules, CLAUDE.md, context-map.json, repo-profile.yaml" },
+  { name: "search",             tier: "free", outputs: 6,  key: "AGENTS.md, .cursorrules, CLAUDE.md, context-map.json, repo-profile.yaml, repo-run-stats.json" },
   { name: "skills",             tier: "free", outputs: 5,  key: "AGENTS.md, CLAUDE.md, .cursorrules, workflow-pack.md, policy-pack.md" },
   { name: "debug",              tier: "free", outputs: 4,  key: "debug-playbook.md, incident-template.md, tracing-rules.md, root-cause-checklist.md" },
   { name: "frontend",           tier: "pro",  outputs: 4,  key: "frontend-rules.md, component-guidelines.md, layout-patterns.md, ui-audit.md" },
@@ -109,7 +109,7 @@ const PROGRAMS = [
   { name: "marketing",          tier: "pro",  outputs: 5,  key: "campaign-brief.md, funnel-map.md, sequence-pack.md, cro-playbook.md, ab-test-plan.md" },
   { name: "notebook",           tier: "pro",  outputs: 5,  key: "notebook-summary.md, source-map.json, study-brief.md, research-threads.md, citation-index.json" },
   { name: "obsidian",           tier: "pro",  outputs: 5,  key: "obsidian-skill-pack.md, vault-rules.md, graph-prompt-map.json, linking-policy.md, template-pack.md" },
-  { name: "mcp",                tier: "pro",  outputs: 17, key: "mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, mcp/project-setup.md, mcp/build-artifacts.md, mcp/package-json.root.template.json, mcp/package-json.package.template.json, mcp/tsconfig.root.template.json, mcp/tsconfig.package.template.json, mcp/monorepo-structure.md, mcp/core-implementation-artifacts.md, mcp/testing-documentation-polish-artifacts.md, connector-map.yaml, capability-registry.json, server-manifest.yaml" },
+  { name: "mcp",                tier: "pro",  outputs: 19, key: "mcp-config.json, mcp-registry-metadata.json, protocol-spec.md, spec.types.ts, mcp/README.md, mcp/project-setup.md, mcp/build-artifacts.md, mcp/package-json.root.template.json, mcp/package-json.package.template.json, mcp/tsconfig.root.template.json, mcp/tsconfig.package.template.json, mcp/monorepo-structure.md, mcp/core-implementation-artifacts.md, mcp/testing-documentation-polish-artifacts.md, mcp/fintech-mcp-surface-package.md, mcp/fintech-domain-schema.yaml, connector-map.yaml, capability-registry.json, server-manifest.yaml" },
   { name: "artifacts",          tier: "pro",  outputs: 5,  key: "generated-component.tsx, dashboard-widget.tsx, embed-snippet.ts, artifact-spec.md, component-library.json" },
   { name: "remotion",           tier: "pro",  outputs: 5,  key: "remotion-script.ts, scene-plan.md, render-config.json, asset-checklist.md, storyboard.md" },
   { name: "canvas",             tier: "pro",  outputs: 5,  key: "canvas-spec.json, social-pack.md, poster-layouts.md, asset-guidelines.md, brand-board.md" },
@@ -120,8 +120,8 @@ const PROGRAMS = [
 // â”€â”€â”€ Real MCP tools â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MCP_TOOLS = [
-  { tool: "analyze_repo",                  auth: true,  desc: "Analyze any public GitHub repo. Returns snapshot_id + 99 artifacts." },
-  { tool: "analyze_files",                 auth: true,  desc: "Analyze inline files [{path,content}]. Returns snapshot_id + 99 artifacts." },
+  { tool: "analyze_repo",                  auth: true,  desc: "Analyze any public GitHub repo. Returns snapshot_id + 102 artifacts." },
+  { tool: "analyze_files",                 auth: true,  desc: "Analyze inline files [{path,content}]. Returns snapshot_id + 102 artifacts." },
   { tool: "list_programs",                 auth: false, desc: "List all 18 programs and their generators with tier info." },
   { tool: "get_snapshot",                  auth: false, desc: "Get status and full artifact listing for a prior snapshot_id." },
   { tool: "get_artifact",                  auth: false, desc: "Read full content of any artifact by path (AGENTS.md, .ai/debug-playbook.md, etc.)." },
@@ -149,8 +149,8 @@ API key env:  AXIS_API_KEY
 
 Available tools (via MCP or REST):
 - prepare_agentic_purchasing      â†’ full purchasing-readiness audit (score 0-100, AP2/Visa compliance, playbooks)
-- analyze_repo                    → generate 86 artifacts from any GitHub URL
-- analyze_files                   → generate 86 artifacts from inline [{path,content}] files
+- analyze_repo                    → generate 102 artifacts from any GitHub URL
+- analyze_files                   → generate 102 artifacts from inline [{path,content}] files
 - search_and_discover_tools       â†’ find the right program by keyword (no auth)
 - get_artifact                    â†’ read any generated artifact by path
 
@@ -305,7 +305,7 @@ curl "${API_BASE}/v1/mcp/tools"
   -H "Authorization: Bearer <raw_key>" \\
   -H "Content-Type: application/json" \\
   -d '{"github_url":"https://github.com/your/repo"}'
-# Returns snapshot_id + 86 artifacts across 18 programs`;
+# Returns snapshot_id + 102 artifacts across 18 programs`;
 
   const getArtifactCurl = `curl -X POST ${API_BASE}/mcp \\
   -H "Authorization: Bearer <raw_key>" \\
@@ -358,8 +358,8 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end", flexShrink: 0 }}>
             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "right", lineHeight: 1.9 }}>
-              <div><strong style={{ color: "var(--text)" }}>18</strong> programs Â· <strong style={{ color: "var(--text)" }}>81</strong> generators</div>
-              <div><strong style={{ color: "var(--text)" }}>7</strong> MCP tools Â· <strong style={{ color: "var(--text)" }}>v0.5.0</strong></div>
+              <div><strong style={{ color: "var(--text)" }}>18</strong> programs Â· <strong style={{ color: "var(--text)" }}>102</strong> generators</div>
+              <div><strong style={{ color: "var(--text)" }}>12</strong> MCP tools Â· <strong style={{ color: "var(--text)" }}>v0.5.0</strong></div>
               <div style={{ color: "var(--green)", fontWeight: 600 }}>$0.50 / run</div>
             </div>
           </div>
@@ -806,7 +806,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
 
       {/* â”€â”€ Quick Start â”€â”€ */}
       <div className="card" style={{ marginBottom: 24 }}>
-        <SectionHeader title="Quick Start" subtitle="From zero to 86 artifacts in three steps." tag="API" />
+        <SectionHeader title="Quick Start" subtitle="From zero to 102 artifacts in three steps." tag="API" />
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
             <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: 8 }}>
@@ -861,7 +861,7 @@ WWW-Authenticate: Payment id="<challenge_id>", realm="axis-api-6c7z.onrender.com
         <div style={{ display: "flex", flexDirection: "column", gap: 0, borderRadius: "var(--radius)", border: "1px solid var(--border)", overflow: "hidden" }}>
           {[
             { method: "POST", path: "/v1/prepare-for-agentic-purchasing", desc: "Full purchasing-readiness audit â€” score + AP2/Visa compliance + playbooks" },
-            { method: "POST", path: "/v1/analyze",                        desc: "Analyze GitHub URL or inline files → 86 artifacts" },
+            { method: "POST", path: "/v1/analyze",                        desc: "Analyze GitHub URL or inline files → 102 artifacts" },
             { method: "POST", path: "/mcp",                               desc: "MCP server — Streamable HTTP transport, 2025-03-26 spec, 12 tools" },
             { method: "GET",  path: "/v1/mcp/tools?q=",                   desc: "Search 18 programs by keyword â€” no auth required" },
             { method: "GET",  path: "/v1/mcp/server.json",                desc: "MCP registry metadata for mcp-publisher CLI and registry crawlers" },

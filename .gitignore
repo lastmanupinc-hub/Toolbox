@@ -23,3 +23,8 @@ keys.env
 .vitest*
 .ai-vitest-latest.txt
 vitest-api-src-output.txt
+
+# Local-only generated fintech MCP artifacts
+repo-run-stats.json
+mcp/fintech-mcp-surface-package.md
+mcp/fintech-domain-schema.yaml

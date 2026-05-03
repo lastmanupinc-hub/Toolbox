@@ -41,7 +41,7 @@ curl https://axis-api-6c7z.onrender.com/v1/projects/PROJECT_ID/export \
 
 ## What you get
 
-One scan → 99 artifacts across 18 programs, ready in seconds:
+One scan → 102 artifacts across 18 programs, ready in seconds:
 
 | What you need | Program | Key outputs |
 |---------------|---------|-------------|
@@ -57,7 +57,7 @@ One scan → 99 artifacts across 18 programs, ready in seconds:
 | Launch a campaign | **Marketing** | `campaign-brief.md`, `funnel-map.md`, `ab-test-plan.md` |
 | Build data/research tools | **Notebook** | `notebook-summary.md`, `research-threads.md`, `source-map.json` |
 | Manage a knowledge vault | **Obsidian** | `obsidian-skill-pack.md`, `vault-rules.md`, `graph-prompt-map.json` |
-| Connect AI tools (MCP) | **MCP** | `mcp-config.json`, `mcp-registry-metadata.json`, `protocol-spec.md`, `spec.types.ts`, `mcp/README.md`, `mcp/project-setup.md`, `mcp/build-artifacts.md`, `mcp/package-json.root.template.json`, `mcp/package-json.package.template.json`, `mcp/tsconfig.root.template.json`, `mcp/tsconfig.package.template.json`, `mcp/monorepo-structure.md`, `mcp/core-implementation-artifacts.md`, `mcp/testing-documentation-polish-artifacts.md`, `capability-registry.json`, `server-manifest.yaml` |
+| Connect AI tools (MCP) | **MCP** | `mcp-config.json`, `mcp-registry-metadata.json`, `protocol-spec.md`, `spec.types.ts`, `mcp/README.md`, `mcp/project-setup.md`, `mcp/build-artifacts.md`, `mcp/package-json.root.template.json`, `mcp/package-json.package.template.json`, `mcp/tsconfig.root.template.json`, `mcp/tsconfig.package.template.json`, `mcp/monorepo-structure.md`, `mcp/core-implementation-artifacts.md`, `mcp/testing-documentation-polish-artifacts.md`, `mcp/fintech-mcp-surface-package.md`, `mcp/fintech-domain-schema.yaml`, `connector-map.yaml`, `capability-registry.json`, `server-manifest.yaml` |
 | Generate components | **Artifacts** | `generated-component.tsx`, `dashboard-widget.tsx`, `component-library.json` |
 | Create dev videos | **Remotion** | `remotion-script.ts`, `scene-plan.md`, `storyboard.md` |
 | Social & visual assets | **Canvas** | `canvas-spec.json`, `social-pack.md`, `poster-layouts.md` |
@@ -104,7 +104,7 @@ AXIS exposes a **Streamable HTTP MCP server** at `https://axis-api-6c7z.onrender
 | Tier | Price | Programs |
 |------|-------|----------|
 | **Free** | $0 | Search, Skills, Debug |
-| **Pro** | $0.50 / run | All 18 programs, 88 artifacts |
+| **Pro** | $0.50 / run | All 18 programs, 102 artifacts |
 | **Lite mode** | $0.15–$0.25 / run | Top-gap summary, reduced output |
 
 Budget negotiation: send `X-Agent-Budget: {"budget_per_run_cents": 25}` + `X-Agent-Mode: lite` on any paid call.
@@ -151,7 +151,7 @@ axis-iliad/
 │   ├── snapshots/    → Snapshot intake, SQLite persistence, billing, funnel
 │   ├── repo-parser/  → Language detection (60+), framework detection (10), import graph
 │   ├── context-engine/ → Context map builder, repo profile, route/architecture analysis
-│   └── generator-core/ → 88 generators across 18 programs
+│   └── generator-core/ → 102 generators across 18 programs
 └── vitest.config.ts  → Shared test config
 ```
 

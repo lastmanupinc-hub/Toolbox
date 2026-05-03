@@ -355,6 +355,18 @@ router.get("/v1/mcp/tools", async (req, res) => {
 router.post("/v1/accounts", handleCreateAccount);
 // Backward-compatible alias for clients that call unversioned account creation.
 router.post("/accounts", handleCreateAccount);
+const handleAccountsMethodHint = async (_req: IncomingMessage, res: ServerResponse) => {
+  const { sendJSON } = await import("./router.js");
+  sendJSON(res, 405, {
+    error: "Method not allowed",
+    message: "Use POST /v1/accounts (or POST /accounts) to create an account.",
+    allowed_methods: ["POST"],
+  });
+};
+router.get("/v1/accounts", handleAccountsMethodHint);
+router.get("/v1/accounts/", handleAccountsMethodHint);
+router.get("/accounts", handleAccountsMethodHint);
+router.get("/accounts/", handleAccountsMethodHint);
 router.get("/v1/account", handleGetAccount);
 router.post("/v1/account/keys", handleCreateApiKey);
 router.get("/v1/account/keys", handleListApiKeys);

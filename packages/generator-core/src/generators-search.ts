@@ -472,3 +472,239 @@ export function generateSymbolIndex(files?: SourceFile[]): GeneratedFile {
     description: "Code symbol index — functions, classes, interfaces, types extracted per file",
   };
 }
+
+// ─── repo-run-stats.json ───────────────────────────────────────
+
+function normalizePath(path: string): string {
+  return path.replace(/\\/g, "/");
+}
+
+function isExcludedFromRunStats(path: string): boolean {
+  const normalized = normalizePath(path);
+  return normalized.includes("/node_modules/") || normalized.includes("/.git/") || normalized.includes("/.ai-output/");
+}
+
+function getExtension(path: string): string {
+  const normalized = normalizePath(path);
+  const base = normalized.split("/").pop() ?? "";
+  const dot = base.lastIndexOf(".");
+  return dot === -1 ? "[no_ext]" : base.slice(dot).toLowerCase();
+}
+
+function hasRootConfig(rootNames: Set<string>, patterns: string[]): boolean {
+  return patterns.some((pattern) => {
+    const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*");
+    const regex = new RegExp(`^${escaped}$`, "i");
+    return [...rootNames].some((name) => regex.test(name));
+  });
+}
+
+function buildFintechSignals(files: SourceFile[]): {
+  fintech_signal_count: number;
+  trust_fabric_detected: boolean;
+  compliance_surface_count: number;
+} {
+  const fintechKeywords = [
+    "payment",
+    "fintech",
+    "bank",
+    "ledger",
+    "kyc",
+    "aml",
+    "pci",
+    "card",
+    "ach",
+    "wire",
+    "settlement",
+    "reconciliation",
+    "trust-fabric",
+    "compliance",
+    "regulatory",
+  ];
+
+  let fintechSignals = 0;
+  let complianceSignals = 0;
+  let trustFabricDetected = false;
+
+  for (const file of files) {
+    const path = normalizePath(file.path).toLowerCase();
+    if (path.includes("trust-fabric")) {
+      trustFabricDetected = true;
+    }
+    if (path.includes("compliance") || path.includes("audit") || path.includes("policy") || path.includes("risk")) {
+      complianceSignals += 1;
+    }
+    if (fintechKeywords.some((keyword) => path.includes(keyword))) {
+      fintechSignals += 1;
+    }
+  }
+
+  return {
+    fintech_signal_count: fintechSignals,
+    trust_fabric_detected: trustFabricDetected,
+    compliance_surface_count: complianceSignals,
+  };
+}
+
+export function generateRepoRunStats(
+  ctx: ContextMap,
+  _profile: RepoProfile,
+  files?: SourceFile[],
+): GeneratedFile {
+  const fileList = (files ?? []).filter((f) => !isExcludedFromRunStats(f.path));
+
+  const extensionCounts = new Map<string, number>();
+  const topLevelDirs = new Set<string>();
+  const rootFileNames = new Set<string>();
+
+  for (const file of fileList) {
+    const normalized = normalizePath(file.path);
+    const ext = getExtension(normalized);
+    extensionCounts.set(ext, (extensionCounts.get(ext) ?? 0) + 1);
+
+    const segments = normalized.split("/").filter(Boolean);
+    if (segments.length > 1) {
+      topLevelDirs.add(segments[0]);
+    } else if (segments.length === 1) {
+      rootFileNames.add(segments[0]);
+    }
+  }
+
+  const topExtensions = [...extensionCounts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 15)
+    .map(([extension, count]) => ({ extension, count }));
+
+  let packageInfo: {
+    name: string | null;
+    version: string | null;
+    script_count: number;
+    dependencies_count: number;
+    devDependencies_count: number;
+  } = {
+    name: null,
+    version: null,
+    script_count: 0,
+    dependencies_count: 0,
+    devDependencies_count: 0,
+  };
+
+  const rootPackage = fileList.find((f) => normalizePath(f.path) === "package.json");
+  if (rootPackage) {
+    try {
+      const pkg = JSON.parse(rootPackage.content) as {
+        name?: string;
+        version?: string;
+        scripts?: Record<string, string>;
+        dependencies?: Record<string, string>;
+        devDependencies?: Record<string, string>;
+      };
+      packageInfo = {
+        name: pkg.name ?? null,
+        version: pkg.version ?? null,
+        script_count: Object.keys(pkg.scripts ?? {}).length,
+        dependencies_count: Object.keys(pkg.dependencies ?? {}).length,
+        devDependencies_count: Object.keys(pkg.devDependencies ?? {}).length,
+      };
+    } catch {
+      // Keep defaults if package.json is malformed.
+    }
+  }
+
+  const rootConfigExists = {
+    vitest: hasRootConfig(rootFileNames, ["vitest.config.*"]),
+    jest: hasRootConfig(rootFileNames, ["jest.config.*"]),
+    playwright: hasRootConfig(rootFileNames, ["playwright.config.*"]),
+    cypress: hasRootConfig(rootFileNames, ["cypress.config.*"]),
+    eslint: hasRootConfig(rootFileNames, ["eslint.config.*", ".eslintrc*"]),
+    prettier: hasRootConfig(rootFileNames, ["prettier.config.*", ".prettierrc*"]),
+  };
+
+  const mcpSurfaceCount = fileList.filter((f) => {
+    const p = normalizePath(f.path).toLowerCase();
+    return p.includes("mcp") || p.endsWith("mcp-config.json") || p.endsWith("server-manifest.yaml");
+  }).length;
+
+  const fintechSignals = buildFintechSignals(fileList);
+
+  let readinessScore = 0;
+  readinessScore += ctx.routes.length > 0 ? 10 : 0;
+  readinessScore += ctx.routes.length >= 10 ? 10 : 0;
+  readinessScore += (ctx.sql_schema?.length ?? 0) > 0 ? 20 : 0;
+  readinessScore += ctx.domain_models.length > 0 ? 15 : 0;
+  readinessScore += ctx.detection.test_frameworks.length > 0 ? 10 : 0;
+  readinessScore += ctx.detection.ci_platform ? 10 : 0;
+  readinessScore += mcpSurfaceCount > 0 ? 10 : 0;
+  readinessScore += fintechSignals.fintech_signal_count > 0 ? 10 : 0;
+  readinessScore += fintechSignals.compliance_surface_count > 0 ? 5 : 0;
+
+  const readinessStatus = readinessScore >= 80
+    ? "ready_for_agent_build"
+    : readinessScore >= 60
+      ? "close_with_gaps"
+      : "foundational_work_required";
+
+  const nextSteps: string[] = [];
+  if ((ctx.sql_schema?.length ?? 0) === 0) {
+    nextSteps.push("Add explicit SQL schema or migration files for durable compliance-aware data contracts.");
+  }
+  if (ctx.domain_models.length === 0) {
+    nextSteps.push("Define domain models for payments, accounts, ledger events, and compliance evidence objects.");
+  }
+  if (ctx.detection.test_frameworks.length === 0) {
+    nextSteps.push("Add automated tests for API contracts, risk controls, and reconciliation workflows.");
+  }
+  if (mcpSurfaceCount === 0) {
+    nextSteps.push("Create MCP server surface files (config, manifest, capabilities) for agent-callable tooling.");
+  }
+  if (fintechSignals.compliance_surface_count === 0) {
+    nextSteps.push("Add compliance policy artifacts (KYC/AML, audit trail, and regulatory evidence packaging).");
+  }
+
+  const report = {
+    schema_version: "1.0",
+    generated_at: new Date().toISOString(),
+    snapshot_id: ctx.snapshot_id,
+    project_id: ctx.project_id,
+    project: {
+      name: ctx.project_identity.name,
+      type: ctx.project_identity.type,
+      primary_language: ctx.project_identity.primary_language,
+    },
+    stats: {
+      source_files_analyzed: fileList.length,
+      context_total_files: ctx.structure.total_files,
+      context_total_directories: ctx.structure.total_directories,
+      context_total_loc: ctx.structure.total_loc,
+      top_level_directories: [...topLevelDirs].sort(),
+      top_extensions: topExtensions,
+      package: packageInfo,
+      root_config_exists: rootConfigExists,
+    },
+    fintech_mcp_readiness: {
+      score_100: readinessScore,
+      status: readinessStatus,
+      trust_fabric_detected: fintechSignals.trust_fabric_detected,
+      signals: {
+        route_count: ctx.routes.length,
+        domain_model_count: ctx.domain_models.length,
+        sql_table_count: ctx.sql_schema?.length ?? 0,
+        test_framework_count: ctx.detection.test_frameworks.length,
+        ci_platform: ctx.detection.ci_platform ?? null,
+        mcp_surface_files: mcpSurfaceCount,
+        fintech_signal_count: fintechSignals.fintech_signal_count,
+        compliance_surface_count: fintechSignals.compliance_surface_count,
+      },
+      target: "Agent-buildable fintech MCP that can harden partial repos into compliant API-callable software",
+      next_steps: nextSteps,
+    },
+  };
+
+  return {
+    path: "repo-run-stats.json",
+    content: JSON.stringify(report, null, 2),
+    content_type: "application/json",
+    program: "search",
+    description: "Run-end repository stats and fintech MCP readiness report for agent-led development",
+  };
+}

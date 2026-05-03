@@ -77,7 +77,7 @@
 - **Dev Teams** - Want consistency across projects
 
 ### Outreach Script
-"Hey [Name], I built Axis' Iliad - an AI that analyzes codebases and generates 86 artifacts automatically. It creates everything from context maps to brand systems.
+"Hey [Name], I built Axis' Iliad - an AI that analyzes codebases and generates 102 artifacts automatically. It creates everything from context maps to brand systems.
 
 Since you're [working on AI tools/ maintaining open source/ building with Cursor], I thought you might find it useful.
 

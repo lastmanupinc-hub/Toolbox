@@ -2489,3 +2489,222 @@ export function generateServerManifest(ctx: ContextMap, profile: RepoProfile, fi
     description: "MCP server manifest with tools, resources, prompts, and runtime configuration",
   };
 }
+
+// ─── mcp/fintech-mcp-surface-package.md ───────────────────────
+
+function detectFintechDependencies(ctx: ContextMap): string[] {
+  const fintechDeps = ["stripe", "dwolla", "plaid", "adyen", "checkout", "marqeta", "unit", "treasury", "finicity"];
+  return ctx.dependency_graph.external_dependencies
+    .map((dep) => dep.name)
+    .filter((name) => fintechDeps.some((keyword) => name.toLowerCase().includes(keyword)));
+}
+
+function hasTrustFabric(files?: SourceFile[]): boolean {
+  return (files ?? []).some((file) => file.path.toLowerCase().includes("trust-fabric"));
+}
+
+export function generateFintechMcpSurfacePackage(
+  ctx: ContextMap,
+  _profile: RepoProfile,
+  files?: SourceFile[],
+): GeneratedFile {
+  const id = ctx.project_identity;
+  const deps = detectFintechDependencies(ctx);
+  const lines: string[] = [];
+
+  lines.push(`# Fintech MCP Surface Package — ${id.name}`);
+  lines.push("");
+  lines.push(`Generated: ${new Date().toISOString()}`);
+  lines.push("");
+  lines.push("## Objective");
+  lines.push("");
+  lines.push("This package defines the initial MCP surface for an agent that does more than audit integrations: it hardens malformed or partially finished fintech repositories into regulator-aware, API-callable software for institutional deployment.");
+  lines.push("");
+  lines.push("## Why This Repo Qualifies");
+  lines.push("");
+  lines.push(`- Routes detected: ${ctx.routes.length}`);
+  lines.push(`- Domain models detected: ${ctx.domain_models.length}`);
+  lines.push(`- SQL tables detected: ${ctx.sql_schema?.length ?? 0}`);
+  lines.push(`- Trust Fabric detected: ${hasTrustFabric(files) ? "yes" : "no"}`);
+  lines.push(`- Fintech dependency hints: ${deps.length > 0 ? deps.join(", ") : "none directly detected"}`);
+  lines.push("");
+  lines.push("## Target Package Structure");
+  lines.push("");
+  lines.push("```text");
+  lines.push("mcp/");
+  lines.push("  server/");
+  lines.push("    index.ts");
+  lines.push("    transport/http.ts");
+  lines.push("    auth/bearer.ts");
+  lines.push("    tools/harden-partial-repo.ts");
+  lines.push("    tools/generate-regulatory-controls.ts");
+  lines.push("    tools/derive-domain-schema.ts");
+  lines.push("    tools/build-api-surface.ts");
+  lines.push("    tools/assemble-evidence-pack.ts");
+  lines.push("    resources/compliance-controls.ts");
+  lines.push("    resources/domain-models.ts");
+  lines.push("    resources/ledger-invariants.ts");
+  lines.push("    prompts/repair-fintech-repo.ts");
+  lines.push("    prompts/ship-bank-grade-api.ts");
+  lines.push("  contracts/");
+  lines.push("    tool-schemas.ts");
+  lines.push("    control-matrix.ts");
+  lines.push("    evidence-package.ts");
+  lines.push("```");
+  lines.push("");
+  lines.push("## Core Tool Contracts");
+  lines.push("");
+  lines.push("| Tool | Purpose | Output |");
+  lines.push("|------|---------|--------|");
+  lines.push("| `harden_partial_repo` | Normalize malformed project structure, fill missing layers, and reconcile partial implementations | patch plan + generated file set |");
+  lines.push("| `derive_domain_schema` | Infer payment, ledger, mandate, dispute, and evidence entities from routes, models, and docs | typed domain schema |");
+  lines.push("| `generate_regulatory_controls` | Create control matrix for KYC, AML, sanctions, PCI, auditability, and data retention | control bundle |");
+  lines.push("| `build_api_surface` | Produce institution-facing API endpoints, handlers, validators, and contracts | callable API surface |");
+  lines.push("| `assemble_evidence_pack` | Generate dispute/compliance evidence package definitions and audit output | evidence package manifest |");
+  lines.push("| `validate_ledger_invariants` | Check debit/credit balance, settlement status, and event lineage rules | invariant report |");
+  lines.push("");
+  lines.push("## Compliance-Aware Resources");
+  lines.push("");
+  lines.push("This section defines the compliance-aware runtime contracts required for regulator-facing fintech operations.");
+  lines.push("- `fintech://controls/matrix` — control definitions for onboarding, transaction monitoring, disputes, and evidence retention.");
+  lines.push("- `fintech://schema/domain` — canonical domain schema for ledger accounts, transactions, mandates, settlements, and cases.");
+  lines.push("- `fintech://audit/trail` — event lineage and immutable audit requirements.");
+  lines.push("- `fintech://evidence/packages` — evidence package definitions for disputes, onboarding reviews, and regulator responses.");
+  lines.push("");
+  lines.push("## Prompt Surface");
+  lines.push("");
+  lines.push("- `repair_partial_fintech_repo` — map incomplete folders and replace gaps with compliant implementation scaffolding.");
+  lines.push("- `implement_compliant_payment_api` — generate handlers, validators, and audit hooks for institution-facing payment endpoints.");
+  lines.push("- `upgrade_third_party_connector` — wrap existing fintech vendors in bank-grade internal contracts rather than treating them as the system of record.");
+  lines.push("");
+  lines.push("## Compliance Domains To Encode In The Server");
+  lines.push("");
+  lines.push("1. Identity and onboarding controls: KYC, KYB, sanctions, beneficial ownership, missing-document recovery.");
+  lines.push("2. Payment execution controls: auth, capture, returns, settlement states, webhook authenticity, idempotency.");
+  lines.push("3. Ledger controls: double-entry integrity, reversal lineage, suspense handling, balance snapshots, reconciliation evidence.");
+  lines.push("4. Mandate controls: AP2/PSD2-style mandate lifecycle, exemptions, recurring fixed payment provenance.");
+  lines.push("5. Audit and evidence controls: immutable audit logs, case timelines, dispute artifacts, regulator-ready evidence packaging.");
+  lines.push("");
+  lines.push("## Server Skeleton");
+  lines.push("");
+  lines.push("```ts");
+  lines.push("export function registerFintechTools(server: McpServer) {");
+  lines.push("  server.tool(\"harden_partial_repo\", hardenPartialRepoSchema, hardenPartialRepo);");
+  lines.push("  server.tool(\"derive_domain_schema\", deriveDomainSchemaSchema, deriveDomainSchema);");
+  lines.push("  server.tool(\"generate_regulatory_controls\", controlSchema, generateRegulatoryControls);");
+  lines.push("  server.tool(\"build_api_surface\", apiSurfaceSchema, buildApiSurface);");
+  lines.push("  server.tool(\"assemble_evidence_pack\", evidenceSchema, assembleEvidencePack);");
+  lines.push("  server.resource(\"fintech://schema/domain\", readFintechDomainSchema);");
+  lines.push("  server.resource(\"fintech://controls/matrix\", readControlMatrix);");
+  lines.push("}");
+  lines.push("```");
+  lines.push("");
+  lines.push("## Buildout Phases");
+  lines.push("");
+  lines.push("1. Detect missing fintech layers and generate internal contracts before touching provider adapters.");
+  lines.push("2. Establish domain schema and audit trail model as the source of truth.");
+  lines.push("3. Generate compliant API endpoints and validation logic for institution-facing usage.");
+  lines.push("4. Attach dispute/evidence generation, mandate controls, and reconciliation invariants.");
+  lines.push("5. Only then map third-party fintech vendors behind internal abstractions.");
+  lines.push("");
+
+  if (files && files.length > 0) {
+    const candidateFiles = findFiles(files, ["**/*trust-fabric*", "**/*ledger*", "**/*payment*", "**/*settlement*", "**/*mandate*"]);
+    if (candidateFiles.length > 0) {
+      lines.push(...renderExcerpts("Fintech Source Signals", candidateFiles.slice(0, 6), 20));
+    }
+  }
+
+  return {
+    path: "mcp/fintech-mcp-surface-package.md",
+    content: lines.join("\n"),
+    content_type: "text/markdown",
+    program: "mcp",
+    description: "Initial fintech-focused MCP surface package with server structure, repair tools, and compliance-aware contracts",
+  };
+}
+
+// ─── mcp/fintech-domain-schema.yaml ───────────────────────────
+
+export function generateFintechDomainSchema(
+  ctx: ContextMap,
+  _profile: RepoProfile,
+  files?: SourceFile[],
+): GeneratedFile {
+  const providers = detectFintechDependencies(ctx);
+  const lines: string[] = [];
+
+  lines.push("schema_version: \"1.0\"");
+  lines.push(`generated_at: ${JSON.stringify(new Date().toISOString())}`);
+  lines.push("domain: fintech_mcp_buildout");
+  lines.push("project:");
+  lines.push(`  name: ${JSON.stringify(ctx.project_identity.name)}`);
+  lines.push(`  primary_language: ${JSON.stringify(ctx.project_identity.primary_language)}`);
+  lines.push(`  trust_fabric_detected: ${hasTrustFabric(files)}`);
+  lines.push(`  detected_provider_hints: [${providers.map((provider) => JSON.stringify(provider)).join(", ")}]`);
+  lines.push("bounded_contexts:");
+  lines.push("  - onboarding");
+  lines.push("  - ledger");
+  lines.push("  - payments");
+  lines.push("  - settlements");
+  lines.push("  - disputes");
+  lines.push("  - compliance_evidence");
+  lines.push("tables:");
+  lines.push("  ledger_accounts:");
+  lines.push("    primary_key: ledger_account_id");
+  lines.push("    columns: [tenant_id, account_code, currency, balance_minor, status, opened_at, closed_at]");
+  lines.push("    invariants: [double_entry_only, currency_locked, non_destructive_closure]");
+  lines.push("  ledger_entries:");
+  lines.push("    primary_key: ledger_entry_id");
+  lines.push("    columns: [ledger_account_id, transaction_id, direction, amount_minor, event_time, reversal_of]");
+  lines.push("    invariants: [balanced_by_transaction, immutable_after_posting]");
+  lines.push("  payment_intents:");
+  lines.push("    primary_key: payment_intent_id");
+  lines.push("    columns: [customer_id, amount_minor, currency, payment_rail, status, idempotency_key, created_at]");
+  lines.push("    invariants: [idempotent_create, amount_currency_required]");
+  lines.push("  settlement_events:");
+  lines.push("    primary_key: settlement_event_id");
+  lines.push("    columns: [payment_intent_id, clearing_system, settlement_status, value_date, settled_amount_minor, reference]");
+  lines.push("    invariants: [status_transition_controlled, event_lineage_preserved]");
+  lines.push("  mandates:");
+  lines.push("    primary_key: mandate_id");
+  lines.push("    columns: [customer_id, mandate_type, status, authorized_at, sca_reference, exemption_reason, revoked_at]");
+  lines.push("    invariants: [sca_before_active, revocation_terminal]");
+  lines.push("  dispute_cases:");
+  lines.push("    primary_key: dispute_case_id");
+  lines.push("    columns: [payment_intent_id, network, reason_code, stage, opened_at, response_deadline_at]");
+  lines.push("    invariants: [deadline_present, stage_machine_enforced]");
+  lines.push("  dispute_evidence:");
+  lines.push("    primary_key: evidence_id");
+  lines.push("    columns: [dispute_case_id, evidence_type, collected_at, hash, source_uri, admissibility_status]");
+  lines.push("    invariants: [tamper_evident_hash, linked_to_case]");
+  lines.push("  audit_log:");
+  lines.push("    primary_key: audit_event_id");
+  lines.push("    columns: [actor_type, actor_id, action, entity_type, entity_id, occurred_at, trace_id, payload_hash]");
+  lines.push("    invariants: [append_only, payload_hash_required, trace_id_required]");
+  lines.push("  compliance_evidence_packages:");
+  lines.push("    primary_key: package_id");
+  lines.push("    columns: [package_type, subject_entity, created_at, jurisdiction, status, manifest_hash]");
+  lines.push("    invariants: [manifest_hash_required, exportable_bundle]");
+  lines.push("resources:");
+  lines.push("  institution_api:");
+  lines.push("    required_endpoints: [create_payment_intent, capture_payment, list_settlements, create_mandate, open_dispute_case, export_evidence_package]");
+  lines.push("  compliance_controls:");
+  lines.push("    required: [kyc_kyb, sanctions_screening, webhook_signature_validation, audit_trail, dispute_evidence_retention]");
+  lines.push("  evidence_packaging:");
+  lines.push("    package_types: [regulator_exam, dispute_representment, onboarding_review, reconciliation_exception]");
+  lines.push("    required_artifacts: [timeline, source_hashes, operator_actions, linked_records]");
+  lines.push("implementation_targets:");
+  lines.push(`  route_count_hint: ${ctx.routes.length}`);
+  lines.push(`  domain_model_count_hint: ${ctx.domain_models.length}`);
+  lines.push(`  sql_schema_count_hint: ${ctx.sql_schema?.length ?? 0}`);
+  lines.push("  objective: Build institution-grade API-callable fintech software, not just provider wrappers");
+
+  return {
+    path: "mcp/fintech-domain-schema.yaml",
+    content: lines.join("\n"),
+    content_type: "text/yaml",
+    program: "mcp",
+    description: "Machine-readable fintech domain schema covering ledger, settlements, mandates, disputes, audit logs, and evidence packaging",
+  };
+}
