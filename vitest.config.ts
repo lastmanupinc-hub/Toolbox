@@ -3,17 +3,12 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: ["packages/*/src/**/*.test.ts", "apps/*/src/**/*.test.{ts,tsx}"],
-    environment: "node", // Default to node environment
-    pool: "forks",
-    poolOptions: {
-      forks: {
-        maxForks: process.env.CI ? 2 : undefined,
-      },
-    },
+    environment: "node",
+    pool: "threads",
+    maxWorkers: process.env.CI ? 4 : undefined,
+    hookTimeout: 300_000,
     environmentOptions: {
-      happyDom: {
-        // Settings for happy-dom environment
-      },
+      happyDom: {},
     },
     coverage: {
       provider: "v8",
