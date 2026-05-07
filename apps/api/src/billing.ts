@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { sendJSON, readBody, sendError } from "./router.js";
-import { ErrorCode } from "./logger.js";
+import { ErrorCode, log } from "./logger.js";
 import { getClientWindow, getClientIp } from "./rate-limiter.js";
 import {
   resolveApiKey,
@@ -165,9 +165,10 @@ export async function handleCreateAccount(
   // Track signup funnel event
   trackEvent(account.account_id, "account_created", "signup", { tier, source: "api" });
 
-  // Send welcome email (fire-and-forget)
-  // v8 ignore next
-  sendWelcomeEmail(email, name, tier).catch(() => {});
+  // Send welcome email (fire-and-forget — log failures for observability)
+  sendWelcomeEmail(email, name, tier).catch((err: unknown) => {
+    log("warn", "welcome-email-failed", { email, error: err instanceof Error ? err.message : String(err) });
+  });
 
   sendJSON(res, 201, {
     account,

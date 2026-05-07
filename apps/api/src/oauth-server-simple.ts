@@ -52,7 +52,8 @@ export async function handleOAuthToken(req: IncomingMessage, res: ServerResponse
 
   // Verify client
   const db = getDb();
-  const client = db.prepare("SELECT * FROM oauth_clients WHERE id = ? AND secret = ?").get(clientId, clientSecret) as any;
+  interface OAuthClientRow { id: string; secret: string; redirect_uri: string }
+  const client = db.prepare("SELECT * FROM oauth_clients WHERE id = ? AND secret = ?").get(clientId, clientSecret) as OAuthClientRow | undefined;
   if (!client) {
     sendError(res, 401, ErrorCode.AUTH_REQUIRED, "Invalid client");
     return;

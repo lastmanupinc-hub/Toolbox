@@ -231,7 +231,7 @@ export function makeProgramHandler(program: string, defaultOutputs: string[]) {
       context_map: contextMap,
       repo_profile: repoProfile,
       requested_outputs: requestedOutputs,
-      source_files: snapshot?.files,
+      source_files: snapshot?.files ?? [],
     });
 
     const programFiles = result.files.filter(f => f.program === program);
@@ -607,7 +607,13 @@ export async function handleDeleteProject(
   const snapshots = getProjectSnapshots(project_id);
   if (snapshots.length === 0) {
     // Check if the project itself exists
-    const db = (await import("@axis/snapshots")).getDb();
+    let db;
+    try {
+      db = (await import("@axis/snapshots")).getDb();
+    } catch {
+      sendError(res, 500, ErrorCode.INTERNAL_ERROR, "Failed to load database module");
+      return;
+    }
     const project = db.prepare("SELECT project_id FROM projects WHERE project_id = ?").get(project_id);
     if (!project) {
       sendError(res, 404, ErrorCode.NOT_FOUND, "Project not found");
@@ -856,7 +862,12 @@ export async function handleGitHubAnalyze(
   }
 
   // Import dynamically to avoid loading github module for other endpoints
-  const { fetchGitHubRepo, parseGitHubUrl } = await import("./github.js");
+  const githubMod = await import("./github.js").catch(() => null);
+  if (!githubMod) {
+    sendError(res, 500, ErrorCode.INTERNAL_ERROR, "Failed to load GitHub module");
+    return;
+  }
+  const { fetchGitHubRepo, parseGitHubUrl } = githubMod;
 
   let parsed;
   try {
@@ -1345,7 +1356,12 @@ export async function handleAnalyze(
   let githubMeta: Record<string, unknown> | undefined;
 
   if (githubUrl) {
-    const { fetchGitHubRepo, parseGitHubUrl } = await import("./github.js");
+    const githubAnalyzeMod = await import("./github.js").catch(() => null);
+    if (!githubAnalyzeMod) {
+      sendError(res, 500, ErrorCode.INTERNAL_ERROR, "Failed to load GitHub module");
+      return;
+    }
+    const { fetchGitHubRepo, parseGitHubUrl } = githubAnalyzeMod;
     let parsed;
     try {
       parsed = parseGitHubUrl(githubUrl);
@@ -3113,8 +3129,12 @@ export async function handleOpenApiJson(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const { buildOpenApiSpec } = await import("./openapi.js");
-  sendJSON(res, 200, buildOpenApiSpec());
+  const openApiMod = await import("./openapi.js").catch(() => null);
+  if (!openApiMod) {
+    sendError(res, 500, ErrorCode.INTERNAL_ERROR, "Failed to load OpenAPI module");
+    return;
+  }
+  sendJSON(res, 200, openApiMod.buildOpenApiSpec());
 }
 
 // ─── GET /performance  -  Main performance overview ──────────────
@@ -3123,8 +3143,14 @@ export async function handlePerformance(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const { getMcpCallCounters } = await import("./mcp-server.js");
-  const { recordRequest, getLatencyStats } = await import("./metrics.js");
+  const mcpMod = await import("./mcp-server.js").catch(() => null);
+  const metricsMod = await import("./metrics.js").catch(() => null);
+  if (!mcpMod || !metricsMod) {
+    sendError(res, 500, ErrorCode.INTERNAL_ERROR, "Failed to load performance modules");
+    return;
+  }
+  const { getMcpCallCounters } = mcpMod;
+  const { getLatencyStats } = metricsMod;
 
   // Get uptime from process start
   const uptimeSeconds = Math.floor(process.uptime());
@@ -3185,9 +3211,12 @@ export async function handlePerformanceReputation(
   _req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
-  const { getMcpCallCounters } = await import("./mcp-server.js");
-
-  // Calculate reputation score based on various factors
+  const mcpRepMod = await import("./mcp-server.js").catch(() => null);
+  if (!mcpRepMod) {
+    sendError(res, 500, ErrorCode.INTERNAL_ERROR, "Failed to load performance modules");
+    return;
+  }
+  const { getMcpCallCounters } = mcpRepMod;
   const mcpCounters = getMcpCallCounters();
   const mcpActivity = Math.min(mcpCounters.total / 100, 1) * 20; // 0-20 points based on MCP usage
 
