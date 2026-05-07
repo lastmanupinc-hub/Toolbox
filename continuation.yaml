@@ -3765,3 +3765,34 @@ project_continuation:
     local_only: true
     commit_results: []
     push_results: []
+
+  session_result_095:
+    date: "2026-05-07"
+    session_id: "session_095"
+    selected_move: "Production gap hardening — guard all unguarded dynamic imports, log silent email failures, typed OAuth row"
+    selected_move_roi_reason: "Five production gaps patched: all dynamic optional-feature imports now guarded with .catch()+null-check so a missing module returns a 500 instead of crashing the process; sendWelcomeEmail failure is now logged at warn level; OAuthClientRow typed interface replaces unsafe `as any` cast. All five gaps were individually low-medium risk but collectively represented unhandled-rejection surface and silent failure modes in production paths."
+    completed_candidates:
+      - "eq_200 (CRITICAL): handleDeleteProject @axis/snapshots import wrapped in try/catch — process no longer crashes when optional snapshots module is absent."
+      - "eq_201 (HIGH): All 5 unguarded dynamic imports in handlers.ts (github.js x2, openapi.js, mcp-server.js x2, metrics.js) guarded with .catch(() => null) + null-check + sendError(res, 500)."
+      - "eq_202 (HIGH): billing.ts sendWelcomeEmail fire-and-forget .catch(() => {}) replaced with .catch((err) => log('warn', 'welcome-email-failed', {...}))."
+      - "eq_203 (MEDIUM): snapshot?.files changed to snapshot?.files ?? [] in makeProgramHandler to prevent downstream undefined spread."
+      - "eq_204 (LOW): oauth-server-simple.ts `as any` DB row cast replaced with typed OAuthClientRow interface."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "Full suite: npx vitest run — 140 test files passed, 4128 tests passing, 11 skipped, 0 failing (exit code 0, two independent runs confirmed)."
+      - "Dogfood: node apps/cli/bin/axis.js analyze . --output .ai-output — 102 files generated (1.3 MB), 0 skipped generators, exit 0."
+    verticals_advanced:
+      - "v18_agentic_commerce: API process-stability hardened — optional feature imports can no longer cause unhandled rejections"
+      - "position_improvement: production error surface reduced, OAuth type safety improved"
+    blockers_removed:
+      - "5 unguarded dynamic imports that could throw unhandled rejections if optional modules are absent"
+      - "Silent email delivery failure with no observability"
+      - "Unsafe as-any cast on OAuth DB row"
+    blockers_added: []
+    local_only: false
+    commit_results:
+      - "dded858: fix(hardening): guard dynamic imports, log email failures, typed OAuth row"
+      - "765fe36: chore: regenerate all artifacts — full Pro dogfood post-hardening"
+    push_results:
+      - "pushed to origin/main — HEAD at 765fe36"

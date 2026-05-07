@@ -92,7 +92,7 @@ project_begin:
     allowed_verticals: []
 
   qualifying_candidates:
-    status: has_new_candidates
+    status: all_completed
     completed_candidates:
       - "OAuth 2.0 Authorization Server implementation (JWT-based with RS256 tokens)"
       - "MCP protocol integration with 12 tools including prepare_for_agentic_purchasing"
@@ -122,7 +122,7 @@ project_begin:
         roi_reason: "production_quality 5, blocker_removal 5, integration_quality 5. CRITICAL severity — unhandled promise rejection in an authenticated delete handler crashes the request with no response body."
         severity: CRITICAL
         source_file: "apps/api/src/handlers.ts"
-        completion_status: not_started
+        completion_status: complete
 
       - id: "eq_201_gap_high_imports"
         description: "handlers.ts:3116,3126-3127 handleOpenApiJson+handlePerformance — wrap await import() calls (openapi.js, mcp-server.js, metrics.js) in try/catch; handlers.ts:859,1348 github.js import — already has error guard on the outer fetch but not the import itself"
@@ -130,7 +130,7 @@ project_begin:
         roi_reason: "production_quality 5, integration_quality 5, validation_strength 4. HIGH severity — unguarded dynamic imports in cold/warm paths produce 500 with no structured error body on module resolution failure."
         severity: HIGH
         source_file: "apps/api/src/handlers.ts"
-        completion_status: not_started
+        completion_status: complete
 
       - id: "eq_202_gap_high_email"
         description: "billing.ts:169 sendWelcomeEmail().catch(() => {}) — silently swallows all delivery failures; add log('warn') in the catch so failures are observable in production logs"
@@ -138,7 +138,7 @@ project_begin:
         roi_reason: "production_quality 5, observability 5, integration_quality 4. HIGH severity — silent email failures are invisible in production; operators cannot diagnose delivery problems."
         severity: HIGH
         source_file: "apps/api/src/billing.ts"
-        completion_status: not_started
+        completion_status: complete
 
       - id: "eq_203_gap_medium_snapshot_files"
         description: "handlers.ts:235 makeProgramHandler — snapshot?.files optional-chain passes undefined to generateFiles source_files; change to snapshot?.files ?? [] to make intent explicit and prevent edge-case undefined propagation"
@@ -146,7 +146,7 @@ project_begin:
         roi_reason: "production_quality 4, canonical_coherence 4, integration_quality 4. MEDIUM severity — optional chain hides potential missing state in file-generation pipeline."
         severity: MEDIUM
         source_file: "apps/api/src/handlers.ts"
-        completion_status: not_started
+        completion_status: complete
 
       - id: "eq_204_gap_low_oauth_any"
         description: "oauth-server-simple.ts:54 — replace 'as any' DB row cast with typed interface OAuthClientRow; also tighten the stub authorization-code comment to reflect production intent"
@@ -154,7 +154,7 @@ project_begin:
         roi_reason: "production_quality 3, canonical_coherence 4, security 3. LOW severity — as any in auth-sensitive code suppresses type errors that could mask DB schema drift."
         severity: LOW
         source_file: "apps/api/src/oauth-server-simple.ts"
-        completion_status: not_started
+        completion_status: complete
 
   highest_roi_definition:
     meaning: >
