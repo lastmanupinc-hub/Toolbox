@@ -2,7 +2,7 @@
   "registry_version": "1.0",
   "product": "Axis' Iliad",
   "project": "axis-iliad",
-  "generated_at": "2026-04-18",
+  "generated_at": "2026-05-07",
   "axis_base_url": "https://api.axis-iliad.com",
   "mcp_endpoint": "POST /mcp",
   "repo_commerce_signals": {
@@ -117,11 +117,11 @@
         "algorithmic",
         "agentic-purchasing"
       ],
-      "outputs": 86,
+      "outputs": 102,
       "tier": "pro",
       "price_cents": 5000,
       "price_interval": "per_call",
-      "description": "All 86 structured artifacts across 18 programs — full AI-native governance layer",
+      "description": "All 102 structured artifacts across 18 programs — full AI-native governance layer",
       "api_call": {
         "method": "tools/call",
         "tool": "analyze_repo",

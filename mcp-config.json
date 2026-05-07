@@ -1,8 +1,8 @@
 {
   "mcpVersion": "1.0",
   "project": "axis-iliad",
-  "generated_at": "2026-04-18T01:42:32.937Z",
-  "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.",
+  "generated_at": "2026-05-07T23:19:38.255Z",
+  "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.",
   "detected_stack": [
     {
       "name": "React",
@@ -331,6 +331,13 @@
       "resource_uri": "model://axis-iliad/PricingTier"
     },
     {
+      "name": "OAuthClientRow",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/api/src/oauth-server-simple.ts",
+      "resource_uri": "model://axis-iliad/OAuthClientRow"
+    },
+    {
       "name": "OpenApiSpec",
       "kind": "interface",
       "field_count": 6,
@@ -343,13 +350,6 @@
       "field_count": 2,
       "source_file": "apps/api/src/rate-limiter.ts",
       "resource_uri": "model://axis-iliad/WindowEntry"
-    },
-    {
-      "name": "AppHandle",
-      "kind": "interface",
-      "field_count": 3,
-      "source_file": "apps/api/src/router.ts",
-      "resource_uri": "model://axis-iliad/AppHandle"
     }
   ],
   "sql_schema": null,
@@ -413,7 +413,7 @@
       "exports": [
         "export const app = ..."
       ],
-      "size": 16806
+      "size": 16818
     }
   ]
 }

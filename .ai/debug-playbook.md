@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Quick Reference
 
@@ -17,18 +17,18 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | npm |
-| Files | 500 files, 123,929 LOC |
+| Files | 500 files, 126,554 LOC |
 | Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 262 | 82,947 | 73.3% |
-| JSON | 62 | 11,393 | 10.1% |
-| YAML | 55 | 8,549 | 7.6% |
-| Markdown | 98 | 8,004 | 7.1% |
-| JavaScript | 7 | 1,313 | 1.2% |
+| TypeScript | 262 | 85,493 | 73.9% |
+| JSON | 63 | 11,394 | 9.8% |
+| YAML | 55 | 8,584 | 7.4% |
+| Markdown | 96 | 7,907 | 6.8% |
+| JavaScript | 7 | 1,313 | 1.1% |
 | CSS | 2 | 849 | 0.7% |
 | HTML | 1 | 120 | 0.1% |
 | Dockerfile | 1 | 53 | 0% |
@@ -110,6 +110,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | ChargeOptions | type_alias | TypeScript | 5 | `apps/api/src/mpp.ts` |
 | MppResult | type_alias | TypeScript | 1 | `apps/api/src/mpp.ts` |
 | PricingTier | interface | TypeScript | 4 | `apps/api/src/mpp.ts` |
+| OAuthClientRow | interface | TypeScript | 3 | `apps/api/src/oauth-server-simple.ts` |
 | OpenApiSpec | interface | TypeScript | 6 | `apps/api/src/openapi.ts` |
 | WindowEntry | interface | TypeScript | 2 | `apps/api/src/rate-limiter.ts` |
 | AppHandle | interface | TypeScript | 3 | `apps/api/src/router.ts` |
@@ -178,6 +179,44 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | Node | interface | TypeScript | 7 | `packages/generator-core/src/generators-algorithmic.ts` |
 | DashboardData | interface | TypeScript | 6 | `packages/generator-core/src/generators-artifacts.ts` |
 | MyComponentProps | interface | TypeScript | 2 | `packages/generator-core/src/generators-frontend.ts` |
+| CancelParams | interface | TypeScript | 1 | `packages/generator-core/src/generators-mcp.ts` |
+| CancelRequest | type_alias | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| CapabilityAdvertisement | interface | TypeScript | 5 | `packages/generator-core/src/generators-mcp.ts` |
+| ClientInfo | interface | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| InitializeParams | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| InitializeResult | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| InitializeResult | type_alias | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| JsonRpcError | type_alias | TypeScript | 5 | `packages/generator-core/src/generators-mcp.ts` |
+| JsonRpcErrorObject | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| JsonRpcErrorResponse | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| JsonRpcRequest | type_alias | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| JsonRpcSuccess | type_alias | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| ProgressNotification | type_alias | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ProgressParams | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| PromptArgument | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| PromptDefinition | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| PromptGetParams | interface | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| PromptGetResult | interface | TypeScript | 1 | `packages/generator-core/src/generators-mcp.ts` |
+| PromptMessage | interface | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| RegisteredSchema | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| ResourceContent | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ResourceDefinition | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ResourceReadParams | interface | TypeScript | 1 | `packages/generator-core/src/generators-mcp.ts` |
+| ResourceReadResult | interface | TypeScript | 1 | `packages/generator-core/src/generators-mcp.ts` |
+| ResourcesListResult | interface | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| ResourceTemplate | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ServerInfo | interface | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| SessionContext | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| StandardSchemaV1 | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| StandardSchemaV1 | type_alias | TypeScript | 6 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolCall | type_alias | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolCallResult | interface | TypeScript | 3 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolContentBlock | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolDefinition | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolDefinition | type_alias | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolSchema | interface | TypeScript | 4 | `packages/generator-core/src/generators-mcp.ts` |
+| ToolsListResult | interface | TypeScript | 1 | `packages/generator-core/src/generators-mcp.ts` |
+| TransportAdapter | interface | TypeScript | 0 | `packages/generator-core/src/generators-mcp.ts` |
 | RemotionTheme | interface | TypeScript | 4 | `packages/generator-core/src/generators-remotion.ts` |
 | GeneratedFile | interface | TypeScript | 5 | `packages/generator-core/src/types.ts` |
 | GeneratorInput | interface | TypeScript | 4 | `packages/generator-core/src/types.ts` |
@@ -631,6 +670,10 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts |
 | POST | `/v1/accounts` | apps/api/src/server.ts |
 | POST | `/accounts` | apps/api/src/server.ts |
+| GET | `/v1/accounts` | apps/api/src/server.ts |
+| GET | `/v1/accounts/` | apps/api/src/server.ts |
+| GET | `/accounts` | apps/api/src/server.ts |
+| GET | `/accounts/` | apps/api/src/server.ts |
 | GET | `/v1/account` | apps/api/src/server.ts |
 | POST | `/v1/account/keys` | apps/api/src/server.ts |
 | GET | `/v1/account/keys` | apps/api/src/server.ts |
@@ -808,7 +851,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (409 more lines)
+... (410 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

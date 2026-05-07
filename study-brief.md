@@ -19,7 +19,7 @@ Before diving into this codebase, you should be comfortable with:
 
    - `apps` — monorepo_apps (141 files)
    - `packages` — monorepo_packages (135 files)
-   - `payment-processing-output` — project_directory (71 files)
+   - `payment-processing-output` — project_directory (69 files)
    - `examples` — project_directory (17 files)
    - `algorithmic` — project_directory (4 files)
    - `artifacts` — project_directory (4 files)
@@ -46,7 +46,7 @@ These are the core data structures that define what the system works with:
 | `McpCallCounters` | interface | 5 | `apps/api/src/mcp-server.ts` |
 | `RpcError` | interface | 5 | `apps/api/src/mcp-server.ts` |
 | `RpcSuccess` | interface | 3 | `apps/api/src/mcp-server.ts` |
-| *(+153 more)* | | | |
+| *(+192 more)* | | | |
 
 ### Phase 4: Data Flow
 
@@ -107,7 +107,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (414 more lines)
+... (415 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

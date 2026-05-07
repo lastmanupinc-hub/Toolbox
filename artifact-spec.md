@@ -1,10 +1,10 @@
 # Artifact Specification — axis-iliad
 
-Generated: 2026-04-18T01:42:32.947Z
+Generated: 2026-05-07T23:19:38.305Z
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -23,11 +23,11 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Language Distribution
 
-- **TypeScript**: 73.3% ███████████████ (262 files, 82947 LOC)
-- **JSON**: 10.1% ██ (62 files, 11393 LOC)
-- **YAML**: 7.6% ██ (55 files, 8549 LOC)
-- **Markdown**: 7.1% █ (98 files, 8004 LOC)
-- **JavaScript**: 1.2% █ (7 files, 1313 LOC)
+- **TypeScript**: 73.9% ███████████████ (262 files, 85493 LOC)
+- **JSON**: 9.8% ██ (63 files, 11394 LOC)
+- **YAML**: 7.4% █ (55 files, 8584 LOC)
+- **Markdown**: 6.8% █ (96 files, 7907 LOC)
+- **JavaScript**: 1.1% █ (7 files, 1313 LOC)
 - **CSS**: 0.7% █ (2 files, 849 LOC)
 - **HTML**: 0.1% █ (1 files, 120 LOC)
 - **Dockerfile**: 0% █ (1 files, 53 LOC)
@@ -100,7 +100,7 @@ When generating artifacts for this project:
 ```typescript
 export type { GeneratedFile, GeneratorInput, GeneratorResult, SourceFile } from "./types.js";
 export { generateFiles, listAvailableGenerators } from "./generate.js";
-export { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots } from "./generators-search.js";
+export { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots, generateRepoRunStats } from "./generators-search.js";
 export { generateAgentsMD, generateClaudeMD, generateCursorRules, generateWorkflowPack, generatePolicyPack } from "./generators-skills.js";
 export { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules, generateRootCauseChecklist } from "./generators-debug.js";
 export { generateFrontendRules, generateComponentGuidelines, generateLayoutPatterns, generateUiAudit } from "./generators-frontend.js";
@@ -112,7 +112,7 @@ export { generateSuperpowerPack, generateWorkflowRegistry, generateTestGeneratio
 export { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook, generateAbTestPlan } from "./generators-marketing.js";
 export { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads, generateCitationIndex } from "./generators-notebook.js";
 export { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy, generateTemplatePack } from "./generators-obsidian.js";
-export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry, generateServerManifest } from "./generators-mcp.js";
+export { generateMcpConfig, generateMcpRegistryMetadata, generateProtocolSpec, generateSpecTypes, generateMcpReadme, generateProjectSetupGuide, generateBuildArtifactsGuide, generateRootPackageJsonTemplate, generatePackagePackageJsonTemplate, generateRootTsconfigTemplate, generatePackageTsconfigTemplate, generateMonorepoStructureGuide, generateCoreImplementationArtifactsGuide, generateTestingDocumentationPolishArtifactsGuide, generateConnectorMap, generateCapabilityRegistry, generateServerManifest, generateFintechMcpSurfacePackage, generateFintechDomainSchema } from "./generators-mcp.js";
 export { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec, generateComponentLibrary } from "./generators-artifacts.js";
 export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
 export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";

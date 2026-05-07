@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-04-18T01:42:33.078Z",
-  "total_symbols": 1785,
+  "generated_at": "2026-05-07T23:19:39.122Z",
+  "total_symbols": 1817,
   "file_count": 233,
   "symbols": {
     "apps/api/src/admin.test.ts": [
@@ -207,87 +207,87 @@
       {
         "name": "handleGetAccount",
         "type": "function",
-        "line": 185
+        "line": 186
       },
       {
         "name": "handleCreateApiKey",
         "type": "function",
-        "line": 210
+        "line": 211
       },
       {
         "name": "handleListApiKeys",
         "type": "function",
-        "line": 241
+        "line": 242
       },
       {
         "name": "handleRevokeApiKey",
         "type": "function",
-        "line": 263
+        "line": 264
       },
       {
         "name": "handleGetUsage",
         "type": "function",
-        "line": 292
+        "line": 293
       },
       {
         "name": "handleUpdateTier",
         "type": "function",
-        "line": 320
+        "line": 321
       },
       {
         "name": "isUpgrade",
         "type": "function",
-        "line": 351
+        "line": 352
       },
       {
         "name": "handleUpdatePrograms",
         "type": "function",
-        "line": 361
+        "line": 362
       },
       {
         "name": "handleGetQuota",
         "type": "function",
-        "line": 419
+        "line": 420
       },
       {
         "name": "handleSaveGitHubToken",
         "type": "function",
-        "line": 457
+        "line": 458
       },
       {
         "name": "handleListGitHubTokens",
         "type": "function",
-        "line": 500
+        "line": 501
       },
       {
         "name": "handleDeleteGitHubToken",
         "type": "function",
-        "line": 525
+        "line": 526
       },
       {
         "name": "handleBillingHistory",
         "type": "function",
-        "line": 547
+        "line": 548
       },
       {
         "name": "handleProrationPreview",
         "type": "function",
-        "line": 571
+        "line": 572
       },
       {
         "name": "handleGetCredits",
         "type": "function",
-        "line": 600
+        "line": 601
       },
       {
         "name": "handleAddCredits",
         "type": "function",
-        "line": 629
+        "line": 630
       },
       {
         "name": "CreditOperation",
         "type": "type",
-        "line": 654
+        "line": 655
       }
     ],
     "apps/api/src/budget-probe.test.ts": [
@@ -844,254 +844,249 @@
         "line": 591
       },
       {
-        "name": "db",
-        "type": "function",
-        "line": 610
-      },
-      {
         "name": "handleGetContext",
         "type": "function",
-        "line": 621
+        "line": 627
       },
       {
         "name": "handleGetGeneratedFiles",
         "type": "function",
-        "line": 650
+        "line": 656
       },
       {
         "name": "handleHealthCheck",
         "type": "function",
-        "line": 683
+        "line": 689
       },
       {
         "name": "handleDbStats",
         "type": "function",
-        "line": 696
+        "line": 702
       },
       {
         "name": "handleDbMaintenance",
         "type": "function",
-        "line": 705
+        "line": 711
       },
       {
         "name": "handleGetGeneratedFile",
         "type": "function",
-        "line": 715
+        "line": 721
       },
       {
         "name": "handleSearchExport",
         "type": "function",
-        "line": 753
+        "line": 759
       },
       {
         "name": "handleSkillsGenerate",
         "type": "function",
-        "line": 786
+        "line": 792
       },
       {
         "name": "requestedOutputs",
         "type": "function",
-        "line": 819
+        "line": 825
       },
       {
         "name": "handleGitHubAnalyze",
         "type": "function",
-        "line": 839
+        "line": 845
       },
       {
         "name": "input",
         "type": "const",
-        "line": 939
+        "line": 950
       },
       {
         "name": "handleSearchIndex",
         "type": "function",
-        "line": 1022
+        "line": 1033
       },
       {
         "name": "files",
         "type": "function",
-        "line": 1048
+        "line": 1059
       },
       {
         "name": "handleSearchQuery",
         "type": "function",
-        "line": 1063
+        "line": 1074
       },
       {
         "name": "handleSearchStats",
         "type": "function",
-        "line": 1111
+        "line": 1122
       },
       {
         "name": "handleSearchSymbols",
         "type": "function",
-        "line": 1127
+        "line": 1138
       },
       {
         "name": "adoptionHint",
         "type": "function",
-        "line": 1244
+        "line": 1268
       },
       {
         "name": "buildNextSteps",
         "type": "function",
-        "line": 1253
+        "line": 1277
       },
       {
         "name": "detectProjectName",
         "type": "function",
-        "line": 1274
+        "line": 1298
       },
       {
         "name": "handleAnalyze",
         "type": "function",
-        "line": 1290
+        "line": 1314
       },
       {
         "name": "input",
         "type": "const",
-        "line": 1500
+        "line": 1529
       },
       {
         "name": "PURCHASING_READINESS_WEIGHTS",
         "type": "const",
-        "line": 1603
+        "line": 1632
       },
       {
         "name": "computePurchasingReadinessScore",
         "type": "function",
-        "line": 1614
+        "line": 1643
       },
       {
         "name": "has",
         "type": "function",
-        "line": 1619
+        "line": 1648
       },
       {
         "name": "checks",
         "type": "const",
-        "line": 1621
+        "line": 1650
       },
       {
         "name": "computePurchasingReadinessEvidence",
         "type": "function",
-        "line": 1681
+        "line": 1710
       },
       {
         "name": "handlePreparePurchasing",
         "type": "function",
-        "line": 1711
+        "line": 1740
       },
       {
         "name": "path",
         "type": "function",
-        "line": 1756
+        "line": 1785
       },
       {
         "name": "manifest",
         "type": "const",
-        "line": 1844
+        "line": 1873
       },
       {
         "name": "complianceSection",
         "type": "const",
-        "line": 1926
+        "line": 1955
       },
       {
         "name": "handleWellKnown",
         "type": "function",
-        "line": 2031
+        "line": 2060
       },
       {
         "name": "handleCapabilities",
         "type": "function",
-        "line": 2109
+        "line": 2138
       },
       {
         "name": "handleLlmsTxt",
         "type": "function",
-        "line": 2189
+        "line": 2218
       },
       {
         "name": "handleSecurityTxt",
         "type": "function",
-        "line": 2262
+        "line": 2291
       },
       {
         "name": "handleRobotsTxt",
         "type": "function",
-        "line": 2281
+        "line": 2310
       },
       {
         "name": "handleSitemapXml",
         "type": "function",
-        "line": 2330
+        "line": 2359
       },
       {
         "name": "handleSkillsIndex",
         "type": "function",
-        "line": 2374
+        "line": 2403
       },
       {
         "name": "handleOAuthAuthorizationServer",
         "type": "function",
-        "line": 2447
+        "line": 2476
       },
       {
         "name": "handleDocsMd",
         "type": "function",
-        "line": 2468
+        "line": 2497
       },
       {
         "name": "handleForAgents",
         "type": "function",
-        "line": 2572
+        "line": 2601
       },
       {
         "name": "handleInstall",
         "type": "function",
-        "line": 2827
+        "line": 2856
       },
       {
         "name": "handleProbeIntent",
         "type": "function",
-        "line": 2863
+        "line": 2892
       },
       {
         "name": "handleGlamaJson",
         "type": "function",
-        "line": 3016
+        "line": 3045
       },
       {
         "name": "handleAgentJson",
         "type": "function",
-        "line": 3032
+        "line": 3061
       },
       {
         "name": "handleHealthRedirect",
         "type": "function",
-        "line": 3070
+        "line": 3099
       },
       {
         "name": "handleDocsRedirect",
         "type": "function",
-        "line": 3085
+        "line": 3114
       },
       {
         "name": "handleOpenApiJson",
         "type": "function",
-        "line": 3099
+        "line": 3128
       },
       {
         "name": "handlePerformance",
         "type": "function",
-        "line": 3109
+        "line": 3142
       },
       {
         "name": "handlePerformanceReputation",
         "type": "function",
-        "line": 3171
+        "line": 3210
       }
     ],
     "apps/api/src/latency-histogram.test.ts": [
@@ -2138,39 +2133,44 @@
         "line": 41
       },
       {
+        "name": "OAuthClientRow",
+        "type": "interface",
+        "line": 55
+      },
+      {
         "name": "handleOAuthJwks",
         "type": "function",
-        "line": 84
+        "line": 85
       },
       {
         "name": "handleOAuthIntrospect",
         "type": "function",
-        "line": 90
+        "line": 91
       },
       {
         "name": "generateAuthCode",
         "type": "function",
-        "line": 116
+        "line": 117
       },
       {
         "name": "getJWKS",
         "type": "function",
-        "line": 120
+        "line": 121
       },
       {
         "name": "readBody",
         "type": "function",
-        "line": 135
+        "line": 136
       },
       {
         "name": "requireBearerToken",
         "type": "function",
-        "line": 151
+        "line": 152
       },
       {
         "name": "createOAuthClient",
         "type": "function",
-        "line": 170
+        "line": 171
       }
     ],
     "apps/api/src/oauth-server.ts": [
@@ -2682,7 +2682,12 @@
       {
         "name": "handleMcpEntrypoint",
         "type": "function",
-        "line": 261
+        "line": 260
+      },
+      {
+        "name": "handleAccountsMethodHint",
+        "type": "function",
+        "line": 358
       }
     ],
     "apps/api/src/snapshot-auth.test.ts": [
@@ -3470,262 +3475,262 @@
       {
         "name": "SnapshotPayload",
         "type": "interface",
-        "line": 5
+        "line": 10
       },
       {
         "name": "SnapshotResponse",
         "type": "interface",
-        "line": 17
+        "line": 22
       },
       {
         "name": "ContextMap",
         "type": "interface",
-        "line": 26
+        "line": 31
       },
       {
         "name": "RepoProfile",
         "type": "interface",
-        "line": 78
+        "line": 83
       },
       {
         "name": "GeneratedFile",
         "type": "interface",
-        "line": 104
+        "line": 109
       },
       {
         "name": "GeneratedFilesResponse",
         "type": "interface",
-        "line": 112
+        "line": 117
       },
       {
         "name": "BillingTier",
         "type": "type",
-        "line": 122
+        "line": 127
       },
       {
         "name": "Account",
         "type": "interface",
-        "line": 124
+        "line": 129
       },
       {
         "name": "ApiKeyInfo",
         "type": "interface",
-        "line": 132
+        "line": 137
       },
       {
         "name": "UsageSummary",
         "type": "interface",
-        "line": 140
+        "line": 145
       },
       {
         "name": "PlanDefinition",
         "type": "interface",
-        "line": 150
+        "line": 155
       },
       {
         "name": "PlanFeature",
         "type": "interface",
-        "line": 159
+        "line": 164
       },
       {
         "name": "UpgradePrompt",
         "type": "interface",
-        "line": 166
+        "line": 171
       },
       {
         "name": "ApiError",
         "type": "class",
-        "line": 180
+        "line": 185
       },
       {
         "name": "authHeaders",
         "type": "function",
-        "line": 194
+        "line": 199
       },
       {
         "name": "fetchJSON",
         "type": "function",
-        "line": 201
+        "line": 206
       },
       {
         "name": "createSnapshot",
         "type": "function",
-        "line": 259
+        "line": 264
       },
       {
         "name": "getGeneratedFiles",
         "type": "function",
-        "line": 284
+        "line": 289
       },
       {
         "name": "getGeneratedFile",
         "type": "function",
-        "line": 288
+        "line": 293
       },
       {
         "name": "runProgram",
         "type": "function",
-        "line": 296
+        "line": 301
       },
       {
         "name": "analyzeGitHubUrl",
         "type": "function",
-        "line": 306
+        "line": 311
       },
       {
         "name": "healthCheck",
         "type": "function",
-        "line": 314
+        "line": 319
       },
       {
         "name": "SearchResult",
         "type": "interface",
-        "line": 320
+        "line": 325
       },
       {
         "name": "SearchResponse",
         "type": "interface",
-        "line": 327
+        "line": 332
       },
       {
         "name": "searchQuery",
         "type": "function",
-        "line": 335
+        "line": 340
       },
       {
         "name": "indexSnapshot",
         "type": "function",
-        "line": 342
+        "line": 347
       },
       {
         "name": "SymbolResult",
         "type": "interface",
-        "line": 349
+        "line": 354
       },
       {
         "name": "SymbolsResponse",
         "type": "interface",
-        "line": 357
+        "line": 362
       },
       {
         "name": "searchSymbols",
         "type": "function",
-        "line": 363
+        "line": 368
       },
       {
         "name": "getExportUrl",
         "type": "function",
-        "line": 377
+        "line": 382
       },
       {
         "name": "downloadExport",
         "type": "function",
-        "line": 382
+        "line": 387
       },
       {
         "name": "createAccount",
         "type": "function",
-        "line": 399
+        "line": 404
       },
       {
         "name": "getAccount",
         "type": "function",
-        "line": 406
+        "line": 411
       },
       {
         "name": "createApiKey",
         "type": "function",
-        "line": 411
+        "line": 416
       },
       {
         "name": "listApiKeys",
         "type": "function",
-        "line": 418
+        "line": 423
       },
       {
         "name": "revokeApiKey",
         "type": "function",
-        "line": 422
+        "line": 427
       },
       {
         "name": "getUsage",
         "type": "function",
-        "line": 426
+        "line": 431
       },
       {
         "name": "updateTier",
         "type": "function",
-        "line": 436
+        "line": 441
       },
       {
         "name": "getPlans",
         "type": "function",
-        "line": 445
+        "line": 450
       },
       {
         "name": "getUpgradePrompt",
         "type": "function",
-        "line": 449
+        "line": 454
       },
       {
         "name": "dismissUpgradePrompt",
         "type": "function",
-        "line": 453
+        "line": 458
       },
       {
         "name": "CreditsInfo",
         "type": "interface",
-        "line": 459
+        "line": 464
       },
       {
         "name": "getCredits",
         "type": "function",
-        "line": 468
+        "line": 473
       },
       {
         "name": "Seat",
         "type": "interface",
-        "line": 474
+        "line": 479
       },
       {
         "name": "listSeats",
         "type": "function",
-        "line": 484
+        "line": 489
       },
       {
         "name": "inviteSeat",
         "type": "function",
-        "line": 488
+        "line": 493
       },
       {
         "name": "revokeSeat",
         "type": "function",
-        "line": 495
+        "line": 500
       },
       {
         "name": "getFunnelStatus",
         "type": "function",
-        "line": 501
+        "line": 506
       },
       {
         "name": "SubscriptionInfo",
         "type": "interface",
-        "line": 507
+        "line": 512
       },
       {
         "name": "createCheckout",
         "type": "function",
-        "line": 524
+        "line": 529
       },
       {
         "name": "getSubscription",
         "type": "function",
-        "line": 531
+        "line": 536
       },
       {
         "name": "cancelSubscription",
         "type": "function",
-        "line": 535
+        "line": 540
       }
     ],
     "apps/web/src/App.tsx": [
@@ -4013,37 +4018,37 @@
       {
         "name": "AccountPage",
         "type": "function",
-        "line": 25
+        "line": 32
       },
       {
         "name": "handleSignUp",
         "type": "function",
-        "line": 93
+        "line": 100
       },
       {
         "name": "handleCreateKey",
         "type": "function",
-        "line": 109
+        "line": 116
       },
       {
         "name": "handleRevoke",
         "type": "function",
-        "line": 123
+        "line": 130
       },
       {
         "name": "handleLogout",
         "type": "function",
-        "line": 133
+        "line": 140
       },
       {
         "name": "handleUpgrade",
         "type": "function",
-        "line": 144
+        "line": 151
       },
       {
         "name": "handleCancelSubscription",
         "type": "function",
-        "line": 154
+        "line": 161
       }
     ],
     "apps/web/src/pages/DashboardPage.tsx": [
@@ -5183,17 +5188,17 @@
       {
         "name": "validateGeneratedFile",
         "type": "function",
-        "line": 129
+        "line": 145
       },
       {
         "name": "generateFiles",
         "type": "function",
-        "line": 140
+        "line": 156
       },
       {
         "name": "listAvailableGenerators",
         "type": "function",
-        "line": 282
+        "line": 314
       }
     ],
     "packages/generator-core/src/generator-alt-profiles.test.ts": [
@@ -6735,24 +6740,134 @@
         "line": 94
       },
       {
-        "name": "generateConnectorMap",
+        "name": "generateMcpRegistryMetadata",
         "type": "function",
         "line": 192
       },
       {
+        "name": "metadata",
+        "type": "const",
+        "line": 224
+      },
+      {
+        "name": "generateProtocolSpec",
+        "type": "function",
+        "line": 259
+      },
+      {
+        "name": "generateSpecTypes",
+        "type": "function",
+        "line": 659
+      },
+      {
+        "name": "generateMcpReadme",
+        "type": "function",
+        "line": 906
+      },
+      {
+        "name": "generateProjectSetupGuide",
+        "type": "function",
+        "line": 1027
+      },
+      {
+        "name": "generateBuildArtifactsGuide",
+        "type": "function",
+        "line": 1099
+      },
+      {
+        "name": "generateRootPackageJsonTemplate",
+        "type": "function",
+        "line": 1148
+      },
+      {
+        "name": "template",
+        "type": "const",
+        "line": 1157
+      },
+      {
+        "name": "generatePackagePackageJsonTemplate",
+        "type": "function",
+        "line": 1202
+      },
+      {
+        "name": "template",
+        "type": "const",
+        "line": 1206
+      },
+      {
+        "name": "generateRootTsconfigTemplate",
+        "type": "function",
+        "line": 1246
+      },
+      {
+        "name": "template",
+        "type": "const",
+        "line": 1247
+      },
+      {
+        "name": "generatePackageTsconfigTemplate",
+        "type": "function",
+        "line": 1295
+      },
+      {
+        "name": "template",
+        "type": "const",
+        "line": 1296
+      },
+      {
+        "name": "generateMonorepoStructureGuide",
+        "type": "function",
+        "line": 1334
+      },
+      {
+        "name": "generateCoreImplementationArtifactsGuide",
+        "type": "function",
+        "line": 1453
+      },
+      {
+        "name": "generateTestingDocumentationPolishArtifactsGuide",
+        "type": "function",
+        "line": 1891
+      },
+      {
+        "name": "generateConnectorMap",
+        "type": "function",
+        "line": 1950
+      },
+      {
         "name": "generateCapabilityRegistry",
         "type": "function",
-        "line": 397
+        "line": 2155
       },
       {
         "name": "registry",
         "type": "const",
-        "line": 514
+        "line": 2272
       },
       {
         "name": "generateServerManifest",
         "type": "function",
-        "line": 548
+        "line": 2306
+      },
+      {
+        "name": "detectFintechDependencies",
+        "type": "function",
+        "line": 2495
+      },
+      {
+        "name": "hasTrustFabric",
+        "type": "function",
+        "line": 2502
+      },
+      {
+        "name": "generateFintechMcpSurfacePackage",
+        "type": "function",
+        "line": 2506
+      },
+      {
+        "name": "generateFintechDomainSchema",
+        "type": "function",
+        "line": 2629
       }
     ],
     "packages/generator-core/src/generators-notebook.ts": [
@@ -6960,6 +7075,51 @@
         "name": "output",
         "type": "const",
         "line": 460
+      },
+      {
+        "name": "normalizePath",
+        "type": "function",
+        "line": 478
+      },
+      {
+        "name": "isExcludedFromRunStats",
+        "type": "function",
+        "line": 482
+      },
+      {
+        "name": "getExtension",
+        "type": "function",
+        "line": 487
+      },
+      {
+        "name": "hasRootConfig",
+        "type": "function",
+        "line": 494
+      },
+      {
+        "name": "buildFintechSignals",
+        "type": "function",
+        "line": 502
+      },
+      {
+        "name": "generateRepoRunStats",
+        "type": "function",
+        "line": 549
+      },
+      {
+        "name": "fileList",
+        "type": "function",
+        "line": 554
+      },
+      {
+        "name": "rootConfigExists",
+        "type": "const",
+        "line": 614
+      },
+      {
+        "name": "report",
+        "type": "const",
+        "line": 664
       }
     ],
     "packages/generator-core/src/generators-seo.ts": [

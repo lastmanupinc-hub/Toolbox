@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -16,7 +16,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (123929 LOC)
+- **Files:** 500 (126554 LOC)
 - **Directories:** 57
 
 ## Frameworks & Libraries
@@ -409,6 +409,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | GET | `/v1/mcp/tools` | apps/api/src/server.ts |
 | POST | `/v1/accounts` | apps/api/src/server.ts |
 | POST | `/accounts` | apps/api/src/server.ts |
+| GET | `/v1/accounts` | apps/api/src/server.ts |
+| GET | `/v1/accounts/` | apps/api/src/server.ts |
+| GET | `/accounts` | apps/api/src/server.ts |
+| GET | `/accounts/` | apps/api/src/server.ts |
 | GET | `/v1/account` | apps/api/src/server.ts |
 | POST | `/v1/account/keys` | apps/api/src/server.ts |
 | GET | `/v1/account/keys` | apps/api/src/server.ts |
@@ -519,7 +523,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - `apps/` — monorepo_apps (141 files)
 - `packages/` — monorepo_packages (135 files)
-- `payment-processing-output/` — project_directory (71 files)
+- `payment-processing-output/` — project_directory (69 files)
 - `examples/` — project_directory (17 files)
 - `algorithmic/` — project_directory (4 files)
 - `artifacts/` — project_directory (4 files)
@@ -548,7 +552,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Domain Models
 
-Detected 163 domain models:
+Detected 202 domain models:
 
 | Model | Kind | Fields | Source |
 |-------|------|--------|--------|
@@ -569,6 +573,7 @@ Detected 163 domain models:
 | `ChargeOptions` | type_alias | 5 | apps/api/src/mpp.ts |
 | `MppResult` | type_alias | 1 | apps/api/src/mpp.ts |
 | `PricingTier` | interface | 4 | apps/api/src/mpp.ts |
+| `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
 | `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
 | `AppHandle` | interface | 3 | apps/api/src/router.ts |
@@ -576,8 +581,7 @@ Detected 163 domain models:
 | `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
 | `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
 | `RunResult` | interface | 4 | apps/cli/src/runner.ts |
-| `ScanResult` | interface | 3 | apps/cli/src/scanner.ts |
-| *… 138 more* | | | |
+| *… 177 more* | | | |
 
 > **High-complexity models** (8+ fields): `ContextMap`, `SnapshotResponse`, `SubscriptionInfo`, `UpgradePrompt`, `ProgramDoc`, `ContextMap`, `RepoProfile`, `CommerceSignals`, `ParseResult`, `UsageRecord`, `EmailDelivery`, `FunnelMetrics`, `Seat`, `UpgradePrompt`, `GitHubToken`, `ReferralCredits`, `StripeSubscription`, `TierChange`, `SnapshotManifest`, `SnapshotRecord`, `VersionDiff`, `Webhook`, `WebhookDelivery`, `WebhookRow` — consider splitting if they grow further.
 
@@ -602,8 +606,9 @@ Detected 163 domain models:
 
 ```
 .github/workflows/ci.yml (4.5 KB)
-.gitignore (0.3 KB)
+.gitignore (0.4 KB)
 .prettierrc.json (0.1 KB)
+.tmp-vitest.json (68.7 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
 AGENTS.md (13.8 KB)
@@ -627,7 +632,7 @@ apps/api/src/api-layer5.test.ts (10.6 KB)
 apps/api/src/api.test.ts (20.7 KB)
 apps/api/src/b-grade-upgrade.test.ts (8.6 KB)
 apps/api/src/billing-flow.test.ts (24.6 KB)
-apps/api/src/billing.ts (21.2 KB)
+apps/api/src/billing.ts (21.3 KB)
 apps/api/src/budget-probe.test.ts (34.3 KB)
 apps/api/src/checkout-email.test.ts (11.7 KB)
 apps/api/src/counts.ts (0.2 KB)
@@ -651,7 +656,7 @@ apps/api/src/handler-edge-cases.test.ts (11.8 KB)
 apps/api/src/handler-shutdown.test.ts (2.8 KB)
 apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
-apps/api/src/handlers.ts (150.3 KB)
+apps/api/src/handlers.ts (154.4 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.7 KB)
 apps/api/src/logger.ts (3.1 KB)
@@ -664,7 +669,7 @@ apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
 apps/api/src/mpp.ts (15.9 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
-apps/api/src/oauth-server-simple.ts (5.7 KB)
+apps/api/src/oauth-server-simple.ts (5.8 KB)
 apps/api/src/oauth-server.ts (8.1 KB)
 apps/api/src/oauth.test.ts (8.0 KB)
 apps/api/src/oauth.ts (3.4 KB)
@@ -685,7 +690,7 @@ apps/api/src/router.ts (15.2 KB)
 apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
-apps/api/src/server-routes.test.ts (5.3 KB)
+apps/api/src/server-routes.test.ts (5.9 KB)
 apps/api/src/server.ts (16.4 KB)
 apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
@@ -718,7 +723,7 @@ apps/web/index.html (6.9 KB)
 apps/web/package.json (0.5 KB)
 apps/web/public/robots.txt (0.8 KB)
 apps/web/src/api.test.ts (23.9 KB)
-apps/web/src/api.ts (18.5 KB)
+apps/web/src/api.ts (18.7 KB)
 apps/web/src/App.tsx (16.1 KB)
 apps/web/src/components/AxisIcons.tsx (8.9 KB)
 apps/web/src/components/CommandPalette.tsx (6.6 KB)
@@ -735,16 +740,16 @@ apps/web/src/components/UpsellModal.tsx (5.2 KB)
 apps/web/src/index.css (18.5 KB)
 apps/web/src/main.tsx (0.2 KB)
 apps/web/src/pages.test.tsx (5.1 KB)
-apps/web/src/pages/AccountPage.tsx (23.8 KB)
+apps/web/src/pages/AccountPage.tsx (24.1 KB)
 apps/web/src/pages/DashboardPage.tsx (8.2 KB)
-apps/web/src/pages/DocsPage.tsx (71.1 KB)
+apps/web/src/pages/DocsPage.tsx (71.5 KB)
 apps/web/src/pages/ExamplesPage.tsx (24.1 KB)
-apps/web/src/pages/ForAgentsPage.tsx (50.0 KB)
+apps/web/src/pages/ForAgentsPage.tsx (50.4 KB)
 apps/web/src/pages/HelpPage.tsx (41.9 KB)
 apps/web/src/pages/InstallPage.tsx (8.4 KB)
 apps/web/src/pages/PlansPage.tsx (9.3 KB)
 apps/web/src/pages/ProgramsPage.tsx (13.9 KB)
-apps/web/src/pages/QAPage.tsx (23.7 KB)
+apps/web/src/pages/QAPage.tsx (24.3 KB)
 apps/web/src/pages/TermsPage.tsx (19.4 KB)
 apps/web/src/pages/UploadPage.tsx (29.2 KB)
 apps/web/src/upload-utils-zip.test.ts (9.0 KB)
@@ -753,7 +758,7 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (73.5 KB)
+architecture-summary.md (73.6 KB)
 artifact-spec.md (7.8 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
@@ -768,7 +773,7 @@ AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 axis-analyze-results.json (1.1 KB)
-begin.yaml (14.7 KB)
+begin.yaml (17.7 KB)
 brand-board.md (5.1 KB)
 brand-guidelines.md (3.0 KB)
 brand/begin.yaml (1.8 KB)
@@ -788,7 +793,7 @@ CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.7 KB)
+CLAUDE.md (9.6 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
@@ -808,7 +813,7 @@ cov6.txt (218.4 KB)
 cov7.txt (219.0 KB)
 cov8.txt (219.5 KB)
 coverage-full.txt (249.9 KB)
-cro-playbook.md (35.7 KB)
+cro-playbook.md (35.8 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.5 KB)
@@ -817,6 +822,7 @@ debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
 dependency-hotspots.md (8.0 KB)
+docker-ci-run3.txt (24.3 KB)
 docker-compose.yml (2.0 KB)
 Dockerfile (4.4 KB)
 e2e_round2.mjs (15.1 KB)
@@ -840,8 +846,8 @@ examples/04-slate-certification/README.md (0.7 KB)
 examples/05-ruuuun/generated/AGENTS.md (1.8 KB)
 examples/05-ruuuun/generated/CLAUDE.md (0.8 KB)
 examples/05-ruuuun/README.md (0.8 KB)
-examples/README.json (5.6 KB)
-examples/README.md (3.9 KB)
+examples/README.json (6.0 KB)
+examples/README.md (4.3 KB)
 export-manifest.yaml (2.2 KB)
 frontend/begin.yaml (3.6 KB)
 frontend/continuation.yaml (2.4 KB)
@@ -872,7 +878,7 @@ mcp-config.json (12.7 KB)
 mcp/begin.yaml (1.8 KB)
 mcp/continuation.yaml (2.4 KB)
 mcp/MEMORY.yaml (2.7 KB)
-mcp/schemas/output-contract.schema.json (1.8 KB)
+mcp/schemas/output-contract.schema.json (2.1 KB)
 memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (24.5 KB)
@@ -907,11 +913,11 @@ packages/context-engine/tsconfig.json (0.2 KB)
 packages/generator-core/package.json (0.4 KB)
 packages/generator-core/src/file-excerpt-utils.ts (5.4 KB)
 packages/generator-core/src/fw-helpers.ts (0.5 KB)
-packages/generator-core/src/generate-programs.test.ts (11.8 KB)
+packages/generator-core/src/generate-programs.test.ts (12.3 KB)
 packages/generator-core/src/generate-symbol-index.test.ts (10.0 KB)
 packages/generator-core/src/generate-validation.test.ts (8.8 KB)
-packages/generator-core/src/generate.test.ts (42.2 KB)
-packages/generator-core/src/generate.ts (17.0 KB)
+packages/generator-core/src/generate.test.ts (67.6 KB)
+packages/generator-core/src/generate.ts (19.7 KB)
 packages/generator-core/src/generator-alt-profiles.test.ts (17.0 KB)
 packages/generator-core/src/generator-branches.test.ts (217.7 KB)
 packages/generator-core/src/generator-sourcefile-branches.test.ts (20.9 KB)
@@ -935,7 +941,7 @@ packages/generator-core/src/generator-sourcefile-branches7.test.ts (36.7 KB)
 packages/generator-core/src/generator-sourcefile-branches8.test.ts (49.1 KB)
 packages/generator-core/src/generator-sourcefile-branches9.test.ts (33.5 KB)
 packages/generator-core/src/generators-agentic-purchasing.test.ts (52.9 KB)
-packages/generator-core/src/generators-agentic-purchasing.ts (60.0 KB)
+packages/generator-core/src/generators-agentic-purchasing.ts (60.1 KB)
 packages/generator-core/src/generators-algorithmic.ts (26.2 KB)
 packages/generator-core/src/generators-artifacts.ts (28.2 KB)
 packages/generator-core/src/generators-brand.ts (32.2 KB)
@@ -943,18 +949,18 @@ packages/generator-core/src/generators-canvas.ts (27.1 KB)
 packages/generator-core/src/generators-debug.ts (42.0 KB)
 packages/generator-core/src/generators-frontend.ts (27.6 KB)
 packages/generator-core/src/generators-marketing.ts (35.4 KB)
-packages/generator-core/src/generators-mcp.ts (26.7 KB)
+packages/generator-core/src/generators-mcp.ts (115.7 KB)
 packages/generator-core/src/generators-notebook.ts (24.9 KB)
 packages/generator-core/src/generators-obsidian.ts (28.5 KB)
 packages/generator-core/src/generators-optimization.ts (26.1 KB)
 packages/generator-core/src/generators-remotion.ts (32.1 KB)
 packages/generator-core/src/generators-search-funcs.test.ts (11.8 KB)
-packages/generator-core/src/generators-search.ts (17.9 KB)
+packages/generator-core/src/generators-search.ts (26.2 KB)
 packages/generator-core/src/generators-seo.ts (35.8 KB)
 packages/generator-core/src/generators-skills.ts (42.7 KB)
 packages/generator-core/src/generators-superpowers.ts (37.4 KB)
 packages/generator-core/src/generators-theme.ts (45.9 KB)
-packages/generator-core/src/index.ts (2.9 KB)
+packages/generator-core/src/index.ts (3.4 KB)
 packages/generator-core/src/pipeline.test.ts (9.7 KB)
 packages/generator-core/src/types.ts (0.6 KB)
 packages/generator-core/tsconfig.json (0.2 KB)
@@ -1099,8 +1105,6 @@ payment-processing-output/tracing-rules.md (1.4 KB)
 payment-processing-output/ui-audit.md (2.2 KB)
 payment-processing-output/variation-matrix.json (6.9 KB)
 payment-processing-output/vault-rules.md (2.1 KB)
-payment-processing-output/voice-and-tone.md (2.5 KB)
-payment-processing-output/workflow-pack.md (2.0 KB)
 ```
 
 ## Entry Points (Source)
@@ -1138,7 +1142,7 @@ import {
   handleAnalyze,
   handlePreparePurchasing,
   handleWellKnown,
-... (404 more lines)
+... (405 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -1206,7 +1210,7 @@ export { buildContextMap, buildRepoProfile } from "./engine.js";
 ```typescript
 export type { GeneratedFile, GeneratorInput, GeneratorResult, SourceFile } from "./types.js";
 export { generateFiles, listAvailableGenerators } from "./generate.js";
-export { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots } from "./generators-search.js";
+export { generateContextMapJSON, generateRepoProfileYAML, generateArchitectureSummary, generateDependencyHotspots, generateRepoRunStats } from "./generators-search.js";
 export { generateAgentsMD, generateClaudeMD, generateCursorRules, generateWorkflowPack, generatePolicyPack } from "./generators-skills.js";
 export { generateDebugPlaybook, generateIncidentTemplate, generateTracingRules, generateRootCauseChecklist } from "./generators-debug.js";
 export { generateFrontendRules, generateComponentGuidelines, generateLayoutPatterns, generateUiAudit } from "./generators-frontend.js";
@@ -1218,7 +1222,7 @@ export { generateSuperpowerPack, generateWorkflowRegistry, generateTestGeneratio
 export { generateCampaignBrief, generateFunnelMap, generateSequencePack, generateCroPlaybook, generateAbTestPlan } from "./generators-marketing.js";
 export { generateNotebookSummary, generateSourceMap, generateStudyBrief, generateResearchThreads, generateCitationIndex } from "./generators-notebook.js";
 export { generateObsidianSkillPack, generateVaultRules, generateGraphPromptMap, generateLinkingPolicy, generateTemplatePack } from "./generators-obsidian.js";
-export { generateMcpConfig, generateConnectorMap, generateCapabilityRegistry, generateServerManifest } from "./generators-mcp.js";
+export { generateMcpConfig, generateMcpRegistryMetadata, generateProtocolSpec, generateSpecTypes, generateMcpReadme, generateProjectSetupGuide, generateBuildArtifactsGuide, generateRootPackageJsonTemplate, generatePackagePackageJsonTemplate, generateRootTsconfigTemplate, generatePackageTsconfigTemplate, generateMonorepoStructureGuide, generateCoreImplementationArtifactsGuide, generateTestingDocumentationPolishArtifactsGuide, generateConnectorMap, generateCapabilityRegistry, generateServerManifest, generateFintechMcpSurfacePackage, generateFintechDomainSchema } from "./generators-mcp.js";
 export { generateComponent, generateDashboardWidget, generateEmbedSnippet, generateArtifactSpec, generateComponentLibrary } from "./generators-artifacts.js";
 export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
 export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
@@ -1737,4 +1741,4 @@ export default defineConfig({
 ```
 
 ---
-*Generated by Axis Search — 2026-04-18*
+*Generated by Axis Search — 2026-05-07*

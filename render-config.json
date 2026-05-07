@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-18T01:42:32.952Z",
+  "generated_at": "2026-05-07T23:19:38.321Z",
   "composition": {
     "id": "axisiliadVideo",
     "width": 1920,
@@ -27,15 +27,15 @@
       "id": "api-surface",
       "from": 180,
       "duration": 90,
-      "label": "API Surface (475 routes)",
-      "data_points": 475
+      "label": "API Surface (479 routes)",
+      "data_points": 479
     },
     {
       "id": "data-model",
       "from": 270,
       "duration": 90,
-      "label": "Data Model (163 entities)",
-      "data_points": 163
+      "label": "Data Model (202 entities)",
+      "data_points": 202
     },
     {
       "id": "complexity",
@@ -86,28 +86,28 @@
       "languages": [
         {
           "name": "TypeScript",
-          "loc": 82947,
-          "percent": 73.3
+          "loc": 85493,
+          "percent": 73.9
         },
         {
           "name": "JSON",
-          "loc": 11393,
-          "percent": 10.1
+          "loc": 11394,
+          "percent": 9.8
         },
         {
           "name": "YAML",
-          "loc": 8549,
-          "percent": 7.6
+          "loc": 8584,
+          "percent": 7.4
         },
         {
           "name": "Markdown",
-          "loc": 8004,
-          "percent": 7.1
+          "loc": 7907,
+          "percent": 6.8
         },
         {
           "name": "JavaScript",
           "loc": 1313,
-          "percent": 1.2
+          "percent": 1.1
         },
         {
           "name": "CSS",
@@ -123,7 +123,7 @@
       ]
     },
     "api_surface": {
-      "total_routes": 475,
+      "total_routes": 479,
       "routes": [
         {
           "method": "GET",
@@ -228,7 +228,7 @@
       ]
     },
     "data_model": {
-      "total_models": 163,
+      "total_models": 202,
       "models": [
         {
           "name": "AuthContext",
@@ -378,7 +378,7 @@
   "detected_stack": {
     "primary_language": "TypeScript",
     "total_files": 500,
-    "total_loc": 123929
+    "total_loc": 126554
   },
   "source_media_files": null
 }

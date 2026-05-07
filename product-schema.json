@@ -3,7 +3,7 @@
   "schema_version": "1.0",
   "product": "Axis' Iliad",
   "generated_for": "axis-iliad",
-  "generated_at": "2026-04-18",
+  "generated_at": "2026-05-07",
   "mcp_endpoint": "POST /mcp",
   "repo_commerce_profile": {
     "detected_payment_providers": [
@@ -141,8 +141,8 @@
     {
       "slug": "search",
       "tier": "free",
-      "outputs": 5,
-      "description": "Context map, repo profile, architecture summary, dependency hotspots, symbol index"
+      "outputs": 6,
+      "description": "Context map, repo profile, architecture summary, dependency hotspots, symbol index, and repo run stats"
     },
     {
       "slug": "skills",
@@ -213,8 +213,8 @@
     {
       "slug": "mcp",
       "tier": "pro",
-      "outputs": 4,
-      "description": "MCP config, connector map, capability registry, server manifest"
+      "outputs": 19,
+      "description": "MCP config, registry metadata, protocol/types, implementation guides, connector/capability manifests, fintech surface package, and fintech domain schema"
     },
     {
       "slug": "artifacts",
@@ -268,5 +268,5 @@
     }
   },
   "total_programs": 18,
-  "total_outputs": 86
+  "total_outputs": 102
 }

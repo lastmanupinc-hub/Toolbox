@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -20,7 +20,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | Primary Language | TypeScript |
 | Frameworks | React |
 | Total Files | 500 |
-| Total LOC | 123929 |
+| Total LOC | 126554 |
 
 ## SEO Readiness Score
 
@@ -48,7 +48,7 @@ These files likely render as individual pages:
 
 | File | Language | LOC | SEO Action |
 |------|----------|-----|------------|
-| `apps/web/src/pages/AccountPage.tsx` | TypeScript | 591 | Needs meta tags |
+| `apps/web/src/pages/AccountPage.tsx` | TypeScript | 597 | Needs meta tags |
 | `apps/web/src/pages/DashboardPage.tsx` | TypeScript | 176 | Needs meta tags |
 | `apps/web/src/pages/DocsPage.tsx` | TypeScript | 1248 | Needs meta tags |
 | `apps/web/src/pages/ExamplesPage.tsx` | TypeScript | 479 | Needs meta tags |
@@ -82,7 +82,7 @@ These files likely render as individual pages:
 - `agent-purchasing-playbook.md` (443 lines)
 - `AGENTS.md` (327 lines)
 - `apps/web/index.html` (128 lines)
-- `architecture-summary.md` (1739 lines)
+- `architecture-summary.md` (1741 lines)
 - `artifact-spec.md` (136 lines)
 - `asset-checklist.md` (50 lines)
 - `asset-guidelines.md` (65 lines)
@@ -95,9 +95,9 @@ These files likely render as individual pages:
 
 | Component | Has Meta | Lines |
 |-----------|----------|-------|
-| `apps/web/src/pages/AccountPage.tsx` | **Missing** | 623 |
+| `apps/web/src/pages/AccountPage.tsx` | **Missing** | 630 |
 | `apps/web/src/pages/DashboardPage.tsx` | **Missing** | 197 |
-| `apps/web/src/pages/DocsPage.tsx` | **Missing** | 1292 |
+| `apps/web/src/pages/DocsPage.tsx` | Yes | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | Yes | 505 |
 | `apps/web/src/pages/ForAgentsPage.tsx` | Yes | 898 |
 | `apps/web/src/pages/HelpPage.tsx` | Yes | 758 |

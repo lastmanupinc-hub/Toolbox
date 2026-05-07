@@ -116,7 +116,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (414 more lines)
+... (415 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

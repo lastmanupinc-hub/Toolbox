@@ -1,10 +1,10 @@
 # UI Audit — axis-iliad
 
-Generated: 2026-04-18T01:42:33.085Z
+Generated: 2026-05-07T23:19:39.224Z
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -20,7 +20,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | Styling | CSS/SCSS |
 | TypeScript | Yes |
 | UI Libraries | uuid |
-| Total Routes | 475 |
+| Total Routes | 479 |
 | Entry Points | 0 |
 
 ## Accessibility Checklist
@@ -91,7 +91,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `apps/web/src/components/Toast.tsx` | export function useToast() { ... }, export function ToastProvider({ ... } | 115 |
 | `apps/web/src/components/UpsellModal.tsx` | export function UpsellModal({ ... } | 123 |
 | `apps/web/src/main.tsx` | default | 11 |
-| `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 623 |
+| `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 630 |
 
 ## Detected Style Files
 

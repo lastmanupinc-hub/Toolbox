@@ -1,10 +1,10 @@
 # Dependency Hotspots — axis-iliad
 
-Generated: 2026-04-18T01:42:32.963Z
+Generated: 2026-05-07T23:19:38.358Z
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -124,7 +124,12 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ### `apps/web/src/api.ts`
 
 ```typescript
-const API_BASE = import.meta.env.VITE_API_URL ?? "";
+const PROD_API_BASE = "https://axis-api-6c7z.onrender.com";
+const isLocalHost =
+  typeof window === "undefined" ||
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+const API_BASE = import.meta.env.VITE_API_URL ?? (isLocalHost ? "" : PROD_API_BASE);
 
 // ─── Snapshot types ─────────────────────────────────────────────
 
@@ -144,12 +149,7 @@ export interface SnapshotResponse {
   snapshot_id: string;
   project_id: string;
   status: string;
-  context_map: ContextMap;
-  repo_profile: RepoProfile;
-  generated_files: Array<{ path: string; program: string; description: string }>;
-}
-
-... (513 more lines)
+... (518 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

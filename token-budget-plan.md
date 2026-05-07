@@ -1,25 +1,25 @@
 # Token Budget Plan — axis-iliad
 
-Generated: 2026-04-18T01:42:33.090Z
+Generated: 2026-05-07T23:19:39.280Z
 
 ## Project Token Profile
 
 | Metric | Value |
 |--------|-------|
-| Total LOC | 113,228 |
-| Total Files | 488 |
-| Est. Total Tokens | 509,526 |
-| Avg Tokens/File | 1,044 |
+| Total LOC | 115,713 |
+| Total Files | 487 |
+| Est. Total Tokens | 520,709 |
+| Avg Tokens/File | 1,069 |
 
 ## Token Budget by Language
 
 | Language | LOC | Tokens | % of Budget |
 |----------|-----|--------|-------------|
-| TypeScript | 82,947 | 373,262 | 73.3% |
-| JSON | 11,393 | 51,269 | 10.1% |
-| YAML | 8,549 | 38,471 | 7.6% |
-| Markdown | 8,004 | 36,018 | 7.1% |
-| JavaScript | 1,313 | 5,909 | 1.2% |
+| TypeScript | 85,493 | 384,719 | 73.9% |
+| JSON | 11,394 | 51,273 | 9.8% |
+| YAML | 8,584 | 38,628 | 7.4% |
+| Markdown | 7,907 | 35,582 | 6.8% |
+| JavaScript | 1,313 | 5,909 | 1.1% |
 | CSS | 849 | 3,821 | 0.7% |
 | HTML | 120 | 540 | 0.1% |
 | Dockerfile | 53 | 239 | 0.0% |
@@ -57,15 +57,15 @@ Generated: 2026-04-18T01:42:33.090Z
 | Operation | Input | Output | Daily | Monthly Cost (GPT-4o) |
 |-----------|-------|--------|-------|----------------------|
 | Code review (1 file) | 1,500 | 500 | 10 | $1.93 |
-| API endpoint work (475 routes detected) | 8,000 | 2,000 | 5 | $4.40 |
-| Hotspot refactor (7 hotspots, avg 1008 tok each) | 12,000 | 1,500 | 3 | $2.97 |
-| Domain model change (163 models) | 8,000 | 2,500 | 2 | $1.98 |
-| Documentation | 25,476 | 1,500 | 2 | $3.46 |
+| API endpoint work (479 routes detected) | 8,000 | 2,000 | 5 | $4.40 |
+| Hotspot refactor (7 hotspots, avg 1013 tok each) | 12,000 | 1,500 | 3 | $2.97 |
+| Domain model change (202 models) | 8,000 | 2,500 | 2 | $1.98 |
+| Documentation | 26,035 | 1,500 | 2 | $3.52 |
 
 > Token estimates derived from detected project signals: routes, hotspots, domain models, and average file size.
 
 ## Source-Verified Token Estimate
 
 - Source files scanned: 500
-- Total source lines: 145,604
-- Estimated tokens: ~655,218
+- Total source lines: 148,360
+- Estimated tokens: ~667,620

@@ -70,6 +70,7 @@
 - [ ] `ChargeOptions` (type_alias, 5 fields) — apps/api/src/mpp.ts
 - [ ] `MppResult` (type_alias, 1 fields) — apps/api/src/mpp.ts
 - [ ] `PricingTier` (interface, 4 fields) — apps/api/src/mpp.ts
+- [ ] `OAuthClientRow` (interface, 3 fields) — apps/api/src/oauth-server-simple.ts
 - [ ] `OpenApiSpec` (interface, 6 fields) — apps/api/src/openapi.ts
 - [ ] `WindowEntry` (interface, 2 fields) — apps/api/src/rate-limiter.ts
 - [ ] `AppHandle` (interface, 3 fields) — apps/api/src/router.ts
@@ -138,6 +139,44 @@
 - [ ] `Node` (interface, 7 fields) — packages/generator-core/src/generators-algorithmic.ts
 - [ ] `DashboardData` (interface, 6 fields) — packages/generator-core/src/generators-artifacts.ts
 - [ ] `MyComponentProps` (interface, 2 fields) — packages/generator-core/src/generators-frontend.ts
+- [ ] `CancelParams` (interface, 1 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `CancelRequest` (type_alias, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `CapabilityAdvertisement` (interface, 5 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ClientInfo` (interface, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `InitializeParams` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `InitializeResult` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `InitializeResult` (type_alias, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `JsonRpcError` (type_alias, 5 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `JsonRpcErrorObject` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `JsonRpcErrorResponse` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `JsonRpcRequest` (type_alias, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `JsonRpcSuccess` (type_alias, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ProgressNotification` (type_alias, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ProgressParams` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `PromptArgument` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `PromptDefinition` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `PromptGetParams` (interface, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `PromptGetResult` (interface, 1 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `PromptMessage` (interface, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `RegisteredSchema` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ResourceContent` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ResourceDefinition` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ResourceReadParams` (interface, 1 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ResourceReadResult` (interface, 1 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ResourcesListResult` (interface, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ResourceTemplate` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ServerInfo` (interface, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `SessionContext` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `StandardSchemaV1` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `StandardSchemaV1` (type_alias, 6 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolCall` (type_alias, 2 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolCallResult` (interface, 3 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolContentBlock` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolDefinition` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolDefinition` (type_alias, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolSchema` (interface, 4 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `ToolsListResult` (interface, 1 fields) — packages/generator-core/src/generators-mcp.ts
+- [ ] `TransportAdapter` (interface, 0 fields) — packages/generator-core/src/generators-mcp.ts
 - [ ] `RemotionTheme` (interface, 4 fields) — packages/generator-core/src/generators-remotion.ts
 - [ ] `GeneratedFile` (interface, 5 fields) — packages/generator-core/src/types.ts
 - [ ] `GeneratorInput` (interface, 4 fields) — packages/generator-core/src/types.ts
@@ -248,7 +287,12 @@
 ### `apps/web/src/api.ts`
 
 ```typescript
-const API_BASE = import.meta.env.VITE_API_URL ?? "";
+const PROD_API_BASE = "https://axis-api-6c7z.onrender.com";
+const isLocalHost =
+  typeof window === "undefined" ||
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+const API_BASE = import.meta.env.VITE_API_URL ?? (isLocalHost ? "" : PROD_API_BASE);
 
 // ─── Snapshot types ─────────────────────────────────────────────
 
@@ -268,12 +312,7 @@ export interface SnapshotResponse {
   snapshot_id: string;
   project_id: string;
   status: string;
-  context_map: ContextMap;
-  repo_profile: RepoProfile;
-  generated_files: Array<{ path: string; program: string; description: string }>;
-}
-
-... (513 more lines)
+... (518 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -363,7 +402,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (414 more lines)
+... (415 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

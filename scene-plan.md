@@ -1,6 +1,6 @@
 # Scene Plan — axis-iliad
 
-Generated: 2026-04-18T01:42:32.951Z
+Generated: 2026-05-07T23:19:38.316Z
 
 ## Video Overview
 
@@ -14,7 +14,7 @@ Generated: 2026-04-18T01:42:32.951Z
 
 ## Project Summary
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -35,7 +35,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Content**: Framework badges with staggered reveal
 - **Frameworks**: React
-- **Languages**: TypeScript (73.3%), JSON (10.1%), YAML (7.6%), Markdown (7.1%), JavaScript (1.2%), CSS (0.7%), HTML (0.1%), Dockerfile (0%)
+- **Languages**: TypeScript (73.9%), JSON (9.8%), YAML (7.4%), Markdown (6.8%), JavaScript (1.1%), CSS (0.7%), HTML (0.1%), Dockerfile (0%)
 - **Animation**: Staggered fade-in, 0.3s delay per item
 - **Visual**: Pill badges in accent color
 
@@ -58,7 +58,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Content**: Detected domain model entities
 - **Models**: AuthContext (interface, 3 fields); EnvSpec (interface, 5 fields); ValidationError (interface, 2 fields); ValidationResult (interface, 3 fields); ZipEntry (interface, 4 fields); IntentCapture (interface, 5 fields)
-- **Total**: 163 models detected
+- **Total**: 202 models detected
 - **Animation**: Entity cards fade in with field-count pill badges
 - **Visual**: Grid of entity cards with kind and field count
 

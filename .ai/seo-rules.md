@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -411,6 +411,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/v1/mcp/tools` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/accounts` | POST | API route — exclude from sitemap |
 | `/accounts` | POST | API route — exclude from sitemap |
+| `/v1/accounts` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/v1/accounts/` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/accounts` | GET | Mark `noindex` — user-specific content |
+| `/accounts/` | GET | Mark `noindex` — user-specific content |
 | `/v1/account` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/account/keys` | POST | API route — exclude from sitemap |
 | `/v1/account/keys` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -605,7 +609,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-iliad
-# Generated: 2026-04-17T20:18:38.480Z
+# Generated: 2026-04-18T01:42:32.962Z
 
 manifest:
   project: "axis-iliad"
@@ -657,7 +661,7 @@ manifest:
 | Page | Exports | Lines |
 |------|---------|-------|
 | `apps/web/index.html` | default | 128 |
-| `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 623 |
+| `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 630 |
 | `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 197 |
 | `apps/web/src/pages/DocsPage.tsx` | export function DocsPage() { ... } | 1292 |
 | `apps/web/src/pages/ExamplesPage.tsx` | export function ExamplesPage() { ... } | 505 |

@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 163 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
 
 ## Detected Stack
 
@@ -399,6 +399,10 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/mcp/tools` | GET | Track API adoption rate per endpoint |
 | `/v1/accounts` | POST | Track API adoption rate per endpoint |
 | `/accounts` | POST | Monitor usage metrics |
+| `/v1/accounts` | GET | Track API adoption rate per endpoint |
+| `/v1/accounts/` | GET | Track API adoption rate per endpoint |
+| `/accounts` | GET | Monitor usage metrics |
+| `/accounts/` | GET | Monitor usage metrics |
 | `/v1/account` | GET | Track API adoption rate per endpoint |
 | `/v1/account/keys` | POST | Track API adoption rate per endpoint |
 | `/v1/account/keys` | GET | Track API adoption rate per endpoint |
@@ -543,7 +547,7 @@ Detected routes that are candidates for conversion optimization:
 
 - **Hypothesis**: A guided first-run wizard will increase first-value moment by 35%
 - **Metric**: Features used in first session, time to first successful output
-- **Context**: 475 API endpoints — users need a path through the complexity
+- **Context**: 479 API endpoints — users need a path through the complexity
 - **Variants**: A: Self-discovery | B: Step-by-step first-run guide with progress indicator
 - **Duration**: 3 weeks
 
