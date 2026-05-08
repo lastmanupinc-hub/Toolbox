@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Quick Reference
 
@@ -17,19 +17,19 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | npm |
-| Files | 500 files, 126,554 LOC |
+| Files | 500 files, 129,183 LOC |
 | Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 262 | 85,493 | 73.9% |
-| JSON | 63 | 11,394 | 9.8% |
-| YAML | 55 | 8,584 | 7.4% |
-| Markdown | 96 | 7,907 | 6.8% |
-| JavaScript | 7 | 1,313 | 1.1% |
-| CSS | 2 | 849 | 0.7% |
+| TypeScript | 265 | 86,808 | 73.4% |
+| JSON | 66 | 11,479 | 9.7% |
+| YAML | 58 | 9,249 | 7.8% |
+| Markdown | 87 | 7,865 | 6.6% |
+| JavaScript | 8 | 2,093 | 1.8% |
+| CSS | 1 | 675 | 0.6% |
 | HTML | 1 | 120 | 0.1% |
 | Dockerfile | 1 | 53 | 0% |
 
@@ -45,10 +45,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - packages/ (monorepo_packages)
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
+- mcp/ (project_directory)
 - algorithmic/ (project_directory)
 - artifacts/ (project_directory)
 - brand/ (project_directory)
-- canvas/ (project_directory)
 
 ## Triage Steps
 
@@ -104,12 +104,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | RpcError | interface | TypeScript | 5 | `apps/api/src/mcp-server.ts` |
 | RpcSuccess | interface | TypeScript | 3 | `apps/api/src/mcp-server.ts` |
 | HistogramEntry | interface | TypeScript | 3 | `apps/api/src/metrics.ts` |
-| AgentBudget | interface | TypeScript | 5 | `apps/api/src/mpp.ts` |
-| Build402Options | interface | TypeScript | 2 | `apps/api/src/mpp.ts` |
 | CacheKey | type_alias | TypeScript | 2 | `apps/api/src/mpp.ts` |
-| ChargeOptions | type_alias | TypeScript | 5 | `apps/api/src/mpp.ts` |
-| MppResult | type_alias | TypeScript | 1 | `apps/api/src/mpp.ts` |
-| PricingTier | interface | TypeScript | 4 | `apps/api/src/mpp.ts` |
 | OAuthClientRow | interface | TypeScript | 3 | `apps/api/src/oauth-server-simple.ts` |
 | OpenApiSpec | interface | TypeScript | 6 | `apps/api/src/openapi.ts` |
 | WindowEntry | interface | TypeScript | 2 | `apps/api/src/rate-limiter.ts` |
@@ -175,9 +170,13 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | ContextMap | interface | TypeScript | 10 | `packages/context-engine/src/types.ts` |
 | RepoProfile | interface | TypeScript | 12 | `packages/context-engine/src/types.ts` |
 | CommerceSignals | interface | TypeScript | 10 | `packages/generator-core/src/generators-agentic-purchasing.ts` |
+| ComplianceGradeResult | interface | TypeScript | 3 | `packages/generator-core/src/generators-agentic-purchasing.ts` |
 | Edge | interface | TypeScript | 3 | `packages/generator-core/src/generators-algorithmic.ts` |
 | Node | interface | TypeScript | 7 | `packages/generator-core/src/generators-algorithmic.ts` |
 | DashboardData | interface | TypeScript | 6 | `packages/generator-core/src/generators-artifacts.ts` |
+| BrandingConfig | interface | TypeScript | 3 | `packages/generator-core/src/generators-closer.ts` |
+| MerkleBundle | interface | TypeScript | 3 | `packages/generator-core/src/generators-closer.ts` |
+| ProjectSignals | interface | TypeScript | 7 | `packages/generator-core/src/generators-closer.ts` |
 | MyComponentProps | interface | TypeScript | 2 | `packages/generator-core/src/generators-frontend.ts` |
 | CancelParams | interface | TypeScript | 1 | `packages/generator-core/src/generators-mcp.ts` |
 | CancelRequest | type_alias | TypeScript | 2 | `packages/generator-core/src/generators-mcp.ts` |
@@ -222,6 +221,11 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | GeneratorInput | interface | TypeScript | 4 | `packages/generator-core/src/types.ts` |
 | GeneratorResult | interface | TypeScript | 6 | `packages/generator-core/src/types.ts` |
 | SourceFile | interface | TypeScript | 3 | `packages/generator-core/src/types.ts` |
+| AgentBudget | interface | TypeScript | 5 | `packages/mpp/src/index.ts` |
+| Build402Options | interface | TypeScript | 2 | `packages/mpp/src/index.ts` |
+| ChargeOptions | type_alias | TypeScript | 5 | `packages/mpp/src/index.ts` |
+| MppResult | type_alias | TypeScript | 1 | `packages/mpp/src/index.ts` |
+| PricingTier | interface | TypeScript | 4 | `packages/mpp/src/index.ts` |
 | DomainModel | interface | TypeScript | 5 | `packages/repo-parser/src/domain-extractor.ts` |
 | FrameworkRule | interface | TypeScript | 4 | `packages/repo-parser/src/framework-detector.ts` |
 | DepGroups | interface | TypeScript | 3 | `packages/repo-parser/src/parser.ts` |
@@ -620,6 +624,7 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | POST | `/v1/canvas/generate` | apps/api/src/server.ts |
 | POST | `/v1/algorithmic/generate` | apps/api/src/server.ts |
 | POST | `/v1/agentic-purchasing/generate` | apps/api/src/server.ts |
+| POST | `/v1/closer/generate` | apps/api/src/server.ts |
 | POST | `/v1/prepare-for-agentic-purchasing` | apps/api/src/server.ts |
 | POST | `/v1/analyze` | apps/api/src/server.ts |
 | POST | `/v1/github/analyze` | apps/api/src/server.ts |
@@ -806,10 +811,11 @@ Bugs often occur at layer boundaries. Verify data flow between:
 
 ## Production Dependencies
 
-12 production dependencies. Key packages:
+13 production dependencies. Key packages:
 
 - `@axis/context-engine` @ workspace:*
 - `@axis/generator-core` @ workspace:*
+- `@axis/mpp` @ workspace:*
 - `@axis/repo-parser` @ workspace:*
 - `@axis/snapshots` @ workspace:*
 - `@jmondi/oauth2-server` @ ^4.2.2
@@ -851,7 +857,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (410 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

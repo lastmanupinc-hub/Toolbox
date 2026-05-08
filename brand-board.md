@@ -1,12 +1,12 @@
 # Brand Board — axis-iliad
 
-Generated: 2026-05-07T23:19:39.506Z
+Generated: 2026-05-08T19:58:35.761Z
 
 Comprehensive visual identity reference for all project-branded outputs.
 
 ## Project Summary
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Color Palette
 
@@ -85,9 +85,9 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ### Stack Badge Bar
 
 - `React`
-- `TypeScript` — 74% of codebase
+- `TypeScript` — 73% of codebase
 - `JSON` — 10% of codebase
-- `YAML` — 7% of codebase
+- `YAML` — 8% of codebase
 
 ### Key Abstractions for Branding
 
@@ -95,7 +95,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - **packages/ (monorepo_packages)** — candidate for conceptual branding element
 - **payment-processing-output/ (project_directory)** — candidate for conceptual branding element
 - **examples/ (project_directory)** — candidate for conceptual branding element
-- **algorithmic/ (project_directory)** — candidate for conceptual branding element
+- **mcp/ (project_directory)** — candidate for conceptual branding element
 
 ### Domain Models
 

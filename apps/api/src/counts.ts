@@ -1,5 +1,5 @@
 /** Canonical counts — import these instead of hardcoding numbers in strings. */
 export const ARTIFACT_COUNT = 99;
-export const PROGRAM_COUNT = 18;
-export const MCP_TOOL_COUNT = 12;
-export const ENDPOINT_COUNT = 107;
+export const PROGRAM_COUNT = 19;
+export const MCP_TOOL_COUNT = 13;
+export const ENDPOINT_COUNT = 108;

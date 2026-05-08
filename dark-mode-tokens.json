@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-05-07T23:19:39.387Z",
+  "generated_at": "2026-05-08T19:58:35.740Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [
@@ -127,8 +127,6 @@
     "dark-mode-tokens.json",
     "packages/generator-core/src/generators-theme.ts",
     "payment-processing-output/component-theme-map.json",
-    "payment-processing-output/dark-mode-tokens.json",
-    "payment-processing-output/theme-guidelines.md",
-    "payment-processing-output/theme.css"
+    "payment-processing-output/dark-mode-tokens.json"
   ]
 }

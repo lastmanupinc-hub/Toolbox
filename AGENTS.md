@@ -25,10 +25,10 @@ This is a **monorepo** built with **TypeScript**.
 - packages/ (monorepo_packages)
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
+- mcp/ (project_directory)
 - algorithmic/ (project_directory)
 - artifacts/ (project_directory)
 - brand/ (project_directory)
-- canvas/ (project_directory)
 
 ### Routes
 
@@ -70,6 +70,7 @@ This is a **monorepo** built with **TypeScript**.
 - `POST /v1/canvas/generate` → apps/api/src/server.ts
 - `POST /v1/algorithmic/generate` → apps/api/src/server.ts
 - `POST /v1/agentic-purchasing/generate` → apps/api/src/server.ts
+- `POST /v1/closer/generate` → apps/api/src/server.ts
 - `POST /v1/prepare-for-agentic-purchasing` → apps/api/src/server.ts
 - `POST /v1/analyze` → apps/api/src/server.ts
 - `POST /v1/github/analyze` → apps/api/src/server.ts
@@ -81,8 +82,7 @@ This is a **monorepo** built with **TypeScript**.
 - `GET /.well-known/agent.json` → apps/api/src/server.ts
 - `GET /.well-known/oauth-authorization-server` → apps/api/src/server.ts
 - `GET /mcp/.well-known/mcp.json` → apps/api/src/server.ts
-- `GET /mcp/.well-known/agent.json` → apps/api/src/server.ts
-- *… 88 more (see OpenAPI spec or `/v1/docs`)*
+- *… 89 more (see OpenAPI spec or `/v1/docs`)*
 
 ### Domain Models
 
@@ -99,16 +99,16 @@ This is a **monorepo** built with **TypeScript**.
 | `RpcError` | interface | 5 | apps/api/src/mcp-server.ts |
 | `RpcSuccess` | interface | 3 | apps/api/src/mcp-server.ts |
 | `HistogramEntry` | interface | 3 | apps/api/src/metrics.ts |
-| `AgentBudget` | interface | 5 | apps/api/src/mpp.ts |
-| `Build402Options` | interface | 2 | apps/api/src/mpp.ts |
 | `CacheKey` | type_alias | 2 | apps/api/src/mpp.ts |
-| `ChargeOptions` | type_alias | 5 | apps/api/src/mpp.ts |
-| `MppResult` | type_alias | 1 | apps/api/src/mpp.ts |
-| `PricingTier` | interface | 4 | apps/api/src/mpp.ts |
 | `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
 | `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
-| *… 182 more* | | | |
+| `AppHandle` | interface | 3 | apps/api/src/router.ts |
+| `Route` | interface | 4 | apps/api/src/router.ts |
+| `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
+| `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
+| `RunResult` | interface | 4 | apps/cli/src/runner.ts |
+| *… 186 more* | | | |
 
 When modifying domain models, update all downstream consumers (handlers, validators, tests).
 
@@ -137,8 +137,8 @@ Respect these layer separations:
 - `apps/web/src/main.tsx`
 - **`packages/context-engine/src/index.ts`**: `export type { ... }`, `export { ... }`
 - **`packages/generator-core/src/index.ts`**: `export type { ... }`, `export { ... }`, `export { ... }`, `export { ... }`
-- **`packages/repo-parser/src/index.ts`**: `export type { ... }`, `export { ... }`, `export { ... }`, `export { ... }`
-- *... and 2 more*
+- **`packages/mpp/src/index.ts`**: `export type ChargeOptions = ...`, `export type MppResult = ...`, `export interface AgentBudget { ... }`, `export interface PricingTier { ... }`
+- *... and 3 more*
 
 ## Configuration Files
 
@@ -171,8 +171,8 @@ Respect these layer separations:
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
-    "@axis/repo-parser": "workspace:*",
-... (14 more lines)
+    "@axis/mpp": "workspace:*",
+... (15 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

@@ -109,12 +109,12 @@ jobs:
           docker push ghcr.io/lastmanupinc-hub/axis-api:latest
           docker push ghcr.io/lastmanupinc-hub/axis-api:${{ github.sha }}
 
-  # â”€â”€ Deploy API to Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  # GöÇGöÇ Deploy API to Render GöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇ
   # Render pulls the pre-built image from ghcr.io/lastmanupinc-hub/axis-api:latest
   # Configure Render service to use "Image" deploy with that URL.
-  # No build minutes consumed â€” image is built by GitHub Actions above.
+  # No build minutes consumed GÇö image is built by GitHub Actions above.
 
-  # â”€â”€ Deploy Web to Cloudflare Pages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  # GöÇGöÇ Deploy Web to Cloudflare Pages GöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇGöÇ
   deploy-web:
     runs-on: ubuntu-latest
     needs: build-and-test

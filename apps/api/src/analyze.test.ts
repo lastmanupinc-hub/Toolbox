@@ -459,7 +459,7 @@ describe("GET /.well-known/axis.json", () => {
   });
 
   it("reports correct programs and generators count", () => {
-    expect(manifest.programs).toBe(18);
+    expect(manifest.programs).toBe(19);
     expect(manifest.generators).toBe(99);
   });
 

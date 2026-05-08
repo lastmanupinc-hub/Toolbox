@@ -64,12 +64,7 @@
 - [ ] `RpcError` (interface, 5 fields) — apps/api/src/mcp-server.ts
 - [ ] `RpcSuccess` (interface, 3 fields) — apps/api/src/mcp-server.ts
 - [ ] `HistogramEntry` (interface, 3 fields) — apps/api/src/metrics.ts
-- [ ] `AgentBudget` (interface, 5 fields) — apps/api/src/mpp.ts
-- [ ] `Build402Options` (interface, 2 fields) — apps/api/src/mpp.ts
 - [ ] `CacheKey` (type_alias, 2 fields) — apps/api/src/mpp.ts
-- [ ] `ChargeOptions` (type_alias, 5 fields) — apps/api/src/mpp.ts
-- [ ] `MppResult` (type_alias, 1 fields) — apps/api/src/mpp.ts
-- [ ] `PricingTier` (interface, 4 fields) — apps/api/src/mpp.ts
 - [ ] `OAuthClientRow` (interface, 3 fields) — apps/api/src/oauth-server-simple.ts
 - [ ] `OpenApiSpec` (interface, 6 fields) — apps/api/src/openapi.ts
 - [ ] `WindowEntry` (interface, 2 fields) — apps/api/src/rate-limiter.ts
@@ -135,9 +130,13 @@
 - [ ] `ContextMap` (interface, 10 fields) — packages/context-engine/src/types.ts
 - [ ] `RepoProfile` (interface, 12 fields) — packages/context-engine/src/types.ts
 - [ ] `CommerceSignals` (interface, 10 fields) — packages/generator-core/src/generators-agentic-purchasing.ts
+- [ ] `ComplianceGradeResult` (interface, 3 fields) — packages/generator-core/src/generators-agentic-purchasing.ts
 - [ ] `Edge` (interface, 3 fields) — packages/generator-core/src/generators-algorithmic.ts
 - [ ] `Node` (interface, 7 fields) — packages/generator-core/src/generators-algorithmic.ts
 - [ ] `DashboardData` (interface, 6 fields) — packages/generator-core/src/generators-artifacts.ts
+- [ ] `BrandingConfig` (interface, 3 fields) — packages/generator-core/src/generators-closer.ts
+- [ ] `MerkleBundle` (interface, 3 fields) — packages/generator-core/src/generators-closer.ts
+- [ ] `ProjectSignals` (interface, 7 fields) — packages/generator-core/src/generators-closer.ts
 - [ ] `MyComponentProps` (interface, 2 fields) — packages/generator-core/src/generators-frontend.ts
 - [ ] `CancelParams` (interface, 1 fields) — packages/generator-core/src/generators-mcp.ts
 - [ ] `CancelRequest` (type_alias, 2 fields) — packages/generator-core/src/generators-mcp.ts
@@ -182,6 +181,11 @@
 - [ ] `GeneratorInput` (interface, 4 fields) — packages/generator-core/src/types.ts
 - [ ] `GeneratorResult` (interface, 6 fields) — packages/generator-core/src/types.ts
 - [ ] `SourceFile` (interface, 3 fields) — packages/generator-core/src/types.ts
+- [ ] `AgentBudget` (interface, 5 fields) — packages/mpp/src/index.ts
+- [ ] `Build402Options` (interface, 2 fields) — packages/mpp/src/index.ts
+- [ ] `ChargeOptions` (type_alias, 5 fields) — packages/mpp/src/index.ts
+- [ ] `MppResult` (type_alias, 1 fields) — packages/mpp/src/index.ts
+- [ ] `PricingTier` (interface, 4 fields) — packages/mpp/src/index.ts
 - [ ] `DomainModel` (interface, 5 fields) — packages/repo-parser/src/domain-extractor.ts
 - [ ] `FrameworkRule` (interface, 4 fields) — packages/repo-parser/src/framework-detector.ts
 - [ ] `DepGroups` (interface, 3 fields) — packages/repo-parser/src/parser.ts
@@ -402,7 +406,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (415 more lines)
+... (417 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

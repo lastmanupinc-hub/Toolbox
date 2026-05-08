@@ -336,6 +336,7 @@ All API routes should log: request method, path, status code, duration (ms).
 | POST | `/v1/canvas/generate` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/algorithmic/generate` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/agentic-purchasing/generate` | apps/api/src/server.ts | NORMAL |
+| POST | `/v1/closer/generate` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/prepare-for-agentic-purchasing` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/analyze` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/github/analyze` | apps/api/src/server.ts | NORMAL |
@@ -511,12 +512,7 @@ State transitions on these entities should be logged:
 - `RpcError` (interface, 5 fields) — `apps/api/src/mcp-server.ts`
 - `RpcSuccess` (interface, 3 fields) — `apps/api/src/mcp-server.ts`
 - `HistogramEntry` (interface, 3 fields) — `apps/api/src/metrics.ts`
-- `AgentBudget` (interface, 5 fields) — `apps/api/src/mpp.ts`
-- `Build402Options` (interface, 2 fields) — `apps/api/src/mpp.ts`
 - `CacheKey` (type_alias, 2 fields) — `apps/api/src/mpp.ts`
-- `ChargeOptions` (type_alias, 5 fields) — `apps/api/src/mpp.ts`
-- `MppResult` (type_alias, 1 fields) — `apps/api/src/mpp.ts`
-- `PricingTier` (interface, 4 fields) — `apps/api/src/mpp.ts`
 - `OAuthClientRow` (interface, 3 fields) — `apps/api/src/oauth-server-simple.ts`
 - `OpenApiSpec` (interface, 6 fields) — `apps/api/src/openapi.ts`
 - `WindowEntry` (interface, 2 fields) — `apps/api/src/rate-limiter.ts`
@@ -582,9 +578,13 @@ State transitions on these entities should be logged:
 - `ContextMap` (interface, 10 fields) — `packages/context-engine/src/types.ts`
 - `RepoProfile` (interface, 12 fields) — `packages/context-engine/src/types.ts`
 - `CommerceSignals` (interface, 10 fields) — `packages/generator-core/src/generators-agentic-purchasing.ts`
+- `ComplianceGradeResult` (interface, 3 fields) — `packages/generator-core/src/generators-agentic-purchasing.ts`
 - `Edge` (interface, 3 fields) — `packages/generator-core/src/generators-algorithmic.ts`
 - `Node` (interface, 7 fields) — `packages/generator-core/src/generators-algorithmic.ts`
 - `DashboardData` (interface, 6 fields) — `packages/generator-core/src/generators-artifacts.ts`
+- `BrandingConfig` (interface, 3 fields) — `packages/generator-core/src/generators-closer.ts`
+- `MerkleBundle` (interface, 3 fields) — `packages/generator-core/src/generators-closer.ts`
+- `ProjectSignals` (interface, 7 fields) — `packages/generator-core/src/generators-closer.ts`
 - `MyComponentProps` (interface, 2 fields) — `packages/generator-core/src/generators-frontend.ts`
 - `CancelParams` (interface, 1 fields) — `packages/generator-core/src/generators-mcp.ts`
 - `CancelRequest` (type_alias, 2 fields) — `packages/generator-core/src/generators-mcp.ts`
@@ -629,6 +629,11 @@ State transitions on these entities should be logged:
 - `GeneratorInput` (interface, 4 fields) — `packages/generator-core/src/types.ts`
 - `GeneratorResult` (interface, 6 fields) — `packages/generator-core/src/types.ts`
 - `SourceFile` (interface, 3 fields) — `packages/generator-core/src/types.ts`
+- `AgentBudget` (interface, 5 fields) — `packages/mpp/src/index.ts`
+- `Build402Options` (interface, 2 fields) — `packages/mpp/src/index.ts`
+- `ChargeOptions` (type_alias, 5 fields) — `packages/mpp/src/index.ts`
+- `MppResult` (type_alias, 1 fields) — `packages/mpp/src/index.ts`
+- `PricingTier` (interface, 4 fields) — `packages/mpp/src/index.ts`
 - `DomainModel` (interface, 5 fields) — `packages/repo-parser/src/domain-extractor.ts`
 - `FrameworkRule` (interface, 4 fields) — `packages/repo-parser/src/framework-detector.ts`
 - `DepGroups` (interface, 3 fields) — `packages/repo-parser/src/parser.ts`
@@ -747,8 +752,8 @@ Monitor for layer violations:
 | `apps/web/src/App.tsx` | export function App() { ... } |
 | `apps/web/src/main.tsx` | default |
 | `packages/context-engine/src/index.ts` | export type { ... }, export { ... } |
-| `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... } |
-| `packages/repo-parser/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
+| `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... } |
+| `packages/mpp/src/index.ts` | export type ChargeOptions = ..., export type MppResult = ..., export interface AgentBudget { ... }, export interface PricingTier { ... }, export interface Build402Options { ... }, export const PRICING_TIERS: Record<string, PricingTier> = ..., export const LEGACY_TOOL_ALIASES: Record<string, string> = ..., export function getPricingTier(tool: string): PricingTier { ... }, export function negotiatePrice(, export function build402NegotiationBody(, export function parseAgentBudget(req: IncomingMessage): AgentBudget | undefined { ... }, export function resolveAgentMode(req: IncomingMessage): "standard" | "lite" { ... } |
 
 ## Entry Point Source
 
@@ -780,7 +785,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (410 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

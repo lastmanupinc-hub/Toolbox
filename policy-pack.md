@@ -113,8 +113,8 @@ These project-specific warnings must be addressed in all AI-generated code:
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
-    "@axis/repo-parser": "workspace:*",
-... (14 more lines)
+    "@axis/mpp": "workspace:*",
+... (15 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

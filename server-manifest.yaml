@@ -1,7 +1,7 @@
 # MCP Server Manifest
 # Project: axis-iliad
-# Generated: 2026-05-07T23:19:39.426Z
-# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+# Generated: 2026-05-08T19:58:35.748Z
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 server:
   name: "axis-iliad-mcp-server"
@@ -48,7 +48,7 @@ server:
             enum: [search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic]
 
     - name: list_routes
-      description: List all 479 detected routes
+      description: List all 480 detected routes
       input_schema:
         type: object
         properties:
@@ -188,14 +188,14 @@ server:
             type: object
             description: Optional filter criteria
 
-    - name: query_agentbudget
-      description: Query AgentBudget records (interface, 5 fields)
+    - name: query_cachekey
+      description: Query CacheKey records (type_alias, 2 fields)
       input_schema:
         type: object
         properties:
           id:
             type: string
-            description: Primary key or identifier for AgentBudget
+            description: Primary key or identifier for CacheKey
           filter:
             type: object
             description: Optional filter criteria
@@ -271,25 +271,25 @@ server:
       mime_type: application/json
       description: interface with 3 fields (apps/api/src/metrics.ts)
 
-    - uri: model://AgentBudget
-      name: AgentBudget
-      mime_type: application/json
-      description: interface with 5 fields (apps/api/src/mpp.ts)
-
-    - uri: model://Build402Options
-      name: Build402Options
-      mime_type: application/json
-      description: interface with 2 fields (apps/api/src/mpp.ts)
-
     - uri: model://CacheKey
       name: CacheKey
       mime_type: application/json
       description: type_alias with 2 fields (apps/api/src/mpp.ts)
 
-    - uri: model://ChargeOptions
-      name: ChargeOptions
+    - uri: model://OAuthClientRow
+      name: OAuthClientRow
       mime_type: application/json
-      description: type_alias with 5 fields (apps/api/src/mpp.ts)
+      description: interface with 3 fields (apps/api/src/oauth-server-simple.ts)
+
+    - uri: model://OpenApiSpec
+      name: OpenApiSpec
+      mime_type: application/json
+      description: interface with 6 fields (apps/api/src/openapi.ts)
+
+    - uri: model://WindowEntry
+      name: WindowEntry
+      mime_type: application/json
+      description: interface with 2 fields (apps/api/src/rate-limiter.ts)
 
   prompts:
     - name: review_code
@@ -322,6 +322,8 @@ server:
       version: "workspace:*"
     - name: @axis/generator-core
       version: "workspace:*"
+    - name: @axis/mpp
+      version: "workspace:*"
     - name: @axis/repo-parser
       version: "workspace:*"
     - name: @axis/snapshots
@@ -332,8 +334,6 @@ server:
       version: "^9.0.3"
     - name: mppx
       version: "^0.5.12"
-    - name: jszip
-      version: "^3.10.1"
 
   # Detected Server/Tool Files
   source_files:
@@ -349,7 +349,7 @@ server:
       exports: ["export const app = ..."]
     - path: "mcp/begin.yaml"
       exports: []
-    - path: "mcp/continuation.yaml"
+    - path: "mcp/build-artifacts.md"
       exports: []
-    - path: "mcp/MEMORY.yaml"
+    - path: "mcp/continuation.yaml"
       exports: []

@@ -26,10 +26,10 @@ export const KEY_ABSTRACTIONS = [
   "packages/ (monorepo_packages)",
   "payment-processing-output/ (project_directory)",
   "examples/ (project_directory)",
+  "mcp/ (project_directory)",
   "algorithmic/ (project_directory)",
   "artifacts/ (project_directory)",
   "brand/ (project_directory)",
-  "canvas/ (project_directory)",
 ] as const;
 
 /**
@@ -60,5 +60,5 @@ export const ENTRY_POINTS = [
   { path: "apps/web/src/main.tsx", exports: [] },
   { path: "packages/context-engine/src/index.ts", exports: ["export type { ... }","export { ... }"] },
   { path: "packages/generator-core/src/index.ts", exports: ["export type { ... }","export { ... }","export { ... }","export { ... }","export { ... }"] },
-  { path: "packages/repo-parser/src/index.ts", exports: ["export type { ... }","export { ... }","export { ... }","export { ... }","export { ... }"] },
+  { path: "packages/mpp/src/index.ts", exports: ["export type ChargeOptions = ...","export type MppResult = ...","export interface AgentBudget { ... }","export interface PricingTier { ... }","export interface Build402Options { ... }"] },
 ] as const;

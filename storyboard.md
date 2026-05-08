@@ -1,6 +1,6 @@
 # Storyboard — axis-iliad
 
-Generated: 2026-05-07T23:19:39.498Z
+Generated: 2026-05-08T19:58:35.759Z
 
 Frame-by-frame storyboard for a 60-second project showcase video.
 
@@ -28,9 +28,9 @@ Frame-by-frame storyboard for a 60-second project showcase video.
 │  └──────┘ └──────┘ └──────┘       │
 │                                    │
 │  Languages:                        │
-│    TypeScript   ███████████████ 74%     │
+│    TypeScript   ███████████████ 73%     │
 │    JSON         ██ 10%     │
-│    YAML         █ 7%     │
+│    YAML         ██ 8%     │
 └────────────────────────────────────┘
 ```
 

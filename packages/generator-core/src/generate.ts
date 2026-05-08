@@ -18,6 +18,24 @@ import { generateRemotionScript, generateScenePlan, generateRenderConfig, genera
 import { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
 import { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest, generateVariationMatrix } from "./generators-algorithmic.js";
 import { generateAgentPurchasingPlaybook, generateProductSchema, generateCheckoutFlow, generateNegotiationRules, generateCommerceRegistry } from "./generators-agentic-purchasing.js";
+import {
+  generatePackagingReadme,
+  generatePackagingLicense,
+  generateCloserDockerfile,
+  generateCloserDockerCompose,
+  generateCloserCiWorkflow,
+  generateCloserReleaseWorkflow,
+  generateCloserManifestNpm,
+  generateCloserManifestUnreal,
+  generateCloserManifestVsCode,
+  generateCloserManifestDockerHub,
+  generateCloserManifestGitHubMarketplace,
+  generateCloserTrustAttestation,
+  generateCloserMerkleProof,
+  generateCloserPackagingReport,
+  generateDistributableGuide,
+  generateMakefileWithShipTarget,
+} from "./generators-closer.js";
 
 type GeneratorFn = (ctx: ContextMap, profile: RepoProfile, files?: SourceFile[]) => GeneratedFile;
 
@@ -126,6 +144,23 @@ const REGISTRY: Record<string, GeneratorFn> = {
   "checkout-flow.md":             (ctx, profile, files) => generateCheckoutFlow(ctx, profile, files),
   "negotiation-rules.md":         (ctx, profile, files) => generateNegotiationRules(ctx, profile, files),
   "commerce-registry.json":       (ctx, profile, files) => generateCommerceRegistry(ctx, profile, files),
+  // ─── closer generators ─────────────────────────────────────
+  "packaging/README.md": (ctx, profile, files) => generatePackagingReadme(ctx, profile, files),
+  "packaging/LICENSE": (ctx, profile, files) => generatePackagingLicense(ctx, profile, files),
+  "Dockerfile": (ctx, profile, _files) => generateCloserDockerfile(ctx, profile),
+  "docker-compose.yml": (ctx, _profile, _files) => generateCloserDockerCompose(ctx),
+  ".github/workflows/ci.yml": (_ctx, _profile, _files) => generateCloserCiWorkflow(),
+  ".github/workflows/release.yml": (ctx, profile, files) => generateCloserReleaseWorkflow(ctx, profile, files),
+  "packaging/manifests/npm-package.json": (ctx, profile, files) => generateCloserManifestNpm(ctx, profile, files),
+  "packaging/manifests/unreal.uplugin": (ctx, profile, files) => generateCloserManifestUnreal(ctx, profile, files),
+  "packaging/manifests/vscode-extension.json": (ctx, profile, files) => generateCloserManifestVsCode(ctx, profile, files),
+  "packaging/manifests/dockerhub-repository.md": (ctx, profile, files) => generateCloserManifestDockerHub(ctx, profile, files),
+  "packaging/manifests/github-marketplace-listing.md": (ctx, profile, files) => generateCloserManifestGitHubMarketplace(ctx, profile, files),
+  "packaging/trust-fabric/attestation.json": (ctx, profile, files) => generateCloserTrustAttestation(ctx, profile, files),
+  "packaging/trust-fabric/merkle-proof.json": (ctx, profile, files) => generateCloserMerkleProof(ctx, profile, files),
+  "packaging-report.md": (ctx, profile, files) => generateCloserPackagingReport(ctx, profile, files),
+  "DISTRIBUTABLE.md": (ctx, profile, files) => generateDistributableGuide(ctx, profile, files),
+  "Makefile": (ctx, profile, files) => generateMakefileWithShipTarget(ctx, profile, files),
 };
 
 // Aliases (user may request with different naming)
@@ -309,6 +344,22 @@ const GENERATOR_PROGRAMS: Record<string, string> = {
   "checkout-flow.md":             "agentic-purchasing",
   "negotiation-rules.md":         "agentic-purchasing",
   "commerce-registry.json":       "agentic-purchasing",
+  "packaging/README.md": "closer",
+  "packaging/LICENSE": "closer",
+  "Dockerfile": "closer",
+  "docker-compose.yml": "closer",
+  ".github/workflows/ci.yml": "closer",
+  ".github/workflows/release.yml": "closer",
+  "packaging/manifests/npm-package.json": "closer",
+  "packaging/manifests/unreal.uplugin": "closer",
+  "packaging/manifests/vscode-extension.json": "closer",
+  "packaging/manifests/dockerhub-repository.md": "closer",
+  "packaging/manifests/github-marketplace-listing.md": "closer",
+  "packaging/trust-fabric/attestation.json": "closer",
+  "packaging/trust-fabric/merkle-proof.json": "closer",
+  "packaging-report.md": "closer",
+  "DISTRIBUTABLE.md": "closer",
+  "Makefile": "closer",
 };
 
 export function listAvailableGenerators(): Array<{ path: string; program: string }> {

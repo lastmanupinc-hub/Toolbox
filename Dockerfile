@@ -1,97 +1,24 @@
-# ─── Axis' Iliad — Multi-stage Production Dockerfile ────────────
-#
-# Build:   docker build -t axis-iliad .
-# Run:     docker run -p 4000:4000 -p 5173:5173 axis-iliad
-# API only: docker run -p 4000:4000 axis-iliad node apps/api/dist/server.js
-#
-# Stages:
-#   1. deps     — install all dependencies (cached layer)
-#   2. builder  — build all packages and apps
-#   3. runner   — minimal production image
+# syntax=docker/dockerfile:1.7
 
-# ── Stage 1: Install dependencies ────────────────────────────────
-FROM node:20-slim AS deps
+FROM node:22-bookworm-slim AS deps
 WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps ./apps
+COPY packages ./packages
+RUN corepack enable && pnpm install --frozen-lockfile
 
-# pnpm via corepack (pinned to match local version)
-RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
-
-# Hoist dependencies in Docker to avoid symlink resolution issues
-RUN echo "node-linker=hoisted" > .npmrc
-
-# Copy lockfile + workspace config first (cache deps layer)
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
-COPY apps/api/package.json apps/api/package.json
-COPY apps/web/package.json apps/web/package.json
-COPY apps/cli/package.json apps/cli/package.json
-COPY packages/snapshots/package.json packages/snapshots/package.json
-COPY packages/repo-parser/package.json packages/repo-parser/package.json
-COPY packages/context-engine/package.json packages/context-engine/package.json
-COPY packages/generator-core/package.json packages/generator-core/package.json
-
-RUN pnpm install --frozen-lockfile
-
-# ── Stage 2: Build ───────────────────────────────────────────────
-FROM deps AS builder
+FROM node:22-bookworm-slim AS builder
 WORKDIR /app
+COPY --from=deps /app /app
+RUN corepack enable && pnpm run build
 
-# Copy all source
-COPY . .
-
-# Build all packages and apps
-RUN pnpm -r build
-
-# ── Stage 3: Production runner ───────────────────────────────────
-FROM node:20-slim AS runner
+FROM node:22-bookworm-slim AS runtime
 WORKDIR /app
-
-ENV CI=true
-RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
-
-# Non-root user for security
-RUN groupadd --gid 1001 axis && \
-    useradd --uid 1001 --gid axis --shell /bin/sh --create-home axis
-
-# Ensure runner also uses hoisted deps layout
-RUN echo "node-linker=hoisted" > .npmrc
-
-# Copy built artifacts and production dependencies
-COPY --from=builder /app/package.json /app/pnpm-workspace.yaml /app/pnpm-lock.yaml ./
-# Copy OAuth keys if they exist (OAuth server handles missing keys gracefully)
-RUN if [ -f /app/private-key.pem ]; then cp /app/private-key.pem ./; fi && \
-    if [ -f /app/public-key.pem ]; then cp /app/public-key.pem ./; fi
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/apps/api/package.json apps/api/package.json
-COPY --from=builder /app/apps/api/dist apps/api/dist
-COPY --from=builder /app/apps/web/package.json apps/web/package.json
-COPY --from=builder /app/apps/web/dist apps/web/dist
-COPY --from=builder /app/apps/cli/package.json apps/cli/package.json
-COPY --from=builder /app/apps/cli/dist apps/cli/dist
-COPY --from=builder /app/apps/cli/bin apps/cli/bin
-COPY --from=builder /app/packages/snapshots/package.json packages/snapshots/package.json
-COPY --from=builder /app/packages/snapshots/dist packages/snapshots/dist
-COPY --from=builder /app/packages/repo-parser/package.json packages/repo-parser/package.json
-COPY --from=builder /app/packages/repo-parser/dist packages/repo-parser/dist
-COPY --from=builder /app/packages/context-engine/package.json packages/context-engine/package.json
-COPY --from=builder /app/packages/context-engine/dist packages/context-engine/dist
-COPY --from=builder /app/packages/generator-core/package.json packages/generator-core/package.json
-COPY --from=builder /app/packages/generator-core/dist packages/generator-core/dist
-
-# Re-link workspace packages so Node can resolve @axis/* imports
-RUN pnpm install --frozen-lockfile --prod --ignore-scripts
-
-# Environment
 ENV NODE_ENV=production
-ENV PORT=4000
-ENV DATABASE_PATH=/data/axis.db
-RUN mkdir -p /data && chown -R axis:axis /data
-EXPOSE 4000 5173
-
-# Health check — uses $PORT so Render's dynamic assignment works
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD node -e "const p=process.env.PORT||4000;const h=require('http');h.get('http://localhost:'+p+'/v1/health',r=>{process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))"
-
-# Run as non-root
+RUN groupadd -r axis && useradd -r -g axis axis
+COPY --from=builder /app /app
+RUN chown -R axis:axis /app
 USER axis
-
+EXPOSE 4000
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD node -e "fetch('http://127.0.0.1:4000/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 CMD ["node", "apps/api/dist/server.js"]

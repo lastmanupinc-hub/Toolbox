@@ -133,10 +133,10 @@ describe("GET /v1/programs", () => {
     expect(names).toContain("search");
   });
 
-  it("contains all 18 programs", async () => {
+  it("contains all 19 programs", async () => {
     const res = await req("GET", "/v1/programs");
     const programs = res.data.programs as { name: string }[];
-    expect(programs.length).toBe(18);
+    expect(programs.length).toBe(19);
   });
 
   it("does not require authentication", async () => {

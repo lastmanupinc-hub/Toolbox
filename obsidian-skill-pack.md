@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -98,7 +98,7 @@ I'm working with the following domain models in axis-iliad:
 - IntentCapture (interface, 5 fields) — defined in apps/api/src/mcp-server.ts
 - JsonRpcRequest (interface, 4 fields) — defined in apps/api/src/mcp-server.ts
 - McpCallCounters (interface, 5 fields) — defined in apps/api/src/mcp-server.ts
-  ... and 194 more
+  ... and 198 more
 
 When generating code that uses these types, import from their source files and
 do not redefine them.

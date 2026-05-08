@@ -17,7 +17,7 @@ project_continuation:
     date: "2026-04-17"
     commit_or_tag: "39e3622"
     current_session_id: "session_100"
-    commit_or_tag: "pending"
+    commit_or_tag: "4b537ba"
     one_sentence_summary: "Axis' Iliad v0.5.2 — 18 programs, 86 generators, 12 MCP tools. Session 100 delivers compliance_grade in snapshot API responses, GitHub Action compliance CI gate, @axis/mpp publishable package, and competitive gap matrix with OSS packaging prep."
 
   executive_truth:
@@ -1038,6 +1038,33 @@ project_continuation:
     evidence_added:
       - "packages/generator-core — 80 generators, 19 generator modules (61 base + 19 depth)"
       - "28 API endpoints live on port 4000 (unchanged — depth outputs served via existing handlers)"
+
+  current_session_result_100:
+    session_goal: "Finish closer program integration, dogfood on toolbox, and close session with green gates"
+    selected_move: "Resolve stale count assertions, align OpenAPI/program metadata, run dogfood + full regeneration, and re-green full suite"
+    selected_move_roi_reason: "Closer raised platform surface (18→19 programs, 102→118 outputs, 12→13 MCP tools). High-ROI move was consistency + verification across tests, docs, and generated artifacts."
+    completed_candidates:
+      - "dogfood run completed to .dogfood-closer-output (125 files) with closer artifacts present and packaging report scoring 88/100 near-ready"
+      - "stale assertions updated across API/CLI/snapshots tests (program counts, tool counts, output counts)"
+      - "OpenAPI program endpoint list updated to include /v1/closer/generate"
+      - "official regeneration completed to .ai-output and copied to root + .ai"
+      - "post-regeneration deployment regressions fixed by restoring production deployment files and CI workflow expectations"
+      - "full suite re-verified green: 141/141 files, 4151 passed, 11 skipped"
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "closer outputs now generated in toolbox dogfood: packaging/README.md, packaging/LICENSE, Dockerfile, docker-compose.yml, .github/workflows/ci.yml, .github/workflows/release.yml, manifests, trust-fabric, packaging-report.md, DISTRIBUTABLE.md, Makefile"
+      - "PROGRAM_COUNT surfaced as 19 across runtime and tests"
+      - "MCP tool inventory surfaced as 13 where applicable"
+      - "generator output surface validated at 118 files"
+    verticals_advanced:
+      - "v18_agentic_commerce → hardened (closer shipping path and trust fabric validated in-repo)"
+    blockers_removed:
+      - "full-suite drift after closer insertion"
+      - "regeneration-induced deployment file regressions"
+    blockers_added: []
+    commit_results: []
+    push_results: []
       - "175 vitest tests passing across 5 test files (156→175, +19)"
       - "22 files changed, +2552 lines"
       - "All 17 programs now have 4-5 outputs each instead of 3-4"
@@ -3822,5 +3849,7 @@ project_continuation:
       - "x402/MPP protocol was locked inside the monorepo, not publishable to npm"
     blockers_added: []
     local_only: false
-    commit_results: []
-    push_results: []
+    commit_results:
+      - "4b537ba: feat(session-100): compliance_grade in snapshot API, GitHub Action CI gate, @axis/mpp OSS package, competitive gap matrix"
+    push_results:
+      - "pushed to origin/main — HEAD at 4b537ba"

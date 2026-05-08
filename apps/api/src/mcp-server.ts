@@ -31,7 +31,7 @@ import type { SnapshotManifest, FileEntry, InputMethod } from "@axis/snapshots";
 import { buildContextMap, buildRepoProfile } from "@axis/context-engine";
 import { generateFiles, listAvailableGenerators } from "@axis/generator-core";
 import type { GeneratorResult } from "@axis/generator-core";
-import { computePurchasingReadinessScore, PURCHASING_PROGRAMS } from "./handlers.js";
+import { computePurchasingReadinessScore, PURCHASING_PROGRAMS, PROGRAM_OUTPUTS } from "./handlers.js";
 import { build402NegotiationBody, getPricingTier, parseAgentBudget, resolveAgentMode } from "./mpp.js";
 import { ARTIFACT_COUNT, PROGRAM_COUNT, MCP_TOOL_COUNT } from "./counts.js";
 
@@ -460,6 +460,64 @@ export const MCP_TOOLS = [
     ],
   },
   {
+    name: "closer",
+    description:
+      "Take a 70-80% complete project directory and generate complete professional packaging + marketplace certification artifacts so it is ready to ship and sell.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        snapshot_id: {
+          type: "string",
+          description: "Existing AXIS snapshot_id to package into a distributable product",
+        },
+        project_root: {
+          type: "string",
+          description: "Optional local project root path hint (metadata only in remote MCP mode)",
+        },
+        product_name: {
+          type: "string",
+          description: "Optional branding override for product name",
+        },
+        tagline: {
+          type: "string",
+          description: "Optional branding tagline",
+        },
+        target_marketplaces: {
+          type: "array",
+          items: { type: "string" },
+          description: "Optional marketplaces list (e.g. npm, unreal, vscode, dockerhub, github-marketplace)",
+        },
+      },
+    },
+    outputSchema: {
+      type: "object",
+      properties: {
+        snapshot_id: { type: "string" },
+        project_id: { type: "string" },
+        program: { type: "string" },
+        artifact_count: { type: "number" },
+        artifacts: {
+          type: "array",
+          items: ARTIFACT_ENTRY_SCHEMA,
+        },
+      },
+      required: ["snapshot_id", "project_id", "program", "artifact_count", "artifacts"],
+    },
+    annotations: toolAnnotations("Closer", false, false),
+    examples: [
+      {
+        name: "Package existing snapshot",
+        input: {
+          snapshot_id: "snap_abc123",
+          product_name: "Atlas Runtime Pro",
+          tagline: "Turn your draft into a marketplace-ready product",
+          target_marketplaces: ["npm", "vscode", "github-marketplace"],
+        },
+        output: '{"snapshot_id":"snap_abc123","program":"closer","artifact_count":16,"artifacts":[{"path":"packaging/README.md","program":"closer","description":"..."}]}',
+      },
+    ],
+  },
+  {
     name: "search_and_discover_tools",
     description:
       `Search AXIS programs by keyword and return ranked matches with artifact paths. Free, no auth, and no stateful side effects. Example: q=checkout returns commerce-relevant programs first. Use this when you know the outcome you want but not the right program. Use list_programs instead for the full catalog, discover_commerce_tools for install metadata, or discover_agentic_purchasing_needs for purchasing-specific triage.`,
@@ -496,7 +554,7 @@ export const MCP_TOOLS = [
       {
         name: "List all programs",
         input: {},
-        output: '{"programs":["search","skills","debug","theme","frontend","seo","optimization","brand","superpowers","marketing","notebook","obsidian","mcp","artifacts","remotion","canvas","algorithmic","agentic-purchasing"]}',
+        output: '{"programs":["search","skills","debug","theme","frontend","seo","optimization","brand","superpowers","marketing","notebook","obsidian","mcp","artifacts","remotion","canvas","algorithmic","agentic-purchasing","closer"]}',
       },
     ],
   },
@@ -1076,12 +1134,14 @@ const PROGRAM_CAPABILITY_TAGS: Record<string, string[]> = {
   canvas:               ["canvas", "diagram", "architecture", "visual", "flowchart", "c4"],
   algorithmic:          ["algorithm", "data-structure", "complexity", "sorting", "trees", "graphs"],
   "agentic-purchasing": ["purchasing", "commerce", "stripe", "checkout", "payment", "ap2", "visa", "ucp", "negotiation", "mandate"],
+  closer:               ["packaging", "marketplace", "ship", "release", "certification", "attestation", "distributable", "go-to-market"],
 };
 
 const PROGRAM_ENDPOINTS: Record<string, string> = {
   search:               "/v1/search/index",
   mcp:                  "/v1/mcp/provision",
   "agentic-purchasing": "/v1/agentic-purchasing/generate",
+  closer:               "/v1/closer/generate",
 };
 
 export function runSearchTools(args: Record<string, unknown>): string {
@@ -1756,6 +1816,117 @@ export function runGetArtifact(
   return file.content;
 }
 
+// ─── Tool: closer ───────────────────────────────────────────────
+
+export function runCloser(
+  args: Record<string, unknown>,
+  req: IncomingMessage,
+): string {
+  const auth = resolveAuth(req);
+  if (!auth.account) {
+    throw new Error(
+      auth.anonymous
+        ? "Authentication required. Include Authorization: Bearer <api_key>"
+        : "Invalid or revoked API key",
+    );
+  }
+
+  const snapshotId = typeof args.snapshot_id === "string" ? args.snapshot_id.trim() : "";
+  const projectRoot = typeof args.project_root === "string" ? args.project_root.trim() : "";
+
+  if (!snapshotId) {
+    if (projectRoot) {
+      throw new Error("project_root is metadata-only in MCP mode. Create or provide snapshot_id first, then call closer.");
+    }
+    throw new Error("snapshot_id is required");
+  }
+
+  const snapshot = getSnapshot(snapshotId);
+  if (!snapshot) throw new Error(`Snapshot not found: ${snapshotId}`);
+  if (snapshot.account_id && snapshot.account_id !== auth.account.account_id) {
+    throw new Error("Snapshot not found");
+  }
+
+  if (!isProgramEnabled(auth.account.account_id, "closer")) {
+    throw new Error("closer requires a paid plan or entitlement. Upgrade account program access first.");
+  }
+
+  const contextMap = getContextMap(snapshotId) as ContextMap | undefined;
+  const repoProfile = getRepoProfile(snapshotId) as RepoProfile | undefined;
+  if (!contextMap || !repoProfile) {
+    throw new Error("No context for this snapshot — run analyze_repo or analyze_files first");
+  }
+
+  const targetMarketplaces = Array.isArray(args.target_marketplaces)
+    ? args.target_marketplaces.filter((v): v is string => typeof v === "string")
+    : [];
+  const brandingConfig: Record<string, unknown> = {};
+  if (typeof args.product_name === "string" && args.product_name.trim().length > 0) {
+    brandingConfig.product_name = args.product_name.trim();
+  }
+  if (typeof args.tagline === "string" && args.tagline.trim().length > 0) {
+    brandingConfig.tagline = args.tagline.trim();
+  }
+  if (targetMarketplaces.length > 0) {
+    brandingConfig.target_marketplaces = targetMarketplaces;
+  }
+
+  const sourceFiles = [...snapshot.files];
+  if (Object.keys(brandingConfig).length > 0) {
+    const content = JSON.stringify(brandingConfig, null, 2);
+    sourceFiles.push({
+      path: ".axis/closer.config.json",
+      content,
+      size: Buffer.byteLength(content, "utf-8"),
+    });
+  }
+
+  const requestedOutputs = PROGRAM_OUTPUTS.closer ?? [];
+  const generated = generateFiles({
+    context_map: contextMap,
+    repo_profile: repoProfile,
+    requested_outputs: requestedOutputs,
+    source_files: sourceFiles,
+  });
+
+  const existing = getGeneratorResult(snapshotId) as GeneratorResult | undefined;
+  const merged = new Map<string, (typeof generated.files)[number]>();
+  for (const file of existing?.files ?? []) merged.set(file.path, file);
+  for (const file of generated.files) merged.set(file.path, file);
+
+  saveGeneratorResult(snapshotId, {
+    ...generated,
+    files: [...merged.values()],
+    skipped: [...(existing?.skipped ?? []), ...generated.skipped],
+  });
+  updateSnapshotStatus(snapshotId, "ready");
+
+  recordUsage(
+    auth.account.account_id,
+    "closer",
+    snapshotId,
+    generated.files.length,
+    snapshot.file_count,
+    snapshot.total_size_bytes,
+  );
+
+  return JSON.stringify(
+    {
+      snapshot_id: snapshot.snapshot_id,
+      project_id: snapshot.project_id,
+      program: "closer",
+      artifact_count: generated.files.length,
+      artifacts: generated.files.map(f => ({
+        path: f.path,
+        program: f.program,
+        description: f.description,
+      })),
+    },
+    null,
+    2,
+  );
+}
+
 // ─── Tool: prepare_agentic_purchasing ───────────────────────────
 
 export async function runPreparePurchasing(
@@ -2135,6 +2306,9 @@ export async function dispatch(
             break;
           case "prepare_agentic_purchasing":
             text = await runPreparePurchasing(toolArgs, req);
+            break;
+          case "closer":
+            text = runCloser(toolArgs, req);
             break;
           case "search_and_discover_tools":
             text = runSearchTools(toolArgs);

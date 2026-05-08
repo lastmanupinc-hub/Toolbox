@@ -1,6 +1,6 @@
 # Collection Map — axis-iliad
 
-Generated: 2026-05-07T23:19:38.353Z
+Generated: 2026-05-08T19:58:35.510Z
 
 ## Collection Overview
 
@@ -9,7 +9,7 @@ metrics, and architecture of axis-iliad.
 
 ## Project Summary
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -32,12 +32,12 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Type**: Concentric ring visualization
 - **Rings**: One per language, radius ∝ LOC percentage
-  - TypeScript: 73.9% → radius 222px
-  - JSON: 9.8% → radius 29px
-  - YAML: 7.4% → radius 22px
-  - Markdown: 6.8% → radius 20px
-  - JavaScript: 1.1% → radius 3px
-  - CSS: 0.7% → radius 2px
+  - TypeScript: 73.4% → radius 220px
+  - JSON: 9.7% → radius 29px
+  - YAML: 7.8% → radius 23px
+  - Markdown: 6.6% → radius 20px
+  - JavaScript: 1.8% → radius 5px
+  - CSS: 0.6% → radius 2px
   - HTML: 0.1% → radius 0px
   - Dockerfile: 0% → radius 0px
 - **Animation**: Slow rotation, pulse on interaction
@@ -72,10 +72,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | Total Pieces | 4 |
 | Source Project | axis-iliad |
 | Data Points | 17 |
-| Domain Models | 202 |
-| Routes | 479 |
+| Domain Models | 206 |
+| Routes | 480 |
 | Total Files | 500 |
-| Total LOC | 126554 |
+| Total LOC | 129183 |
 | Render Target | Canvas 2D / WebGL |
 | Parameter Pack | parameter-pack.json |
 
@@ -90,21 +90,21 @@ h
 u
 b
 /
-w
+a
+c
+t
+i
 o
-r
-k
-f
-l
-o
-w
+n
 s
 /
 c
-i
-.
-y
+o
 m
+p
 l
- 
+i
+a
+n
+c
 ```

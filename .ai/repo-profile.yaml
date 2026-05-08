@@ -1,7 +1,7 @@
 version: 1.0.0
-snapshot_id: 526b80a5-b3f9-49eb-9c02-c5eaa9c4bed8
-project_id: 67c9d301-91ed-4bd2-8799-605f027ce033
-generated_at: "2026-05-07T23:19:37.262Z"
+snapshot_id: 4c295454-8994-4242-86e0-c21aff5c2aa7
+project_id: e4b13957-c9b1-4064-aa00-36e09f699a83
+generated_at: "2026-05-08T19:58:35.268Z"
 project:
   name: axis-iliad
   type: monorepo
@@ -13,29 +13,29 @@ project:
 detection:
   languages:
     - name: TypeScript
-      file_count: 262
-      loc: 85493
-      loc_percent: 73.9
+      file_count: 265
+      loc: 86808
+      loc_percent: 73.4
     - name: JSON
-      file_count: 63
-      loc: 11394
-      loc_percent: 9.8
+      file_count: 66
+      loc: 11479
+      loc_percent: 9.7
     - name: YAML
-      file_count: 55
-      loc: 8584
-      loc_percent: 7.4
+      file_count: 58
+      loc: 9249
+      loc_percent: 7.8
     - name: Markdown
-      file_count: 96
-      loc: 7907
-      loc_percent: 6.8
+      file_count: 87
+      loc: 7865
+      loc_percent: 6.6
     - name: JavaScript
-      file_count: 7
-      loc: 1313
-      loc_percent: 1.1
+      file_count: 8
+      loc: 2093
+      loc_percent: 1.8
     - name: CSS
-      file_count: 2
-      loc: 849
-      loc_percent: 0.7
+      file_count: 1
+      loc: 675
+      loc_percent: 0.6
     - name: HTML
       file_count: 1
       loc: 120
@@ -67,21 +67,24 @@ detection:
 
 structure_summary:
   total_files: 500
-  total_directories: 57
-  total_loc: 126554
+  total_directories: 61
+  total_loc: 129183
   top_level_dirs:
     - name: apps
       purpose: monorepo_apps
       file_count: 141
     - name: packages
       purpose: monorepo_packages
-      file_count: 135
+      file_count: 140
     - name: payment-processing-output
       purpose: project_directory
-      file_count: 69
+      file_count: 47
     - name: examples
       purpose: project_directory
       file_count: 17
+    - name: mcp
+      purpose: project_directory
+      file_count: 16
     - name: algorithmic
       purpose: project_directory
       file_count: 4
@@ -103,9 +106,6 @@ structure_summary:
     - name: marketing
       purpose: project_directory
       file_count: 4
-    - name: mcp
-      purpose: project_directory
-      file_count: 4
     - name: notebook
       purpose: project_directory
       file_count: 4
@@ -117,19 +117,19 @@ structure_summary:
       file_count: 4
     - name: .github
       purpose: project_directory
-      file_count: 1
+      file_count: 3
 
 
 health:
   has_readme: false
   has_tests: true
-  test_file_count: 140
+  test_file_count: 141
   has_ci: true
   has_lockfile: false
   has_typescript: true
   has_linter: true
   has_formatter: true
-  dependency_count: 12
+  dependency_count: 13
   dev_dependency_count: 14
   architecture_patterns:
     - monorepo
@@ -147,13 +147,15 @@ goals:
 
 
 source_file_count: 500
-source_file_tree: ".github/workflows/ci.yml (4.5 KB)
+source_file_tree: ".github/actions/compliance-check/action.yml (4.4 KB)
+.github/workflows/ci.yml (4.5 KB)
+.github/workflows/compliance-check.yml (0.5 KB)
 .gitignore (0.4 KB)
 .prettierrc.json (0.1 KB)
 .tmp-vitest.json (68.7 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
-AGENTS.md (13.8 KB)
+AGENTS.md (13.9 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
@@ -198,25 +200,25 @@ apps/api/src/handler-edge-cases.test.ts (11.8 KB)
 apps/api/src/handler-shutdown.test.ts (2.8 KB)
 apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
-apps/api/src/handlers.ts (154.4 KB)
+apps/api/src/handlers.ts (155.2 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.7 KB)
 apps/api/src/logger.ts (3.1 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (82.1 KB)
-apps/api/src/mcp-server.ts (104.0 KB)
+apps/api/src/mcp-server.test.ts (82.2 KB)
+apps/api/src/mcp-server.ts (110.1 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
-apps/api/src/mpp.ts (15.9 KB)
+apps/api/src/mpp.ts (6.4 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
 apps/api/src/oauth-server-simple.ts (5.8 KB)
 apps/api/src/oauth-server.ts (8.1 KB)
 apps/api/src/oauth.test.ts (8.0 KB)
 apps/api/src/oauth.ts (3.4 KB)
 apps/api/src/openapi.test.ts (15.2 KB)
-apps/api/src/openapi.ts (65.3 KB)
+apps/api/src/openapi.ts (65.4 KB)
 apps/api/src/prepare-purchasing.test.ts (19.4 KB)
 apps/api/src/production-startup.test.ts (8.5 KB)
 apps/api/src/programs-billing.test.ts (12.8 KB)
@@ -233,7 +235,7 @@ apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.9 KB)
-apps/api/src/server.ts (16.4 KB)
+apps/api/src/server.ts (16.5 KB)
 apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -300,8 +302,8 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (73.6 KB)
-artifact-spec.md (7.8 KB)
+architecture-summary.md (74.2 KB)
+artifact-spec.md (8.3 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
 artifacts/MEMORY.yaml (3.1 KB)
@@ -315,7 +317,7 @@ AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 axis-analyze-results.json (1.1 KB)
-begin.yaml (17.7 KB)
+begin.yaml (17.6 KB)
 brand-board.md (5.1 KB)
 brand-guidelines.md (3.0 KB)
 brand/begin.yaml (1.8 KB)
@@ -335,10 +337,11 @@ CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.6 KB)
+CLAUDE.md (9.7 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
+competitive-gap-matrix.yaml (27.6 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
 component-theme-map.json (9.5 KB)
@@ -355,7 +358,7 @@ cov6.txt (218.4 KB)
 cov7.txt (219.0 KB)
 cov8.txt (219.5 KB)
 coverage-full.txt (249.9 KB)
-cro-playbook.md (35.8 KB)
+cro-playbook.md (36.1 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.5 KB)
@@ -363,10 +366,11 @@ debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
-dependency-hotspots.md (8.0 KB)
+dependency-hotspots.md (8.1 KB)
 docker-ci-run3.txt (24.3 KB)
 docker-compose.yml (2.0 KB)
 Dockerfile (4.4 KB)
+e2e_full_human_ai_x402.mjs (52.8 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
 e2e_wiring_audit.mjs (46.9 KB)
@@ -402,10 +406,10 @@ generated-posts.json (2.3 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
 glama.json (0.1 KB)
-graph-prompt-map.json (47.3 KB)
+graph-prompt-map.json (57.6 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
-incident-template.md (19.8 KB)
+incident-template.md (23.6 KB)
 launch-checklist.md (3.9 KB)
 launch-content.md (6.0 KB)
 layout-patterns.md (2.5 KB)
@@ -417,10 +421,23 @@ marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
 mcp-config.json (12.7 KB)
+mcp-registry-metadata.json (0.6 KB)
 mcp/begin.yaml (1.8 KB)
+mcp/build-artifacts.md (1.0 KB)
 mcp/continuation.yaml (2.4 KB)
+mcp/core-implementation-artifacts.md (16.5 KB)
+mcp/fintech-domain-schema.yaml (2.9 KB)
+mcp/fintech-mcp-surface-package.md (7.8 KB)
 mcp/MEMORY.yaml (2.7 KB)
+mcp/monorepo-structure.md (3.2 KB)
+mcp/package-json.package.template.json (0.6 KB)
+mcp/package-json.root.template.json (0.7 KB)
+mcp/project-setup.md (0.9 KB)
+mcp/README.md (1.9 KB)
 mcp/schemas/output-contract.schema.json (2.1 KB)
+mcp/testing-documentation-polish-artifacts.md (2.0 KB)
+mcp/tsconfig.package.template.json (0.7 KB)
+mcp/tsconfig.root.template.json (1.1 KB)
 memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (24.5 KB)
@@ -441,8 +458,8 @@ optimization/begin.yaml (2.5 KB)
 optimization/continuation.yaml (2.4 KB)
 optimization/MEMORY.yaml (3.7 KB)
 optimization/schemas/output-contract.schema.json (1.8 KB)
-package.json (1.0 KB)
-packages/context-engine/package.json (0.4 KB)
+package.json (1.5 KB)
+packages/context-engine/package.json (0.9 KB)
 packages/context-engine/src/engine-branches.test.ts (27.5 KB)
 packages/context-engine/src/engine-branches2.test.ts (7.6 KB)
 packages/context-engine/src/engine-branches3.test.ts (7.5 KB)
@@ -452,14 +469,14 @@ packages/context-engine/src/engine.ts (19.0 KB)
 packages/context-engine/src/index.ts (0.1 KB)
 packages/context-engine/src/types.ts (2.7 KB)
 packages/context-engine/tsconfig.json (0.2 KB)
-packages/generator-core/package.json (0.4 KB)
+packages/generator-core/package.json (1.1 KB)
 packages/generator-core/src/file-excerpt-utils.ts (5.4 KB)
 packages/generator-core/src/fw-helpers.ts (0.5 KB)
-packages/generator-core/src/generate-programs.test.ts (12.3 KB)
+packages/generator-core/src/generate-programs.test.ts (12.9 KB)
 packages/generator-core/src/generate-symbol-index.test.ts (10.0 KB)
 packages/generator-core/src/generate-validation.test.ts (8.8 KB)
 packages/generator-core/src/generate.test.ts (67.6 KB)
-packages/generator-core/src/generate.ts (19.7 KB)
+packages/generator-core/src/generate.ts (22.7 KB)
 packages/generator-core/src/generator-alt-profiles.test.ts (17.0 KB)
 packages/generator-core/src/generator-branches.test.ts (217.7 KB)
 packages/generator-core/src/generator-sourcefile-branches.test.ts (20.9 KB)
@@ -483,11 +500,13 @@ packages/generator-core/src/generator-sourcefile-branches7.test.ts (36.7 KB)
 packages/generator-core/src/generator-sourcefile-branches8.test.ts (49.1 KB)
 packages/generator-core/src/generator-sourcefile-branches9.test.ts (33.5 KB)
 packages/generator-core/src/generators-agentic-purchasing.test.ts (52.9 KB)
-packages/generator-core/src/generators-agentic-purchasing.ts (60.1 KB)
+packages/generator-core/src/generators-agentic-purchasing.ts (61.2 KB)
 packages/generator-core/src/generators-algorithmic.ts (26.2 KB)
 packages/generator-core/src/generators-artifacts.ts (28.2 KB)
 packages/generator-core/src/generators-brand.ts (32.2 KB)
 packages/generator-core/src/generators-canvas.ts (27.1 KB)
+packages/generator-core/src/generators-closer.test.ts (6.9 KB)
+packages/generator-core/src/generators-closer.ts (28.3 KB)
 packages/generator-core/src/generators-debug.ts (42.0 KB)
 packages/generator-core/src/generators-frontend.ts (27.6 KB)
 packages/generator-core/src/generators-marketing.ts (35.4 KB)
@@ -502,11 +521,14 @@ packages/generator-core/src/generators-seo.ts (35.8 KB)
 packages/generator-core/src/generators-skills.ts (42.7 KB)
 packages/generator-core/src/generators-superpowers.ts (37.4 KB)
 packages/generator-core/src/generators-theme.ts (45.9 KB)
-packages/generator-core/src/index.ts (3.4 KB)
+packages/generator-core/src/index.ts (4.0 KB)
 packages/generator-core/src/pipeline.test.ts (9.7 KB)
 packages/generator-core/src/types.ts (0.6 KB)
 packages/generator-core/tsconfig.json (0.2 KB)
-packages/repo-parser/package.json (0.4 KB)
+packages/mpp/package.json (0.9 KB)
+packages/mpp/src/index.ts (12.7 KB)
+packages/mpp/tsconfig.json (0.2 KB)
+packages/repo-parser/package.json (0.9 KB)
 packages/repo-parser/src/domain-extractor.test.ts (7.7 KB)
 packages/repo-parser/src/domain-extractor.ts (6.7 KB)
 packages/repo-parser/src/framework-detector.test.ts (13.7 KB)
@@ -530,11 +552,11 @@ packages/sdk/package.json (0.4 KB)
 packages/sdk/src/index.test.ts (11.3 KB)
 packages/sdk/src/index.ts (7.4 KB)
 packages/sdk/tsconfig.json (0.2 KB)
-packages/snapshots/package.json (0.4 KB)
+packages/snapshots/package.json (0.9 KB)
 packages/snapshots/src/b-grade-upgrade.test.ts (8.4 KB)
 packages/snapshots/src/billing-edge-cases.test.ts (14.5 KB)
 packages/snapshots/src/billing-store.ts (13.1 KB)
-packages/snapshots/src/billing-types.ts (3.9 KB)
+packages/snapshots/src/billing-types.ts (4.0 KB)
 packages/snapshots/src/billing.test.ts (12.2 KB)
 packages/snapshots/src/coverage-gaps.test.ts (22.8 KB)
 packages/snapshots/src/db-maintenance.test.ts (6.7 KB)
@@ -624,26 +646,4 @@ payment-processing-output/policy-pack.md (1.4 KB)
 payment-processing-output/poster-layouts.md (2.8 KB)
 payment-processing-output/prompt-diff-report.md (1.4 KB)
 payment-processing-output/refactor-checklist.md (2.0 KB)
-payment-processing-output/remotion-script.ts (3.5 KB)
-payment-processing-output/render-config.json (1.2 KB)
-payment-processing-output/research-threads.md (2.3 KB)
-payment-processing-output/root-cause-checklist.md (2.9 KB)
-payment-processing-output/route-priority-map.md (1.0 KB)
-payment-processing-output/scene-plan.md (2.1 KB)
-payment-processing-output/schema-recommendations.json (0.5 KB)
-payment-processing-output/sequence-pack.md (1.7 KB)
-payment-processing-output/server-manifest.yaml (2.8 KB)
-payment-processing-output/social-pack.md (1.6 KB)
-payment-processing-output/source-map.json (4.8 KB)
-payment-processing-output/storyboard.md (4.5 KB)
-payment-processing-output/study-brief.md (2.4 KB)
-payment-processing-output/superpower-pack.md (1.9 KB)
-payment-processing-output/template-pack.md (2.1 KB)
-payment-processing-output/test-generation-rules.md (2.0 KB)
-payment-processing-output/theme-guidelines.md (5.6 KB)
-payment-processing-output/theme.css (6.4 KB)
-payment-processing-output/token-budget-plan.md (2.3 KB)
-payment-processing-output/tracing-rules.md (1.4 KB)
-payment-processing-output/ui-audit.md (2.2 KB)
-payment-processing-output/variation-matrix.json (6.9 KB)
-payment-processing-output/vault-rules.md (2.1 KB)"
+payment-processing-output/remotion-script.ts (3.5 KB)"

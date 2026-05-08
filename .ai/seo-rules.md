@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -361,6 +361,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/v1/canvas/generate` | POST | API route — exclude from sitemap |
 | `/v1/algorithmic/generate` | POST | API route — exclude from sitemap |
 | `/v1/agentic-purchasing/generate` | POST | API route — exclude from sitemap |
+| `/v1/closer/generate` | POST | API route — exclude from sitemap |
 | `/v1/prepare-for-agentic-purchasing` | POST | API route — exclude from sitemap |
 | `/v1/analyze` | POST | API route — exclude from sitemap |
 | `/v1/github/analyze` | POST | API route — exclude from sitemap |
@@ -538,10 +539,10 @@ These domain models represent structured content — mapping them to schema type
 | `RpcError` | interface | 5 | WebPage |
 | `RpcSuccess` | interface | 3 | WebPage |
 | `HistogramEntry` | interface | 3 | WebPage |
-| `AgentBudget` | interface | 5 | WebPage |
-| `Build402Options` | interface | 2 | WebPage |
 | `CacheKey` | type_alias | 2 | Thing |
-| `ChargeOptions` | type_alias | 5 | Thing |
+| `OAuthClientRow` | interface | 3 | WebPage |
+| `OpenApiSpec` | interface | 6 | WebPage |
+| `WindowEntry` | interface | 2 | WebPage |
 
 ## Contact & Support Page SEO
 
@@ -574,7 +575,6 @@ These domain models represent structured content — mapping them to schema type
 - `apps/web/public/robots.txt` (26 lines)
 - `export-manifest.yaml` (87 lines)
 - `payment-processing-output/export-manifest.yaml` (87 lines)
-- `payment-processing-output/server-manifest.yaml` (107 lines)
 
 ## SEO File Contents
 
@@ -609,7 +609,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-iliad
-# Generated: 2026-04-18T01:42:32.962Z
+# Generated: 2026-05-07T23:19:38.355Z
 
 manifest:
   project: "axis-iliad"

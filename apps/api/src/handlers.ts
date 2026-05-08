@@ -140,6 +140,24 @@ export const PROGRAM_OUTPUTS: Record<string, string[]> = {
   canvas:       ["canvas-spec.json", "social-pack.md", "poster-layouts.md", "asset-guidelines.md", "brand-board.md"],
   algorithmic:          ["generative-sketch.ts", "parameter-pack.json", "collection-map.md", "export-manifest.yaml", "variation-matrix.json"],
   "agentic-purchasing": ["agent-purchasing-playbook.md", "product-schema.json", "checkout-flow.md", "negotiation-rules.md", "commerce-registry.json"],
+  closer: [
+    "packaging/README.md",
+    "packaging/LICENSE",
+    "Dockerfile",
+    "docker-compose.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "packaging/manifests/npm-package.json",
+    "packaging/manifests/unreal.uplugin",
+    "packaging/manifests/vscode-extension.json",
+    "packaging/manifests/dockerhub-repository.md",
+    "packaging/manifests/github-marketplace-listing.md",
+    "packaging/trust-fabric/attestation.json",
+    "packaging/trust-fabric/merkle-proof.json",
+    "packaging-report.md",
+    "DISTRIBUTABLE.md",
+    "Makefile",
+  ],
 };
 
 // ─── Generic program handler factory ────────────────────────────
@@ -278,6 +296,7 @@ export const handleRemotionGenerate    = makeProgramHandler("remotion", PROGRAM_
 export const handleCanvasGenerate      = makeProgramHandler("canvas", PROGRAM_OUTPUTS.canvas);
 export const handleAlgorithmicGenerate = makeProgramHandler("algorithmic", PROGRAM_OUTPUTS.algorithmic);
 export const handleAgenticPurchasingGenerate = makeProgramHandler("agentic-purchasing", PROGRAM_OUTPUTS["agentic-purchasing"]);
+export const handleCloserGenerate = makeProgramHandler("closer", PROGRAM_OUTPUTS.closer);
 
 export async function handleCreateSnapshot(
   req: IncomingMessage,

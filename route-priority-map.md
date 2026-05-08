@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -442,6 +442,7 @@ These routes should NOT appear in sitemap or be indexed:
 - `POST /v1/canvas/generate`
 - `POST /v1/algorithmic/generate`
 - `POST /v1/agentic-purchasing/generate`
+- `POST /v1/closer/generate`
 - `POST /v1/prepare-for-agentic-purchasing`
 - `POST /v1/analyze`
 - `POST /v1/github/analyze`
@@ -595,7 +596,7 @@ Sitemap: https://yoursite.com/sitemap.xml
 
 | File | Exports | Lines |
 |------|---------|-------|
-| `apps/api/src/handlers.ts` | export const PROGRAM_OUTPUTS: Record<string, string[]> = ..., export function makeProgramHandler(program: string, defaultOutputs: string[]) { ... }, export const handleDebugAnalyze        = ..., export const handleFrontendAudit       = ..., export const handleSeoAnalyze          = ..., export const handleOptimizationAnalyze = ..., export const handleThemeGenerate       = ..., export const handleBrandGenerate       = ..., export const handleSuperpowersGenerate = ..., export const handleMarketingGenerate   = ..., export const handleNotebookGenerate    = ..., export const handleObsidianAnalyze     = ..., export const handleMcpProvision        = ..., export const handleArtifactsGenerate   = ..., export const handleRemotionGenerate    = ..., export const handleCanvasGenerate      = ..., export const handleAlgorithmicGenerate = ..., export const handleAgenticPurchasingGenerate = ..., export async function handleCreateSnapshot(, export async function handleGetSnapshot(, export async function handleDeleteSnapshot(, export async function handleDeleteProject(, export async function handleGetContext(, export async function handleGetGeneratedFiles(, export async function handleHealthCheck(, export async function handleDbStats(, export async function handleDbMaintenance(, export async function handleGetGeneratedFile(, export async function handleSearchExport(, export async function handleSkillsGenerate( | 3264 |
+| `apps/api/src/handlers.ts` | export const PROGRAM_OUTPUTS: Record<string, string[]> = ..., export function makeProgramHandler(program: string, defaultOutputs: string[]) { ... }, export const handleDebugAnalyze        = ..., export const handleFrontendAudit       = ..., export const handleSeoAnalyze          = ..., export const handleOptimizationAnalyze = ..., export const handleThemeGenerate       = ..., export const handleBrandGenerate       = ..., export const handleSuperpowersGenerate = ..., export const handleMarketingGenerate   = ..., export const handleNotebookGenerate    = ..., export const handleObsidianAnalyze     = ..., export const handleMcpProvision        = ..., export const handleArtifactsGenerate   = ..., export const handleRemotionGenerate    = ..., export const handleCanvasGenerate      = ..., export const handleAlgorithmicGenerate = ..., export const handleAgenticPurchasingGenerate = ..., export const handleCloserGenerate = ..., export async function handleCreateSnapshot(, export async function handleGetSnapshot(, export async function handleDeleteSnapshot(, export async function handleDeleteProject(, export async function handleGetContext(, export async function handleGetGeneratedFiles(, export async function handleHealthCheck(, export async function handleDbStats(, export async function handleDbMaintenance(, export async function handleGetGeneratedFile(, export async function handleSearchExport( | 3285 |
 | `apps/api/src/router.ts` | export class Router { ... }, export function sendJSON(res: ServerResponse, status: number, data: unknown) { ... }, export function sendError(, export async function readBody(req: IncomingMessage): Promise<string> { ... }, export interface AppHandle { ... }, export function isShuttingDown(): boolean { ... }, export function createApp(router: Router, port: number): Server { ... } | 408 |
 | `apps/web/src/pages/AccountPage.tsx` | export function AccountPage({ ... } | 630 |
 | `apps/web/src/pages/DashboardPage.tsx` | export function DashboardPage({ ... } | 197 |

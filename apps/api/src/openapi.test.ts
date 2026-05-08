@@ -28,7 +28,7 @@ describe("buildOpenApiSpec", () => {
     expect(paths).toContain("/v1/search/{snapshot_id}/stats");
   });
 
-  it("includes all 18 program endpoints", () => {
+  it("includes all 19 program endpoints", () => {
     const paths = Object.keys(spec.paths);
     const programPaths = paths.filter(
       (p) =>
@@ -47,10 +47,11 @@ describe("buildOpenApiSpec", () => {
         p.includes("/remotion/") ||
         p.includes("/canvas/") ||
         p.includes("/algorithmic/") ||
+        p.includes("/closer/") ||
         p.includes("/v1/skills/") ||
         (p.includes("/search/export"))
     );
-    expect(programPaths.length).toBe(20);
+      expect(programPaths.length).toBe(21);
   });
 
   it("includes billing endpoints", () => {

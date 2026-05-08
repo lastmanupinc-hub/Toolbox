@@ -36,9 +36,9 @@ export function DashboardWidget() {
         <StatCard label="Language" value={data.language} />
         <StatCard label="Entry Points" value={data.entryPoints} />
         <StatCard label="Hotspots" value={data.hotspots} />
-        <StatCard label="TypeScript" value={`${73.9}%`} />
-        <StatCard label="JSON" value={`${9.8}%`} />
-        <StatCard label="YAML" value={`${7.4}%`} />
+        <StatCard label="TypeScript" value={`${73.4}%`} />
+        <StatCard label="JSON" value={`${9.7}%`} />
+        <StatCard label="YAML" value={`${7.8}%`} />
       </div>
       <div className="framework-tags">
         {data.frameworks.map(f => (
@@ -61,12 +61,12 @@ export default DashboardWidget;
 // apps/web/src/components/AxisIcons.tsx | 4 in | 0 out | risk 0.20
 // apps/web/src/upload-utils.ts | 3 in | 0 out | risk 0.15
 
-// ─── API Surface: 479 routes ───
+// ─── API Surface: 480 routes ───
 // GET: 269 endpoints
-// POST: 189 endpoints
+// POST: 190 endpoints
 // DELETE: 21 endpoints
 
-// ─── Domain Models: 202 entities ───
+// ─── Domain Models: 206 entities ───
 // AuthContext (interface, 3 fields) — apps/api/src/billing.ts
 // EnvSpec (interface, 5 fields) — apps/api/src/env.ts
 // ValidationError (interface, 2 fields) — apps/api/src/env.ts
@@ -89,4 +89,4 @@ export default DashboardWidget;
 
 // Source file metrics
 // Total source files scanned: 500
-// Config files: .prettierrc.json, apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json
+// Config files: .prettierrc.json, apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, mcp/tsconfig.package.template.json, mcp/tsconfig.root.template.json, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/mpp/package.json, packages/mpp/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json

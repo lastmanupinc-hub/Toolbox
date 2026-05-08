@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Commands
 
@@ -23,10 +23,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - packages/ (monorepo_packages)
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
+- mcp/ (project_directory)
 - algorithmic/ (project_directory)
 - artifacts/ (project_directory)
 - brand/ (project_directory)
-- canvas/ (project_directory)
 
 ## Conventions
 
@@ -58,16 +58,16 @@ Detected domain model contracts:
 | `RpcError` | interface | 5 | apps/api/src/mcp-server.ts |
 | `RpcSuccess` | interface | 3 | apps/api/src/mcp-server.ts |
 | `HistogramEntry` | interface | 3 | apps/api/src/metrics.ts |
-| `AgentBudget` | interface | 5 | apps/api/src/mpp.ts |
-| `Build402Options` | interface | 2 | apps/api/src/mpp.ts |
 | `CacheKey` | type_alias | 2 | apps/api/src/mpp.ts |
-| `ChargeOptions` | type_alias | 5 | apps/api/src/mpp.ts |
-| `MppResult` | type_alias | 1 | apps/api/src/mpp.ts |
-| `PricingTier` | interface | 4 | apps/api/src/mpp.ts |
 | `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
 | `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
-| *… 182 more* | | | |
+| `AppHandle` | interface | 3 | apps/api/src/router.ts |
+| `Route` | interface | 4 | apps/api/src/router.ts |
+| `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
+| `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
+| `RunResult` | interface | 4 | apps/cli/src/runner.ts |
+| *… 186 more* | | | |
 
 ## Warnings
 
@@ -104,11 +104,11 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
+  handleCloserGenerate,
   handleGitHubAnalyze,
   handleAnalyze,
   handlePreparePurchasing,
-  handleWellKnown,
-... (405 more lines)
+... (407 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -202,13 +202,13 @@ export { buildContextMap, buildRepoProfile } from "./engine.js";
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
+    "@axis/mpp": "workspace:*",
     "@axis/repo-parser": "workspace:*",
     "@axis/snapshots": "workspace:*",
     "@jmondi/oauth2-server": "^4.2.2",
     "jsonwebtoken": "^9.0.3",
     "mppx": "^0.5.12"
-  },
-... (9 more lines)
+... (10 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

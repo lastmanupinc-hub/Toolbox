@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated": "2026-05-07T23:19:39.509Z",
+  "generated": "2026-05-08T19:58:35.765Z",
   "parameters": [
     {
       "name": "primary_hue",
@@ -304,12 +304,12 @@
       "style": "caption"
     },
     {
-      "text": "algorithmic/ (project_directory)",
+      "text": "mcp/ (project_directory)",
       "position": "bottom",
       "style": "caption"
     },
     {
-      "text": "artifacts/ (project_directory)",
+      "text": "algorithmic/ (project_directory)",
       "position": "bottom",
       "style": "caption"
     }

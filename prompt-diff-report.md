@@ -25,7 +25,7 @@ Embed 3 detected conventions as system-level constraints in every code generatio
 
 ### Dependency Awareness
 
-Reference package.json in prompts to constrain imports to the 26 actual dependencies. Prevents hallucinated package references.
+Reference package.json in prompts to constrain imports to the 27 actual dependencies. Prevents hallucinated package references.
 
 ### Architecture Alignment
 
@@ -33,11 +33,11 @@ Reference 2 detected patterns (separation score: 0.65/100) in architectural prom
 
 ### Route Awareness
 
-Include route map (479 routes) in prompts when working on API or page code to prevent duplicate endpoints.
+Include route map (480 routes) in prompts when working on API or page code to prevent duplicate endpoints.
 
 ## Token Budget Guidance
 
-Estimated full-project tokens: ~569,493
+Estimated full-project tokens: ~581,324
 
 **Selective context required.** Use this priority order:
 1. Active file being modified
@@ -50,9 +50,9 @@ Estimated full-project tokens: ~569,493
 
 | File | Lines | Exports |
 |------|-------|---------|
-| `apps/api/src/server.ts` | 435 | export const app = ... |
+| `apps/api/src/server.ts` | 437 | export const app = ... |
 | `apps/web/src/App.tsx` | 326 | export function App() { ... } |
 | `apps/web/src/main.tsx` | 11 | default |
 | `packages/context-engine/src/index.ts` | 3 | export type { ... }, export { ... } |
-| `packages/generator-core/src/index.ts` | 21 | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... } |
-| `packages/repo-parser/src/index.ts` | 10 | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
+| `packages/generator-core/src/index.ts` | 40 | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... } |
+| `packages/mpp/src/index.ts` | 307 | export type ChargeOptions = ..., export type MppResult = ..., export interface AgentBudget { ... }, export interface PricingTier { ... }, export interface Build402Options { ... }, export const PRICING_TIERS: Record<string, PricingTier> = ..., export const LEGACY_TOOL_ALIASES: Record<string, string> = ..., export function getPricingTier(tool: string): PricingTier { ... }, export function negotiatePrice(, export function build402NegotiationBody(, export function parseAgentBudget(req: IncomingMessage): AgentBudget | undefined { ... }, export function resolveAgentMode(req: IncomingMessage): "standard" | "lite" { ... } |

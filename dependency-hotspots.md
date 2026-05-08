@@ -1,10 +1,10 @@
 # Dependency Hotspots — axis-iliad
 
-Generated: 2026-05-07T23:19:38.358Z
+Generated: 2026-05-08T19:58:35.513Z
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -76,6 +76,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 |---------|---------|-------------|
 | @axis/context-engine | workspace:* | Stable |
 | @axis/generator-core | workspace:* | Stable |
+| @axis/mpp | workspace:* | Stable |
 | @axis/repo-parser | workspace:* | Stable |
 | @axis/snapshots | workspace:* | Stable |
 | @jmondi/oauth2-server | ^4.2.2 | Stable |
@@ -88,7 +89,6 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | uuid | ^11.1.0 | Stable |
 | @types/better-sqlite3 | ^7.6.13 | Stable |
 | @types/jsonwebtoken | ^9.0.10 | Stable |
-| @types/node | ^22.0.0 | Stable |
 
 ## Recommendations
 

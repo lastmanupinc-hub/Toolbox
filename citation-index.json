@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-05-07T23:19:39.396Z",
+  "generated_at": "2026-05-08T19:58:35.746Z",
   "total_citations": 16,
   "by_type": {
     "documentation": 1,
@@ -102,6 +102,17 @@
       ]
     },
     {
+      "id": "dep-@axis/mpp",
+      "type": "library",
+      "title": "@axis/mpp @ workspace:*",
+      "source": "https://www.npmjs.com/package/@axis/mpp",
+      "relevance": "reference",
+      "tags": [
+        "dependency",
+        "@axis/mpp"
+      ]
+    },
+    {
       "id": "dep-@axis/repo-parser",
       "type": "library",
       "title": "@axis/repo-parser @ workspace:*",
@@ -177,17 +188,6 @@
         "dependency",
         "react"
       ]
-    },
-    {
-      "id": "dep-react-dom",
-      "type": "library",
-      "title": "react-dom @ ^19.1.0",
-      "source": "https://www.npmjs.com/package/react-dom",
-      "relevance": "reference",
-      "tags": [
-        "dependency",
-        "react-dom"
-      ]
     }
   ],
   "source_file_count": 500,
@@ -197,7 +197,7 @@
       "exports": [
         "export const app = ..."
       ],
-      "lines": 435
+      "lines": 437
     },
     {
       "path": "apps/web/src/App.tsx",
@@ -241,24 +241,29 @@
         "export { ... }",
         "export { ... }",
         "export { ... }",
+        "export { ... }",
+        "export type { ... }",
         "export { ... }"
       ],
-      "lines": 21
+      "lines": 40
     },
     {
-      "path": "packages/repo-parser/src/index.ts",
+      "path": "packages/mpp/src/index.ts",
       "exports": [
-        "export type { ... }",
-        "export { ... }",
-        "export { ... }",
-        "export { ... }",
-        "export { ... }",
-        "export { ... }",
-        "export type { ... }",
-        "export { ... }",
-        "export type { ... }"
+        "export type ChargeOptions = ...",
+        "export type MppResult = ...",
+        "export interface AgentBudget { ... }",
+        "export interface PricingTier { ... }",
+        "export interface Build402Options { ... }",
+        "export const PRICING_TIERS: Record<string, PricingTier> = ...",
+        "export const LEGACY_TOOL_ALIASES: Record<string, string> = ...",
+        "export function getPricingTier(tool: string): PricingTier { ... }",
+        "export function negotiatePrice(",
+        "export function build402NegotiationBody(",
+        "export function parseAgentBudget(req: IncomingMessage): AgentBudget | undefined { ... }",
+        "export function resolveAgentMode(req: IncomingMessage): \"standard\" | \"lite\" { ... }"
       ],
-      "lines": 10
+      "lines": 307
     }
   ]
 }

@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -178,7 +178,7 @@ Routes detected — consider zone-based theming:
 - `/.well-known/axis.json` (GET) → apps/api/src/agent-discovery.test.ts
 - `/for-agents` (GET) → apps/api/src/agent-discovery.test.ts
 - `/v1/install` (GET) → apps/api/src/agent-discovery.test.ts
-- … and 467 more routes
+- … and 468 more routes
 
 ## Domain-Specific Tokens
 
@@ -207,8 +207,6 @@ Consider extending the token system for domain entity states:
 - `packages/snapshots/src/github-token-store.ts` (136 lines)
 - `payment-processing-output/component-theme-map.json` (2059 lines)
 - `payment-processing-output/dark-mode-tokens.json` (117 lines)
-- `payment-processing-output/theme-guidelines.md` (137 lines)
-- `payment-processing-output/theme.css` (226 lines)
 
 ## Style File Contents
 
@@ -243,7 +241,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-18T01:42:32.913Z",
+  "generated_at": "2026-05-07T23:19:37.985Z",
   "detected_stack": [
     {
       "name": "React",
@@ -269,7 +267,7 @@ Consider extending the token system for domain entity states:
 ```json
 {
   "project": "axis-iliad",
-  "generated_at": "2026-04-18T01:42:33.104Z",
+  "generated_at": "2026-05-07T23:19:39.387Z",
   "scheme": "dark",
   "detected_stack": {
     "frameworks": [

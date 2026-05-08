@@ -16,17 +16,17 @@
 
 Detection results from `500` source files:
 
-- **adyen** detected in 77 file(s)
-- **affirm** detected in 77 file(s)
-- **afterpay** detected in 77 file(s)
-- **amazon_pay** detected in 77 file(s)
-- **apple_pay** detected in 77 file(s)
-- **braintree** detected in 77 file(s)
-- **google_pay** detected in 77 file(s)
-- **klarna** detected in 77 file(s)
-- **paypal** detected in 77 file(s)
-- **square** detected in 77 file(s)
-- **stripe** detected in 77 file(s)
+- **adyen** detected in 82 file(s)
+- **affirm** detected in 82 file(s)
+- **afterpay** detected in 82 file(s)
+- **amazon_pay** detected in 82 file(s)
+- **apple_pay** detected in 82 file(s)
+- **braintree** detected in 82 file(s)
+- **google_pay** detected in 82 file(s)
+- **klarna** detected in 82 file(s)
+- **paypal** detected in 82 file(s)
+- **square** detected in 82 file(s)
+- **stripe** detected in 82 file(s)
 - Checkout flow code: ✅ Detected
 - Recurring/mandate billing: ✅ Detected
 - SCA/3DS2 handling: ✅ Detected

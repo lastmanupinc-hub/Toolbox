@@ -19,3 +19,21 @@ export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generate
 export { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest, generateVariationMatrix } from "./generators-algorithmic.js";
 export { generateAgentPurchasingPlaybook, generateProductSchema, generateCheckoutFlow, generateNegotiationRules, generateCommerceRegistry, computeComplianceGrade } from "./generators-agentic-purchasing.js";
 export type { ComplianceGradeResult } from "./generators-agentic-purchasing.js";
+export {
+	generatePackagingReadme,
+	generatePackagingLicense,
+	generateCloserDockerfile,
+	generateCloserDockerCompose,
+	generateCloserCiWorkflow,
+	generateCloserReleaseWorkflow,
+	generateCloserManifestNpm,
+	generateCloserManifestUnreal,
+	generateCloserManifestVsCode,
+	generateCloserManifestDockerHub,
+	generateCloserManifestGitHubMarketplace,
+	generateCloserTrustAttestation,
+	generateCloserMerkleProof,
+	generateCloserPackagingReport,
+	generateDistributableGuide,
+	generateMakefileWithShipTarget,
+} from "./generators-closer.js";

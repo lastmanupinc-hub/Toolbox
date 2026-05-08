@@ -8,9 +8,9 @@
    Type:        monorepo
    Language:    TypeScript
    Stack:       React
-   Total LOC:   115,713
-   Routes:      479 (269 GET · 189 POST)
-   Models:      202 domain models
+   Total LOC:   118,342
+   Routes:      480 (269 GET · 190 POST)
+   Models:      206 domain models
    ─────────────────────────────────────────────────────── */
 
 :root {
@@ -345,5 +345,4 @@
 /* ─── Detected Style Files ─────────────────────────────── */
 /*
    apps/web/src/index.css (770 lines)
-   payment-processing-output/theme.css (226 lines)
 */

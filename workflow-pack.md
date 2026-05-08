@@ -81,15 +81,15 @@ steps:
 ## Detected Config Files
 
 - `.prettierrc.json` (7 lines)
-- `apps/api/package.json` (29 lines)
+- `apps/api/package.json` (30 lines)
 - `apps/api/tsconfig.json` (10 lines)
 - `apps/cli/package.json` (23 lines)
 - `apps/cli/tsconfig.json` (18 lines)
 - `apps/web/package.json` (24 lines)
 - `apps/web/tsconfig.json` (20 lines)
 - `apps/web/vite.config.ts` (13 lines)
-- `package.json` (37 lines)
-- `packages/context-engine/package.json` (22 lines)
+- `mcp/tsconfig.package.template.json` (36 lines)
+- `mcp/tsconfig.root.template.json` (60 lines)
 
 ## Entry Points
 
@@ -116,7 +116,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (415 more lines)
+... (417 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

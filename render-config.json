@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-05-07T23:19:38.321Z",
+  "generated_at": "2026-05-08T19:58:35.497Z",
   "composition": {
     "id": "axisiliadVideo",
     "width": 1920,
@@ -27,15 +27,15 @@
       "id": "api-surface",
       "from": 180,
       "duration": 90,
-      "label": "API Surface (479 routes)",
-      "data_points": 479
+      "label": "API Surface (480 routes)",
+      "data_points": 480
     },
     {
       "id": "data-model",
       "from": 270,
       "duration": 90,
-      "label": "Data Model (202 entities)",
-      "data_points": 202
+      "label": "Data Model (206 entities)",
+      "data_points": 206
     },
     {
       "id": "complexity",
@@ -86,33 +86,33 @@
       "languages": [
         {
           "name": "TypeScript",
-          "loc": 85493,
-          "percent": 73.9
+          "loc": 86808,
+          "percent": 73.4
         },
         {
           "name": "JSON",
-          "loc": 11394,
-          "percent": 9.8
+          "loc": 11479,
+          "percent": 9.7
         },
         {
           "name": "YAML",
-          "loc": 8584,
-          "percent": 7.4
+          "loc": 9249,
+          "percent": 7.8
         },
         {
           "name": "Markdown",
-          "loc": 7907,
-          "percent": 6.8
+          "loc": 7865,
+          "percent": 6.6
         },
         {
           "name": "JavaScript",
-          "loc": 1313,
-          "percent": 1.1
+          "loc": 2093,
+          "percent": 1.8
         },
         {
           "name": "CSS",
-          "loc": 849,
-          "percent": 0.7
+          "loc": 675,
+          "percent": 0.6
         }
       ],
       "build_tools": [
@@ -123,7 +123,7 @@
       ]
     },
     "api_surface": {
-      "total_routes": 479,
+      "total_routes": 480,
       "routes": [
         {
           "method": "GET",
@@ -228,7 +228,7 @@
       ]
     },
     "data_model": {
-      "total_models": 202,
+      "total_models": 206,
       "models": [
         {
           "name": "AuthContext",
@@ -286,24 +286,24 @@
           "fields": 3
         },
         {
-          "name": "AgentBudget",
-          "kind": "interface",
-          "fields": 5
-        },
-        {
-          "name": "Build402Options",
-          "kind": "interface",
-          "fields": 2
-        },
-        {
           "name": "CacheKey",
           "kind": "type_alias",
           "fields": 2
         },
         {
-          "name": "ChargeOptions",
-          "kind": "type_alias",
-          "fields": 5
+          "name": "OAuthClientRow",
+          "kind": "interface",
+          "fields": 3
+        },
+        {
+          "name": "OpenApiSpec",
+          "kind": "interface",
+          "fields": 6
+        },
+        {
+          "name": "WindowEntry",
+          "kind": "interface",
+          "fields": 2
         }
       ]
     },
@@ -369,16 +369,16 @@
       "packages/ (monorepo_packages)",
       "payment-processing-output/ (project_directory)",
       "examples/ (project_directory)",
+      "mcp/ (project_directory)",
       "algorithmic/ (project_directory)",
       "artifacts/ (project_directory)",
-      "brand/ (project_directory)",
-      "canvas/ (project_directory)"
+      "brand/ (project_directory)"
     ]
   },
   "detected_stack": {
     "primary_language": "TypeScript",
     "total_files": 500,
-    "total_loc": 126554
+    "total_loc": 129183
   },
   "source_media_files": null
 }

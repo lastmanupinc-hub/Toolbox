@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -16,8 +16,8 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (126554 LOC)
-- **Directories:** 57
+- **Files:** 500 (129183 LOC)
+- **Directories:** 61
 
 ## Frameworks & Libraries
 
@@ -359,6 +359,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | POST | `/v1/canvas/generate` | apps/api/src/server.ts |
 | POST | `/v1/algorithmic/generate` | apps/api/src/server.ts |
 | POST | `/v1/agentic-purchasing/generate` | apps/api/src/server.ts |
+| POST | `/v1/closer/generate` | apps/api/src/server.ts |
 | POST | `/v1/prepare-for-agentic-purchasing` | apps/api/src/server.ts |
 | POST | `/v1/analyze` | apps/api/src/server.ts |
 | POST | `/v1/github/analyze` | apps/api/src/server.ts |
@@ -522,9 +523,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ## Directory Layout
 
 - `apps/` — monorepo_apps (141 files)
-- `packages/` — monorepo_packages (135 files)
-- `payment-processing-output/` — project_directory (69 files)
+- `packages/` — monorepo_packages (140 files)
+- `payment-processing-output/` — project_directory (47 files)
 - `examples/` — project_directory (17 files)
+- `mcp/` — project_directory (16 files)
 - `algorithmic/` — project_directory (4 files)
 - `artifacts/` — project_directory (4 files)
 - `brand/` — project_directory (4 files)
@@ -532,11 +534,10 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - `debug/` — project_directory (4 files)
 - `frontend/` — project_directory (4 files)
 - `marketing/` — project_directory (4 files)
-- `mcp/` — project_directory (4 files)
 - `notebook/` — project_directory (4 files)
 - `obsidian/` — project_directory (4 files)
 - `optimization/` — project_directory (4 files)
-- `.github/` — project_directory (1 files)
+- `.github/` — project_directory (3 files)
 
 ## Dependency Hotspots
 
@@ -552,7 +553,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Domain Models
 
-Detected 202 domain models:
+Detected 206 domain models:
 
 | Model | Kind | Fields | Source |
 |-------|------|--------|--------|
@@ -567,12 +568,7 @@ Detected 202 domain models:
 | `RpcError` | interface | 5 | apps/api/src/mcp-server.ts |
 | `RpcSuccess` | interface | 3 | apps/api/src/mcp-server.ts |
 | `HistogramEntry` | interface | 3 | apps/api/src/metrics.ts |
-| `AgentBudget` | interface | 5 | apps/api/src/mpp.ts |
-| `Build402Options` | interface | 2 | apps/api/src/mpp.ts |
 | `CacheKey` | type_alias | 2 | apps/api/src/mpp.ts |
-| `ChargeOptions` | type_alias | 5 | apps/api/src/mpp.ts |
-| `MppResult` | type_alias | 1 | apps/api/src/mpp.ts |
-| `PricingTier` | interface | 4 | apps/api/src/mpp.ts |
 | `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
 | `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
@@ -581,7 +577,12 @@ Detected 202 domain models:
 | `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
 | `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
 | `RunResult` | interface | 4 | apps/cli/src/runner.ts |
-| *… 177 more* | | | |
+| `ScanResult` | interface | 3 | apps/cli/src/scanner.ts |
+| `WriteResult` | interface | 3 | apps/cli/src/writer.ts |
+| `Account` | interface | 5 | apps/web/src/api.ts |
+| `ApiKeyInfo` | interface | 5 | apps/web/src/api.ts |
+| `ContextMap` | interface | 8 | apps/web/src/api.ts |
+| *… 181 more* | | | |
 
 > **High-complexity models** (8+ fields): `ContextMap`, `SnapshotResponse`, `SubscriptionInfo`, `UpgradePrompt`, `ProgramDoc`, `ContextMap`, `RepoProfile`, `CommerceSignals`, `ParseResult`, `UsageRecord`, `EmailDelivery`, `FunnelMetrics`, `Seat`, `UpgradePrompt`, `GitHubToken`, `ReferralCredits`, `StripeSubscription`, `TierChange`, `SnapshotManifest`, `SnapshotRecord`, `VersionDiff`, `Webhook`, `WebhookDelivery`, `WebhookRow` — consider splitting if they grow further.
 
@@ -605,13 +606,15 @@ Detected 202 domain models:
 ## File Tree
 
 ```
+.github/actions/compliance-check/action.yml (4.4 KB)
 .github/workflows/ci.yml (4.5 KB)
+.github/workflows/compliance-check.yml (0.5 KB)
 .gitignore (0.4 KB)
 .prettierrc.json (0.1 KB)
 .tmp-vitest.json (68.7 KB)
 ab-test-plan.md (2.8 KB)
 agent-purchasing-playbook.md (16.9 KB)
-AGENTS.md (13.8 KB)
+AGENTS.md (13.9 KB)
 algorithmic-pack.json (7.9 KB)
 algorithmic/begin.yaml (1.8 KB)
 algorithmic/continuation.yaml (2.4 KB)
@@ -656,25 +659,25 @@ apps/api/src/handler-edge-cases.test.ts (11.8 KB)
 apps/api/src/handler-shutdown.test.ts (2.8 KB)
 apps/api/src/handler-validation.test.ts (11.4 KB)
 apps/api/src/handlers-deep.test.ts (18.7 KB)
-apps/api/src/handlers.ts (154.4 KB)
+apps/api/src/handlers.ts (155.2 KB)
 apps/api/src/latency-histogram.test.ts (9.1 KB)
 apps/api/src/logger.test.ts (3.7 KB)
 apps/api/src/logger.ts (3.1 KB)
 apps/api/src/logging.test.ts (8.5 KB)
-apps/api/src/mcp-server.test.ts (82.1 KB)
-apps/api/src/mcp-server.ts (104.0 KB)
+apps/api/src/mcp-server.test.ts (82.2 KB)
+apps/api/src/mcp-server.ts (110.1 KB)
 apps/api/src/metrics-branches.test.ts (2.5 KB)
 apps/api/src/metrics.test.ts (4.3 KB)
 apps/api/src/metrics.ts (6.5 KB)
 apps/api/src/mpp.test.ts (8.5 KB)
-apps/api/src/mpp.ts (15.9 KB)
+apps/api/src/mpp.ts (6.4 KB)
 apps/api/src/multi-tenancy.test.ts (20.0 KB)
 apps/api/src/oauth-server-simple.ts (5.8 KB)
 apps/api/src/oauth-server.ts (8.1 KB)
 apps/api/src/oauth.test.ts (8.0 KB)
 apps/api/src/oauth.ts (3.4 KB)
 apps/api/src/openapi.test.ts (15.2 KB)
-apps/api/src/openapi.ts (65.3 KB)
+apps/api/src/openapi.ts (65.4 KB)
 apps/api/src/prepare-purchasing.test.ts (19.4 KB)
 apps/api/src/production-startup.test.ts (8.5 KB)
 apps/api/src/programs-billing.test.ts (12.8 KB)
@@ -691,7 +694,7 @@ apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.9 KB)
-apps/api/src/server.ts (16.4 KB)
+apps/api/src/server.ts (16.5 KB)
 apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -758,8 +761,8 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (73.6 KB)
-artifact-spec.md (7.8 KB)
+architecture-summary.md (74.2 KB)
+artifact-spec.md (8.3 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
 artifacts/MEMORY.yaml (3.1 KB)
@@ -773,7 +776,7 @@ AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
 axis_master_blueprint.yaml (9.6 KB)
 axis-analyze-results.json (1.1 KB)
-begin.yaml (17.7 KB)
+begin.yaml (17.6 KB)
 brand-board.md (5.1 KB)
 brand-guidelines.md (3.0 KB)
 brand/begin.yaml (1.8 KB)
@@ -793,10 +796,11 @@ CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
 citation-index.json (6.1 KB)
-CLAUDE.md (9.6 KB)
+CLAUDE.md (9.7 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
 commerce-registry.json (6.3 KB)
+competitive-gap-matrix.yaml (27.6 KB)
 component-guidelines.md (3.3 KB)
 component-library.json (7.9 KB)
 component-theme-map.json (9.5 KB)
@@ -813,7 +817,7 @@ cov6.txt (218.4 KB)
 cov7.txt (219.0 KB)
 cov8.txt (219.5 KB)
 coverage-full.txt (249.9 KB)
-cro-playbook.md (35.8 KB)
+cro-playbook.md (36.1 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
 dark-mode-tokens.json (3.3 KB)
 dashboard-widget.tsx (3.5 KB)
@@ -821,10 +825,11 @@ debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
-dependency-hotspots.md (8.0 KB)
+dependency-hotspots.md (8.1 KB)
 docker-ci-run3.txt (24.3 KB)
 docker-compose.yml (2.0 KB)
 Dockerfile (4.4 KB)
+e2e_full_human_ai_x402.mjs (52.8 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
 e2e_wiring_audit.mjs (46.9 KB)
@@ -860,10 +865,10 @@ generated-posts.json (2.3 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
 glama.json (0.1 KB)
-graph-prompt-map.json (47.3 KB)
+graph-prompt-map.json (57.6 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
-incident-template.md (19.8 KB)
+incident-template.md (23.6 KB)
 launch-checklist.md (3.9 KB)
 launch-content.md (6.0 KB)
 layout-patterns.md (2.5 KB)
@@ -875,10 +880,23 @@ marketing/continuation.yaml (2.4 KB)
 marketing/MEMORY.yaml (2.8 KB)
 marketing/schemas/output-contract.schema.json (1.8 KB)
 mcp-config.json (12.7 KB)
+mcp-registry-metadata.json (0.6 KB)
 mcp/begin.yaml (1.8 KB)
+mcp/build-artifacts.md (1.0 KB)
 mcp/continuation.yaml (2.4 KB)
+mcp/core-implementation-artifacts.md (16.5 KB)
+mcp/fintech-domain-schema.yaml (2.9 KB)
+mcp/fintech-mcp-surface-package.md (7.8 KB)
 mcp/MEMORY.yaml (2.7 KB)
+mcp/monorepo-structure.md (3.2 KB)
+mcp/package-json.package.template.json (0.6 KB)
+mcp/package-json.root.template.json (0.7 KB)
+mcp/project-setup.md (0.9 KB)
+mcp/README.md (1.9 KB)
 mcp/schemas/output-contract.schema.json (2.1 KB)
+mcp/testing-documentation-polish-artifacts.md (2.0 KB)
+mcp/tsconfig.package.template.json (0.7 KB)
+mcp/tsconfig.root.template.json (1.1 KB)
 memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (24.5 KB)
@@ -899,8 +917,8 @@ optimization/begin.yaml (2.5 KB)
 optimization/continuation.yaml (2.4 KB)
 optimization/MEMORY.yaml (3.7 KB)
 optimization/schemas/output-contract.schema.json (1.8 KB)
-package.json (1.0 KB)
-packages/context-engine/package.json (0.4 KB)
+package.json (1.5 KB)
+packages/context-engine/package.json (0.9 KB)
 packages/context-engine/src/engine-branches.test.ts (27.5 KB)
 packages/context-engine/src/engine-branches2.test.ts (7.6 KB)
 packages/context-engine/src/engine-branches3.test.ts (7.5 KB)
@@ -910,14 +928,14 @@ packages/context-engine/src/engine.ts (19.0 KB)
 packages/context-engine/src/index.ts (0.1 KB)
 packages/context-engine/src/types.ts (2.7 KB)
 packages/context-engine/tsconfig.json (0.2 KB)
-packages/generator-core/package.json (0.4 KB)
+packages/generator-core/package.json (1.1 KB)
 packages/generator-core/src/file-excerpt-utils.ts (5.4 KB)
 packages/generator-core/src/fw-helpers.ts (0.5 KB)
-packages/generator-core/src/generate-programs.test.ts (12.3 KB)
+packages/generator-core/src/generate-programs.test.ts (12.9 KB)
 packages/generator-core/src/generate-symbol-index.test.ts (10.0 KB)
 packages/generator-core/src/generate-validation.test.ts (8.8 KB)
 packages/generator-core/src/generate.test.ts (67.6 KB)
-packages/generator-core/src/generate.ts (19.7 KB)
+packages/generator-core/src/generate.ts (22.7 KB)
 packages/generator-core/src/generator-alt-profiles.test.ts (17.0 KB)
 packages/generator-core/src/generator-branches.test.ts (217.7 KB)
 packages/generator-core/src/generator-sourcefile-branches.test.ts (20.9 KB)
@@ -941,11 +959,13 @@ packages/generator-core/src/generator-sourcefile-branches7.test.ts (36.7 KB)
 packages/generator-core/src/generator-sourcefile-branches8.test.ts (49.1 KB)
 packages/generator-core/src/generator-sourcefile-branches9.test.ts (33.5 KB)
 packages/generator-core/src/generators-agentic-purchasing.test.ts (52.9 KB)
-packages/generator-core/src/generators-agentic-purchasing.ts (60.1 KB)
+packages/generator-core/src/generators-agentic-purchasing.ts (61.2 KB)
 packages/generator-core/src/generators-algorithmic.ts (26.2 KB)
 packages/generator-core/src/generators-artifacts.ts (28.2 KB)
 packages/generator-core/src/generators-brand.ts (32.2 KB)
 packages/generator-core/src/generators-canvas.ts (27.1 KB)
+packages/generator-core/src/generators-closer.test.ts (6.9 KB)
+packages/generator-core/src/generators-closer.ts (28.3 KB)
 packages/generator-core/src/generators-debug.ts (42.0 KB)
 packages/generator-core/src/generators-frontend.ts (27.6 KB)
 packages/generator-core/src/generators-marketing.ts (35.4 KB)
@@ -960,11 +980,14 @@ packages/generator-core/src/generators-seo.ts (35.8 KB)
 packages/generator-core/src/generators-skills.ts (42.7 KB)
 packages/generator-core/src/generators-superpowers.ts (37.4 KB)
 packages/generator-core/src/generators-theme.ts (45.9 KB)
-packages/generator-core/src/index.ts (3.4 KB)
+packages/generator-core/src/index.ts (4.0 KB)
 packages/generator-core/src/pipeline.test.ts (9.7 KB)
 packages/generator-core/src/types.ts (0.6 KB)
 packages/generator-core/tsconfig.json (0.2 KB)
-packages/repo-parser/package.json (0.4 KB)
+packages/mpp/package.json (0.9 KB)
+packages/mpp/src/index.ts (12.7 KB)
+packages/mpp/tsconfig.json (0.2 KB)
+packages/repo-parser/package.json (0.9 KB)
 packages/repo-parser/src/domain-extractor.test.ts (7.7 KB)
 packages/repo-parser/src/domain-extractor.ts (6.7 KB)
 packages/repo-parser/src/framework-detector.test.ts (13.7 KB)
@@ -988,11 +1011,11 @@ packages/sdk/package.json (0.4 KB)
 packages/sdk/src/index.test.ts (11.3 KB)
 packages/sdk/src/index.ts (7.4 KB)
 packages/sdk/tsconfig.json (0.2 KB)
-packages/snapshots/package.json (0.4 KB)
+packages/snapshots/package.json (0.9 KB)
 packages/snapshots/src/b-grade-upgrade.test.ts (8.4 KB)
 packages/snapshots/src/billing-edge-cases.test.ts (14.5 KB)
 packages/snapshots/src/billing-store.ts (13.1 KB)
-packages/snapshots/src/billing-types.ts (3.9 KB)
+packages/snapshots/src/billing-types.ts (4.0 KB)
 packages/snapshots/src/billing.test.ts (12.2 KB)
 packages/snapshots/src/coverage-gaps.test.ts (22.8 KB)
 packages/snapshots/src/db-maintenance.test.ts (6.7 KB)
@@ -1083,28 +1106,6 @@ payment-processing-output/poster-layouts.md (2.8 KB)
 payment-processing-output/prompt-diff-report.md (1.4 KB)
 payment-processing-output/refactor-checklist.md (2.0 KB)
 payment-processing-output/remotion-script.ts (3.5 KB)
-payment-processing-output/render-config.json (1.2 KB)
-payment-processing-output/research-threads.md (2.3 KB)
-payment-processing-output/root-cause-checklist.md (2.9 KB)
-payment-processing-output/route-priority-map.md (1.0 KB)
-payment-processing-output/scene-plan.md (2.1 KB)
-payment-processing-output/schema-recommendations.json (0.5 KB)
-payment-processing-output/sequence-pack.md (1.7 KB)
-payment-processing-output/server-manifest.yaml (2.8 KB)
-payment-processing-output/social-pack.md (1.6 KB)
-payment-processing-output/source-map.json (4.8 KB)
-payment-processing-output/storyboard.md (4.5 KB)
-payment-processing-output/study-brief.md (2.4 KB)
-payment-processing-output/superpower-pack.md (1.9 KB)
-payment-processing-output/template-pack.md (2.1 KB)
-payment-processing-output/test-generation-rules.md (2.0 KB)
-payment-processing-output/theme-guidelines.md (5.6 KB)
-payment-processing-output/theme.css (6.4 KB)
-payment-processing-output/token-budget-plan.md (2.3 KB)
-payment-processing-output/tracing-rules.md (1.4 KB)
-payment-processing-output/ui-audit.md (2.2 KB)
-payment-processing-output/variation-matrix.json (6.9 KB)
-payment-processing-output/vault-rules.md (2.1 KB)
 ```
 
 ## Entry Points (Source)
@@ -1138,11 +1139,11 @@ import {
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
   handleAgenticPurchasingGenerate,
+  handleCloserGenerate,
   handleGitHubAnalyze,
   handleAnalyze,
   handlePreparePurchasing,
-  handleWellKnown,
-... (405 more lines)
+... (407 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -1227,8 +1228,54 @@ export { generateComponent, generateDashboardWidget, generateEmbedSnippet, gener
 export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
 export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
 export { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest, generateVariationMatrix } from "./generators-algorithmic.js";
-export { generateAgentPurchasingPlaybook, generateProductSchema, generateCheckoutFlow, generateNegotiationRules, generateCommerceRegistry } from "./generators-agentic-purchasing.js";
+export { generateAgentPurchasingPlaybook, generateProductSchema, generateCheckoutFlow, generateNegotiationRules, generateCommerceRegistry, computeComplianceGrade } from "./generators-agentic-purchasing.js";
+export type { ComplianceGradeResult } from "./generators-agentic-purchasing.js";
+export {
+	generatePackagingReadme,
+	generatePackagingLicense,
+	generateCloserDockerfile,
+	generateCloserDockerCompose,
+	generateCloserCiWorkflow,
+	generateCloserReleaseWorkflow,
+	generateCloserManifestNpm,
+	generateCloserManifestUnreal,
+... (10 more lines)
+```
 
+### `packages/mpp/src/index.ts`
+
+```typescript
+/**
+ * @axis/mpp — Machine Payments Protocol (MPP) utilities
+ *
+ * Pure-protocol layer for x402/MPP budget negotiation. Drop this into any
+ * Node.js HTTP server to speak the Axis agent-commerce protocol:
+ *
+ *   1. Parse incoming X-Agent-Budget / X-Agent-Mode headers
+ *   2. Negotiate a price the agent can afford
+ *   3. Build a 402 body the agent can parse and act on
+ *
+ * For Stripe/crypto charging, use the server-side `chargeMpp()` in `@axis/api`
+ * (which depends on the `mppx` runtime library).
+ *
+ * @example
+ * ```ts
+ * import { parseAgentBudget, negotiatePrice, build402NegotiationBody } from "@axis/mpp";
+ *
+ * const budget = parseAgentBudget(req);
+ * const { amount_cents, mode, accepted } = negotiatePrice(budget ?? {}, "analyze_repo");
+ * if (!accepted) {
+ *   res.writeHead(402, { "Content-Type": "application/json" });
+ *   res.end(JSON.stringify(build402NegotiationBody("analyze_repo", budget)));
+ * }
+ * ```
+ */
+
+import type { IncomingMessage } from "node:http";
+
+// ─── Types ────────────────────────────────────────────────────────
+
+... (277 more lines)
 ```
 
 ### `packages/repo-parser/src/index.ts`
@@ -1349,6 +1396,7 @@ export {
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
+    "@axis/mpp": "workspace:*",
     "@axis/repo-parser": "workspace:*",
     "@axis/snapshots": "workspace:*",
     "@jmondi/oauth2-server": "^4.2.2",
@@ -1359,8 +1407,7 @@ export {
     "@types/better-sqlite3": "^7.6.13",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.0.0",
-    "ts-node": "^10.9.2",
-... (4 more lines)
+... (5 more lines)
 ```
 
 ### `apps/api/tsconfig.json`
@@ -1501,6 +1548,68 @@ export default defineConfig({
 
 ```
 
+### `mcp/tsconfig.package.template.json`
+
+```json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "ES2022"
+    ],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@packages/*": [
+        "../*/src"
+      ]
+... (11 more lines)
+```
+
+### `mcp/tsconfig.root.template.json`
+
+```json
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "ES2022"
+    ],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@apps/*": [
+        "apps/*/src"
+... (35 more lines)
+```
+
 ### `package.json`
 
 ```json
@@ -1509,27 +1618,27 @@ export default defineConfig({
   "version": "0.5.2",
   "private": true,
   "type": "module",
-  "description": "Axis — The operating system for AI-native development",
-  "scripts": {
-    "dev": "pnpm --filter @axis/api dev",
-    "build": "pnpm -r build",
-    "test": "pnpm -r test",
-    "test:coverage": "npx vitest run --coverage",
-    "lint": "pnpm -r lint",
-    "generate-posts": "node scripts/generate-posts.js",
-    "post-content": "node scripts/post-content.js",
-    "test-webhook": "node scripts/test-webhook-server.js",
-    "setup-posting": "node scripts/setup-posting.js",
-    "regenerate": "pwsh scripts/regenerate.ps1",
-    "regenerate:sh": "bash scripts/regenerate.sh"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-... (12 more lines)
+  "description": "Axis' Iliad — one API call that turns any codebase into 99 deterministic AI-agent-ready artifacts (AGENTS.md, CLAUDE.md, design tokens, Visa CE 3.0 compliance kit, MCP configs, and more)",
+  "keywords": [
+    "ai",
+    "agents",
+    "mcp",
+    "codebase-analysis",
+    "artifact-generation",
+    "agents-md",
+    "claude-md",
+    "cursorrules",
+    "llm-context",
+    "visa-compliance",
+    "x402",
+    "ap2",
+    "agentic-commerce"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git"
+... (33 more lines)
 ```
 
 ### `packages/context-engine/package.json`
@@ -1538,25 +1647,29 @@ export default defineConfig({
 {
   "name": "@axis/context-engine",
   "version": "0.5.2",
-  "private": true,
   "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
+  "description": "Context map and repo profile builders — transforms parsed code into structured LLM context",
+  "keywords": ["codebase", "context", "ai", "llm", "repo-profile", "context-map", "mcp", "agent"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/context-engine"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc",
     "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/snapshots": "workspace:*",
-    "@axis/repo-parser": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
-  }
-}
-
+... (8 more lines)
 ```
 
 ### `packages/context-engine/tsconfig.json`
@@ -1580,23 +1693,29 @@ export default defineConfig({
 {
   "name": "@axis/generator-core",
   "version": "0.5.2",
-  "private": true,
   "type": "module",
+  "description": "102 generators across 18 programs — produces AGENTS.md, CLAUDE.md, .cursorrules, design tokens, Visa compliance artifacts, and 99 more structured AI-agent files from any codebase",
+  "keywords": ["codegen", "ai", "agents", "mcp", "llm", "agents-md", "cursorrules", "design-tokens", "compliance", "visa", "ap2", "artifact-generation"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/generator-core"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
-    "@axis/snapshots": "workspace:*",
-    "@axis/repo-parser": "workspace:*",
-    "@axis/context-engine": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.0"
-  }
-}
-
+... (9 more lines)
 ```
 
 ### `packages/generator-core/tsconfig.json`
@@ -1614,30 +1733,81 @@ export default defineConfig({
 
 ```
 
+### `packages/mpp/package.json`
+
+```json
+{
+  "name": "@axis/mpp",
+  "version": "0.5.2",
+  "type": "module",
+  "description": "Machine Payments Protocol (MPP) — x402 budget negotiation and AP2 pricing utilities for MCP/AI agent servers",
+  "keywords": [
+    "mpp",
+    "x402",
+    "machine-payments",
+    "agent-commerce",
+    "budget-negotiation",
+    "mcp",
+    "ai-agents",
+    "agentic-commerce",
+    "payment-protocol"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/mpp"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+... (14 more lines)
+```
+
+### `packages/mpp/tsconfig.json`
+
+```json
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}
+
+```
+
 ### `packages/repo-parser/package.json`
 
 ```json
 {
   "name": "@axis/repo-parser",
   "version": "0.5.2",
-  "private": true,
   "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
+  "description": "Language/framework detection, import graph, domain model extraction — the analysis core of Axis' Iliad",
+  "keywords": ["codebase", "analysis", "ai", "context", "language-detection", "framework-detection", "import-graph", "mcp", "llm"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/repo-parser"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc",
     "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "@axis/snapshots": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
-  }
-}
-
+... (7 more lines)
 ```
 
 ### `packages/repo-parser/tsconfig.json`
@@ -1703,26 +1873,29 @@ export default defineConfig({
 {
   "name": "@axis/snapshots",
   "version": "0.5.2",
-  "private": true,
   "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
+  "description": "Versioned codebase snapshot store with SQLite persistence, diff support, billing types, and funnel tracking — the storage layer for Axis' Iliad",
+  "keywords": ["snapshot", "versioning", "sqlite", "codebase", "diff", "ai", "agent"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/snapshots"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc",
     "test": "echo skipped — run vitest from root"
   },
   "dependencies": {
     "better-sqlite3": "^12.8.0",
-    "uuid": "^11.1.0"
-  },
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/node": "^22.0.0",
-    "typescript": "^5.7.0"
-  }
-}
-
+... (9 more lines)
 ```
 
 ### `packages/snapshots/tsconfig.json`
@@ -1741,4 +1914,4 @@ export default defineConfig({
 ```
 
 ---
-*Generated by Axis Search — 2026-05-07*
+*Generated by Axis Search — 2026-05-08*

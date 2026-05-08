@@ -4,12 +4,12 @@
 
 ## Project Synopsis
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Architecture Overview
 
-- **Files**: 500 files across 57 directories
-- **Lines of Code**: 126,554
+- **Files**: 500 files across 61 directories
+- **Lines of Code**: 129,183
 - **Primary Language**: TypeScript
 - **Frameworks**: React
 - **Patterns**: monorepo, containerized
@@ -40,12 +40,13 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Dependency Snapshot
 
-Total external dependencies: **26**
+Total external dependencies: **27**
 
 | Package | Version |
 |---------|---------|
 | @axis/context-engine | workspace:* |
 | @axis/generator-core | workspace:* |
+| @axis/mpp | workspace:* |
 | @axis/repo-parser | workspace:* |
 | @axis/snapshots | workspace:* |
 | @jmondi/oauth2-server | ^4.2.2 |
@@ -53,8 +54,7 @@ Total external dependencies: **26**
 | mppx | ^0.5.12 |
 | jszip | ^3.10.1 |
 | react | ^19.1.0 |
-| react-dom | ^19.1.0 |
-| ... | +16 more |
+| ... | +17 more |
 
 ## Entry Point Source
 
@@ -64,8 +64,8 @@ Total external dependencies: **26**
 | `apps/web/src/App.tsx` | export function App() { ... } |
 | `apps/web/src/main.tsx` | default |
 | `packages/context-engine/src/index.ts` | export type { ... }, export { ... } |
-| `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... } |
-| `packages/repo-parser/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
+| `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... } |
+| `packages/mpp/src/index.ts` | export type ChargeOptions = ..., export type MppResult = ..., export interface AgentBudget { ... }, export interface PricingTier { ... }, export interface Build402Options { ... }, export const PRICING_TIERS: Record<string, PricingTier> = ..., export const LEGACY_TOOL_ALIASES: Record<string, string> = ..., export function getPricingTier(tool: string): PricingTier { ... }, export function negotiatePrice(, export function build402NegotiationBody(, export function parseAgentBudget(req: IncomingMessage): AgentBudget | undefined { ... }, export function resolveAgentMode(req: IncomingMessage): "standard" | "lite" { ... } |
 
 ## Configuration Files
 
@@ -98,8 +98,8 @@ Total external dependencies: **26**
   "dependencies": {
     "@axis/context-engine": "workspace:*",
     "@axis/generator-core": "workspace:*",
-    "@axis/repo-parser": "workspace:*",
-... (14 more lines)
+    "@axis/mpp": "workspace:*",
+... (15 more lines)
 ```
 
 ### `apps/api/tsconfig.json`

@@ -1,10 +1,10 @@
 # Artifact Specification — axis-iliad
 
-Generated: 2026-05-07T23:19:38.305Z
+Generated: 2026-05-08T19:58:35.489Z
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 202 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
 
 ## Detected Stack
 
@@ -23,12 +23,12 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Language Distribution
 
-- **TypeScript**: 73.9% ███████████████ (262 files, 85493 LOC)
-- **JSON**: 9.8% ██ (63 files, 11394 LOC)
-- **YAML**: 7.4% █ (55 files, 8584 LOC)
-- **Markdown**: 6.8% █ (96 files, 7907 LOC)
-- **JavaScript**: 1.1% █ (7 files, 1313 LOC)
-- **CSS**: 0.7% █ (2 files, 849 LOC)
+- **TypeScript**: 73.4% ███████████████ (265 files, 86808 LOC)
+- **JSON**: 9.7% ██ (66 files, 11479 LOC)
+- **YAML**: 7.8% ██ (58 files, 9249 LOC)
+- **Markdown**: 6.6% █ (87 files, 7865 LOC)
+- **JavaScript**: 1.8% █ (8 files, 2093 LOC)
+- **CSS**: 0.6% █ (1 files, 675 LOC)
 - **HTML**: 0.1% █ (1 files, 120 LOC)
 - **Dockerfile**: 0% █ (1 files, 53 LOC)
 
@@ -71,6 +71,7 @@ When generating artifacts for this project:
 
 - `@axis/context-engine` @ workspace:*
 - `@axis/generator-core` @ workspace:*
+- `@axis/mpp` @ workspace:*
 - `@axis/repo-parser` @ workspace:*
 - `@axis/snapshots` @ workspace:*
 - `@jmondi/oauth2-server` @ ^4.2.2
@@ -78,7 +79,6 @@ When generating artifacts for this project:
 - `mppx` @ ^0.5.12
 - `jszip` @ ^3.10.1
 - `react` @ ^19.1.0
-- `react-dom` @ ^19.1.0
 
 ## Source Entry Points
 
@@ -88,10 +88,10 @@ When generating artifacts for this project:
 | `apps/web/src/App.tsx` | export function App() { ... } |
 | `apps/web/src/main.tsx` | default |
 | `packages/context-engine/src/index.ts` | export type { ... }, export { ... } |
-| `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... } |
+| `packages/generator-core/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... } |
+| `packages/mpp/src/index.ts` | export type ChargeOptions = ..., export type MppResult = ..., export interface AgentBudget { ... }, export interface PricingTier { ... }, export interface Build402Options { ... }, export const PRICING_TIERS: Record<string, PricingTier> = ..., export const LEGACY_TOOL_ALIASES: Record<string, string> = ..., export function getPricingTier(tool: string): PricingTier { ... }, export function negotiatePrice(, export function build402NegotiationBody(, export function parseAgentBudget(req: IncomingMessage): AgentBudget | undefined { ... }, export function resolveAgentMode(req: IncomingMessage): "standard" | "lite" { ... } |
 | `packages/repo-parser/src/index.ts` | export type { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
 | `packages/sdk/src/index.ts` | export interface AxisClientOptions { ... }, export interface FileEntry { ... }, export interface AnalyzeFilesInput { ... }, export interface AnalyzeRepoInput { ... }, export interface ArtifactEntry { ... }, export interface SnapshotResult { ... }, export interface HealthResponse { ... }, export interface McpToolCallResult { ... }, export interface OpenApiSpec { ... }, export class AxisClient { ... } |
-| `packages/snapshots/src/index.ts` | export type { ... }, export { ... }, export { ... }, export type { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export type { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... }, export { ... }, export type { ... } |
 
 ## Reference Entry Point
 
@@ -117,8 +117,18 @@ export { generateComponent, generateDashboardWidget, generateEmbedSnippet, gener
 export { generateRemotionScript, generateScenePlan, generateRenderConfig, generateAssetChecklist, generateStoryboard } from "./generators-remotion.js";
 export { generateCanvasSpec, generateSocialPack, generatePosterLayouts, generateCanvasAssetGuidelines, generateBrandBoard } from "./generators-canvas.js";
 export { generateGenerativeSketch, generateParameterPack, generateCollectionMap, generateExportManifest, generateVariationMatrix } from "./generators-algorithmic.js";
-export { generateAgentPurchasingPlaybook, generateProductSchema, generateCheckoutFlow, generateNegotiationRules, generateCommerceRegistry } from "./generators-agentic-purchasing.js";
-
+export { generateAgentPurchasingPlaybook, generateProductSchema, generateCheckoutFlow, generateNegotiationRules, generateCommerceRegistry, computeComplianceGrade } from "./generators-agentic-purchasing.js";
+export type { ComplianceGradeResult } from "./generators-agentic-purchasing.js";
+export {
+	generatePackagingReadme,
+	generatePackagingLicense,
+	generateCloserDockerfile,
+	generateCloserDockerCompose,
+	generateCloserCiWorkflow,
+	generateCloserReleaseWorkflow,
+	generateCloserManifestNpm,
+	generateCloserManifestUnreal,
+... (10 more lines)
 ```
 
 ## Component Signatures
