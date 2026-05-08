@@ -460,6 +460,37 @@ function buildDisputeFlowSection(signals: CommerceSignals): string {
 
 // ─── 1. Agent Purchasing Playbook ────────────────────────────────
 
+// ─── Public API: Compliance Grade ────────────────────────────────
+
+export interface ComplianceGradeResult {
+  grade: "A" | "B" | "C" | "D";
+  checks_passed: number;
+  checks_total: 8;
+}
+
+/**
+ * Compute the AP2/Visa compliance grade for a set of source files.
+ * Returns a { grade, checks_passed, checks_total } summary.
+ * Safe to call with undefined/empty — returns grade "D" with 0 checks passed.
+ */
+export function computeComplianceGrade(files: SourceFile[] | undefined): ComplianceGradeResult {
+  const signals = detectCommerceSignals(files);
+  const checks = [
+    signals.detected_providers.length > 0,
+    signals.has_checkout,
+    signals.has_sca,
+    signals.has_dispute_handling,
+    signals.has_webhooks,
+    signals.has_network_tokenization,
+    signals.has_mandate_management,
+    signals.has_tap_protocol,
+  ];
+  const checks_passed = checks.filter(Boolean).length;
+  const grade: "A" | "B" | "C" | "D" =
+    checks_passed >= 6 ? "A" : checks_passed >= 4 ? "B" : checks_passed >= 2 ? "C" : "D";
+  return { grade, checks_passed, checks_total: 8 };
+}
+
 export function generateAgentPurchasingPlaybook(
   ctx: ContextMap,
   _profile: RepoProfile,

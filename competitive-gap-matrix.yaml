@@ -1,0 +1,631 @@
+# competitive-gap-matrix.yaml
+# Canonical competitive intelligence + gap-to-complete register.
+# Generated: 2026-05-07
+# Method: live pricing pages + E2E-validated AXIS capability inventory.
+# Update policy: re-run competitive fetch before any strategy session.
+# Authority: overrides all prior ad-hoc competitive notes.
+
+meta:
+  generated_at: "2026-05-07"
+  axis_version: "0.5.2"
+  axis_commit: "session_099"
+  source_pages_verified:
+    - "https://www.coderabbit.ai/pricing"
+    - "https://context7.com/plans"
+    - "https://cursor.com/pricing"
+    - "https://glama.ai"
+    - "https://repomix.com"
+    - "https://www.mintlify.com"
+
+# ─── Competitor Profiles ─────────────────────────────────────────────────────
+
+competitors:
+
+  - id: context7
+    name: "Context7 (Upstash)"
+    url: "https://context7.com"
+    category: "LLM docs-injection MCP tool"
+    core_value_prop: >
+      Injects live, version-specific library documentation into LLM context via MCP.
+      Prevents hallucinated APIs by pulling real docs at query time.
+    delivery_surface:
+      - MCP server
+      - REST API
+    ai_agent_native: true
+    payment_protocol: none
+    mcp_support: true
+    self_propagating: false
+    deterministic_output: false
+    repo_analysis: false     # docs only, not source code
+    artifact_generation: false
+    compliance_layer: false
+    referral_virality: false
+    backing: "Upstash Inc. (Silicon Valley, enterprise customers)"
+
+    pricing:
+      model: "seat-based subscription + overage per 1K calls"
+      free_tier:
+        calls_per_month: 1000
+        price_usd: 0
+        block_behavior: "Hard block after limit; 20 bonus calls/day until month reset"
+      pro_tier:
+        price_usd_per_seat_per_month: 10
+        included_calls_per_seat: 5000
+        overage_per_1000_calls_usd: 10
+        private_repo_parsing_per_1m_tokens_usd: 25
+      enterprise_tier:
+        price_usd_per_seat_per_month_range: "2.50–30"
+        included_calls_per_seat: 5000
+        overage_per_1000_calls_usd: 10
+        soc2: true
+        sso: true
+        self_hosted: true
+      per_call_blended_usd: 0.002   # $10 / 5K calls at Pro tier
+
+    scale_signals:
+      libraries_indexed: 97000
+      customers_est: "enterprise Upstash base"
+      npm_weekly_downloads: null
+
+    axis_gaps_vs_this_competitor:
+      axis_advantages:
+        - "AXIS generates artifacts (AGENTS.md, CLAUDE.md, design tokens) — not just retrieves docs"
+        - "AXIS analyzes source code structure, domain models, architecture layers"
+        - "AXIS has x402/MPP budget negotiation — agent-autonomous billing"
+        - "AXIS has Visa-grade compliance kit (SCA, CE 3.0, dispute lifecycle)"
+        - "AXIS is deterministic — same repo → byte-identical output (cacheable, auditable)"
+        - "AXIS self-propagates — every artifact instructs next agent to reconnect"
+      axis_gaps_to_close:
+        - id: gap_c7_001
+          description: >
+            Seat-based subscription tier for teams. Context7 monetizes developers
+            via $10/seat/mo with included call bundles. AXIS has no monthly subscription
+            for continuous access — only per-call. Teams of 5–20 developers need
+            a subscription path, not per-call counting.
+          strategy: strategy_2_codebase_intelligence_api
+          priority: HIGH
+          gap_type: pricing_model
+          cost_to_build: low   # pricing config + billing webhook only
+
+        - id: gap_c7_002
+          description: >
+            Overage billing for high-volume consumers. Context7's $10/1K calls overage
+            gives the Pro tier an unlimited feel. AXIS has no equivalent safety valve —
+            a high-frequency CI pipeline would exhaust per-call credits unpredictably.
+          strategy: strategy_2_codebase_intelligence_api
+          priority: HIGH
+          gap_type: pricing_model
+          cost_to_build: low
+
+        - id: gap_c7_003
+          description: >
+            SOC-2 + SSO for enterprise path. Context7 Enterprise has SOC-2 certification
+            and SAML/OIDC SSO. AXIS has no SOC-2 posture documented. Blocks enterprise
+            procurement conversations.
+          strategy: strategy_3_compliance_artifact_compiler
+          priority: MEDIUM
+          gap_type: compliance_posture
+          cost_to_build: high   # certification takes 3–6 months
+
+        - id: gap_c7_004
+          description: >
+            Private repo token-based billing. Context7 charges $25/1M tokens for private
+            repo parsing — a transparent compute cost. AXIS has no equivalent
+            "private repo surcharge" signal that communicates why private repos cost more.
+          strategy: strategy_2_codebase_intelligence_api
+          priority: LOW
+          gap_type: pricing_transparency
+          cost_to_build: low
+
+  - id: coderabbit
+    name: "CodeRabbit"
+    url: "https://www.coderabbit.ai"
+    category: "AI PR code review + Slack agent"
+    core_value_prop: >
+      AI-powered pull request review that comments on code quality, bugs, and best
+      practices. Slack agent bills per active runtime minute for autonomous task execution.
+    delivery_surface:
+      - GitHub / GitLab app
+      - IDE extension
+      - CLI
+      - Slack agent
+    ai_agent_native: partial   # agent billing on Slack; PR review is async AI
+    payment_protocol: none
+    mcp_support: true          # MCP connections: 5 (Pro), 15 (Pro Plus)
+    self_propagating: false
+    deterministic_output: false
+    repo_analysis: true        # PR diff context, codebase graph
+    artifact_generation: false # comments/suggestions only, no structured files
+    compliance_layer: false
+    referral_virality: false
+    backing: "VC-backed; NVIDIA, Adyen, Swiggy customers; 15K+ orgs, 3M+ repos"
+
+    pricing:
+      model: "seat-based SaaS + usage-based Slack agent minutes"
+      free_tier:
+        price_usd: 0
+        includes: "PR summarization, OSS repos unlimited"
+        mcp_connections: 0
+      pro_tier:
+        price_usd_per_seat_per_month: 24
+        rate_limit_reviews_per_hour: 10
+        mcp_connections: 5
+        linked_repo_analyses: 1
+      pro_plus_tier:
+        price_usd_per_seat_per_month: 48
+        mcp_connections: 15
+        linked_repo_analyses: 10
+        custom_pre_merge_checks: 20
+      enterprise_tier:
+        price: "custom"
+        features: [SSO, RBAC, self-hosting, API access, multi-org, SLA support]
+      slack_agent:
+        price_per_agent_minute_usd: 0.50
+        billing: "active runtime only; no cold-start charges"
+        use_cases: [incident_investigation, task_automation, code_generation, PR_creation]
+      usage_based_addon:
+        description: "Unrestricted CLI and PR reviews for agentic coding loops"
+        billing: "credits (one-time or monthly subscription)"
+
+    scale_signals:
+      customers_orgs: 15000
+      repos: 3000000
+      notable_customers: ["NVIDIA", "Adyen", "Swiggy", "Square"]
+      arr_est_usd: "30–50M"
+
+    axis_gaps_vs_this_competitor:
+      axis_advantages:
+        - "AXIS generates structured artifact files, not ephemeral PR comments"
+        - "AXIS x402 protocol is more advanced than CodeRabbit's Slack per-minute billing"
+        - "AXIS compliance artifacts are deterministic and auditable; CR reviews are not"
+        - "AXIS covers 18 programs (brand, marketing, Obsidian, canvas) far beyond code review"
+        - "AXIS's $0.50/run is the same price as CodeRabbit's $0.50/agent-minute but generates 99 artifacts vs one review cycle"
+      axis_gaps_to_close:
+        - id: gap_cr_001
+          description: >
+            GitHub App for continuous repo monitoring. CodeRabbit installs as a GitHub App
+            and fires on every PR event. AXIS has no GitHub App — analysis is
+            on-demand (API call or CLI). This is the single biggest distribution gap.
+            Every repo that installs CodeRabbit is in CodeRabbit's funnel; AXIS has no
+            equivalent install-and-forget trigger.
+          strategy: strategy_2_codebase_intelligence_api
+          priority: CRITICAL
+          gap_type: distribution_channel
+          cost_to_build: medium   # GitHub App manifest + webhook handler
+
+        - id: gap_cr_002
+          description: >
+            Per-seat team billing. CodeRabbit's $24/seat model aligns cost to
+            organizational headcount. AXIS has no seat concept — it's either
+            per-call or $29/mo flat Pro. A 20-person team pays the same as a
+            solo dev, which is incorrect pricing leverage.
+          strategy: strategy_2_codebase_intelligence_api
+          priority: HIGH
+          gap_type: pricing_model
+          cost_to_build: low
+
+        - id: gap_cr_003
+          description: >
+            PR review surface. CodeRabbit integrates into the PR workflow — annotating
+            diffs, suggesting fixes inline. AXIS does not participate in the PR review
+            cycle at all. This is a high-frequency touchpoint (every PR) vs AXIS's
+            low-frequency analysis (per repo snapshot).
+          strategy: strategy_2_codebase_intelligence_api
+          priority: MEDIUM
+          gap_type: feature_surface
+          cost_to_build: high    # deep GitHub API integration
+
+        - id: gap_cr_004
+          description: >
+            Usage-based credit pack for agentic loops. CodeRabbit sells credits for
+            "unrestricted CLI and PR reviews across every agentic coding loop."
+            AXIS has no credit pack product — only per-call pay-as-you-go and Pro subscription.
+            Agentic frameworks need predictable bulk pricing.
+          strategy: strategy_1_x402_mcp_gateway
+          priority: HIGH
+          gap_type: pricing_model
+          cost_to_build: low
+
+        - id: gap_cr_005
+          description: >
+            Linked repository analyses (cross-repo context). CodeRabbit Pro Plus has
+            10 linked repo analyses — it can review a PR with context from 10 other repos.
+            AXIS snapshots are single-repo; no cross-repo context graph exists yet.
+          strategy: strategy_2_codebase_intelligence_api
+          priority: LOW
+          gap_type: feature_surface
+          cost_to_build: high
+
+# ─── Strategy Targets ────────────────────────────────────────────────────────
+
+strategy_targets:
+
+  - id: strategy_1_x402_mcp_gateway
+    name: "Agent-to-Agent Commerce Layer (x402 as the product)"
+    description: >
+      Stop treating x402 as a gate in front of analyze_repo and start selling
+      the x402/MPP protocol infrastructure as a platform. Other MCP server authors
+      have no standard way to charge agents. AXIS ships mppx as the open-source
+      payment primitive; AXIS becomes the clearing gateway for MCP monetization.
+    revenue_model:
+      primary: "Transaction fee 0.5–2% on negotiated payments routed through AXIS gateway"
+      secondary: "$X/mo hosted MCP endpoint subscription (covers infrastructure)"
+      tertiary: "Enterprise: annual contract for MCP fleet management + SLA"
+    real_world_revenue_examples:
+      - "Stripe: $0.029/transaction → $95B company. Same primitive, different layer."
+      - "CodeRabbit Slack agent: $0.50/agent-minute — exact pricing-per-agent-action pattern"
+      - "Twilio: per-message API became billing platform for thousands of SaaS apps"
+    at_cost_pricing:
+      mcp_endpoint_hosting_per_month_usd: 9      # cost basis: ~$3–5 infra + $4 margin
+      gateway_transaction_fee_percent: 1.0        # 1% of negotiated amount, min $0.001
+      free_tier_endpoints: 1
+      free_tier_calls_per_month: 500
+    axis_current_coverage:
+      has_x402_protocol: true
+      has_budget_negotiation: true
+      has_mppx_integration: true
+      has_tempo_crypto: true
+      has_stripe_spt: true
+      missing:
+        - id: gap_s1_001
+          description: >
+            mppx as publishable npm package with zero-config Express/Hono/Fastify middleware.
+            Currently mppx lives inside mpp.ts. To become a platform, other devs need
+            `npm install @axis/mpp` with a 5-line integration guide.
+          priority: CRITICAL
+          cost_to_build: medium
+          oss_blocker: true
+
+        - id: gap_s1_002
+          description: >
+            MCP server monetization starter kit. A template repo + README showing
+            how to add x402 billing to any MCP server in < 30 minutes.
+          priority: HIGH
+          cost_to_build: low
+          oss_blocker: false
+
+        - id: gap_s1_003
+          description: >
+            Gateway dashboard — per-endpoint call logs, revenue summary, payout history.
+            Currently AXIS has no UI for third-party MCP server operators.
+          priority: HIGH
+          cost_to_build: medium
+          oss_blocker: false
+
+        - id: gap_s1_004
+          description: >
+            Webhook registry — when a payment is validated, emit a signed webhook to
+            the MCP server operator so they can fulfill the request. Currently AXIS
+            fulfills its own requests only.
+          priority: MEDIUM
+          cost_to_build: medium
+          oss_blocker: false
+
+  - id: strategy_2_codebase_intelligence_api
+    name: "Codebase Intelligence API (second brain per repo)"
+    description: >
+      The snapshot API is already a versioned, queryable codebase index.
+      Sell enterprise teams a private, hosted version where their CI pipeline
+      calls POST /v1/snapshots on every merge, accumulating a rolling indexed
+      history. Expose query endpoints and compliance grades as a CI gate.
+    revenue_model:
+      primary: "$15/repo/mo subscription (CI webhook, rolling 30-day snapshot history)"
+      secondary: "$30–60/seat/mo for teams needing cross-repo context + search"
+      tertiary: "GitHub App install → free trial → seat conversion (CodeRabbit model)"
+    real_world_revenue_examples:
+      - "CodeRabbit: 0→15K customers, 3M repos via GitHub App install funnel at $24/seat/mo"
+      - "Sourcegraph: $50–80/user/mo for private codebase index + semantic search → $2.6B valuation"
+      - "Context7: $10/seat/mo for doc retrieval → fast adoption via MCP ecosystem"
+    at_cost_pricing:
+      repo_subscription_per_month_usd: 15       # cost basis: ~$0.50 × 20 pushes/mo = $10 + $5 storage
+      team_seat_per_month_usd: 30               # cost basis: $15/repo + $5 seat overhead + $10 margin
+      snapshot_overage_per_run_usd: 0.25        # lite snapshot on push (reduced output)
+      ci_webhook_free_repos_per_account: 1
+      historical_snapshot_retention_days: 30
+    axis_current_coverage:
+      has_snapshot_versioning: true
+      has_diff_endpoint: true
+      has_context_api: true
+      has_generated_files_serving: true
+      has_project_context: true
+      missing:
+        - id: gap_s2_001
+          description: >
+            GitHub App manifest + webhook handler. On push event → call POST /v1/snapshots
+            with repo ZIP → store → return snapshot_id to CI. This is the distribution
+            gap that separates AXIS from CodeRabbit's 3M-repo install base.
+          priority: CRITICAL
+          cost_to_build: medium
+          oss_blocker: false
+
+        - id: gap_s2_002
+          description: >
+            Per-repo subscription billing in Stripe. Currently billing is account-level
+            (Pro flat rate). Need repo-level subscription with per-repo meter.
+          priority: HIGH
+          cost_to_build: low
+          oss_blocker: false
+
+        - id: gap_s2_003
+          description: >
+            CI status check output. When a push snapshot completes, post a GitHub
+            Commit Status (or Check Run) with the compliance grade and artifact count.
+            This surfaces AXIS value in the PR UI without any developer action.
+          priority: HIGH
+          cost_to_build: medium
+          oss_blocker: false
+
+        - id: gap_s2_004
+          description: >
+            Cross-repo context graph. CodeRabbit Pro Plus links 10 repos for shared
+            context. AXIS snapshots are currently single-repo only.
+          priority: MEDIUM
+          cost_to_build: high
+          oss_blocker: false
+
+        - id: gap_s2_005
+          description: >
+            Semantic search across snapshot history. "Which commit introduced a new
+            domain model?" or "Show me all files that changed since the last AGENTS.md
+            regeneration." Currently GET /v1/snapshots/:id/versions exists but
+            no semantic diff query layer.
+          priority: LOW
+          cost_to_build: high
+          oss_blocker: false
+
+  - id: strategy_3_compliance_artifact_compiler
+    name: "Compliance Artifact Compiler (fintech CI gate)"
+    description: >
+      Position prepare_agentic_purchasing as a CI compliance check for fintech
+      engineering teams. The Visa CE 3.0, SCA exemption tree, and dispute
+      win-probability model cannot be reliably reproduced by generic LLMs — this is
+      the moat. Sell as a GitHub Action that fails PRs if compliance grade drops below B.
+    revenue_model:
+      primary: "$500–5000/mo per engineering team as a compliance gate in their pipeline"
+      secondary: "$0.50/run on-demand deep audit (current rate)"
+      tertiary: "Annual enterprise contract ($25K–$100K/yr) for teams needing Visa audit evidence"
+    real_world_revenue_examples:
+      - "Vanta: $1.6B (2024) — automated SOC 2 compliance evidence collection, $10K–50K/yr/customer"
+      - "Alloy: $1.35B (2023) — fintech identity + compliance decisioning, per-call + annual contracts"
+      - "Checkr: $5B — background check API, $1–5 per check. Same 'compliance as a call' primitive."
+    at_cost_pricing:
+      team_gate_per_month_usd: 99             # cost basis: $0.15 lite × ~100 PRs/mo = $15 + $84 margin
+      per_pr_compliance_check_usd: 0.15       # lite mode: compliance score + top gaps only
+      full_audit_per_run_usd: 0.50            # standard mode: full 99-artifact bundle
+      annual_enterprise_usd: 9900             # $825/mo if billed annually (17% discount)
+      free_tier_prs_per_month: 10             # enough for solo developers to see value
+    axis_current_coverage:
+      has_visa_compliance_kit: true
+      has_sca_exemption_matrix: true
+      has_compelling_evidence_3: true
+      has_win_probability_model: true
+      has_dispute_lifecycle: true
+      has_tap_ap2_ucp: true
+      has_network_tokenization: true
+      has_compliance_grading: true    # A/B/C/D grades in 402 body
+      missing:
+        - id: gap_s3_001
+          description: >
+            GitHub Action wrapper. A published `axis-iliad/compliance-check` GitHub Action
+            that calls POST /v1/agentic-purchasing/generate (lite mode) and fails the
+            PR if compliance grade < B. This is the entire distribution mechanism.
+          priority: CRITICAL
+          cost_to_build: low
+          oss_blocker: true
+
+        - id: gap_s3_002
+          description: >
+            Compliance grade surfaced in PR Check Run status. Currently the compliance
+            grade is inside the JSON response body (402 negotiation field). Need to
+            extract it and post a GitHub Check Run with pass/fail + grade letter.
+          priority: HIGH
+          cost_to_build: low
+          oss_blocker: false
+
+        - id: gap_s3_003
+          description: >
+            Compliance grade in snapshot response. When POST /v1/snapshots runs,
+            include a top-level compliance_grade field so it's trivially accessible
+            without parsing the full artifact bundle.
+          priority: HIGH
+          cost_to_build: low
+          oss_blocker: false
+
+        - id: gap_s3_004
+          description: >
+            Compliance drift alerting. Email/webhook when a push causes compliance
+            grade to drop (A→B, B→C). Currently no push-triggered compliance monitoring.
+          priority: MEDIUM
+          cost_to_build: medium
+          oss_blocker: false
+
+        - id: gap_s3_005
+          description: >
+            Audit evidence export. For Vanta/Drata-style compliance platforms, export
+            the full CE 3.0 evidence bundle as a signed JSON manifest that auditors
+            can ingest directly.
+          priority: MEDIUM
+          cost_to_build: medium
+          oss_blocker: false
+
+# ─── OSS Packaging Gap Register ──────────────────────────────────────────────
+
+oss_packaging:
+  status: "in-progress"
+  target_scope: "core library packages only (not API server, not web app)"
+  packages_to_publish:
+    - name: "@axis/repo-parser"
+      current_private: true
+      publish_target: "npm (public)"
+      description: "Language/framework detection, import graph, domain model extraction"
+      oss_value: "Standalone codebase analysis library; usable without AXIS API"
+      breaking_deps: none
+
+    - name: "@axis/context-engine"
+      current_private: true
+      publish_target: "npm (public)"
+      description: "Context map and repo profile builders over repo-parser output"
+      oss_value: "Structured codebase profile for LLM context injection"
+      breaking_deps: "@axis/repo-parser (must ship together)"
+
+    - name: "@axis/generator-core"
+      current_private: true
+      publish_target: "npm (public)"
+      description: "102 generators across 18 programs producing structured AI artifacts"
+      oss_value: "Generate AGENTS.md, CLAUDE.md, .cursorrules, design tokens, etc."
+      breaking_deps: "@axis/repo-parser, @axis/context-engine (must ship together)"
+
+    - name: "@axis/snapshots"
+      current_private: true
+      publish_target: "npm (public)"
+      description: "Snapshot intake, SQLite store, billing types, funnel types"
+      oss_value: "Versioned codebase snapshot store with diff support"
+      breaking_deps: "better-sqlite3 (native module — document install requirements)"
+
+  packages_to_keep_private:
+    - name: "@axis/api"
+      reason: "Contains billing keys, OAuth secrets, paid-tier enforcement logic"
+    - name: "@axis/web"
+      reason: "Proprietary frontend; brand + UX is competitive moat"
+    - name: "@axis/cli"
+      reason: "CLI is open; keep private until core packages are published and stable"
+
+  oss_readiness_checklist:
+    - item: "Remove private:true from 4 core package.json files"
+      status: complete
+    - item: "Add repository, keywords, license, description, files fields to each package.json"
+      status: complete
+    - item: "Add SECURITY.md with vulnerability disclosure policy"
+      status: complete
+    - item: "Add exports.types to each package.json for declaration file resolution"
+      status: in-progress
+    - item: "Confirm LICENSE is MIT (already present in root)"
+      status: complete
+    - item: "Add .npmignore or 'files' field to exclude src/, tests/ from published package"
+      status: in-progress
+    - item: "Add GitHub Actions publish workflow (.github/workflows/publish.yml)"
+      status: not-started
+    - item: "Tag release v0.5.2 as first public release"
+      status: not-started
+    - item: "Add CHANGELOG.md entry for v0.5.2 OSS release"
+      status: not-started
+
+# ─── Priority-Ordered Gap Completion Queue ───────────────────────────────────
+
+gap_completion_queue:
+  instructions: >
+    Ordered by (strategy_alignment × priority × cost_to_build inverse).
+    CRITICAL + low cost first. OSS blockers promoted to top of queue.
+  queue:
+    - rank: 1
+      gap_id: gap_s3_001
+      description: "GitHub Action for compliance check (CRITICAL, low cost, OSS blocker)"
+      strategy: strategy_3_compliance_artifact_compiler
+
+    - rank: 2
+      gap_id: gap_s1_001
+      description: "@axis/mpp publishable npm package with middleware (CRITICAL, medium cost, OSS blocker)"
+      strategy: strategy_1_x402_mcp_gateway
+
+    - rank: 3
+      gap_id: gap_cr_001
+      description: "GitHub App manifest + webhook handler (CRITICAL, medium cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 4
+      gap_id: gap_s2_001
+      description: "GitHub App manifest + webhook handler — same as above, consolidated"
+      strategy: strategy_2_codebase_intelligence_api
+      note: "Overlaps with gap_cr_001 — single build satisfies both"
+
+    - rank: 5
+      gap_id: gap_s3_002
+      description: "Compliance grade in PR Check Run (HIGH, low cost)"
+      strategy: strategy_3_compliance_artifact_compiler
+
+    - rank: 6
+      gap_id: gap_s3_003
+      description: "compliance_grade in snapshot response body (HIGH, low cost)"
+      strategy: strategy_3_compliance_artifact_compiler
+
+    - rank: 7
+      gap_id: gap_c7_001
+      description: "Seat-based subscription tier for teams (HIGH, low cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 8
+      gap_id: gap_cr_004
+      description: "Credit pack product for agentic loops (HIGH, low cost)"
+      strategy: strategy_1_x402_mcp_gateway
+
+    - rank: 9
+      gap_id: gap_c7_002
+      description: "Overage billing for high-volume consumers (HIGH, low cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 10
+      gap_id: gap_cr_002
+      description: "Per-seat billing (HIGH, low cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 11
+      gap_id: gap_s1_002
+      description: "MCP monetization starter kit (HIGH, low cost)"
+      strategy: strategy_1_x402_mcp_gateway
+
+    - rank: 12
+      gap_id: gap_s2_002
+      description: "Per-repo subscription billing in Stripe (HIGH, low cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 13
+      gap_id: gap_s2_003
+      description: "CI status check output on push (HIGH, medium cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 14
+      gap_id: gap_s3_004
+      description: "Compliance drift alerting (MEDIUM, medium cost)"
+      strategy: strategy_3_compliance_artifact_compiler
+
+    - rank: 15
+      gap_id: gap_s3_005
+      description: "Audit evidence export (MEDIUM, medium cost)"
+      strategy: strategy_3_compliance_artifact_compiler
+
+    - rank: 16
+      gap_id: gap_s1_003
+      description: "Gateway dashboard for third-party operators (HIGH, medium cost)"
+      strategy: strategy_1_x402_mcp_gateway
+
+    - rank: 17
+      gap_id: gap_s1_004
+      description: "Signed webhook fulfillment registry (MEDIUM, medium cost)"
+      strategy: strategy_1_x402_mcp_gateway
+
+    - rank: 18
+      gap_id: gap_c7_003
+      description: "SOC-2 + SSO (MEDIUM, high cost — schedule for year 2)"
+      strategy: strategy_3_compliance_artifact_compiler
+      note: "Certification timeline 3–6 months; do not start until revenue justifies"
+
+    - rank: 19
+      gap_id: gap_cr_003
+      description: "PR review surface / diff annotation (MEDIUM, high cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 20
+      gap_id: gap_cr_005
+      description: "Cross-repo context graph (LOW, high cost)"
+      strategy: strategy_2_codebase_intelligence_api
+
+    - rank: 21
+      gap_id: gap_s2_004
+      description: "Cross-repo context — same as above"
+      strategy: strategy_2_codebase_intelligence_api
+      note: "Overlaps with gap_cr_005"
+
+    - rank: 22
+      gap_id: gap_s2_005
+      description: "Semantic search across snapshot history (LOW, high cost)"
+      strategy: strategy_2_codebase_intelligence_api

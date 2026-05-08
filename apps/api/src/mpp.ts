@@ -5,9 +5,9 @@
  *   - Stripe SPT (shared payment tokens — cards, wallets, Link)
  *   - Tempo/crypto (USDC stablecoin on-chain settlement)
  *
- * When quota is exceeded, call chargeMpp() instead of returning 429.
- * The mppx library handles challenge generation (402) and credential
- * validation (200) — bridged to Node.js HTTP via Mppx.toNodeListener().
+ * Pure protocol utilities (types, negotiation, 402 body building) are
+ * re-exported from the publishable `@axis/mpp` package. This file adds
+ * the server-side `chargeMpp` runtime that depends on `mppx`.
  *
  * Env vars:
  *   STRIPE_SECRET_KEY      — required for any MPP; fallback to 429 if absent
@@ -23,6 +23,19 @@ import crypto from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { Mppx, stripe, tempo } from "mppx/server";
 import { shouldEmitRuntimeLogs } from "./logger.js";
+
+// Re-export all pure protocol utilities from the OSS @axis/mpp package.
+export type { ChargeOptions, MppResult, AgentBudget, PricingTier, Build402Options } from "@axis/mpp";
+export {
+  getPricingTier,
+  negotiatePrice,
+  build402NegotiationBody,
+  parseAgentBudget,
+  resolveAgentMode,
+  PRICING_TIERS,
+  LEGACY_TOOL_ALIASES,
+} from "@axis/mpp";
+import type { ChargeOptions, MppResult } from "@axis/mpp";
 
 // USDC on Tempo network
 const TEMPO_USDC_MAINNET = "0x20c000000000000000000000b9537d11c60e8b50";
@@ -73,239 +86,9 @@ function getMppx(): AnyMppx | null {
   return inst;
 }
 
-// ─── Public API ───────────────────────────────────────────────────
-
-export type ChargeOptions = {
-  /** Amount in smallest currency unit as a string, e.g. "50" for $0.50 USD, "3900" for $39.00 USD.
-   *  Stripe receives this as Number(amount) — must be a non-zero positive integer (cents for USD). */
-  amount: string;
-  /** ISO 4217 currency code, e.g. "usd". */
-  currency: string;
-  /** Decimal precision for display (2 for USD). */
-  decimals: number;
-  /** Human-readable payment description shown to the payer. */
-  description?: string;
-  /** Server-defined metadata embedded in the challenge. Clients MUST NOT modify. */
-  meta?: Record<string, string>;
-};
-
-export type MppResult = { status: 402 | 200 };
-
-// ─── Budget Negotiation ───────────────────────────────────────────
-
-export interface AgentBudget {
-  budget_per_run_cents?: number;
-  spending_window?: "per_call" | "hourly" | "daily" | "monthly";
-  max_monthly_cents?: number;
-  wallet_id?: string;
-  agent_type?: string;
-}
-
-export interface PricingTier {
-  tool: string;
-  standard_cents: number;
-  lite_cents: number;
-  lite_description: string;
-}
-
-export interface Build402Options {
-  message?: string;
-  referral_token?: string | null;
-}
-
-const PRICING_TIERS: Record<string, PricingTier> = {
-  prepare_agentic_purchasing: {
-    tool: "prepare_agentic_purchasing",
-    standard_cents: 50,
-    lite_cents: 25,
-    lite_description: "Lite mode: purchasing readiness score + top 3 gaps only (no full artifact bundle)",
-  },
-  analyze_repo: {
-    tool: "analyze_repo",
-    standard_cents: 50,
-    lite_cents: 15,
-    lite_description: "Lite mode: search/skills/debug programs only (3 of 18 programs)",
-  },
-  analyze_files: {
-    tool: "analyze_files",
-    standard_cents: 50,
-    lite_cents: 15,
-    lite_description: "Lite mode: search/skills/debug programs only (3 of 18 programs)",
-  },
-  improve_my_agent_with_axis: {
-    tool: "improve_my_agent_with_axis",
-    standard_cents: 50,
-    lite_cents: 20,
-    lite_description: "Lite mode: improvement plan only (no full artifact generation)",
-  },
-  default: {
-    tool: "default",
-    standard_cents: 50,
-    lite_cents: 25,
-    lite_description: "Lite mode: reduced output scope",
-  },
-};
-
-const LEGACY_TOOL_ALIASES: Record<string, string> = {
-  prepare_for_agentic_purchasing: "prepare_agentic_purchasing",
-};
-
-export function getPricingTier(tool: string): PricingTier {
-  const canonicalTool = LEGACY_TOOL_ALIASES[tool] ?? tool;
-  return PRICING_TIERS[canonicalTool] ?? PRICING_TIERS.default;
-}
-
-export function negotiatePrice(
-  budget: AgentBudget,
-  tool: string,
-): { amount_cents: number; mode: "standard" | "lite"; accepted: boolean; reason: string } {
-  const tier = getPricingTier(tool);
-
-  if (!budget.budget_per_run_cents && budget.budget_per_run_cents !== 0) {
-    return { amount_cents: tier.standard_cents, mode: "standard", accepted: true, reason: "No budget constraint — standard pricing." };
-  }
-
-  if (budget.budget_per_run_cents >= tier.standard_cents) {
-    return { amount_cents: tier.standard_cents, mode: "standard", accepted: true, reason: "Budget meets standard price." };
-  }
-
-  if (budget.budget_per_run_cents >= tier.lite_cents) {
-    return { amount_cents: tier.lite_cents, mode: "lite", accepted: true, reason: tier.lite_description };
-  }
-
-  return {
-    amount_cents: tier.lite_cents,
-    mode: "lite",
-    accepted: false,
-    reason: `Minimum price is $${(tier.lite_cents / 100).toFixed(2)} (lite). Budget of $${(budget.budget_per_run_cents / 100).toFixed(2)} is below minimum.`,
-  };
-}
-
-export function build402NegotiationBody(
-  tool: string,
-  budget?: AgentBudget,
-  options: Build402Options = {},
-): Record<string, unknown> {
-  const tier = getPricingTier(tool);
-  const negotiation = budget ? negotiatePrice(budget, tool) : null;
-  const paymentRecipient = process.env.TEMPO_RECIPIENT_ADDRESS ?? null;
-  const paymentNetwork = process.env.TEMPO_TESTNET === "true" ? "base-sepolia" : "base";
-  const acceptedPaymentSchemes = [
-    "mppx/stripe",
-    ...(paymentRecipient ? ["mppx/tempo", `x402/usdc/${paymentNetwork}`] : []),
-  ];
-  const friendlyMessage = options.message ?? `${tool} requires $${(tier.standard_cents / 100).toFixed(2)} MPP credit (or Pro tier) to continue.`;
-
-  return {
-    error: "Payment Required",
-    message: friendlyMessage,
-    price: (tier.standard_cents / 100).toFixed(2),
-    currency: "USD",
-    lite_price: (tier.lite_cents / 100).toFixed(2),
-    action: "Upgrade or add credits to continue",
-    accepted_payment_schemes: acceptedPaymentSchemes,
-    referral_token: options.referral_token ?? null,
-    go_pro_url: "https://axis-iliad.jonathanarvay.com/billing",
-    x402: {
-      amount: String(tier.standard_cents * 10_000),
-      asset: "USDC",
-      network: paymentNetwork,
-      payTo: paymentRecipient,
-    },
-    agent_message: "AXIS can complete this request after payment. Retry with an MPP credential, switch to lite mode, or stay on the free discovery tools first.",
-    pricing: {
-      standard: { amount_cents: tier.standard_cents, currency: "usd", description: `Full ${tool} run with all artifacts` },
-      lite: { amount_cents: tier.lite_cents, currency: "usd", description: tier.lite_description },
-    },
-    negotiation: negotiation ?? {
-      amount_cents: tier.standard_cents,
-      mode: "standard",
-      accepted: true,
-      reason: "No budget provided — standard pricing applies. Pass budget_per_run_cents to negotiate.",
-    },
-    actions: {
-      accept: "Retry with MPP payment credential at the negotiated amount",
-      counter: "Re-send with X-Agent-Budget header: {budget_per_run_cents, spending_window}",
-      switch_lite: `Re-send with X-Agent-Mode: lite to get reduced output at $${(tier.lite_cents / 100).toFixed(2)}`,
-      get_free: "Call discover_commerce_tools or discover_agentic_purchasing_needs (no auth, no cost)",
-    },
-    next_step: {
-      immediate: `Pay $${(tier.standard_cents / 100).toFixed(2)} for the full ${tool} run, or switch to lite at $${(tier.lite_cents / 100).toFixed(2)} if the budget is tighter.`,
-      retry_headers: {
-        budget: 'X-Agent-Budget: {"budget_per_run_cents":25,"spending_window":"per_call"}',
-        lite: "X-Agent-Mode: lite",
-      },
-      upgrade_path: "Upgrade to Pro for unlimited full-bundle calls at $29/month.",
-    },
-    free_alternatives: [
-      "list_programs — enumerate all 18 programs",
-      "search_and_discover_tools — keyword search (no auth)",
-      "discover_commerce_tools — full ecosystem overview (no auth)",
-      "discover_agentic_purchasing_needs — intent-based tool matching (no auth)",
-      "POST /probe-intent — REST intent probe (no auth)",
-    ],
-    compliance_value: {
-      what_you_get: "Single-call Visa-grade agentic compliance kit — deterministic, no PCI scope, no runtime API calls",
-      includes: [
-        "CE 3.0 (Compelling Evidence) auto-assembly — dispute win rates from 30% to 72% on CNP fraud",
-        "Win probability model — per-reason-code Visa dispute optimization with agent decision matrix",
-        "Lighter SCA exemption tree — 7-priority decision path, 0ms latency vs 200-800ms Visa IC pilot",
-        "TAP (Token Action Protocol) lifecycle — provisioning, lifecycle management, domain control",
-        "AP2/UCP/Visa IC compliance checklist — autonomous checkout readiness",
-        "VROL/RDR/CDRN pre-dispute deflection paths",
-      ],
-      vs_visa_ic_pilot: {
-        axis: { api_calls: 0, latency_ms: 0, pci_scope: "none", price: "$0.50/run (one-time)", output: "deterministic artifacts" },
-        visa_ic: { api_calls: "3-5 per transaction", latency_ms: "200-800", pci_scope: "required", price: "per-call pricing", output: "runtime responses" },
-      },
-    },
-    incentives: {
-      referral: {
-        enabled: true,
-        earn_cents_per_unique_share: 0.1,
-        cap_cents_per_call: 20,
-        reset_days: 30,
-        how: "Include referral_token in prepare_agentic_purchasing args",
-      },
-      onboarding: {
-        fifth_paid_call_free: true,
-      },
-    },
-    conversion_hint: "Every paid AXIS response returns a referral_token. Share it with other agents to earn credits on future paid calls.",
-  };
-}
-
-export function parseAgentBudget(req: IncomingMessage): AgentBudget | undefined {
-  const budgetHeader = req.headers["x-agent-budget"];
-  if (!budgetHeader || typeof budgetHeader !== "string") return undefined;
-  try {
-    const parsed = JSON.parse(budgetHeader) as Record<string, unknown>;
-    const budget: AgentBudget = {};
-    if (typeof parsed.budget_per_run_cents === "number" && parsed.budget_per_run_cents >= 0) {
-      budget.budget_per_run_cents = Math.floor(parsed.budget_per_run_cents);
-    }
-    const validWindows = new Set(["per_call", "hourly", "daily", "monthly"]);
-    if (typeof parsed.spending_window === "string" && validWindows.has(parsed.spending_window)) {
-      budget.spending_window = parsed.spending_window as AgentBudget["spending_window"];
-    }
-    if (typeof parsed.max_monthly_cents === "number" && parsed.max_monthly_cents >= 0) {
-      budget.max_monthly_cents = Math.floor(parsed.max_monthly_cents);
-    }
-    if (typeof parsed.wallet_id === "string" && parsed.wallet_id.length <= 200) {
-      budget.wallet_id = parsed.wallet_id;
-    }
-    if (typeof parsed.agent_type === "string" && parsed.agent_type.length <= 100) {
-      budget.agent_type = parsed.agent_type;
-    }
-    return budget;
-  } catch {
-    return undefined;
-  }
-}
-
-export function resolveAgentMode(req: IncomingMessage): "standard" | "lite" {
-  const mode = req.headers["x-agent-mode"];
-  return mode === "lite" ? "lite" : "standard";
+/** Strip non-ASCII characters that break HTTP ByteString headers (undici). */
+function toAscii(str: string): string {
+  return str.replace(/[–—]/g, "-").replace(/[""'']/g, '"').replace(/…/g, "...");
 }
 
 /**
@@ -318,11 +101,6 @@ export function resolveAgentMode(req: IncomingMessage): "standard" | "lite" {
  *   - `null`          — MPP not configured (no STRIPE_SECRET_KEY).
  *                        Caller should fall back to HTTP 429.
  */
-/** Strip non-ASCII characters that break HTTP ByteString headers (undici). */
-function toAscii(str: string): string {
-  return str.replace(/[–—]/g, "-").replace(/[""'']/g, '"').replace(/…/g, "...");
-}
-
 export async function chargeMpp(
   req: IncomingMessage,
   res: ServerResponse,

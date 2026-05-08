@@ -16,8 +16,9 @@ project_continuation:
     project_name: "Axis' Iliad"
     date: "2026-04-17"
     commit_or_tag: "39e3622"
-    current_session_id: "session_099"
-    one_sentence_summary: "Axis' Iliad v0.5.2 — 18 programs, 86 generators, 12 MCP tools. Session 099 strengthens analyze_repo metadata on the canonical MCP, registry, and discovery surfaces so registries receive explicit auth, pricing, error, output, and tool-selection guidance."
+    current_session_id: "session_100"
+    commit_or_tag: "pending"
+    one_sentence_summary: "Axis' Iliad v0.5.2 — 18 programs, 86 generators, 12 MCP tools. Session 100 delivers compliance_grade in snapshot API responses, GitHub Action compliance CI gate, @axis/mpp publishable package, and competitive gap matrix with OSS packaging prep."
 
   executive_truth:
     maturity_estimate:
@@ -3796,3 +3797,30 @@ project_continuation:
       - "765fe36: chore: regenerate all artifacts — full Pro dogfood post-hardening"
     push_results:
       - "pushed to origin/main — HEAD at 765fe36"
+
+  session_result_100:
+    date: "2026-05-08"
+    session_id: "session_100"
+    selected_move: "Autonomous gap completion — gap_s3_003 + gap_s3_001 + gap_s1_001 from competitive-gap-matrix.yaml"
+    selected_move_roi_reason: "Three high-priority OSS-blocker candidates from the gap completion queue. All three compound: compliance_grade surfaces the AP2 signal in the API contract, the GitHub Action CI gate consumes it to block non-compliant PRs, and @axis/mpp packages the protocol for external agent servers."
+    completed_candidates:
+      - "gap_s3_003: computeComplianceGrade() exported from @axis/generator-core. handleCreateSnapshot 201 and handleGetSnapshot 200 both now return compliance_grade: {grade, checks_passed, checks_total} — null-safe, no regressions."
+      - "gap_s3_001: .github/actions/compliance-check/action.yml — composite GitHub Action that calls POST /v1/snapshots in lite mode, extracts compliance_grade, fails if grade < minimum (default B). .github/workflows/compliance-check.yml example workflow on PR/push."
+      - "gap_s1_001: packages/mpp/ — new @axis/mpp publishable npm package. Exports: getPricingTier, negotiatePrice, build402NegotiationBody, parseAgentBudget, resolveAgentMode, PRICING_TIERS, LEGACY_TOOL_ALIASES, and all types. apps/api/src/mpp.ts now re-exports from @axis/mpp and keeps only chargeMpp + getMppx (mppx runtime dependency)."
+    refused_candidates: []
+    blocked_candidates: []
+    evidence_added:
+      - "pnpm exec tsc --noEmit -p apps/api/tsconfig.json — exit 0 (verified after each change)"
+      - "pnpm --filter @axis/generator-core build — exit 0"
+      - "pnpm --filter @axis/mpp build — exit 0"
+      - "pnpm install — workspace updated with new @axis/mpp dependency"
+    verticals_advanced:
+      - "v18_agentic_commerce: compliance_grade now surfaced in API contract (both CREATE and GET snapshot responses); GitHub Action CI gate blocks non-compliant PRs; @axis/mpp enables any Node.js server to speak the x402 agent-commerce protocol"
+    blockers_removed:
+      - "compliance_grade existed only inside nested generator JSON — not accessible as a top-level API field"
+      - "No CI gate existed to enforce AP2/Visa compliance on PRs"
+      - "x402/MPP protocol was locked inside the monorepo, not publishable to npm"
+    blockers_added: []
+    local_only: false
+    commit_results: []
+    push_results: []

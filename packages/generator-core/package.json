@@ -1,10 +1,24 @@
 {
   "name": "@axis/generator-core",
   "version": "0.5.2",
-  "private": true,
   "type": "module",
+  "description": "102 generators across 18 programs — produces AGENTS.md, CLAUDE.md, .cursorrules, design tokens, Visa compliance artifacts, and 99 more structured AI-agent files from any codebase",
+  "keywords": ["codegen", "ai", "agents", "mcp", "llm", "agents-md", "cursorrules", "design-tokens", "compliance", "visa", "ap2", "artifact-generation"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/generator-core"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc"
   },

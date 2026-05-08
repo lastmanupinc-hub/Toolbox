@@ -1,0 +1,128 @@
+name: "Axis Compliance Check"
+description: "Run AP2/Visa compliance grading via Axis' Iliad. Fails the step if the grade falls below the configured minimum."
+author: "Axis' Iliad"
+
+branding:
+  icon: "shield"
+  color: "blue"
+
+inputs:
+  api-key:
+    description: "Axis API key (store as a repository secret: AXIS_API_KEY)"
+    required: true
+  api-url:
+    description: "Axis API base URL"
+    required: false
+    default: "https://axis-api-6c7z.onrender.com"
+  minimum-grade:
+    description: "Minimum passing grade. One of: A, B, C, D. Fails if actual grade is lower."
+    required: false
+    default: "B"
+  lite-mode:
+    description: "Use lite mode ($0.15/run) instead of standard ($0.50/run)"
+    required: false
+    default: "true"
+
+outputs:
+  grade:
+    description: "AP2/Visa compliance grade (A, B, C, or D)"
+    value: ${{ steps.grade.outputs.grade }}
+  checks-passed:
+    description: "Number of compliance checks that passed (out of 8)"
+    value: ${{ steps.grade.outputs.checks_passed }}
+  checks-total:
+    description: "Total number of compliance checks (always 8)"
+    value: ${{ steps.grade.outputs.checks_total }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Call Axis compliance endpoint
+      id: call
+      shell: bash
+      env:
+        AXIS_API_KEY: ${{ inputs.api-key }}
+        AXIS_API_URL: ${{ inputs.api-url }}
+        AXIS_LITE: ${{ inputs.lite-mode }}
+      run: |
+        MODE_HEADER=""
+        if [ "$AXIS_LITE" = "true" ]; then
+          MODE_HEADER='-H "X-Agent-Mode: lite"'
+        fi
+
+        RESPONSE=$(curl -s -w "\n%{http_code}" \
+          -X POST "$AXIS_API_URL/v1/snapshots" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer $AXIS_API_KEY" \
+          ${AXIS_LITE:+-H "X-Agent-Mode: lite"} \
+          -d '{
+            "files": [],
+            "manifest": {
+              "project_name": "'"${GITHUB_REPOSITORY}"'",
+              "input_method": "github_action",
+              "requested_outputs": ["agentic-purchasing"]
+            }
+          }' 2>&1)
+
+        HTTP_STATUS=$(echo "$RESPONSE" | tail -1)
+        BODY=$(echo "$RESPONSE" | head -n -1)
+
+        echo "http_status=$HTTP_STATUS" >> "$GITHUB_OUTPUT"
+        echo "response_body=$BODY" >> "$GITHUB_OUTPUT"
+
+    - name: Parse compliance grade
+      id: grade
+      shell: bash
+      env:
+        RESPONSE_BODY: ${{ steps.call.outputs.response_body }}
+      run: |
+        GRADE=$(echo "$RESPONSE_BODY" | python3 -c "
+        import sys, json
+        data = json.load(sys.stdin)
+        cg = data.get('compliance_grade', {})
+        if isinstance(cg, dict):
+            print(cg.get('grade', 'D'))
+        else:
+            print('D')
+        " 2>/dev/null || echo "D")
+
+        CHECKS_PASSED=$(echo "$RESPONSE_BODY" | python3 -c "
+        import sys, json
+        data = json.load(sys.stdin)
+        cg = data.get('compliance_grade', {})
+        if isinstance(cg, dict):
+            print(cg.get('checks_passed', 0))
+        else:
+            print(0)
+        " 2>/dev/null || echo "0")
+
+        echo "grade=$GRADE" >> "$GITHUB_OUTPUT"
+        echo "checks_passed=$CHECKS_PASSED" >> "$GITHUB_OUTPUT"
+        echo "checks_total=8" >> "$GITHUB_OUTPUT"
+
+        echo "### Axis Compliance Check" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+        echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
+        echo "| Grade | **$GRADE** |" >> "$GITHUB_STEP_SUMMARY"
+        echo "| Checks passed | $CHECKS_PASSED / 8 |" >> "$GITHUB_STEP_SUMMARY"
+        echo "| Minimum required | ${{ inputs.minimum-grade }} |" >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Enforce minimum grade
+      shell: bash
+      env:
+        ACTUAL_GRADE: ${{ steps.grade.outputs.grade }}
+        MINIMUM_GRADE: ${{ inputs.minimum-grade }}
+      run: |
+        declare -A GRADE_RANK=(["A"]=4 ["B"]=3 ["C"]=2 ["D"]=1)
+
+        ACTUAL_RANK=${GRADE_RANK[$ACTUAL_GRADE]:-1}
+        MINIMUM_RANK=${GRADE_RANK[$MINIMUM_GRADE]:-3}
+
+        if [ "$ACTUAL_RANK" -lt "$MINIMUM_RANK" ]; then
+          echo "::error::Compliance grade $ACTUAL_GRADE is below required minimum $MINIMUM_GRADE"
+          echo "::error::Run 'pnpm exec axis analyze .' locally to see remediation steps"
+          exit 1
+        fi
+
+        echo "Compliance grade $ACTUAL_GRADE meets minimum $MINIMUM_GRADE — check passed"

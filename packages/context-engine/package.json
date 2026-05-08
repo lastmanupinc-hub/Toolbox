@@ -1,11 +1,22 @@
 {
   "name": "@axis/context-engine",
   "version": "0.5.2",
-  "private": true,
   "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
+  "description": "Context map and repo profile builders — transforms parsed code into structured LLM context",
+  "keywords": ["codebase", "context", "ai", "llm", "repo-profile", "context-map", "mcp", "agent"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lastmanupinc-hub/axis-iliad.git",
+    "directory": "packages/context-engine"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc",
     "test": "echo skipped — run vitest from root"
