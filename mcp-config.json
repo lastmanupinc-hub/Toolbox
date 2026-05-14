@@ -1,8 +1,8 @@
 {
   "mcpVersion": "1.0",
   "project": "axis-iliad",
-  "generated_at": "2026-05-08T19:58:35.468Z",
-  "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.",
+  "generated_at": "2026-05-14T02:05:24.981Z",
+  "project_summary": "axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.",
   "detected_stack": [
     {
       "name": "React",
@@ -174,9 +174,9 @@
       "mimeType": "application/json"
     },
     {
-      "uri": "model://axis-iliad/WindowEntry",
-      "name": "WindowEntry",
-      "description": "interface with 2 fields (apps/api/src/rate-limiter.ts)",
+      "uri": "model://axis-iliad/CreateIntentInput",
+      "name": "CreateIntentInput",
+      "description": "interface with 3 fields (apps/api/src/paid-client.ts)",
       "mimeType": "application/json"
     }
   ],
@@ -310,46 +310,46 @@
       "resource_uri": "model://axis-iliad/OpenApiSpec"
     },
     {
-      "name": "WindowEntry",
-      "kind": "interface",
-      "field_count": 2,
-      "source_file": "apps/api/src/rate-limiter.ts",
-      "resource_uri": "model://axis-iliad/WindowEntry"
-    },
-    {
-      "name": "AppHandle",
+      "name": "CreateIntentInput",
       "kind": "interface",
       "field_count": 3,
-      "source_file": "apps/api/src/router.ts",
-      "resource_uri": "model://axis-iliad/AppHandle"
+      "source_file": "apps/api/src/paid-client.ts",
+      "resource_uri": "model://axis-iliad/CreateIntentInput"
     },
     {
-      "name": "Route",
+      "name": "CreateSubscriptionInput",
+      "kind": "interface",
+      "field_count": 3,
+      "source_file": "apps/api/src/paid-client.ts",
+      "resource_uri": "model://axis-iliad/CreateSubscriptionInput"
+    },
+    {
+      "name": "PaidConfig",
+      "kind": "interface",
+      "field_count": 6,
+      "source_file": "apps/api/src/paid-client.ts",
+      "resource_uri": "model://axis-iliad/PaidConfig"
+    },
+    {
+      "name": "PaymentIntent",
+      "kind": "interface",
+      "field_count": 6,
+      "source_file": "apps/api/src/paid-client.ts",
+      "resource_uri": "model://axis-iliad/PaymentIntent"
+    },
+    {
+      "name": "Subscription",
       "kind": "interface",
       "field_count": 4,
-      "source_file": "apps/api/src/router.ts",
-      "resource_uri": "model://axis-iliad/Route"
+      "source_file": "apps/api/src/paid-client.ts",
+      "resource_uri": "model://axis-iliad/Subscription"
     },
     {
-      "name": "CliArgs",
-      "kind": "interface",
-      "field_count": 5,
-      "source_file": "apps/cli/src/cli.ts",
-      "resource_uri": "model://axis-iliad/CliArgs"
-    },
-    {
-      "name": "AxisConfig",
-      "kind": "interface",
-      "field_count": 2,
-      "source_file": "apps/cli/src/credential-store.ts",
-      "resource_uri": "model://axis-iliad/AxisConfig"
-    },
-    {
-      "name": "RunResult",
+      "name": "VerifyWebhookOptions",
       "kind": "interface",
       "field_count": 4,
-      "source_file": "apps/cli/src/runner.ts",
-      "resource_uri": "model://axis-iliad/RunResult"
+      "source_file": "apps/api/src/paid-client.ts",
+      "resource_uri": "model://axis-iliad/VerifyWebhookOptions"
     }
   ],
   "sql_schema": null,
@@ -414,7 +414,7 @@
       "exports": [
         "export const app = ..."
       ],
-      "size": 16902
+      "size": 17157
     }
   ]
 }

@@ -35,23 +35,25 @@ test_before_commit = true
 # CacheKey (type_alias, 2 fields) @ apps/api/src/mpp.ts
 # OAuthClientRow (interface, 3 fields) @ apps/api/src/oauth-server-simple.ts
 # OpenApiSpec (interface, 6 fields) @ apps/api/src/openapi.ts
-# WindowEntry (interface, 2 fields) @ apps/api/src/rate-limiter.ts
-# AppHandle (interface, 3 fields) @ apps/api/src/router.ts
-# Route (interface, 4 fields) @ apps/api/src/router.ts
-# CliArgs (interface, 5 fields) @ apps/cli/src/cli.ts
-# AxisConfig (interface, 2 fields) @ apps/cli/src/credential-store.ts
-# RunResult (interface, 4 fields) @ apps/cli/src/runner.ts
-# ... and 186 more
+# CreateIntentInput (interface, 3 fields) @ apps/api/src/paid-client.ts
+# CreateSubscriptionInput (interface, 3 fields) @ apps/api/src/paid-client.ts
+# PaidConfig (interface, 6 fields) @ apps/api/src/paid-client.ts
+# PaymentIntent (interface, 6 fields) @ apps/api/src/paid-client.ts
+# Subscription (interface, 4 fields) @ apps/api/src/paid-client.ts
+# VerifyWebhookOptions (interface, 4 fields) @ apps/api/src/paid-client.ts
+# ... and 195 more
 
 # === Detected Conventions ===
 # - TypeScript strict mode
 # - Linter configured
 # - Formatter configured
+# - Makefile build
 
 # === Project File Tree ===
 # .github/actions/compliance-check/action.yml
 # .github/workflows/ci.yml
 # .github/workflows/compliance-check.yml
+# .github/workflows/release.yml
 # .gitignore
 # .prettierrc.json
 # .tmp-vitest.json
@@ -98,7 +100,6 @@ test_before_commit = true
 # apps/api/src/funnel.ts
 # apps/api/src/github.test.ts
 # apps/api/src/github.ts
-# apps/api/src/handler-edge-cases.test.ts
 # ... and 450 more files
 
 # === Key Entry Points ===

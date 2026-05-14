@@ -33,6 +33,7 @@ export default axisiliad;
 // • TypeScript strict mode
 // • Linter configured
 // • Formatter configured
+// • Makefile build
 
 // ─── Reference: existing components found in project ───
 // apps/web/src/App.tsx: export function App() { ... }

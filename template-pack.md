@@ -1,10 +1,10 @@
 # Template Pack — axis-iliad
 
-Generated: 2026-05-08T19:58:35.753Z
+Generated: 2026-05-14T02:05:25.669Z
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -150,4 +150,4 @@ sprint:
 ## Source File Summary
 
 Total source files: 500
-Config files: .prettierrc.json, apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, mcp/tsconfig.package.template.json, mcp/tsconfig.root.template.json, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/mpp/package.json, packages/mpp/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json
+Config files: .prettierrc.json, apps/api/package.json, apps/api/tsconfig.json, apps/cli/package.json, apps/cli/tsconfig.json, apps/web/package.json, apps/web/tsconfig.json, apps/web/vite.config.ts, mcp/tsconfig.package.template.json, mcp/tsconfig.root.template.json, package.json, packages/context-engine/package.json, packages/context-engine/tsconfig.json, packages/generator-core/package.json, packages/generator-core/tsconfig.json, packages/mpp/package.json, packages/mpp/tsconfig.json, packages/repo-parser/package.json, packages/repo-parser/tsconfig.json, packages/sdk/package.json, packages/sdk/tsconfig.json, packages/snapshots/package.json, packages/snapshots/tsconfig.json, packaging/manifests/npm-package.json

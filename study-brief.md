@@ -8,7 +8,7 @@ Before diving into this codebase, you should be comfortable with:
 
 - **TypeScript** — the primary language
 - **React** — used framework
-- **Build tools**: vite
+- **Build tools**: vite, make
 
 ## Recommended Reading Order
 
@@ -17,14 +17,14 @@ Before diving into this codebase, you should be comfortable with:
 1. Read the project README and any CONTRIBUTING.md
 2. Understand the top-level directory structure:
 
-   - `apps` — monorepo_apps (141 files)
+   - `apps` — monorepo_apps (145 files)
    - `packages` — monorepo_packages (140 files)
-   - `payment-processing-output` — project_directory (47 files)
+   - `payment-processing-output` — project_directory (32 files)
    - `examples` — project_directory (17 files)
    - `mcp` — project_directory (16 files)
+   - `packaging` — project_directory (7 files)
+   - `.github` — project_directory (4 files)
    - `algorithmic` — project_directory (4 files)
-   - `artifacts` — project_directory (4 files)
-   - `brand` — project_directory (4 files)
 
 ### Phase 2: Entry Points
 
@@ -46,7 +46,7 @@ These are the core data structures that define what the system works with:
 | `McpCallCounters` | interface | 5 | `apps/api/src/mcp-server.ts` |
 | `RpcError` | interface | 5 | `apps/api/src/mcp-server.ts` |
 | `RpcSuccess` | interface | 3 | `apps/api/src/mcp-server.ts` |
-| *(+196 more)* | | | |
+| *(+205 more)* | | | |
 
 ### Phase 4: Data Flow
 
@@ -107,7 +107,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (417 more lines)
+... (422 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

@@ -18,6 +18,7 @@ This is a **monorepo** built with **TypeScript**.
 - TypeScript strict mode
 - Linter configured
 - Formatter configured
+- Makefile build
 
 ### Key Directories
 
@@ -26,9 +27,9 @@ This is a **monorepo** built with **TypeScript**.
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
 - mcp/ (project_directory)
+- packaging/ (project_directory)
+- .github/ (project_directory)
 - algorithmic/ (project_directory)
-- artifacts/ (project_directory)
-- brand/ (project_directory)
 
 ### Routes
 
@@ -82,7 +83,7 @@ This is a **monorepo** built with **TypeScript**.
 - `GET /.well-known/agent.json` → apps/api/src/server.ts
 - `GET /.well-known/oauth-authorization-server` → apps/api/src/server.ts
 - `GET /mcp/.well-known/mcp.json` → apps/api/src/server.ts
-- *… 89 more (see OpenAPI spec or `/v1/docs`)*
+- *… 91 more (see OpenAPI spec or `/v1/docs`)*
 
 ### Domain Models
 
@@ -102,13 +103,13 @@ This is a **monorepo** built with **TypeScript**.
 | `CacheKey` | type_alias | 2 | apps/api/src/mpp.ts |
 | `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
-| `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
-| `AppHandle` | interface | 3 | apps/api/src/router.ts |
-| `Route` | interface | 4 | apps/api/src/router.ts |
-| `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
-| `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
-| `RunResult` | interface | 4 | apps/cli/src/runner.ts |
-| *… 186 more* | | | |
+| `CreateIntentInput` | interface | 3 | apps/api/src/paid-client.ts |
+| `CreateSubscriptionInput` | interface | 3 | apps/api/src/paid-client.ts |
+| `PaidConfig` | interface | 6 | apps/api/src/paid-client.ts |
+| `PaymentIntent` | interface | 6 | apps/api/src/paid-client.ts |
+| `Subscription` | interface | 4 | apps/api/src/paid-client.ts |
+| `VerifyWebhookOptions` | interface | 4 | apps/api/src/paid-client.ts |
+| *… 195 more* | | | |
 
 When modifying domain models, update all downstream consumers (handlers, validators, tests).
 

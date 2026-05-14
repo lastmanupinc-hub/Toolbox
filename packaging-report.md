@@ -2,8 +2,8 @@
 
 ## Readiness Score
 
-- Score: **88/100**
-- Band: **near-ready**
+- Score: **92/100**
+- Band: **ship-ready**
 
 ## Auto-Added
 

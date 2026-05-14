@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-08T19:58:35.685Z",
-  "total_symbols": 1879,
-  "file_count": 237,
+  "generated_at": "2026-05-14T02:05:25.520Z",
+  "total_symbols": 1898,
+  "file_count": 240,
   "symbols": {
     "apps/api/src/admin.test.ts": [
       {
@@ -2218,32 +2218,165 @@
       {
         "name": "ref",
         "type": "function",
-        "line": 1521
+        "line": 1580
       },
       {
         "name": "jsonContent",
         "type": "function",
-        "line": 1525
+        "line": 1584
       },
       {
         "name": "jsonBody",
         "type": "function",
-        "line": 1529
+        "line": 1588
       },
       {
         "name": "pathParam",
         "type": "function",
-        "line": 1533
+        "line": 1592
       },
       {
         "name": "queryParam",
         "type": "function",
-        "line": 1537
+        "line": 1596
       },
       {
         "name": "programEndpoints",
         "type": "function",
-        "line": 1541
+        "line": 1600
+      }
+    ],
+    "apps/api/src/paid-client.test.ts": [
+      {
+        "name": "CONFIG",
+        "type": "const",
+        "line": 51
+      },
+      {
+        "name": "okResponse",
+        "type": "function",
+        "line": 70
+      },
+      {
+        "name": "signPaid",
+        "type": "function",
+        "line": 131
+      }
+    ],
+    "apps/api/src/paid-client.ts": [
+      {
+        "name": "PaidPlan",
+        "type": "type",
+        "line": 18
+      },
+      {
+        "name": "PaidConfig",
+        "type": "interface",
+        "line": 20
+      },
+      {
+        "name": "PaymentIntent",
+        "type": "interface",
+        "line": 29
+      },
+      {
+        "name": "Subscription",
+        "type": "interface",
+        "line": 38
+      },
+      {
+        "name": "CreateIntentInput",
+        "type": "interface",
+        "line": 45
+      },
+      {
+        "name": "CreateSubscriptionInput",
+        "type": "interface",
+        "line": 51
+      },
+      {
+        "name": "PaidError",
+        "type": "class",
+        "line": 57
+      },
+      {
+        "name": "loadPaidConfig",
+        "type": "function",
+        "line": 68
+      },
+      {
+        "name": "paidPost",
+        "type": "function",
+        "line": 83
+      },
+      {
+        "name": "createPaymentIntent",
+        "type": "function",
+        "line": 99
+      },
+      {
+        "name": "createSubscription",
+        "type": "function",
+        "line": 118
+      },
+      {
+        "name": "VerifyWebhookOptions",
+        "type": "interface",
+        "line": 147
+      },
+      {
+        "name": "verifyPaidWebhookSignature",
+        "type": "function",
+        "line": 154
+      }
+    ],
+    "apps/api/src/paid-handlers.test.ts": [
+      {
+        "name": "Res",
+        "type": "interface",
+        "line": 14
+      },
+      {
+        "name": "req",
+        "type": "function",
+        "line": 16
+      },
+      {
+        "name": "signPaid",
+        "type": "function",
+        "line": 39
+      },
+      {
+        "name": "createAccount",
+        "type": "function",
+        "line": 81
+      }
+    ],
+    "apps/api/src/paid-handlers.ts": [
+      {
+        "name": "handlePaidSubscribe",
+        "type": "function",
+        "line": 36
+      },
+      {
+        "name": "tierForPaidEvent",
+        "type": "function",
+        "line": 122
+      },
+      {
+        "name": "handlePaidWebhook",
+        "type": "function",
+        "line": 128
+      },
+      {
+        "name": "customerEmail",
+        "type": "function",
+        "line": 166
+      },
+      {
+        "name": "subscriptionId",
+        "type": "function",
+        "line": 167
       }
     ],
     "apps/api/src/prepare-purchasing.test.ts": [
@@ -2632,12 +2765,12 @@
       {
         "name": "handleMcpEntrypoint",
         "type": "function",
-        "line": 262
+        "line": 263
       },
       {
         "name": "handleAccountsMethodHint",
         "type": "function",
-        "line": 360
+        "line": 361
       }
     ],
     "apps/api/src/snapshot-auth.test.ts": [
@@ -9838,38 +9971,6 @@
         "name": "frame",
         "type": "function",
         "line": 110
-      }
-    ],
-    "payment-processing-output/remotion-script.ts": [
-      {
-        "name": "THEME",
-        "type": "const",
-        "line": 6
-      },
-      {
-        "name": "IntroScene",
-        "type": "function",
-        "line": 13
-      },
-      {
-        "name": "TechStackScene",
-        "type": "function",
-        "line": 24
-      },
-      {
-        "name": "ArchitectureScene",
-        "type": "function",
-        "line": 45
-      },
-      {
-        "name": "AbstractionsScene",
-        "type": "function",
-        "line": 62
-      },
-      {
-        "name": "averypayplatformVideo",
-        "type": "function",
-        "line": 79
       }
     ]
   }

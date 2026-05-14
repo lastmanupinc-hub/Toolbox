@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -266,6 +266,9 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/account/programs` | POST | Track API adoption rate per endpoint |
 | `/v1/auth/github` | GET | Reduce friction — minimize required fields |
 | `/v1/auth/github/callback` | GET | Reduce friction — minimize required fields |
+| `/v1/accounts` | POST | Track API adoption rate per endpoint |
+| `/portal/api/subscribe` | POST | Track API adoption rate per endpoint |
+| `/portal/api/paid/webhook` | POST | Track API adoption rate per endpoint |
 | `/v1/prepare-for-agentic-purchasing` | POST | Track API adoption rate per endpoint |
 | `/v1/health` | GET | Track API adoption rate per endpoint |
 | `/v1/health` | GET | Track API adoption rate per endpoint |
@@ -446,6 +449,8 @@ Detected routes that are candidates for conversion optimization:
 | `/v1/checkout` | POST | Track API adoption rate per endpoint |
 | `/v1/account/subscription` | GET | Track API adoption rate per endpoint |
 | `/v1/account/subscription/cancel` | POST | Track API adoption rate per endpoint |
+| `/portal/api/subscribe` | POST | Track API adoption rate per endpoint |
+| `/portal/api/paid/webhook` | POST | Track API adoption rate per endpoint |
 | `/v1/snapshots` | POST | Track API adoption rate per endpoint |
 | `/v1/snapshots/:snapshot_id` | GET | Track API adoption rate per endpoint |
 | `/v1/accounts` | POST | Track API adoption rate per endpoint |
@@ -548,7 +553,7 @@ Detected routes that are candidates for conversion optimization:
 
 - **Hypothesis**: A guided first-run wizard will increase first-value moment by 35%
 - **Metric**: Features used in first session, time to first successful output
-- **Context**: 480 API endpoints — users need a path through the complexity
+- **Context**: 485 API endpoints — users need a path through the complexity
 - **Variants**: A: Self-discovery | B: Step-by-step first-run guide with progress indicator
 - **Duration**: 3 weeks
 

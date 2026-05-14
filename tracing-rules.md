@@ -253,6 +253,9 @@ All API routes should log: request method, path, status code, duration (ms).
 | POST | `/v1/account/programs` | apps/api/src/multi-tenancy.test.ts | NORMAL |
 | GET | `/v1/auth/github` | apps/api/src/oauth.test.ts | HIGH |
 | GET | `/v1/auth/github/callback` | apps/api/src/oauth.test.ts | HIGH |
+| POST | `/v1/accounts` | apps/api/src/paid-handlers.test.ts | NORMAL |
+| POST | `/portal/api/subscribe` | apps/api/src/paid-handlers.test.ts | NORMAL |
+| POST | `/portal/api/paid/webhook` | apps/api/src/paid-handlers.test.ts | NORMAL |
 | POST | `/v1/prepare-for-agentic-purchasing` | apps/api/src/prepare-purchasing.test.ts | NORMAL |
 | GET | `/v1/health` | apps/api/src/production-startup.test.ts | NORMAL |
 | GET | `/v1/health` | apps/api/src/production-startup.test.ts | NORMAL |
@@ -433,6 +436,8 @@ All API routes should log: request method, path, status code, duration (ms).
 | POST | `/v1/checkout` | apps/api/src/server.ts | NORMAL |
 | GET | `/v1/account/subscription` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/account/subscription/cancel` | apps/api/src/server.ts | NORMAL |
+| POST | `/portal/api/subscribe` | apps/api/src/server.ts | NORMAL |
+| POST | `/portal/api/paid/webhook` | apps/api/src/server.ts | NORMAL |
 | POST | `/v1/snapshots` | apps/api/src/snapshot-auth.test.ts | NORMAL |
 | GET | `/v1/snapshots/:snapshot_id` | apps/api/src/snapshot-auth.test.ts | NORMAL |
 | POST | `/v1/accounts` | apps/api/src/snapshot-auth.test.ts | NORMAL |
@@ -515,6 +520,12 @@ State transitions on these entities should be logged:
 - `CacheKey` (type_alias, 2 fields) — `apps/api/src/mpp.ts`
 - `OAuthClientRow` (interface, 3 fields) — `apps/api/src/oauth-server-simple.ts`
 - `OpenApiSpec` (interface, 6 fields) — `apps/api/src/openapi.ts`
+- `CreateIntentInput` (interface, 3 fields) — `apps/api/src/paid-client.ts`
+- `CreateSubscriptionInput` (interface, 3 fields) — `apps/api/src/paid-client.ts`
+- `PaidConfig` (interface, 6 fields) — `apps/api/src/paid-client.ts`
+- `PaymentIntent` (interface, 6 fields) — `apps/api/src/paid-client.ts`
+- `Subscription` (interface, 4 fields) — `apps/api/src/paid-client.ts`
+- `VerifyWebhookOptions` (interface, 4 fields) — `apps/api/src/paid-client.ts`
 - `WindowEntry` (interface, 2 fields) — `apps/api/src/rate-limiter.ts`
 - `AppHandle` (interface, 3 fields) — `apps/api/src/router.ts`
 - `Route` (interface, 4 fields) — `apps/api/src/router.ts`
@@ -571,6 +582,9 @@ State transitions on these entities should be logged:
 - `ImportMeta` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - `ImportMetaEnv` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - `DashboardData` (interface, 6 fields) — `dashboard-widget.tsx`
+- `AgentBudget` (interface, 0 fields) — `embed-snippet.ts`
+- `Build402Options` (interface, 0 fields) — `embed-snippet.ts`
+- `PricingTier` (interface, 0 fields) — `embed-snippet.ts`
 - `axisiliadProps` (interface, 3 fields) — `generated-component.tsx`
 - `PaletteAction` (interface, 0 fields) — `generated-component.tsx`
 - `Edge` (interface, 3 fields) — `generative-sketch.ts`
@@ -785,7 +799,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (412 more lines)
+... (417 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

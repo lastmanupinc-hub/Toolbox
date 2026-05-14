@@ -1,7 +1,7 @@
 # Automation Pipeline
 # Project: axis-iliad
-# Generated: 2026-05-08T19:58:35.755Z
-# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+# Generated: 2026-05-14T02:05:25.673Z
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 pipeline:
   name: "axis-iliad-automation"
@@ -99,6 +99,8 @@ pipeline:
       lines: 154
     - path: ".github/workflows/compliance-check.yml"
       lines: 25
+    - path: ".github/workflows/release.yml"
+      lines: 25
     - path: "algorithmic/begin.yaml"
       lines: 27
     - path: "algorithmic/continuation.yaml"
@@ -115,5 +117,3 @@ pipeline:
       lines: 106
     - path: "automation-pipeline.yaml"
       lines: 120
-    - path: "axis_all_tools.yaml"
-      lines: 840

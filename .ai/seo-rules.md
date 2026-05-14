@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -278,6 +278,9 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/v1/account/programs` | POST | API route — exclude from sitemap |
 | `/v1/auth/github` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/auth/github/callback` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
+| `/v1/accounts` | POST | API route — exclude from sitemap |
+| `/portal/api/subscribe` | POST | API route — exclude from sitemap |
+| `/portal/api/paid/webhook` | POST | API route — exclude from sitemap |
 | `/v1/prepare-for-agentic-purchasing` | POST | API route — exclude from sitemap |
 | `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/health` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
@@ -458,6 +461,8 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | `/v1/checkout` | POST | API route — exclude from sitemap |
 | `/v1/account/subscription` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/account/subscription/cancel` | POST | API route — exclude from sitemap |
+| `/portal/api/subscribe` | POST | API route — exclude from sitemap |
+| `/portal/api/paid/webhook` | POST | API route — exclude from sitemap |
 | `/v1/snapshots` | POST | API route — exclude from sitemap |
 | `/v1/snapshots/:snapshot_id` | GET | Exclude from sitemap · add `X-Robots-Tag: noindex` |
 | `/v1/accounts` | POST | API route — exclude from sitemap |
@@ -542,7 +547,7 @@ These domain models represent structured content — mapping them to schema type
 | `CacheKey` | type_alias | 2 | Thing |
 | `OAuthClientRow` | interface | 3 | WebPage |
 | `OpenApiSpec` | interface | 6 | WebPage |
-| `WindowEntry` | interface | 2 | WebPage |
+| `CreateIntentInput` | interface | 3 | WebPage |
 
 ## Contact & Support Page SEO
 
@@ -574,6 +579,10 @@ These domain models represent structured content — mapping them to schema type
 
 - `apps/web/public/robots.txt` (26 lines)
 - `export-manifest.yaml` (87 lines)
+- `packaging/manifests/dockerhub-repository.md` (17 lines)
+- `packaging/manifests/github-marketplace-listing.md` (17 lines)
+- `packaging/manifests/npm-package.json` (17 lines)
+- `packaging/manifests/vscode-extension.json` (22 lines)
 - `payment-processing-output/export-manifest.yaml` (87 lines)
 
 ## SEO File Contents
@@ -609,7 +618,7 @@ Allow: /v1/
 ```yaml
 # Export Manifest
 # Project: axis-iliad
-# Generated: 2026-05-07T23:19:38.355Z
+# Generated: 2026-05-08T19:58:35.511Z
 
 manifest:
   project: "axis-iliad"
@@ -630,30 +639,26 @@ manifest:
 ... (67 more lines)
 ```
 
-### `payment-processing-output/export-manifest.yaml`
+### `packaging/manifests/dockerhub-repository.md`
 
-```yaml
-# Export Manifest
-# Project: avery-pay-platform
-# Generated: 2026-04-05T07:37:21.799Z
+```markdown
+# Docker Hub Listing — axis-iliad
 
-manifest:
-  project: "avery-pay-platform"
-  version: "1.0"
-  total_artifacts: 4
+## Overview
+Production-grade axis-iliad packaging and release kit
 
-  artifacts:
-    - id: generative-sketch
-      file: generative-sketch.ts
-      type: code
-      format: typescript
-      description: Force-directed graph animation
-      exports:
-        - format: html
-          resolution: 1920x1080
-          self_contained: true
-        - format: mp4
-... (67 more lines)
+## Tags
+- latest
+- 1.0.0
+
+## Quick Start
+```bash
+docker run --rm -p 8080:8080 your-org/your-image:latest
+```
+
+## Compliance and Trust
+- Includes signed Merkle attestation in packaging/trust-fabric/attestation.json
+- Generated with offline certlib profile
 ```
 
 ## Detected Page Files

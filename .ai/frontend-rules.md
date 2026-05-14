@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -34,7 +34,11 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 Available API routes:
 
+- `POST /portal/api/subscribe` → apps/api/src/paid-handlers.test.ts
+- `POST /portal/api/paid/webhook` → apps/api/src/paid-handlers.test.ts
 - `GET /openapi.json` → apps/api/src/server.ts
+- `POST /portal/api/subscribe` → apps/api/src/server.ts
+- `POST /portal/api/paid/webhook` → apps/api/src/server.ts
 - `GET /openapi.json` → apps/api/src/well-known-handlers.test.ts
 - `GET /api/health` → packages/context-engine/src/engine-branches.test.ts
 - `POST /api/users` → packages/context-engine/src/engine-branches.test.ts
@@ -65,7 +69,7 @@ These domain models were detected in the codebase. Use their type names in compo
 | `RpcSuccess` | interface | 3 | `apps/api/src/mcp-server.ts` |
 | `HistogramEntry` | interface | 3 | `apps/api/src/metrics.ts` |
 | `CacheKey` | type_alias | 2 | `apps/api/src/mpp.ts` |
-| *... and 194 more* | | | |
+| *... and 203 more* | | | |
 
 **Rule**: Component prop types must reference these detected types, not re-define them. Import from the canonical source file.
 

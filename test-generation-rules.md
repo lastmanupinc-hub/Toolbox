@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -68,8 +68,8 @@ These models were detected in the codebase. Each should have factory helpers and
 | `CacheKey` | type_alias | 2 | `apps/api/src/mpp.ts` |
 | `OAuthClientRow` | interface | 3 | `apps/api/src/oauth-server-simple.ts` |
 | `OpenApiSpec` | interface | 6 | `apps/api/src/openapi.ts` |
-| `WindowEntry` | interface | 2 | `apps/api/src/rate-limiter.ts` |
-| *... and 191 more* | | | |
+| `CreateIntentInput` | interface | 3 | `apps/api/src/paid-client.ts` |
+| *... and 200 more* | | | |
 
 ### Factory Helper Pattern
 

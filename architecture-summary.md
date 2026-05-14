@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -16,8 +16,8 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Primary Language:** TypeScript
 - **Project Type:** monorepo
-- **Files:** 500 (129183 LOC)
-- **Directories:** 61
+- **Files:** 500 (129202 LOC)
+- **Directories:** 64
 
 ## Frameworks & Libraries
 
@@ -276,6 +276,9 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | POST | `/v1/account/programs` | apps/api/src/multi-tenancy.test.ts |
 | GET | `/v1/auth/github` | apps/api/src/oauth.test.ts |
 | GET | `/v1/auth/github/callback` | apps/api/src/oauth.test.ts |
+| POST | `/v1/accounts` | apps/api/src/paid-handlers.test.ts |
+| POST | `/portal/api/subscribe` | apps/api/src/paid-handlers.test.ts |
+| POST | `/portal/api/paid/webhook` | apps/api/src/paid-handlers.test.ts |
 | POST | `/v1/prepare-for-agentic-purchasing` | apps/api/src/prepare-purchasing.test.ts |
 | GET | `/v1/health` | apps/api/src/production-startup.test.ts |
 | GET | `/v1/health` | apps/api/src/production-startup.test.ts |
@@ -456,6 +459,8 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | POST | `/v1/checkout` | apps/api/src/server.ts |
 | GET | `/v1/account/subscription` | apps/api/src/server.ts |
 | POST | `/v1/account/subscription/cancel` | apps/api/src/server.ts |
+| POST | `/portal/api/subscribe` | apps/api/src/server.ts |
+| POST | `/portal/api/paid/webhook` | apps/api/src/server.ts |
 | POST | `/v1/snapshots` | apps/api/src/snapshot-auth.test.ts |
 | GET | `/v1/snapshots/:snapshot_id` | apps/api/src/snapshot-auth.test.ts |
 | POST | `/v1/accounts` | apps/api/src/snapshot-auth.test.ts |
@@ -522,11 +527,13 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Directory Layout
 
-- `apps/` — monorepo_apps (141 files)
+- `apps/` — monorepo_apps (145 files)
 - `packages/` — monorepo_packages (140 files)
-- `payment-processing-output/` — project_directory (47 files)
+- `payment-processing-output/` — project_directory (32 files)
 - `examples/` — project_directory (17 files)
 - `mcp/` — project_directory (16 files)
+- `packaging/` — project_directory (7 files)
+- `.github/` — project_directory (4 files)
 - `algorithmic/` — project_directory (4 files)
 - `artifacts/` — project_directory (4 files)
 - `brand/` — project_directory (4 files)
@@ -537,7 +544,6 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - `notebook/` — project_directory (4 files)
 - `obsidian/` — project_directory (4 files)
 - `optimization/` — project_directory (4 files)
-- `.github/` — project_directory (3 files)
 
 ## Dependency Hotspots
 
@@ -553,7 +559,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 ## Domain Models
 
-Detected 206 domain models:
+Detected 215 domain models:
 
 | Model | Kind | Fields | Source |
 |-------|------|--------|--------|
@@ -571,24 +577,24 @@ Detected 206 domain models:
 | `CacheKey` | type_alias | 2 | apps/api/src/mpp.ts |
 | `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
+| `CreateIntentInput` | interface | 3 | apps/api/src/paid-client.ts |
+| `CreateSubscriptionInput` | interface | 3 | apps/api/src/paid-client.ts |
+| `PaidConfig` | interface | 6 | apps/api/src/paid-client.ts |
+| `PaymentIntent` | interface | 6 | apps/api/src/paid-client.ts |
+| `Subscription` | interface | 4 | apps/api/src/paid-client.ts |
+| `VerifyWebhookOptions` | interface | 4 | apps/api/src/paid-client.ts |
 | `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
 | `AppHandle` | interface | 3 | apps/api/src/router.ts |
 | `Route` | interface | 4 | apps/api/src/router.ts |
 | `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
 | `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
-| `RunResult` | interface | 4 | apps/cli/src/runner.ts |
-| `ScanResult` | interface | 3 | apps/cli/src/scanner.ts |
-| `WriteResult` | interface | 3 | apps/cli/src/writer.ts |
-| `Account` | interface | 5 | apps/web/src/api.ts |
-| `ApiKeyInfo` | interface | 5 | apps/web/src/api.ts |
-| `ContextMap` | interface | 8 | apps/web/src/api.ts |
-| *… 181 more* | | | |
+| *… 190 more* | | | |
 
 > **High-complexity models** (8+ fields): `ContextMap`, `SnapshotResponse`, `SubscriptionInfo`, `UpgradePrompt`, `ProgramDoc`, `ContextMap`, `RepoProfile`, `CommerceSignals`, `ParseResult`, `UsageRecord`, `EmailDelivery`, `FunnelMetrics`, `Seat`, `UpgradePrompt`, `GitHubToken`, `ReferralCredits`, `StripeSubscription`, `TierChange`, `SnapshotManifest`, `SnapshotRecord`, `VersionDiff`, `Webhook`, `WebhookDelivery`, `WebhookRow` — consider splitting if they grow further.
 
 ## Tooling
 
-- **Build:** vite
+- **Build:** vite, make
 - **Test:** vitest
 - **CI:** github_actions
 - **Deploy:** docker
@@ -598,6 +604,7 @@ Detected 206 domain models:
 - TypeScript strict mode
 - Linter configured
 - Formatter configured
+- Makefile build
 
 ## Warnings
 
@@ -607,8 +614,9 @@ Detected 206 domain models:
 
 ```
 .github/actions/compliance-check/action.yml (4.4 KB)
-.github/workflows/ci.yml (4.5 KB)
+.github/workflows/ci.yml (4.7 KB)
 .github/workflows/compliance-check.yml (0.5 KB)
+.github/workflows/release.yml (0.6 KB)
 .gitignore (0.4 KB)
 .prettierrc.json (0.1 KB)
 .tmp-vitest.json (68.7 KB)
@@ -676,8 +684,12 @@ apps/api/src/oauth-server-simple.ts (5.8 KB)
 apps/api/src/oauth-server.ts (8.1 KB)
 apps/api/src/oauth.test.ts (8.0 KB)
 apps/api/src/oauth.ts (3.4 KB)
-apps/api/src/openapi.test.ts (15.2 KB)
-apps/api/src/openapi.ts (65.4 KB)
+apps/api/src/openapi.test.ts (15.3 KB)
+apps/api/src/openapi.ts (67.5 KB)
+apps/api/src/paid-client.test.ts (6.8 KB)
+apps/api/src/paid-client.ts (5.6 KB)
+apps/api/src/paid-handlers.test.ts (8.3 KB)
+apps/api/src/paid-handlers.ts (6.9 KB)
 apps/api/src/prepare-purchasing.test.ts (19.4 KB)
 apps/api/src/production-startup.test.ts (8.5 KB)
 apps/api/src/programs-billing.test.ts (12.8 KB)
@@ -694,7 +706,7 @@ apps/api/src/search-api.test.ts (13.8 KB)
 apps/api/src/security.test.ts (7.1 KB)
 apps/api/src/server-lifecycle.test.ts (7.0 KB)
 apps/api/src/server-routes.test.ts (5.9 KB)
-apps/api/src/server.ts (16.5 KB)
+apps/api/src/server.ts (16.8 KB)
 apps/api/src/snapshot-auth.test.ts (13.4 KB)
 apps/api/src/stripe-branches.test.ts (38.6 KB)
 apps/api/src/stripe.test.ts (10.1 KB)
@@ -761,8 +773,8 @@ apps/web/src/upload-utils.ts (4.1 KB)
 apps/web/src/vite-env.d.ts (0.2 KB)
 apps/web/tsconfig.json (0.5 KB)
 apps/web/vite.config.ts (0.2 KB)
-architecture-summary.md (74.2 KB)
-artifact-spec.md (8.3 KB)
+architecture-summary.md (79.4 KB)
+artifact-spec.md (8.8 KB)
 artifacts/begin.yaml (1.8 KB)
 artifacts/continuation.yaml (2.4 KB)
 artifacts/MEMORY.yaml (3.1 KB)
@@ -770,7 +782,7 @@ artifacts/schemas/output-contract.schema.json (1.8 KB)
 asset-checklist.md (1.3 KB)
 asset-guidelines.md (1.7 KB)
 automated remedial action.yaml (7.5 KB)
-automation-pipeline.yaml (3.0 KB)
+automation-pipeline.yaml (3.1 KB)
 axis_all_tools.yaml (22.6 KB)
 AXIS_Board_Pitch.md (30.7 KB)
 AXIS_DEMO_REPORT.md (12.3 KB)
@@ -795,7 +807,7 @@ capability-registry.json (2.5 KB)
 CHANGELOG.md (7.8 KB)
 channel-rulebook.md (3.6 KB)
 checkout-flow.md (10.5 KB)
-citation-index.json (6.1 KB)
+citation-index.json (6.7 KB)
 CLAUDE.md (9.7 KB)
 cloudflare-pages.md (1.5 KB)
 collection-map.md (2.4 KB)
@@ -819,16 +831,17 @@ cov8.txt (219.5 KB)
 coverage-full.txt (249.9 KB)
 cro-playbook.md (36.1 KB)
 daily-maintenance-runbook.yaml (6.2 KB)
-dark-mode-tokens.json (3.3 KB)
-dashboard-widget.tsx (3.5 KB)
+dark-mode-tokens.json (3.2 KB)
+dashboard-widget.tsx (3.6 KB)
 debug/begin.yaml (3.6 KB)
 debug/continuation.yaml (2.4 KB)
 debug/MEMORY.yaml (5.5 KB)
 debug/schemas/output-contract.schema.json (1.8 KB)
 dependency-hotspots.md (8.1 KB)
+DISTRIBUTABLE.md (0.6 KB)
 docker-ci-run3.txt (24.3 KB)
-docker-compose.yml (2.0 KB)
-Dockerfile (4.4 KB)
+docker-compose.yml (0.5 KB)
+Dockerfile (0.7 KB)
 e2e_full_human_ai_x402.mjs (52.8 KB)
 e2e_round2.mjs (15.1 KB)
 e2e_ui_audit.yaml (39.3 KB)
@@ -865,15 +878,16 @@ generated-posts.json (2.3 KB)
 generative-sketch.js (8.3 KB)
 generative-sketch.ts (4.1 KB)
 glama.json (0.1 KB)
-graph-prompt-map.json (57.6 KB)
+graph-prompt-map.json (59.2 KB)
 human user audt.yaml (24.9 KB)
 hygiene and memory.yaml (8.7 KB)
-incident-template.md (23.6 KB)
+incident-template.md (24.0 KB)
 launch-checklist.md (3.9 KB)
 launch-content.md (6.0 KB)
 layout-patterns.md (2.5 KB)
 linking-policy.md (3.7 KB)
 ls-coverage.txt (250.3 KB)
+Makefile (0.4 KB)
 marketing-pack.md (9.7 KB)
 marketing/begin.yaml (1.8 KB)
 marketing/continuation.yaml (2.4 KB)
@@ -901,7 +915,7 @@ memory generator.yaml (7.6 KB)
 messaging-system.yaml (2.5 KB)
 meta-tag-audit.json (24.5 KB)
 negotiation-rules.md (7.6 KB)
-notebook-summary.md (3.5 KB)
+notebook-summary.md (4.0 KB)
 notebook/begin.yaml (1.8 KB)
 notebook/continuation.yaml (2.4 KB)
 notebook/MEMORY.yaml (2.9 KB)
@@ -1058,6 +1072,14 @@ packages/snapshots/src/webhook-http.test.ts (13.3 KB)
 packages/snapshots/src/webhook-retry.test.ts (16.6 KB)
 packages/snapshots/src/webhook-store.ts (14.2 KB)
 packages/snapshots/tsconfig.json (0.2 KB)
+packaging-report.md (1.3 KB)
+packaging/manifests/dockerhub-repository.md (0.3 KB)
+packaging/manifests/github-marketplace-listing.md (0.5 KB)
+packaging/manifests/npm-package.json (0.4 KB)
+packaging/manifests/vscode-extension.json (0.4 KB)
+packaging/README.md (1.2 KB)
+packaging/trust-fabric/attestation.json (2.8 KB)
+packaging/trust-fabric/merkle-proof.json (5.2 KB)
 parameter-pack.json (2.2 KB)
 payment-processing-output/ab-test-plan.md (2.4 KB)
 payment-processing-output/AGENTS.md (2.0 KB)
@@ -1091,21 +1113,6 @@ payment-processing-output/export-manifest.yaml (2.2 KB)
 payment-processing-output/funnel-map.md (2.2 KB)
 payment-processing-output/generated-component.tsx (0.5 KB)
 payment-processing-output/generative-sketch.ts (3.9 KB)
-payment-processing-output/graph-prompt-map.json (4.2 KB)
-payment-processing-output/incident-template.md (1.1 KB)
-payment-processing-output/layout-patterns.md (1.8 KB)
-payment-processing-output/linking-policy.md (3.0 KB)
-payment-processing-output/mcp-config.json (2.7 KB)
-payment-processing-output/messaging-system.yaml (1.5 KB)
-payment-processing-output/meta-tag-audit.json (7.3 KB)
-payment-processing-output/notebook-summary.md (1.2 KB)
-payment-processing-output/obsidian-skill-pack.md (2.0 KB)
-payment-processing-output/parameter-pack.json (2.2 KB)
-payment-processing-output/policy-pack.md (1.4 KB)
-payment-processing-output/poster-layouts.md (2.8 KB)
-payment-processing-output/prompt-diff-report.md (1.4 KB)
-payment-processing-output/refactor-checklist.md (2.0 KB)
-payment-processing-output/remotion-script.ts (3.5 KB)
 ```
 
 ## Entry Points (Source)
@@ -1143,7 +1150,7 @@ import {
   handleGitHubAnalyze,
   handleAnalyze,
   handlePreparePurchasing,
-... (407 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`
@@ -1913,5 +1920,27 @@ export default defineConfig({
 
 ```
 
+### `packaging/manifests/npm-package.json`
+
+```json
+{
+  "name": "axis-iliad",
+  "version": "1.0.0",
+  "description": "Production-grade axis-iliad packaging and release kit",
+  "license": "SEE LICENSE IN packaging/LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owner/repo"
+  },
+  "homepage": "https://example.com",
+  "keywords": [
+    "marketplace",
+    "packaged",
+    "production",
+    "certified"
+  ]
+}
+```
+
 ---
-*Generated by Axis Search — 2026-05-08*
+*Generated by Axis Search — 2026-05-14*

@@ -1,6 +1,6 @@
 # Root Cause Checklist — axis-iliad
 
-> monorepo | TypeScript | 500 files | 129,183 LOC
+> monorepo | TypeScript | 500 files | 129,202 LOC
 
 **Stack:** React ^19.1.0
 
@@ -68,6 +68,12 @@ Check these entities for state corruption or relationship violations:
 - [ ] `CacheKey` (type_alias, 2 fields) — `apps/api/src/mpp.ts`
 - [ ] `OAuthClientRow` (interface, 3 fields) — `apps/api/src/oauth-server-simple.ts`
 - [ ] `OpenApiSpec` (interface, 6 fields) — `apps/api/src/openapi.ts`
+- [ ] `CreateIntentInput` (interface, 3 fields) — `apps/api/src/paid-client.ts`
+- [ ] `CreateSubscriptionInput` (interface, 3 fields) — `apps/api/src/paid-client.ts`
+- [ ] `PaidConfig` (interface, 6 fields) — `apps/api/src/paid-client.ts`
+- [ ] `PaymentIntent` (interface, 6 fields) — `apps/api/src/paid-client.ts`
+- [ ] `Subscription` (interface, 4 fields) — `apps/api/src/paid-client.ts`
+- [ ] `VerifyWebhookOptions` (interface, 4 fields) — `apps/api/src/paid-client.ts`
 - [ ] `WindowEntry` (interface, 2 fields) — `apps/api/src/rate-limiter.ts`
 - [ ] `AppHandle` (interface, 3 fields) — `apps/api/src/router.ts`
 - [ ] `Route` (interface, 4 fields) — `apps/api/src/router.ts`
@@ -124,6 +130,9 @@ Check these entities for state corruption or relationship violations:
 - [ ] `ImportMeta` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - [ ] `ImportMetaEnv` (interface, 1 fields) — `apps/web/src/vite-env.d.ts`
 - [ ] `DashboardData` (interface, 6 fields) — `dashboard-widget.tsx`
+- [ ] `AgentBudget` (interface, 0 fields) — `embed-snippet.ts`
+- [ ] `Build402Options` (interface, 0 fields) — `embed-snippet.ts`
+- [ ] `PricingTier` (interface, 0 fields) — `embed-snippet.ts`
 - [ ] `axisiliadProps` (interface, 3 fields) — `generated-component.tsx`
 - [ ] `PaletteAction` (interface, 0 fields) — `generated-component.tsx`
 - [ ] `Edge` (interface, 3 fields) — `generative-sketch.ts`
@@ -320,7 +329,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (412 more lines)
+... (417 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

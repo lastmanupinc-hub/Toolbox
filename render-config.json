@@ -1,6 +1,6 @@
 {
   "project": "axis-iliad",
-  "generated_at": "2026-05-08T19:58:35.497Z",
+  "generated_at": "2026-05-14T02:05:25.025Z",
   "composition": {
     "id": "axisiliadVideo",
     "width": 1920,
@@ -27,15 +27,15 @@
       "id": "api-surface",
       "from": 180,
       "duration": 90,
-      "label": "API Surface (480 routes)",
-      "data_points": 480
+      "label": "API Surface (485 routes)",
+      "data_points": 485
     },
     {
       "id": "data-model",
       "from": 270,
       "duration": 90,
-      "label": "Data Model (206 entities)",
-      "data_points": 206
+      "label": "Data Model (215 entities)",
+      "data_points": 215
     },
     {
       "id": "complexity",
@@ -86,23 +86,23 @@
       "languages": [
         {
           "name": "TypeScript",
-          "loc": 86808,
-          "percent": 73.4
+          "loc": 87403,
+          "percent": 73.9
         },
         {
           "name": "JSON",
-          "loc": 11479,
-          "percent": 9.7
+          "loc": 11089,
+          "percent": 9.4
         },
         {
           "name": "YAML",
-          "loc": 9249,
+          "loc": 9206,
           "percent": 7.8
         },
         {
           "name": "Markdown",
-          "loc": 7865,
-          "percent": 6.6
+          "loc": 7742,
+          "percent": 6.5
         },
         {
           "name": "JavaScript",
@@ -116,14 +116,15 @@
         }
       ],
       "build_tools": [
-        "vite"
+        "vite",
+        "make"
       ],
       "test_frameworks": [
         "vitest"
       ]
     },
     "api_surface": {
-      "total_routes": 480,
+      "total_routes": 485,
       "routes": [
         {
           "method": "GET",
@@ -228,7 +229,7 @@
       ]
     },
     "data_model": {
-      "total_models": 206,
+      "total_models": 215,
       "models": [
         {
           "name": "AuthContext",
@@ -301,9 +302,9 @@
           "fields": 6
         },
         {
-          "name": "WindowEntry",
+          "name": "CreateIntentInput",
           "kind": "interface",
-          "fields": 2
+          "fields": 3
         }
       ]
     },
@@ -370,15 +371,15 @@
       "payment-processing-output/ (project_directory)",
       "examples/ (project_directory)",
       "mcp/ (project_directory)",
-      "algorithmic/ (project_directory)",
-      "artifacts/ (project_directory)",
-      "brand/ (project_directory)"
+      "packaging/ (project_directory)",
+      ".github/ (project_directory)",
+      "algorithmic/ (project_directory)"
     ]
   },
   "detected_stack": {
     "primary_language": "TypeScript",
     "total_files": 500,
-    "total_loc": 129183
+    "total_loc": 129202
   },
   "source_media_files": null
 }

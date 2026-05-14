@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Quick Reference
 
@@ -13,25 +13,25 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 | Language | TypeScript |
 | Frameworks | React ^19.1.0 (95%) |
 | Test Runner | vitest |
-| Build Tools | vite |
+| Build Tools | vite, make |
 | CI | github_actions |
 | Deploy Target | docker |
 | Package Manager | npm |
-| Files | 500 files, 129,183 LOC |
+| Files | 500 files, 129,202 LOC |
 | Separation Score | 0.65/1.0 |
 
 ## Language Distribution
 
 | Language | Files | LOC | % |
 |----------|-------|-----|---|
-| TypeScript | 265 | 86,808 | 73.4% |
-| JSON | 66 | 11,479 | 9.7% |
-| YAML | 58 | 9,249 | 7.8% |
-| Markdown | 87 | 7,865 | 6.6% |
+| TypeScript | 268 | 87,403 | 73.9% |
+| JSON | 66 | 11,089 | 9.4% |
+| YAML | 58 | 9,206 | 7.8% |
+| Markdown | 83 | 7,742 | 6.5% |
 | JavaScript | 8 | 2,093 | 1.8% |
 | CSS | 1 | 675 | 0.6% |
 | HTML | 1 | 120 | 0.1% |
-| Dockerfile | 1 | 53 | 0% |
+| Dockerfile | 1 | 20 | 0% |
 
 ## Detected Stack (with evidence)
 
@@ -46,9 +46,9 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
 - mcp/ (project_directory)
+- packaging/ (project_directory)
+- .github/ (project_directory)
 - algorithmic/ (project_directory)
-- artifacts/ (project_directory)
-- brand/ (project_directory)
 
 ## Triage Steps
 
@@ -107,6 +107,12 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | CacheKey | type_alias | TypeScript | 2 | `apps/api/src/mpp.ts` |
 | OAuthClientRow | interface | TypeScript | 3 | `apps/api/src/oauth-server-simple.ts` |
 | OpenApiSpec | interface | TypeScript | 6 | `apps/api/src/openapi.ts` |
+| CreateIntentInput | interface | TypeScript | 3 | `apps/api/src/paid-client.ts` |
+| CreateSubscriptionInput | interface | TypeScript | 3 | `apps/api/src/paid-client.ts` |
+| PaidConfig | interface | TypeScript | 6 | `apps/api/src/paid-client.ts` |
+| PaymentIntent | interface | TypeScript | 6 | `apps/api/src/paid-client.ts` |
+| Subscription | interface | TypeScript | 4 | `apps/api/src/paid-client.ts` |
+| VerifyWebhookOptions | interface | TypeScript | 4 | `apps/api/src/paid-client.ts` |
 | WindowEntry | interface | TypeScript | 2 | `apps/api/src/rate-limiter.ts` |
 | AppHandle | interface | TypeScript | 3 | `apps/api/src/router.ts` |
 | Route | interface | TypeScript | 4 | `apps/api/src/router.ts` |
@@ -163,6 +169,9 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | ImportMeta | interface | TypeScript | 1 | `apps/web/src/vite-env.d.ts` |
 | ImportMetaEnv | interface | TypeScript | 1 | `apps/web/src/vite-env.d.ts` |
 | DashboardData | interface | TypeScript | 6 | `dashboard-widget.tsx` |
+| AgentBudget | interface | TypeScript | 0 | `embed-snippet.ts` |
+| Build402Options | interface | TypeScript | 0 | `embed-snippet.ts` |
+| PricingTier | interface | TypeScript | 0 | `embed-snippet.ts` |
 | axisiliadProps | interface | TypeScript | 3 | `generated-component.tsx` |
 | PaletteAction | interface | TypeScript | 0 | `generated-component.tsx` |
 | Edge | interface | TypeScript | 3 | `generative-sketch.ts` |
@@ -541,6 +550,9 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | POST | `/v1/account/programs` | apps/api/src/multi-tenancy.test.ts |
 | GET | `/v1/auth/github` | apps/api/src/oauth.test.ts |
 | GET | `/v1/auth/github/callback` | apps/api/src/oauth.test.ts |
+| POST | `/v1/accounts` | apps/api/src/paid-handlers.test.ts |
+| POST | `/portal/api/subscribe` | apps/api/src/paid-handlers.test.ts |
+| POST | `/portal/api/paid/webhook` | apps/api/src/paid-handlers.test.ts |
 | POST | `/v1/prepare-for-agentic-purchasing` | apps/api/src/prepare-purchasing.test.ts |
 | GET | `/v1/health` | apps/api/src/production-startup.test.ts |
 | GET | `/v1/health` | apps/api/src/production-startup.test.ts |
@@ -721,6 +733,8 @@ Key entities — bugs often involve state transitions or relationship integrity:
 | POST | `/v1/checkout` | apps/api/src/server.ts |
 | GET | `/v1/account/subscription` | apps/api/src/server.ts |
 | POST | `/v1/account/subscription/cancel` | apps/api/src/server.ts |
+| POST | `/portal/api/subscribe` | apps/api/src/server.ts |
+| POST | `/portal/api/paid/webhook` | apps/api/src/server.ts |
 | POST | `/v1/snapshots` | apps/api/src/snapshot-auth.test.ts |
 | GET | `/v1/snapshots/:snapshot_id` | apps/api/src/snapshot-auth.test.ts |
 | POST | `/v1/accounts` | apps/api/src/snapshot-auth.test.ts |
@@ -808,6 +822,7 @@ Bugs often occur at layer boundaries. Verify data flow between:
 - ✅ TypeScript strict mode
 - ✅ Linter configured
 - ✅ Formatter configured
+- ✅ Makefile build
 
 ## Production Dependencies
 
@@ -857,7 +872,7 @@ import {
   handleRemotionGenerate,
   handleCanvasGenerate,
   handleAlgorithmicGenerate,
-... (412 more lines)
+... (417 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

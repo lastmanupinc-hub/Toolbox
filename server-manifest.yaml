@@ -1,7 +1,7 @@
 # MCP Server Manifest
 # Project: axis-iliad
-# Generated: 2026-05-08T19:58:35.748Z
-# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+# Generated: 2026-05-14T02:05:25.663Z
+# Summary: axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 server:
   name: "axis-iliad-mcp-server"
@@ -48,7 +48,7 @@ server:
             enum: [search, debug, skills, frontend, seo, optimization, theme, brand, superpowers, marketing, notebook, obsidian, mcp, artifacts, remotion, canvas, algorithmic]
 
     - name: list_routes
-      description: List all 480 detected routes
+      description: List all 485 detected routes
       input_schema:
         type: object
         properties:
@@ -286,10 +286,10 @@ server:
       mime_type: application/json
       description: interface with 6 fields (apps/api/src/openapi.ts)
 
-    - uri: model://WindowEntry
-      name: WindowEntry
+    - uri: model://CreateIntentInput
+      name: CreateIntentInput
       mime_type: application/json
-      description: interface with 2 fields (apps/api/src/rate-limiter.ts)
+      description: interface with 3 fields (apps/api/src/paid-client.ts)
 
   prompts:
     - name: review_code

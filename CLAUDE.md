@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Commands
 
@@ -24,15 +24,16 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 - payment-processing-output/ (project_directory)
 - examples/ (project_directory)
 - mcp/ (project_directory)
+- packaging/ (project_directory)
+- .github/ (project_directory)
 - algorithmic/ (project_directory)
-- artifacts/ (project_directory)
-- brand/ (project_directory)
 
 ## Conventions
 
 - TypeScript strict mode
 - Linter configured
 - Formatter configured
+- Makefile build
 
 ## Do NOT
 
@@ -61,13 +62,13 @@ Detected domain model contracts:
 | `CacheKey` | type_alias | 2 | apps/api/src/mpp.ts |
 | `OAuthClientRow` | interface | 3 | apps/api/src/oauth-server-simple.ts |
 | `OpenApiSpec` | interface | 6 | apps/api/src/openapi.ts |
-| `WindowEntry` | interface | 2 | apps/api/src/rate-limiter.ts |
-| `AppHandle` | interface | 3 | apps/api/src/router.ts |
-| `Route` | interface | 4 | apps/api/src/router.ts |
-| `CliArgs` | interface | 5 | apps/cli/src/cli.ts |
-| `AxisConfig` | interface | 2 | apps/cli/src/credential-store.ts |
-| `RunResult` | interface | 4 | apps/cli/src/runner.ts |
-| *… 186 more* | | | |
+| `CreateIntentInput` | interface | 3 | apps/api/src/paid-client.ts |
+| `CreateSubscriptionInput` | interface | 3 | apps/api/src/paid-client.ts |
+| `PaidConfig` | interface | 6 | apps/api/src/paid-client.ts |
+| `PaymentIntent` | interface | 6 | apps/api/src/paid-client.ts |
+| `Subscription` | interface | 4 | apps/api/src/paid-client.ts |
+| `VerifyWebhookOptions` | interface | 4 | apps/api/src/paid-client.ts |
+| *… 195 more* | | | |
 
 ## Warnings
 
@@ -108,7 +109,7 @@ import {
   handleGitHubAnalyze,
   handleAnalyze,
   handlePreparePurchasing,
-... (407 more lines)
+... (412 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

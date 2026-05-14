@@ -17,7 +17,7 @@ steps:
   - name: write_tests
     action: Add tests using vitest
   - name: validate
-    action: Run vite
+    action: Run vite && make
   - name: review
     action: Check against component-guidelines.md and frontend-rules.md
 ```
@@ -116,7 +116,7 @@ import {
   handleMarketingGenerate,
   handleNotebookGenerate,
   handleObsidianAnalyze,
-... (417 more lines)
+... (422 more lines)
 ```
 
 ### `apps/web/src/App.tsx`

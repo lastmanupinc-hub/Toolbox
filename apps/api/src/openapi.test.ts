@@ -178,7 +178,9 @@ describe("buildOpenApiSpec", () => {
   it("all paths start with /v1/ or are root-level MCP paths", () => {
     const NON_V1_PATHS = new Set(["/", "/accounts", "/mcp", "/.well-known/axis.json", "/.well-known/capabilities.json", "/.well-known/security.txt", "/.well-known/agent.json", "/.well-known/mcp.json", "/.well-known/skills/index.json", "/llms.txt", "/robots.txt", "/sitemap.xml", "/for-agents", "/probe-intent", "/health", "/docs", "/openapi.json", "/mcp/docs"]);
     for (const path of Object.keys(spec.paths)) {
-      expect(path.startsWith("/v1/") || NON_V1_PATHS.has(path)).toBe(true);
+      expect(
+        path.startsWith("/v1/") || path.startsWith("/portal/api/") || NON_V1_PATHS.has(path),
+      ).toBe(true);
     }
   });
 

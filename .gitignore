@@ -9,6 +9,7 @@ dist/
 *.db-shm
 .ai-output/
 .ai-output-*
+.dogfood-closer-output/
 coverage/
 cov4.txt
 

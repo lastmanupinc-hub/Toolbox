@@ -860,6 +860,65 @@ export function buildOpenApiSpec(): OpenApiSpec {
         },
       },
 
+      // ── PAI'D Payment Processor ──
+      "/portal/api/subscribe": {
+        post: {
+          summary: "Create a PAI'D subscription (returns Stripe client_secret)",
+          operationId: "paidSubscribe",
+          tags: ["Payments"],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["plan", "email"],
+                  properties: {
+                    plan: { type: "string", enum: ["monthly", "annual"] },
+                    email: { type: "string", format: "email" },
+                    idempotency_key: { type: "string" },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            200: {
+              description: "Subscription created",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: {
+                      subscription_id: { type: "string" },
+                      client_secret: { type: "string" },
+                      status: { type: "string" },
+                    },
+                  },
+                },
+              },
+            },
+            400: { description: "Invalid plan or email" },
+            404: { description: "No account found for that email" },
+            502: { description: "Payment processor rejected request" },
+            503: { description: "Payment processor not configured" },
+          },
+        },
+      },
+      "/portal/api/paid/webhook": {
+        post: {
+          summary: "PAI'D webhook receiver (PAID-Signature verified)",
+          operationId: "paidWebhook",
+          tags: ["Payments"],
+          responses: {
+            200: { description: "Webhook processed" },
+            400: { description: "Invalid payload" },
+            401: { description: "Invalid webhook signature" },
+            503: { description: "Webhook signing key not configured" },
+          },
+        },
+      },
+
       // ── GitHub Token Management ──
       "/v1/account/github-token": {
         post: {

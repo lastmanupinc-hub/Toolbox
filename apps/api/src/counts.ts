@@ -2,4 +2,4 @@
 export const ARTIFACT_COUNT = 99;
 export const PROGRAM_COUNT = 19;
 export const MCP_TOOL_COUNT = 13;
-export const ENDPOINT_COUNT = 108;
+export const ENDPOINT_COUNT = 110;

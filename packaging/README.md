@@ -24,7 +24,7 @@ make ship
 
 ## Trust Signals
 
-- Packaging readiness score: **88/100**
+- Packaging readiness score: **92/100**
 - License strategy: **Proprietary**
 - Build + release automation included
 - Signed Merkle attestation included in packaging/trust-fabric

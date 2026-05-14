@@ -1,6 +1,6 @@
 # Scene Plan — axis-iliad
 
-Generated: 2026-05-08T19:58:35.495Z
+Generated: 2026-05-14T02:05:25.021Z
 
 ## Video Overview
 
@@ -14,7 +14,7 @@ Generated: 2026-05-08T19:58:35.495Z
 
 ## Project Summary
 
-axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 16 top-level directories. It defines 206 domain models.
+axis-iliad is a monorepo built with TypeScript using React. It contains 500 files across 17 top-level directories. It defines 215 domain models.
 
 ## Detected Stack
 
@@ -35,7 +35,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Content**: Framework badges with staggered reveal
 - **Frameworks**: React
-- **Languages**: TypeScript (73.4%), JSON (9.7%), YAML (7.8%), Markdown (6.6%), JavaScript (1.8%), CSS (0.6%), HTML (0.1%), Dockerfile (0%)
+- **Languages**: TypeScript (73.9%), JSON (9.4%), YAML (7.8%), Markdown (6.5%), JavaScript (1.8%), CSS (0.6%), HTML (0.1%), Dockerfile (0%)
 - **Animation**: Staggered fade-in, 0.3s delay per item
 - **Visual**: Pill badges in accent color
 
@@ -50,7 +50,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 ### Scene 4: Key Abstractions (0:09–0:12)
 
 - **Content**: Core abstractions and concepts
-- **Items**: apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory), examples/ (project_directory), mcp/ (project_directory), algorithmic/ (project_directory)
+- **Items**: apps/ (monorepo_apps), packages/ (monorepo_packages), payment-processing-output/ (project_directory), examples/ (project_directory), mcp/ (project_directory), packaging/ (project_directory)
 - **Animation**: Staggered reveal from top
 - **Visual**: Arrow-prefixed list items
 
@@ -58,7 +58,7 @@ axis-iliad is a monorepo built with TypeScript using React. It contains 500 file
 
 - **Content**: Detected domain model entities
 - **Models**: AuthContext (interface, 3 fields); EnvSpec (interface, 5 fields); ValidationError (interface, 2 fields); ValidationResult (interface, 3 fields); ZipEntry (interface, 4 fields); IntentCapture (interface, 5 fields)
-- **Total**: 206 models detected
+- **Total**: 215 models detected
 - **Animation**: Entity cards fade in with field-count pill badges
 - **Visual**: Grid of entity cards with kind and field count
 

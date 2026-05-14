@@ -16,6 +16,7 @@ rules:
   - convention: "TypeScript strict mode"
   - convention: "Linter configured"
   - convention: "Formatter configured"
+  - convention: "Makefile build"
 ```
 
 ## Policy: Boundary Enforcement

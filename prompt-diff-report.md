@@ -21,7 +21,7 @@ Use dependency hotspot analysis to select the 7 highest-signal files instead of 
 
 ### Convention Compliance
 
-Embed 3 detected conventions as system-level constraints in every code generation prompt.
+Embed 4 detected conventions as system-level constraints in every code generation prompt.
 
 ### Dependency Awareness
 
@@ -33,11 +33,11 @@ Reference 2 detected patterns (separation score: 0.65/100) in architectural prom
 
 ### Route Awareness
 
-Include route map (480 routes) in prompts when working on API or page code to prevent duplicate endpoints.
+Include route map (485 routes) in prompts when working on API or page code to prevent duplicate endpoints.
 
 ## Token Budget Guidance
 
-Estimated full-project tokens: ~581,324
+Estimated full-project tokens: ~581,409
 
 **Selective context required.** Use this priority order:
 1. Active file being modified
@@ -50,7 +50,7 @@ Estimated full-project tokens: ~581,324
 
 | File | Lines | Exports |
 |------|-------|---------|
-| `apps/api/src/server.ts` | 437 | export const app = ... |
+| `apps/api/src/server.ts` | 442 | export const app = ... |
 | `apps/web/src/App.tsx` | 326 | export function App() { ... } |
 | `apps/web/src/main.tsx` | 11 | default |
 | `packages/context-engine/src/index.ts` | 3 | export type { ... }, export { ... } |

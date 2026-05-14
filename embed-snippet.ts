@@ -15,6 +15,7 @@ export const CONVENTIONS = [
   "TypeScript strict mode",
   "Linter configured",
   "Formatter configured",
+  "Makefile build",
 ] as const;
 
 export const WARNINGS = [
@@ -27,9 +28,9 @@ export const KEY_ABSTRACTIONS = [
   "payment-processing-output/ (project_directory)",
   "examples/ (project_directory)",
   "mcp/ (project_directory)",
+  "packaging/ (project_directory)",
+  ".github/ (project_directory)",
   "algorithmic/ (project_directory)",
-  "artifacts/ (project_directory)",
-  "brand/ (project_directory)",
 ] as const;
 
 /**
